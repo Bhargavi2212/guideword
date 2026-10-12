@@ -138,7 +138,7 @@ questions (water, air, heat). Counts match the hand count for case G.
 - Run before every commit:
 
 ```powershell
-ruff format backend scripts; ruff check backend scripts; mypy backend/guideword scripts; pytest backend -q
+ruff format backend scripts; ruff check backend scripts; mypy --config-file backend/pyproject.toml backend/guideword scripts; pytest backend -q
 cd frontend; npm run lint; npm run typecheck; npm test; cd ..
 ```
 

@@ -1,0 +1,30 @@
+#!/bin/sh
+# Guideword pre-commit hook (spec 0.1, decision D12).
+# Enable once per clone:  git config core.hooksPath scripts/hooks
+# Git for Windows runs this with its bundled sh, not PowerShell.
+
+branch=$(git symbolic-ref --short HEAD 2>/dev/null)
+if [ "$branch" = "main" ]; then
+    echo "pre-commit: commits on main are refused; work on a phase-<n>/<task> branch." >&2
+    exit 1
+fi
+
+# Refuse, never skip, when the project venv is not active.
+if ! python -c "import sys; sys.exit(0 if sys.prefix != sys.base_prefix else 1)" 2>/dev/null \
+    || ! python -m ruff --version >/dev/null 2>&1; then
+    echo "pre-commit: activate .venv first (.\\.venv\\Scripts\\Activate.ps1)" >&2
+    exit 1
+fi
+
+staged=$(git diff --cached --name-only --diff-filter=ACMR -- 'backend/*.py' 'scripts/*.py')
+if [ -n "$staged" ]; then
+    python -m ruff format --check $staged || exit 1
+    python -m ruff check $staged || exit 1
+fi
+
+script_files=$(ls scripts/*.py 2>/dev/null)
+if [ -n "$script_files" ]; then
+    python -m mypy --config-file backend/pyproject.toml $script_files || exit 1
+fi
+
+exit 0
