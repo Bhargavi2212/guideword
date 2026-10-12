@@ -72,6 +72,7 @@ guideword/
 │   │   ├── __init__.py
 │   │   ├── settings.py               the one settings object (0.1)
 │   │   ├── config.py                 loaders for config/*.yaml (0.2)
+│   │   ├── logs.py                   the structured logger: stdlib logging, JSON formatter (0.1)
 │   │   ├── schema/                   plant + record models, enums, IDs (0.5)
 │   │   ├── reference/                table loaders, version hashes (0.6)
 │   │   ├── api/                      FastAPI app, mock mode (0.8)
@@ -153,13 +154,14 @@ Never in this repo before G3: held-out cases, held-out keys, the case writer bri
 
 **Build**
 - `backend/pyproject.toml` for the `guideword` package (Python 3.12), with ruff, mypy (strict on `guideword/`) and pytest config.
-- `backend/requirements.in`: pydantic, pydantic-settings, fastapi, uvicorn, httpx, openai, sqlalchemy, pyyaml, openpyxl, tavily-python. `backend/requirements-dev.in`: pytest, pytest-asyncio, ruff, mypy, pip-tools, respx, types-PyYAML, and `-e .` (the `guideword` package itself, so `pip-sync` keeps it installed and `scripts/` can import it). Compile both to pinned `.txt` with pip-compile. No other dependency without Bhargavi's OK.
+- `backend/requirements.in`: pydantic, pydantic-settings, fastapi, uvicorn, httpx, openai, sqlalchemy, pyyaml, openpyxl, tavily-python. `backend/requirements-dev.in`: pytest, pytest-asyncio, ruff, mypy, pip-tools, respx, types-PyYAML, and `-e ./backend` (the `guideword` package itself, so `pip-sync` keeps it installed and `scripts/` can import it). pip resolves `-e` paths from the current directory, so compile and sync always run from the repo root; a compiled `.txt` containing an absolute path (`file:///` or a drive letter) is rejected by a test. Compile both to pinned `.txt` with pip-compile. No other dependency without Bhargavi's OK.
+- `backend/guideword/logs.py`: the structured logger, standard-library `logging` with a JSON formatter (no new dependency). The package never calls `print`; `print` is allowed only for human-readable output in `scripts/` (budget table, smoke summary).
 - `backend/guideword/settings.py`: one pydantic-settings object reading `.env`: `nebius_api_key`, `nebius_base_url`, `tavily_api_key`, `global_budget_usd`, `database_url`, `guideword_mock` (bool), `guideword_env` (`laptop` | `hosted`), `internal_advance_secret`. Keys are `SecretStr` and never appear in `repr` or logs. The per-run spend cap is **not** a setting: its only source is `config/caps.yaml` (0.2), so there is one value, not two.
 - `backend/tests/conftest.py`: an autouse fixture that patches `socket.socket.connect` (and `connect_ex`) to raise for any address that is not loopback (`127.0.0.1`, `::1`, `localhost`), so no test can reach the network (no new dependency). Loopback stays allowed because asyncio on Windows builds its event loop from a localhost `socketpair()`; blocking it would break every async and `TestClient` test on Bhargavi's machine.
 - `frontend/`: Vite + React + TypeScript, strict mode, ESLint, Prettier, Vitest, one placeholder page. Node 22 LTS (`.nvmrc`, `engines` in `package.json`). `npm ci` works from the lockfile.
-- `scripts/hooks/pre-commit`: a POSIX `sh` script (Git for Windows runs hooks with its bundled `sh`, not PowerShell). Refuses a commit when the current branch is `main`; runs `python -m ruff format --check` and `python -m ruff check` on staged Python files. If `python -m ruff` is not available (venv not active), it refuses with the message "activate .venv first" rather than skipping the checks.
+- `scripts/hooks/pre-commit`: a POSIX `sh` script (Git for Windows runs hooks with its bundled `sh`, not PowerShell). Refuses a commit when the current branch is `main`; runs `python -m ruff format --check` and `python -m ruff check` on staged Python files in `backend/` and `scripts/`, and `python -m mypy scripts`. If `python -m ruff` is not available (venv not active), it refuses with the message "activate .venv first" rather than skipping the checks.
 - `docs/feedback-log.md` seeded with five entries (date, tool, what happened, what would help): wrong key returning 401; answers cut off at the token limit; Unicode hyphens breaking keyword scoring; Nano slow with very long reasoning; catalog deprecations with no automatic rerouting.
-- `.github/workflows/ci.yml` on every push and pull request: backend `ruff format --check`, `ruff check`, `mypy`, `pytest`; frontend (Node 22) `npm ci`, `lint`, `typecheck`, `test`. No secrets in CI.
+- `.github/workflows/ci.yml` on every push and pull request: backend `ruff format --check`, `ruff check` and `mypy` on both `backend` and `scripts` (scripts hold the only paid-call code), then `pytest`; frontend (Node 22) `npm ci`, `lint`, `typecheck`, `test`. No secrets in CI.
 
 **Acceptance**
 - [ ] Fresh clone on Windows: `conda deactivate`, `py -3.12 -m venv .venv`, activate, `pip-sync backend/requirements.txt backend/requirements-dev.txt`, `pytest backend -q` passes.
@@ -206,7 +208,7 @@ Never in this repo before G3: held-out cases, held-out keys, the case writer bri
   `ts`, `kind` (`model` | `tavily` | `opening_balance`), `environment` (`laptop` | `hosted`), `phase`, `use` (required; a use from `caps.yaml`), `model` (or null), `input_tokens`, `output_tokens`, `searches`, `cost_usd`, `script`, `purpose`.
   Tavily calls record `searches` and `cost_usd: 0` (Tavily credits are separate from the $25).
   `ledger.jsonl` is the **laptop** ledger: `live_call.py` always writes `environment: laptop`. Hosted spend cannot go to a file (the Vercel filesystem is read-only); from Phase 2 it goes to the `spend_ledger` table (`PROJECT.md` §11) with the same fields. **Each environment enforces its own allowance and never reads the other's ledger** (laptop $19 here, hosted $6 in `spend_ledger`); the weekly Token Factory dashboard check reconciles the two.
-- **Opening balance:** before the smoke test, Bhargavi reads the spent-to-date figure on the Token Factory dashboard (earlier kill tests) and records it with `python scripts/live_call.py opening-balance --usd <amount>`. It counts against the laptop allowance. Without it, `budget_status` refuses to print "remaining".
+- **Opening balance:** before the smoke test, Bhargavi reads the spent-to-date figure on the Token Factory dashboard (earlier kill tests) and records it with `python scripts/live_call.py opening-balance --usd <amount> --use development`. It counts against the laptop allowance and the `development` use. The smoke test also runs with `--use development`. Without it, `budget_status` refuses to print "remaining".
 - `scripts/budget_status.py`: laptop spend by model, by phase and by use (with each use's remaining allowance), Tavily searches, and laptop remaining = laptop allowance − laptop total. It also prints `GLOBAL_BUDGET_USD` and the reminder to reconcile with the dashboard weekly. Reads every limit from settings and `caps.yaml`, never a literal.
 
 **HTTP allow-list test** (`backend/tests/test_http_allowlist.py`): scans every `.py` file under `backend/` and `scripts/` for imports of `openai`, `tavily` and `httpx`. Allowed:
@@ -228,7 +230,7 @@ The allow-list is a constant in that test. Changing it is a stop-and-ask change.
 
 ## 0.4 Smoke test (written by Claude Code, run by Bhargavi)
 
-`scripts/smoke_test.py` uses `live_call.py` for every paid call. Short, fixed, harmless prompts. **No accident or plant-specific content in any prompt.** Run with `--phase 0`.
+`scripts/smoke_test.py` uses `live_call.py` for every paid call. Short, fixed, harmless prompts. **No accident or plant-specific content in any prompt.** Run with `--phase 0 --use development`.
 
 | # | Test | Models | Records |
 |---|---|---|---|
@@ -312,7 +314,8 @@ The allow-list is a constant in that test. Changing it is a stop-and-ask change.
 | Environment | laptop, hosted |
 
 **IDs** (`schema/ids.py`, pure functions with tests): the full scheme in `PROJECT.md` §11 "IDs and enums". Every ID is built from content, never random and never a counter. `h(x)` = first 16 hex characters of SHA-256 over canonical JSON (sorted keys, no whitespace, UTF-8, NFC).
-- Fact ID `<object id>.<field>`; provenance keys are a fact ID or an object ID.
+- Fact ID `<object id>.<field>` for a top-level field. `heat_sources`, `injection_points`, `discharge`, `vapor_pressure_points` and `operating` rows are **value objects** inside their parent, with no ID of their own; a value object is cited by its parent's field (e.g. `PSV-1.discharge`). Operating facts are cited down to one limit: `<target_id>.operating.<parameter>.<limit field>` (e.g. `MX-1.operating.temperature.trip_high`), so LOPA and physics cite a single setpoint; `operating` rows get no `id` (error 4 already makes target + parameter unique). Provenance keys are an object ID or any of these fact-ID forms.
+- **Text normalisation:** one function, `normalise_text()`, used for every hashed text in an ID (`ai:`, `eng:`, `rec:`, outside-library causes): Unicode NFC, Unicode dashes → `-`, non-breaking spaces → space, whitespace collapsed, trimmed, casefolded.
 - Section: `S-<object id>`; split part `S-<object id>~<first component id>`; engineer-added `S~eng~<h(sorted covered object IDs)>`; a merge keeps the lowest ID; renames never change an ID.
 - Question: `m:<section>:<guideword>:<parameter>`, `pair:<chemA>:<chemB>` (sorted), `env:<chem>:<water|air|heat>`, `nf:<line>`, `proc:<step>:<guideword>`, `work:<job>:<target>`, `dust:<equipment>`, `relief:<device>`, `ai:<section>:<h(normalised question text)>`, `eng:<section>:<h(normalised question text)>`.
 - Run `run:<h(inputs)>`, or `run:<h(inputs)>:<n>` for a later attempt after a finished, cancelled or failed run (an unfinished run with identical inputs is resumed); finding `f:<question id>:<tier>:<cause id>:<h(sorted failing component IDs)>` (outside-library: `h(normalised cause text)` replaces the cause ID); chain `ch:<sorted link IDs joined with +>`; LOPA `lopa:<target id>`; recommendation `rec:<finding or chain id>:<h(normalised action text)>`; evidence `ev:<target id>:<kind>:<source key>`; model call `mc:<cache key>`; tool call `tc:<agent step id>:<tool>:<h(arguments)>`; agent step `step:<h(previous step, agent, tool, arguments)>`; override `ov:<target id>:<h(action, new value, replaced override ID)>`. Events have no content ID: they are identified by (run ID, `seq`).
@@ -327,7 +330,7 @@ Errors:
 3. `layer_type` not in `protection_layers.csv`; an `epa_groups` entry not in `reactive_groups.csv`; a `cameo_groups` entry not in `cameo_groups.csv`.
 4. Two `operating` rows for the same target and parameter.
 5. `planned_work` with `end` before `start`.
-6. A provenance key whose object or field does not exist.
+6. A provenance key whose object or field does not exist (for an operating key: no row for that target and parameter, or that limit is unknown or unset).
 7. Unknown field (from `extra="forbid"`).
 8. A plant object ID that does not match the ID pattern above.
 9. A valve whose `on_line_id` names a line whose `components` does not list that valve.
@@ -419,11 +422,12 @@ Warnings (missing facts, shown in the UI as gaps, never filled in by code):
 
 **Build**
 - FastAPI app in `backend/guideword/api/` with **every endpoint in `PROJECT.md` §11** (including `GET /plants`, `GET /runs`, `POST /runs/{id}/cancel`, `GET /runs/{id}/sections`, `GET /runs/{id}/questions`, `POST /runs/{id}/questions`, both JSON exports, and `POST /internal/runs/{id}/advance`), with request and response models from 0.5.
-  - `POST /runs`: `plant_id`, `spend_cap_usd`, `mode` (`full` | `sample`). `POST /runs/{id}/questions`: `section_id`, `text` (creates an `eng:` question, origin `engineer`, status open). `POST /runs/{id}/overrides`: `target_id`, `action`, `new_value`, `reason`, `by`.
+  - Without mock mode (`GUIDEWORD_MOCK=0`), every endpoint returns 501 with a body naming the phase that will build it; the contract documents this.
+  - `POST /runs`: `plant_id`, `spend_cap_usd`, `mode` (`full` | `sample`); returns 409 "sections not confirmed" when the plant's status is not `sections_confirmed`. `POST /runs/{id}/questions`: `section_id`, `text` (creates an `eng:` question, origin `engineer`, status open). `POST /runs/{id}/overrides`: `target_id`, `action`, `new_value`, `reason`, `by`.
   - Every run-related response carries `label: {kind, recorded_at, cost_usd}`.
   - `POST /internal/runs/{id}/advance` requires an `X-Internal-Secret` header matching settings; in mock mode it returns 202 and does nothing.
   - `POST /runs/{id}/overrides` on a run whose `label.kind` is `recorded` returns 403 ("recorded run is read-only"). The public demo run is shared by every judge, so no visitor can change what the next one sees; the frontend keeps demo-mode accept/reject choices in the browser only. Mock runs accept overrides and echo them back without storing them.
-- Mock mode (`GUIDEWORD_MOCK=1`): every endpoint returns fixtures from `contract/fixtures/`. One small, clearly fictional plant, "Mock Plant A", with sections, questions, findings, one chain, LOPA records, a recommendation, evidence, coverage, events and budget. Every fixture has `label.kind = "mock"`. Fixtures describe no real accident.
+- Mock mode (`GUIDEWORD_MOCK=1`): every endpoint returns fixtures from `contract/fixtures/`. One small, clearly fictional plant, "Mock Plant A", with sections, questions, findings, one chain, LOPA records, a recommendation, evidence, coverage, events and budget. Every fixture has `label.kind = "mock"`. Fixtures describe no real accident. `GET /runs/{id}/export.xlsx` is built at request time from the worksheet fixture with `openpyxl` (no binary in the repo) and is the one route exempt from "every response model has a fixture". The 403 test uses a `recorded` run from a test-only fixture, so `contract/fixtures/` stays mock-only.
 - `GET /runs/{id}/events?after={seq}` in mock mode releases fixture events over about 20 seconds, counted from the first poll for that run, so the frontend can build the live-run screen by polling. The clock is injected into the app, so tests advance it by hand instead of sleeping.
 - `scripts/export_openapi.py` writes `contract/openapi.json`.
 - **TypeScript types:** `openapi-typescript` (frontend dev dependency, approved by Bhargavi on Oct 11) generates `frontend/src/api/types.ts` from `contract/openapi.json`.
@@ -450,7 +454,7 @@ Already resolved on Oct 11 and recorded in `docs/decisions.md`: LOPA source (EGP
 ## 0.10 Non-build tasks (Bhargavi)
 
 - [ ] Case writer chosen. **The case writer creates and owns `guideword-heldout`**; Bhargavi has no access until Phase 6, when she is invited to run and score.
-- [ ] Case writer brief: Cowork drafts it; it goes to the writer without Bhargavi reading it; the writer commits it to their repo. This repo keeps only a generic `docs/case-template.md` with no sources named.
+- [ ] Case writer brief: Cowork drafts it; it goes to the writer without Bhargavi reading it; the writer commits it to their repo. This repo keeps only a generic `docs/case-template.md` with no sources named: Claude Code drafts it after the schema freeze, showing the plant file format and the answer key format, and Bhargavi reviews it.
 - [ ] Facilitator outreach sent (Haber network, then LinkedIn).
 - [ ] Second $25 Token Factory grant claimed if not already.
 - [ ] City Winner attendance rule asked in the Nebius Discord (by Oct 13).

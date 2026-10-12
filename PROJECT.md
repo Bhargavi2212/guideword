@@ -221,7 +221,7 @@ One JSON file per plant, validated with Pydantic against the frozen schema (`con
 - **Every object has an ID**, unique across the whole file, matching `^[A-Za-z0-9][A-Za-z0-9_-]*$` (`.`, `:`, `~` and `+` are reserved for derived IDs, §11). Every reference must point to an existing ID; validation fails otherwise.
 - **Units are in field names** (`_kpa`, `_kpaa`, `_c`, `_m3`, `_kg_h`, `_kw`, `_mm`, `_m`, `_pct`, `_kj_kg`, `_kg_m3`, `_kj_kg_k`, `_per_year`, `_usd`). Exception: `operating` rows, where the unit is fixed by the parameter (pressure kPa gauge, temperature °C, level % of range, flow kg/h). `epa_groups` and `cameo_groups` hold reference-table IDs, not quantities.
 - **Pressure:** `_kpa` is always kPa gauge (vacuum is negative); `_kpaa` is kPa absolute. There are no exceptions hidden in descriptions: the suffix says which.
-- **Fact IDs** are `<object id>.<field>` (e.g. `MX-1.design_pressure_kpa`). `provenance` keys are fact IDs or object IDs (an object ID covers all its fields). Values are a source reference or `"assumed"`. Chains and LOPA records cite fact IDs.
+- **Fact IDs** are `<object id>.<field>` (e.g. `MX-1.design_pressure_kpa`). `heat_sources`, `injection_points`, `discharge`, `vapor_pressure_points` and `operating` rows are value objects inside their parent, with no ID; a value object is cited by its parent's field (e.g. `PSV-1.discharge`). Operating facts are cited down to one limit: `<target_id>.operating.<parameter>.<limit field>` (e.g. `MX-1.operating.temperature.trip_high`). `provenance` keys are fact IDs or object IDs (an object ID covers all its fields). Values are a source reference or `"assumed"`. Chains and LOPA records cite fact IDs.
 - `from` / `to` are stored as `from_id` / `to_id` (`from` is a Python keyword).
 - Plant validation depends on the reference tables: every `epa_groups` entry must exist in `reference/reactive_groups.csv`, and every `layer_type` in `reference/protection_layers.csv`.
 
@@ -458,7 +458,7 @@ Sections are proposed and confirmed on the plant before any run. A run has two p
 
 ### API contract (frozen in Phase 0)
 
-Every run-related response carries a `label`: `{kind: live | recorded | mock, recorded_at, cost_usd}`, shown on screen.
+Every run-related response carries a `label`: `{kind: live | recorded | mock, recorded_at, cost_usd}`, shown on screen. Until a phase builds an endpoint, it returns 501 naming that phase, except in mock mode (`GUIDEWORD_MOCK=1`), where every endpoint serves fixtures.
 
 | Method and path | Request | Does |
 |---|---|---|
@@ -468,7 +468,7 @@ Every run-related response carries a `label`: `{kind: live | recorded | mock, re
 | `POST /plants/{id}/sections/propose` | — | Rules plus Super suggestions with reasons (under `section_suggest_cap_usd`); plant status → sections_proposed |
 | `PUT /plants/{id}/sections` | confirmed section set | Save confirmed sections; plant status → sections_confirmed |
 | `GET /runs` | — | List runs |
-| `POST /runs` | plant_id, spend_cap_usd, mode (full, sample) | Start a run; returns run ID and estimated cost |
+| `POST /runs` | plant_id, spend_cap_usd, mode (full, sample) | Start a run; returns run ID and estimated cost; 409 if the plant's sections are not confirmed |
 | `POST /runs/{id}/cancel` | — | Cancel a running run |
 | `GET /runs/{id}` | — | Status, step, cost, counts |
 | `GET /runs/{id}/events?after={seq}` | — | New events since `seq` (polled every few seconds) |
