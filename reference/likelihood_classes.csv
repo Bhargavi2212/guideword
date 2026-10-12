@@ -1,0 +1,6 @@
+likelihood_class,name,min_per_year,max_per_year,source
+L1,Remote,0,0.0001,"Guideword default: decade bands aligned to the tolerable-frequency levels, engineer-editable"
+L2,Unlikely,0.0001,0.001,"Guideword default: decade bands aligned to the tolerable-frequency levels, engineer-editable"
+L3,Possible,0.001,0.01,"Guideword default: decade bands aligned to the tolerable-frequency levels, engineer-editable"
+L4,Likely,0.01,0.1,"Guideword default: decade bands aligned to the tolerable-frequency levels, engineer-editable"
+L5,Frequent,0.1,,"Guideword default: decade bands aligned to the tolerable-frequency levels, engineer-editable"

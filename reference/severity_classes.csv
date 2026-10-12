@@ -1,0 +1,6 @@
+severity_class,name,definition,source
+S1,Minor,First aid or minor injury on site; small release contained on site,"Guideword default (people safety), engineer-editable; companies load their own"
+S2,Serious,Lost-time injury on site; release requiring on-site response,"Guideword default (people safety), engineer-editable; companies load their own"
+S3,Major,Single fatality or several serious injuries on site; significant release,"Guideword default (people safety), engineer-editable; companies load their own"
+S4,Catastrophic,"Multiple fatalities on site, or serious injuries off site","Guideword default (people safety), engineer-editable; companies load their own"
+S5,Disastrous,Fatalities off site or very large loss of life,"Guideword default (people safety), engineer-editable; companies load their own"

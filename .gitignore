@@ -1,0 +1,39 @@
+# secrets
+.env
+.env.*
+!.env.example
+
+# python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+
+# run data
+*.db
+*.sqlite
+*.sqlite3
+response_cache/
+# live laptop spend ledger; gate snapshots budget/ledger-<gate>.jsonl are committed
+budget/ledger.jsonl
+# local run output only; anchored so backend/guideword/runs is not ignored
+/runs/
+logs/
+*.log
+
+# held-out benchmark (lives in the private repo until G3)
+bench/heldout/
+
+# frontend
+node_modules/
+frontend/dist/
+.vercel/
+
+# editors and OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

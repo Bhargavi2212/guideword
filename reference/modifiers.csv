@@ -1,0 +1,16 @@
+id,kind,release_phase,release_rate_kg_s_band,area_occupancy,event_type,operating_pattern,value,source
+MOD-IGN-GAS-S,ignition_probability,gas,lt_1,any,any,any,0.01,"EGPC-PSM-GL-015 Rev 0 (Nov 2022) Annex C, citing Cox, Lees & Ang, Classification of Hazardous Locations (IChemE 1990)"
+MOD-IGN-GAS-M,ignition_probability,gas,1_to_50,any,any,any,0.07,"EGPC-PSM-GL-015 Rev 0 (Nov 2022) Annex C, citing Cox, Lees & Ang, Classification of Hazardous Locations (IChemE 1990)"
+MOD-IGN-GAS-L,ignition_probability,gas,gt_50,any,any,any,0.3,"EGPC-PSM-GL-015 Rev 0 (Nov 2022) Annex C, citing Cox, Lees & Ang, Classification of Hazardous Locations (IChemE 1990)"
+MOD-IGN-LIQ-S,ignition_probability,liquid,lt_1,any,any,any,0.01,"EGPC-PSM-GL-015 Rev 0 (Nov 2022) Annex C, citing Cox, Lees & Ang, Classification of Hazardous Locations (IChemE 1990)"
+MOD-IGN-LIQ-M,ignition_probability,liquid,1_to_50,any,any,any,0.03,"EGPC-PSM-GL-015 Rev 0 (Nov 2022) Annex C, citing Cox, Lees & Ang, Classification of Hazardous Locations (IChemE 1990)"
+MOD-IGN-LIQ-L,ignition_probability,liquid,gt_50,any,any,any,0.08,"EGPC-PSM-GL-015 Rev 0 (Nov 2022) Annex C, citing Cox, Lees & Ang, Classification of Hazardous Locations (IChemE 1990)"
+MOD-EXPL-S,explosion_given_ignition,any,lt_1,any,any,any,0.04,"EGPC-PSM-GL-015 Rev 0 (Nov 2022) Annex C, citing Cox, Lees & Ang, Classification of Hazardous Locations (IChemE 1990)"
+MOD-EXPL-M,explosion_given_ignition,any,1_to_50,any,any,any,0.12,"EGPC-PSM-GL-015 Rev 0 (Nov 2022) Annex C, citing Cox, Lees & Ang, Classification of Hazardous Locations (IChemE 1990)"
+MOD-EXPL-L,explosion_given_ignition,any,gt_50,any,any,any,0.3,"EGPC-PSM-GL-015 Rev 0 (Nov 2022) Annex C, citing Cox, Lees & Ang, Classification of Hazardous Locations (IChemE 1990)"
+MOD-VUL-JET-MANNED,vulnerability,any,any,manned,jet_or_explosion,any,1,EGPC-PSM-GL-015 Rev 0 (Nov 2022) Annex C.3 Table 5
+MOD-VUL-JET-UNMANNED,vulnerability,any,any,unmanned,jet_or_explosion,any,0.5,EGPC-PSM-GL-015 Rev 0 (Nov 2022) Annex C.3 Table 5
+MOD-VUL-POOL-MANNED,vulnerability,any,any,manned,pool_or_flash,any,0.5,EGPC-PSM-GL-015 Rev 0 (Nov 2022) Annex C.3 Table 5
+MOD-VUL-POOL-UNMANNED,vulnerability,any,any,unmanned,pool_or_flash,any,0.1,EGPC-PSM-GL-015 Rev 0 (Nov 2022) Annex C.3 Table 5
+MOD-TIME-CONT,time_at_risk,any,any,any,any,continuous,1,EGPC-PSM-GL-015 Rev 0 (Nov 2022) Annex C.1
+MOD-TIME-INTERMITTENT,time_at_risk,any,any,any,any,intermittent,0.1,EGPC-PSM-GL-015 Rev 0 (Nov 2022) Annex C.1

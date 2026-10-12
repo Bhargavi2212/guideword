@@ -1,0 +1,6 @@
+severity_class,tolerable_per_year,source
+S1,0.01,EGPC-PSM-GL-015 Rev 0 (Nov 2022) Section 7.3 Table 1 (typical TMEL values)
+S2,0.001,EGPC-PSM-GL-015 Rev 0 (Nov 2022) Section 7.3 Table 1 (typical TMEL values)
+S3,0.0001,EGPC-PSM-GL-015 Rev 0 (Nov 2022) Section 7.3 Table 1 (typical TMEL values)
+S4,1e-05,EGPC-PSM-GL-015 Rev 0 (Nov 2022) Section 7.3 Table 1 (typical TMEL values)
+S5,1e-06,EGPC-PSM-GL-015 Rev 0 (Nov 2022) Section 7.3 Table 1 (typical TMEL values)
