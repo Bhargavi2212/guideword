@@ -254,10 +254,10 @@ The allow-list is a constant in that test. Changing it is a stop-and-ask change.
 - Raw responses in `docs/smoke/` as JSON (no keys, no headers).
 
 **Acceptance**
-- [ ] Smoke-test spend ≤ $0.65 per `budget_status.py`.
-- [ ] Every cell filled.
-- [ ] Decisions written for: structured output method per model; bulk path method (T11); orchestrator tool calling on Ultra (T12), or the JSON "next action" fallback; how reasoning is turned off; where reasoning text appears; safe concurrency per model; whether Ultra accepts ~100k input tokens (T14) and its real cost; confirmed model IDs written back to `config/models.yaml`.
-- [ ] New friction added to `docs/feedback-log.md`.
+- [x] Smoke-test spend ≤ $0.65 per `budget_status.py`.
+- [x] Every cell filled.
+- [x] Decisions written for: structured output method per model; bulk path method (T11); orchestrator tool calling on Ultra (T12), or the JSON "next action" fallback; how reasoning is turned off; where reasoning text appears; safe concurrency per model; whether Ultra accepts ~100k input tokens (T14) and its real cost; confirmed model IDs written back to `config/models.yaml`.
+- [x] New friction added to `docs/feedback-log.md`.
 
 ## 0.5 Schema package
 
