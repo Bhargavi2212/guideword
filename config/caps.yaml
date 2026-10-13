@@ -1,0 +1,33 @@
+# Every cap and allowance lives here and nowhere else (spec 0.2, PROJECT.md section 7).
+# Allowances must sum to GLOBAL_BUDGET_USD (from settings), overall and per environment.
+
+run:
+  run_spend_cap_usd: 1.00
+  orchestrator_max_steps: 60
+  specialist_max_tool_steps: 2
+  lopa_top_n: 10
+  evidence_top_n: 5
+  question_max_attempts: 2
+  connector_max_input_tokens: 80000
+
+plant:
+  # the Super section-suggestion call, which runs outside any run
+  section_suggest_cap_usd: 0.05
+
+# allowance by use, each enforced in its own environment's ledger
+uses:
+  development: {environment: laptop, allowance_usd: 5.00}
+  test_5: {environment: laptop, allowance_usd: 4.00}
+  benchmark: {environment: laptop, allowance_usd: 8.00}
+  video: {environment: laptop, allowance_usd: 2.00}
+  demo_recording: {environment: hosted, allowance_usd: 1.00}
+  judging: {environment: hosted, allowance_usd: 3.00}
+  buffer: {environment: hosted, allowance_usd: 2.00}
+
+environments:
+  laptop: {allowance_usd: 19.00}
+  hosted: {allowance_usd: 6.00}
+
+# live-call caps per phase; a phase with no entry may not make live calls
+phase_caps_usd:
+  "0": 0.65
