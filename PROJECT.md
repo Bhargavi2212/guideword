@@ -47,7 +47,7 @@ AI HAZOP tools exist (Uptime AI, Gordium, Kenexis, Kairos, Salus). None publishe
 The engineer uploads a **plant file** (JSON, format in §9). It is validated on load. Missing facts are flagged before anything runs. Every fact carries its source (data sheet, CSB report page, drawing, or "assumed").
 
 ### Step 2 — Section split (hybrid)
-1. **Rules** draw the first cut: one section per equipment item, of every type (pumps and compressors included); lines split at control valves, pumps, compressors and heat exchangers; **every normally closed or no-flow line becomes its own flagged section**; every procedure and planned job becomes a section.
+1. **Rules** draw the first cut: one section per equipment item, of every type (pumps and compressors included); lines split at control valves, pumps, compressors and heat exchangers; **a line with a non-empty `no_flow` gets its own flagged section**; every procedure and planned job becomes a section.
 2. **Nemotron Super** reviews the cut and suggests splits or merges where the design intent changes (phase change, new temperature range, new chemical entering, start-up-only line), each with a reason. It writes a one-line purpose for each section. **It can never merge away a flagged no-flow section.** This call has its own cap (`section_suggest_cap_usd` in `config/caps.yaml`) and is logged to the ledger like any other call.
 3. **The engineer confirms**: accepts, rejects or edits each suggestion, renames sections, adds procedure or work sections. Nothing proceeds until confirmed.
 
@@ -58,9 +58,9 @@ Code builds a numbered list of every question. Nothing on it can be deleted.
 
 1. **Guideword × parameter matrix**, filtered by section type through the applicability matrix (e.g. a pipe gets No/More/Less/Reverse flow and Other-than composition; a tank gets High/Low level, High pressure, Vacuum, High/Low temperature; a reactor adds reaction too fast/slow and loss of mixing). Equipment and line sections get matrix questions; **no-flow line sections get both the pipe matrix questions and their `nf:` question**. Procedure sections and planned-work sections get no matrix questions.
 2. **Every chemical pair** on site: n(n−1)/2 pair questions for n chemicals (10 chemicals → 45 pairs), plus a separate list of 3n environment questions (each chemical with water, air and heat). The coverage report counts the two lists separately.
-3. **Every no-flow line**: what accumulates, what is missing there (e.g. inhibitor).
+3. **Every no-flow line** (a line with a non-empty `no_flow`): what accumulates, what is missing there (e.g. inhibitor).
 4. **Every procedure step × Skipped / Wrong / Too early / Too late / Out of order** (guidewords `skipped`, `wrong`, `early`, `late`, `out_of_order`; `out_of_order` covers sequence). The `procedure` rows of the applicability table supply only this guideword list.
-5. **Every planned job × what is within reach** (flammables, live lines, overlapping jobs, isolation). "Within reach" of a job means: its listed `equipment_ids`; every equipment item in its location; every line whose `from_id` or `to_id` is in its location; and every other planned job at the same location whose time window overlaps. Planned-work sections get only these `work:` questions.
+5. **Every planned job × what is within reach** (flammables, live lines, overlapping jobs, isolation). "Within reach" of a job means: its listed `equipment_ids`; its listed `line_ids`; every equipment item in its location; every line whose `from_id` or `to_id` is in its location (an endpoint in the location, or the location itself); and every other planned job at the same location whose time window overlaps. Planned-work sections get only these `work:` questions.
 6. **Dust and ignition** questions for every equipment item of type `solids_handler` or `dryer`, plus any equipment whose `contents` include a chemical with `combustible_dust: true`.
 7. **Every relief device × where it discharges** (people, ignition sources, other equipment). Overpressure is the other common PHA oversight (AIChE CEP, July 2025); it has no separate question. Instead, every `m:<section>:more:pressure` finding in the top N gets a `physics_calc` multiple-of-design-pressure in its evidence when the plant facts allow it.
 
@@ -84,13 +84,13 @@ After the engineer confirms the sections, **an orchestrator agent (Nemotron Ultr
 | `run_simulation` | A fault on the Tennessee Eastman demo plant | Variables that moved, limits crossed |
 | `finish` | Ends the run | Accepted, or refused with the reason |
 
-**Specialist agents.** Each gets only its own questions and the data they need, works independently of the others, may take **at most 2 tool steps** (`reactivity_lookup`, `web_research`), then must answer in the fixed schema.
+**Specialist agents.** Each gets only its own questions and the data they need, works independently of the others, may take **at most 2 tool steps** (`reactivity_lookup`, `web_research`), then must answer in the fixed schema. The data includes the `notes` of the plant objects in its scope (the source's exact words, passed as data, never parsed by code), and safeguards with no `layer_type` as existing protection, with their description.
 
 | Specialist agent | Gets only | Answers |
 |---|---|---|
 | Process deviations | Sections, operating values, alarm/trip setpoints, design limits, control loops with valve fail positions, safeguards, relief devices | Guideword × parameter questions; relief discharge questions |
 | Chemical interactions | Chemical list, properties, reactivity groups | Every pair, plus water, air, heat |
-| Piping and no-flow lines | Line list, normally closed lines, injection points | What builds up, what is missing |
+| Piping and no-flow lines | Line list, no-flow lines (non-empty `no_flow`), injection points on lines and equipment | What builds up, what is missing |
 | Procedures | Start-up, shutdown, charging steps | Each step × time and sequence deviations |
 | Maintenance work | Planned jobs and their surroundings | Hot work, overlapping jobs, isolation |
 | Dust and ignition | Solids handling, hot surfaces, dust collection | Explosion and how it spreads |
@@ -124,7 +124,7 @@ Ultra reads a one-line summary of every finding (ID, cause, consequence, compone
 2. **LOPA** for every high-severity finding and every chain:
    - Initiating event frequency from the reference table (each cause-library entry maps to one initiating-event class). Classes not given per year are converted with a plant fact: `per_metre_year` × `lines.length_m`, `per_lift` × `planned_work.lifts_per_year`. **If that fact is missing, the LOPA record is marked incomplete and names the missing fact ID; code never substitutes a default frequency.** The finding stays on the list, flagged. **Outside-library causes:** code (never a model) assigns the highest frequency among library causes with the same failing-component type (converted by the same rule), or 0.1 per year if the type has none, flagged "frequency assumed — engineer to confirm".
    - Conditional modifiers (ignition probability, occupancy) from the reference table.
-   - Protection layers: Ultra argues which safeguards apply and why; **code decides credit**. A safeguard gets no credit if any ID in its `component_ids` is among the cause's failing component IDs, or shares a logic solver with the failing control loop (as required by its row in `protection_layers.csv`); a relief device with a closed inlet valve gets no credit, and one with an unmanaged inlet valve gets the `pfd_if_isolatable` value. Each layer is shown credited or not, with the reason.
+   - Protection layers: Ultra argues which safeguards apply and why; **code decides credit**. A safeguard gets no credit if any ID in its `component_ids` is among the cause's failing component IDs, or shares a logic solver with the failing control loop (as required by its row in `protection_layers.csv`); a relief device with a closed inlet valve gets no credit, and one with an unmanaged inlet valve gets the `pfd_if_isolatable` value. A safeguard with no `layer_type` never gets credit. Each layer is shown credited or not, with the reason.
    - **Relief devices** need no safeguard row: every relief device is a candidate layer for overpressure scenarios on its `protects_id`, using the `protection_layers.csv` row whose `relief_kind` matches its `kind` (prv → IPL-PRV, rupture_disk → IPL-RD, prv_with_disk → IPL-PRV-RD, vent → IPL-CONS-VENT). Its inlet valves decide the credit: any inlet valve with `normal_position: closed` → no credit; otherwise any inlet valve that is open and not `locked` ("unmanaged") → `pfd_if_isolatable`; all inlet valves locked open, or none → `pfd`.
    - Mitigated frequency = initiating frequency × modifiers × each credited layer's failure-on-demand probability.
    - Compared to the tolerable frequency for its severity class → **gap**.
@@ -227,21 +227,22 @@ One JSON file per plant, validated with Pydantic against the frozen schema (`con
 
 | Block | Fields (required in bold) | Feeds |
 |---|---|---|
-| `locations` | **id**, occupied (bool), ignition_sources (bool), indoor (bool) | Severity, relief discharge, planned work |
+| `locations` | **id**, description, occupied (bool), ignition_sources (bool), indoor (bool), distance_m (distance from the unit or area under study), offsite (bool) | Severity, relief discharge, planned work, line endpoints outside the study |
 | `utilities` | **id**, **kind** (steam, cooling_water, nitrogen, instrument_air, power, other), location_id | Line sources, failing component for utility causes |
-| `equipment` | **id**, **type**, location_id, contents (chemical IDs), volume_m3, design_pressure_kpa, design_temp_c, max_surface_temp_c, heat_duty_kw, dust_collection (bool), heat_sources (list: medium, via_line_id, isolating_valve_ids) | Sections, questions, physics, independence |
+| `equipment` | **id**, **type**, location_id, contents (chemical IDs), volume_m3, design_pressure_kpa, design_temp_c, max_surface_temp_c, heat_duty_kw, dust_collection (bool), heat_sources (list: medium, via_line_id, isolating_valve_ids), injection_points (list: chemical_id; a chemical injected straight into the equipment) | Sections, questions, physics, independence |
 | `instruments` | **id**, **kind** (sensor, switch, analyser), measures (parameter), on_id (equipment or line), system (bpcs, sis, standalone) | Independence check |
 | `logic_solvers` | **id**, **system** (bpcs, sis) | Independence check (shared controller or SIS logic) |
 | `valves` | **id**, **kind** (control, block, check, manual, relief_isolation), on_line_id (a line whose `components` lists this valve), normal_position (open, closed), fail_position (open, closed, last), locked (bool) | Section splits, independence, isolation, relief credit |
-| `lines` | **id**, **from_id**, **to_id** (equipment or utility IDs), components (ordered IDs of valves, pumps, compressors, exchangers on the line), no_flow (none, normally_closed, dead_leg, standby, startup_only), is_hose (bool), contents (chemical IDs), size_mm, length_m, normal_flow_kg_h, design_flow_kg_h, injection_points (list: chemical_id, at_component_id) | Section splits, no-flow questions, physics, hose causes |
+| `lines` | **id**, **from_id**, **to_id** (equipment, utility or location IDs; a location is an endpoint outside the study, e.g. a pipe rack or battery limit), components (ordered IDs of valves, pumps, compressors, exchangers on the line), no_flow (list of normally_closed, dead_leg, standby, startup_only; empty list = flowing), is_hose (bool), contents (chemical IDs), size_mm, length_m, normal_flow_kg_h, design_flow_kg_h, injection_points (list: chemical_id, at_component_id) | Section splits, no-flow questions, physics, hose causes |
 | `operating` | **target_id**, **parameter** (pressure, temperature, level, flow), normal, alarm_low, alarm_high, trip_low, trip_high, design_min, design_max, alarm_instrument_id, trip_instrument_id | Process questions, LOPA, physics |
 | `control_loops` | **id**, **sensor_id**, **controller_id** (a logic solver ID), **final_element_id**, system (bpcs, sis), acts_on_id | Causes, independence |
-| `safeguards` | **id**, **layer_type** (ID from `protection_layers.csv`), protects_id (equipment or location), component_ids (sensors, logic solver, final elements it relies on) | LOPA credit and independence |
+| `safeguards` | **id**, layer_type (ID from `protection_layers.csv`), description, protects_id (equipment or location), component_ids (sensors, logic solver, final elements it relies on). A safeguard with no layer_type (e.g. gas detectors, a permit system, PPE) is passed to specialists as existing protection with its description and **never gets LOPA credit** | LOPA credit and independence; existing protection |
 | `relief_devices` | **id**, **protects_id**, kind (prv, rupture_disk, prv_with_disk, vent), set_pressure_kpa, capacity_kg_h, inlet_valve_ids, discharge (kind: atmosphere, flare, scrubber, vessel, header; location_id; elevation_m) | Overpressure, relief discharge, isolation |
 | `chemicals` | **id**, **name**, epa_groups, cameo_groups, physical_form (gas, liquid, solid, dust), combustible_dust (bool), boiling_point_c, flash_point_c, density_kg_m3, heat_capacity_kj_kg_k, vapor_pressure_points (list: temp_c, pressure_kpaa), heat_of_reaction_kj_kg, source | Chemistry, dust, physics (all physics fields optional; a calculation without its facts is skipped and flagged) |
 | `procedures` | **id**, **kind** (start_up, shutdown, charging, transfer, cleaning, maintenance, emergency, other), **steps** (list: **id**, **text**, equipment_ids, valve_ids) | Procedure questions |
-| `planned_work` | **id**, **type** (hot_work, confined_space, line_break, lifting, other), location_id, equipment_ids, start, end (ISO 8601), lifts_per_year | Maintenance questions, overlapping jobs, LOPA for `per_lift` causes |
+| `planned_work` | **id**, **type** (hot_work, confined_space, line_break, lifting, other), location_id, equipment_ids, line_ids (lines the job works on or over), start, end (ISO 8601), lifts_per_year | Maintenance questions, overlapping jobs, LOPA for `per_lift` causes |
 | `provenance` | fact ID or object ID → source or "assumed" | Trail, assumptions shown in UI |
+| `notes` | on every plant object with an ID, and on the plant itself: list of {**text**, **source**}. The source package's exact words, never a paraphrase or comment. Code never parses notes; specialists receive the notes of the objects in their scope | Facts the schema has no field for |
 
 A complete, valid example (a small fictional mixing unit; every ID it uses is defined):
 
@@ -278,9 +279,9 @@ A complete, valid example (a small fictional mixing unit; every ID it uses is de
   ],
   "lines": [
     {"id": "L-12", "from_id": "TOTE-1", "to_id": "MX-1", "components": ["P-1", "HV-12"],
-     "no_flow": "none", "contents": ["SIH"], "size_mm": 50, "normal_flow_kg_h": 2000},
+     "no_flow": [], "contents": ["SIH"], "size_mm": 50, "normal_flow_kg_h": 2000},
     {"id": "L-STM", "from_id": "UT-STEAM", "to_id": "MX-1", "components": ["XV-STM", "TV-1"],
-     "no_flow": "none", "size_mm": 25}
+     "no_flow": [], "size_mm": 25}
   ],
   "operating": [
     {"target_id": "MX-1", "parameter": "temperature", "normal": 25, "alarm_high": 50,

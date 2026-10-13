@@ -87,7 +87,8 @@ class FailPosition(StrEnum):
 
 
 class NoFlow(StrEnum):
-    NONE = "none"
+    """`lines.no_flow` is a list of these; an empty list means the line flows normally."""
+
     NORMALLY_CLOSED = "normally_closed"
     DEAD_LEG = "dead_leg"
     STANDBY = "standby"
