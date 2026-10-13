@@ -146,7 +146,7 @@ guideword/
 Never in this repo before G3: held-out cases, held-out keys, the case writer brief. They live in `guideword-heldout`, which the case writer creates and owns.
 
 **Acceptance**
-- [ ] The bootstrap commit is the only commit on `main` not made through a pull request: every later commit in `git log --first-parent main` ends with GitHub's `(#<PR number>)` suffix from the squash merge.
+- [ ] The bootstrap commit is the only commit on `main` not made through a pull request: every later commit in `git log --first-parent main` ends with GitHub's `(#<PR number>)` suffix from the squash merge. (Note 2026-10-13: PR #2 was merged with a merge commit, "Merge pull request #2 …"; it did go through a PR. Later PRs are squash-merged.)
 - [x] Every folder in the tree exists on `phase-0/scaffold`.
 - [x] `git ls-files --eol` shows `i/lf` for every text file.
 
@@ -164,12 +164,12 @@ Never in this repo before G3: held-out cases, held-out keys, the case writer bri
 - `.github/workflows/ci.yml` on every push and pull request: backend `ruff format --check`, `ruff check` and `mypy` on both `backend` and `scripts` (scripts hold the only paid-call code), then `pytest`; frontend (Node 22) `npm ci`, `lint`, `typecheck`, `test`. No secrets in CI.
 
 **Acceptance**
-- [ ] Fresh clone on Windows: `conda deactivate`, `py -3.12 -m venv .venv`, activate, `pip-sync backend/requirements.txt backend/requirements-dev.txt`, `pytest backend -q` passes.
+- [x] Fresh clone on Windows: `conda deactivate`, `py -3.12 -m venv .venv`, activate, `pip-sync backend/requirements.txt backend/requirements-dev.txt`, `pytest backend -q` passes. (Checked 2026-10-13 on a fresh clone of `main`: 80 passed.)
 - [x] `npm ci && npm run lint && npm run typecheck && npm test` passes in `frontend/` on Node 22.
 - [x] A test proves a network call inside a test fails, and a second test proves an asyncio event loop still starts (loopback allowed).
 - [x] Settings `repr` contains no key value (test).
 - [x] The pre-commit hook refuses a commit on `main` (checked by hand once, noted in the PR).
-- [ ] CI green on the PR and on `main` after merge. Licence shown in the GitHub About panel.
+- [x] CI green on the PR and on `main` after merge. Licence shown in the GitHub About panel. (2026-10-13: backend and frontend jobs green on `ac61124`; GitHub reports Apache-2.0.)
 
 ## 0.2 Config
 
