@@ -363,7 +363,7 @@ Warnings (missing facts, shown in the UI as gaps, never filled in by code):
 - [x] Every ID builder is a pure function of its inputs: the same inputs give the same ID in two separate processes; `ch:` IDs are the same whichever order the links are given; a test fails if `ids.py` imports `random`, `uuid` or `itertools.count`, or reads the clock.
 - [x] Round trip: load → dump → load gives an identical object.
 - [x] Exported JSON Schemas match the models (test regenerates and compares).
-- [ ] Merged and frozen. Later changes only through a `contract/...` branch.
+- [x] Merged and frozen. Later changes only through a `contract/...` branch. (Frozen 2026-10-13 with PR #7, `a847858`.)
 
 ## 0.6 Reference tables: loaders and validation
 
