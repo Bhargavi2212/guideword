@@ -1,0 +1,15 @@
+# Job -> tier (spec 0.2). No job is routed to nano; it stays in models.yaml for the
+# four-tier comparison. If a tier leaves the catalog, the next tier in fallback_order is used.
+jobs:
+  orchestrator: ultra
+  connector: ultra
+  lopa_argument: ultra
+  severity_reason: ultra
+  recommendation: ultra
+  unsure_answer: ultra
+  section_suggestion: super
+  specialist_hard: super
+  specialist_bulk: lightning
+  not_credible: lightning
+  extraction: lightning
+fallback_order: [nano, lightning, super, ultra]
