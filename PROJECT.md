@@ -432,7 +432,7 @@ Sections are proposed and confirmed on the plant before any run. A run has two p
   | Plant fact | `<object id>.<field>` |
   | Section | Rule-drawn: `S-<object id>` (the equipment, line, procedure or planned job it came from). A split part: `S-<object id>~<id of the first component in that part>`. Engineer-added: `S~eng~<h(sorted IDs of the plant objects it covers)>`. A merge keeps the lowest of the merged IDs. Renaming never changes an ID. |
   | Question | `m:<section>:<guideword>:<parameter>`, `pair:<chemA>:<chemB>` (sorted), `env:<chem>:<water\|air\|heat>`, `nf:<line>`, `proc:<step>:<guideword>`, `work:<job>:<target>`, `dust:<equipment>`, `relief:<device>`, `ai:<section>:<h(normalised question text)>`, `eng:<section>:<h(normalised question text)>` |
-  | Run | `run:<h(plant ID, section snapshot, reference version hashes, routing config, caps, prompt versions, mode, spend cap)>`. Starting a run with identical inputs **resumes** that run if it is unfinished. If it is finished, cancelled or failed, the new run is `run:<h(inputs)>:<n>` (n = attempt number, 2, 3…): a deliberate, visible counter, so a cancelled run can be restarted and a benchmark case can be run more than once. |
+  | Run | `run:<h(plant ID, section snapshot, reference version hashes, routing config, caps, prompt versions, mode)>`. The run's `spend_cap_usd` is **not** hashed. Starting a run with identical inputs **resumes** that run if it is unfinished (draft, running, stopped_budget). A `stopped_cap` run resumes only when the new `spend_cap_usd` is higher than its cap, and then continues under the new cap; with the same or a lower cap the start is refused with 409 "cap reached; raise spend_cap_usd to continue". If the run is finished, cancelled or failed, the new run is `run:<h(inputs)>:<n>` (n = attempt number, 2, 3…): a deliberate, visible counter, so a cancelled run can be restarted and a benchmark case can be run more than once. |
   | Finding | `f:<question id>:<tier>:<cause id>:<h(sorted failing component IDs)>`. One question can have several findings (one per cause). For an outside-library cause, `h(normalised cause text)` replaces the cause ID. The tier is the one that answered; an Ultra re-answer of an unsure finding is a second finding, never an edit of the first |
   | Chain | `ch:<link IDs sorted and joined with +>`; the same set of links is the same chain |
   | LOPA record | `lopa:<finding or chain id>` |
@@ -468,7 +468,7 @@ Every run-related response carries a `label`: `{kind: live | recorded | mock, re
 | `POST /plants/{id}/sections/propose` | — | Rules plus Super suggestions with reasons (under `section_suggest_cap_usd`); plant status → sections_proposed |
 | `PUT /plants/{id}/sections` | confirmed section set | Save confirmed sections; plant status → sections_confirmed |
 | `GET /runs` | — | List runs |
-| `POST /runs` | plant_id, spend_cap_usd, mode (full, sample) | Start a run; returns run ID and estimated cost; 409 if the plant's sections are not confirmed |
+| `POST /runs` | plant_id, spend_cap_usd, mode (full, sample) | Start a run; returns run ID and estimated cost; 409 if the plant's sections are not confirmed, or if a `stopped_cap` run with the same inputs is restarted without a higher `spend_cap_usd` |
 | `POST /runs/{id}/cancel` | — | Cancel a running run |
 | `GET /runs/{id}` | — | Status, step, cost, counts |
 | `GET /runs/{id}/events?after={seq}` | — | New events since `seq` (polled every few seconds) |

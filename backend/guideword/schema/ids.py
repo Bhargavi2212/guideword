@@ -32,7 +32,8 @@ _FIELD = re.compile(r"^[a-z][a-z0-9_]*$")
 
 ENVIRONMENT_KINDS = ("water", "air", "heat")
 
-# Run inputs hashed into the run ID (PROJECT.md §11).
+# Run inputs hashed into the run ID (PROJECT.md §11). The run's spend cap is not one of
+# them, so a run stopped at its cap can be resumed with a higher cap.
 RUN_INPUT_KEYS = frozenset(
     {
         "plant_id",
@@ -42,7 +43,6 @@ RUN_INPUT_KEYS = frozenset(
         "caps",
         "prompt_versions",
         "mode",
-        "spend_cap_usd",
     }
 )
 # A new attempt starts only after one of these; any other status is resumed.
@@ -263,12 +263,30 @@ def engineer_question_id(section: str, text: str) -> str:
 # --- runs -----------------------------------------------------------------------------
 
 
-def run_id(inputs: Mapping[str, object], previous_attempts: Sequence[RunStatus]) -> str:
+@dataclass(frozen=True)
+class Attempt:
+    """An earlier attempt with the same run inputs."""
+
+    status: RunStatus
+    spend_cap_usd: float
+
+
+class CapReachedError(ValueError):
+    """A stopped_cap run was asked to continue without a higher cap. The API returns 409."""
+
+    def __init__(self) -> None:
+        super().__init__("cap reached; raise spend_cap_usd to continue")
+
+
+def run_id(
+    inputs: Mapping[str, object], previous_attempts: Sequence[Attempt], *, spend_cap_usd: float
+) -> str:
     """`run:<h(inputs)>`, or `run:<h(inputs)>:<n>` for attempt n >= 2.
 
-    `previous_attempts` are the statuses of the earlier attempts with these inputs, oldest
-    first. An unfinished latest attempt is resumed; after a finished, cancelled or failed
-    one, the next attempt number is used.
+    `previous_attempts` are the earlier attempts with these inputs, oldest first. After a
+    finished, cancelled or failed attempt, the next attempt number is used. Any other
+    latest attempt is resumed, except a stopped_cap one, which resumes only when
+    `spend_cap_usd` is higher than its cap; otherwise CapReachedError.
     """
     if set(inputs) != RUN_INPUT_KEYS:
         raise ValueError(f"run inputs must be exactly {sorted(RUN_INPUT_KEYS)}")
@@ -276,8 +294,12 @@ def run_id(inputs: Mapping[str, object], previous_attempts: Sequence[RunStatus])
     count = len(previous_attempts)
     if count == 0:
         return base
-    attempt = count if previous_attempts[-1] not in ENDED_RUN_STATUSES else count + 1
-    return base if attempt == 1 else f"{base}:{attempt}"
+    latest = previous_attempts[-1]
+    if latest.status in ENDED_RUN_STATUSES:
+        return f"{base}:{count + 1}"
+    if latest.status == RunStatus.STOPPED_CAP and spend_cap_usd <= latest.spend_cap_usd:
+        raise CapReachedError()
+    return base if count == 1 else f"{base}:{count}"
 
 
 # --- findings, chains, LOPA, recommendations, evidence ------------------------------

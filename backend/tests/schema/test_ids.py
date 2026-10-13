@@ -32,7 +32,6 @@ RUN_INPUTS = {
     "caps": {"run_spend_cap_usd": 1.0},
     "prompt_versions": {"process": "v1"},
     "mode": "full",
-    "spend_cap_usd": 1.0,
 }
 
 
@@ -265,32 +264,76 @@ def test_id_parts_may_not_contain_separators() -> None:
 # --- run IDs -------------------------------------------------------------------------
 
 
+def _attempt(status: RunStatus, cap: float = 1.0) -> ids.Attempt:
+    return ids.Attempt(status=status, spend_cap_usd=cap)
+
+
 def test_first_run_has_no_attempt_suffix() -> None:
-    assert ids.run_id(RUN_INPUTS, []) == f"run:{ids.h(RUN_INPUTS)}"
+    assert ids.run_id(RUN_INPUTS, [], spend_cap_usd=1.0) == f"run:{ids.h(RUN_INPUTS)}"
 
 
-def test_unfinished_run_with_identical_inputs_is_resumed() -> None:
-    first = ids.run_id(RUN_INPUTS, [])
-    assert ids.run_id(RUN_INPUTS, [RunStatus.RUNNING]) == first
+def test_spend_cap_is_not_part_of_the_run_id() -> None:
+    assert ids.run_id(RUN_INPUTS, [], spend_cap_usd=1.0) == ids.run_id(
+        RUN_INPUTS, [], spend_cap_usd=2.5
+    )
+    with pytest.raises(ValueError):
+        ids.run_id({**RUN_INPUTS, "spend_cap_usd": 1.0}, [], spend_cap_usd=1.0)
+
+
+@pytest.mark.parametrize("unfinished", [RunStatus.DRAFT, RunStatus.RUNNING])
+def test_unfinished_run_with_identical_inputs_is_resumed(unfinished: RunStatus) -> None:
+    first = ids.run_id(RUN_INPUTS, [], spend_cap_usd=1.0)
+    assert ids.run_id(RUN_INPUTS, [_attempt(unfinished)], spend_cap_usd=1.0) == first
+
+
+def test_stopped_budget_run_is_resumed() -> None:
+    first = ids.run_id(RUN_INPUTS, [], spend_cap_usd=1.0)
+    attempts = [_attempt(RunStatus.STOPPED_BUDGET)]
+    assert ids.run_id(RUN_INPUTS, attempts, spend_cap_usd=1.0) == first
+
+
+def test_stopped_cap_run_resumes_with_a_higher_cap() -> None:
+    first = ids.run_id(RUN_INPUTS, [], spend_cap_usd=1.0)
+    attempts = [_attempt(RunStatus.STOPPED_CAP, cap=1.0)]
+    assert ids.run_id(RUN_INPUTS, attempts, spend_cap_usd=1.5) == first
+
+
+@pytest.mark.parametrize("new_cap", [1.0, 0.5])
+def test_stopped_cap_run_with_same_or_lower_cap_is_refused(new_cap: float) -> None:
+    attempts = [_attempt(RunStatus.STOPPED_CAP, cap=1.0)]
+    with pytest.raises(ids.CapReachedError, match="cap reached; raise spend_cap_usd to continue"):
+        ids.run_id(RUN_INPUTS, attempts, spend_cap_usd=new_cap)
+
+
+def test_stopped_cap_on_a_later_attempt_resumes_that_attempt() -> None:
+    first = ids.run_id(RUN_INPUTS, [], spend_cap_usd=1.0)
+    attempts = [_attempt(RunStatus.CANCELLED), _attempt(RunStatus.STOPPED_CAP, cap=1.0)]
+    assert ids.run_id(RUN_INPUTS, attempts, spend_cap_usd=2.0) == f"{first}:2"
+
+
+def test_cap_reached_error_is_a_value_error() -> None:
+    assert issubclass(ids.CapReachedError, ValueError)
 
 
 @pytest.mark.parametrize("ended", [RunStatus.FINISHED, RunStatus.CANCELLED, RunStatus.FAILED])
 def test_new_attempt_after_an_ended_run(ended: RunStatus) -> None:
-    first = ids.run_id(RUN_INPUTS, [])
-    assert ids.run_id(RUN_INPUTS, [ended]) == f"{first}:2"
-    assert ids.run_id(RUN_INPUTS, [ended, RunStatus.CANCELLED]) == f"{first}:3"
+    first = ids.run_id(RUN_INPUTS, [], spend_cap_usd=1.0)
+    assert ids.run_id(RUN_INPUTS, [_attempt(ended)], spend_cap_usd=1.0) == f"{first}:2"
+    attempts = [_attempt(ended), _attempt(RunStatus.CANCELLED)]
+    assert ids.run_id(RUN_INPUTS, attempts, spend_cap_usd=1.0) == f"{first}:3"
 
 
 def test_resume_returns_the_latest_unfinished_attempt() -> None:
-    first = ids.run_id(RUN_INPUTS, [])
-    assert ids.run_id(RUN_INPUTS, [RunStatus.CANCELLED, RunStatus.RUNNING]) == f"{first}:2"
+    first = ids.run_id(RUN_INPUTS, [], spend_cap_usd=1.0)
+    attempts = [_attempt(RunStatus.CANCELLED), _attempt(RunStatus.RUNNING)]
+    assert ids.run_id(RUN_INPUTS, attempts, spend_cap_usd=1.0) == f"{first}:2"
 
 
 def test_run_inputs_must_have_exactly_the_spec_keys() -> None:
     with pytest.raises(ValueError):
-        ids.run_id({k: v for k, v in RUN_INPUTS.items() if k != "caps"}, [])
+        ids.run_id({k: v for k, v in RUN_INPUTS.items() if k != "caps"}, [], spend_cap_usd=1.0)
     with pytest.raises(ValueError):
-        ids.run_id({**RUN_INPUTS, "extra": 1}, [])
+        ids.run_id({**RUN_INPUTS, "extra": 1}, [], spend_cap_usd=1.0)
 
 
 # --- findings, chains, LOPA, recommendations, evidence ---------------------------------
@@ -427,7 +470,7 @@ def test_ids_module_has_no_randomness_counters_or_clock() -> None:
 
 def _sample_ids() -> list[str]:
     return [
-        ids.run_id(RUN_INPUTS, []),
+        ids.run_id(RUN_INPUTS, [], spend_cap_usd=1.0),
         ids.finding_id(Q, "ultra", ["TV-1", "TT-1"], cause_id="C01"),
         ids.chain_id(["b", "a"]),
         ids.added_by_ai_question_id("S-MX-1", "Static from the tote"),
