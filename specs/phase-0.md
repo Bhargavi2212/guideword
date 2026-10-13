@@ -146,7 +146,7 @@ guideword/
 Never in this repo before G3: held-out cases, held-out keys, the case writer brief. They live in `guideword-heldout`, which the case writer creates and owns.
 
 **Acceptance**
-- [ ] The bootstrap commit is the only commit on `main` not made through a pull request: every later commit in `git log --first-parent main` ends with GitHub's `(#<PR number>)` suffix from the squash merge.
+- [ ] The bootstrap commit is the only commit on `main` not made through a pull request: every later commit in `git log --first-parent main` ends with GitHub's `(#<PR number>)` suffix from the squash merge. (Note 2026-10-13: PR #2 was merged with a merge commit, "Merge pull request #2 …"; it did go through a PR. Later PRs are squash-merged.)
 - [x] Every folder in the tree exists on `phase-0/scaffold`.
 - [x] `git ls-files --eol` shows `i/lf` for every text file.
 
@@ -164,12 +164,12 @@ Never in this repo before G3: held-out cases, held-out keys, the case writer bri
 - `.github/workflows/ci.yml` on every push and pull request: backend `ruff format --check`, `ruff check` and `mypy` on both `backend` and `scripts` (scripts hold the only paid-call code), then `pytest`; frontend (Node 22) `npm ci`, `lint`, `typecheck`, `test`. No secrets in CI.
 
 **Acceptance**
-- [ ] Fresh clone on Windows: `conda deactivate`, `py -3.12 -m venv .venv`, activate, `pip-sync backend/requirements.txt backend/requirements-dev.txt`, `pytest backend -q` passes.
+- [x] Fresh clone on Windows: `conda deactivate`, `py -3.12 -m venv .venv`, activate, `pip-sync backend/requirements.txt backend/requirements-dev.txt`, `pytest backend -q` passes. (Checked 2026-10-13 on a fresh clone of `main`: 80 passed.)
 - [x] `npm ci && npm run lint && npm run typecheck && npm test` passes in `frontend/` on Node 22.
 - [x] A test proves a network call inside a test fails, and a second test proves an asyncio event loop still starts (loopback allowed).
 - [x] Settings `repr` contains no key value (test).
 - [x] The pre-commit hook refuses a commit on `main` (checked by hand once, noted in the PR).
-- [ ] CI green on the PR and on `main` after merge. Licence shown in the GitHub About panel.
+- [x] CI green on the PR and on `main` after merge. Licence shown in the GitHub About panel. (2026-10-13: backend and frontend jobs green on `ac61124`; GitHub reports Apache-2.0.)
 
 ## 0.2 Config
 
@@ -318,7 +318,7 @@ The allow-list is a constant in that test. Changing it is a stop-and-ask change.
 - **Text normalisation:** one function, `normalise_text()`, used for every hashed text in an ID (`ai:`, `eng:`, `rec:`, outside-library causes): Unicode NFC, Unicode dashes → `-`, non-breaking spaces → space, whitespace collapsed, trimmed, casefolded.
 - Section: `S-<object id>`; split part `S-<object id>~<first component id>`; engineer-added `S~eng~<h(sorted covered object IDs)>`; a merge keeps the lowest ID; renames never change an ID.
 - Question: `m:<section>:<guideword>:<parameter>`, `pair:<chemA>:<chemB>` (sorted), `env:<chem>:<water|air|heat>`, `nf:<line>`, `proc:<step>:<guideword>`, `work:<job>:<target>`, `dust:<equipment>`, `relief:<device>`, `ai:<section>:<h(normalised question text)>`, `eng:<section>:<h(normalised question text)>`.
-- Run `run:<h(inputs)>`, or `run:<h(inputs)>:<n>` for a later attempt after a finished, cancelled or failed run (an unfinished run with identical inputs is resumed); finding `f:<question id>:<tier>:<cause id>:<h(sorted failing component IDs)>` (outside-library: `h(normalised cause text)` replaces the cause ID); chain `ch:<sorted link IDs joined with +>`; LOPA `lopa:<target id>`; recommendation `rec:<finding or chain id>:<h(normalised action text)>`; evidence `ev:<target id>:<kind>:<source key>`; model call `mc:<cache key>`; tool call `tc:<agent step id>:<tool>:<h(arguments)>`; agent step `step:<h(previous step, agent, tool, arguments)>`; override `ov:<target id>:<h(action, new value, replaced override ID)>`. Events have no content ID: they are identified by (run ID, `seq`).
+- Run `run:<h(inputs)>`, or `run:<h(inputs)>:<n>` for a later attempt after a finished, cancelled or failed run (an unfinished run with identical inputs is resumed; `spend_cap_usd` is not an input; a `stopped_cap` run resumes only with a higher cap, otherwise 409 "cap reached; raise spend_cap_usd to continue"); finding `f:<question id>:<tier>:<cause id>:<h(sorted failing component IDs)>` (outside-library: `h(normalised cause text)` replaces the cause ID); chain `ch:<sorted link IDs joined with +>`; LOPA `lopa:<target id>`; recommendation `rec:<finding or chain id>:<h(normalised action text)>`; evidence `ev:<target id>:<kind>:<source key>`; model call `mc:<cache key>`; tool call `tc:<agent step id>:<tool>:<h(arguments)>`; agent step `step:<h(previous step, agent, tool, arguments)>`; override `ov:<target id>:<h(action, new value, replaced override ID)>`. Events have no content ID: they are identified by (run ID, `seq`).
 
 **Record models** per the `PROJECT.md` §11 record table: Plant (with `status`), Run (with `label: {kind, recorded_at, cost_usd}` and the section snapshot), PlantFact, Section, Question, Finding (`cause_id` = a `causes.csv` ID or `outside_library`; `failing_component_type`; `failing_component_ids` = plant IDs, **never empty** (utility causes → utility ID; hose → line; operator → procedure step or planned job; external → location); `safeguard_ids`; adequacy; severity class with reason; confidence; not-credible reason), AgentStep, ModelCall, ToolCall, Chain (links are finding IDs or fact IDs), LopaRecord, Recommendation (action, reason, target finding or chain ID), Evidence, Override (`by` = display name), Event (`seq`, type, payload, time), SpendEntry (the ledger line in 0.3, with `use`).
 
@@ -352,15 +352,15 @@ Warnings (missing facts, shown in the UI as gaps, never filled in by code):
 **Acceptance (tests first)**
 - [ ] `example_mixing_unit.json` validates with no errors.
 - [ ] One test per error rule and per warning rule, each producing exactly that message with the offending ID.
-- [ ] Unit-suffix test passes, and fails when a bare numeric field is added to a model.
-- [ ] Question ID builders and parsers round-trip; `pair` IDs are the same whichever order the chemicals are given.
-- [ ] Two findings for the same question with different causes, or the same cause on different components, get different IDs.
+- [x] Unit-suffix test passes, and fails when a bare numeric field is added to a model.
+- [x] Question ID builders and parsers round-trip; `pair` IDs are the same whichever order the chemicals are given.
+- [x] Two findings for the same question with different causes, or the same cause on different components, get different IDs.
 - [ ] A finding with an empty `failing_component_ids` fails validation.
-- [ ] `eng:` and `rec:` IDs are pure functions of their inputs; the same action text on the same target gives the same `rec:` ID.
-- [ ] Two `check_coverage` calls with identical arguments at different agent steps get different tool call IDs.
-- [ ] Run IDs: identical inputs while a run is unfinished return that run; after cancelling it, starting again gives `…:2`.
-- [ ] Every ID builder is a pure function of its inputs: the same inputs give the same ID in two separate processes; `ch:` IDs are the same whichever order the links are given; a test fails if `ids.py` imports `random`, `uuid` or `itertools.count`, or reads the clock.
-- [ ] Round trip: load → dump → load gives an identical object.
+- [x] `eng:` and `rec:` IDs are pure functions of their inputs; the same action text on the same target gives the same `rec:` ID.
+- [x] Two `check_coverage` calls with identical arguments at different agent steps get different tool call IDs.
+- [x] Run IDs: identical inputs while a run is unfinished return that run; after cancelling it, starting again gives `…:2`.
+- [x] Every ID builder is a pure function of its inputs: the same inputs give the same ID in two separate processes; `ch:` IDs are the same whichever order the links are given; a test fails if `ids.py` imports `random`, `uuid` or `itertools.count`, or reads the clock.
+- [x] Round trip: load → dump → load gives an identical object.
 - [ ] Exported JSON Schemas match the models (test regenerates and compares).
 - [ ] Merged and frozen. Later changes only through a `contract/...` branch.
 
@@ -424,7 +424,7 @@ Warnings (missing facts, shown in the UI as gaps, never filled in by code):
 **Build**
 - FastAPI app in `backend/guideword/api/` with **every endpoint in `PROJECT.md` §11** (including `GET /plants`, `GET /runs`, `POST /runs/{id}/cancel`, `GET /runs/{id}/sections`, `GET /runs/{id}/questions`, `POST /runs/{id}/questions`, both JSON exports, and `POST /internal/runs/{id}/advance`), with request and response models from 0.5.
   - Without mock mode (`GUIDEWORD_MOCK=0`), every endpoint returns 501 with a body naming the phase that will build it; the contract documents this.
-  - `POST /runs`: `plant_id`, `spend_cap_usd`, `mode` (`full` | `sample`); returns 409 "sections not confirmed" when the plant's status is not `sections_confirmed`. `POST /runs/{id}/questions`: `section_id`, `text` (creates an `eng:` question, origin `engineer`, status open). `POST /runs/{id}/overrides`: `target_id`, `action`, `new_value`, `reason`, `by`.
+  - `POST /runs`: `plant_id`, `spend_cap_usd`, `mode` (`full` | `sample`); returns 409 "sections not confirmed" when the plant's status is not `sections_confirmed`, and 409 "cap reached; raise spend_cap_usd to continue" when a `stopped_cap` run with the same inputs is restarted without a higher `spend_cap_usd`. `POST /runs/{id}/questions`: `section_id`, `text` (creates an `eng:` question, origin `engineer`, status open). `POST /runs/{id}/overrides`: `target_id`, `action`, `new_value`, `reason`, `by`.
   - Every run-related response carries `label: {kind, recorded_at, cost_usd}`.
   - `POST /internal/runs/{id}/advance` requires an `X-Internal-Secret` header matching settings; in mock mode it returns 202 and does nothing.
   - `POST /runs/{id}/overrides` on a run whose `label.kind` is `recorded` returns 403 ("recorded run is read-only"). The public demo run is shared by every judge, so no visitor can change what the next one sees; the frontend keeps demo-mode accept/reject choices in the browser only. Mock runs accept overrides and echo them back without storing them.
