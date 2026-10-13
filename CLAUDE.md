@@ -66,6 +66,7 @@ No code is written for a phase until Bhargavi has approved a written plan for it
 - Never open, clone, list or read the `guideword-heldout` repository or anything under `bench/heldout/`. That repo is created and owned by the case writer; Bhargavi is invited only in Phase 6.
 - Never search the web for, open or summarise accident investigation reports (CSB, ARIA, eMARS or others) unless the task explicitly names a dev case (D–H) or the demo plants.
 - Never tune prompts, rules or reference tables against anything other than dev cases D–H and the demo plants.
+- **Dev-case survey and conversion:** read only `cases/dev/source/`, never `cases/dev/keys/`. Record what each package states, in the package's own words; never classify anything beyond what the package says (e.g. do not set `no_flow: dead_leg` unless the package says dead leg).
 - The precedent index is built by a script from report metadata; you do not read the reports to build it.
 
 ## 6. Environment (Windows, PowerShell)
