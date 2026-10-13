@@ -23,6 +23,23 @@
       "title": "Agent",
       "type": "string"
     },
+    "AgentTool": {
+      "enum": [
+        "check_coverage",
+        "dispatch_specialist",
+        "web_research",
+        "search_precedent",
+        "reactivity_lookup",
+        "physics_calc",
+        "propose_chains",
+        "run_lopa",
+        "run_simulation",
+        "finish",
+        "answer"
+      ],
+      "title": "AgentTool",
+      "type": "string"
+    },
     "BudgetUse": {
       "enum": [
         "development",
@@ -387,6 +404,16 @@
         "S5"
       ],
       "title": "SeverityClass",
+      "type": "string"
+    },
+    "Tier": {
+      "enum": [
+        "ultra",
+        "super",
+        "lightning",
+        "nano"
+      ],
+      "title": "Tier",
       "type": "string"
     },
     "UtilityKind": {

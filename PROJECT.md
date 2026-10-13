@@ -407,18 +407,18 @@ Sections are proposed and confirmed on the plant before any run. A run has two p
 | Record | Holds | Points back to |
 |---|---|---|
 | Plant | Plant file, status (uploaded / sections_proposed / sections_confirmed), confirmed section set | Its uploaded file |
-| Run | Plant, section snapshot, status, step, spend cap, spent, reference versions, routing config, label (live / recorded / mock) | Plant |
+| Run | Plant, section snapshot, status, step, spend cap, spent, reference versions, routing config, caps, prompt versions, mode, attempt, label (live / recorded / mock). The stored inputs rebuild the run ID exactly | Plant |
 | Plant fact | One fact about the plant, ID `<object id>.<field>` | Its source or "assumed" |
-| Section | Confirmed section, type, purpose | Plant facts; rule or suggestion that drew it |
-| Question | One check | Section, facts needed; origin tag |
-| Finding | Cause, failing component type and IDs (never empty), consequence, safeguard IDs, adequacy, severity class with reason, confidence, not-credible reason | Question; cause-library entry or "outside library"; plant IDs of the failing components |
+| Section | Confirmed section, type, purpose | Plant record; plant facts; rule or suggestion that drew it |
+| Question | One check; status; not-credible reason (a not-credible answer is a question status with its reason and needs no finding) | Run; section, facts needed; origin tag; the model call that marked it not credible or added it (`ai:`) |
+| Finding | Cause, failing component type and IDs (never empty), consequence, safeguard IDs, adequacy, severity class with reason, confidence, the tier that answered (ultra / super / lightning / nano) | Run; question; cause-library entry or "outside library"; plant IDs of the failing components |
 | Recommendation | Action, reason | Target finding or chain |
-| Agent step | Which agent, its decision, the tool it chose, a one-line reason | Run; previous step |
-| Model call | Model, prompt version, tokens, latency, cost, raw response | Record produced |
-| Tool call | Tool, arguments, result, sources | Finding or chain |
+| Agent step | Which agent, its decision, the tool it chose (a §5 tool name, or `answer`), a one-line reason | Run; previous step |
+| Model call | Model, prompt version, routing job, cache hit, outcome (ok / invalid / truncated / error), finish reason, tokens, latency, cost, raw response. Stored per (run ID, call ID): a cached response reused by another run is a second record with cache hit true and cost 0 | Run; record produced |
+| Tool call | Tool, arguments, result, sources, refused reason (when code refused the call) | Finding or chain |
 | Chain | Ordered links, multi-failure label | Finding IDs and plant fact IDs |
 | LOPA record | Initiating frequency, modifiers, layers credited or not with reasons, frequency, tolerable, gap | Finding or chain; reference table rows |
-| Evidence | Calculation, precedent or simulation result; verdict | Finding; tool call |
+| Evidence | Calculation, precedent or simulation result; verdict | Finding; tool call; plant fact IDs it used |
 | Override | Action, new value, reason, who (display name) and when | Any record |
 | Event | Sequence number, type, payload, time | Run |
 
@@ -455,7 +455,7 @@ Sections are proposed and confirmed on the plant before any run. A run has two p
 - **Event types:** run_started, step_started, step_finished, agent_decision, dispatch, model_call, tool_call, finding_added, chain_added, lopa_done, evidence_added, coverage_updated, cap_hit, run_finished, run_failed.
 
 ### Storage schema (Postgres; SQLite in development)
-`plants` (status uploaded / sections_proposed / sections_confirmed), `plant_facts`, `runs` (status, step, section snapshot, spend_cap_usd, spent_usd, reference_versions, routing_config, label), `sections`, `questions` (status open / answered / not_credible / failed), `findings`, `agent_steps`, `model_calls`, `tool_calls`, `chains`, `lopa_records`, `recommendations`, `evidence`, `overrides`, `events` (append-only: seq, run_id, type, payload), `response_cache`, `spend_ledger` (environment, phase, use, model or tool, tokens or searches, cost). Links are foreign keys; large payloads are JSON columns.
+`plants` (status uploaded / sections_proposed / sections_confirmed), `plant_facts`, `runs` (status, step, section snapshot, spend_cap_usd, spent_usd, reference_versions, routing_config, caps, prompt_versions, label), `sections`, `questions` (status open / answered / not_credible / failed, not_credible_reason), `findings`, `agent_steps`, `model_calls` (key: run_id + id), `tool_calls`, `chains`, `lopa_records`, `recommendations`, `evidence`, `overrides`, `events` (append-only: seq, run_id, type, payload), `response_cache`, `spend_ledger` (environment, phase, use, model or tool, tokens or searches, cost). Links are foreign keys; large payloads are JSON columns.
 
 ### API contract (frozen in Phase 0)
 

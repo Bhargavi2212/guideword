@@ -13,6 +13,24 @@
       ],
       "title": "Agent",
       "type": "string"
+    },
+    "AgentTool": {
+      "description": "The orchestrator tools in PROJECT.md §5, plus `answer` for a specialist's answer step.",
+      "enum": [
+        "check_coverage",
+        "dispatch_specialist",
+        "web_research",
+        "search_precedent",
+        "reactivity_lookup",
+        "physics_calc",
+        "propose_chains",
+        "run_lopa",
+        "run_simulation",
+        "finish",
+        "answer"
+      ],
+      "title": "AgentTool",
+      "type": "string"
     }
   },
   "additionalProperties": false,
@@ -54,8 +72,7 @@
       "type": "string"
     },
     "tool": {
-      "title": "Tool",
-      "type": "string"
+      "$ref": "#/$defs/AgentTool"
     }
   },
   "required": [

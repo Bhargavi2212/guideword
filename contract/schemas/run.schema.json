@@ -69,6 +69,11 @@
       "title": "Attempt",
       "type": "integer"
     },
+    "caps": {
+      "additionalProperties": true,
+      "title": "Caps",
+      "type": "object"
+    },
     "id": {
       "title": "Id",
       "type": "string"
@@ -87,6 +92,13 @@
     "plant_record_id": {
       "title": "Plant Record Id",
       "type": "string"
+    },
+    "prompt_versions": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "title": "Prompt Versions",
+      "type": "object"
     },
     "reference_versions": {
       "additionalProperties": {
@@ -139,6 +151,8 @@
     "spend_cap_usd",
     "reference_versions",
     "routing_config",
+    "caps",
+    "prompt_versions",
     "label"
   ],
   "title": "Run",

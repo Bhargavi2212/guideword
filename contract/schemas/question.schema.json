@@ -60,6 +60,30 @@
     "kind": {
       "$ref": "#/$defs/QuestionKind"
     },
+    "model_call_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Model Call Id"
+    },
+    "not_credible_reason": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Not Credible Reason"
+    },
     "origin": {
       "$ref": "#/$defs/QuestionOrigin"
     },

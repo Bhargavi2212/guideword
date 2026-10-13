@@ -21,6 +21,18 @@
       "title": "Record Ids",
       "type": "array"
     },
+    "refused_reason": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Refused Reason"
+    },
     "result": {
       "title": "Result"
     },

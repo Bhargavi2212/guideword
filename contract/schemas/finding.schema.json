@@ -50,6 +50,17 @@
       ],
       "title": "SeverityClass",
       "type": "string"
+    },
+    "Tier": {
+      "description": "Model tiers; config/routing.yaml maps jobs to these, the live model list to IDs.",
+      "enum": [
+        "ultra",
+        "super",
+        "lightning",
+        "nano"
+      ],
+      "title": "Tier",
+      "type": "string"
     }
   },
   "additionalProperties": false,
@@ -107,20 +118,12 @@
       "default": null,
       "title": "Model Call Id"
     },
-    "not_credible_reason": {
-      "anyOf": [
-        {
-          "type": "string"
-        },
-        {
-          "type": "null"
-        }
-      ],
-      "default": null,
-      "title": "Not Credible Reason"
-    },
     "question_id": {
       "title": "Question Id",
+      "type": "string"
+    },
+    "run_id": {
+      "title": "Run Id",
       "type": "string"
     },
     "safeguard_ids": {
@@ -154,12 +157,12 @@
       "title": "Severity Reason"
     },
     "tier": {
-      "title": "Tier",
-      "type": "string"
+      "$ref": "#/$defs/Tier"
     }
   },
   "required": [
     "id",
+    "run_id",
     "question_id",
     "tier",
     "cause_id",

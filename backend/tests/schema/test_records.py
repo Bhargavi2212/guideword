@@ -6,17 +6,29 @@ from typing import Any
 import pytest
 from pydantic import BaseModel, ValidationError
 
+from guideword.schema import ids
 from guideword.schema import records as r
+from guideword.schema.enums import RunStatus
 
 Q = "m:S-MX-1:more:temperature"
 F = f"f:{Q}:lightning:C01:0123456789abcdef"
-RUN = "run:0123456789abcdef"
+PLANT = "plant:example_mixing_unit:0123456789abcdef"
+RUN_INPUTS: dict[str, Any] = {
+    "plant_id": PLANT,
+    "section_snapshot": ["S-MX-1", "S-L-12"],
+    "reference_versions": {"causes.csv": "ab"},
+    "routing_config": {"orchestrator": "ultra"},
+    "caps": {"run_spend_cap_usd": 1.0, "orchestrator_max_steps": 60},
+    "prompt_versions": {"process": "v1"},
+    "mode": "full",
+}
+RUN = ids.run_id(RUN_INPUTS, [], spend_cap_usd=1.0)
 STEP = "step:0123456789abcdef"
 TS = "2026-10-13T12:00:00Z"
 
 SAMPLES: dict[type[BaseModel], dict[str, Any]] = {
     r.PlantRecord: {
-        "id": "plant:example_mixing_unit:0123456789abcdef",
+        "id": PLANT,
         "plant_id": "example_mixing_unit",
         "plant_file": {"plant_id": "example_mixing_unit", "schema_version": "1.0"},
         "status": "sections_confirmed",
@@ -24,7 +36,7 @@ SAMPLES: dict[type[BaseModel], dict[str, Any]] = {
     },
     r.Run: {
         "id": RUN,
-        "plant_record_id": "plant:example_mixing_unit:0123456789abcdef",
+        "plant_record_id": PLANT,
         "attempt": 1,
         "section_snapshot": ["S-MX-1", "S-L-12"],
         "status": "running",
@@ -34,6 +46,8 @@ SAMPLES: dict[type[BaseModel], dict[str, Any]] = {
         "spent_usd": 0.12,
         "reference_versions": {"causes.csv": "ab"},
         "routing_config": {"orchestrator": "ultra"},
+        "caps": {"run_spend_cap_usd": 1.0, "orchestrator_max_steps": 60},
+        "prompt_versions": {"process": "v1"},
         "label": {"kind": "mock", "recorded_at": None, "cost_usd": 0.0},
     },
     r.PlantFact: {
@@ -44,6 +58,7 @@ SAMPLES: dict[type[BaseModel], dict[str, Any]] = {
     },
     r.Section: {
         "id": "S-L-12~HV-12",
+        "plant_record_id": PLANT,
         "kind": "line",
         "section_type": "pipe",
         "name": "Tote to mixer",
@@ -63,6 +78,7 @@ SAMPLES: dict[type[BaseModel], dict[str, Any]] = {
     },
     r.Finding: {
         "id": F,
+        "run_id": RUN,
         "question_id": Q,
         "tier": "lightning",
         "cause_id": "C01",
@@ -89,6 +105,10 @@ SAMPLES: dict[type[BaseModel], dict[str, Any]] = {
         "run_id": RUN,
         "model_id": "nvidia/Nemotron-3_5-Lightning",
         "prompt_version": "process/v1",
+        "job": "specialist_bulk",
+        "cache_hit": False,
+        "outcome": "ok",
+        "finish_reason": "stop",
         "input_tokens": 1200,
         "output_tokens": 300,
         "latency_ms": 900,
@@ -146,6 +166,7 @@ SAMPLES: dict[type[BaseModel], dict[str, Any]] = {
         "kind": "calculation",
         "verdict": "confirmed",
         "summary": "Reaches design temperature in about 20 minutes",
+        "fact_ids": ["MX-1.volume_m3", "MX-1.operating.temperature.design_max"],
     },
     r.Override: {
         "id": f"ov:{F}:0123456789abcdef",
@@ -232,9 +253,147 @@ def test_outside_library_finding_needs_cause_text() -> None:
     assert r.Finding.model_validate(data).cause_text == "Agitator seized"
 
 
-def test_not_credible_finding_keeps_its_reason() -> None:
+def test_findings_no_longer_carry_not_credible_reasons() -> None:
     data = {**_sample(r.Finding), "not_credible_reason": "No heat source can reach this tank"}
-    assert r.Finding.model_validate(data).not_credible_reason
+    with pytest.raises(ValidationError):
+        r.Finding.model_validate(data)
+
+
+# --- review changes 2026-10-13 ------------------------------------------------------------
+
+
+def test_question_can_be_not_credible_with_a_reason_and_no_finding() -> None:
+    data = {
+        **_sample(r.Question),
+        "status": "not_credible",
+        "not_credible_reason": "No heat source can reach this tank",
+        "model_call_id": "mc:0123456789abcdef",
+    }
+    question = r.Question.model_validate(data)
+    assert question.status == "not_credible"
+    assert question.not_credible_reason == "No heat source can reach this tank"
+
+
+def test_not_credible_question_needs_its_reason() -> None:
+    with pytest.raises(ValidationError, match="reason"):
+        r.Question.model_validate({**_sample(r.Question), "status": "not_credible"})
+
+
+def test_ai_question_records_the_call_that_added_it() -> None:
+    data = {
+        **_sample(r.Question),
+        "id": ids.added_by_ai_question_id("S-MX-1", "Static from the tote"),
+        "kind": "added_by_ai",
+        "origin": "added_by_ai",
+        "model_call_id": "mc:0123456789abcdef",
+    }
+    assert r.Question.model_validate(data).model_call_id == "mc:0123456789abcdef"
+
+
+def test_finding_tier_is_a_tier() -> None:
+    assert r.Finding.model_validate(_sample(r.Finding)).tier == "lightning"
+    with pytest.raises(ValidationError):
+        r.Finding.model_validate({**_sample(r.Finding), "tier": "giant"})
+
+
+def test_finding_needs_its_run() -> None:
+    with pytest.raises(ValidationError):
+        r.Finding.model_validate({k: v for k, v in _sample(r.Finding).items() if k != "run_id"})
+
+
+def test_two_runs_sharing_one_cached_response_give_two_records() -> None:
+    other_inputs = {**RUN_INPUTS, "mode": "sample"}
+    other_run = ids.run_id(other_inputs, [], spend_cap_usd=1.0)
+    paid = r.ModelCall.model_validate(_sample(r.ModelCall))
+    cached = r.ModelCall.model_validate(
+        {**_sample(r.ModelCall), "run_id": other_run, "cache_hit": True, "cost_usd": 0.0}
+    )
+    assert paid.id == cached.id  # same cache key
+    assert {(paid.run_id, paid.id), (cached.run_id, cached.id)} == {
+        (RUN, paid.id),
+        (other_run, paid.id),
+    }
+    assert (paid.cache_hit, paid.cost_usd) == (False, 0.0001)
+    assert (cached.cache_hit, cached.cost_usd) == (True, 0.0)
+
+
+def test_cache_hit_costs_nothing() -> None:
+    with pytest.raises(ValidationError, match="cache"):
+        r.ModelCall.model_validate({**_sample(r.ModelCall), "cache_hit": True})
+
+
+def test_model_call_needs_its_run() -> None:
+    data = {k: v for k, v in _sample(r.ModelCall).items() if k != "run_id"}
+    with pytest.raises(ValidationError):
+        r.ModelCall.model_validate(data)
+
+
+@pytest.mark.parametrize("outcome", ["ok", "invalid", "truncated", "error"])
+def test_model_call_outcomes(outcome: str) -> None:
+    assert (
+        r.ModelCall.model_validate({**_sample(r.ModelCall), "outcome": outcome}).outcome == outcome
+    )
+
+
+def test_model_call_rejects_unknown_outcome() -> None:
+    with pytest.raises(ValidationError):
+        r.ModelCall.model_validate({**_sample(r.ModelCall), "outcome": "partial"})
+
+
+def test_run_id_rebuilt_from_stored_inputs_equals_its_id() -> None:
+    run = r.Run.model_validate(_sample(r.Run))
+    assert ids.run_id(run.inputs(), [], spend_cap_usd=run.spend_cap_usd) == run.id
+
+
+def test_later_attempt_id_rebuilt_from_stored_inputs() -> None:
+    attempt_2 = ids.run_id(RUN_INPUTS, [ids.Attempt(RunStatus.CANCELLED, 1.0)], spend_cap_usd=1.0)
+    run = r.Run.model_validate({**_sample(r.Run), "id": attempt_2, "attempt": 2})
+    assert run.id == f"{ids.run_id(run.inputs(), [], spend_cap_usd=1.0)}:2"
+
+
+@pytest.mark.parametrize(
+    "change",
+    [
+        {"mode": "sample"},
+        {"caps": {"run_spend_cap_usd": 2.0}},
+        {"prompt_versions": {"process": "v2"}},
+        {"attempt": 2},
+    ],
+)
+def test_run_id_must_match_its_stored_inputs(change: dict[str, Any]) -> None:
+    with pytest.raises(ValidationError, match="run ID"):
+        r.Run.model_validate({**_sample(r.Run), **change})
+
+
+def test_section_belongs_to_a_plant_record() -> None:
+    data = {k: v for k, v in _sample(r.Section).items() if k != "plant_record_id"}
+    with pytest.raises(ValidationError):
+        r.Section.model_validate(data)
+
+
+def test_refused_tool_call_keeps_its_reason() -> None:
+    data = {
+        **_sample(r.ToolCall),
+        "tool": "finish",
+        "result": None,
+        "refused_reason": "3 questions are still open",
+    }
+    assert r.ToolCall.model_validate(data).refused_reason == "3 questions are still open"
+
+
+@pytest.mark.parametrize("tool", ["check_coverage", "finish", "answer", "run_lopa"])
+def test_agent_step_tool_is_a_section_5_tool_or_answer(tool: str) -> None:
+    assert r.AgentStep.model_validate({**_sample(r.AgentStep), "tool": tool}).tool == tool
+
+
+def test_agent_step_rejects_unknown_tool() -> None:
+    with pytest.raises(ValidationError):
+        r.AgentStep.model_validate({**_sample(r.AgentStep), "tool": "delete_question"})
+
+
+def test_evidence_fact_ids_are_fact_ids() -> None:
+    with pytest.raises(ValidationError):
+        r.Evidence.model_validate({**_sample(r.Evidence), "fact_ids": ["MX-1"]})
 
 
 def test_chain_needs_two_links() -> None:

@@ -66,6 +66,10 @@
       "title": "Object Ids",
       "type": "array"
     },
+    "plant_record_id": {
+      "title": "Plant Record Id",
+      "type": "string"
+    },
     "purpose": {
       "anyOf": [
         {
@@ -103,6 +107,7 @@
   },
   "required": [
     "id",
+    "plant_record_id",
     "kind",
     "section_type",
     "name",

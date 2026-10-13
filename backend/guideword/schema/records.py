@@ -14,6 +14,7 @@ from guideword.schema import ids
 from guideword.schema.enums import (
     Adequacy,
     Agent,
+    AgentTool,
     BudgetUse,
     Confidence,
     Environment,
@@ -30,6 +31,7 @@ from guideword.schema.enums import (
     SectionKind,
     SectionType,
     SeverityClass,
+    Tier,
     Verdict,
 )
 from guideword.schema.plant import Plant
@@ -107,7 +109,29 @@ class Run(_Record):
     spent_usd: Annotated[float, Field(ge=0)] = 0.0
     reference_versions: dict[str, str]
     routing_config: dict[str, str]
+    caps: dict[str, Any]
+    prompt_versions: dict[str, str]
     label: RunLabel
+
+    def inputs(self) -> dict[str, object]:
+        """The stored inputs the run ID is built from (spend_cap_usd is not one of them)."""
+        return {
+            "plant_id": self.plant_record_id,
+            "section_snapshot": list(self.section_snapshot),
+            "reference_versions": dict(self.reference_versions),
+            "routing_config": dict(self.routing_config),
+            "caps": dict(self.caps),
+            "prompt_versions": dict(self.prompt_versions),
+            "mode": self.mode,
+        }
+
+    @model_validator(mode="after")
+    def _id_matches_inputs(self) -> "Run":
+        base = ids.run_id(self.inputs(), [], spend_cap_usd=self.spend_cap_usd)
+        expected = base if self.attempt == 1 else f"{base}:{self.attempt}"
+        if self.id != expected:
+            raise ValueError(f"run ID {self.id} does not match its stored inputs ({expected})")
+        return self
 
 
 class PlantFact(_Record):
@@ -120,6 +144,8 @@ class PlantFact(_Record):
 
 class Section(_Record):
     id: SectionId
+    # sections belong to the plant; a run keeps a snapshot of confirmed section IDs
+    plant_record_id: PlantRecordId
     kind: SectionKind
     # None for planned-work sections, which get only work: questions
     section_type: SectionType | None
@@ -141,12 +167,23 @@ class Question(_Record):
     text: str
     fact_ids: list[str] = Field(default_factory=list)
     attempts: Annotated[int, Field(ge=0)] = 0
+    # a not-credible answer is a question status with its reason, and needs no finding
+    not_credible_reason: str | None = None
+    # the call that marked it not credible, or that added an ai: question
+    model_call_id: str | None = None
+
+    @model_validator(mode="after")
+    def _not_credible_needs_reason(self) -> "Question":
+        if self.status == QuestionStatus.NOT_CREDIBLE and not self.not_credible_reason:
+            raise ValueError("a not_credible question needs its not_credible_reason")
+        return self
 
 
 class Finding(_Record):
     id: FindingId
+    run_id: RunId
     question_id: QuestionId
-    tier: str
+    tier: Tier
     # a causes.csv ID, or "outside_library" with cause_text
     cause_id: str
     cause_text: str | None = None
@@ -158,7 +195,6 @@ class Finding(_Record):
     severity_class: SeverityClass | None = None
     severity_reason: str | None = None
     confidence: Confidence
-    not_credible_reason: str | None = None
     model_call_id: str | None = None
 
     @model_validator(mode="after")
@@ -174,17 +210,24 @@ class AgentStep(_Record):
     # the previous step ID, or the run ID for the first step
     previous_id: str
     agent: Agent
-    tool: str
+    tool: AgentTool
     arguments: dict[str, Any]
     reason: str
     model_call_id: str | None = None
 
 
 class ModelCall(_Record):
+    """Stored per (run_id, id): a cached response reused by another run is a second record."""
+
     id: Annotated[str, _prefixed("mc:")]
-    run_id: RunId | None = None
+    run_id: RunId
     model_id: str
     prompt_version: str
+    # the routing job (config/routing.yaml) that made the call
+    job: str
+    cache_hit: bool
+    outcome: Literal["ok", "invalid", "truncated", "error"]
+    finish_reason: str | None = None
     input_tokens: Annotated[int, Field(ge=0)]
     output_tokens: Annotated[int, Field(ge=0)]
     latency_ms: Annotated[float, Field(ge=0)]
@@ -195,6 +238,12 @@ class ModelCall(_Record):
     reasoning_text: str | None = None
     record_ids: list[str] = Field(default_factory=list)
 
+    @model_validator(mode="after")
+    def _cache_hit_costs_nothing(self) -> "ModelCall":
+        if self.cache_hit and self.cost_usd != 0:
+            raise ValueError("a cache hit costs nothing: cost_usd must be 0")
+        return self
+
 
 class ToolCall(_Record):
     id: Annotated[str, _prefixed("tc:")]
@@ -203,6 +252,8 @@ class ToolCall(_Record):
     tool: str
     arguments: dict[str, Any]
     result: Any
+    # set when code refused the call (bad arguments, a cap, or finish with open questions)
+    refused_reason: str | None = None
     source_urls: list[str] = Field(default_factory=list)
     record_ids: list[str] = Field(default_factory=list)
 
@@ -281,6 +332,8 @@ class Evidence(_Record):
     verdict: Verdict
     summary: str
     tool_call_id: str | None = None
+    # plant facts a calculation used
+    fact_ids: list[FactId] = Field(default_factory=list)
     sources: list[str] = Field(default_factory=list)
 
 

@@ -21,6 +21,13 @@
   },
   "additionalProperties": false,
   "properties": {
+    "fact_ids": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Fact Ids",
+      "type": "array"
+    },
     "id": {
       "title": "Id",
       "type": "string"
