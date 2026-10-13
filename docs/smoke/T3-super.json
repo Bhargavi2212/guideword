@@ -1,0 +1,60 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "logprobs": null,
+      "message": {
+        "annotations": null,
+        "audio": null,
+        "content": "{\"verdict\": \"no\", \"reason\": \"Wetness is a property describing how a liquid adheres to a surface; water by itself does not have that property.\"}",
+        "function_call": null,
+        "reasoning": "We need to answer yes or no with short reason. The question: \"Is water wet?\" Typically, water is not considered wet; wetness is the condition of being covered or saturated with liquid. Water itself is not wet; it makes other things wet. So answer: No, because wetness describes a surface's interaction with liquid, and water alone isn't in contact with another substance.\n\nProvide short reason.",
+        "reasoning_content": "We need to answer yes or no with short reason. The question: \"Is water wet?\" Typically, water is not considered wet; wetness is the condition of being covered or saturated with liquid. Water itself is not wet; it makes other things wet. So answer: No, because wetness describes a surface's interaction with liquid, and water alone isn't in contact with another substance.\n\nProvide short reason.",
+        "refusal": null,
+        "role": "assistant",
+        "tool_calls": null
+      },
+      "routed_experts": null,
+      "stop_reason": null,
+      "token_ids": null
+    }
+  ],
+  "created": 1791894505,
+  "ec_transfer_params": null,
+  "id": "chatcmpl-b0f1efda0a7ce496",
+  "kv_transfer_params": null,
+  "metadata": null,
+  "metrics": null,
+  "model": "nvidia/nemotron-3-super-120b-a12b",
+  "moderation": null,
+  "object": "chat.completion",
+  "prompt_logprobs": null,
+  "prompt_text": null,
+  "prompt_token_ids": null,
+  "service_tier": null,
+  "system_fingerprint": "vllm-0.1.dev1+g5001743e3-dp2-9bbaa064",
+  "usage": {
+    "completion_tokens": 125,
+    "completion_tokens_details": {
+      "accepted_prediction_tokens": null,
+      "audio_tokens": null,
+      "reasoning_tokens": 84,
+      "rejected_prediction_tokens": null,
+      "text_tokens": null
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 30,
+    "prompt_tokens": 30,
+    "prompt_tokens_details": {
+      "audio_tokens": null,
+      "cache_write_tokens": null,
+      "cached_tokens": 0,
+      "created_cache_tokens": 0,
+      "image_tokens": null,
+      "multimodal_tokens": null,
+      "text_tokens": null
+    },
+    "total_tokens": 155
+  }
+}

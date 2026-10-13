@@ -1,0 +1,50 @@
+{
+  "choices": [
+    {
+      "finish_reason": "tool_calls",
+      "index": 0,
+      "logprobs": null,
+      "message": {
+        "annotations": null,
+        "audio": null,
+        "content": null,
+        "function_call": null,
+        "reasoning": "Okay, the user is asking about the unit used to measure pressure. They want me to use the lookup_unit tool. Let me check the available functions.\n\nThe lookup_unit function takes a \"name\" parameter, which is the quantity name. The user mentioned \"pressure\" as the quantity. So I should call lookup_unit with the name \"pressure\". \n\nWait, I need to make sure that the function is designed to return the unit for the given quantity. The description says it returns the measurement unit for a quantity name. So if I input \"pressure\", it should give the unit. \n\nBut I should check if \"pressure\" is a valid input. The parameters require a string, so that's fine. There's no mention of any other parameters or constraints. \n\nSo the correct step is to invoke lookup_unit with {\"name\": \"pressure\"}. Then, once I get the result, I can relay the unit back to the user. \n\nI don't see any other functions available, and the user specifically asked for this tool. So no need to use anything else. Let's proceed with the tool call.\n",
+        "refusal": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"name\": \"pressure\"}",
+              "name": "lookup_unit"
+            },
+            "id": "chatcmpl-tool-88bf88b8df53a260",
+            "type": "function"
+          }
+        ]
+      },
+      "routed_experts": null,
+      "stop_reason": null,
+      "token_ids": null
+    }
+  ],
+  "created": 1791894529,
+  "id": "chatcmpl-86f7b6a5-5308-4e34-a8a3-54e845465560",
+  "kv_transfer_params": null,
+  "metadata": null,
+  "model": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+  "moderation": null,
+  "object": "chat.completion",
+  "prompt_logprobs": null,
+  "prompt_text": null,
+  "prompt_token_ids": null,
+  "service_tier": null,
+  "system_fingerprint": "vllm-0.22.0-b08c96cd",
+  "usage": {
+    "completion_tokens": 255,
+    "completion_tokens_details": null,
+    "prompt_tokens": 285,
+    "prompt_tokens_details": null,
+    "total_tokens": 540
+  }
+}

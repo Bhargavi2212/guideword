@@ -1,0 +1,49 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "logprobs": null,
+      "message": {
+        "annotations": null,
+        "audio": null,
+        "content": "OK",
+        "function_call": null,
+        "reasoning": "Here's a thinking process:\n\n1.  **Analyze User Input:** The user said \"Reply with the word OK.\"\n2.  **Identify Task:** The task is simply to output the word \"OK\".\n3.  **Formulate Response:** Just output \"OK\". No extra text, no formatting, just the word.\n4.  **Check Constraints:** \"Reply with the word OK.\" - straightforward. I'll output exactly that.✅\n",
+        "reasoning_content": "Here's a thinking process:\n\n1.  **Analyze User Input:** The user said \"Reply with the word OK.\"\n2.  **Identify Task:** The task is simply to output the word \"OK\".\n3.  **Formulate Response:** Just output \"OK\". No extra text, no formatting, just the word.\n4.  **Check Constraints:** \"Reply with the word OK.\" - straightforward. I'll output exactly that.✅\n",
+        "refusal": null,
+        "role": "assistant",
+        "tool_calls": null
+      },
+      "stop_reason": null,
+      "token_ids": null
+    }
+  ],
+  "created": 1791894534,
+  "ec_transfer_params": null,
+  "id": "chatcmpl-9f5e7501",
+  "kv_transfer_params": null,
+  "metadata": null,
+  "model": "nvidia/Nemotron-3_5-Lightning",
+  "moderation": null,
+  "object": "chat.completion",
+  "prompt_logprobs": null,
+  "prompt_token_ids": null,
+  "service_tier": null,
+  "system_fingerprint": null,
+  "usage": {
+    "completion_tokens": 99,
+    "completion_tokens_details": {
+      "accepted_prediction_tokens": null,
+      "audio_tokens": null,
+      "reasoning_tokens": 96,
+      "rejected_prediction_tokens": null,
+      "text_tokens": null
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 22,
+    "prompt_tokens": 22,
+    "prompt_tokens_details": null,
+    "total_tokens": 121
+  }
+}

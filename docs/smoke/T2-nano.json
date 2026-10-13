@@ -1,0 +1,41 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "logprobs": null,
+      "message": {
+        "annotations": null,
+        "audio": null,
+        "content": "\nOK",
+        "function_call": null,
+        "reasoning": "Hmm, the user just asked me to reply with the word \"OK\". That's very straightforward. \n\nI wonder if they're testing if I follow simple instructions or just greeting me. Maybe they're new to chatting with AI and want to see if I can respond minimally. \n\nThe instruction is crystal clear - no need for extra words, just \"OK\". But I should make sure I don't overcomplicate it. \n\n*checks own response rules* Yep, the user said \"Reply with the word OK.\" So I'll just output exactly that. \n\nNo need to think about meaning or context here - it's a pure compliance test. Keeping it simple is best. \n\n*types \"OK\"* \n\nDone. That's exactly what they asked for.\n",
+        "refusal": null,
+        "role": "assistant",
+        "tool_calls": []
+      },
+      "routed_experts": null,
+      "stop_reason": null,
+      "token_ids": null
+    }
+  ],
+  "created": 1791894503,
+  "id": "chatcmpl-c1596130-9367-426a-8e30-3717c418747e",
+  "kv_transfer_params": null,
+  "metadata": null,
+  "model": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+  "moderation": null,
+  "object": "chat.completion",
+  "prompt_logprobs": null,
+  "prompt_text": null,
+  "prompt_token_ids": null,
+  "service_tier": null,
+  "system_fingerprint": "vllm-0.22.0-b08c96cd",
+  "usage": {
+    "completion_tokens": 166,
+    "completion_tokens_details": null,
+    "prompt_tokens": 22,
+    "prompt_tokens_details": null,
+    "total_tokens": 188
+  }
+}

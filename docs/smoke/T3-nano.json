@@ -1,0 +1,41 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "logprobs": null,
+      "message": {
+        "annotations": null,
+        "audio": null,
+        "content": "{\n  \"verdict\": \"no\",\n  \"reason\": \"Wetness describes how a surface feels when covered by liquid, not the nature of the liquid itself.\"\n}",
+        "function_call": null,
+        "reasoning": "User asks: \"Is water wet? Answer yes or no, with a short reason.\" Need to respond with \"yes\" or \"no\" and a short reason. Probably answer: \"Yes, because water makes surfaces wet.\" Or \"No, water itself is not wet; it makes other things wet.\" Which is more accurate? Philosophically, water is not wet; wetness is a description of a surface. So answer \"No, because wetness describes a sensation on a surface, not the liquid itself.\" Provide short reason. Must be yes or no with short reason. So answer: \"No – wetness is a property of objects that water makes, not of water itself.\" Provide short reason. That satisfies.\n",
+        "refusal": null,
+        "role": "assistant",
+        "tool_calls": []
+      },
+      "routed_experts": null,
+      "stop_reason": null,
+      "token_ids": null
+    }
+  ],
+  "created": 1791894511,
+  "id": "chatcmpl-43ceb32e-5b18-4575-8b6f-734dc7ce7f3b",
+  "kv_transfer_params": null,
+  "metadata": null,
+  "model": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+  "moderation": null,
+  "object": "chat.completion",
+  "prompt_logprobs": null,
+  "prompt_text": null,
+  "prompt_token_ids": null,
+  "service_tier": null,
+  "system_fingerprint": "vllm-0.22.0-b08c96cd",
+  "usage": {
+    "completion_tokens": 185,
+    "completion_tokens_details": null,
+    "prompt_tokens": 30,
+    "prompt_tokens_details": null,
+    "total_tokens": 215
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "logprobs": null,
+      "message": {
+        "annotations": null,
+        "audio": null,
+        "content": "{\"verdict\": \"no\", \"reason\": \"Wetness describes a surface covered by liquid; water itself is the liquid making other things wet, so it is not wet.\"}",
+        "function_call": null,
+        "reasoning": "We need to answer if water is wet. Provide JSON with verdict \"yes\" or \"no\". Reason max 200 chars.\n\nInterpretation: Wetness is property of being covered or saturated with liquid; water itself is not considered wet because it's the substance that makes things wet. So answer likely \"no\". Reason: Water is a liquid; wetness describes a solid surface in contact with liquid; water cannot be wet by definition.\n\nProvide JSON: {\"verdict\":\"no\",\"reason\":\"Wetness describes a surface covered by liquid; water itself is the liquid making other things wet, so it is not wet.\"} Ensure under 200 chars. Count: Let's count roughly: \"Wetness describes a surface covered by liquid; water itself is the liquid making other things wet, so it is not wet.\" That's about 108 characters. Good.\n\nReturn only JSON.",
+        "reasoning_content": "We need to answer if water is wet. Provide JSON with verdict \"yes\" or \"no\". Reason max 200 chars.\n\nInterpretation: Wetness is property of being covered or saturated with liquid; water itself is not considered wet because it's the substance that makes things wet. So answer likely \"no\". Reason: Water is a liquid; wetness describes a solid surface in contact with liquid; water cannot be wet by definition.\n\nProvide JSON: {\"verdict\":\"no\",\"reason\":\"Wetness describes a surface covered by liquid; water itself is the liquid making other things wet, so it is not wet.\"} Ensure under 200 chars. Count: Let's count roughly: \"Wetness describes a surface covered by liquid; water itself is the liquid making other things wet, so it is not wet.\" That's about 108 characters. Good.\n\nReturn only JSON.",
+        "refusal": null,
+        "role": "assistant",
+        "tool_calls": null
+      },
+      "routed_experts": null,
+      "stop_reason": null,
+      "token_ids": null
+    }
+  ],
+  "created": 1791894514,
+  "ec_transfer_params": null,
+  "id": "chatcmpl-bb4cfb5715a59e1c",
+  "kv_transfer_params": null,
+  "metadata": null,
+  "metrics": null,
+  "model": "nvidia/nemotron-3-super-120b-a12b",
+  "moderation": null,
+  "object": "chat.completion",
+  "prompt_logprobs": null,
+  "prompt_text": null,
+  "prompt_token_ids": null,
+  "service_tier": null,
+  "system_fingerprint": "vllm-0.1.dev1+g5001743e3-dp2-9bbaa064",
+  "usage": {
+    "completion_tokens": 227,
+    "completion_tokens_details": {
+      "accepted_prediction_tokens": null,
+      "audio_tokens": null,
+      "reasoning_tokens": 187,
+      "rejected_prediction_tokens": null,
+      "text_tokens": null
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 67,
+    "prompt_tokens": 67,
+    "prompt_tokens_details": {
+      "audio_tokens": null,
+      "cache_write_tokens": null,
+      "cached_tokens": 0,
+      "created_cache_tokens": 0,
+      "image_tokens": null,
+      "multimodal_tokens": null,
+      "text_tokens": null
+    },
+    "total_tokens": 294
+  }
+}

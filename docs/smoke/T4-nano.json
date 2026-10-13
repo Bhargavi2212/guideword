@@ -1,0 +1,41 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "logprobs": null,
+      "message": {
+        "annotations": null,
+        "audio": null,
+        "content": "{\n  \"verdict\": \"no\",\n  \"reason\": \"Water is a liquid that makes other things wet, but it itself isn’t described as wet.\"\n}",
+        "function_call": null,
+        "reasoning": "User asks: \"Is water wet? Answer yes or no, with a short reason. Reply with only a JSON object with two keys: \"verdict\" (\"yes\" or \"no\") and \"reason\" (a string of at most 200 characters).\"\n\nWe need to output JSON with verdict and reason. The question: Is water wet? Common answer: It's not wet; wetness is a description of something that is covered or saturated by liquid. Water itself is not wet; it makes other things wet. So verdict: no. Reason: Water is a liquid that makes other things wet but isn’t wet itself. Must be ≤200 characters. Provide \"no\" and reason <=200 chars. Provide only JSON.\n\nThus output:\n\n{\n  \"verdict\": \"no\",\n  \"reason\": \"Water is a liquid that makes other things wet, but it itself isn’t described as wet.\"\n}\n\nCheck length: Reason length count: \"Water is a liquid that makes other things wet, but it itself isn’t described as wet.\" That's 71 characters approx, well within 200. Good.\n\nMake sure no extra text.\n",
+        "refusal": null,
+        "role": "assistant",
+        "tool_calls": []
+      },
+      "routed_experts": null,
+      "stop_reason": null,
+      "token_ids": null
+    }
+  ],
+  "created": 1791894521,
+  "id": "chatcmpl-007f0605-e977-498f-b88c-a9a565491f08",
+  "kv_transfer_params": null,
+  "metadata": null,
+  "model": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+  "moderation": null,
+  "object": "chat.completion",
+  "prompt_logprobs": null,
+  "prompt_text": null,
+  "prompt_token_ids": null,
+  "service_tier": null,
+  "system_fingerprint": "vllm-0.22.0-b08c96cd",
+  "usage": {
+    "completion_tokens": 277,
+    "completion_tokens_details": null,
+    "prompt_tokens": 67,
+    "prompt_tokens_details": null,
+    "total_tokens": 344
+  }
+}
