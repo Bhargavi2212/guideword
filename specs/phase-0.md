@@ -407,6 +407,7 @@ Warnings (missing facts, shown in the UI as gaps, never filled in by code):
 **Build**
 - Bhargavi copies the kill-test #4 packages and answer keys from `C:\Users\bharg\Downloads\guideword_killtest4\killtest4` into `cases/dev/source/` and `cases/dev/keys/` (dev cases are not secret).
 - Claude Code converts the five packages (TPC Port Neches, Husky Superior, PCA DeRidder, AB Specialty Silicones, Didion Milling) into `cases/dev/case_d.json` … `case_h.json`, keeping their unrelated equipment.
+- **Read only `cases/dev/source/`, never `cases/dev/keys/`,** for both the pre-freeze survey and the conversion. Record what each package states, in the package's own words; never classify anything beyond what the package says (e.g. no `no_flow: dead_leg` unless the package says dead leg). Where the schema needs an enum value the package does not state, the field stays empty and the gap goes in the report.
 - **No invented facts.** A fact missing from the package stays missing (it shows as a validation warning). Claude Code may *propose* an assumed value only where a later phase needs it, and never writes one into a plant file on its own.
 - `cases/dev/conversion-report.md`, one section per case:
   1. **Proposed assumptions:** fact ID, proposed value, why it is needed, a checkbox. Only values Bhargavi ticks go into the file, with `"assumed"` in `provenance`.
