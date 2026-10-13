@@ -51,6 +51,25 @@ class MissingKey(RuntimeError):
     """A key is not set; names the setting, never a value."""
 
 
+class CallFailed(RuntimeError):
+    """The service rejected or failed the call. Nothing is recorded; nothing is retried."""
+
+    def __init__(self, message: str, status: int | None = None) -> None:
+        super().__init__(message)
+        self.status = status
+
+
+# Errors the Tavily client raises; OSError covers network failures from requests.
+TAVILY_ERRORS: tuple[type[Exception], ...] = (
+    tavily.errors.UsageLimitExceededError,
+    tavily.errors.BadRequestError,
+    tavily.errors.ForbiddenError,
+    tavily.errors.InvalidAPIKeyError,
+    tavily.errors.TimeoutError,
+    OSError,
+)
+
+
 @dataclass(frozen=True)
 class Estimate:
     input_tokens: int
@@ -58,7 +77,7 @@ class Estimate:
     cost_usd: float
 
 
-def _cost(prices: TierModel, input_tokens: int, output_tokens: int) -> float:
+def cost_usd(prices: TierModel, input_tokens: int, output_tokens: int) -> float:
     return (
         input_tokens * prices.input_usd_per_1m + output_tokens * prices.output_usd_per_1m
     ) / 1_000_000
@@ -79,7 +98,7 @@ def estimate_cost(
     for tool in tools or ():
         chars += len(json.dumps(tool, separators=(",", ":")))
     input_tokens = math.ceil(chars / CHARS_PER_TOKEN)
-    return Estimate(input_tokens, max_tokens, _cost(prices, input_tokens, max_tokens))
+    return Estimate(input_tokens, max_tokens, cost_usd(prices, input_tokens, max_tokens))
 
 
 class Ledger:
@@ -237,7 +256,15 @@ class LiveCaller:
             }
             if tools:
                 kwargs["tools"] = list(tools)
-            response = client.chat.completions.create(**kwargs)
+            try:
+                response = client.chat.completions.create(**kwargs)
+            except openai.APIStatusError as error:
+                raise CallFailed(
+                    f"{type(error).__name__}: status {error.status_code}: {error.message}",
+                    status=error.status_code,
+                ) from error
+            except openai.APIError as error:
+                raise CallFailed(f"{type(error).__name__}: {error.message}") from error
             usage = response.usage
             input_tokens = int(getattr(usage, "prompt_tokens", 0) or 0)
             output_tokens = int(getattr(usage, "completion_tokens", 0) or 0)
@@ -248,14 +275,22 @@ class LiveCaller:
                 model=model,
                 input_tokens=input_tokens,
                 output_tokens=output_tokens,
-                cost_usd=_cost(prices, input_tokens, output_tokens),
+                cost_usd=cost_usd(prices, input_tokens, output_tokens),
                 purpose=purpose,
             )
         return response
 
+    def model_list(self) -> list[dict[str, Any]]:
+        """GET /v1/models as returned (IDs and any prices or context lengths); free."""
+        try:
+            models = self._openai_client().models.list().data
+        except openai.APIError as error:
+            raise CallFailed(f"{type(error).__name__}: {error.message}") from error
+        return [dict(model.model_dump()) for model in models]
+
     def list_models(self) -> list[str]:
-        """GET /v1/models; free, so not recorded."""
-        return [model.id for model in self._openai_client().models.list().data]
+        """The live model IDs; free, so not recorded."""
+        return [str(entry["id"]) for entry in self.model_list()]
 
     def tavily_search(
         self,
@@ -270,7 +305,10 @@ class LiveCaller:
         client = self._tavily_client()
         known_use = self._use(use)
         with self._hold(phase, known_use, 0.0):
-            result = client.search(query=query, max_results=max_results)
+            try:
+                result = client.search(query=query, max_results=max_results)
+            except TAVILY_ERRORS as error:
+                raise CallFailed(f"Tavily {type(error).__name__}: {error}") from error
             self._record(
                 kind="tavily",
                 phase=phase,

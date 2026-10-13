@@ -42,9 +42,8 @@ class FakeOpenAI:
     def __init__(self) -> None:
         self.completions = FakeCompletions()
         self.chat = SimpleNamespace(completions=self.completions)
-        self.models = SimpleNamespace(
-            list=lambda: SimpleNamespace(data=[SimpleNamespace(id="nvidia/model-a")])
-        )
+        model = SimpleNamespace(id="nvidia/model-a", model_dump=lambda: {"id": "nvidia/model-a"})
+        self.models = SimpleNamespace(list=lambda: SimpleNamespace(data=[model]))
 
 
 class FakeTavily:
@@ -318,6 +317,34 @@ def test_opening_balance_is_not_phase_spend(caller: live_call.LiveCaller) -> Non
 def test_list_models_is_free(caller: live_call.LiveCaller, ledger_path: Path) -> None:
     assert caller.list_models() == ["nvidia/model-a"]
     assert _lines(ledger_path) == []
+
+
+def test_api_rejection_becomes_call_failed_with_no_ledger_line(
+    caller: live_call.LiveCaller, fake: FakeOpenAI, ledger_path: Path
+) -> None:
+    import httpx
+
+    # openai may be imported only by scripts/live_call.py (allow-list); use its module.
+    request = httpx.Request("POST", "https://api.tokenfactory.nebius.com/v1/chat/completions")
+    fake.completions.fail_with = live_call.openai.BadRequestError(
+        "response_format json_schema is not supported",
+        response=httpx.Response(400, request=request),
+        body=None,
+    )
+    with pytest.raises(live_call.CallFailed, match="400") as caught:
+        _chat(caller)
+    assert caught.value.status == 400
+    assert len(fake.completions.calls) == 1
+    assert _lines(ledger_path) == []
+
+
+def test_model_list_returns_raw_entries(caller: live_call.LiveCaller) -> None:
+    assert caller.model_list() == [{"id": "nvidia/model-a"}]
+
+
+def test_cost_usd_is_public(config: Config) -> None:
+    prices = config.models.tiers[Tier.SUPER]
+    assert live_call.cost_usd(prices, 1_000_000, 1_000_000) == pytest.approx(0.30 + 0.90)
 
 
 def test_default_openai_client_never_retries() -> None:
