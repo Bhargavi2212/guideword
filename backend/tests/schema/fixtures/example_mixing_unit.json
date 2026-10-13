@@ -30,9 +30,9 @@
   ],
   "lines": [
     {"id": "L-12", "from_id": "TOTE-1", "to_id": "MX-1", "components": ["P-1", "HV-12"],
-     "no_flow": "none", "contents": ["SIH"], "size_mm": 50, "normal_flow_kg_h": 2000},
+     "no_flow": [], "contents": ["SIH"], "size_mm": 50, "normal_flow_kg_h": 2000},
     {"id": "L-STM", "from_id": "UT-STEAM", "to_id": "MX-1", "components": ["XV-STM", "TV-1"],
-     "no_flow": "none", "size_mm": 25}
+     "no_flow": [], "size_mm": 25}
   ],
   "operating": [
     {"target_id": "MX-1", "parameter": "temperature", "normal": 25, "alarm_high": 50,

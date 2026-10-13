@@ -33,7 +33,8 @@ EXPECTED: list[tuple[type[StrEnum], set[str]]] = [
     (e.ValveKind, {"control", "block", "check", "manual", "relief_isolation"}),
     (e.ValvePosition, {"open", "closed"}),
     (e.FailPosition, {"open", "closed", "last"}),
-    (e.NoFlow, {"none", "normally_closed", "dead_leg", "standby", "startup_only"}),
+    # no_flow is a list; an empty list means flowing, so there is no "none" value.
+    (e.NoFlow, {"normally_closed", "dead_leg", "standby", "startup_only"}),
     (e.OperatingParameter, {"pressure", "temperature", "level", "flow"}),
     (e.ReliefKind, {"prv", "rupture_disk", "prv_with_disk", "vent"}),
     (e.DischargeKind, {"atmosphere", "flare", "scrubber", "vessel", "header"}),

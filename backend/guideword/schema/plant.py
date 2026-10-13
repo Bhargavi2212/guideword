@@ -5,6 +5,10 @@ carry the unit fixed by `parameter`. References between objects are plain string
 `schema/validate.py` checks that each points to an existing object of the right kind.
 `heat_sources`, `injection_points`, `discharge`, `vapor_pressure_points` and `operating`
 rows are value objects with no ID of their own (D10).
+
+Every plant object with an ID, and the plant itself, may carry `notes`: the source
+package's exact words, with the source. Code never parses notes; specialists receive the
+notes of the objects in their scope as data.
 """
 
 from datetime import datetime
@@ -32,21 +36,38 @@ from guideword.schema.enums import (
 from guideword.schema.ids import PLANT_ID_PATTERN
 
 PlantObjectId = Annotated[str, StringConstraints(pattern=PLANT_ID_PATTERN)]
+NonEmpty = Annotated[str, StringConstraints(min_length=1)]
 
 
 class _Strict(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
 
-class Location(_Strict):
+class Note(_Strict):
+    """The source package's exact words, never a paraphrase or comment."""
+
+    text: NonEmpty
+    source: NonEmpty
+
+
+class _PlantObject(_Strict):
+    """A plant object with an ID; it may carry notes."""
+
     id: PlantObjectId
+    notes: list[Note] = Field(default_factory=list)
+
+
+class Location(_PlantObject):
+    description: str | None = None
     occupied: bool | None = None
     ignition_sources: bool | None = None
     indoor: bool | None = None
+    # distance from the unit or area under study
+    distance_m: float | None = None
+    offsite: bool | None = None
 
 
-class Utility(_Strict):
-    id: PlantObjectId
+class Utility(_PlantObject):
     kind: UtilityKind
     location_id: str | None = None
 
@@ -57,8 +78,13 @@ class HeatSource(_Strict):
     isolating_valve_ids: list[str] = Field(default_factory=list)
 
 
-class Equipment(_Strict):
-    id: PlantObjectId
+class EquipmentInjectionPoint(_Strict):
+    """A chemical injected straight into the equipment."""
+
+    chemical_id: str
+
+
+class Equipment(_PlantObject):
     type: EquipmentType
     location_id: str | None = None
     contents: list[str] = Field(default_factory=list)
@@ -69,23 +95,21 @@ class Equipment(_Strict):
     heat_duty_kw: float | None = None
     dust_collection: bool | None = None
     heat_sources: list[HeatSource] = Field(default_factory=list)
+    injection_points: list[EquipmentInjectionPoint] = Field(default_factory=list)
 
 
-class Instrument(_Strict):
-    id: PlantObjectId
+class Instrument(_PlantObject):
     kind: InstrumentKind
     measures: HazopParameter | None = None
     on_id: str | None = None
     system: ControlSystem | None = None
 
 
-class LogicSolver(_Strict):
-    id: PlantObjectId
+class LogicSolver(_PlantObject):
     system: ControlSystem
 
 
-class Valve(_Strict):
-    id: PlantObjectId
+class Valve(_PlantObject):
     kind: ValveKind
     on_line_id: str | None = None
     normal_position: ValvePosition | None = None
@@ -98,12 +122,13 @@ class InjectionPoint(_Strict):
     at_component_id: str
 
 
-class Line(_Strict):
-    id: PlantObjectId
+class Line(_PlantObject):
+    # equipment, utility or location IDs; a location is an endpoint outside the study
     from_id: str
     to_id: str
     components: list[str] = Field(default_factory=list)
-    no_flow: NoFlow | None = None
+    # empty list = the line flows normally
+    no_flow: list[NoFlow] = Field(default_factory=list)
     is_hose: bool | None = None
     contents: list[str] = Field(default_factory=list)
     size_mm: float | None = None
@@ -130,8 +155,7 @@ class Operating(_Strict):
     trip_instrument_id: str | None = None
 
 
-class ControlLoop(_Strict):
-    id: PlantObjectId
+class ControlLoop(_PlantObject):
     sensor_id: str
     controller_id: str
     final_element_id: str
@@ -139,9 +163,11 @@ class ControlLoop(_Strict):
     acts_on_id: str | None = None
 
 
-class Safeguard(_Strict):
-    id: PlantObjectId
-    layer_type: str
+class Safeguard(_PlantObject):
+    """With no layer_type, it is existing protection for specialists and never gets LOPA credit."""
+
+    layer_type: str | None = None
+    description: str | None = None
     protects_id: str | None = None
     component_ids: list[str] = Field(default_factory=list)
 
@@ -152,8 +178,7 @@ class Discharge(_Strict):
     elevation_m: float | None = None
 
 
-class ReliefDevice(_Strict):
-    id: PlantObjectId
+class ReliefDevice(_PlantObject):
     protects_id: str
     kind: ReliefKind | None = None
     set_pressure_kpa: float | None = None
@@ -167,8 +192,7 @@ class VaporPressurePoint(_Strict):
     pressure_kpaa: float
 
 
-class Chemical(_Strict):
-    id: PlantObjectId
+class Chemical(_PlantObject):
     name: str
     epa_groups: list[int] = Field(default_factory=list)
     cameo_groups: list[int] = Field(default_factory=list)
@@ -183,24 +207,23 @@ class Chemical(_Strict):
     source: str | None = None
 
 
-class ProcedureStep(_Strict):
-    id: PlantObjectId
+class ProcedureStep(_PlantObject):
     text: str
     equipment_ids: list[str] = Field(default_factory=list)
     valve_ids: list[str] = Field(default_factory=list)
 
 
-class Procedure(_Strict):
-    id: PlantObjectId
+class Procedure(_PlantObject):
     kind: ProcedureKind
     steps: list[ProcedureStep]
 
 
-class PlannedWork(_Strict):
-    id: PlantObjectId
+class PlannedWork(_PlantObject):
     type: WorkType
     location_id: str | None = None
     equipment_ids: list[str] = Field(default_factory=list)
+    # lines the job works on or over; they join the job's "within reach" list
+    line_ids: list[str] = Field(default_factory=list)
     start: datetime | None = None
     end: datetime | None = None
     lifts_per_year: float | None = None
@@ -225,12 +248,15 @@ class Plant(_Strict):
     planned_work: list[PlannedWork] = Field(default_factory=list)
     # fact ID or object ID -> source reference or "assumed"
     provenance: dict[str, str] = Field(default_factory=dict)
+    notes: list[Note] = Field(default_factory=list)
 
 
 PLANT_MODELS: list[type[BaseModel]] = [
+    Note,
     Location,
     Utility,
     HeatSource,
+    EquipmentInjectionPoint,
     Equipment,
     Instrument,
     LogicSolver,
