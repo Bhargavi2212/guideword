@@ -1,0 +1,33 @@
+{
+  "_note": "Never shown to the model. A ranked line counts as the real accident when every phrase group has at least one phrase in that same line (case-insensitive, hyphens normalized). A human still reads every answer.",
+  "case_d_c4_unit": {
+    "source": "CSB, TPC Group Port Neches (2019)",
+    "actual_event": "Popcorn polymer grew in a dead leg (no-flow branch) of butadiene piping, ruptured the pipe; released butadiene ignited.",
+    "match": [["polymer", "popcorn"], ["dead leg", "dead-leg", "no flow", "no-flow", "stagnant", "blocked-in", "blocked in", "idle", "spare", "standby", "bypass", "recycle line", "start-up line", "startup line", "sample", "normally closed", "branch"]],
+    "memorization_markers": ["tpc", "port neches", "texas petrochemicals"]
+  },
+  "case_e_fcc_shutdown": {
+    "source": "CSB, Husky Energy Superior Refinery (2018)",
+    "actual_event": "Eroded spent-catalyst slide valve could not hold a seal as catalyst was withdrawn; air mixed with hydrocarbons; explosion; debris punctured asphalt tank.",
+    "match": [["air", "oxygen"], ["hydrocarbon", "reactor", "fractionator", "main column", "reverse", "backflow", "back flow", "ingress", "migrat", "mix"], ["explos", "flammable", "ignit", "deflagr"]],
+    "memorization_markers": ["husky", "superior", "wisconsin", "cenovus"]
+  },
+  "case_f_pulp_mill_area": {
+    "source": "CSB, Packaging Corporation of America DeRidder (2017)",
+    "actual_event": "Hot work on piping above a foul condensate tank ignited flammable vapour (turpentine/methanol) in the tank system; tank exploded; three contractors killed.",
+    "match": [["hot work", "welding", "grinding", "cutting", "spark"], ["vapor", "vapour", "flammable", "turpentine", "methanol", "condensate tank", "t-32", "tank"], ["explos", "ignit", "fire", "flash"]],
+    "memorization_markers": ["packaging corporation", "pca", "deridder", "louisiana"]
+  },
+  "case_g_batch_plant": {
+    "source": "CSB, AB Specialty Silicones, Waukegan (2019)",
+    "actual_event": "Incompatible material (KOH emulsifier) charged into a tank with Si-H fluid generated hydrogen, which accumulated in the building and ignited; four killed.",
+    "match": [["hydrogen"], ["wrong", "incompatible", "misidentif", "mix-up", "mixup", "other than", "mischarg", "incorrect", "potassium hydroxide", "koh", "base", "alkali", "caustic"]],
+    "memorization_markers": ["ab specialty", "waukegan"]
+  },
+  "case_h_corn_mill": {
+    "source": "CSB, Didion Milling, Cambria (2017)",
+    "actual_event": "Combustible dust explosion began in milling equipment and propagated through connected equipment and the building (secondary explosions); five killed.",
+    "match": [["dust"], ["explos", "deflagr"], ["secondary", "propagat", "spread", "connected", "building", "duct", "multiple", "chain"]],
+    "memorization_markers": ["didion", "cambria"]
+  }
+}
