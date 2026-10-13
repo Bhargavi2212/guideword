@@ -388,19 +388,19 @@ Warnings (missing facts, shown in the UI as gaps, never filled in by code):
 **Build** in `backend/guideword/reference/`: one Pydantic row model and loader per table; a `ReferenceSet` holding all tables; version hash per table = SHA-256 of the file bytes.
 
 **Acceptance (tests first)**
-- [ ] The header of every file equals the frozen header.
-- [ ] Every row has a non-empty `source`.
-- [ ] No file contains `\r` (keeps the hash identical on Windows and Linux).
-- [ ] `applicability`: no duplicate (section_type, guideword, parameter); every value in its enum; every section type has at least one row. Not listed = not applicable. The `procedure` rows are exactly the five procedure guidewords (`skipped`, `wrong`, `early`, `late`, `out_of_order`); the loader exposes them as the `proc:` guideword list.
-- [ ] `risk_matrix`: every (S1–S5, L1–L5) pair exactly once; rating in {low, medium, high, very_high}.
-- [ ] `protection_layers.relief_kind`: empty or a relief kind; each relief kind (prv, rupture_disk, prv_with_disk, vent) on exactly one row.
-- [ ] `causes`: unique IDs; `initiating_event_id` exists; `applies_to` values are section types or `planned_work`; `failing_component_type` in the enum.
-- [ ] Frequencies > 0; probabilities in (0, 1]; flag columns 0 or 1; `pfd_if_isolatable` empty or in (0, 1].
-- [ ] `initiating_events.unit` is one of `per_year`, `per_opportunity`, `per_metre_year`, `per_lift` (the four in the file). The loader exposes the unit; it never treats a non-`per_year` value as a yearly frequency. Converting those (C20 piping leak × `lines.length_m`; C24 crane drop × `planned_work.lifts_per_year`; missing fact = LOPA incomplete, never a default) is Phase 3 LOPA work.
-- [ ] Every severity class S1–S5 appears once in `severity_classes` and once in `tolerable_frequencies`; likelihood bands are contiguous and do not overlap. The lowest band starts at 0 and the highest band's empty `max_per_year` means "no upper limit".
-- [ ] `reactive_groups`: 41 rows; `do_not_mix` is 0 or 1. `reactive_pairs`: both groups exist; codes in {H, F, G, GT, GF, E, P, S, U}; each unordered pair at most once; no pair involves group 107 (it is covered by `do_not_mix`).
-- [ ] A pair missing from `reactive_pairs` is reported by the loader API as "not listed", never as "compatible" (the chart says blanks do not mean safe).
-- [ ] Version hash changes when a file changes.
+- [x] The header of every file equals the frozen header.
+- [x] Every row has a non-empty `source`.
+- [x] No file contains `\r` (keeps the hash identical on Windows and Linux).
+- [x] `applicability`: no duplicate (section_type, guideword, parameter); every value in its enum; every section type has at least one row. Not listed = not applicable. The `procedure` rows are exactly the five procedure guidewords (`skipped`, `wrong`, `early`, `late`, `out_of_order`); the loader exposes them as the `proc:` guideword list.
+- [x] `risk_matrix`: every (S1–S5, L1–L5) pair exactly once; rating in {low, medium, high, very_high}.
+- [x] `protection_layers.relief_kind`: empty or a relief kind; each relief kind (prv, rupture_disk, prv_with_disk, vent) on exactly one row.
+- [x] `causes`: unique IDs; `initiating_event_id` exists; `applies_to` values are section types or `planned_work`; `failing_component_type` in the enum.
+- [x] Frequencies > 0; probabilities in (0, 1]; flag columns 0 or 1; `pfd_if_isolatable` empty or in (0, 1].
+- [x] `initiating_events.unit` is one of `per_year`, `per_opportunity`, `per_metre_year`, `per_lift` (the four in the file). The loader exposes the unit; it never treats a non-`per_year` value as a yearly frequency. Converting those (C20 piping leak × `lines.length_m`; C24 crane drop × `planned_work.lifts_per_year`; missing fact = LOPA incomplete, never a default) is Phase 3 LOPA work.
+- [x] Every severity class S1–S5 appears once in `severity_classes` and once in `tolerable_frequencies`; likelihood bands are contiguous and do not overlap. The lowest band starts at 0 and the highest band's empty `max_per_year` means "no upper limit".
+- [x] `reactive_groups`: 41 rows; `do_not_mix` is 0 or 1. `reactive_pairs`: both groups exist; codes in {H, F, G, GT, GF, E, P, S, U}; each unordered pair at most once; no pair involves group 107 (it is covered by `do_not_mix`).
+- [x] A pair missing from `reactive_pairs` is reported by the loader API as "not listed", never as "compatible" (the chart says blanks do not mean safe).
+- [x] Version hash changes when a file changes.
 
 ## 0.7 Dev cases D–H as plant files
 
