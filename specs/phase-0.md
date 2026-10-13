@@ -147,8 +147,8 @@ Never in this repo before G3: held-out cases, held-out keys, the case writer bri
 
 **Acceptance**
 - [ ] The bootstrap commit is the only commit on `main` not made through a pull request: every later commit in `git log --first-parent main` ends with GitHub's `(#<PR number>)` suffix from the squash merge.
-- [ ] Every folder in the tree exists on `phase-0/scaffold`.
-- [ ] `git ls-files --eol` shows `i/lf` for every text file.
+- [x] Every folder in the tree exists on `phase-0/scaffold`.
+- [x] `git ls-files --eol` shows `i/lf` for every text file.
 
 ## 0.1 Tooling and CI
 
@@ -165,10 +165,10 @@ Never in this repo before G3: held-out cases, held-out keys, the case writer bri
 
 **Acceptance**
 - [ ] Fresh clone on Windows: `conda deactivate`, `py -3.12 -m venv .venv`, activate, `pip-sync backend/requirements.txt backend/requirements-dev.txt`, `pytest backend -q` passes.
-- [ ] `npm ci && npm run lint && npm run typecheck && npm test` passes in `frontend/` on Node 22.
-- [ ] A test proves a network call inside a test fails, and a second test proves an asyncio event loop still starts (loopback allowed).
-- [ ] Settings `repr` contains no key value (test).
-- [ ] The pre-commit hook refuses a commit on `main` (checked by hand once, noted in the PR).
+- [x] `npm ci && npm run lint && npm run typecheck && npm test` passes in `frontend/` on Node 22.
+- [x] A test proves a network call inside a test fails, and a second test proves an asyncio event loop still starts (loopback allowed).
+- [x] Settings `repr` contains no key value (test).
+- [x] The pre-commit hook refuses a commit on `main` (checked by hand once, noted in the PR).
 - [ ] CI green on the PR and on `main` after merge. Licence shown in the GitHub About panel.
 
 ## 0.2 Config
