@@ -1,0 +1,2 @@
+# scripts/ uses the same ruff rules as the package.
+extend = "../backend/pyproject.toml"

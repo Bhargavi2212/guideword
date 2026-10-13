@@ -1,0 +1,10 @@
+pydantic
+pydantic-settings
+fastapi
+uvicorn
+httpx
+openai
+sqlalchemy
+pyyaml
+openpyxl
+tavily-python

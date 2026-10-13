@@ -1,0 +1,43 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "guideword"
+version = "0.0.0"
+description = "AI HAZOP preparation: code-built question list, Nemotron agents, LOPA ranking."
+requires-python = ">=3.12,<3.13"
+license = { text = "Apache-2.0" }
+# Runtime dependencies are pinned in requirements.in / requirements.txt (pip-compile).
+dependencies = []
+
+[tool.setuptools.packages.find]
+include = ["guideword*"]
+
+[tool.setuptools.package-data]
+guideword = ["py.typed"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "SIM"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+plugins = ["pydantic.mypy"]
+# Lets `mypy scripts` (run from the repo root) resolve the guideword package.
+mypy_path = "$MYPY_CONFIG_FILE_DIR"
+
+[tool.pydantic-mypy]
+init_forbid_extra = true
+init_typed = true
+warn_required_dynamic_aliases = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+# scripts/ is not a package; tests import live_call, budget_status and smoke_test from it.
+pythonpath = ["../scripts"]
+addopts = "--import-mode=importlib"

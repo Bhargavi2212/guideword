@@ -138,7 +138,7 @@ questions (water, air, heat). Counts match the hand count for case G.
 - Run before every commit:
 
 ```powershell
-ruff format backend; ruff check backend; mypy backend/guideword; pytest backend -q
+ruff format backend scripts; ruff check backend scripts; mypy --config-file backend/pyproject.toml backend/guideword scripts; pytest backend -q
 cd frontend; npm run lint; npm run typecheck; npm test; cd ..
 ```
 
@@ -151,7 +151,7 @@ cd frontend; npm run lint; npm run typecheck; npm test; cd ..
 - `ruff` for format and lint, `mypy` on the package.
 - Small, pure functions where possible. Side effects (database, network) only at the edges.
 - No bare `except`. Catch specific errors, log with context, and either recover or re-raise.
-- Use the structured logger, never `print`.
+- Use the structured logger (`guideword/logs.py`: standard `logging`, JSON formatter), never `print`. The one exception is human-readable output from a CLI in `scripts/` (e.g. the budget table).
 - No global mutable state. Configuration comes from one settings object.
 
 ### TypeScript / React

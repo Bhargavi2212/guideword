@@ -35,5 +35,6 @@ frontend/dist/
 # editors and OS
 .vscode/
 .idea/
+.qodo/
 .DS_Store
 Thumbs.db

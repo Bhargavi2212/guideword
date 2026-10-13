@@ -1,0 +1,10 @@
+-c requirements.txt
+# the guideword package itself; compile and sync from the repo root
+-e ./backend
+pytest
+pytest-asyncio
+ruff
+mypy
+pip-tools
+respx
+types-PyYAML
