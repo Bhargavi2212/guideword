@@ -1,0 +1,69 @@
+{
+  "choices": [
+    {
+      "finish_reason": "tool_calls",
+      "index": 0,
+      "logprobs": null,
+      "message": {
+        "annotations": null,
+        "audio": null,
+        "content": null,
+        "function_call": null,
+        "reasoning": "We need to get unit for \"pressure\". Call lookup_unit with name \"pressure\".",
+        "reasoning_content": "We need to get unit for \"pressure\". Call lookup_unit with name \"pressure\".",
+        "refusal": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"name\": \"pressure\"}",
+              "name": "lookup_unit"
+            },
+            "id": "chatcmpl-tool-aff6010812e9a6ba",
+            "type": "function"
+          }
+        ]
+      },
+      "routed_experts": null,
+      "stop_reason": null,
+      "token_ids": null
+    }
+  ],
+  "created": 1791894526,
+  "ec_transfer_params": null,
+  "id": "chatcmpl-9791b0d75befe05a",
+  "kv_transfer_params": null,
+  "metadata": null,
+  "metrics": null,
+  "model": "nvidia/nemotron-3-super-120b-a12b",
+  "moderation": null,
+  "object": "chat.completion",
+  "prompt_logprobs": null,
+  "prompt_text": null,
+  "prompt_token_ids": null,
+  "service_tier": null,
+  "system_fingerprint": "vllm-0.1.dev1+g5001743e3-dp2-9bbaa064",
+  "usage": {
+    "completion_tokens": 43,
+    "completion_tokens_details": {
+      "accepted_prediction_tokens": null,
+      "audio_tokens": null,
+      "reasoning_tokens": 17,
+      "rejected_prediction_tokens": null,
+      "text_tokens": null
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 367,
+    "prompt_tokens": 367,
+    "prompt_tokens_details": {
+      "audio_tokens": null,
+      "cache_write_tokens": null,
+      "cached_tokens": 0,
+      "created_cache_tokens": 0,
+      "image_tokens": null,
+      "multimodal_tokens": null,
+      "text_tokens": null
+    },
+    "total_tokens": 410
+  }
+}
