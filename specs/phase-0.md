@@ -193,7 +193,7 @@ Never in this repo before G3: held-out cases, held-out keys, the case writer bri
   - live-call phase caps: `phase_caps_usd: {"0": 0.65}` (later specs add their phase).
 
 **Acceptance (tests first)**
-- [ ] Loaders reject: an unknown tier, a negative price, a job mapped to a missing tier, a fallback cycle, use allowances that do not sum to `GLOBAL_BUDGET_USD`, environment allowances that do not sum to it, a use whose environment is unknown, and use allowances per environment that do not sum to that environment's allowance.
+- [x] Loaders reject: an unknown tier, a negative price, a job mapped to a missing tier, a fallback cycle, use allowances that do not sum to `GLOBAL_BUDGET_USD`, environment allowances that do not sum to it, a use whose environment is unknown, and use allowances per environment that do not sum to that environment's allowance.
 
 ## 0.3 Live-call script and budget ledger
 
@@ -222,11 +222,11 @@ Never in this repo before G3: held-out cases, held-out keys, the case writer bri
 The allow-list is a constant in that test. Changing it is a stop-and-ask change.
 
 **Acceptance (tests first, fake client only)**
-- [ ] Cost estimate matches a hand-computed example.
-- [ ] A call over the phase cap, a call over its use's allowance, and a call over the laptop allowance are each refused before sending (the fake client records zero calls). A call without a `use` is refused.
-- [ ] The ledger is appended after success and not after failure; it never contains prompt text or a key (test checks the written line).
-- [ ] `budget_status` refuses "remaining" without an opening balance and reads the limit from settings.
-- [ ] The allow-list test passes, and fails when a forbidden import is added to a temp file.
+- [x] Cost estimate matches a hand-computed example.
+- [x] A call over the phase cap, a call over its use's allowance, and a call over the laptop allowance are each refused before sending (the fake client records zero calls). A call without a `use` is refused.
+- [x] The ledger is appended after success and not after failure; it never contains prompt text or a key (test checks the written line).
+- [x] `budget_status` refuses "remaining" without an opening balance and reads the limit from settings.
+- [x] The allow-list test passes, and fails when a forbidden import is added to a temp file.
 
 ## 0.4 Smoke test (written by Claude Code, run by Bhargavi)
 
