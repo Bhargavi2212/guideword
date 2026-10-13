@@ -1,0 +1,129 @@
+{
+  "$defs": {
+    "BudgetUse": {
+      "enum": [
+        "development",
+        "test_5",
+        "benchmark",
+        "video",
+        "demo_recording",
+        "judging",
+        "buffer"
+      ],
+      "title": "BudgetUse",
+      "type": "string"
+    },
+    "Environment": {
+      "enum": [
+        "laptop",
+        "hosted"
+      ],
+      "title": "Environment",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "One ledger line (budget/ledger.jsonl on the laptop, the spend_ledger table hosted).",
+  "properties": {
+    "cost_usd": {
+      "minimum": 0,
+      "title": "Cost Usd",
+      "type": "number"
+    },
+    "environment": {
+      "$ref": "#/$defs/Environment"
+    },
+    "input_tokens": {
+      "anyOf": [
+        {
+          "minimum": 0,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Input Tokens"
+    },
+    "kind": {
+      "enum": [
+        "model",
+        "tavily",
+        "opening_balance"
+      ],
+      "title": "Kind",
+      "type": "string"
+    },
+    "model": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Model"
+    },
+    "output_tokens": {
+      "anyOf": [
+        {
+          "minimum": 0,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Output Tokens"
+    },
+    "phase": {
+      "title": "Phase",
+      "type": "string"
+    },
+    "purpose": {
+      "title": "Purpose",
+      "type": "string"
+    },
+    "script": {
+      "title": "Script",
+      "type": "string"
+    },
+    "searches": {
+      "anyOf": [
+        {
+          "minimum": 0,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Searches"
+    },
+    "ts": {
+      "format": "date-time",
+      "title": "Ts",
+      "type": "string"
+    },
+    "use": {
+      "$ref": "#/$defs/BudgetUse"
+    }
+  },
+  "required": [
+    "ts",
+    "kind",
+    "environment",
+    "phase",
+    "use",
+    "cost_usd",
+    "script",
+    "purpose"
+  ],
+  "title": "SpendEntry",
+  "type": "object"
+}

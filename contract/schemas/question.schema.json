@@ -1,0 +1,100 @@
+{
+  "$defs": {
+    "QuestionKind": {
+      "enum": [
+        "matrix",
+        "chemical_pair",
+        "chemical_environment",
+        "no_flow_line",
+        "procedure_step",
+        "planned_work",
+        "dust",
+        "relief_discharge",
+        "added_by_ai",
+        "engineer"
+      ],
+      "title": "QuestionKind",
+      "type": "string"
+    },
+    "QuestionOrigin": {
+      "enum": [
+        "matrix",
+        "cross_list",
+        "added_by_ai",
+        "engineer"
+      ],
+      "title": "QuestionOrigin",
+      "type": "string"
+    },
+    "QuestionStatus": {
+      "description": "`answered` and `not_credible` count as checked. Unsure is a confidence, not a status.",
+      "enum": [
+        "open",
+        "answered",
+        "not_credible",
+        "failed"
+      ],
+      "title": "QuestionStatus",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "attempts": {
+      "default": 0,
+      "minimum": 0,
+      "title": "Attempts",
+      "type": "integer"
+    },
+    "fact_ids": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Fact Ids",
+      "type": "array"
+    },
+    "id": {
+      "title": "Id",
+      "type": "string"
+    },
+    "kind": {
+      "$ref": "#/$defs/QuestionKind"
+    },
+    "origin": {
+      "$ref": "#/$defs/QuestionOrigin"
+    },
+    "run_id": {
+      "title": "Run Id",
+      "type": "string"
+    },
+    "section_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Section Id"
+    },
+    "status": {
+      "$ref": "#/$defs/QuestionStatus"
+    },
+    "text": {
+      "title": "Text",
+      "type": "string"
+    }
+  },
+  "required": [
+    "id",
+    "run_id",
+    "kind",
+    "origin",
+    "status",
+    "text"
+  ],
+  "title": "Question",
+  "type": "object"
+}

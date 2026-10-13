@@ -1,0 +1,72 @@
+{
+  "$defs": {
+    "Agent": {
+      "enum": [
+        "orchestrator",
+        "process",
+        "chemistry",
+        "piping",
+        "procedures",
+        "maintenance",
+        "dust",
+        "connector"
+      ],
+      "title": "Agent",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "agent": {
+      "$ref": "#/$defs/Agent"
+    },
+    "arguments": {
+      "additionalProperties": true,
+      "title": "Arguments",
+      "type": "object"
+    },
+    "id": {
+      "title": "Id",
+      "type": "string"
+    },
+    "model_call_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Model Call Id"
+    },
+    "previous_id": {
+      "title": "Previous Id",
+      "type": "string"
+    },
+    "reason": {
+      "title": "Reason",
+      "type": "string"
+    },
+    "run_id": {
+      "title": "Run Id",
+      "type": "string"
+    },
+    "tool": {
+      "title": "Tool",
+      "type": "string"
+    }
+  },
+  "required": [
+    "id",
+    "run_id",
+    "previous_id",
+    "agent",
+    "tool",
+    "arguments",
+    "reason"
+  ],
+  "title": "AgentStep",
+  "type": "object"
+}

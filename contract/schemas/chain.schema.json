@@ -1,0 +1,63 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "description": {
+      "title": "Description",
+      "type": "string"
+    },
+    "flags": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Flags",
+      "type": "array"
+    },
+    "id": {
+      "title": "Id",
+      "type": "string"
+    },
+    "links": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 2,
+      "title": "Links",
+      "type": "array"
+    },
+    "model_call_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Model Call Id"
+    },
+    "multi_failure": {
+      "const": true,
+      "default": true,
+      "title": "Multi Failure",
+      "type": "boolean"
+    },
+    "reason": {
+      "title": "Reason",
+      "type": "string"
+    },
+    "run_id": {
+      "title": "Run Id",
+      "type": "string"
+    }
+  },
+  "required": [
+    "id",
+    "run_id",
+    "links",
+    "description",
+    "reason"
+  ],
+  "title": "Chain",
+  "type": "object"
+}

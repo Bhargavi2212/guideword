@@ -1,0 +1,114 @@
+{
+  "$defs": {
+    "SectionKind": {
+      "enum": [
+        "equipment",
+        "line",
+        "no_flow_line",
+        "procedure",
+        "planned_work"
+      ],
+      "title": "SectionKind",
+      "type": "string"
+    },
+    "SectionType": {
+      "description": "Applicability key: the equipment types, plus pipe and procedure.\n\nPlanned-work sections have no section type; they get only work: questions.",
+      "enum": [
+        "tank",
+        "vessel",
+        "column",
+        "reactor",
+        "heat_exchanger",
+        "pump",
+        "compressor",
+        "dryer",
+        "mixer",
+        "solids_handler",
+        "other",
+        "pipe",
+        "procedure"
+      ],
+      "title": "SectionType",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "drawn_by": {
+      "enum": [
+        "rule",
+        "suggestion",
+        "engineer"
+      ],
+      "title": "Drawn By",
+      "type": "string"
+    },
+    "flagged_no_flow": {
+      "default": false,
+      "title": "Flagged No Flow",
+      "type": "boolean"
+    },
+    "id": {
+      "title": "Id",
+      "type": "string"
+    },
+    "kind": {
+      "$ref": "#/$defs/SectionKind"
+    },
+    "name": {
+      "title": "Name",
+      "type": "string"
+    },
+    "object_ids": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Object Ids",
+      "type": "array"
+    },
+    "purpose": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Purpose"
+    },
+    "section_type": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/SectionType"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "suggestion_reason": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Suggestion Reason"
+    }
+  },
+  "required": [
+    "id",
+    "kind",
+    "section_type",
+    "name",
+    "object_ids",
+    "drawn_by"
+  ],
+  "title": "Section",
+  "type": "object"
+}

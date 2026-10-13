@@ -1,0 +1,445 @@
+{
+  "$defs": {
+    "Adequacy": {
+      "enum": [
+        "adequate",
+        "inadequate",
+        "unknown"
+      ],
+      "title": "Adequacy",
+      "type": "string"
+    },
+    "Agent": {
+      "enum": [
+        "orchestrator",
+        "process",
+        "chemistry",
+        "piping",
+        "procedures",
+        "maintenance",
+        "dust",
+        "connector"
+      ],
+      "title": "Agent",
+      "type": "string"
+    },
+    "BudgetUse": {
+      "enum": [
+        "development",
+        "test_5",
+        "benchmark",
+        "video",
+        "demo_recording",
+        "judging",
+        "buffer"
+      ],
+      "title": "BudgetUse",
+      "type": "string"
+    },
+    "Confidence": {
+      "enum": [
+        "sure",
+        "unsure"
+      ],
+      "title": "Confidence",
+      "type": "string"
+    },
+    "ControlSystem": {
+      "enum": [
+        "bpcs",
+        "sis",
+        "standalone"
+      ],
+      "title": "ControlSystem",
+      "type": "string"
+    },
+    "DischargeKind": {
+      "enum": [
+        "atmosphere",
+        "flare",
+        "scrubber",
+        "vessel",
+        "header"
+      ],
+      "title": "DischargeKind",
+      "type": "string"
+    },
+    "Environment": {
+      "enum": [
+        "laptop",
+        "hosted"
+      ],
+      "title": "Environment",
+      "type": "string"
+    },
+    "EquipmentType": {
+      "enum": [
+        "tank",
+        "vessel",
+        "column",
+        "reactor",
+        "heat_exchanger",
+        "pump",
+        "compressor",
+        "dryer",
+        "mixer",
+        "solids_handler",
+        "other"
+      ],
+      "title": "EquipmentType",
+      "type": "string"
+    },
+    "EventType": {
+      "enum": [
+        "run_started",
+        "step_started",
+        "step_finished",
+        "agent_decision",
+        "dispatch",
+        "model_call",
+        "tool_call",
+        "finding_added",
+        "chain_added",
+        "lopa_done",
+        "evidence_added",
+        "coverage_updated",
+        "cap_hit",
+        "run_finished",
+        "run_failed"
+      ],
+      "title": "EventType",
+      "type": "string"
+    },
+    "EvidenceKind": {
+      "enum": [
+        "calculation",
+        "precedent",
+        "simulation"
+      ],
+      "title": "EvidenceKind",
+      "type": "string"
+    },
+    "FailPosition": {
+      "enum": [
+        "open",
+        "closed",
+        "last"
+      ],
+      "title": "FailPosition",
+      "type": "string"
+    },
+    "FailingComponentType": {
+      "enum": [
+        "control_loop",
+        "pump",
+        "compressor",
+        "check_valve",
+        "regulator",
+        "relief_device",
+        "exchanger_tube",
+        "interlock",
+        "operator",
+        "hose",
+        "pipe",
+        "tank",
+        "external",
+        "solids_handler",
+        "utility_cooling",
+        "utility_power"
+      ],
+      "title": "FailingComponentType",
+      "type": "string"
+    },
+    "Guideword": {
+      "enum": [
+        "no",
+        "more",
+        "less",
+        "reverse",
+        "other_than",
+        "as_well_as",
+        "part_of",
+        "early",
+        "late",
+        "before",
+        "after",
+        "skipped",
+        "wrong",
+        "out_of_order"
+      ],
+      "title": "Guideword",
+      "type": "string"
+    },
+    "HazopParameter": {
+      "enum": [
+        "flow",
+        "pressure",
+        "temperature",
+        "level",
+        "composition",
+        "reaction",
+        "mixing",
+        "phase",
+        "time"
+      ],
+      "title": "HazopParameter",
+      "type": "string"
+    },
+    "InstrumentKind": {
+      "enum": [
+        "sensor",
+        "switch",
+        "analyser"
+      ],
+      "title": "InstrumentKind",
+      "type": "string"
+    },
+    "LikelihoodClass": {
+      "enum": [
+        "L1",
+        "L2",
+        "L3",
+        "L4",
+        "L5"
+      ],
+      "title": "LikelihoodClass",
+      "type": "string"
+    },
+    "NoFlow": {
+      "enum": [
+        "normally_closed",
+        "dead_leg",
+        "standby",
+        "startup_only"
+      ],
+      "title": "NoFlow",
+      "type": "string"
+    },
+    "OperatingParameter": {
+      "enum": [
+        "pressure",
+        "temperature",
+        "level",
+        "flow"
+      ],
+      "title": "OperatingParameter",
+      "type": "string"
+    },
+    "OverrideAction": {
+      "enum": [
+        "accept",
+        "reject",
+        "edit",
+        "change_credit",
+        "change_severity",
+        "answer"
+      ],
+      "title": "OverrideAction",
+      "type": "string"
+    },
+    "PhysicalForm": {
+      "enum": [
+        "gas",
+        "liquid",
+        "solid",
+        "dust"
+      ],
+      "title": "PhysicalForm",
+      "type": "string"
+    },
+    "PlantStatus": {
+      "enum": [
+        "uploaded",
+        "sections_proposed",
+        "sections_confirmed"
+      ],
+      "title": "PlantStatus",
+      "type": "string"
+    },
+    "ProcedureKind": {
+      "enum": [
+        "start_up",
+        "shutdown",
+        "charging",
+        "transfer",
+        "cleaning",
+        "maintenance",
+        "emergency",
+        "other"
+      ],
+      "title": "ProcedureKind",
+      "type": "string"
+    },
+    "QuestionKind": {
+      "enum": [
+        "matrix",
+        "chemical_pair",
+        "chemical_environment",
+        "no_flow_line",
+        "procedure_step",
+        "planned_work",
+        "dust",
+        "relief_discharge",
+        "added_by_ai",
+        "engineer"
+      ],
+      "title": "QuestionKind",
+      "type": "string"
+    },
+    "QuestionOrigin": {
+      "enum": [
+        "matrix",
+        "cross_list",
+        "added_by_ai",
+        "engineer"
+      ],
+      "title": "QuestionOrigin",
+      "type": "string"
+    },
+    "QuestionStatus": {
+      "enum": [
+        "open",
+        "answered",
+        "not_credible",
+        "failed"
+      ],
+      "title": "QuestionStatus",
+      "type": "string"
+    },
+    "ReliefKind": {
+      "enum": [
+        "prv",
+        "rupture_disk",
+        "prv_with_disk",
+        "vent"
+      ],
+      "title": "ReliefKind",
+      "type": "string"
+    },
+    "RiskRating": {
+      "enum": [
+        "low",
+        "medium",
+        "high",
+        "very_high"
+      ],
+      "title": "RiskRating",
+      "type": "string"
+    },
+    "RunLabelKind": {
+      "enum": [
+        "live",
+        "recorded",
+        "mock"
+      ],
+      "title": "RunLabelKind",
+      "type": "string"
+    },
+    "RunStatus": {
+      "enum": [
+        "draft",
+        "running",
+        "finished",
+        "stopped_cap",
+        "stopped_budget",
+        "failed",
+        "cancelled"
+      ],
+      "title": "RunStatus",
+      "type": "string"
+    },
+    "SectionKind": {
+      "enum": [
+        "equipment",
+        "line",
+        "no_flow_line",
+        "procedure",
+        "planned_work"
+      ],
+      "title": "SectionKind",
+      "type": "string"
+    },
+    "SectionType": {
+      "enum": [
+        "tank",
+        "vessel",
+        "column",
+        "reactor",
+        "heat_exchanger",
+        "pump",
+        "compressor",
+        "dryer",
+        "mixer",
+        "solids_handler",
+        "other",
+        "pipe",
+        "procedure"
+      ],
+      "title": "SectionType",
+      "type": "string"
+    },
+    "SeverityClass": {
+      "enum": [
+        "S1",
+        "S2",
+        "S3",
+        "S4",
+        "S5"
+      ],
+      "title": "SeverityClass",
+      "type": "string"
+    },
+    "UtilityKind": {
+      "enum": [
+        "steam",
+        "cooling_water",
+        "nitrogen",
+        "instrument_air",
+        "power",
+        "other"
+      ],
+      "title": "UtilityKind",
+      "type": "string"
+    },
+    "ValveKind": {
+      "enum": [
+        "control",
+        "block",
+        "check",
+        "manual",
+        "relief_isolation"
+      ],
+      "title": "ValveKind",
+      "type": "string"
+    },
+    "ValvePosition": {
+      "enum": [
+        "open",
+        "closed"
+      ],
+      "title": "ValvePosition",
+      "type": "string"
+    },
+    "Verdict": {
+      "enum": [
+        "confirmed",
+        "contradicted",
+        "none"
+      ],
+      "title": "Verdict",
+      "type": "string"
+    },
+    "WorkType": {
+      "enum": [
+        "hot_work",
+        "confined_space",
+        "line_break",
+        "lifting",
+        "other"
+      ],
+      "title": "WorkType",
+      "type": "string"
+    }
+  },
+  "title": "Guideword enums"
+}

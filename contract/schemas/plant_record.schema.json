@@ -1,0 +1,1676 @@
+{
+  "$defs": {
+    "Chemical": {
+      "additionalProperties": false,
+      "properties": {
+        "boiling_point_c": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Boiling Point C"
+        },
+        "cameo_groups": {
+          "items": {
+            "type": "integer"
+          },
+          "title": "Cameo Groups",
+          "type": "array"
+        },
+        "combustible_dust": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Combustible Dust"
+        },
+        "density_kg_m3": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Density Kg M3"
+        },
+        "epa_groups": {
+          "items": {
+            "type": "integer"
+          },
+          "title": "Epa Groups",
+          "type": "array"
+        },
+        "flash_point_c": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Flash Point C"
+        },
+        "heat_capacity_kj_kg_k": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Heat Capacity Kj Kg K"
+        },
+        "heat_of_reaction_kj_kg": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Heat Of Reaction Kj Kg"
+        },
+        "id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_-]*$",
+          "title": "Id",
+          "type": "string"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "notes": {
+          "items": {
+            "$ref": "#/$defs/Note"
+          },
+          "title": "Notes",
+          "type": "array"
+        },
+        "physical_form": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/PhysicalForm"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "source": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source"
+        },
+        "vapor_pressure_points": {
+          "items": {
+            "$ref": "#/$defs/VaporPressurePoint"
+          },
+          "title": "Vapor Pressure Points",
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "name"
+      ],
+      "title": "Chemical",
+      "type": "object"
+    },
+    "ControlLoop": {
+      "additionalProperties": false,
+      "properties": {
+        "acts_on_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Acts On Id"
+        },
+        "controller_id": {
+          "title": "Controller Id",
+          "type": "string"
+        },
+        "final_element_id": {
+          "title": "Final Element Id",
+          "type": "string"
+        },
+        "id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_-]*$",
+          "title": "Id",
+          "type": "string"
+        },
+        "notes": {
+          "items": {
+            "$ref": "#/$defs/Note"
+          },
+          "title": "Notes",
+          "type": "array"
+        },
+        "sensor_id": {
+          "title": "Sensor Id",
+          "type": "string"
+        },
+        "system": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ControlSystem"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "id",
+        "sensor_id",
+        "controller_id",
+        "final_element_id"
+      ],
+      "title": "ControlLoop",
+      "type": "object"
+    },
+    "ControlSystem": {
+      "enum": [
+        "bpcs",
+        "sis",
+        "standalone"
+      ],
+      "title": "ControlSystem",
+      "type": "string"
+    },
+    "Discharge": {
+      "additionalProperties": false,
+      "properties": {
+        "elevation_m": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Elevation M"
+        },
+        "kind": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/DischargeKind"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "location_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Location Id"
+        }
+      },
+      "title": "Discharge",
+      "type": "object"
+    },
+    "DischargeKind": {
+      "enum": [
+        "atmosphere",
+        "flare",
+        "scrubber",
+        "vessel",
+        "header"
+      ],
+      "title": "DischargeKind",
+      "type": "string"
+    },
+    "Equipment": {
+      "additionalProperties": false,
+      "properties": {
+        "contents": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Contents",
+          "type": "array"
+        },
+        "design_pressure_kpa": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Design Pressure Kpa"
+        },
+        "design_temp_c": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Design Temp C"
+        },
+        "dust_collection": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Dust Collection"
+        },
+        "heat_duty_kw": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Heat Duty Kw"
+        },
+        "heat_sources": {
+          "items": {
+            "$ref": "#/$defs/HeatSource"
+          },
+          "title": "Heat Sources",
+          "type": "array"
+        },
+        "id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_-]*$",
+          "title": "Id",
+          "type": "string"
+        },
+        "injection_points": {
+          "items": {
+            "$ref": "#/$defs/EquipmentInjectionPoint"
+          },
+          "title": "Injection Points",
+          "type": "array"
+        },
+        "location_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Location Id"
+        },
+        "max_surface_temp_c": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Max Surface Temp C"
+        },
+        "notes": {
+          "items": {
+            "$ref": "#/$defs/Note"
+          },
+          "title": "Notes",
+          "type": "array"
+        },
+        "type": {
+          "$ref": "#/$defs/EquipmentType"
+        },
+        "volume_m3": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Volume M3"
+        }
+      },
+      "required": [
+        "id",
+        "type"
+      ],
+      "title": "Equipment",
+      "type": "object"
+    },
+    "EquipmentInjectionPoint": {
+      "additionalProperties": false,
+      "description": "A chemical injected straight into the equipment.",
+      "properties": {
+        "chemical_id": {
+          "title": "Chemical Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "chemical_id"
+      ],
+      "title": "EquipmentInjectionPoint",
+      "type": "object"
+    },
+    "EquipmentType": {
+      "enum": [
+        "tank",
+        "vessel",
+        "column",
+        "reactor",
+        "heat_exchanger",
+        "pump",
+        "compressor",
+        "dryer",
+        "mixer",
+        "solids_handler",
+        "other"
+      ],
+      "title": "EquipmentType",
+      "type": "string"
+    },
+    "FailPosition": {
+      "enum": [
+        "open",
+        "closed",
+        "last"
+      ],
+      "title": "FailPosition",
+      "type": "string"
+    },
+    "HazopParameter": {
+      "enum": [
+        "flow",
+        "pressure",
+        "temperature",
+        "level",
+        "composition",
+        "reaction",
+        "mixing",
+        "phase",
+        "time"
+      ],
+      "title": "HazopParameter",
+      "type": "string"
+    },
+    "HeatSource": {
+      "additionalProperties": false,
+      "properties": {
+        "isolating_valve_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Isolating Valve Ids",
+          "type": "array"
+        },
+        "medium": {
+          "title": "Medium",
+          "type": "string"
+        },
+        "via_line_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Via Line Id"
+        }
+      },
+      "required": [
+        "medium"
+      ],
+      "title": "HeatSource",
+      "type": "object"
+    },
+    "InjectionPoint": {
+      "additionalProperties": false,
+      "properties": {
+        "at_component_id": {
+          "title": "At Component Id",
+          "type": "string"
+        },
+        "chemical_id": {
+          "title": "Chemical Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "chemical_id",
+        "at_component_id"
+      ],
+      "title": "InjectionPoint",
+      "type": "object"
+    },
+    "Instrument": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_-]*$",
+          "title": "Id",
+          "type": "string"
+        },
+        "kind": {
+          "$ref": "#/$defs/InstrumentKind"
+        },
+        "measures": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/HazopParameter"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "notes": {
+          "items": {
+            "$ref": "#/$defs/Note"
+          },
+          "title": "Notes",
+          "type": "array"
+        },
+        "on_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "On Id"
+        },
+        "system": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ControlSystem"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "id",
+        "kind"
+      ],
+      "title": "Instrument",
+      "type": "object"
+    },
+    "InstrumentKind": {
+      "enum": [
+        "sensor",
+        "switch",
+        "analyser"
+      ],
+      "title": "InstrumentKind",
+      "type": "string"
+    },
+    "Line": {
+      "additionalProperties": false,
+      "properties": {
+        "components": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Components",
+          "type": "array"
+        },
+        "contents": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Contents",
+          "type": "array"
+        },
+        "design_flow_kg_h": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Design Flow Kg H"
+        },
+        "from_id": {
+          "title": "From Id",
+          "type": "string"
+        },
+        "id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_-]*$",
+          "title": "Id",
+          "type": "string"
+        },
+        "injection_points": {
+          "items": {
+            "$ref": "#/$defs/InjectionPoint"
+          },
+          "title": "Injection Points",
+          "type": "array"
+        },
+        "is_hose": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Is Hose"
+        },
+        "length_m": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Length M"
+        },
+        "no_flow": {
+          "items": {
+            "$ref": "#/$defs/NoFlow"
+          },
+          "title": "No Flow",
+          "type": "array"
+        },
+        "normal_flow_kg_h": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Normal Flow Kg H"
+        },
+        "notes": {
+          "items": {
+            "$ref": "#/$defs/Note"
+          },
+          "title": "Notes",
+          "type": "array"
+        },
+        "size_mm": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Size Mm"
+        },
+        "to_id": {
+          "title": "To Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "from_id",
+        "to_id"
+      ],
+      "title": "Line",
+      "type": "object"
+    },
+    "Location": {
+      "additionalProperties": false,
+      "properties": {
+        "description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Description"
+        },
+        "distance_m": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Distance M"
+        },
+        "id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_-]*$",
+          "title": "Id",
+          "type": "string"
+        },
+        "ignition_sources": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Ignition Sources"
+        },
+        "indoor": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Indoor"
+        },
+        "notes": {
+          "items": {
+            "$ref": "#/$defs/Note"
+          },
+          "title": "Notes",
+          "type": "array"
+        },
+        "occupied": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Occupied"
+        },
+        "offsite": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Offsite"
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "title": "Location",
+      "type": "object"
+    },
+    "LogicSolver": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_-]*$",
+          "title": "Id",
+          "type": "string"
+        },
+        "notes": {
+          "items": {
+            "$ref": "#/$defs/Note"
+          },
+          "title": "Notes",
+          "type": "array"
+        },
+        "system": {
+          "$ref": "#/$defs/ControlSystem"
+        }
+      },
+      "required": [
+        "id",
+        "system"
+      ],
+      "title": "LogicSolver",
+      "type": "object"
+    },
+    "NoFlow": {
+      "description": "`lines.no_flow` is a list of these; an empty list means the line flows normally.",
+      "enum": [
+        "normally_closed",
+        "dead_leg",
+        "standby",
+        "startup_only"
+      ],
+      "title": "NoFlow",
+      "type": "string"
+    },
+    "Note": {
+      "additionalProperties": false,
+      "description": "The source package's exact words, never a paraphrase or comment.",
+      "properties": {
+        "source": {
+          "minLength": 1,
+          "title": "Source",
+          "type": "string"
+        },
+        "text": {
+          "minLength": 1,
+          "title": "Text",
+          "type": "string"
+        }
+      },
+      "required": [
+        "text",
+        "source"
+      ],
+      "title": "Note",
+      "type": "object"
+    },
+    "Operating": {
+      "additionalProperties": false,
+      "description": "One row per (target, parameter). Limits: pressure kPa gauge, temperature °C,\nlevel % of range, flow kg/h. Cited as `<target_id>.operating.<parameter>.<limit>`.",
+      "properties": {
+        "alarm_high": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Alarm High"
+        },
+        "alarm_instrument_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Alarm Instrument Id"
+        },
+        "alarm_low": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Alarm Low"
+        },
+        "design_max": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Design Max"
+        },
+        "design_min": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Design Min"
+        },
+        "normal": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Normal"
+        },
+        "parameter": {
+          "$ref": "#/$defs/OperatingParameter"
+        },
+        "target_id": {
+          "title": "Target Id",
+          "type": "string"
+        },
+        "trip_high": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Trip High"
+        },
+        "trip_instrument_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Trip Instrument Id"
+        },
+        "trip_low": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Trip Low"
+        }
+      },
+      "required": [
+        "target_id",
+        "parameter"
+      ],
+      "title": "Operating",
+      "type": "object"
+    },
+    "OperatingParameter": {
+      "enum": [
+        "pressure",
+        "temperature",
+        "level",
+        "flow"
+      ],
+      "title": "OperatingParameter",
+      "type": "string"
+    },
+    "PhysicalForm": {
+      "enum": [
+        "gas",
+        "liquid",
+        "solid",
+        "dust"
+      ],
+      "title": "PhysicalForm",
+      "type": "string"
+    },
+    "PlannedWork": {
+      "additionalProperties": false,
+      "properties": {
+        "end": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "End"
+        },
+        "equipment_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Equipment Ids",
+          "type": "array"
+        },
+        "id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_-]*$",
+          "title": "Id",
+          "type": "string"
+        },
+        "lifts_per_year": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Lifts Per Year"
+        },
+        "line_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Line Ids",
+          "type": "array"
+        },
+        "location_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Location Id"
+        },
+        "notes": {
+          "items": {
+            "$ref": "#/$defs/Note"
+          },
+          "title": "Notes",
+          "type": "array"
+        },
+        "start": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Start"
+        },
+        "type": {
+          "$ref": "#/$defs/WorkType"
+        }
+      },
+      "required": [
+        "id",
+        "type"
+      ],
+      "title": "PlannedWork",
+      "type": "object"
+    },
+    "Plant": {
+      "additionalProperties": false,
+      "properties": {
+        "chemicals": {
+          "items": {
+            "$ref": "#/$defs/Chemical"
+          },
+          "title": "Chemicals",
+          "type": "array"
+        },
+        "control_loops": {
+          "items": {
+            "$ref": "#/$defs/ControlLoop"
+          },
+          "title": "Control Loops",
+          "type": "array"
+        },
+        "equipment": {
+          "items": {
+            "$ref": "#/$defs/Equipment"
+          },
+          "title": "Equipment",
+          "type": "array"
+        },
+        "instruments": {
+          "items": {
+            "$ref": "#/$defs/Instrument"
+          },
+          "title": "Instruments",
+          "type": "array"
+        },
+        "lines": {
+          "items": {
+            "$ref": "#/$defs/Line"
+          },
+          "title": "Lines",
+          "type": "array"
+        },
+        "locations": {
+          "items": {
+            "$ref": "#/$defs/Location"
+          },
+          "title": "Locations",
+          "type": "array"
+        },
+        "logic_solvers": {
+          "items": {
+            "$ref": "#/$defs/LogicSolver"
+          },
+          "title": "Logic Solvers",
+          "type": "array"
+        },
+        "notes": {
+          "items": {
+            "$ref": "#/$defs/Note"
+          },
+          "title": "Notes",
+          "type": "array"
+        },
+        "operating": {
+          "items": {
+            "$ref": "#/$defs/Operating"
+          },
+          "title": "Operating",
+          "type": "array"
+        },
+        "planned_work": {
+          "items": {
+            "$ref": "#/$defs/PlannedWork"
+          },
+          "title": "Planned Work",
+          "type": "array"
+        },
+        "plant_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_-]*$",
+          "title": "Plant Id",
+          "type": "string"
+        },
+        "procedures": {
+          "items": {
+            "$ref": "#/$defs/Procedure"
+          },
+          "title": "Procedures",
+          "type": "array"
+        },
+        "provenance": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Provenance",
+          "type": "object"
+        },
+        "relief_devices": {
+          "items": {
+            "$ref": "#/$defs/ReliefDevice"
+          },
+          "title": "Relief Devices",
+          "type": "array"
+        },
+        "safeguards": {
+          "items": {
+            "$ref": "#/$defs/Safeguard"
+          },
+          "title": "Safeguards",
+          "type": "array"
+        },
+        "schema_version": {
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "utilities": {
+          "items": {
+            "$ref": "#/$defs/Utility"
+          },
+          "title": "Utilities",
+          "type": "array"
+        },
+        "valves": {
+          "items": {
+            "$ref": "#/$defs/Valve"
+          },
+          "title": "Valves",
+          "type": "array"
+        }
+      },
+      "required": [
+        "plant_id",
+        "schema_version"
+      ],
+      "title": "Plant",
+      "type": "object"
+    },
+    "PlantStatus": {
+      "enum": [
+        "uploaded",
+        "sections_proposed",
+        "sections_confirmed"
+      ],
+      "title": "PlantStatus",
+      "type": "string"
+    },
+    "Procedure": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_-]*$",
+          "title": "Id",
+          "type": "string"
+        },
+        "kind": {
+          "$ref": "#/$defs/ProcedureKind"
+        },
+        "notes": {
+          "items": {
+            "$ref": "#/$defs/Note"
+          },
+          "title": "Notes",
+          "type": "array"
+        },
+        "steps": {
+          "items": {
+            "$ref": "#/$defs/ProcedureStep"
+          },
+          "title": "Steps",
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "kind",
+        "steps"
+      ],
+      "title": "Procedure",
+      "type": "object"
+    },
+    "ProcedureKind": {
+      "enum": [
+        "start_up",
+        "shutdown",
+        "charging",
+        "transfer",
+        "cleaning",
+        "maintenance",
+        "emergency",
+        "other"
+      ],
+      "title": "ProcedureKind",
+      "type": "string"
+    },
+    "ProcedureStep": {
+      "additionalProperties": false,
+      "properties": {
+        "equipment_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Equipment Ids",
+          "type": "array"
+        },
+        "id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_-]*$",
+          "title": "Id",
+          "type": "string"
+        },
+        "notes": {
+          "items": {
+            "$ref": "#/$defs/Note"
+          },
+          "title": "Notes",
+          "type": "array"
+        },
+        "text": {
+          "title": "Text",
+          "type": "string"
+        },
+        "valve_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Valve Ids",
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "text"
+      ],
+      "title": "ProcedureStep",
+      "type": "object"
+    },
+    "ReliefDevice": {
+      "additionalProperties": false,
+      "properties": {
+        "capacity_kg_h": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Capacity Kg H"
+        },
+        "discharge": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Discharge"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_-]*$",
+          "title": "Id",
+          "type": "string"
+        },
+        "inlet_valve_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Inlet Valve Ids",
+          "type": "array"
+        },
+        "kind": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ReliefKind"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "notes": {
+          "items": {
+            "$ref": "#/$defs/Note"
+          },
+          "title": "Notes",
+          "type": "array"
+        },
+        "protects_id": {
+          "title": "Protects Id",
+          "type": "string"
+        },
+        "set_pressure_kpa": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Set Pressure Kpa"
+        }
+      },
+      "required": [
+        "id",
+        "protects_id"
+      ],
+      "title": "ReliefDevice",
+      "type": "object"
+    },
+    "ReliefKind": {
+      "enum": [
+        "prv",
+        "rupture_disk",
+        "prv_with_disk",
+        "vent"
+      ],
+      "title": "ReliefKind",
+      "type": "string"
+    },
+    "Safeguard": {
+      "additionalProperties": false,
+      "description": "With no layer_type, it is existing protection for specialists and never gets LOPA credit.",
+      "properties": {
+        "component_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Component Ids",
+          "type": "array"
+        },
+        "description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Description"
+        },
+        "id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_-]*$",
+          "title": "Id",
+          "type": "string"
+        },
+        "layer_type": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Layer Type"
+        },
+        "notes": {
+          "items": {
+            "$ref": "#/$defs/Note"
+          },
+          "title": "Notes",
+          "type": "array"
+        },
+        "protects_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Protects Id"
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "title": "Safeguard",
+      "type": "object"
+    },
+    "Utility": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_-]*$",
+          "title": "Id",
+          "type": "string"
+        },
+        "kind": {
+          "$ref": "#/$defs/UtilityKind"
+        },
+        "location_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Location Id"
+        },
+        "notes": {
+          "items": {
+            "$ref": "#/$defs/Note"
+          },
+          "title": "Notes",
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "kind"
+      ],
+      "title": "Utility",
+      "type": "object"
+    },
+    "UtilityKind": {
+      "enum": [
+        "steam",
+        "cooling_water",
+        "nitrogen",
+        "instrument_air",
+        "power",
+        "other"
+      ],
+      "title": "UtilityKind",
+      "type": "string"
+    },
+    "Valve": {
+      "additionalProperties": false,
+      "properties": {
+        "fail_position": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/FailPosition"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_-]*$",
+          "title": "Id",
+          "type": "string"
+        },
+        "kind": {
+          "$ref": "#/$defs/ValveKind"
+        },
+        "locked": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Locked"
+        },
+        "normal_position": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ValvePosition"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "notes": {
+          "items": {
+            "$ref": "#/$defs/Note"
+          },
+          "title": "Notes",
+          "type": "array"
+        },
+        "on_line_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "On Line Id"
+        }
+      },
+      "required": [
+        "id",
+        "kind"
+      ],
+      "title": "Valve",
+      "type": "object"
+    },
+    "ValveKind": {
+      "enum": [
+        "control",
+        "block",
+        "check",
+        "manual",
+        "relief_isolation"
+      ],
+      "title": "ValveKind",
+      "type": "string"
+    },
+    "ValvePosition": {
+      "enum": [
+        "open",
+        "closed"
+      ],
+      "title": "ValvePosition",
+      "type": "string"
+    },
+    "VaporPressurePoint": {
+      "additionalProperties": false,
+      "properties": {
+        "pressure_kpaa": {
+          "title": "Pressure Kpaa",
+          "type": "number"
+        },
+        "temp_c": {
+          "title": "Temp C",
+          "type": "number"
+        }
+      },
+      "required": [
+        "temp_c",
+        "pressure_kpaa"
+      ],
+      "title": "VaporPressurePoint",
+      "type": "object"
+    },
+    "WorkType": {
+      "enum": [
+        "hot_work",
+        "confined_space",
+        "line_break",
+        "lifting",
+        "other"
+      ],
+      "title": "WorkType",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "confirmed_section_ids": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Confirmed Section Ids",
+      "type": "array"
+    },
+    "id": {
+      "title": "Id",
+      "type": "string"
+    },
+    "plant_file": {
+      "$ref": "#/$defs/Plant"
+    },
+    "plant_id": {
+      "title": "Plant Id",
+      "type": "string"
+    },
+    "status": {
+      "$ref": "#/$defs/PlantStatus"
+    }
+  },
+  "required": [
+    "id",
+    "plant_id",
+    "plant_file",
+    "status"
+  ],
+  "title": "PlantRecord",
+  "type": "object"
+}

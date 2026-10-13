@@ -1,0 +1,200 @@
+{
+  "$defs": {
+    "AppliedModifier": {
+      "additionalProperties": false,
+      "properties": {
+        "modifier_id": {
+          "title": "Modifier Id",
+          "type": "string"
+        },
+        "value": {
+          "exclusiveMinimum": 0,
+          "maximum": 1,
+          "title": "Value",
+          "type": "number"
+        }
+      },
+      "required": [
+        "modifier_id",
+        "value"
+      ],
+      "title": "AppliedModifier",
+      "type": "object"
+    },
+    "LayerCredit": {
+      "additionalProperties": false,
+      "properties": {
+        "credited": {
+          "title": "Credited",
+          "type": "boolean"
+        },
+        "layer_id": {
+          "title": "Layer Id",
+          "type": "string"
+        },
+        "layer_type": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Layer Type"
+        },
+        "pfd": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "maximum": 1,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Pfd"
+        },
+        "reason": {
+          "title": "Reason",
+          "type": "string"
+        }
+      },
+      "required": [
+        "layer_id",
+        "credited",
+        "reason"
+      ],
+      "title": "LayerCredit",
+      "type": "object"
+    },
+    "SeverityClass": {
+      "enum": [
+        "S1",
+        "S2",
+        "S3",
+        "S4",
+        "S5"
+      ],
+      "title": "SeverityClass",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "complete": {
+      "title": "Complete",
+      "type": "boolean"
+    },
+    "frequency_assumed": {
+      "default": false,
+      "title": "Frequency Assumed",
+      "type": "boolean"
+    },
+    "gap": {
+      "anyOf": [
+        {
+          "minimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Gap"
+    },
+    "id": {
+      "title": "Id",
+      "type": "string"
+    },
+    "initiating_event_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Initiating Event Id"
+    },
+    "initiating_frequency_per_year": {
+      "anyOf": [
+        {
+          "exclusiveMinimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Initiating Frequency Per Year"
+    },
+    "layers": {
+      "items": {
+        "$ref": "#/$defs/LayerCredit"
+      },
+      "title": "Layers",
+      "type": "array"
+    },
+    "missing_fact_ids": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Missing Fact Ids",
+      "type": "array"
+    },
+    "mitigated_frequency_per_year": {
+      "anyOf": [
+        {
+          "minimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Mitigated Frequency Per Year"
+    },
+    "modifiers": {
+      "items": {
+        "$ref": "#/$defs/AppliedModifier"
+      },
+      "title": "Modifiers",
+      "type": "array"
+    },
+    "run_id": {
+      "title": "Run Id",
+      "type": "string"
+    },
+    "severity_class": {
+      "$ref": "#/$defs/SeverityClass"
+    },
+    "target_id": {
+      "title": "Target Id",
+      "type": "string"
+    },
+    "tolerable_per_year": {
+      "exclusiveMinimum": 0,
+      "title": "Tolerable Per Year",
+      "type": "number"
+    }
+  },
+  "required": [
+    "id",
+    "run_id",
+    "target_id",
+    "severity_class",
+    "complete",
+    "tolerable_per_year"
+  ],
+  "title": "LopaRecord",
+  "type": "object"
+}
