@@ -1,0 +1,28 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "title": "Id",
+      "type": "string"
+    },
+    "plant_record_id": {
+      "title": "Plant Record Id",
+      "type": "string"
+    },
+    "source": {
+      "title": "Source",
+      "type": "string"
+    },
+    "value": {
+      "title": "Value"
+    }
+  },
+  "required": [
+    "id",
+    "plant_record_id",
+    "value",
+    "source"
+  ],
+  "title": "PlantFact",
+  "type": "object"
+}

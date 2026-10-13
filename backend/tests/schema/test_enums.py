@@ -195,6 +195,23 @@ EXPECTED: list[tuple[type[StrEnum], set[str]]] = [
         },
     ),
     (e.Environment, {"laptop", "hosted"}),
+    (e.Tier, {"ultra", "super", "lightning", "nano"}),
+    (
+        e.AgentTool,
+        {
+            "check_coverage",
+            "dispatch_specialist",
+            "web_research",
+            "search_precedent",
+            "reactivity_lookup",
+            "physics_calc",
+            "propose_chains",
+            "run_lopa",
+            "run_simulation",
+            "finish",
+            "answer",
+        },
+    ),
 ]
 
 

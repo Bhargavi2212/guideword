@@ -1,0 +1,83 @@
+{
+  "$defs": {
+    "EvidenceKind": {
+      "enum": [
+        "calculation",
+        "precedent",
+        "simulation"
+      ],
+      "title": "EvidenceKind",
+      "type": "string"
+    },
+    "Verdict": {
+      "enum": [
+        "confirmed",
+        "contradicted",
+        "none"
+      ],
+      "title": "Verdict",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "fact_ids": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Fact Ids",
+      "type": "array"
+    },
+    "id": {
+      "title": "Id",
+      "type": "string"
+    },
+    "kind": {
+      "$ref": "#/$defs/EvidenceKind"
+    },
+    "run_id": {
+      "title": "Run Id",
+      "type": "string"
+    },
+    "sources": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Sources",
+      "type": "array"
+    },
+    "summary": {
+      "title": "Summary",
+      "type": "string"
+    },
+    "target_id": {
+      "title": "Target Id",
+      "type": "string"
+    },
+    "tool_call_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Tool Call Id"
+    },
+    "verdict": {
+      "$ref": "#/$defs/Verdict"
+    }
+  },
+  "required": [
+    "id",
+    "run_id",
+    "target_id",
+    "kind",
+    "verdict",
+    "summary"
+  ],
+  "title": "Evidence",
+  "type": "object"
+}

@@ -1,0 +1,89 @@
+{
+  "$defs": {
+    "Agent": {
+      "enum": [
+        "orchestrator",
+        "process",
+        "chemistry",
+        "piping",
+        "procedures",
+        "maintenance",
+        "dust",
+        "connector"
+      ],
+      "title": "Agent",
+      "type": "string"
+    },
+    "AgentTool": {
+      "description": "The orchestrator tools in PROJECT.md §5, plus `answer` for a specialist's answer step.",
+      "enum": [
+        "check_coverage",
+        "dispatch_specialist",
+        "web_research",
+        "search_precedent",
+        "reactivity_lookup",
+        "physics_calc",
+        "propose_chains",
+        "run_lopa",
+        "run_simulation",
+        "finish",
+        "answer"
+      ],
+      "title": "AgentTool",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "agent": {
+      "$ref": "#/$defs/Agent"
+    },
+    "arguments": {
+      "additionalProperties": true,
+      "title": "Arguments",
+      "type": "object"
+    },
+    "id": {
+      "title": "Id",
+      "type": "string"
+    },
+    "model_call_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Model Call Id"
+    },
+    "previous_id": {
+      "title": "Previous Id",
+      "type": "string"
+    },
+    "reason": {
+      "title": "Reason",
+      "type": "string"
+    },
+    "run_id": {
+      "title": "Run Id",
+      "type": "string"
+    },
+    "tool": {
+      "$ref": "#/$defs/AgentTool"
+    }
+  },
+  "required": [
+    "id",
+    "run_id",
+    "previous_id",
+    "agent",
+    "tool",
+    "arguments",
+    "reason"
+  ],
+  "title": "AgentStep",
+  "type": "object"
+}

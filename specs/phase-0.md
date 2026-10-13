@@ -351,18 +351,18 @@ Warnings (missing facts, shown in the UI as gaps, never filled in by code):
 **JSON Schema export:** `scripts/export_schemas.py` writes the plant schema and every record and response model to `contract/schemas/`.
 
 **Acceptance (tests first)**
-- [ ] `example_mixing_unit.json` validates with no errors.
-- [ ] One test per error rule and per warning rule, each producing exactly that message with the offending ID.
+- [x] `example_mixing_unit.json` validates with no errors.
+- [x] One test per error rule and per warning rule, each producing exactly that message with the offending ID.
 - [x] Unit-suffix test passes, and fails when a bare numeric field is added to a model.
 - [x] Question ID builders and parsers round-trip; `pair` IDs are the same whichever order the chemicals are given.
 - [x] Two findings for the same question with different causes, or the same cause on different components, get different IDs.
-- [ ] A finding with an empty `failing_component_ids` fails validation.
+- [x] A finding with an empty `failing_component_ids` fails validation.
 - [x] `eng:` and `rec:` IDs are pure functions of their inputs; the same action text on the same target gives the same `rec:` ID.
 - [x] Two `check_coverage` calls with identical arguments at different agent steps get different tool call IDs.
 - [x] Run IDs: identical inputs while a run is unfinished return that run; after cancelling it, starting again gives `…:2`.
 - [x] Every ID builder is a pure function of its inputs: the same inputs give the same ID in two separate processes; `ch:` IDs are the same whichever order the links are given; a test fails if `ids.py` imports `random`, `uuid` or `itertools.count`, or reads the clock.
 - [x] Round trip: load → dump → load gives an identical object.
-- [ ] Exported JSON Schemas match the models (test regenerates and compares).
+- [x] Exported JSON Schemas match the models (test regenerates and compares).
 - [ ] Merged and frozen. Later changes only through a `contract/...` branch.
 
 ## 0.6 Reference tables: loaders and validation

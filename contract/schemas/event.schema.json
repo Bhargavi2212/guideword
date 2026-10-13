@@ -1,0 +1,60 @@
+{
+  "$defs": {
+    "EventType": {
+      "enum": [
+        "run_started",
+        "step_started",
+        "step_finished",
+        "agent_decision",
+        "dispatch",
+        "model_call",
+        "tool_call",
+        "finding_added",
+        "chain_added",
+        "lopa_done",
+        "evidence_added",
+        "coverage_updated",
+        "cap_hit",
+        "run_finished",
+        "run_failed"
+      ],
+      "title": "EventType",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Identified by (run_id, seq); events are a log, not part of the replay comparison.",
+  "properties": {
+    "payload": {
+      "additionalProperties": true,
+      "title": "Payload",
+      "type": "object"
+    },
+    "run_id": {
+      "title": "Run Id",
+      "type": "string"
+    },
+    "seq": {
+      "minimum": 1,
+      "title": "Seq",
+      "type": "integer"
+    },
+    "time": {
+      "format": "date-time",
+      "title": "Time",
+      "type": "string"
+    },
+    "type": {
+      "$ref": "#/$defs/EventType"
+    }
+  },
+  "required": [
+    "run_id",
+    "seq",
+    "type",
+    "payload",
+    "time"
+  ],
+  "title": "Event",
+  "type": "object"
+}

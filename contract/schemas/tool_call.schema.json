@@ -1,0 +1,65 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "agent_step_id": {
+      "title": "Agent Step Id",
+      "type": "string"
+    },
+    "arguments": {
+      "additionalProperties": true,
+      "title": "Arguments",
+      "type": "object"
+    },
+    "id": {
+      "title": "Id",
+      "type": "string"
+    },
+    "record_ids": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Record Ids",
+      "type": "array"
+    },
+    "refused_reason": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Refused Reason"
+    },
+    "result": {
+      "title": "Result"
+    },
+    "run_id": {
+      "title": "Run Id",
+      "type": "string"
+    },
+    "source_urls": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Source Urls",
+      "type": "array"
+    },
+    "tool": {
+      "title": "Tool",
+      "type": "string"
+    }
+  },
+  "required": [
+    "id",
+    "run_id",
+    "agent_step_id",
+    "tool",
+    "arguments",
+    "result"
+  ],
+  "title": "ToolCall",
+  "type": "object"
+}

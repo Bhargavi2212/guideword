@@ -347,6 +347,31 @@ class Environment(StrEnum):
     HOSTED = "hosted"
 
 
+class Tier(StrEnum):
+    """Model tiers; config/routing.yaml maps jobs to these, the live model list to IDs."""
+
+    ULTRA = "ultra"
+    SUPER = "super"
+    LIGHTNING = "lightning"
+    NANO = "nano"
+
+
+class AgentTool(StrEnum):
+    """The orchestrator tools in PROJECT.md §5, plus `answer` for a specialist's answer step."""
+
+    CHECK_COVERAGE = "check_coverage"
+    DISPATCH_SPECIALIST = "dispatch_specialist"
+    WEB_RESEARCH = "web_research"
+    SEARCH_PRECEDENT = "search_precedent"
+    REACTIVITY_LOOKUP = "reactivity_lookup"
+    PHYSICS_CALC = "physics_calc"
+    PROPOSE_CHAINS = "propose_chains"
+    RUN_LOPA = "run_lopa"
+    RUN_SIMULATION = "run_simulation"
+    FINISH = "finish"
+    ANSWER = "answer"
+
+
 # The seven `operating` limit fields; their unit is fixed by `operating.parameter`.
 OPERATING_LIMITS = (
     "normal",
