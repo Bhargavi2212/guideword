@@ -1,0 +1,70 @@
+{
+  "label": {
+    "kind": "mock",
+    "recorded_at": null,
+    "cost_usd": 0.31
+  },
+  "run_id": "run:8ede059837927e4a",
+  "record_id": "f:pair:KOH:SIH:lightning:C14:541f633168214c61",
+  "record_kind": "finding",
+  "record": {
+    "id": "f:pair:KOH:SIH:lightning:C14:541f633168214c61",
+    "run_id": "run:8ede059837927e4a",
+    "question_id": "pair:KOH:SIH",
+    "tier": "lightning",
+    "cause_id": "C14",
+    "failing_component_type": "operator",
+    "failing_component_ids": [
+      "P-CHARGE-1"
+    ],
+    "consequence": "Wrong tote charged: KOH with Si-H fluid gives flammable gas (GF) in MX-1.",
+    "safeguard_ids": [
+      "SG-VENT"
+    ],
+    "adequacy": "inadequate",
+    "severity_class": "S3",
+    "severity_reason": "Flammable gas in an occupied building with ignition sources.",
+    "confidence": "unsure",
+    "model_call_id": "mc:ab5f07020aa1cf8d"
+  },
+  "parent_ids": [
+    "pair:KOH:SIH"
+  ],
+  "model_calls": [
+    {
+      "id": "mc:ab5f07020aa1cf8d",
+      "run_id": "run:8ede059837927e4a",
+      "model_id": "nvidia/Nemotron-3_5-Lightning",
+      "prompt_version": "chemistry/v1",
+      "job": "specialist_bulk",
+      "cache_hit": false,
+      "outcome": "ok",
+      "finish_reason": "stop",
+      "input_tokens": 640,
+      "output_tokens": 90,
+      "latency_ms": 810.0,
+      "cost_usd": 0.00006,
+      "attempts": 1,
+      "raw_response": "{}",
+      "reasoning_text": null,
+      "record_ids": [
+        "f:pair:KOH:SIH:lightning:C14:541f633168214c61"
+      ]
+    }
+  ],
+  "tool_calls": [
+    {
+      "id": "tc:step:a47ec56c6dd3d542:check_coverage:44136fa355b3678a",
+      "run_id": "run:8ede059837927e4a",
+      "agent_step_id": "step:a47ec56c6dd3d542",
+      "tool": "check_coverage",
+      "arguments": {},
+      "result": {
+        "open": 9
+      },
+      "refused_reason": null,
+      "source_urls": [],
+      "record_ids": []
+    }
+  ]
+}

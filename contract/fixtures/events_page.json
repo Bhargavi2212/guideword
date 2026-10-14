@@ -1,0 +1,152 @@
+{
+  "label": {
+    "kind": "mock",
+    "recorded_at": null,
+    "cost_usd": 0.31
+  },
+  "run_id": "run:8ede059837927e4a",
+  "events": [
+    {
+      "run_id": "run:8ede059837927e4a",
+      "seq": 1,
+      "type": "run_started",
+      "payload": {},
+      "time": "2026-10-13T09:00:00Z"
+    },
+    {
+      "run_id": "run:8ede059837927e4a",
+      "seq": 2,
+      "type": "step_started",
+      "payload": {
+        "step": "questions"
+      },
+      "time": "2026-10-13T09:01:00Z"
+    },
+    {
+      "run_id": "run:8ede059837927e4a",
+      "seq": 3,
+      "type": "step_finished",
+      "payload": {
+        "step": "questions"
+      },
+      "time": "2026-10-13T09:02:00Z"
+    },
+    {
+      "run_id": "run:8ede059837927e4a",
+      "seq": 4,
+      "type": "agent_decision",
+      "payload": {
+        "agent_step_id": "step:a47ec56c6dd3d542",
+        "tool": "check_coverage",
+        "reason": "See what is open"
+      },
+      "time": "2026-10-13T09:03:00Z"
+    },
+    {
+      "run_id": "run:8ede059837927e4a",
+      "seq": 5,
+      "type": "tool_call",
+      "payload": {
+        "tool_call_id": "tc:step:a47ec56c6dd3d542:check_coverage:44136fa355b3678a"
+      },
+      "time": "2026-10-13T09:04:00Z"
+    },
+    {
+      "run_id": "run:8ede059837927e4a",
+      "seq": 6,
+      "type": "dispatch",
+      "payload": {
+        "agent": "chemistry",
+        "question_ids": [
+          "pair:KOH:SIH",
+          "env:SIH:water"
+        ]
+      },
+      "time": "2026-10-13T09:05:00Z"
+    },
+    {
+      "run_id": "run:8ede059837927e4a",
+      "seq": 7,
+      "type": "model_call",
+      "payload": {
+        "model_call_id": "mc:ab5f07020aa1cf8d",
+        "tier": "lightning"
+      },
+      "time": "2026-10-13T09:06:00Z"
+    },
+    {
+      "run_id": "run:8ede059837927e4a",
+      "seq": 8,
+      "type": "finding_added",
+      "payload": {
+        "finding_id": "f:pair:KOH:SIH:lightning:C14:541f633168214c61"
+      },
+      "time": "2026-10-13T09:07:00Z"
+    },
+    {
+      "run_id": "run:8ede059837927e4a",
+      "seq": 9,
+      "type": "finding_added",
+      "payload": {
+        "finding_id": "f:m:S-MX-1:more:temperature:lightning:C01:a92ada9e786e565d"
+      },
+      "time": "2026-10-13T09:08:00Z"
+    },
+    {
+      "run_id": "run:8ede059837927e4a",
+      "seq": 10,
+      "type": "finding_added",
+      "payload": {
+        "finding_id": "f:relief:PSV-1:ultra:8b8e942809f7e00a:f222cda333ff2d9b"
+      },
+      "time": "2026-10-13T09:09:00Z"
+    },
+    {
+      "run_id": "run:8ede059837927e4a",
+      "seq": 11,
+      "type": "chain_added",
+      "payload": {
+        "chain_id": "ch:f:pair:KOH:SIH:lightning:C14:541f633168214c61+f:relief:PSV-1:ultra:8b8e942809f7e00a:f222cda333ff2d9b"
+      },
+      "time": "2026-10-13T09:10:00Z"
+    },
+    {
+      "run_id": "run:8ede059837927e4a",
+      "seq": 12,
+      "type": "lopa_done",
+      "payload": {
+        "lopa_id": "lopa:ch:f:pair:KOH:SIH:lightning:C14:541f633168214c61+f:relief:PSV-1:ultra:8b8e942809f7e00a:f222cda333ff2d9b"
+      },
+      "time": "2026-10-13T09:11:00Z"
+    },
+    {
+      "run_id": "run:8ede059837927e4a",
+      "seq": 13,
+      "type": "evidence_added",
+      "payload": {
+        "evidence_id": "ev:f:m:S-MX-1:more:temperature:lightning:C01:a92ada9e786e565d:calculation:heat_up_rate"
+      },
+      "time": "2026-10-13T09:12:00Z"
+    },
+    {
+      "run_id": "run:8ede059837927e4a",
+      "seq": 14,
+      "type": "coverage_updated",
+      "payload": {
+        "checked": 7,
+        "total": 9
+      },
+      "time": "2026-10-13T09:13:00Z"
+    },
+    {
+      "run_id": "run:8ede059837927e4a",
+      "seq": 15,
+      "type": "run_finished",
+      "payload": {
+        "spent_usd": 0.31
+      },
+      "time": "2026-10-13T09:14:00Z"
+    }
+  ],
+  "next_after": 15
+}

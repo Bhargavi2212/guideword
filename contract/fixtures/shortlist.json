@@ -1,0 +1,157 @@
+{
+  "label": {
+    "kind": "mock",
+    "recorded_at": null,
+    "cost_usd": 0.31
+  },
+  "run_id": "run:8ede059837927e4a",
+  "items": [
+    {
+      "rank": 1,
+      "target_id": "ch:f:pair:KOH:SIH:lightning:C14:541f633168214c61+f:relief:PSV-1:ultra:8b8e942809f7e00a:f222cda333ff2d9b",
+      "target_kind": "chain",
+      "gap": 10.0,
+      "multi_failure": true,
+      "unsure": true,
+      "finding": null,
+      "chain": {
+        "id": "ch:f:pair:KOH:SIH:lightning:C14:541f633168214c61+f:relief:PSV-1:ultra:8b8e942809f7e00a:f222cda333ff2d9b",
+        "run_id": "run:8ede059837927e4a",
+        "links": [
+          "f:pair:KOH:SIH:lightning:C14:541f633168214c61",
+          "f:relief:PSV-1:ultra:8b8e942809f7e00a:f222cda333ff2d9b"
+        ],
+        "description": "Wrong tote makes flammable gas; PSV-1 vents it onto the roof during hot work.",
+        "reason": "Both findings act on MX-1 and PSV-1 discharges where W-1 works.",
+        "multi_failure": true,
+        "flags": [],
+        "model_call_id": null
+      },
+      "lopa": {
+        "id": "lopa:ch:f:pair:KOH:SIH:lightning:C14:541f633168214c61+f:relief:PSV-1:ultra:8b8e942809f7e00a:f222cda333ff2d9b",
+        "run_id": "run:8ede059837927e4a",
+        "target_id": "ch:f:pair:KOH:SIH:lightning:C14:541f633168214c61+f:relief:PSV-1:ultra:8b8e942809f7e00a:f222cda333ff2d9b",
+        "severity_class": "S3",
+        "complete": true,
+        "missing_fact_ids": [],
+        "initiating_event_id": "IE-HE-MONTHLY",
+        "initiating_frequency_per_year": 0.1,
+        "frequency_assumed": false,
+        "modifiers": [
+          {
+            "modifier_id": "MOD-IGN-GAS-S",
+            "value": 0.01
+          }
+        ],
+        "layers": [
+          {
+            "layer_id": "SG-VENT",
+            "layer_type": "IPL-VENT-CONT",
+            "credited": false,
+            "pfd": null,
+            "reason": "The release is on the roof, outside the ventilated building."
+          }
+        ],
+        "mitigated_frequency_per_year": 0.001,
+        "tolerable_per_year": 0.0001,
+        "gap": 10.0
+      },
+      "evidence": [
+        {
+          "id": "ev:ch:f:pair:KOH:SIH:lightning:C14:541f633168214c61+f:relief:PSV-1:ultra:8b8e942809f7e00a:f222cda333ff2d9b:precedent:ab23aa63d81bb3fe",
+          "run_id": "run:8ede059837927e4a",
+          "target_id": "ch:f:pair:KOH:SIH:lightning:C14:541f633168214c61+f:relief:PSV-1:ultra:8b8e942809f7e00a:f222cda333ff2d9b",
+          "kind": "precedent",
+          "verdict": "none",
+          "summary": "No matching precedent found (mock).",
+          "tool_call_id": null,
+          "fact_ids": [],
+          "sources": [
+            "https://example.org/mock-precedent"
+          ]
+        }
+      ],
+      "recommendations": [
+        {
+          "id": "rec:ch:f:pair:KOH:SIH:lightning:C14:541f633168214c61+f:relief:PSV-1:ultra:8b8e942809f7e00a:f222cda333ff2d9b:107b770dce54886b",
+          "run_id": "run:8ede059837927e4a",
+          "target_id": "ch:f:pair:KOH:SIH:lightning:C14:541f633168214c61+f:relief:PSV-1:ultra:8b8e942809f7e00a:f222cda333ff2d9b",
+          "action": "Check the tote label against the batch sheet before charging",
+          "reason": "Removes the initiating error; the gap is one order of magnitude.",
+          "model_call_id": null
+        }
+      ]
+    },
+    {
+      "rank": 2,
+      "target_id": "f:m:S-MX-1:more:temperature:lightning:C01:a92ada9e786e565d",
+      "target_kind": "finding",
+      "gap": 10.0,
+      "multi_failure": false,
+      "unsure": false,
+      "finding": {
+        "id": "f:m:S-MX-1:more:temperature:lightning:C01:a92ada9e786e565d",
+        "run_id": "run:8ede059837927e4a",
+        "question_id": "m:S-MX-1:more:temperature",
+        "tier": "lightning",
+        "cause_id": "C01",
+        "cause_text": null,
+        "failing_component_type": "control_loop",
+        "failing_component_ids": [
+          "TV-1"
+        ],
+        "consequence": "Steam valve TV-1 fails open; MX-1 heats past its 80 °C design temperature.",
+        "safeguard_ids": [
+          "SG-TRIP"
+        ],
+        "adequacy": "adequate",
+        "severity_class": "S2",
+        "severity_reason": "Hot liquid release inside an occupied building.",
+        "confidence": "sure",
+        "model_call_id": "mc:776fb5ac5c8c1501"
+      },
+      "chain": null,
+      "lopa": {
+        "id": "lopa:f:m:S-MX-1:more:temperature:lightning:C01:a92ada9e786e565d",
+        "run_id": "run:8ede059837927e4a",
+        "target_id": "f:m:S-MX-1:more:temperature:lightning:C01:a92ada9e786e565d",
+        "severity_class": "S2",
+        "complete": true,
+        "missing_fact_ids": [],
+        "initiating_event_id": "IE-BPCS",
+        "initiating_frequency_per_year": 0.1,
+        "frequency_assumed": false,
+        "modifiers": [],
+        "layers": [
+          {
+            "layer_id": "SG-TRIP",
+            "layer_type": "IPL-SIS-SIL1",
+            "credited": true,
+            "pfd": 0.1,
+            "reason": "TS-2, SIS-1 and XV-STM are independent of TIC-1."
+          }
+        ],
+        "mitigated_frequency_per_year": 0.01,
+        "tolerable_per_year": 0.001,
+        "gap": 10.0
+      },
+      "evidence": [
+        {
+          "id": "ev:f:m:S-MX-1:more:temperature:lightning:C01:a92ada9e786e565d:calculation:heat_up_rate",
+          "run_id": "run:8ede059837927e4a",
+          "target_id": "f:m:S-MX-1:more:temperature:lightning:C01:a92ada9e786e565d",
+          "kind": "calculation",
+          "verdict": "confirmed",
+          "summary": "With TV-1 open, MX-1 reaches its design temperature in about 20 minutes.",
+          "tool_call_id": "tc:step:a47ec56c6dd3d542:check_coverage:44136fa355b3678a",
+          "fact_ids": [
+            "MX-1.volume_m3",
+            "MX-1.design_temp_c"
+          ],
+          "sources": []
+        }
+      ],
+      "recommendations": []
+    }
+  ]
+}

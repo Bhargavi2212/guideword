@@ -1,0 +1,268 @@
+{
+  "plant_id": "mock_plant_a",
+  "schema_version": "1.0",
+  "locations": [
+    {
+      "id": "BLDG-1",
+      "occupied": true,
+      "ignition_sources": true,
+      "indoor": true
+    },
+    {
+      "id": "ROOF",
+      "occupied": false,
+      "ignition_sources": false,
+      "indoor": false
+    }
+  ],
+  "utilities": [
+    {
+      "id": "UT-STEAM",
+      "kind": "steam",
+      "location_id": "BLDG-1"
+    }
+  ],
+  "equipment": [
+    {
+      "id": "TOTE-1",
+      "type": "tank",
+      "location_id": "BLDG-1",
+      "contents": [
+        "SIH"
+      ],
+      "volume_m3": 1
+    },
+    {
+      "id": "P-1",
+      "type": "pump",
+      "location_id": "BLDG-1"
+    },
+    {
+      "id": "MX-1",
+      "type": "mixer",
+      "location_id": "BLDG-1",
+      "contents": [
+        "SIH",
+        "KOH"
+      ],
+      "volume_m3": 10,
+      "design_pressure_kpa": 350,
+      "design_temp_c": 80,
+      "heat_sources": [
+        {
+          "medium": "steam",
+          "via_line_id": "L-STM",
+          "isolating_valve_ids": [
+            "XV-STM"
+          ]
+        }
+      ]
+    }
+  ],
+  "instruments": [
+    {
+      "id": "TT-1",
+      "kind": "sensor",
+      "measures": "temperature",
+      "on_id": "MX-1",
+      "system": "bpcs"
+    },
+    {
+      "id": "TS-2",
+      "kind": "switch",
+      "measures": "temperature",
+      "on_id": "MX-1",
+      "system": "sis"
+    }
+  ],
+  "logic_solvers": [
+    {
+      "id": "DCS-1",
+      "system": "bpcs"
+    },
+    {
+      "id": "SIS-1",
+      "system": "sis"
+    }
+  ],
+  "valves": [
+    {
+      "id": "TV-1",
+      "kind": "control",
+      "on_line_id": "L-STM",
+      "normal_position": "open",
+      "fail_position": "closed",
+      "locked": false
+    },
+    {
+      "id": "XV-STM",
+      "kind": "block",
+      "on_line_id": "L-STM",
+      "normal_position": "open",
+      "fail_position": "closed",
+      "locked": false
+    },
+    {
+      "id": "HV-12",
+      "kind": "manual",
+      "on_line_id": "L-12",
+      "normal_position": "closed",
+      "fail_position": "last",
+      "locked": false
+    }
+  ],
+  "lines": [
+    {
+      "id": "L-12",
+      "from_id": "TOTE-1",
+      "to_id": "MX-1",
+      "components": [
+        "P-1",
+        "HV-12"
+      ],
+      "no_flow": [],
+      "contents": [
+        "SIH"
+      ],
+      "size_mm": 50,
+      "normal_flow_kg_h": 2000
+    },
+    {
+      "id": "L-STM",
+      "from_id": "UT-STEAM",
+      "to_id": "MX-1",
+      "components": [
+        "XV-STM",
+        "TV-1"
+      ],
+      "no_flow": [],
+      "size_mm": 25
+    }
+  ],
+  "operating": [
+    {
+      "target_id": "MX-1",
+      "parameter": "temperature",
+      "normal": 25,
+      "alarm_high": 50,
+      "trip_high": 60,
+      "design_max": 80,
+      "alarm_instrument_id": "TT-1",
+      "trip_instrument_id": "TS-2"
+    }
+  ],
+  "control_loops": [
+    {
+      "id": "TIC-1",
+      "sensor_id": "TT-1",
+      "controller_id": "DCS-1",
+      "final_element_id": "TV-1",
+      "system": "bpcs",
+      "acts_on_id": "MX-1"
+    }
+  ],
+  "safeguards": [
+    {
+      "id": "SG-TRIP",
+      "layer_type": "IPL-SIS-SIL1",
+      "protects_id": "MX-1",
+      "component_ids": [
+        "TS-2",
+        "SIS-1",
+        "XV-STM"
+      ]
+    },
+    {
+      "id": "SG-VENT",
+      "layer_type": "IPL-VENT-CONT",
+      "protects_id": "BLDG-1",
+      "component_ids": []
+    }
+  ],
+  "relief_devices": [
+    {
+      "id": "PSV-1",
+      "protects_id": "MX-1",
+      "kind": "prv",
+      "set_pressure_kpa": 350,
+      "capacity_kg_h": 5000,
+      "inlet_valve_ids": [],
+      "discharge": {
+        "kind": "atmosphere",
+        "location_id": "ROOF",
+        "elevation_m": 12
+      }
+    }
+  ],
+  "chemicals": [
+    {
+      "id": "SIH",
+      "name": "methylhydrogen siloxane fluid",
+      "epa_groups": [
+        105
+      ],
+      "cameo_groups": [
+        58,
+        35
+      ],
+      "physical_form": "liquid",
+      "combustible_dust": false,
+      "source": "SDS"
+    },
+    {
+      "id": "KOH",
+      "name": "potassium hydroxide solution",
+      "epa_groups": [
+        10,
+        106
+      ],
+      "cameo_groups": [
+        10,
+        100
+      ],
+      "physical_form": "liquid",
+      "combustible_dust": false,
+      "source": "SDS"
+    }
+  ],
+  "procedures": [
+    {
+      "id": "P-CHARGE",
+      "kind": "charging",
+      "steps": [
+        {
+          "id": "P-CHARGE-1",
+          "text": "Select tote by label",
+          "equipment_ids": [
+            "TOTE-1"
+          ]
+        },
+        {
+          "id": "P-CHARGE-2",
+          "text": "Open HV-12 and start P-1",
+          "equipment_ids": [
+            "P-1"
+          ],
+          "valve_ids": [
+            "HV-12"
+          ]
+        }
+      ]
+    }
+  ],
+  "planned_work": [
+    {
+      "id": "W-1",
+      "type": "hot_work",
+      "location_id": "ROOF",
+      "equipment_ids": [],
+      "start": "2026-10-20T08:00:00",
+      "end": "2026-10-20T16:00:00"
+    }
+  ],
+  "provenance": {
+    "MX-1.design_pressure_kpa": "assumed",
+    "SIH": "SDS",
+    "KOH": "SDS"
+  }
+}

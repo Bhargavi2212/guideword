@@ -1,0 +1,22 @@
+{
+  "plant_record_id": "plant:mock_plant_a:437a7c5b6e544611",
+  "ok": true,
+  "errors": [],
+  "warnings": [
+    {
+      "code": "missing_design_limits",
+      "object_id": "TOTE-1",
+      "message": "TOTE-1: no design pressure or temperature"
+    },
+    {
+      "code": "safeguard_components_missing",
+      "object_id": "SG-VENT",
+      "message": "SG-VENT: active layer with no component_ids; independence cannot be checked"
+    },
+    {
+      "code": "line_without_contents",
+      "object_id": "L-STM",
+      "message": "L-STM: no contents"
+    }
+  ]
+}
