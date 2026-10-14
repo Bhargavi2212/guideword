@@ -1,0 +1,72 @@
+{
+  "$defs": {
+    "RunLabel": {
+      "additionalProperties": false,
+      "properties": {
+        "cost_usd": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Cost Usd"
+        },
+        "kind": {
+          "$ref": "#/$defs/RunLabelKind"
+        },
+        "recorded_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Recorded At"
+        }
+      },
+      "required": [
+        "kind"
+      ],
+      "title": "RunLabel",
+      "type": "object"
+    },
+    "RunLabelKind": {
+      "enum": [
+        "live",
+        "recorded",
+        "mock"
+      ],
+      "title": "RunLabelKind",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "estimated_cost_usd": {
+      "title": "Estimated Cost Usd",
+      "type": "number"
+    },
+    "label": {
+      "$ref": "#/$defs/RunLabel"
+    },
+    "run_id": {
+      "title": "Run Id",
+      "type": "string"
+    }
+  },
+  "required": [
+    "label",
+    "run_id",
+    "estimated_cost_usd"
+  ],
+  "title": "StartRunResult",
+  "type": "object"
+}

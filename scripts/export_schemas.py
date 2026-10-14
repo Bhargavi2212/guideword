@@ -10,9 +10,20 @@ import sys
 from enum import StrEnum
 from pathlib import Path
 
+from guideword.api import models as api
 from guideword.schema import enums
 from guideword.schema.plant import Plant
 from guideword.schema.records import RECORD_MODELS
+from pydantic import BaseModel
+
+# API request bodies; response models are the keys of api.RESPONSE_FIXTURES.
+API_REQUEST_MODELS: list[type[BaseModel]] = [
+    api.StartRunRequest,
+    api.ConfirmSectionsRequest,
+    api.AddQuestionRequest,
+    api.OverrideRequest,
+    api.ErrorBody,
+]
 
 OUT = Path(__file__).resolve().parents[1] / "contract" / "schemas"
 
@@ -40,18 +51,26 @@ def render_all() -> dict[str, str]:
     for model in RECORD_MODELS:
         files[f"{file_stem(model.__name__)}.schema.json"] = _render(model.model_json_schema())
     files["enums.schema.json"] = _render(_enum_schema())
+    api_models: list[type[BaseModel]] = [*api.RESPONSE_FIXTURES, *API_REQUEST_MODELS]
+    for api_model in api_models:
+        files[f"api/{file_stem(api_model.__name__)}.schema.json"] = _render(
+            api_model.model_json_schema()
+        )
     return files
 
 
 def main() -> int:
     OUT.mkdir(parents=True, exist_ok=True)
     files = render_all()
-    for stale in OUT.glob("*.json"):
-        if stale.name not in files:
+    for stale in OUT.rglob("*.json"):
+        name = stale.relative_to(OUT).as_posix()
+        if name not in files:
             stale.unlink()
-            print(f"removed {stale.name}")
+            print(f"removed {name}")
     for name, text in files.items():
-        (OUT / name).write_bytes(text.encode("utf-8"))
+        target = OUT / name
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_bytes(text.encode("utf-8"))
     print(f"wrote {len(files)} schemas to {OUT}")
     return 0
 

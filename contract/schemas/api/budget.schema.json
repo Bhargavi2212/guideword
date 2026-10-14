@@ -1,0 +1,92 @@
+{
+  "$defs": {
+    "EnvironmentBudget": {
+      "additionalProperties": false,
+      "properties": {
+        "allowance_usd": {
+          "title": "Allowance Usd",
+          "type": "number"
+        },
+        "environment": {
+          "title": "Environment",
+          "type": "string"
+        },
+        "remaining_usd": {
+          "title": "Remaining Usd",
+          "type": "number"
+        },
+        "spent_usd": {
+          "title": "Spent Usd",
+          "type": "number"
+        }
+      },
+      "required": [
+        "environment",
+        "allowance_usd",
+        "spent_usd",
+        "remaining_usd"
+      ],
+      "title": "EnvironmentBudget",
+      "type": "object"
+    },
+    "ModelSpend": {
+      "additionalProperties": false,
+      "properties": {
+        "model": {
+          "title": "Model",
+          "type": "string"
+        },
+        "spent_usd": {
+          "title": "Spent Usd",
+          "type": "number"
+        }
+      },
+      "required": [
+        "model",
+        "spent_usd"
+      ],
+      "title": "ModelSpend",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "by_model": {
+      "items": {
+        "$ref": "#/$defs/ModelSpend"
+      },
+      "title": "By Model",
+      "type": "array"
+    },
+    "environments": {
+      "items": {
+        "$ref": "#/$defs/EnvironmentBudget"
+      },
+      "title": "Environments",
+      "type": "array"
+    },
+    "live_run_available": {
+      "title": "Live Run Available",
+      "type": "boolean"
+    },
+    "message": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Message"
+    }
+  },
+  "required": [
+    "environments",
+    "by_model",
+    "live_run_available"
+  ],
+  "title": "Budget",
+  "type": "object"
+}

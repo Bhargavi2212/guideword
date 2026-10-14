@@ -1,0 +1,177 @@
+{
+  "$defs": {
+    "Run": {
+      "additionalProperties": false,
+      "properties": {
+        "attempt": {
+          "minimum": 1,
+          "title": "Attempt",
+          "type": "integer"
+        },
+        "caps": {
+          "additionalProperties": true,
+          "title": "Caps",
+          "type": "object"
+        },
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "label": {
+          "$ref": "#/$defs/RunLabel"
+        },
+        "mode": {
+          "enum": [
+            "full",
+            "sample"
+          ],
+          "title": "Mode",
+          "type": "string"
+        },
+        "plant_record_id": {
+          "title": "Plant Record Id",
+          "type": "string"
+        },
+        "prompt_versions": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Prompt Versions",
+          "type": "object"
+        },
+        "reference_versions": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Reference Versions",
+          "type": "object"
+        },
+        "routing_config": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Routing Config",
+          "type": "object"
+        },
+        "section_snapshot": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Section Snapshot",
+          "type": "array"
+        },
+        "spend_cap_usd": {
+          "exclusiveMinimum": 0,
+          "title": "Spend Cap Usd",
+          "type": "number"
+        },
+        "spent_usd": {
+          "default": 0.0,
+          "minimum": 0,
+          "title": "Spent Usd",
+          "type": "number"
+        },
+        "status": {
+          "$ref": "#/$defs/RunStatus"
+        },
+        "step": {
+          "title": "Step",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "plant_record_id",
+        "attempt",
+        "section_snapshot",
+        "status",
+        "step",
+        "mode",
+        "spend_cap_usd",
+        "reference_versions",
+        "routing_config",
+        "caps",
+        "prompt_versions",
+        "label"
+      ],
+      "title": "Run",
+      "type": "object"
+    },
+    "RunLabel": {
+      "additionalProperties": false,
+      "properties": {
+        "cost_usd": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Cost Usd"
+        },
+        "kind": {
+          "$ref": "#/$defs/RunLabelKind"
+        },
+        "recorded_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Recorded At"
+        }
+      },
+      "required": [
+        "kind"
+      ],
+      "title": "RunLabel",
+      "type": "object"
+    },
+    "RunLabelKind": {
+      "enum": [
+        "live",
+        "recorded",
+        "mock"
+      ],
+      "title": "RunLabelKind",
+      "type": "string"
+    },
+    "RunStatus": {
+      "description": "`draft` = run created, setup not yet done (D9).",
+      "enum": [
+        "draft",
+        "running",
+        "finished",
+        "stopped_cap",
+        "stopped_budget",
+        "failed",
+        "cancelled"
+      ],
+      "title": "RunStatus",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "runs": {
+      "items": {
+        "$ref": "#/$defs/Run"
+      },
+      "title": "Runs",
+      "type": "array"
+    }
+  },
+  "required": [
+    "runs"
+  ],
+  "title": "RunList",
+  "type": "object"
+}

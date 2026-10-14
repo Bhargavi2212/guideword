@@ -1,0 +1,48 @@
+{
+  "$defs": {
+    "OverrideAction": {
+      "enum": [
+        "accept",
+        "reject",
+        "edit",
+        "change_credit",
+        "change_severity",
+        "answer"
+      ],
+      "title": "OverrideAction",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "action": {
+      "$ref": "#/$defs/OverrideAction"
+    },
+    "by": {
+      "minLength": 1,
+      "title": "By",
+      "type": "string"
+    },
+    "new_value": {
+      "title": "New Value"
+    },
+    "reason": {
+      "minLength": 1,
+      "title": "Reason",
+      "type": "string"
+    },
+    "target_id": {
+      "title": "Target Id",
+      "type": "string"
+    }
+  },
+  "required": [
+    "target_id",
+    "action",
+    "new_value",
+    "reason",
+    "by"
+  ],
+  "title": "OverrideRequest",
+  "type": "object"
+}

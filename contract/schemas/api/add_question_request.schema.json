@@ -1,0 +1,20 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "section_id": {
+      "title": "Section Id",
+      "type": "string"
+    },
+    "text": {
+      "minLength": 1,
+      "title": "Text",
+      "type": "string"
+    }
+  },
+  "required": [
+    "section_id",
+    "text"
+  ],
+  "title": "AddQuestionRequest",
+  "type": "object"
+}

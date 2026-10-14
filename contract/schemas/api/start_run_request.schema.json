@@ -1,0 +1,29 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "mode": {
+      "enum": [
+        "full",
+        "sample"
+      ],
+      "title": "Mode",
+      "type": "string"
+    },
+    "plant_id": {
+      "title": "Plant Id",
+      "type": "string"
+    },
+    "spend_cap_usd": {
+      "exclusiveMinimum": 0,
+      "title": "Spend Cap Usd",
+      "type": "number"
+    }
+  },
+  "required": [
+    "plant_id",
+    "spend_cap_usd",
+    "mode"
+  ],
+  "title": "StartRunRequest",
+  "type": "object"
+}

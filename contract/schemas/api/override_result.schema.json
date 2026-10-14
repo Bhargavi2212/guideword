@@ -1,0 +1,143 @@
+{
+  "$defs": {
+    "Override": {
+      "additionalProperties": false,
+      "properties": {
+        "action": {
+          "$ref": "#/$defs/OverrideAction"
+        },
+        "at": {
+          "format": "date-time",
+          "title": "At",
+          "type": "string"
+        },
+        "by": {
+          "title": "By",
+          "type": "string"
+        },
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "new_value": {
+          "title": "New Value"
+        },
+        "reason": {
+          "title": "Reason",
+          "type": "string"
+        },
+        "replaces": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Replaces"
+        },
+        "run_id": {
+          "title": "Run Id",
+          "type": "string"
+        },
+        "target_id": {
+          "title": "Target Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "run_id",
+        "target_id",
+        "action",
+        "new_value",
+        "reason",
+        "by",
+        "at"
+      ],
+      "title": "Override",
+      "type": "object"
+    },
+    "OverrideAction": {
+      "enum": [
+        "accept",
+        "reject",
+        "edit",
+        "change_credit",
+        "change_severity",
+        "answer"
+      ],
+      "title": "OverrideAction",
+      "type": "string"
+    },
+    "RunLabel": {
+      "additionalProperties": false,
+      "properties": {
+        "cost_usd": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Cost Usd"
+        },
+        "kind": {
+          "$ref": "#/$defs/RunLabelKind"
+        },
+        "recorded_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Recorded At"
+        }
+      },
+      "required": [
+        "kind"
+      ],
+      "title": "RunLabel",
+      "type": "object"
+    },
+    "RunLabelKind": {
+      "enum": [
+        "live",
+        "recorded",
+        "mock"
+      ],
+      "title": "RunLabelKind",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "label": {
+      "$ref": "#/$defs/RunLabel"
+    },
+    "override": {
+      "$ref": "#/$defs/Override"
+    },
+    "stored": {
+      "title": "Stored",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "label",
+    "override",
+    "stored"
+  ],
+  "title": "OverrideResult",
+  "type": "object"
+}
