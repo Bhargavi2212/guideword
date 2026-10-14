@@ -1,0 +1,473 @@
+{
+  "plant_id": "case_f",
+  "schema_version": "1.0",
+  "notes": [
+    {
+      "text": "Pulp mill evaporator and condensate area, two-week work window",
+      "source": "cases/dev/source/case_f_pulp_mill_area.md"
+    },
+    {
+      "text": "Tanks stay in service during the work.",
+      "source": "cases/dev/source/case_f_pulp_mill_area.md"
+    },
+    {
+      "text": "Perform a full hazard review (HAZOP or equivalent) of this area for the two-week work window.",
+      "source": "cases/dev/source/case_f_pulp_mill_area.md"
+    }
+  ],
+  "locations": [
+    {
+      "id": "LOC-F-UNSTATED",
+      "description": "endpoint not stated in the package"
+    },
+    {
+      "id": "LOC-F-ATMOSPHERE",
+      "description": "atmosphere above the roofline (vent header discharge)"
+    },
+    {
+      "id": "LOC-F-T32-ROOF",
+      "description": "roof of T-32 (scaffold for job 1)"
+    }
+  ],
+  "utilities": [
+    {
+      "id": "UT-F-LP-STEAM",
+      "kind": "steam",
+      "notes": [
+        {
+          "text": "Low-pressure steam header and cooling water lines.",
+          "source": "cases/dev/source/case_f_pulp_mill_area.md"
+        }
+      ]
+    },
+    {
+      "id": "UT-F-CW",
+      "kind": "cooling_water",
+      "notes": [
+        {
+          "text": "Low-pressure steam header and cooling water lines.",
+          "source": "cases/dev/source/case_f_pulp_mill_area.md"
+        }
+      ]
+    }
+  ],
+  "equipment": [
+    {
+      "id": "EVAPORATORS",
+      "type": "other",
+      "contents": [
+        "BLACK-LIQUOR"
+      ],
+      "heat_sources": [
+        {
+          "medium": "steam"
+        }
+      ],
+      "notes": [
+        {
+          "text": "Black liquor multiple-effect evaporators (steam heated), with a surface condenser and vacuum system.",
+          "source": "cases/dev/source/case_f_pulp_mill_area.md"
+        }
+      ]
+    },
+    {
+      "id": "SURFACE-CONDENSER",
+      "type": "heat_exchanger",
+      "notes": [
+        {
+          "text": "with a surface condenser and vacuum system",
+          "source": "cases/dev/source/case_f_pulp_mill_area.md"
+        }
+      ]
+    },
+    {
+      "id": "VACUUM-SYSTEM",
+      "type": "other",
+      "notes": [
+        {
+          "text": "with a surface condenser and vacuum system",
+          "source": "cases/dev/source/case_f_pulp_mill_area.md"
+        }
+      ]
+    },
+    {
+      "id": "T-31",
+      "type": "tank",
+      "volume_m3": 200,
+      "contents": [
+        "WATER",
+        "METHANOL",
+        "TURPENTINE",
+        "ORGANICS"
+      ],
+      "notes": [
+        {
+          "text": "Three foul condensate tanks (T-31, T-32, T-33), each ~200 m³, atmospheric, fixed cone roof.",
+          "source": "cases/dev/source/case_f_pulp_mill_area.md"
+        },
+        {
+          "text": "Contents: condensate from the digester and evaporators (water with methanol, turpentine and other organic compounds; an organic layer can float on top). Levels vary with mill operation.",
+          "source": "cases/dev/source/case_f_pulp_mill_area.md"
+        }
+      ]
+    },
+    {
+      "id": "T-32",
+      "type": "tank",
+      "volume_m3": 200,
+      "contents": [
+        "WATER",
+        "METHANOL",
+        "TURPENTINE",
+        "ORGANICS"
+      ],
+      "notes": [
+        {
+          "text": "Three foul condensate tanks (T-31, T-32, T-33), each ~200 m³, atmospheric, fixed cone roof.",
+          "source": "cases/dev/source/case_f_pulp_mill_area.md"
+        },
+        {
+          "text": "Contents: condensate from the digester and evaporators (water with methanol, turpentine and other organic compounds; an organic layer can float on top). Levels vary with mill operation.",
+          "source": "cases/dev/source/case_f_pulp_mill_area.md"
+        }
+      ]
+    },
+    {
+      "id": "T-33",
+      "type": "tank",
+      "volume_m3": 200,
+      "contents": [
+        "WATER",
+        "METHANOL",
+        "TURPENTINE",
+        "ORGANICS"
+      ],
+      "notes": [
+        {
+          "text": "Three foul condensate tanks (T-31, T-32, T-33), each ~200 m³, atmospheric, fixed cone roof.",
+          "source": "cases/dev/source/case_f_pulp_mill_area.md"
+        },
+        {
+          "text": "Contents: condensate from the digester and evaporators (water with methanol, turpentine and other organic compounds; an organic layer can float on top). Levels vary with mill operation.",
+          "source": "cases/dev/source/case_f_pulp_mill_area.md"
+        }
+      ]
+    },
+    {
+      "id": "OVERFLOW-HEADER",
+      "type": "other",
+      "contents": [
+        "WATER",
+        "METHANOL",
+        "TURPENTINE",
+        "ORGANICS"
+      ],
+      "notes": [
+        {
+          "text": "Connected by a common overflow line and a common vent header that discharges to atmosphere above the roofline.",
+          "source": "cases/dev/source/case_f_pulp_mill_area.md"
+        }
+      ]
+    },
+    {
+      "id": "VENT-HEADER",
+      "type": "other",
+      "notes": [
+        {
+          "text": "Connected by a common overflow line and a common vent header that discharges to atmosphere above the roofline.",
+          "source": "cases/dev/source/case_f_pulp_mill_area.md"
+        }
+      ]
+    },
+    {
+      "id": "STRIPPER-FEED-PUMP",
+      "type": "pump",
+      "contents": [
+        "WATER",
+        "METHANOL",
+        "TURPENTINE",
+        "ORGANICS"
+      ],
+      "notes": [
+        {
+          "text": "A condensate stripper feed pump drawing from T-33.",
+          "source": "cases/dev/source/case_f_pulp_mill_area.md"
+        }
+      ]
+    },
+    {
+      "id": "TK-WEAK-BLACK-LIQUOR",
+      "type": "tank",
+      "contents": [
+        "WEAK-BLACK-LIQUOR"
+      ],
+      "notes": [
+        {
+          "text": "Weak black liquor storage tank (hot, caustic).",
+          "source": "cases/dev/source/case_f_pulp_mill_area.md"
+        }
+      ]
+    }
+  ],
+  "lines": [
+    {
+      "id": "L-T31-OVERFLOW",
+      "from_id": "T-31",
+      "to_id": "OVERFLOW-HEADER",
+      "contents": [
+        "WATER",
+        "METHANOL",
+        "TURPENTINE",
+        "ORGANICS"
+      ]
+    },
+    {
+      "id": "L-T32-OVERFLOW",
+      "from_id": "T-32",
+      "to_id": "OVERFLOW-HEADER",
+      "contents": [
+        "WATER",
+        "METHANOL",
+        "TURPENTINE",
+        "ORGANICS"
+      ]
+    },
+    {
+      "id": "L-T33-OVERFLOW",
+      "from_id": "T-33",
+      "to_id": "OVERFLOW-HEADER",
+      "contents": [
+        "WATER",
+        "METHANOL",
+        "TURPENTINE",
+        "ORGANICS"
+      ]
+    },
+    {
+      "id": "L-T31-VENT",
+      "from_id": "T-31",
+      "to_id": "VENT-HEADER"
+    },
+    {
+      "id": "L-T32-VENT",
+      "from_id": "T-32",
+      "to_id": "VENT-HEADER"
+    },
+    {
+      "id": "L-T33-VENT",
+      "from_id": "T-33",
+      "to_id": "VENT-HEADER"
+    },
+    {
+      "id": "L-VENT-DISCHARGE",
+      "from_id": "VENT-HEADER",
+      "to_id": "LOC-F-ATMOSPHERE"
+    },
+    {
+      "id": "L-STRIPPER-FEED",
+      "from_id": "T-33",
+      "to_id": "STRIPPER-FEED-PUMP",
+      "contents": [
+        "WATER",
+        "METHANOL",
+        "TURPENTINE",
+        "ORGANICS"
+      ]
+    },
+    {
+      "id": "L-CONDENSATE-8IN",
+      "from_id": "LOC-F-UNSTATED",
+      "to_id": "LOC-F-UNSTATED",
+      "size_mm": 203.2,
+      "notes": [
+        {
+          "text": "replaces a corroded section of the 8\" condensate line that runs across the roof of T-32",
+          "source": "cases/dev/source/case_f_pulp_mill_area.md"
+        }
+      ]
+    },
+    {
+      "id": "L-WHITE-LIQUOR",
+      "from_id": "LOC-F-UNSTATED",
+      "to_id": "LOC-F-UNSTATED",
+      "contents": [
+        "NAOH",
+        "NA2S"
+      ],
+      "notes": [
+        {
+          "text": "White liquor line (hot sodium hydroxide / sodium sulfide) crossing the area on a pipe rack.",
+          "source": "cases/dev/source/case_f_pulp_mill_area.md"
+        }
+      ]
+    }
+  ],
+  "safeguards": [
+    {
+      "id": "SG-F-PERMITS",
+      "description": "Permit-to-work system with a hot work permit, a lockout/tagout procedure and a lifting plan procedure."
+    },
+    {
+      "id": "SG-F-ORIENTATION",
+      "description": "Contractor safety orientation on day 1."
+    },
+    {
+      "id": "SG-F-SIGN-OFF",
+      "description": "Area operator signs off each permit."
+    },
+    {
+      "id": "SG-F-EYEWASH",
+      "description": "Eyewash and safety showers."
+    },
+    {
+      "id": "SG-F-EXTINGUISHERS",
+      "description": "Fire extinguishers at each work location; mill fire brigade."
+    },
+    {
+      "id": "SG-F-H2S-MONITORS",
+      "description": "H2S personal monitors issued to mill operators."
+    }
+  ],
+  "chemicals": [
+    {
+      "id": "WATER",
+      "name": "water",
+      "source": "cases/dev/source/case_f_pulp_mill_area.md"
+    },
+    {
+      "id": "METHANOL",
+      "name": "methanol",
+      "source": "cases/dev/source/case_f_pulp_mill_area.md"
+    },
+    {
+      "id": "TURPENTINE",
+      "name": "turpentine",
+      "source": "cases/dev/source/case_f_pulp_mill_area.md"
+    },
+    {
+      "id": "ORGANICS",
+      "name": "other organic compounds",
+      "source": "cases/dev/source/case_f_pulp_mill_area.md"
+    },
+    {
+      "id": "BLACK-LIQUOR",
+      "name": "black liquor",
+      "source": "cases/dev/source/case_f_pulp_mill_area.md"
+    },
+    {
+      "id": "WEAK-BLACK-LIQUOR",
+      "name": "weak black liquor",
+      "source": "cases/dev/source/case_f_pulp_mill_area.md"
+    },
+    {
+      "id": "NAOH",
+      "name": "sodium hydroxide",
+      "source": "cases/dev/source/case_f_pulp_mill_area.md"
+    },
+    {
+      "id": "NA2S",
+      "name": "sodium sulfide",
+      "source": "cases/dev/source/case_f_pulp_mill_area.md"
+    }
+  ],
+  "planned_work": [
+    {
+      "id": "W-1",
+      "type": "hot_work",
+      "location_id": "LOC-F-T32-ROOF",
+      "equipment_ids": [
+        "T-32"
+      ],
+      "line_ids": [
+        "L-CONDENSATE-8IN"
+      ],
+      "notes": [
+        {
+          "text": "Contractor crew installs new pipe supports and replaces a corroded section of the 8\" condensate line that runs across the roof of T-32 (cutting, welding and grinding; scaffold on the tank roof). Tanks stay in service during the work.",
+          "source": "cases/dev/source/case_f_pulp_mill_area.md"
+        }
+      ]
+    },
+    {
+      "id": "W-2",
+      "type": "other",
+      "equipment_ids": [
+        "STRIPPER-FEED-PUMP"
+      ],
+      "notes": [
+        {
+          "text": "Mill maintenance replaces the mechanical seal on the stripper feed pump.",
+          "source": "cases/dev/source/case_f_pulp_mill_area.md"
+        }
+      ]
+    },
+    {
+      "id": "W-3",
+      "type": "lifting",
+      "line_ids": [
+        "L-WHITE-LIQUOR"
+      ],
+      "notes": [
+        {
+          "text": "A 40-tonne mobile crane lifts the new pipe section over the white liquor line.",
+          "source": "cases/dev/source/case_f_pulp_mill_area.md"
+        }
+      ]
+    },
+    {
+      "id": "W-4",
+      "type": "other",
+      "notes": [
+        {
+          "text": "Insulation repair on the steam header (no hot work).",
+          "source": "cases/dev/source/case_f_pulp_mill_area.md"
+        }
+      ]
+    }
+  ],
+  "provenance": {
+    "BLACK-LIQUOR": "cases/dev/source/case_f_pulp_mill_area.md",
+    "EVAPORATORS": "cases/dev/source/case_f_pulp_mill_area.md",
+    "L-CONDENSATE-8IN": "cases/dev/source/case_f_pulp_mill_area.md",
+    "L-STRIPPER-FEED": "cases/dev/source/case_f_pulp_mill_area.md",
+    "L-T31-OVERFLOW": "cases/dev/source/case_f_pulp_mill_area.md",
+    "L-T31-VENT": "cases/dev/source/case_f_pulp_mill_area.md",
+    "L-T32-OVERFLOW": "cases/dev/source/case_f_pulp_mill_area.md",
+    "L-T32-VENT": "cases/dev/source/case_f_pulp_mill_area.md",
+    "L-T33-OVERFLOW": "cases/dev/source/case_f_pulp_mill_area.md",
+    "L-T33-VENT": "cases/dev/source/case_f_pulp_mill_area.md",
+    "L-VENT-DISCHARGE": "cases/dev/source/case_f_pulp_mill_area.md",
+    "L-WHITE-LIQUOR": "cases/dev/source/case_f_pulp_mill_area.md",
+    "LOC-F-ATMOSPHERE": "cases/dev/source/case_f_pulp_mill_area.md",
+    "LOC-F-T32-ROOF": "cases/dev/source/case_f_pulp_mill_area.md",
+    "LOC-F-UNSTATED": "cases/dev/source/case_f_pulp_mill_area.md",
+    "METHANOL": "cases/dev/source/case_f_pulp_mill_area.md",
+    "NA2S": "cases/dev/source/case_f_pulp_mill_area.md",
+    "NAOH": "cases/dev/source/case_f_pulp_mill_area.md",
+    "ORGANICS": "cases/dev/source/case_f_pulp_mill_area.md",
+    "OVERFLOW-HEADER": "cases/dev/source/case_f_pulp_mill_area.md",
+    "SG-F-EXTINGUISHERS": "cases/dev/source/case_f_pulp_mill_area.md",
+    "SG-F-EYEWASH": "cases/dev/source/case_f_pulp_mill_area.md",
+    "SG-F-H2S-MONITORS": "cases/dev/source/case_f_pulp_mill_area.md",
+    "SG-F-ORIENTATION": "cases/dev/source/case_f_pulp_mill_area.md",
+    "SG-F-PERMITS": "cases/dev/source/case_f_pulp_mill_area.md",
+    "SG-F-SIGN-OFF": "cases/dev/source/case_f_pulp_mill_area.md",
+    "STRIPPER-FEED-PUMP": "cases/dev/source/case_f_pulp_mill_area.md",
+    "SURFACE-CONDENSER": "cases/dev/source/case_f_pulp_mill_area.md",
+    "T-31": "cases/dev/source/case_f_pulp_mill_area.md",
+    "T-32": "cases/dev/source/case_f_pulp_mill_area.md",
+    "T-33": "cases/dev/source/case_f_pulp_mill_area.md",
+    "TK-WEAK-BLACK-LIQUOR": "cases/dev/source/case_f_pulp_mill_area.md",
+    "TURPENTINE": "cases/dev/source/case_f_pulp_mill_area.md",
+    "UT-F-CW": "cases/dev/source/case_f_pulp_mill_area.md",
+    "UT-F-LP-STEAM": "cases/dev/source/case_f_pulp_mill_area.md",
+    "VACUUM-SYSTEM": "cases/dev/source/case_f_pulp_mill_area.md",
+    "VENT-HEADER": "cases/dev/source/case_f_pulp_mill_area.md",
+    "W-1": "cases/dev/source/case_f_pulp_mill_area.md",
+    "W-2": "cases/dev/source/case_f_pulp_mill_area.md",
+    "W-3": "cases/dev/source/case_f_pulp_mill_area.md",
+    "W-4": "cases/dev/source/case_f_pulp_mill_area.md",
+    "WATER": "cases/dev/source/case_f_pulp_mill_area.md",
+    "WEAK-BLACK-LIQUOR": "cases/dev/source/case_f_pulp_mill_area.md"
+  }
+}

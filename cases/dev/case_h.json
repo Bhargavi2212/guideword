@@ -1,0 +1,460 @@
+{
+  "plant_id": "case_h",
+  "schema_version": "1.0",
+  "notes": [
+    {
+      "text": "Products: grits, cornmeal and corn flour, conveyed to bins, then bagging and bulk loadout.",
+      "source": "cases/dev/source/case_h_corn_mill.md"
+    },
+    {
+      "text": "Operating and maintenance records (last 3 years)",
+      "source": "cases/dev/source/case_h_corn_mill.md"
+    },
+    {
+      "text": "Bearing replacements on hammer mills and elevator head pulleys.",
+      "source": "cases/dev/source/case_h_corn_mill.md"
+    },
+    {
+      "text": "3 reports of smouldering material found in equipment, extinguished by the crew.",
+      "source": "cases/dev/source/case_h_corn_mill.md"
+    },
+    {
+      "text": "Elevator belt misalignment events.",
+      "source": "cases/dev/source/case_h_corn_mill.md"
+    },
+    {
+      "text": "Housekeeping crew on day shift.",
+      "source": "cases/dev/source/case_h_corn_mill.md"
+    },
+    {
+      "text": "One lost-time injury from a fall on stairs.",
+      "source": "cases/dev/source/case_h_corn_mill.md"
+    }
+  ],
+  "locations": [
+    {
+      "id": "LOC-H-RECEIVING",
+      "description": "truck and rail receiving"
+    },
+    {
+      "id": "LOC-H-MILL-BUILDING",
+      "description": "5-storey mill building",
+      "occupied": true,
+      "indoor": true,
+      "notes": [
+        {
+          "text": "5-storey mill building; operators work on all floors; ~20 people per shift.",
+          "source": "cases/dev/source/case_h_corn_mill.md"
+        }
+      ]
+    },
+    {
+      "id": "LOC-H-ROOF",
+      "description": "roof (shared baghouse collectors)"
+    }
+  ],
+  "utilities": [
+    {
+      "id": "UT-H-STEAM",
+      "kind": "steam",
+      "notes": [
+        {
+          "text": "Steam supply for the tempering area; compressed air system.",
+          "source": "cases/dev/source/case_h_corn_mill.md"
+        }
+      ]
+    },
+    {
+      "id": "UT-H-COMPRESSED-AIR",
+      "kind": "other",
+      "notes": [
+        {
+          "text": "Steam supply for the tempering area; compressed air system.",
+          "source": "cases/dev/source/case_h_corn_mill.md"
+        }
+      ]
+    }
+  ],
+  "equipment": [
+    {
+      "id": "SILOS",
+      "type": "tank",
+      "contents": [
+        "CORN"
+      ],
+      "notes": [
+        {
+          "text": "Receives shelled corn by truck and rail into storage silos.",
+          "source": "cases/dev/source/case_h_corn_mill.md"
+        }
+      ]
+    },
+    {
+      "id": "CLEANING",
+      "type": "solids_handler",
+      "contents": [
+        "CORN"
+      ],
+      "notes": [
+        {
+          "text": "Cleaning, then tempering with water.",
+          "source": "cases/dev/source/case_h_corn_mill.md"
+        }
+      ]
+    },
+    {
+      "id": "TEMPERING",
+      "type": "other",
+      "contents": [
+        "CORN",
+        "WATER"
+      ],
+      "notes": [
+        {
+          "text": "Cleaning, then tempering with water.",
+          "source": "cases/dev/source/case_h_corn_mill.md"
+        }
+      ]
+    },
+    {
+      "id": "CORN-DRYER",
+      "type": "dryer",
+      "heat_sources": [
+        {
+          "medium": "natural gas"
+        }
+      ],
+      "contents": [
+        "CORN"
+      ],
+      "notes": [
+        {
+          "text": "Corn dryer (natural gas fired) for tempered product.",
+          "source": "cases/dev/source/case_h_corn_mill.md"
+        }
+      ]
+    },
+    {
+      "id": "DEGERMINATION",
+      "type": "solids_handler",
+      "contents": [
+        "CORN"
+      ],
+      "notes": [
+        {
+          "text": "Degermination, then roller mills and hammer mills, then rotary sifters, aspirators and purifiers.",
+          "source": "cases/dev/source/case_h_corn_mill.md"
+        }
+      ]
+    },
+    {
+      "id": "ROLLER-MILLS",
+      "type": "solids_handler",
+      "dust_collection": true,
+      "contents": [
+        "GRITS",
+        "CORNMEAL",
+        "CORN-FLOUR"
+      ],
+      "notes": [
+        {
+          "text": "Degermination, then roller mills and hammer mills, then rotary sifters, aspirators and purifiers.",
+          "source": "cases/dev/source/case_h_corn_mill.md"
+        }
+      ]
+    },
+    {
+      "id": "HAMMER-MILLS",
+      "type": "solids_handler",
+      "dust_collection": true,
+      "contents": [
+        "GRITS",
+        "CORNMEAL",
+        "CORN-FLOUR"
+      ],
+      "notes": [
+        {
+          "text": "Degermination, then roller mills and hammer mills, then rotary sifters, aspirators and purifiers.",
+          "source": "cases/dev/source/case_h_corn_mill.md"
+        },
+        {
+          "text": "Bearing replacements on hammer mills and elevator head pulleys.",
+          "source": "cases/dev/source/case_h_corn_mill.md"
+        }
+      ]
+    },
+    {
+      "id": "ROTARY-SIFTERS",
+      "type": "solids_handler",
+      "dust_collection": true,
+      "contents": [
+        "GRITS",
+        "CORNMEAL",
+        "CORN-FLOUR"
+      ],
+      "notes": [
+        {
+          "text": "then rotary sifters, aspirators and purifiers",
+          "source": "cases/dev/source/case_h_corn_mill.md"
+        }
+      ]
+    },
+    {
+      "id": "ASPIRATORS",
+      "type": "solids_handler",
+      "contents": [
+        "GRITS",
+        "CORNMEAL",
+        "CORN-FLOUR"
+      ],
+      "notes": [
+        {
+          "text": "then rotary sifters, aspirators and purifiers",
+          "source": "cases/dev/source/case_h_corn_mill.md"
+        }
+      ]
+    },
+    {
+      "id": "PURIFIERS",
+      "type": "solids_handler",
+      "contents": [
+        "GRITS",
+        "CORNMEAL",
+        "CORN-FLOUR"
+      ],
+      "notes": [
+        {
+          "text": "then rotary sifters, aspirators and purifiers",
+          "source": "cases/dev/source/case_h_corn_mill.md"
+        }
+      ]
+    },
+    {
+      "id": "BUCKET-ELEVATORS",
+      "type": "solids_handler",
+      "dust_collection": true,
+      "notes": [
+        {
+          "text": "Bucket elevators between floors, screw conveyors and pneumatic conveying lines.",
+          "source": "cases/dev/source/case_h_corn_mill.md"
+        },
+        {
+          "text": "Elevator belt misalignment events.",
+          "source": "cases/dev/source/case_h_corn_mill.md"
+        }
+      ]
+    },
+    {
+      "id": "SCREW-CONVEYORS",
+      "type": "solids_handler",
+      "dust_collection": true,
+      "notes": [
+        {
+          "text": "Bucket elevators between floors, screw conveyors and pneumatic conveying lines.",
+          "source": "cases/dev/source/case_h_corn_mill.md"
+        }
+      ]
+    },
+    {
+      "id": "PNEUMATIC-CONVEYING",
+      "type": "solids_handler",
+      "dust_collection": true,
+      "notes": [
+        {
+          "text": "Bucket elevators between floors, screw conveyors and pneumatic conveying lines.",
+          "source": "cases/dev/source/case_h_corn_mill.md"
+        }
+      ]
+    },
+    {
+      "id": "BINS",
+      "type": "tank",
+      "contents": [
+        "GRITS",
+        "CORNMEAL",
+        "CORN-FLOUR"
+      ],
+      "notes": [
+        {
+          "text": "conveyed to bins, then bagging and bulk loadout",
+          "source": "cases/dev/source/case_h_corn_mill.md"
+        }
+      ]
+    },
+    {
+      "id": "BAGGING",
+      "type": "solids_handler",
+      "dust_collection": true,
+      "contents": [
+        "GRITS",
+        "CORNMEAL",
+        "CORN-FLOUR"
+      ],
+      "notes": [
+        {
+          "text": "conveyed to bins, then bagging and bulk loadout",
+          "source": "cases/dev/source/case_h_corn_mill.md"
+        }
+      ]
+    },
+    {
+      "id": "BULK-LOADOUT",
+      "type": "solids_handler",
+      "contents": [
+        "GRITS",
+        "CORNMEAL",
+        "CORN-FLOUR"
+      ],
+      "notes": [
+        {
+          "text": "conveyed to bins, then bagging and bulk loadout",
+          "source": "cases/dev/source/case_h_corn_mill.md"
+        }
+      ]
+    },
+    {
+      "id": "BAGHOUSE",
+      "type": "other",
+      "location_id": "LOC-H-ROOF",
+      "notes": [
+        {
+          "text": "Dust collection: ductwork from mills, sifters, conveyors and bagging, connected to shared baghouse collectors on the roof.",
+          "source": "cases/dev/source/case_h_corn_mill.md"
+        }
+      ]
+    }
+  ],
+  "lines": [
+    {
+      "id": "L-RECEIVING",
+      "from_id": "LOC-H-RECEIVING",
+      "to_id": "SILOS",
+      "contents": [
+        "CORN"
+      ]
+    },
+    {
+      "id": "L-DUCT-ROLLER-MILLS",
+      "from_id": "ROLLER-MILLS",
+      "to_id": "BAGHOUSE"
+    },
+    {
+      "id": "L-DUCT-HAMMER-MILLS",
+      "from_id": "HAMMER-MILLS",
+      "to_id": "BAGHOUSE"
+    },
+    {
+      "id": "L-DUCT-SIFTERS",
+      "from_id": "ROTARY-SIFTERS",
+      "to_id": "BAGHOUSE"
+    },
+    {
+      "id": "L-DUCT-ELEVATORS",
+      "from_id": "BUCKET-ELEVATORS",
+      "to_id": "BAGHOUSE"
+    },
+    {
+      "id": "L-DUCT-SCREW-CONVEYORS",
+      "from_id": "SCREW-CONVEYORS",
+      "to_id": "BAGHOUSE"
+    },
+    {
+      "id": "L-DUCT-PNEUMATIC",
+      "from_id": "PNEUMATIC-CONVEYING",
+      "to_id": "BAGHOUSE"
+    },
+    {
+      "id": "L-DUCT-BAGGING",
+      "from_id": "BAGGING",
+      "to_id": "BAGHOUSE"
+    }
+  ],
+  "safeguards": [
+    {
+      "id": "SG-H-INTERLOCKS",
+      "description": "Basic motor control with interlocks on conveyor sequence start."
+    },
+    {
+      "id": "SG-H-EXTINGUISHERS",
+      "description": "Fire extinguishers and hose stations on each floor.",
+      "protects_id": "LOC-H-MILL-BUILDING"
+    },
+    {
+      "id": "SG-H-MAGNETS",
+      "description": "Magnets upstream of the mills to remove metal."
+    }
+  ],
+  "chemicals": [
+    {
+      "id": "CORN",
+      "name": "shelled corn",
+      "source": "cases/dev/source/case_h_corn_mill.md"
+    },
+    {
+      "id": "WATER",
+      "name": "water (tempering)",
+      "source": "cases/dev/source/case_h_corn_mill.md"
+    },
+    {
+      "id": "GRITS",
+      "name": "grits",
+      "source": "cases/dev/source/case_h_corn_mill.md"
+    },
+    {
+      "id": "CORNMEAL",
+      "name": "cornmeal",
+      "source": "cases/dev/source/case_h_corn_mill.md"
+    },
+    {
+      "id": "CORN-FLOUR",
+      "name": "corn flour",
+      "source": "cases/dev/source/case_h_corn_mill.md"
+    },
+    {
+      "id": "NATURAL-GAS",
+      "name": "natural gas (dryer fuel)",
+      "source": "cases/dev/source/case_h_corn_mill.md"
+    }
+  ],
+  "provenance": {
+    "ASPIRATORS": "cases/dev/source/case_h_corn_mill.md",
+    "BAGGING": "cases/dev/source/case_h_corn_mill.md",
+    "BAGHOUSE": "cases/dev/source/case_h_corn_mill.md",
+    "BINS": "cases/dev/source/case_h_corn_mill.md",
+    "BUCKET-ELEVATORS": "cases/dev/source/case_h_corn_mill.md",
+    "BULK-LOADOUT": "cases/dev/source/case_h_corn_mill.md",
+    "CLEANING": "cases/dev/source/case_h_corn_mill.md",
+    "CORN": "cases/dev/source/case_h_corn_mill.md",
+    "CORN-DRYER": "cases/dev/source/case_h_corn_mill.md",
+    "CORN-FLOUR": "cases/dev/source/case_h_corn_mill.md",
+    "CORNMEAL": "cases/dev/source/case_h_corn_mill.md",
+    "DEGERMINATION": "cases/dev/source/case_h_corn_mill.md",
+    "GRITS": "cases/dev/source/case_h_corn_mill.md",
+    "HAMMER-MILLS": "cases/dev/source/case_h_corn_mill.md",
+    "L-DUCT-BAGGING": "cases/dev/source/case_h_corn_mill.md",
+    "L-DUCT-ELEVATORS": "cases/dev/source/case_h_corn_mill.md",
+    "L-DUCT-HAMMER-MILLS": "cases/dev/source/case_h_corn_mill.md",
+    "L-DUCT-PNEUMATIC": "cases/dev/source/case_h_corn_mill.md",
+    "L-DUCT-ROLLER-MILLS": "cases/dev/source/case_h_corn_mill.md",
+    "L-DUCT-SCREW-CONVEYORS": "cases/dev/source/case_h_corn_mill.md",
+    "L-DUCT-SIFTERS": "cases/dev/source/case_h_corn_mill.md",
+    "L-RECEIVING": "cases/dev/source/case_h_corn_mill.md",
+    "LOC-H-MILL-BUILDING": "cases/dev/source/case_h_corn_mill.md",
+    "LOC-H-RECEIVING": "cases/dev/source/case_h_corn_mill.md",
+    "LOC-H-ROOF": "cases/dev/source/case_h_corn_mill.md",
+    "NATURAL-GAS": "cases/dev/source/case_h_corn_mill.md",
+    "PNEUMATIC-CONVEYING": "cases/dev/source/case_h_corn_mill.md",
+    "PURIFIERS": "cases/dev/source/case_h_corn_mill.md",
+    "ROLLER-MILLS": "cases/dev/source/case_h_corn_mill.md",
+    "ROTARY-SIFTERS": "cases/dev/source/case_h_corn_mill.md",
+    "SCREW-CONVEYORS": "cases/dev/source/case_h_corn_mill.md",
+    "SG-H-EXTINGUISHERS": "cases/dev/source/case_h_corn_mill.md",
+    "SG-H-INTERLOCKS": "cases/dev/source/case_h_corn_mill.md",
+    "SG-H-MAGNETS": "cases/dev/source/case_h_corn_mill.md",
+    "SILOS": "cases/dev/source/case_h_corn_mill.md",
+    "TEMPERING": "cases/dev/source/case_h_corn_mill.md",
+    "UT-H-COMPRESSED-AIR": "cases/dev/source/case_h_corn_mill.md",
+    "UT-H-STEAM": "cases/dev/source/case_h_corn_mill.md",
+    "WATER": "cases/dev/source/case_h_corn_mill.md"
+  }
+}

@@ -1,0 +1,668 @@
+{
+  "plant_id": "case_d",
+  "schema_version": "1.0",
+  "notes": [
+    {
+      "text": "Feed: crude C4 cut from an olefins plant (butanes, butenes, 1,3-butadiene ~45%, traces of acetylenes and water).",
+      "source": "cases/dev/source/case_d_c4_unit.md"
+    },
+    {
+      "text": "Products: 1,3-butadiene (99.5%+) to two pressurised storage spheres; raffinate (butanes/butenes) to a pipeline; heavies to fuel.",
+      "source": "cases/dev/source/case_d_c4_unit.md"
+    },
+    {
+      "text": "Relief valves on all columns, drums and pump discharge to the flare.",
+      "source": "cases/dev/source/case_d_c4_unit.md"
+    },
+    {
+      "text": "Wall-thickness checks by ultrasonic testing on the main process circuits every 5 years.",
+      "source": "cases/dev/source/case_d_c4_unit.md"
+    },
+    {
+      "text": "Unit is about 300 m from the site boundary; residential area 1 km away.",
+      "source": "cases/dev/source/case_d_c4_unit.md"
+    }
+  ],
+  "locations": [
+    {
+      "id": "LOC-D-UNSTATED",
+      "description": "endpoint not stated in the package"
+    },
+    {
+      "id": "LOC-D-OLEFINS",
+      "description": "olefins plant (source of the crude C4 feed)"
+    },
+    {
+      "id": "LOC-D-PIPELINE",
+      "description": "raffinate pipeline"
+    },
+    {
+      "id": "LOC-D-FUEL",
+      "description": "fuel (destination of the heavies)"
+    },
+    {
+      "id": "LOC-D-SPHERES",
+      "description": "storage spheres TK-201/202"
+    },
+    {
+      "id": "LOC-D-SITE-BOUNDARY",
+      "description": "site boundary",
+      "distance_m": 300
+    },
+    {
+      "id": "LOC-D-RESIDENTIAL",
+      "description": "residential area",
+      "distance_m": 1000
+    }
+  ],
+  "utilities": [
+    {
+      "id": "UT-D-STEAM",
+      "kind": "steam",
+      "notes": [
+        {
+          "text": "Steam reboilers, cooling-water condensers.",
+          "source": "cases/dev/source/case_d_c4_unit.md"
+        }
+      ]
+    },
+    {
+      "id": "UT-D-LP-STEAM",
+      "kind": "steam"
+    },
+    {
+      "id": "UT-D-CW",
+      "kind": "cooling_water"
+    }
+  ],
+  "equipment": [
+    {
+      "id": "V-101",
+      "type": "vessel",
+      "contents": [
+        "BUTANES",
+        "BUTENES",
+        "BUTADIENE",
+        "ACETYLENES",
+        "WATER"
+      ],
+      "notes": [
+        {
+          "text": "V-101 feed surge drum, 4 bar g, ambient temperature.",
+          "source": "cases/dev/source/case_d_c4_unit.md"
+        }
+      ]
+    },
+    {
+      "id": "C-101",
+      "type": "column",
+      "contents": [
+        "BUTANES",
+        "BUTENES",
+        "BUTADIENE",
+        "NMP"
+      ],
+      "heat_sources": [
+        {
+          "medium": "steam"
+        }
+      ],
+      "injection_points": [
+        {
+          "chemical_id": "ANTIFOAM"
+        }
+      ],
+      "notes": [
+        {
+          "text": "C-101 / C-102 extractive distillation columns with solvent (N-methylpyrrolidone). Steam reboilers, cooling-water condensers.",
+          "source": "cases/dev/source/case_d_c4_unit.md"
+        },
+        {
+          "text": "Antifoam injected to C-101.",
+          "source": "cases/dev/source/case_d_c4_unit.md"
+        }
+      ]
+    },
+    {
+      "id": "C-102",
+      "type": "column",
+      "contents": [
+        "BUTANES",
+        "BUTENES",
+        "BUTADIENE",
+        "NMP"
+      ],
+      "heat_sources": [
+        {
+          "medium": "steam"
+        }
+      ],
+      "notes": [
+        {
+          "text": "C-101 / C-102 extractive distillation columns with solvent (N-methylpyrrolidone). Steam reboilers, cooling-water condensers.",
+          "source": "cases/dev/source/case_d_c4_unit.md"
+        }
+      ]
+    },
+    {
+      "id": "C-103",
+      "type": "column",
+      "contents": [
+        "NMP"
+      ],
+      "notes": [
+        {
+          "text": "C-103 solvent stripper, operated at ~150 °C bottoms.",
+          "source": "cases/dev/source/case_d_c4_unit.md"
+        }
+      ]
+    },
+    {
+      "id": "C-104",
+      "type": "column",
+      "contents": [
+        "BUTADIENE"
+      ],
+      "notes": [
+        {
+          "text": "C-104 butadiene rerun column, ~5 bar g. Reboiler E-104 (low-pressure steam), overhead condenser E-105, reflux drum V-104.",
+          "source": "cases/dev/source/case_d_c4_unit.md"
+        }
+      ]
+    },
+    {
+      "id": "E-104",
+      "type": "heat_exchanger",
+      "heat_sources": [
+        {
+          "medium": "low-pressure steam"
+        }
+      ],
+      "notes": [
+        {
+          "text": "Reboiler E-104 (low-pressure steam)",
+          "source": "cases/dev/source/case_d_c4_unit.md"
+        }
+      ]
+    },
+    {
+      "id": "E-105",
+      "type": "heat_exchanger",
+      "notes": [
+        {
+          "text": "overhead condenser E-105",
+          "source": "cases/dev/source/case_d_c4_unit.md"
+        }
+      ]
+    },
+    {
+      "id": "V-104",
+      "type": "vessel",
+      "contents": [
+        "BUTADIENE"
+      ],
+      "injection_points": [
+        {
+          "chemical_id": "TBC"
+        }
+      ],
+      "notes": [
+        {
+          "text": "reflux drum V-104",
+          "source": "cases/dev/source/case_d_c4_unit.md"
+        },
+        {
+          "text": "TBC (tert-butylcatechol) injected continuously at the V-104 outlet at 50–100 ppm.",
+          "source": "cases/dev/source/case_d_c4_unit.md"
+        },
+        {
+          "text": "1\" sample connections on the rundown line and at V-104.",
+          "source": "cases/dev/source/case_d_c4_unit.md"
+        }
+      ]
+    },
+    {
+      "id": "P-104A",
+      "type": "pump",
+      "notes": [
+        {
+          "text": "P-104A/B product pumps (A runs, B is installed spare with suction and discharge block valves closed; switched over a few times a year).",
+          "source": "cases/dev/source/case_d_c4_unit.md"
+        }
+      ]
+    },
+    {
+      "id": "P-104B",
+      "type": "pump",
+      "notes": [
+        {
+          "text": "P-104A/B product pumps (A runs, B is installed spare with suction and discharge block valves closed; switched over a few times a year).",
+          "source": "cases/dev/source/case_d_c4_unit.md"
+        },
+        {
+          "text": "Strainers upstream of P-104A/B, cleaned when the differential pressure is high.",
+          "source": "cases/dev/source/case_d_c4_unit.md"
+        }
+      ]
+    },
+    {
+      "id": "E-106",
+      "type": "heat_exchanger",
+      "notes": [
+        {
+          "text": "E-106 product cooler on the rundown line, with a normally closed bypass.",
+          "source": "cases/dev/source/case_d_c4_unit.md"
+        }
+      ]
+    },
+    {
+      "id": "TK-201",
+      "type": "tank",
+      "location_id": "LOC-D-SPHERES",
+      "contents": [
+        "BUTADIENE"
+      ],
+      "notes": [
+        {
+          "text": "1,3-butadiene (99.5%+) to two pressurised storage spheres",
+          "source": "cases/dev/source/case_d_c4_unit.md"
+        }
+      ]
+    },
+    {
+      "id": "TK-202",
+      "type": "tank",
+      "location_id": "LOC-D-SPHERES",
+      "contents": [
+        "BUTADIENE"
+      ],
+      "notes": [
+        {
+          "text": "1,3-butadiene (99.5%+) to two pressurised storage spheres",
+          "source": "cases/dev/source/case_d_c4_unit.md"
+        }
+      ]
+    },
+    {
+      "id": "TK-OFFSPEC",
+      "type": "tank",
+      "notes": [
+        {
+          "text": "4\" line to the off-spec tank, normally closed.",
+          "source": "cases/dev/source/case_d_c4_unit.md"
+        }
+      ]
+    },
+    {
+      "id": "FLARE-HEADER",
+      "type": "other",
+      "notes": [
+        {
+          "text": "Flare header serving all relief valves.",
+          "source": "cases/dev/source/case_d_c4_unit.md"
+        }
+      ]
+    }
+  ],
+  "valves": [
+    {
+      "id": "BV-P104B-SUC",
+      "kind": "block",
+      "on_line_id": "L-P104B-SUC",
+      "normal_position": "closed"
+    },
+    {
+      "id": "BV-P104B-DIS",
+      "kind": "block",
+      "on_line_id": "L-P104B-DIS",
+      "normal_position": "closed"
+    }
+  ],
+  "lines": [
+    {
+      "id": "L-FEED",
+      "from_id": "LOC-D-OLEFINS",
+      "to_id": "V-101",
+      "contents": [
+        "BUTANES",
+        "BUTENES",
+        "BUTADIENE",
+        "ACETYLENES",
+        "WATER"
+      ]
+    },
+    {
+      "id": "L-RUNDOWN",
+      "from_id": "LOC-D-UNSTATED",
+      "to_id": "LOC-D-SPHERES",
+      "components": [
+        "E-106"
+      ],
+      "contents": [
+        "BUTADIENE"
+      ],
+      "size_mm": 152.4,
+      "length_m": 400,
+      "notes": [
+        {
+          "text": "Rundown line, 6\" carbon steel, insulated, ~400 m to storage spheres TK-201/202.",
+          "source": "cases/dev/source/case_d_c4_unit.md"
+        },
+        {
+          "text": "1\" sample connections on the rundown line and at V-104.",
+          "source": "cases/dev/source/case_d_c4_unit.md"
+        }
+      ]
+    },
+    {
+      "id": "L-E106-BYPASS",
+      "from_id": "LOC-D-UNSTATED",
+      "to_id": "LOC-D-UNSTATED",
+      "no_flow": [
+        "normally_closed"
+      ],
+      "contents": [
+        "BUTADIENE"
+      ],
+      "size_mm": 76.2,
+      "notes": [
+        {
+          "text": "3\" bypass around E-106, normally closed.",
+          "source": "cases/dev/source/case_d_c4_unit.md"
+        }
+      ]
+    },
+    {
+      "id": "L-STARTUP-RECYCLE",
+      "from_id": "P-104A",
+      "to_id": "C-104",
+      "no_flow": [
+        "normally_closed",
+        "startup_only"
+      ],
+      "size_mm": 50.8,
+      "notes": [
+        {
+          "text": "2\" start-up recycle line from the P-104 discharge back to C-104, normally closed, used during start-ups (last used 14 months ago).",
+          "source": "cases/dev/source/case_d_c4_unit.md"
+        }
+      ]
+    },
+    {
+      "id": "L-P104B-SUC",
+      "from_id": "LOC-D-UNSTATED",
+      "to_id": "P-104B",
+      "components": [
+        "BV-P104B-SUC"
+      ],
+      "no_flow": [
+        "normally_closed"
+      ],
+      "notes": [
+        {
+          "text": "Spare-pump suction and discharge piping as above.",
+          "source": "cases/dev/source/case_d_c4_unit.md"
+        }
+      ]
+    },
+    {
+      "id": "L-P104B-DIS",
+      "from_id": "P-104B",
+      "to_id": "LOC-D-UNSTATED",
+      "components": [
+        "BV-P104B-DIS"
+      ],
+      "no_flow": [
+        "normally_closed"
+      ],
+      "notes": [
+        {
+          "text": "Spare-pump suction and discharge piping as above.",
+          "source": "cases/dev/source/case_d_c4_unit.md"
+        }
+      ]
+    },
+    {
+      "id": "L-OFFSPEC",
+      "from_id": "LOC-D-UNSTATED",
+      "to_id": "TK-OFFSPEC",
+      "no_flow": [
+        "normally_closed"
+      ],
+      "size_mm": 101.6
+    },
+    {
+      "id": "L-RAFFINATE",
+      "from_id": "LOC-D-UNSTATED",
+      "to_id": "LOC-D-PIPELINE",
+      "contents": [
+        "BUTANES",
+        "BUTENES"
+      ]
+    },
+    {
+      "id": "L-HEAVIES",
+      "from_id": "LOC-D-UNSTATED",
+      "to_id": "LOC-D-FUEL",
+      "contents": [
+        "HEAVIES"
+      ]
+    }
+  ],
+  "operating": [
+    {
+      "target_id": "V-101",
+      "parameter": "pressure",
+      "normal": 400
+    },
+    {
+      "target_id": "C-103",
+      "parameter": "temperature",
+      "normal": 150
+    },
+    {
+      "target_id": "C-104",
+      "parameter": "pressure",
+      "normal": 500
+    }
+  ],
+  "safeguards": [
+    {
+      "id": "SG-D-BPCS",
+      "description": "Basic process control system"
+    },
+    {
+      "id": "SG-D-LEVEL-ALARMS",
+      "description": "high/low level alarms on all drums"
+    },
+    {
+      "id": "SG-D-PRESSURE-ALARMS",
+      "description": "high-pressure alarms on columns"
+    },
+    {
+      "id": "SG-D-GAS-DETECTORS",
+      "description": "Hydrocarbon gas detectors at the pump area and the column base."
+    },
+    {
+      "id": "SG-D-DELUGE",
+      "description": "Fire water deluge on the spheres.",
+      "protects_id": "LOC-D-SPHERES"
+    }
+  ],
+  "relief_devices": [
+    {
+      "id": "RV-V101",
+      "protects_id": "V-101",
+      "kind": "prv",
+      "discharge": {
+        "kind": "flare"
+      }
+    },
+    {
+      "id": "RV-C101",
+      "protects_id": "C-101",
+      "kind": "prv",
+      "discharge": {
+        "kind": "flare"
+      }
+    },
+    {
+      "id": "RV-C102",
+      "protects_id": "C-102",
+      "kind": "prv",
+      "discharge": {
+        "kind": "flare"
+      }
+    },
+    {
+      "id": "RV-C103",
+      "protects_id": "C-103",
+      "kind": "prv",
+      "discharge": {
+        "kind": "flare"
+      }
+    },
+    {
+      "id": "RV-C104",
+      "protects_id": "C-104",
+      "kind": "prv",
+      "discharge": {
+        "kind": "flare"
+      }
+    },
+    {
+      "id": "RV-V104",
+      "protects_id": "V-104",
+      "kind": "prv",
+      "discharge": {
+        "kind": "flare"
+      }
+    },
+    {
+      "id": "RV-P104A",
+      "protects_id": "P-104A",
+      "kind": "prv",
+      "discharge": {
+        "kind": "flare"
+      }
+    },
+    {
+      "id": "RV-P104B",
+      "protects_id": "P-104B",
+      "kind": "prv",
+      "discharge": {
+        "kind": "flare"
+      }
+    }
+  ],
+  "chemicals": [
+    {
+      "id": "BUTANES",
+      "name": "butanes",
+      "source": "cases/dev/source/case_d_c4_unit.md"
+    },
+    {
+      "id": "BUTENES",
+      "name": "butenes",
+      "source": "cases/dev/source/case_d_c4_unit.md"
+    },
+    {
+      "id": "BUTADIENE",
+      "name": "1,3-butadiene",
+      "source": "cases/dev/source/case_d_c4_unit.md"
+    },
+    {
+      "id": "ACETYLENES",
+      "name": "acetylenes (traces)",
+      "source": "cases/dev/source/case_d_c4_unit.md"
+    },
+    {
+      "id": "WATER",
+      "name": "water (traces)",
+      "source": "cases/dev/source/case_d_c4_unit.md"
+    },
+    {
+      "id": "NMP",
+      "name": "N-methylpyrrolidone",
+      "source": "cases/dev/source/case_d_c4_unit.md"
+    },
+    {
+      "id": "TBC",
+      "name": "tert-butylcatechol",
+      "source": "cases/dev/source/case_d_c4_unit.md"
+    },
+    {
+      "id": "ANTIFOAM",
+      "name": "antifoam",
+      "source": "cases/dev/source/case_d_c4_unit.md"
+    },
+    {
+      "id": "HEAVIES",
+      "name": "heavies",
+      "source": "cases/dev/source/case_d_c4_unit.md"
+    }
+  ],
+  "provenance": {
+    "ACETYLENES": "cases/dev/source/case_d_c4_unit.md",
+    "ANTIFOAM": "cases/dev/source/case_d_c4_unit.md",
+    "BUTADIENE": "cases/dev/source/case_d_c4_unit.md",
+    "BUTANES": "cases/dev/source/case_d_c4_unit.md",
+    "BUTENES": "cases/dev/source/case_d_c4_unit.md",
+    "BV-P104B-DIS": "cases/dev/source/case_d_c4_unit.md",
+    "BV-P104B-SUC": "cases/dev/source/case_d_c4_unit.md",
+    "C-101": "cases/dev/source/case_d_c4_unit.md",
+    "C-102": "cases/dev/source/case_d_c4_unit.md",
+    "C-103": "cases/dev/source/case_d_c4_unit.md",
+    "C-103.operating.temperature.normal": "cases/dev/source/case_d_c4_unit.md",
+    "C-104": "cases/dev/source/case_d_c4_unit.md",
+    "C-104.operating.pressure.normal": "cases/dev/source/case_d_c4_unit.md",
+    "E-104": "cases/dev/source/case_d_c4_unit.md",
+    "E-105": "cases/dev/source/case_d_c4_unit.md",
+    "E-106": "cases/dev/source/case_d_c4_unit.md",
+    "FLARE-HEADER": "cases/dev/source/case_d_c4_unit.md",
+    "HEAVIES": "cases/dev/source/case_d_c4_unit.md",
+    "L-E106-BYPASS": "cases/dev/source/case_d_c4_unit.md",
+    "L-FEED": "cases/dev/source/case_d_c4_unit.md",
+    "L-HEAVIES": "cases/dev/source/case_d_c4_unit.md",
+    "L-OFFSPEC": "cases/dev/source/case_d_c4_unit.md",
+    "L-P104B-DIS": "cases/dev/source/case_d_c4_unit.md",
+    "L-P104B-SUC": "cases/dev/source/case_d_c4_unit.md",
+    "L-RAFFINATE": "cases/dev/source/case_d_c4_unit.md",
+    "L-RUNDOWN": "cases/dev/source/case_d_c4_unit.md",
+    "L-STARTUP-RECYCLE": "cases/dev/source/case_d_c4_unit.md",
+    "LOC-D-FUEL": "cases/dev/source/case_d_c4_unit.md",
+    "LOC-D-OLEFINS": "cases/dev/source/case_d_c4_unit.md",
+    "LOC-D-PIPELINE": "cases/dev/source/case_d_c4_unit.md",
+    "LOC-D-RESIDENTIAL": "cases/dev/source/case_d_c4_unit.md",
+    "LOC-D-SITE-BOUNDARY": "cases/dev/source/case_d_c4_unit.md",
+    "LOC-D-SPHERES": "cases/dev/source/case_d_c4_unit.md",
+    "LOC-D-UNSTATED": "cases/dev/source/case_d_c4_unit.md",
+    "NMP": "cases/dev/source/case_d_c4_unit.md",
+    "P-104A": "cases/dev/source/case_d_c4_unit.md",
+    "P-104B": "cases/dev/source/case_d_c4_unit.md",
+    "RV-C101": "cases/dev/source/case_d_c4_unit.md",
+    "RV-C102": "cases/dev/source/case_d_c4_unit.md",
+    "RV-C103": "cases/dev/source/case_d_c4_unit.md",
+    "RV-C104": "cases/dev/source/case_d_c4_unit.md",
+    "RV-P104A": "cases/dev/source/case_d_c4_unit.md",
+    "RV-P104B": "cases/dev/source/case_d_c4_unit.md",
+    "RV-V101": "cases/dev/source/case_d_c4_unit.md",
+    "RV-V104": "cases/dev/source/case_d_c4_unit.md",
+    "SG-D-BPCS": "cases/dev/source/case_d_c4_unit.md",
+    "SG-D-DELUGE": "cases/dev/source/case_d_c4_unit.md",
+    "SG-D-GAS-DETECTORS": "cases/dev/source/case_d_c4_unit.md",
+    "SG-D-LEVEL-ALARMS": "cases/dev/source/case_d_c4_unit.md",
+    "SG-D-PRESSURE-ALARMS": "cases/dev/source/case_d_c4_unit.md",
+    "TBC": "cases/dev/source/case_d_c4_unit.md",
+    "TK-201": "cases/dev/source/case_d_c4_unit.md",
+    "TK-202": "cases/dev/source/case_d_c4_unit.md",
+    "TK-OFFSPEC": "cases/dev/source/case_d_c4_unit.md",
+    "UT-D-CW": "cases/dev/source/case_d_c4_unit.md",
+    "UT-D-LP-STEAM": "cases/dev/source/case_d_c4_unit.md",
+    "UT-D-STEAM": "cases/dev/source/case_d_c4_unit.md",
+    "V-101": "cases/dev/source/case_d_c4_unit.md",
+    "V-101.operating.pressure.normal": "cases/dev/source/case_d_c4_unit.md",
+    "V-104": "cases/dev/source/case_d_c4_unit.md",
+    "WATER": "cases/dev/source/case_d_c4_unit.md"
+  }
+}
