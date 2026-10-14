@@ -1,0 +1,724 @@
+{
+  "$defs": {
+    "Adequacy": {
+      "enum": [
+        "adequate",
+        "inadequate",
+        "unknown"
+      ],
+      "title": "Adequacy",
+      "type": "string"
+    },
+    "AppliedModifier": {
+      "additionalProperties": false,
+      "properties": {
+        "modifier_id": {
+          "title": "Modifier Id",
+          "type": "string"
+        },
+        "value": {
+          "exclusiveMinimum": 0,
+          "maximum": 1,
+          "title": "Value",
+          "type": "number"
+        }
+      },
+      "required": [
+        "modifier_id",
+        "value"
+      ],
+      "title": "AppliedModifier",
+      "type": "object"
+    },
+    "Chain": {
+      "additionalProperties": false,
+      "properties": {
+        "description": {
+          "title": "Description",
+          "type": "string"
+        },
+        "flags": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Flags",
+          "type": "array"
+        },
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "links": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 2,
+          "title": "Links",
+          "type": "array"
+        },
+        "model_call_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Model Call Id"
+        },
+        "multi_failure": {
+          "const": true,
+          "default": true,
+          "title": "Multi Failure",
+          "type": "boolean"
+        },
+        "reason": {
+          "title": "Reason",
+          "type": "string"
+        },
+        "run_id": {
+          "title": "Run Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "run_id",
+        "links",
+        "description",
+        "reason"
+      ],
+      "title": "Chain",
+      "type": "object"
+    },
+    "Confidence": {
+      "enum": [
+        "sure",
+        "unsure"
+      ],
+      "title": "Confidence",
+      "type": "string"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "fact_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Fact Ids",
+          "type": "array"
+        },
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "kind": {
+          "$ref": "#/$defs/EvidenceKind"
+        },
+        "run_id": {
+          "title": "Run Id",
+          "type": "string"
+        },
+        "sources": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Sources",
+          "type": "array"
+        },
+        "summary": {
+          "title": "Summary",
+          "type": "string"
+        },
+        "target_id": {
+          "title": "Target Id",
+          "type": "string"
+        },
+        "tool_call_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Tool Call Id"
+        },
+        "verdict": {
+          "$ref": "#/$defs/Verdict"
+        }
+      },
+      "required": [
+        "id",
+        "run_id",
+        "target_id",
+        "kind",
+        "verdict",
+        "summary"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "EvidenceKind": {
+      "enum": [
+        "calculation",
+        "precedent",
+        "simulation"
+      ],
+      "title": "EvidenceKind",
+      "type": "string"
+    },
+    "FailingComponentType": {
+      "description": "The values used in reference/causes.csv.",
+      "enum": [
+        "control_loop",
+        "pump",
+        "compressor",
+        "check_valve",
+        "regulator",
+        "relief_device",
+        "exchanger_tube",
+        "interlock",
+        "operator",
+        "hose",
+        "pipe",
+        "tank",
+        "external",
+        "solids_handler",
+        "utility_cooling",
+        "utility_power"
+      ],
+      "title": "FailingComponentType",
+      "type": "string"
+    },
+    "Finding": {
+      "additionalProperties": false,
+      "properties": {
+        "adequacy": {
+          "$ref": "#/$defs/Adequacy"
+        },
+        "cause_id": {
+          "title": "Cause Id",
+          "type": "string"
+        },
+        "cause_text": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Cause Text"
+        },
+        "confidence": {
+          "$ref": "#/$defs/Confidence"
+        },
+        "consequence": {
+          "title": "Consequence",
+          "type": "string"
+        },
+        "failing_component_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Failing Component Ids",
+          "type": "array"
+        },
+        "failing_component_type": {
+          "$ref": "#/$defs/FailingComponentType"
+        },
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "model_call_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Model Call Id"
+        },
+        "question_id": {
+          "title": "Question Id",
+          "type": "string"
+        },
+        "run_id": {
+          "title": "Run Id",
+          "type": "string"
+        },
+        "safeguard_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Safeguard Ids",
+          "type": "array"
+        },
+        "severity_class": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SeverityClass"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "severity_reason": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Severity Reason"
+        },
+        "tier": {
+          "$ref": "#/$defs/Tier"
+        }
+      },
+      "required": [
+        "id",
+        "run_id",
+        "question_id",
+        "tier",
+        "cause_id",
+        "failing_component_type",
+        "failing_component_ids",
+        "consequence",
+        "adequacy",
+        "confidence"
+      ],
+      "title": "Finding",
+      "type": "object"
+    },
+    "LayerCredit": {
+      "additionalProperties": false,
+      "properties": {
+        "credited": {
+          "title": "Credited",
+          "type": "boolean"
+        },
+        "layer_id": {
+          "title": "Layer Id",
+          "type": "string"
+        },
+        "layer_type": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Layer Type"
+        },
+        "pfd": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "maximum": 1,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Pfd"
+        },
+        "reason": {
+          "title": "Reason",
+          "type": "string"
+        }
+      },
+      "required": [
+        "layer_id",
+        "credited",
+        "reason"
+      ],
+      "title": "LayerCredit",
+      "type": "object"
+    },
+    "LopaRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "complete": {
+          "title": "Complete",
+          "type": "boolean"
+        },
+        "frequency_assumed": {
+          "default": false,
+          "title": "Frequency Assumed",
+          "type": "boolean"
+        },
+        "gap": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Gap"
+        },
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "initiating_event_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Initiating Event Id"
+        },
+        "initiating_frequency_per_year": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Initiating Frequency Per Year"
+        },
+        "layers": {
+          "items": {
+            "$ref": "#/$defs/LayerCredit"
+          },
+          "title": "Layers",
+          "type": "array"
+        },
+        "missing_fact_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Missing Fact Ids",
+          "type": "array"
+        },
+        "mitigated_frequency_per_year": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Mitigated Frequency Per Year"
+        },
+        "modifiers": {
+          "items": {
+            "$ref": "#/$defs/AppliedModifier"
+          },
+          "title": "Modifiers",
+          "type": "array"
+        },
+        "run_id": {
+          "title": "Run Id",
+          "type": "string"
+        },
+        "severity_class": {
+          "$ref": "#/$defs/SeverityClass"
+        },
+        "target_id": {
+          "title": "Target Id",
+          "type": "string"
+        },
+        "tolerable_per_year": {
+          "exclusiveMinimum": 0,
+          "title": "Tolerable Per Year",
+          "type": "number"
+        }
+      },
+      "required": [
+        "id",
+        "run_id",
+        "target_id",
+        "severity_class",
+        "complete",
+        "tolerable_per_year"
+      ],
+      "title": "LopaRecord",
+      "type": "object"
+    },
+    "Recommendation": {
+      "additionalProperties": false,
+      "properties": {
+        "action": {
+          "title": "Action",
+          "type": "string"
+        },
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "model_call_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Model Call Id"
+        },
+        "reason": {
+          "title": "Reason",
+          "type": "string"
+        },
+        "run_id": {
+          "title": "Run Id",
+          "type": "string"
+        },
+        "target_id": {
+          "title": "Target Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "run_id",
+        "target_id",
+        "action",
+        "reason"
+      ],
+      "title": "Recommendation",
+      "type": "object"
+    },
+    "RunLabel": {
+      "additionalProperties": false,
+      "properties": {
+        "cost_usd": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Cost Usd"
+        },
+        "kind": {
+          "$ref": "#/$defs/RunLabelKind"
+        },
+        "recorded_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Recorded At"
+        }
+      },
+      "required": [
+        "kind"
+      ],
+      "title": "RunLabel",
+      "type": "object"
+    },
+    "RunLabelKind": {
+      "enum": [
+        "live",
+        "recorded",
+        "mock"
+      ],
+      "title": "RunLabelKind",
+      "type": "string"
+    },
+    "SeverityClass": {
+      "enum": [
+        "S1",
+        "S2",
+        "S3",
+        "S4",
+        "S5"
+      ],
+      "title": "SeverityClass",
+      "type": "string"
+    },
+    "ShortlistItem": {
+      "additionalProperties": false,
+      "properties": {
+        "chain": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Chain"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "title": "Evidence",
+          "type": "array"
+        },
+        "finding": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Finding"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "gap": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Gap"
+        },
+        "lopa": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/LopaRecord"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "multi_failure": {
+          "title": "Multi Failure",
+          "type": "boolean"
+        },
+        "rank": {
+          "title": "Rank",
+          "type": "integer"
+        },
+        "recommendations": {
+          "items": {
+            "$ref": "#/$defs/Recommendation"
+          },
+          "title": "Recommendations",
+          "type": "array"
+        },
+        "target_id": {
+          "title": "Target Id",
+          "type": "string"
+        },
+        "target_kind": {
+          "enum": [
+            "finding",
+            "chain"
+          ],
+          "title": "Target Kind",
+          "type": "string"
+        },
+        "unsure": {
+          "title": "Unsure",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "rank",
+        "target_id",
+        "target_kind",
+        "gap",
+        "multi_failure",
+        "unsure"
+      ],
+      "title": "ShortlistItem",
+      "type": "object"
+    },
+    "Tier": {
+      "description": "Model tiers; config/routing.yaml maps jobs to these, the live model list to IDs.",
+      "enum": [
+        "ultra",
+        "super",
+        "lightning",
+        "nano"
+      ],
+      "title": "Tier",
+      "type": "string"
+    },
+    "Verdict": {
+      "enum": [
+        "confirmed",
+        "contradicted",
+        "none"
+      ],
+      "title": "Verdict",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "items": {
+      "items": {
+        "$ref": "#/$defs/ShortlistItem"
+      },
+      "title": "Items",
+      "type": "array"
+    },
+    "label": {
+      "$ref": "#/$defs/RunLabel"
+    },
+    "run_id": {
+      "title": "Run Id",
+      "type": "string"
+    }
+  },
+  "required": [
+    "label",
+    "run_id",
+    "items"
+  ],
+  "title": "Shortlist",
+  "type": "object"
+}

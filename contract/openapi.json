@@ -1,0 +1,4842 @@
+{
+  "components": {
+    "schemas": {
+      "Accepted": {
+        "additionalProperties": false,
+        "properties": {
+          "accepted": {
+            "title": "Accepted",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "accepted"
+        ],
+        "title": "Accepted",
+        "type": "object"
+      },
+      "AddQuestionRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "section_id": {
+            "title": "Section Id",
+            "type": "string"
+          },
+          "text": {
+            "minLength": 1,
+            "title": "Text",
+            "type": "string"
+          }
+        },
+        "required": [
+          "section_id",
+          "text"
+        ],
+        "title": "AddQuestionRequest",
+        "type": "object"
+      },
+      "Adequacy": {
+        "enum": [
+          "adequate",
+          "inadequate",
+          "unknown"
+        ],
+        "title": "Adequacy",
+        "type": "string"
+      },
+      "AppliedModifier": {
+        "additionalProperties": false,
+        "properties": {
+          "modifier_id": {
+            "title": "Modifier Id",
+            "type": "string"
+          },
+          "value": {
+            "exclusiveMinimum": 0.0,
+            "maximum": 1.0,
+            "title": "Value",
+            "type": "number"
+          }
+        },
+        "required": [
+          "modifier_id",
+          "value"
+        ],
+        "title": "AppliedModifier",
+        "type": "object"
+      },
+      "Budget": {
+        "additionalProperties": false,
+        "properties": {
+          "by_model": {
+            "items": {
+              "$ref": "#/components/schemas/ModelSpend"
+            },
+            "title": "By Model",
+            "type": "array"
+          },
+          "environments": {
+            "items": {
+              "$ref": "#/components/schemas/EnvironmentBudget"
+            },
+            "title": "Environments",
+            "type": "array"
+          },
+          "live_run_available": {
+            "title": "Live Run Available",
+            "type": "boolean"
+          },
+          "message": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Message"
+          }
+        },
+        "required": [
+          "environments",
+          "by_model",
+          "live_run_available"
+        ],
+        "title": "Budget",
+        "type": "object"
+      },
+      "Chain": {
+        "additionalProperties": false,
+        "properties": {
+          "description": {
+            "title": "Description",
+            "type": "string"
+          },
+          "flags": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Flags",
+            "type": "array"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "links": {
+            "items": {
+              "type": "string"
+            },
+            "minItems": 2,
+            "title": "Links",
+            "type": "array"
+          },
+          "model_call_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Model Call Id"
+          },
+          "multi_failure": {
+            "const": true,
+            "default": true,
+            "title": "Multi Failure",
+            "type": "boolean"
+          },
+          "reason": {
+            "title": "Reason",
+            "type": "string"
+          },
+          "run_id": {
+            "title": "Run Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "run_id",
+          "links",
+          "description",
+          "reason"
+        ],
+        "title": "Chain",
+        "type": "object"
+      },
+      "Confidence": {
+        "enum": [
+          "sure",
+          "unsure"
+        ],
+        "title": "Confidence",
+        "type": "string"
+      },
+      "ConfirmSectionsRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "sections": {
+            "items": {
+              "$ref": "#/components/schemas/Section"
+            },
+            "title": "Sections",
+            "type": "array"
+          }
+        },
+        "required": [
+          "sections"
+        ],
+        "title": "ConfirmSectionsRequest",
+        "type": "object"
+      },
+      "ConfirmSectionsResult": {
+        "additionalProperties": false,
+        "properties": {
+          "plant_record_id": {
+            "title": "Plant Record Id",
+            "type": "string"
+          },
+          "section_ids": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Section Ids",
+            "type": "array"
+          },
+          "status": {
+            "$ref": "#/components/schemas/PlantStatus"
+          }
+        },
+        "required": [
+          "plant_record_id",
+          "status",
+          "section_ids"
+        ],
+        "title": "ConfirmSectionsResult",
+        "type": "object"
+      },
+      "Coverage": {
+        "additionalProperties": false,
+        "properties": {
+          "failed_question_ids": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Failed Question Ids",
+            "type": "array"
+          },
+          "label": {
+            "$ref": "#/components/schemas/RunLabel"
+          },
+          "lists": {
+            "items": {
+              "$ref": "#/components/schemas/CoverageList"
+            },
+            "title": "Lists",
+            "type": "array"
+          },
+          "run_id": {
+            "title": "Run Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "label",
+          "run_id",
+          "lists",
+          "failed_question_ids"
+        ],
+        "title": "Coverage",
+        "type": "object"
+      },
+      "CoverageList": {
+        "additionalProperties": false,
+        "properties": {
+          "checked": {
+            "title": "Checked",
+            "type": "integer"
+          },
+          "failed": {
+            "title": "Failed",
+            "type": "integer"
+          },
+          "list": {
+            "title": "List",
+            "type": "string"
+          },
+          "total": {
+            "title": "Total",
+            "type": "integer"
+          },
+          "unsure": {
+            "title": "Unsure",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "list",
+          "total",
+          "checked",
+          "unsure",
+          "failed"
+        ],
+        "title": "CoverageList",
+        "type": "object"
+      },
+      "DemoResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "label": {
+            "$ref": "#/components/schemas/RunLabel"
+          },
+          "plant": {
+            "$ref": "#/components/schemas/PlantDetail"
+          },
+          "run": {
+            "$ref": "#/components/schemas/RunDetail"
+          },
+          "shortlist": {
+            "$ref": "#/components/schemas/Shortlist"
+          }
+        },
+        "required": [
+          "label",
+          "plant",
+          "run",
+          "shortlist"
+        ],
+        "title": "DemoResponse",
+        "type": "object"
+      },
+      "EnvironmentBudget": {
+        "additionalProperties": false,
+        "properties": {
+          "allowance_usd": {
+            "title": "Allowance Usd",
+            "type": "number"
+          },
+          "environment": {
+            "title": "Environment",
+            "type": "string"
+          },
+          "remaining_usd": {
+            "title": "Remaining Usd",
+            "type": "number"
+          },
+          "spent_usd": {
+            "title": "Spent Usd",
+            "type": "number"
+          }
+        },
+        "required": [
+          "environment",
+          "allowance_usd",
+          "spent_usd",
+          "remaining_usd"
+        ],
+        "title": "EnvironmentBudget",
+        "type": "object"
+      },
+      "ErrorBody": {
+        "additionalProperties": false,
+        "description": "401, 403, 404, 409 and 501 bodies. `phase` names the phase that will build a 501 route.",
+        "properties": {
+          "detail": {
+            "title": "Detail",
+            "type": "string"
+          },
+          "phase": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Phase"
+          }
+        },
+        "required": [
+          "detail"
+        ],
+        "title": "ErrorBody",
+        "type": "object"
+      },
+      "Event": {
+        "additionalProperties": false,
+        "description": "Identified by (run_id, seq); events are a log, not part of the replay comparison.",
+        "properties": {
+          "payload": {
+            "additionalProperties": true,
+            "title": "Payload",
+            "type": "object"
+          },
+          "run_id": {
+            "title": "Run Id",
+            "type": "string"
+          },
+          "seq": {
+            "minimum": 1.0,
+            "title": "Seq",
+            "type": "integer"
+          },
+          "time": {
+            "format": "date-time",
+            "title": "Time",
+            "type": "string"
+          },
+          "type": {
+            "$ref": "#/components/schemas/EventType"
+          }
+        },
+        "required": [
+          "run_id",
+          "seq",
+          "type",
+          "payload",
+          "time"
+        ],
+        "title": "Event",
+        "type": "object"
+      },
+      "EventType": {
+        "enum": [
+          "run_started",
+          "step_started",
+          "step_finished",
+          "agent_decision",
+          "dispatch",
+          "model_call",
+          "tool_call",
+          "finding_added",
+          "chain_added",
+          "lopa_done",
+          "evidence_added",
+          "coverage_updated",
+          "cap_hit",
+          "run_finished",
+          "run_failed"
+        ],
+        "title": "EventType",
+        "type": "string"
+      },
+      "EventsPage": {
+        "additionalProperties": false,
+        "properties": {
+          "events": {
+            "items": {
+              "$ref": "#/components/schemas/Event"
+            },
+            "title": "Events",
+            "type": "array"
+          },
+          "label": {
+            "$ref": "#/components/schemas/RunLabel"
+          },
+          "next_after": {
+            "title": "Next After",
+            "type": "integer"
+          },
+          "run_id": {
+            "title": "Run Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "label",
+          "run_id",
+          "events",
+          "next_after"
+        ],
+        "title": "EventsPage",
+        "type": "object"
+      },
+      "Evidence": {
+        "additionalProperties": false,
+        "properties": {
+          "fact_ids": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Fact Ids",
+            "type": "array"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "kind": {
+            "$ref": "#/components/schemas/EvidenceKind"
+          },
+          "run_id": {
+            "title": "Run Id",
+            "type": "string"
+          },
+          "sources": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Sources",
+            "type": "array"
+          },
+          "summary": {
+            "title": "Summary",
+            "type": "string"
+          },
+          "target_id": {
+            "title": "Target Id",
+            "type": "string"
+          },
+          "tool_call_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tool Call Id"
+          },
+          "verdict": {
+            "$ref": "#/components/schemas/Verdict"
+          }
+        },
+        "required": [
+          "id",
+          "run_id",
+          "target_id",
+          "kind",
+          "verdict",
+          "summary"
+        ],
+        "title": "Evidence",
+        "type": "object"
+      },
+      "EvidenceKind": {
+        "enum": [
+          "calculation",
+          "precedent",
+          "simulation"
+        ],
+        "title": "EvidenceKind",
+        "type": "string"
+      },
+      "FailingComponentType": {
+        "description": "The values used in reference/causes.csv.",
+        "enum": [
+          "control_loop",
+          "pump",
+          "compressor",
+          "check_valve",
+          "regulator",
+          "relief_device",
+          "exchanger_tube",
+          "interlock",
+          "operator",
+          "hose",
+          "pipe",
+          "tank",
+          "external",
+          "solids_handler",
+          "utility_cooling",
+          "utility_power"
+        ],
+        "title": "FailingComponentType",
+        "type": "string"
+      },
+      "Finding": {
+        "additionalProperties": false,
+        "properties": {
+          "adequacy": {
+            "$ref": "#/components/schemas/Adequacy"
+          },
+          "cause_id": {
+            "title": "Cause Id",
+            "type": "string"
+          },
+          "cause_text": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cause Text"
+          },
+          "confidence": {
+            "$ref": "#/components/schemas/Confidence"
+          },
+          "consequence": {
+            "title": "Consequence",
+            "type": "string"
+          },
+          "failing_component_ids": {
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1,
+            "title": "Failing Component Ids",
+            "type": "array"
+          },
+          "failing_component_type": {
+            "$ref": "#/components/schemas/FailingComponentType"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "model_call_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Model Call Id"
+          },
+          "question_id": {
+            "title": "Question Id",
+            "type": "string"
+          },
+          "run_id": {
+            "title": "Run Id",
+            "type": "string"
+          },
+          "safeguard_ids": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Safeguard Ids",
+            "type": "array"
+          },
+          "severity_class": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/SeverityClass"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "severity_reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Severity Reason"
+          },
+          "tier": {
+            "$ref": "#/components/schemas/Tier"
+          }
+        },
+        "required": [
+          "id",
+          "run_id",
+          "question_id",
+          "tier",
+          "cause_id",
+          "failing_component_type",
+          "failing_component_ids",
+          "consequence",
+          "adequacy",
+          "confidence"
+        ],
+        "title": "Finding",
+        "type": "object"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "title": "Detail",
+            "type": "array"
+          }
+        },
+        "title": "HTTPValidationError",
+        "type": "object"
+      },
+      "Issue": {
+        "additionalProperties": false,
+        "description": "A plant validation error or warning (schema/validate.py), naming the offending ID.",
+        "properties": {
+          "code": {
+            "title": "Code",
+            "type": "string"
+          },
+          "message": {
+            "title": "Message",
+            "type": "string"
+          },
+          "object_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Object Id"
+          }
+        },
+        "required": [
+          "code",
+          "object_id",
+          "message"
+        ],
+        "title": "Issue",
+        "type": "object"
+      },
+      "LayerCredit": {
+        "additionalProperties": false,
+        "properties": {
+          "credited": {
+            "title": "Credited",
+            "type": "boolean"
+          },
+          "layer_id": {
+            "title": "Layer Id",
+            "type": "string"
+          },
+          "layer_type": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Layer Type"
+          },
+          "pfd": {
+            "anyOf": [
+              {
+                "exclusiveMinimum": 0.0,
+                "maximum": 1.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Pfd"
+          },
+          "reason": {
+            "title": "Reason",
+            "type": "string"
+          }
+        },
+        "required": [
+          "layer_id",
+          "credited",
+          "reason"
+        ],
+        "title": "LayerCredit",
+        "type": "object"
+      },
+      "LopaRecord": {
+        "additionalProperties": false,
+        "properties": {
+          "complete": {
+            "title": "Complete",
+            "type": "boolean"
+          },
+          "frequency_assumed": {
+            "default": false,
+            "title": "Frequency Assumed",
+            "type": "boolean"
+          },
+          "gap": {
+            "anyOf": [
+              {
+                "minimum": 0.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Gap"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "initiating_event_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Initiating Event Id"
+          },
+          "initiating_frequency_per_year": {
+            "anyOf": [
+              {
+                "exclusiveMinimum": 0.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Initiating Frequency Per Year"
+          },
+          "layers": {
+            "items": {
+              "$ref": "#/components/schemas/LayerCredit"
+            },
+            "title": "Layers",
+            "type": "array"
+          },
+          "missing_fact_ids": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Missing Fact Ids",
+            "type": "array"
+          },
+          "mitigated_frequency_per_year": {
+            "anyOf": [
+              {
+                "minimum": 0.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Mitigated Frequency Per Year"
+          },
+          "modifiers": {
+            "items": {
+              "$ref": "#/components/schemas/AppliedModifier"
+            },
+            "title": "Modifiers",
+            "type": "array"
+          },
+          "run_id": {
+            "title": "Run Id",
+            "type": "string"
+          },
+          "severity_class": {
+            "$ref": "#/components/schemas/SeverityClass"
+          },
+          "target_id": {
+            "title": "Target Id",
+            "type": "string"
+          },
+          "tolerable_per_year": {
+            "exclusiveMinimum": 0.0,
+            "title": "Tolerable Per Year",
+            "type": "number"
+          }
+        },
+        "required": [
+          "id",
+          "run_id",
+          "target_id",
+          "severity_class",
+          "complete",
+          "tolerable_per_year"
+        ],
+        "title": "LopaRecord",
+        "type": "object"
+      },
+      "ModelCall": {
+        "additionalProperties": false,
+        "description": "Stored per (run_id, id): a cached response reused by another run is a second record.",
+        "properties": {
+          "attempts": {
+            "default": 1,
+            "minimum": 1.0,
+            "title": "Attempts",
+            "type": "integer"
+          },
+          "cache_hit": {
+            "title": "Cache Hit",
+            "type": "boolean"
+          },
+          "cost_usd": {
+            "minimum": 0.0,
+            "title": "Cost Usd",
+            "type": "number"
+          },
+          "finish_reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Finish Reason"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "input_tokens": {
+            "minimum": 0.0,
+            "title": "Input Tokens",
+            "type": "integer"
+          },
+          "job": {
+            "title": "Job",
+            "type": "string"
+          },
+          "latency_ms": {
+            "minimum": 0.0,
+            "title": "Latency Ms",
+            "type": "number"
+          },
+          "model_id": {
+            "title": "Model Id",
+            "type": "string"
+          },
+          "outcome": {
+            "enum": [
+              "ok",
+              "invalid",
+              "truncated",
+              "error"
+            ],
+            "title": "Outcome",
+            "type": "string"
+          },
+          "output_tokens": {
+            "minimum": 0.0,
+            "title": "Output Tokens",
+            "type": "integer"
+          },
+          "prompt_version": {
+            "title": "Prompt Version",
+            "type": "string"
+          },
+          "raw_response": {
+            "title": "Raw Response",
+            "type": "string"
+          },
+          "reasoning_text": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reasoning Text"
+          },
+          "record_ids": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Record Ids",
+            "type": "array"
+          },
+          "run_id": {
+            "title": "Run Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "run_id",
+          "model_id",
+          "prompt_version",
+          "job",
+          "cache_hit",
+          "outcome",
+          "input_tokens",
+          "output_tokens",
+          "latency_ms",
+          "cost_usd",
+          "raw_response"
+        ],
+        "title": "ModelCall",
+        "type": "object"
+      },
+      "ModelSpend": {
+        "additionalProperties": false,
+        "properties": {
+          "model": {
+            "title": "Model",
+            "type": "string"
+          },
+          "spent_usd": {
+            "title": "Spent Usd",
+            "type": "number"
+          }
+        },
+        "required": [
+          "model",
+          "spent_usd"
+        ],
+        "title": "ModelSpend",
+        "type": "object"
+      },
+      "Override": {
+        "additionalProperties": false,
+        "properties": {
+          "action": {
+            "$ref": "#/components/schemas/OverrideAction"
+          },
+          "at": {
+            "format": "date-time",
+            "title": "At",
+            "type": "string"
+          },
+          "by": {
+            "title": "By",
+            "type": "string"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "new_value": {
+            "title": "New Value"
+          },
+          "reason": {
+            "title": "Reason",
+            "type": "string"
+          },
+          "replaces": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Replaces"
+          },
+          "run_id": {
+            "title": "Run Id",
+            "type": "string"
+          },
+          "target_id": {
+            "title": "Target Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "run_id",
+          "target_id",
+          "action",
+          "new_value",
+          "reason",
+          "by",
+          "at"
+        ],
+        "title": "Override",
+        "type": "object"
+      },
+      "OverrideAction": {
+        "enum": [
+          "accept",
+          "reject",
+          "edit",
+          "change_credit",
+          "change_severity",
+          "answer"
+        ],
+        "title": "OverrideAction",
+        "type": "string"
+      },
+      "OverrideRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "action": {
+            "$ref": "#/components/schemas/OverrideAction"
+          },
+          "by": {
+            "minLength": 1,
+            "title": "By",
+            "type": "string"
+          },
+          "new_value": {
+            "title": "New Value"
+          },
+          "reason": {
+            "minLength": 1,
+            "title": "Reason",
+            "type": "string"
+          },
+          "target_id": {
+            "title": "Target Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "target_id",
+          "action",
+          "new_value",
+          "reason",
+          "by"
+        ],
+        "title": "OverrideRequest",
+        "type": "object"
+      },
+      "OverrideResult": {
+        "additionalProperties": false,
+        "properties": {
+          "label": {
+            "$ref": "#/components/schemas/RunLabel"
+          },
+          "override": {
+            "$ref": "#/components/schemas/Override"
+          },
+          "stored": {
+            "title": "Stored",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "label",
+          "override",
+          "stored"
+        ],
+        "title": "OverrideResult",
+        "type": "object"
+      },
+      "PlantDetail": {
+        "additionalProperties": false,
+        "properties": {
+          "facts": {
+            "items": {
+              "$ref": "#/components/schemas/PlantFact"
+            },
+            "title": "Facts",
+            "type": "array"
+          },
+          "plant_id": {
+            "title": "Plant Id",
+            "type": "string"
+          },
+          "plant_record_id": {
+            "title": "Plant Record Id",
+            "type": "string"
+          },
+          "sections": {
+            "items": {
+              "$ref": "#/components/schemas/Section"
+            },
+            "title": "Sections",
+            "type": "array"
+          },
+          "status": {
+            "$ref": "#/components/schemas/PlantStatus"
+          },
+          "warnings": {
+            "items": {
+              "$ref": "#/components/schemas/Issue"
+            },
+            "title": "Warnings",
+            "type": "array"
+          }
+        },
+        "required": [
+          "plant_record_id",
+          "plant_id",
+          "status",
+          "facts",
+          "warnings",
+          "sections"
+        ],
+        "title": "PlantDetail",
+        "type": "object"
+      },
+      "PlantFact": {
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "plant_record_id": {
+            "title": "Plant Record Id",
+            "type": "string"
+          },
+          "source": {
+            "title": "Source",
+            "type": "string"
+          },
+          "value": {
+            "title": "Value"
+          }
+        },
+        "required": [
+          "id",
+          "plant_record_id",
+          "value",
+          "source"
+        ],
+        "title": "PlantFact",
+        "type": "object"
+      },
+      "PlantList": {
+        "additionalProperties": false,
+        "properties": {
+          "plants": {
+            "items": {
+              "$ref": "#/components/schemas/PlantSummary"
+            },
+            "title": "Plants",
+            "type": "array"
+          }
+        },
+        "required": [
+          "plants"
+        ],
+        "title": "PlantList",
+        "type": "object"
+      },
+      "PlantStatus": {
+        "enum": [
+          "uploaded",
+          "sections_proposed",
+          "sections_confirmed"
+        ],
+        "title": "PlantStatus",
+        "type": "string"
+      },
+      "PlantSummary": {
+        "additionalProperties": false,
+        "properties": {
+          "plant_id": {
+            "title": "Plant Id",
+            "type": "string"
+          },
+          "plant_record_id": {
+            "title": "Plant Record Id",
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/PlantStatus"
+          }
+        },
+        "required": [
+          "plant_record_id",
+          "plant_id",
+          "status"
+        ],
+        "title": "PlantSummary",
+        "type": "object"
+      },
+      "PlantUploadResult": {
+        "additionalProperties": false,
+        "properties": {
+          "errors": {
+            "items": {
+              "$ref": "#/components/schemas/Issue"
+            },
+            "title": "Errors",
+            "type": "array"
+          },
+          "ok": {
+            "title": "Ok",
+            "type": "boolean"
+          },
+          "plant_record_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Plant Record Id"
+          },
+          "warnings": {
+            "items": {
+              "$ref": "#/components/schemas/Issue"
+            },
+            "title": "Warnings",
+            "type": "array"
+          }
+        },
+        "required": [
+          "plant_record_id",
+          "ok",
+          "errors",
+          "warnings"
+        ],
+        "title": "PlantUploadResult",
+        "type": "object"
+      },
+      "Question": {
+        "additionalProperties": false,
+        "properties": {
+          "attempts": {
+            "default": 0,
+            "minimum": 0.0,
+            "title": "Attempts",
+            "type": "integer"
+          },
+          "fact_ids": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Fact Ids",
+            "type": "array"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "kind": {
+            "$ref": "#/components/schemas/QuestionKind"
+          },
+          "model_call_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Model Call Id"
+          },
+          "not_credible_reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Not Credible Reason"
+          },
+          "origin": {
+            "$ref": "#/components/schemas/QuestionOrigin"
+          },
+          "run_id": {
+            "title": "Run Id",
+            "type": "string"
+          },
+          "section_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Section Id"
+          },
+          "status": {
+            "$ref": "#/components/schemas/QuestionStatus"
+          },
+          "text": {
+            "title": "Text",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "run_id",
+          "kind",
+          "origin",
+          "status",
+          "text"
+        ],
+        "title": "Question",
+        "type": "object"
+      },
+      "QuestionCreated": {
+        "additionalProperties": false,
+        "properties": {
+          "label": {
+            "$ref": "#/components/schemas/RunLabel"
+          },
+          "question": {
+            "$ref": "#/components/schemas/Question"
+          }
+        },
+        "required": [
+          "label",
+          "question"
+        ],
+        "title": "QuestionCreated",
+        "type": "object"
+      },
+      "QuestionKind": {
+        "enum": [
+          "matrix",
+          "chemical_pair",
+          "chemical_environment",
+          "no_flow_line",
+          "procedure_step",
+          "planned_work",
+          "dust",
+          "relief_discharge",
+          "added_by_ai",
+          "engineer"
+        ],
+        "title": "QuestionKind",
+        "type": "string"
+      },
+      "QuestionList": {
+        "additionalProperties": false,
+        "properties": {
+          "label": {
+            "$ref": "#/components/schemas/RunLabel"
+          },
+          "questions": {
+            "items": {
+              "$ref": "#/components/schemas/Question"
+            },
+            "title": "Questions",
+            "type": "array"
+          },
+          "run_id": {
+            "title": "Run Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "label",
+          "run_id",
+          "questions"
+        ],
+        "title": "QuestionList",
+        "type": "object"
+      },
+      "QuestionOrigin": {
+        "enum": [
+          "matrix",
+          "cross_list",
+          "added_by_ai",
+          "engineer"
+        ],
+        "title": "QuestionOrigin",
+        "type": "string"
+      },
+      "QuestionStatus": {
+        "description": "`answered` and `not_credible` count as checked. Unsure is a confidence, not a status.",
+        "enum": [
+          "open",
+          "answered",
+          "not_credible",
+          "failed"
+        ],
+        "title": "QuestionStatus",
+        "type": "string"
+      },
+      "Recommendation": {
+        "additionalProperties": false,
+        "properties": {
+          "action": {
+            "title": "Action",
+            "type": "string"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "model_call_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Model Call Id"
+          },
+          "reason": {
+            "title": "Reason",
+            "type": "string"
+          },
+          "run_id": {
+            "title": "Run Id",
+            "type": "string"
+          },
+          "target_id": {
+            "title": "Target Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "run_id",
+          "target_id",
+          "action",
+          "reason"
+        ],
+        "title": "Recommendation",
+        "type": "object"
+      },
+      "RecordDetail": {
+        "additionalProperties": false,
+        "properties": {
+          "label": {
+            "$ref": "#/components/schemas/RunLabel"
+          },
+          "model_calls": {
+            "items": {
+              "$ref": "#/components/schemas/ModelCall"
+            },
+            "title": "Model Calls",
+            "type": "array"
+          },
+          "parent_ids": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Parent Ids",
+            "type": "array"
+          },
+          "record": {
+            "additionalProperties": true,
+            "title": "Record",
+            "type": "object"
+          },
+          "record_id": {
+            "title": "Record Id",
+            "type": "string"
+          },
+          "record_kind": {
+            "title": "Record Kind",
+            "type": "string"
+          },
+          "run_id": {
+            "title": "Run Id",
+            "type": "string"
+          },
+          "tool_calls": {
+            "items": {
+              "$ref": "#/components/schemas/ToolCall"
+            },
+            "title": "Tool Calls",
+            "type": "array"
+          }
+        },
+        "required": [
+          "label",
+          "run_id",
+          "record_id",
+          "record_kind",
+          "record",
+          "parent_ids",
+          "model_calls",
+          "tool_calls"
+        ],
+        "title": "RecordDetail",
+        "type": "object"
+      },
+      "Run": {
+        "additionalProperties": false,
+        "properties": {
+          "attempt": {
+            "minimum": 1.0,
+            "title": "Attempt",
+            "type": "integer"
+          },
+          "caps": {
+            "additionalProperties": true,
+            "title": "Caps",
+            "type": "object"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "label": {
+            "$ref": "#/components/schemas/RunLabel"
+          },
+          "mode": {
+            "enum": [
+              "full",
+              "sample"
+            ],
+            "title": "Mode",
+            "type": "string"
+          },
+          "plant_record_id": {
+            "title": "Plant Record Id",
+            "type": "string"
+          },
+          "prompt_versions": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "title": "Prompt Versions",
+            "type": "object"
+          },
+          "reference_versions": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "title": "Reference Versions",
+            "type": "object"
+          },
+          "routing_config": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "title": "Routing Config",
+            "type": "object"
+          },
+          "section_snapshot": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Section Snapshot",
+            "type": "array"
+          },
+          "spend_cap_usd": {
+            "exclusiveMinimum": 0.0,
+            "title": "Spend Cap Usd",
+            "type": "number"
+          },
+          "spent_usd": {
+            "default": 0.0,
+            "minimum": 0.0,
+            "title": "Spent Usd",
+            "type": "number"
+          },
+          "status": {
+            "$ref": "#/components/schemas/RunStatus"
+          },
+          "step": {
+            "title": "Step",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "plant_record_id",
+          "attempt",
+          "section_snapshot",
+          "status",
+          "step",
+          "mode",
+          "spend_cap_usd",
+          "reference_versions",
+          "routing_config",
+          "caps",
+          "prompt_versions",
+          "label"
+        ],
+        "title": "Run",
+        "type": "object"
+      },
+      "RunCounts": {
+        "additionalProperties": false,
+        "properties": {
+          "chains": {
+            "title": "Chains",
+            "type": "integer"
+          },
+          "findings": {
+            "title": "Findings",
+            "type": "integer"
+          },
+          "questions_checked": {
+            "title": "Questions Checked",
+            "type": "integer"
+          },
+          "questions_failed": {
+            "title": "Questions Failed",
+            "type": "integer"
+          },
+          "questions_open": {
+            "title": "Questions Open",
+            "type": "integer"
+          },
+          "questions_total": {
+            "title": "Questions Total",
+            "type": "integer"
+          },
+          "questions_unsure": {
+            "title": "Questions Unsure",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "questions_total",
+          "questions_open",
+          "questions_checked",
+          "questions_failed",
+          "questions_unsure",
+          "findings",
+          "chains"
+        ],
+        "title": "RunCounts",
+        "type": "object"
+      },
+      "RunDetail": {
+        "additionalProperties": false,
+        "properties": {
+          "counts": {
+            "$ref": "#/components/schemas/RunCounts"
+          },
+          "label": {
+            "$ref": "#/components/schemas/RunLabel"
+          },
+          "run": {
+            "$ref": "#/components/schemas/Run"
+          }
+        },
+        "required": [
+          "label",
+          "run",
+          "counts"
+        ],
+        "title": "RunDetail",
+        "type": "object"
+      },
+      "RunDump": {
+        "additionalProperties": false,
+        "properties": {
+          "chains": {
+            "items": {
+              "$ref": "#/components/schemas/Chain"
+            },
+            "title": "Chains",
+            "type": "array"
+          },
+          "events": {
+            "items": {
+              "$ref": "#/components/schemas/Event"
+            },
+            "title": "Events",
+            "type": "array"
+          },
+          "evidence": {
+            "items": {
+              "$ref": "#/components/schemas/Evidence"
+            },
+            "title": "Evidence",
+            "type": "array"
+          },
+          "findings": {
+            "items": {
+              "$ref": "#/components/schemas/Finding"
+            },
+            "title": "Findings",
+            "type": "array"
+          },
+          "label": {
+            "$ref": "#/components/schemas/RunLabel"
+          },
+          "lopa_records": {
+            "items": {
+              "$ref": "#/components/schemas/LopaRecord"
+            },
+            "title": "Lopa Records",
+            "type": "array"
+          },
+          "overrides": {
+            "items": {
+              "$ref": "#/components/schemas/Override"
+            },
+            "title": "Overrides",
+            "type": "array"
+          },
+          "questions": {
+            "items": {
+              "$ref": "#/components/schemas/Question"
+            },
+            "title": "Questions",
+            "type": "array"
+          },
+          "recommendations": {
+            "items": {
+              "$ref": "#/components/schemas/Recommendation"
+            },
+            "title": "Recommendations",
+            "type": "array"
+          },
+          "run": {
+            "$ref": "#/components/schemas/Run"
+          },
+          "sections": {
+            "items": {
+              "$ref": "#/components/schemas/Section"
+            },
+            "title": "Sections",
+            "type": "array"
+          }
+        },
+        "required": [
+          "label",
+          "run",
+          "sections",
+          "questions",
+          "findings",
+          "chains",
+          "lopa_records",
+          "recommendations",
+          "evidence",
+          "overrides",
+          "events"
+        ],
+        "title": "RunDump",
+        "type": "object"
+      },
+      "RunLabel": {
+        "additionalProperties": false,
+        "properties": {
+          "cost_usd": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cost Usd"
+          },
+          "kind": {
+            "$ref": "#/components/schemas/RunLabelKind"
+          },
+          "recorded_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Recorded At"
+          }
+        },
+        "required": [
+          "kind"
+        ],
+        "title": "RunLabel",
+        "type": "object"
+      },
+      "RunLabelKind": {
+        "enum": [
+          "live",
+          "recorded",
+          "mock"
+        ],
+        "title": "RunLabelKind",
+        "type": "string"
+      },
+      "RunList": {
+        "additionalProperties": false,
+        "properties": {
+          "runs": {
+            "items": {
+              "$ref": "#/components/schemas/Run"
+            },
+            "title": "Runs",
+            "type": "array"
+          }
+        },
+        "required": [
+          "runs"
+        ],
+        "title": "RunList",
+        "type": "object"
+      },
+      "RunSections": {
+        "additionalProperties": false,
+        "properties": {
+          "label": {
+            "$ref": "#/components/schemas/RunLabel"
+          },
+          "run_id": {
+            "title": "Run Id",
+            "type": "string"
+          },
+          "sections": {
+            "items": {
+              "$ref": "#/components/schemas/Section"
+            },
+            "title": "Sections",
+            "type": "array"
+          }
+        },
+        "required": [
+          "label",
+          "run_id",
+          "sections"
+        ],
+        "title": "RunSections",
+        "type": "object"
+      },
+      "RunStatus": {
+        "description": "`draft` = run created, setup not yet done (D9).",
+        "enum": [
+          "draft",
+          "running",
+          "finished",
+          "stopped_cap",
+          "stopped_budget",
+          "failed",
+          "cancelled"
+        ],
+        "title": "RunStatus",
+        "type": "string"
+      },
+      "RunStatusResult": {
+        "additionalProperties": false,
+        "properties": {
+          "label": {
+            "$ref": "#/components/schemas/RunLabel"
+          },
+          "run_id": {
+            "title": "Run Id",
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/RunStatus"
+          }
+        },
+        "required": [
+          "label",
+          "run_id",
+          "status"
+        ],
+        "title": "RunStatusResult",
+        "type": "object"
+      },
+      "Section": {
+        "additionalProperties": false,
+        "properties": {
+          "drawn_by": {
+            "enum": [
+              "rule",
+              "suggestion",
+              "engineer"
+            ],
+            "title": "Drawn By",
+            "type": "string"
+          },
+          "flagged_no_flow": {
+            "default": false,
+            "title": "Flagged No Flow",
+            "type": "boolean"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "kind": {
+            "$ref": "#/components/schemas/SectionKind"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "object_ids": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Object Ids",
+            "type": "array"
+          },
+          "plant_record_id": {
+            "title": "Plant Record Id",
+            "type": "string"
+          },
+          "purpose": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Purpose"
+          },
+          "section_type": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/SectionType"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "suggestion_reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Suggestion Reason"
+          }
+        },
+        "required": [
+          "id",
+          "plant_record_id",
+          "kind",
+          "section_type",
+          "name",
+          "object_ids",
+          "drawn_by"
+        ],
+        "title": "Section",
+        "type": "object"
+      },
+      "SectionKind": {
+        "enum": [
+          "equipment",
+          "line",
+          "no_flow_line",
+          "procedure",
+          "planned_work"
+        ],
+        "title": "SectionKind",
+        "type": "string"
+      },
+      "SectionProposal": {
+        "additionalProperties": false,
+        "properties": {
+          "plant_record_id": {
+            "title": "Plant Record Id",
+            "type": "string"
+          },
+          "sections": {
+            "items": {
+              "$ref": "#/components/schemas/Section"
+            },
+            "title": "Sections",
+            "type": "array"
+          },
+          "suggestions": {
+            "items": {
+              "$ref": "#/components/schemas/SectionSuggestion"
+            },
+            "title": "Suggestions",
+            "type": "array"
+          }
+        },
+        "required": [
+          "plant_record_id",
+          "sections",
+          "suggestions"
+        ],
+        "title": "SectionProposal",
+        "type": "object"
+      },
+      "SectionSuggestion": {
+        "additionalProperties": false,
+        "description": "A Super suggestion on the rule-drawn cut, always with its reason.",
+        "properties": {
+          "kind": {
+            "enum": [
+              "split",
+              "merge",
+              "purpose"
+            ],
+            "title": "Kind",
+            "type": "string"
+          },
+          "purpose": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Purpose"
+          },
+          "reason": {
+            "title": "Reason",
+            "type": "string"
+          },
+          "section_ids": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Section Ids",
+            "type": "array"
+          }
+        },
+        "required": [
+          "kind",
+          "section_ids",
+          "reason"
+        ],
+        "title": "SectionSuggestion",
+        "type": "object"
+      },
+      "SectionType": {
+        "description": "Applicability key: the equipment types, plus pipe and procedure.\n\nPlanned-work sections have no section type; they get only work: questions.",
+        "enum": [
+          "tank",
+          "vessel",
+          "column",
+          "reactor",
+          "heat_exchanger",
+          "pump",
+          "compressor",
+          "dryer",
+          "mixer",
+          "solids_handler",
+          "other",
+          "pipe",
+          "procedure"
+        ],
+        "title": "SectionType",
+        "type": "string"
+      },
+      "SeverityClass": {
+        "enum": [
+          "S1",
+          "S2",
+          "S3",
+          "S4",
+          "S5"
+        ],
+        "title": "SeverityClass",
+        "type": "string"
+      },
+      "Shortlist": {
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/ShortlistItem"
+            },
+            "title": "Items",
+            "type": "array"
+          },
+          "label": {
+            "$ref": "#/components/schemas/RunLabel"
+          },
+          "run_id": {
+            "title": "Run Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "label",
+          "run_id",
+          "items"
+        ],
+        "title": "Shortlist",
+        "type": "object"
+      },
+      "ShortlistItem": {
+        "additionalProperties": false,
+        "properties": {
+          "chain": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Chain"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "evidence": {
+            "items": {
+              "$ref": "#/components/schemas/Evidence"
+            },
+            "title": "Evidence",
+            "type": "array"
+          },
+          "finding": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Finding"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "gap": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Gap"
+          },
+          "lopa": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/LopaRecord"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "multi_failure": {
+            "title": "Multi Failure",
+            "type": "boolean"
+          },
+          "rank": {
+            "title": "Rank",
+            "type": "integer"
+          },
+          "recommendations": {
+            "items": {
+              "$ref": "#/components/schemas/Recommendation"
+            },
+            "title": "Recommendations",
+            "type": "array"
+          },
+          "target_id": {
+            "title": "Target Id",
+            "type": "string"
+          },
+          "target_kind": {
+            "enum": [
+              "finding",
+              "chain"
+            ],
+            "title": "Target Kind",
+            "type": "string"
+          },
+          "unsure": {
+            "title": "Unsure",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "rank",
+          "target_id",
+          "target_kind",
+          "gap",
+          "multi_failure",
+          "unsure"
+        ],
+        "title": "ShortlistItem",
+        "type": "object"
+      },
+      "StartRunRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "mode": {
+            "enum": [
+              "full",
+              "sample"
+            ],
+            "title": "Mode",
+            "type": "string"
+          },
+          "plant_id": {
+            "title": "Plant Id",
+            "type": "string"
+          },
+          "spend_cap_usd": {
+            "exclusiveMinimum": 0.0,
+            "title": "Spend Cap Usd",
+            "type": "number"
+          }
+        },
+        "required": [
+          "plant_id",
+          "spend_cap_usd",
+          "mode"
+        ],
+        "title": "StartRunRequest",
+        "type": "object"
+      },
+      "StartRunResult": {
+        "additionalProperties": false,
+        "properties": {
+          "estimated_cost_usd": {
+            "title": "Estimated Cost Usd",
+            "type": "number"
+          },
+          "label": {
+            "$ref": "#/components/schemas/RunLabel"
+          },
+          "run_id": {
+            "title": "Run Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "label",
+          "run_id",
+          "estimated_cost_usd"
+        ],
+        "title": "StartRunResult",
+        "type": "object"
+      },
+      "Tier": {
+        "description": "Model tiers; config/routing.yaml maps jobs to these, the live model list to IDs.",
+        "enum": [
+          "ultra",
+          "super",
+          "lightning",
+          "nano"
+        ],
+        "title": "Tier",
+        "type": "string"
+      },
+      "ToolCall": {
+        "additionalProperties": false,
+        "properties": {
+          "agent_step_id": {
+            "title": "Agent Step Id",
+            "type": "string"
+          },
+          "arguments": {
+            "additionalProperties": true,
+            "title": "Arguments",
+            "type": "object"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "record_ids": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Record Ids",
+            "type": "array"
+          },
+          "refused_reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Refused Reason"
+          },
+          "result": {
+            "title": "Result"
+          },
+          "run_id": {
+            "title": "Run Id",
+            "type": "string"
+          },
+          "source_urls": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Source Urls",
+            "type": "array"
+          },
+          "tool": {
+            "title": "Tool",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "run_id",
+          "agent_step_id",
+          "tool",
+          "arguments",
+          "result"
+        ],
+        "title": "ToolCall",
+        "type": "object"
+      },
+      "ValidationError": {
+        "properties": {
+          "ctx": {
+            "title": "Context",
+            "type": "object"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "title": "Location",
+            "type": "array"
+          },
+          "msg": {
+            "title": "Message",
+            "type": "string"
+          },
+          "type": {
+            "title": "Error Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError",
+        "type": "object"
+      },
+      "Verdict": {
+        "enum": [
+          "confirmed",
+          "contradicted",
+          "none"
+        ],
+        "title": "Verdict",
+        "type": "string"
+      },
+      "Worksheet": {
+        "additionalProperties": false,
+        "properties": {
+          "label": {
+            "$ref": "#/components/schemas/RunLabel"
+          },
+          "rows": {
+            "items": {
+              "$ref": "#/components/schemas/WorksheetRow"
+            },
+            "title": "Rows",
+            "type": "array"
+          },
+          "run_id": {
+            "title": "Run Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "label",
+          "run_id",
+          "rows"
+        ],
+        "title": "Worksheet",
+        "type": "object"
+      },
+      "WorksheetRow": {
+        "additionalProperties": false,
+        "description": "One worksheet row; the columns are the Excel export's (PROJECT.md §5 Step 8).",
+        "properties": {
+          "action_owner": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Action Owner"
+          },
+          "causes": {
+            "title": "Causes",
+            "type": "string"
+          },
+          "consequences": {
+            "title": "Consequences",
+            "type": "string"
+          },
+          "design_intent": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Design Intent"
+          },
+          "deviation": {
+            "title": "Deviation",
+            "type": "string"
+          },
+          "evidence": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Evidence"
+          },
+          "existing_safeguards": {
+            "title": "Existing Safeguards",
+            "type": "string"
+          },
+          "guideword": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Guideword"
+          },
+          "likelihood": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Likelihood"
+          },
+          "lopa_gap": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Lopa Gap"
+          },
+          "origin": {
+            "title": "Origin",
+            "type": "string"
+          },
+          "override_state": {
+            "enum": [
+              "none",
+              "accepted",
+              "rejected",
+              "edited"
+            ],
+            "title": "Override State",
+            "type": "string"
+          },
+          "parameter": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Parameter"
+          },
+          "recommendation": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Recommendation"
+          },
+          "record_ids": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Record Ids",
+            "type": "array"
+          },
+          "risk": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Risk"
+          },
+          "row_id": {
+            "title": "Row Id",
+            "type": "string"
+          },
+          "section": {
+            "title": "Section",
+            "type": "string"
+          },
+          "severity": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Severity"
+          },
+          "status": {
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "row_id",
+          "section",
+          "design_intent",
+          "guideword",
+          "parameter",
+          "deviation",
+          "causes",
+          "consequences",
+          "existing_safeguards",
+          "severity",
+          "likelihood",
+          "risk",
+          "lopa_gap",
+          "recommendation",
+          "action_owner",
+          "origin",
+          "evidence",
+          "status",
+          "record_ids",
+          "override_state"
+        ],
+        "title": "WorksheetRow",
+        "type": "object"
+      }
+    }
+  },
+  "info": {
+    "description": "AI HAZOP preparation. Every run-related response carries a label (live, recorded or mock). Without mock mode, endpoints return 501 until their phase.",
+    "title": "Guideword API",
+    "version": "contract-v1"
+  },
+  "openapi": "3.1.0",
+  "paths": {
+    "/budget": {
+      "get": {
+        "operationId": "get_budget_budget_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Budget"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "501": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Not Implemented"
+          }
+        },
+        "summary": "Get Budget"
+      }
+    },
+    "/demo": {
+      "get": {
+        "operationId": "get_demo_demo_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DemoResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "501": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Not Implemented"
+          }
+        },
+        "summary": "Get Demo"
+      }
+    },
+    "/internal/runs/{id}/advance": {
+      "post": {
+        "operationId": "advance_run_internal_runs__id__advance_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "title": "Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "X-Internal-Secret",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Internal-Secret"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Accepted"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          },
+          "501": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Not Implemented"
+          }
+        },
+        "summary": "Advance Run"
+      }
+    },
+    "/plants": {
+      "get": {
+        "operationId": "list_plants_plants_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PlantList"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "501": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Not Implemented"
+          }
+        },
+        "summary": "List Plants"
+      },
+      "post": {
+        "operationId": "upload_plant_plants_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "title": "Plant File",
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PlantUploadResult"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          },
+          "501": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Not Implemented"
+          }
+        },
+        "summary": "Upload Plant"
+      }
+    },
+    "/plants/{id}": {
+      "get": {
+        "operationId": "get_plant_plants__id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "title": "Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PlantDetail"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          },
+          "501": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Not Implemented"
+          }
+        },
+        "summary": "Get Plant"
+      }
+    },
+    "/plants/{id}/sections": {
+      "put": {
+        "operationId": "confirm_sections_plants__id__sections_put",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "title": "Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConfirmSectionsRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConfirmSectionsResult"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          },
+          "501": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Not Implemented"
+          }
+        },
+        "summary": "Confirm Sections"
+      }
+    },
+    "/plants/{id}/sections/propose": {
+      "post": {
+        "operationId": "propose_sections_plants__id__sections_propose_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "title": "Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SectionProposal"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          },
+          "501": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Not Implemented"
+          }
+        },
+        "summary": "Propose Sections"
+      }
+    },
+    "/runs": {
+      "get": {
+        "operationId": "list_runs_runs_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RunList"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "501": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Not Implemented"
+          }
+        },
+        "summary": "List Runs"
+      },
+      "post": {
+        "operationId": "start_run_runs_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StartRunRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StartRunResult"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          },
+          "501": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Not Implemented"
+          }
+        },
+        "summary": "Start Run"
+      }
+    },
+    "/runs/{id}": {
+      "get": {
+        "operationId": "get_run_runs__id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "title": "Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RunDetail"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          },
+          "501": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Not Implemented"
+          }
+        },
+        "summary": "Get Run"
+      }
+    },
+    "/runs/{id}/cancel": {
+      "post": {
+        "operationId": "cancel_run_runs__id__cancel_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "title": "Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RunStatusResult"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          },
+          "501": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Not Implemented"
+          }
+        },
+        "summary": "Cancel Run"
+      }
+    },
+    "/runs/{id}/coverage": {
+      "get": {
+        "operationId": "get_coverage_runs__id__coverage_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "title": "Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Coverage"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          },
+          "501": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Not Implemented"
+          }
+        },
+        "summary": "Get Coverage"
+      }
+    },
+    "/runs/{id}/events": {
+      "get": {
+        "operationId": "get_events_runs__id__events_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "title": "Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "after",
+            "required": false,
+            "schema": {
+              "default": 0,
+              "title": "After",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventsPage"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          },
+          "501": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Not Implemented"
+          }
+        },
+        "summary": "Get Events"
+      }
+    },
+    "/runs/{id}/export.xlsx": {
+      "get": {
+        "operationId": "export_worksheet_runs__id__export_xlsx_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "title": "Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": {}
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          },
+          "501": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Not Implemented"
+          }
+        },
+        "summary": "Export Worksheet"
+      }
+    },
+    "/runs/{id}/export/coverage.json": {
+      "get": {
+        "operationId": "export_coverage_runs__id__export_coverage_json_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "title": "Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Coverage"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          },
+          "501": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Not Implemented"
+          }
+        },
+        "summary": "Export Coverage"
+      }
+    },
+    "/runs/{id}/export/run.json": {
+      "get": {
+        "operationId": "export_run_runs__id__export_run_json_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "title": "Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RunDump"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          },
+          "501": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Not Implemented"
+          }
+        },
+        "summary": "Export Run"
+      }
+    },
+    "/runs/{id}/overrides": {
+      "post": {
+        "operationId": "add_override_runs__id__overrides_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "title": "Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OverrideRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OverrideResult"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          },
+          "501": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Not Implemented"
+          }
+        },
+        "summary": "Add Override"
+      }
+    },
+    "/runs/{id}/questions": {
+      "get": {
+        "operationId": "get_questions_runs__id__questions_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "title": "Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "kind",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/QuestionKind"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Kind"
+            }
+          },
+          {
+            "in": "query",
+            "name": "status",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/QuestionStatus"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Status"
+            }
+          },
+          {
+            "in": "query",
+            "name": "section_id",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Section Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QuestionList"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          },
+          "501": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Not Implemented"
+          }
+        },
+        "summary": "Get Questions"
+      },
+      "post": {
+        "operationId": "add_question_runs__id__questions_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "title": "Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddQuestionRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QuestionCreated"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          },
+          "501": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Not Implemented"
+          }
+        },
+        "summary": "Add Question"
+      }
+    },
+    "/runs/{id}/records/{record_id}": {
+      "get": {
+        "operationId": "get_record_runs__id__records__record_id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "title": "Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "record_id",
+            "required": true,
+            "schema": {
+              "title": "Record Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecordDetail"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          },
+          "501": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Not Implemented"
+          }
+        },
+        "summary": "Get Record"
+      }
+    },
+    "/runs/{id}/sections": {
+      "get": {
+        "operationId": "get_run_sections_runs__id__sections_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "title": "Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RunSections"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          },
+          "501": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Not Implemented"
+          }
+        },
+        "summary": "Get Run Sections"
+      }
+    },
+    "/runs/{id}/shortlist": {
+      "get": {
+        "operationId": "get_shortlist_runs__id__shortlist_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "title": "Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Shortlist"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          },
+          "501": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Not Implemented"
+          }
+        },
+        "summary": "Get Shortlist"
+      }
+    },
+    "/runs/{id}/worksheet": {
+      "get": {
+        "operationId": "get_worksheet_runs__id__worksheet_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "title": "Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "origin",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Origin"
+            }
+          },
+          {
+            "in": "query",
+            "name": "status",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Status"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Worksheet"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          },
+          "501": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Not Implemented"
+          }
+        },
+        "summary": "Get Worksheet"
+      }
+    }
+  }
+}

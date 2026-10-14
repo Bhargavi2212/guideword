@@ -1,0 +1,13 @@
+{
+  "plant_record_id": "plant:mock_plant_a:437a7c5b6e544611",
+  "status": "sections_confirmed",
+  "section_ids": [
+    "S-TOTE-1",
+    "S-P-1",
+    "S-MX-1",
+    "S-L-12",
+    "S-L-STM",
+    "S-P-CHARGE",
+    "S-W-1"
+  ]
+}

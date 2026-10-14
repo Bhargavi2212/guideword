@@ -1,0 +1,76 @@
+{
+  "$defs": {
+    "Issue": {
+      "additionalProperties": false,
+      "description": "A plant validation error or warning (schema/validate.py), naming the offending ID.",
+      "properties": {
+        "code": {
+          "title": "Code",
+          "type": "string"
+        },
+        "message": {
+          "title": "Message",
+          "type": "string"
+        },
+        "object_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Object Id"
+        }
+      },
+      "required": [
+        "code",
+        "object_id",
+        "message"
+      ],
+      "title": "Issue",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "errors": {
+      "items": {
+        "$ref": "#/$defs/Issue"
+      },
+      "title": "Errors",
+      "type": "array"
+    },
+    "ok": {
+      "title": "Ok",
+      "type": "boolean"
+    },
+    "plant_record_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Plant Record Id"
+    },
+    "warnings": {
+      "items": {
+        "$ref": "#/$defs/Issue"
+      },
+      "title": "Warnings",
+      "type": "array"
+    }
+  },
+  "required": [
+    "plant_record_id",
+    "ok",
+    "errors",
+    "warnings"
+  ],
+  "title": "PlantUploadResult",
+  "type": "object"
+}

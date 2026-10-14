@@ -1,0 +1,84 @@
+{
+  "label": {
+    "kind": "mock",
+    "recorded_at": null,
+    "cost_usd": 0.31
+  },
+  "run_id": "run:8ede059837927e4a",
+  "rows": [
+    {
+      "row_id": "f:m:S-MX-1:more:temperature:lightning:C01:a92ada9e786e565d",
+      "section": "S-MX-1",
+      "design_intent": "Blends Si-H fluid and KOH solution, steam heated",
+      "guideword": "more",
+      "parameter": "temperature",
+      "deviation": "More temperature in MX-1",
+      "causes": "C01 Control valve fails open (TV-1)",
+      "consequences": "Steam valve TV-1 fails open; MX-1 heats past its 80 °C design temperature.",
+      "existing_safeguards": "SG-TRIP",
+      "severity": "S2",
+      "likelihood": "L3",
+      "risk": "medium",
+      "lopa_gap": "about 10x",
+      "recommendation": null,
+      "action_owner": null,
+      "origin": "matrix",
+      "evidence": "calculation: confirmed",
+      "status": "answered",
+      "record_ids": [
+        "f:m:S-MX-1:more:temperature:lightning:C01:a92ada9e786e565d",
+        "lopa:f:m:S-MX-1:more:temperature:lightning:C01:a92ada9e786e565d"
+      ],
+      "override_state": "none"
+    },
+    {
+      "row_id": "f:pair:KOH:SIH:lightning:C14:541f633168214c61",
+      "section": "chemical pairs",
+      "design_intent": null,
+      "guideword": null,
+      "parameter": null,
+      "deviation": "KOH solution with Si-H fluid",
+      "causes": "C14 Wrong material charged (P-CHARGE-1)",
+      "consequences": "Wrong tote charged: KOH with Si-H fluid gives flammable gas (GF) in MX-1.",
+      "existing_safeguards": "SG-VENT",
+      "severity": "S3",
+      "likelihood": "L4",
+      "risk": "high",
+      "lopa_gap": "about 10x (chain)",
+      "recommendation": "Check the tote label against the batch sheet before charging",
+      "action_owner": null,
+      "origin": "cross_list",
+      "evidence": "precedent: none",
+      "status": "answered (unsure)",
+      "record_ids": [
+        "f:pair:KOH:SIH:lightning:C14:541f633168214c61",
+        "ch:f:pair:KOH:SIH:lightning:C14:541f633168214c61+f:relief:PSV-1:ultra:8b8e942809f7e00a:f222cda333ff2d9b"
+      ],
+      "override_state": "none"
+    },
+    {
+      "row_id": "m:S-MX-1:more:pressure",
+      "section": "S-MX-1",
+      "design_intent": "Blends Si-H fluid and KOH solution, steam heated",
+      "guideword": "more",
+      "parameter": "pressure",
+      "deviation": "More pressure in MX-1",
+      "causes": "",
+      "consequences": "",
+      "existing_safeguards": "PSV-1",
+      "severity": null,
+      "likelihood": null,
+      "risk": null,
+      "lopa_gap": null,
+      "recommendation": null,
+      "action_owner": null,
+      "origin": "matrix",
+      "evidence": null,
+      "status": "not credible",
+      "record_ids": [
+        "m:S-MX-1:more:pressure"
+      ],
+      "override_state": "none"
+    }
+  ]
+}

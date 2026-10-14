@@ -1,0 +1,27 @@
+{
+  "additionalProperties": false,
+  "description": "401, 403, 404, 409 and 501 bodies. `phase` names the phase that will build a 501 route.",
+  "properties": {
+    "detail": {
+      "title": "Detail",
+      "type": "string"
+    },
+    "phase": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Phase"
+    }
+  },
+  "required": [
+    "detail"
+  ],
+  "title": "ErrorBody",
+  "type": "object"
+}

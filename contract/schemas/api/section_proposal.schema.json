@@ -1,0 +1,194 @@
+{
+  "$defs": {
+    "Section": {
+      "additionalProperties": false,
+      "properties": {
+        "drawn_by": {
+          "enum": [
+            "rule",
+            "suggestion",
+            "engineer"
+          ],
+          "title": "Drawn By",
+          "type": "string"
+        },
+        "flagged_no_flow": {
+          "default": false,
+          "title": "Flagged No Flow",
+          "type": "boolean"
+        },
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "kind": {
+          "$ref": "#/$defs/SectionKind"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "object_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Object Ids",
+          "type": "array"
+        },
+        "plant_record_id": {
+          "title": "Plant Record Id",
+          "type": "string"
+        },
+        "purpose": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Purpose"
+        },
+        "section_type": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SectionType"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "suggestion_reason": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Suggestion Reason"
+        }
+      },
+      "required": [
+        "id",
+        "plant_record_id",
+        "kind",
+        "section_type",
+        "name",
+        "object_ids",
+        "drawn_by"
+      ],
+      "title": "Section",
+      "type": "object"
+    },
+    "SectionKind": {
+      "enum": [
+        "equipment",
+        "line",
+        "no_flow_line",
+        "procedure",
+        "planned_work"
+      ],
+      "title": "SectionKind",
+      "type": "string"
+    },
+    "SectionSuggestion": {
+      "additionalProperties": false,
+      "description": "A Super suggestion on the rule-drawn cut, always with its reason.",
+      "properties": {
+        "kind": {
+          "enum": [
+            "split",
+            "merge",
+            "purpose"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "purpose": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Purpose"
+        },
+        "reason": {
+          "title": "Reason",
+          "type": "string"
+        },
+        "section_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Section Ids",
+          "type": "array"
+        }
+      },
+      "required": [
+        "kind",
+        "section_ids",
+        "reason"
+      ],
+      "title": "SectionSuggestion",
+      "type": "object"
+    },
+    "SectionType": {
+      "description": "Applicability key: the equipment types, plus pipe and procedure.\n\nPlanned-work sections have no section type; they get only work: questions.",
+      "enum": [
+        "tank",
+        "vessel",
+        "column",
+        "reactor",
+        "heat_exchanger",
+        "pump",
+        "compressor",
+        "dryer",
+        "mixer",
+        "solids_handler",
+        "other",
+        "pipe",
+        "procedure"
+      ],
+      "title": "SectionType",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "plant_record_id": {
+      "title": "Plant Record Id",
+      "type": "string"
+    },
+    "sections": {
+      "items": {
+        "$ref": "#/$defs/Section"
+      },
+      "title": "Sections",
+      "type": "array"
+    },
+    "suggestions": {
+      "items": {
+        "$ref": "#/$defs/SectionSuggestion"
+      },
+      "title": "Suggestions",
+      "type": "array"
+    }
+  },
+  "required": [
+    "plant_record_id",
+    "sections",
+    "suggestions"
+  ],
+  "title": "SectionProposal",
+  "type": "object"
+}

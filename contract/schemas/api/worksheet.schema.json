@@ -1,0 +1,264 @@
+{
+  "$defs": {
+    "RunLabel": {
+      "additionalProperties": false,
+      "properties": {
+        "cost_usd": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Cost Usd"
+        },
+        "kind": {
+          "$ref": "#/$defs/RunLabelKind"
+        },
+        "recorded_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Recorded At"
+        }
+      },
+      "required": [
+        "kind"
+      ],
+      "title": "RunLabel",
+      "type": "object"
+    },
+    "RunLabelKind": {
+      "enum": [
+        "live",
+        "recorded",
+        "mock"
+      ],
+      "title": "RunLabelKind",
+      "type": "string"
+    },
+    "WorksheetRow": {
+      "additionalProperties": false,
+      "description": "One worksheet row; the columns are the Excel export's (PROJECT.md §5 Step 8).",
+      "properties": {
+        "action_owner": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Action Owner"
+        },
+        "causes": {
+          "title": "Causes",
+          "type": "string"
+        },
+        "consequences": {
+          "title": "Consequences",
+          "type": "string"
+        },
+        "design_intent": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Design Intent"
+        },
+        "deviation": {
+          "title": "Deviation",
+          "type": "string"
+        },
+        "evidence": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Evidence"
+        },
+        "existing_safeguards": {
+          "title": "Existing Safeguards",
+          "type": "string"
+        },
+        "guideword": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Guideword"
+        },
+        "likelihood": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Likelihood"
+        },
+        "lopa_gap": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Lopa Gap"
+        },
+        "origin": {
+          "title": "Origin",
+          "type": "string"
+        },
+        "override_state": {
+          "enum": [
+            "none",
+            "accepted",
+            "rejected",
+            "edited"
+          ],
+          "title": "Override State",
+          "type": "string"
+        },
+        "parameter": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Parameter"
+        },
+        "recommendation": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Recommendation"
+        },
+        "record_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Record Ids",
+          "type": "array"
+        },
+        "risk": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Risk"
+        },
+        "row_id": {
+          "title": "Row Id",
+          "type": "string"
+        },
+        "section": {
+          "title": "Section",
+          "type": "string"
+        },
+        "severity": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Severity"
+        },
+        "status": {
+          "title": "Status",
+          "type": "string"
+        }
+      },
+      "required": [
+        "row_id",
+        "section",
+        "design_intent",
+        "guideword",
+        "parameter",
+        "deviation",
+        "causes",
+        "consequences",
+        "existing_safeguards",
+        "severity",
+        "likelihood",
+        "risk",
+        "lopa_gap",
+        "recommendation",
+        "action_owner",
+        "origin",
+        "evidence",
+        "status",
+        "record_ids",
+        "override_state"
+      ],
+      "title": "WorksheetRow",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "label": {
+      "$ref": "#/$defs/RunLabel"
+    },
+    "rows": {
+      "items": {
+        "$ref": "#/$defs/WorksheetRow"
+      },
+      "title": "Rows",
+      "type": "array"
+    },
+    "run_id": {
+      "title": "Run Id",
+      "type": "string"
+    }
+  },
+  "required": [
+    "label",
+    "run_id",
+    "rows"
+  ],
+  "title": "Worksheet",
+  "type": "object"
+}

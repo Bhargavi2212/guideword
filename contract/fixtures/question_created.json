@@ -1,0 +1,20 @@
+{
+  "label": {
+    "kind": "mock",
+    "recorded_at": null,
+    "cost_usd": 0.31
+  },
+  "question": {
+    "id": "eng:S-L-12:95696e3915b30910",
+    "run_id": "run:8ede059837927e4a",
+    "kind": "engineer",
+    "origin": "engineer",
+    "status": "open",
+    "section_id": "S-L-12",
+    "text": "Could the tote be left connected after charging?",
+    "fact_ids": [],
+    "attempts": 0,
+    "not_credible_reason": null,
+    "model_call_id": null
+  }
+}

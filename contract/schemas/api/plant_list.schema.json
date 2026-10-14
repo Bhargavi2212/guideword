@@ -1,0 +1,51 @@
+{
+  "$defs": {
+    "PlantStatus": {
+      "enum": [
+        "uploaded",
+        "sections_proposed",
+        "sections_confirmed"
+      ],
+      "title": "PlantStatus",
+      "type": "string"
+    },
+    "PlantSummary": {
+      "additionalProperties": false,
+      "properties": {
+        "plant_id": {
+          "title": "Plant Id",
+          "type": "string"
+        },
+        "plant_record_id": {
+          "title": "Plant Record Id",
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/$defs/PlantStatus"
+        }
+      },
+      "required": [
+        "plant_record_id",
+        "plant_id",
+        "status"
+      ],
+      "title": "PlantSummary",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "plants": {
+      "items": {
+        "$ref": "#/$defs/PlantSummary"
+      },
+      "title": "Plants",
+      "type": "array"
+    }
+  },
+  "required": [
+    "plants"
+  ],
+  "title": "PlantList",
+  "type": "object"
+}

@@ -1,0 +1,130 @@
+{
+  "label": {
+    "kind": "mock",
+    "recorded_at": null,
+    "cost_usd": 0.31
+  },
+  "run_id": "run:8ede059837927e4a",
+  "questions": [
+    {
+      "id": "m:S-MX-1:more:temperature",
+      "run_id": "run:8ede059837927e4a",
+      "kind": "matrix",
+      "origin": "matrix",
+      "status": "answered",
+      "section_id": "S-MX-1",
+      "text": "More temperature in MX-1",
+      "fact_ids": [
+        "MX-1.design_temp_c",
+        "MX-1.operating.temperature.trip_high"
+      ],
+      "attempts": 1,
+      "not_credible_reason": null,
+      "model_call_id": null
+    },
+    {
+      "id": "m:S-MX-1:more:pressure",
+      "run_id": "run:8ede059837927e4a",
+      "kind": "matrix",
+      "origin": "matrix",
+      "status": "not_credible",
+      "section_id": "S-MX-1",
+      "text": "More pressure in MX-1",
+      "fact_ids": [],
+      "attempts": 1,
+      "not_credible_reason": "PSV-1 is sized for the steam case and no other source can pressurise MX-1 above its set pressure.",
+      "model_call_id": "mc:2cbbbc2d985df101"
+    },
+    {
+      "id": "m:S-L-12:reverse:flow",
+      "run_id": "run:8ede059837927e4a",
+      "kind": "matrix",
+      "origin": "matrix",
+      "status": "answered",
+      "section_id": "S-L-12",
+      "text": "Reverse flow in L-12",
+      "fact_ids": [],
+      "attempts": 1,
+      "not_credible_reason": null,
+      "model_call_id": null
+    },
+    {
+      "id": "pair:KOH:SIH",
+      "run_id": "run:8ede059837927e4a",
+      "kind": "chemical_pair",
+      "origin": "cross_list",
+      "status": "answered",
+      "section_id": null,
+      "text": "KOH solution with Si-H fluid",
+      "fact_ids": [],
+      "attempts": 1,
+      "not_credible_reason": null,
+      "model_call_id": null
+    },
+    {
+      "id": "env:SIH:water",
+      "run_id": "run:8ede059837927e4a",
+      "kind": "chemical_environment",
+      "origin": "cross_list",
+      "status": "answered",
+      "section_id": null,
+      "text": "Si-H fluid with water",
+      "fact_ids": [],
+      "attempts": 1,
+      "not_credible_reason": null,
+      "model_call_id": null
+    },
+    {
+      "id": "proc:P-CHARGE-1:wrong",
+      "run_id": "run:8ede059837927e4a",
+      "kind": "procedure_step",
+      "origin": "cross_list",
+      "status": "answered",
+      "section_id": "S-P-CHARGE",
+      "text": "Wrong tote selected at step P-CHARGE-1",
+      "fact_ids": [],
+      "attempts": 1,
+      "not_credible_reason": null,
+      "model_call_id": null
+    },
+    {
+      "id": "relief:PSV-1",
+      "run_id": "run:8ede059837927e4a",
+      "kind": "relief_discharge",
+      "origin": "cross_list",
+      "status": "answered",
+      "section_id": null,
+      "text": "Where PSV-1 discharges",
+      "fact_ids": [],
+      "attempts": 1,
+      "not_credible_reason": null,
+      "model_call_id": null
+    },
+    {
+      "id": "work:W-1:MX-1",
+      "run_id": "run:8ede059837927e4a",
+      "kind": "planned_work",
+      "origin": "cross_list",
+      "status": "failed",
+      "section_id": "S-W-1",
+      "text": "Hot work W-1 near MX-1",
+      "fact_ids": [],
+      "attempts": 1,
+      "not_credible_reason": null,
+      "model_call_id": null
+    },
+    {
+      "id": "eng:S-L-12:95696e3915b30910",
+      "run_id": "run:8ede059837927e4a",
+      "kind": "engineer",
+      "origin": "engineer",
+      "status": "open",
+      "section_id": "S-L-12",
+      "text": "Could the tote be left connected after charging?",
+      "fact_ids": [],
+      "attempts": 0,
+      "not_credible_reason": null,
+      "model_call_id": null
+    }
+  ]
+}

@@ -1,0 +1,117 @@
+{
+  "$defs": {
+    "CoverageList": {
+      "additionalProperties": false,
+      "properties": {
+        "checked": {
+          "title": "Checked",
+          "type": "integer"
+        },
+        "failed": {
+          "title": "Failed",
+          "type": "integer"
+        },
+        "list": {
+          "title": "List",
+          "type": "string"
+        },
+        "total": {
+          "title": "Total",
+          "type": "integer"
+        },
+        "unsure": {
+          "title": "Unsure",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "list",
+        "total",
+        "checked",
+        "unsure",
+        "failed"
+      ],
+      "title": "CoverageList",
+      "type": "object"
+    },
+    "RunLabel": {
+      "additionalProperties": false,
+      "properties": {
+        "cost_usd": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Cost Usd"
+        },
+        "kind": {
+          "$ref": "#/$defs/RunLabelKind"
+        },
+        "recorded_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Recorded At"
+        }
+      },
+      "required": [
+        "kind"
+      ],
+      "title": "RunLabel",
+      "type": "object"
+    },
+    "RunLabelKind": {
+      "enum": [
+        "live",
+        "recorded",
+        "mock"
+      ],
+      "title": "RunLabelKind",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "failed_question_ids": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Failed Question Ids",
+      "type": "array"
+    },
+    "label": {
+      "$ref": "#/$defs/RunLabel"
+    },
+    "lists": {
+      "items": {
+        "$ref": "#/$defs/CoverageList"
+      },
+      "title": "Lists",
+      "type": "array"
+    },
+    "run_id": {
+      "title": "Run Id",
+      "type": "string"
+    }
+  },
+  "required": [
+    "label",
+    "run_id",
+    "lists",
+    "failed_question_ids"
+  ],
+  "title": "Coverage",
+  "type": "object"
+}

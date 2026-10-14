@@ -1,0 +1,197 @@
+{
+  "$defs": {
+    "Question": {
+      "additionalProperties": false,
+      "properties": {
+        "attempts": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Attempts",
+          "type": "integer"
+        },
+        "fact_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Fact Ids",
+          "type": "array"
+        },
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "kind": {
+          "$ref": "#/$defs/QuestionKind"
+        },
+        "model_call_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Model Call Id"
+        },
+        "not_credible_reason": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Not Credible Reason"
+        },
+        "origin": {
+          "$ref": "#/$defs/QuestionOrigin"
+        },
+        "run_id": {
+          "title": "Run Id",
+          "type": "string"
+        },
+        "section_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Section Id"
+        },
+        "status": {
+          "$ref": "#/$defs/QuestionStatus"
+        },
+        "text": {
+          "title": "Text",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "run_id",
+        "kind",
+        "origin",
+        "status",
+        "text"
+      ],
+      "title": "Question",
+      "type": "object"
+    },
+    "QuestionKind": {
+      "enum": [
+        "matrix",
+        "chemical_pair",
+        "chemical_environment",
+        "no_flow_line",
+        "procedure_step",
+        "planned_work",
+        "dust",
+        "relief_discharge",
+        "added_by_ai",
+        "engineer"
+      ],
+      "title": "QuestionKind",
+      "type": "string"
+    },
+    "QuestionOrigin": {
+      "enum": [
+        "matrix",
+        "cross_list",
+        "added_by_ai",
+        "engineer"
+      ],
+      "title": "QuestionOrigin",
+      "type": "string"
+    },
+    "QuestionStatus": {
+      "description": "`answered` and `not_credible` count as checked. Unsure is a confidence, not a status.",
+      "enum": [
+        "open",
+        "answered",
+        "not_credible",
+        "failed"
+      ],
+      "title": "QuestionStatus",
+      "type": "string"
+    },
+    "RunLabel": {
+      "additionalProperties": false,
+      "properties": {
+        "cost_usd": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Cost Usd"
+        },
+        "kind": {
+          "$ref": "#/$defs/RunLabelKind"
+        },
+        "recorded_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Recorded At"
+        }
+      },
+      "required": [
+        "kind"
+      ],
+      "title": "RunLabel",
+      "type": "object"
+    },
+    "RunLabelKind": {
+      "enum": [
+        "live",
+        "recorded",
+        "mock"
+      ],
+      "title": "RunLabelKind",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "label": {
+      "$ref": "#/$defs/RunLabel"
+    },
+    "questions": {
+      "items": {
+        "$ref": "#/$defs/Question"
+      },
+      "title": "Questions",
+      "type": "array"
+    },
+    "run_id": {
+      "title": "Run Id",
+      "type": "string"
+    }
+  },
+  "required": [
+    "label",
+    "run_id",
+    "questions"
+  ],
+  "title": "QuestionList",
+  "type": "object"
+}
