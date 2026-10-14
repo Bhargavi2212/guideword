@@ -220,11 +220,13 @@ def test_prompts_are_harmless(config: Config, tmp_path: Path) -> None:
         assert not any(word in text.lower() for word in BANNED_WORDS), text[:80]
 
 
-def test_t14_filler_is_about_100k_tokens(config: Config) -> None:
+def test_t14_filler_estimate_bounds_its_billed_size(config: Config) -> None:
+    # 350k characters; billed at 122,002 input tokens on 2026-10-13. Under the estimate rule
+    # of 2026-10-13 (text / 2.5 + 32) the pre-check expects about 140k tokens and $0.14.
     messages = smoke_test.filler_messages(smoke_test.DEFAULT_FILLER_CHARS)
     estimate = live_call.estimate_cost(config.models.tiers[Tier.ULTRA], messages, None, 50)
-    assert 95_000 <= estimate.input_tokens <= 105_000
-    assert estimate.cost_usd == pytest.approx(0.10, abs=0.01)
+    assert 122_002 <= estimate.input_tokens <= 145_000
+    assert estimate.cost_usd == pytest.approx(0.14, abs=0.01)
 
 
 # --- spec acceptance ------------------------------------------------------------------------------
