@@ -96,11 +96,11 @@ Utilities, locations, instruments, logic solvers, valves (other than as line com
 **Names.** `name` defaults to the object ID plus its kind (P8): whole object `<id> (<type>)`, e.g. `MX-1 (mixer)` or `L-12 (pipe)`; a later line part `<line id> from <split point id> (pipe)`, e.g. `L-12 from P-1 (pipe)`; a no-flow line `<line id> (no-flow line)`; a procedure `<id> (procedure: <kind>)`; a job `<id> (<work type>)`. `purpose` is empty until a suggestion fills it. The engineer can rename; renaming never changes the ID.
 
 **Acceptance (tests first)**
-- [ ] §9 example: sections exactly `S-MX-1`, `S-P-1`, `S-TOTE-1`, `S-L-12`, `S-L-12~P-1`, `S-L-STM`, `S-L-STM~TV-1`, `S-P-CHARGE`, `S-W-1` (hand-checked in the test), with the kinds and types in the table.
-- [ ] A line with `no_flow: ["normally_closed"]` and a pump on it is one flagged `no_flow_line` section, not split.
-- [ ] A line whose first component is a split point still has a first part `S-<line>` with no components.
-- [ ] Every equipment item, line, procedure and planned job is covered by at least one section; nothing else gets a section.
-- [ ] Every section ID parses as a section ID and is unique.
+- [x] §9 example: sections exactly `S-MX-1`, `S-P-1`, `S-TOTE-1`, `S-L-12`, `S-L-12~P-1`, `S-L-STM`, `S-L-STM~TV-1`, `S-P-CHARGE`, `S-W-1` (hand-checked in the test), with the kinds and types in the table.
+- [x] A line with `no_flow: ["normally_closed"]` and a pump on it is one flagged `no_flow_line` section, not split.
+- [x] A line whose first component is a split point still has a first part `S-<line>` with no components.
+- [x] Every equipment item, line, procedure and planned job is covered by at least one section; nothing else gets a section.
+- [x] Every section ID parses as a section ID and is unique.
 
 ## 1.3 Section suggestions, propose and confirm
 
