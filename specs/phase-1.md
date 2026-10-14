@@ -65,13 +65,13 @@ Phase 2 adds `GatewaySuggester` as the gateway's first job (`section_suggestion:
 - Each plant route leaves `NOT_BUILT_PHASE` in the PR that builds it (the three above in PR 1, propose and PUT in PR 3), and the 501 test covers only the routes still in the map (P7).
 
 **Acceptance (tests first)**
-- [ ] `example_mixing_unit.json` uploads: `ok: true`, status `uploaded`, facts include `MX-1.design_pressure_kpa` with source `"assumed"` and `MX-1.operating.temperature.trip_high`.
-- [ ] A file with one validation error returns 200 with `ok: false`, that error and object named, and stores nothing.
-- [ ] Uploading the same file twice returns the same record ID and creates one row.
-- [ ] Changing one value gives a new record ID.
-- [ ] A fact with no provenance has source `"not stated"` and appears in the warnings.
-- [ ] Each dev case D–H uploads with no errors.
-- [ ] Tests use a temporary SQLite file per test; no network.
+- [x] `example_mixing_unit.json` uploads: `ok: true`, status `uploaded`, facts include `MX-1.design_pressure_kpa` with source `"assumed"` and `MX-1.operating.temperature.trip_high`.
+- [x] A file with one validation error returns 200 with `ok: false`, that error and object named, and stores nothing.
+- [x] Uploading the same file twice returns the same record ID and creates one row.
+- [x] Changing one value gives a new record ID.
+- [x] A fact with no provenance has source `"not stated"` and appears in the warnings.
+- [x] Each dev case D–H uploads with no errors.
+- [x] Tests use a temporary SQLite file per test; no network.
 
 ## 1.2 Section rules (the first cut)
 
