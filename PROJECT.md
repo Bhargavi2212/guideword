@@ -49,7 +49,7 @@ The engineer uploads a **plant file** (JSON, format in §9). It is validated on 
 ### Step 2 — Section split (hybrid)
 1. **Rules** draw the first cut: one section per equipment item, of every type (pumps and compressors included); lines split at control valves, pumps, compressors and heat exchangers; **a line with a non-empty `no_flow` gets its own flagged section**; every procedure and planned job becomes a section.
 2. **Nemotron Super** reviews the cut and suggests splits or merges where the design intent changes (phase change, new temperature range, new chemical entering, start-up-only line), each with a reason. It writes a one-line purpose for each section. **It can never merge away a flagged no-flow section.** This call has its own cap (`section_suggest_cap_usd` in `config/caps.yaml`) and is logged to the ledger like any other call.
-3. **The engineer confirms**: accepts, rejects or edits each suggestion, renames sections, adds procedure or work sections. Nothing proceeds until confirmed.
+3. **The engineer confirms**: accepts, rejects or edits each suggestion, renames sections, adds sections that regroup existing plant objects (a new procedure or job means uploading a new plant file). Nothing proceeds until confirmed.
 
 Sections belong to the **plant**, not the run. The plant moves through `uploaded → sections_proposed → sections_confirmed`. A run starts from a snapshot of the plant's confirmed sections.
 
@@ -60,7 +60,7 @@ Code builds a numbered list of every question. Nothing on it can be deleted.
 2. **Every chemical pair** on site: n(n−1)/2 pair questions for n chemicals (10 chemicals → 45 pairs), plus a separate list of 3n environment questions (each chemical with water, air and heat). The coverage report counts the two lists separately.
 3. **Every no-flow line** (a line with a non-empty `no_flow`): what accumulates, what is missing there (e.g. inhibitor).
 4. **Every procedure step × Skipped / Wrong / Too early / Too late / Out of order** (guidewords `skipped`, `wrong`, `early`, `late`, `out_of_order`; `out_of_order` covers sequence). The `procedure` rows of the applicability table supply only this guideword list.
-5. **Every planned job × what is within reach** (flammables, live lines, overlapping jobs, isolation). "Within reach" of a job means: its listed `equipment_ids`; its listed `line_ids`; every equipment item in its location; every line whose `from_id` or `to_id` is in its location (an endpoint in the location, or the location itself); and every other planned job at the same location whose time window overlaps. Planned-work sections get only these `work:` questions.
+5. **Every planned job × what is within reach** (flammables, live lines, overlapping jobs, isolation). "Within reach" of a job means: its listed `equipment_ids`; its listed `line_ids`; every equipment item in its location; every line whose `from_id` or `to_id` is in its location (an endpoint in the location, or the location itself); every relief device whose `discharge.location_id` is its location (the target is the relief device); and every other planned job at the same location whose time window overlaps. Windows overlap when they touch or cross; a missing `start` or `end`, or a time-zone mismatch between the two jobs, counts as overlapping. A job without a location shares a location with no other job. A job with nothing within reach gets one question `work:<job>:<job>`. Planned-work sections get only these `work:` questions.
 6. **Dust and ignition** questions for every equipment item of type `solids_handler` or `dryer`, plus any equipment whose `contents` include a chemical with `combustible_dust: true`.
 7. **Every relief device × where it discharges** (people, ignition sources, other equipment). Overpressure is the other common PHA oversight (AIChE CEP, July 2025); it has no separate question. Instead, every `m:<section>:more:pressure` finding in the top N gets a `physics_calc` multiple-of-design-pressure in its evidence when the plant facts allow it.
 
@@ -466,7 +466,7 @@ Every run-related response carries a `label`: `{kind: live | recorded | mock, re
 | `GET /plants` | — | List plants |
 | `POST /plants` | plant file | Upload and validate; returns errors and missing-fact warnings |
 | `GET /plants/{id}` | — | Plant facts with sources |
-| `POST /plants/{id}/sections/propose` | — | Rules plus Super suggestions with reasons (under `section_suggest_cap_usd`); plant status → sections_proposed |
+| `POST /plants/{id}/sections/propose` | — | Rules plus Super suggestions with reasons (under `section_suggest_cap_usd`; the live Super call is wired in Phase 2, and Phase 1 returns no suggestions); plant status → sections_proposed |
 | `PUT /plants/{id}/sections` | confirmed section set | Save confirmed sections; plant status → sections_confirmed |
 | `GET /runs` | — | List runs |
 | `POST /runs` | plant_id, spend_cap_usd, mode (full, sample) | Start a run; returns run ID and estimated cost; 409 if the plant's sections are not confirmed, or if a `stopped_cap` run with the same inputs is restarted without a higher `spend_cap_usd` |
@@ -568,7 +568,7 @@ Each phase has a spec (`specs/phase-N.md`) written and approved before it starts
 | Phase | Dates | Builds | Ends with |
 |---|---|---|---|
 | 0. Foundations | Oct 12–14 | Bootstrap commit; smoke test on all four models; repo, CI, licence, `CLAUDE.md`; price and routing config; budget-capped live-call script; schema package; reference tables; dev cases D–H as plant files; API contract and mock server; simulator, DEXPI and CAMEO feasibility | **G1** |
-| 1. Plant and questions | Oct 14–15 | Plant loading and validation; sections (rules, Super suggestions, confirm); question builder; coverage counts | Exact question counts on D–H |
+| 1. Plant and questions | Oct 14–15 | Plant loading and validation; sections (rules, suggestion logic with a stand-in suggester, confirm; the live Super call is wired in Phase 2); question builder; coverage counts | Exact question counts on D–H |
 | 2. Gateway and agents | Oct 15–17 | Gateway with JSON rules; six specialist agents; orchestrator core (`check_coverage`, `dispatch_specialist`, `finish` guard); `reactivity_lookup` (the chemistry agent has it at G2); risk-matrix ranking; test #5 harness and run | **G2** |
 | 3. Reasoning | Oct 18–20 | Connector (`propose_chains`) with ID validation; LOPA engine (`run_lopa`) with independence check; shortlist; recommendations | Shortlist per dev case |
 | 4. Tools and evidence | Oct 19–22 | Remaining tools: `web_research`, `search_precedent`, `physics_calc`, `run_simulation`; precedent index; simulator wrapper around the open-licence Tennessee Eastman package | Evidence on top findings |
