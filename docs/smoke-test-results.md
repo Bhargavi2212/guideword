@@ -79,6 +79,8 @@
 | Model IDs | All four expected IDs are listed exactly; `config/models.yaml` unchanged | T1 |
 | Tavily | Works; 3 results with `answer`, `results` and metadata; no usage info returned | T10 |
 
-## Open question for Bhargavi
+## Follow-up: the cost estimate (resolved 2026-10-13)
 
-- **Cost estimate divisor.** Spec 0.3 sets input tokens = characters ÷ 3.5 and calls the estimate an upper bound. T14 shows real tokens 22% above that for English text. Options: keep 3.5 (caps still hold, since spend is recorded at real cost, but a call can pass the pre-check and cost more than estimated), or change the divisor (for example to 2.5) so the pre-check stays an upper bound. Changing it is a spec change, so it is your call.
+Replaying all 32 single-call rows against the exact prompts showed the spec 0.3 estimate (characters ÷ 3.5) under-estimated the billed input on every one: a chat-template wrapper of about 15 tokens per request (23 characters billed as 22 tokens), tool schemas rendered at about twice their JSON size (T12: 140 estimated, 384 billed), and English text at about 2.9 characters per token (T14). Only 5 calls cost more than their estimate, because the output estimate assumes the full `max_tokens`; over the run, $0.1194 was estimated and $0.1262 billed.
+
+Bhargavi approved a revised rule: text ÷ 2.5, tool schemas and tool calls ÷ 1.25, plus 32 tokens per request. It is an upper bound on all 32 billed calls (`backend/tests/test_estimate_upper_bound.py` replays them from `docs/smoke/summary.json`). Under it, T14's filler estimates at about 140k tokens ($0.14) against 122,002 billed.

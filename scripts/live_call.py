@@ -1,7 +1,8 @@
 """The only code allowed to call Token Factory or Tavily until the Phase 2 gateway exists.
 
 Bhargavi starts every live call. Each model call is estimated before sending (input =
-ceil(characters of message contents and tool schemas / 3.5), output = max_tokens), refused
+ceil(text characters / 2.5 + tool-schema characters / 1.25) + 32, output = max_tokens; an
+upper bound on every billed smoke call of 2026-10-13), refused
 if it could push the phase cap, its use's allowance or the laptop allowance over the limit,
 sent once with no retries, and recorded at its real cost in budget/ledger.jsonl (git-ignored;
 no prompts, responses or keys). In-flight calls hold their estimate, so parallel calls
@@ -32,8 +33,13 @@ from guideword.schema.enums import BudgetUse, Environment, Tier
 from guideword.schema.records import SpendEntry
 from guideword.settings import Settings
 
-# The spec 0.3 estimating rule, not a budget.
-CHARS_PER_TOKEN = 3.5
+# The spec 0.3 estimating rule (revised 2026-10-13 from the smoke run), not a budget.
+# English text bills at about 2.9 characters per token; tool schemas and tool calls are
+# rendered into the prompt at about twice their JSON size; each request adds a chat-template
+# wrapper of about 15 tokens.
+TEXT_CHARS_PER_TOKEN = 2.5
+TOOL_CHARS_PER_TOKEN = 1.25
+REQUEST_OVERHEAD_TOKENS = 32
 OPENING_BALANCE_PHASE = "opening_balance"
 DEFAULT_LEDGER = Path(__file__).resolve().parents[1] / "budget" / "ledger.jsonl"
 SCRIPT = Path(__file__).name
@@ -90,14 +96,18 @@ def estimate_cost(
     max_tokens: int,
 ) -> Estimate:
     """Upper-bound estimate: output tokens are the requested max_tokens."""
-    chars = 0
+    text_chars = 0
+    tool_chars = 0
     for message in messages:
-        chars += len(str(message.get("content") or ""))
+        text_chars += len(str(message.get("content") or ""))
         if message.get("tool_calls"):
-            chars += len(json.dumps(message["tool_calls"], separators=(",", ":")))
+            tool_chars += len(json.dumps(message["tool_calls"], separators=(",", ":")))
     for tool in tools or ():
-        chars += len(json.dumps(tool, separators=(",", ":")))
-    input_tokens = math.ceil(chars / CHARS_PER_TOKEN)
+        tool_chars += len(json.dumps(tool, separators=(",", ":")))
+    input_tokens = (
+        math.ceil(text_chars / TEXT_CHARS_PER_TOKEN + tool_chars / TOOL_CHARS_PER_TOKEN)
+        + REQUEST_OVERHEAD_TOKENS
+    )
     return Estimate(input_tokens, max_tokens, cost_usd(prices, input_tokens, max_tokens))
 
 

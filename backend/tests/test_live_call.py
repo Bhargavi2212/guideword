@@ -116,18 +116,31 @@ def _lines(path: Path) -> list[dict[str, Any]]:
 def test_estimate_matches_hand_computed_example(config: Config) -> None:
     messages = [{"role": "user", "content": "x" * 700}]
     estimate = live_call.estimate_cost(config.models.tiers[Tier.ULTRA], messages, None, 100)
-    # 700 chars / 3.5 = 200 input tokens; output = max_tokens = 100
-    assert (estimate.input_tokens, estimate.output_tokens) == (200, 100)
-    assert estimate.cost_usd == pytest.approx(200 * 1.00 / 1e6 + 100 * 3.00 / 1e6)
+    # 700 text chars / 2.5 = 280, plus 32 per request = 312 input tokens; output = max_tokens
+    assert (estimate.input_tokens, estimate.output_tokens) == (312, 100)
+    assert estimate.cost_usd == pytest.approx(312 * 1.00 / 1e6 + 100 * 3.00 / 1e6)
 
 
-def test_estimate_counts_tool_schemas(config: Config) -> None:
+def test_estimate_counts_tool_schemas_at_their_rendered_size(config: Config) -> None:
     tool = {"type": "function", "function": {"name": "lookup_unit", "parameters": {}}}
-    chars = 10 + len(json.dumps(tool, separators=(",", ":")))
+    tool_chars = len(json.dumps(tool, separators=(",", ":")))
     estimate = live_call.estimate_cost(
         config.models.tiers[Tier.LIGHTNING], [{"role": "user", "content": "y" * 10}], [tool], 32
     )
-    assert estimate.input_tokens == math.ceil(chars / 3.5)
+    assert estimate.input_tokens == math.ceil(10 / 2.5 + tool_chars / 1.25) + 32
+
+
+def test_estimate_counts_tool_calls_in_messages_like_schemas(config: Config) -> None:
+    calls = [{"id": "c1", "type": "function", "function": {"name": "f", "arguments": "{}"}}]
+    messages = [{"role": "assistant", "content": None, "tool_calls": calls}]
+    estimate = live_call.estimate_cost(config.models.tiers[Tier.LIGHTNING], messages, None, 1)
+    chars = len(json.dumps(calls, separators=(",", ":")))
+    assert estimate.input_tokens == math.ceil(chars / 1.25) + 32
+
+
+def test_empty_request_still_pays_the_overhead(config: Config) -> None:
+    estimate = live_call.estimate_cost(config.models.tiers[Tier.NANO], [], None, 0)
+    assert estimate.input_tokens == 32
 
 
 # --- refusals before sending ------------------------------------------------------------------

@@ -201,7 +201,7 @@ Never in this repo before G3: held-out cases, held-out keys, the case writer bri
 
 **Build**
 - `live_call.py` exposes `chat(...)`, `list_models()`, `tavily_search(...)` and `record_opening_balance(...)`, plus a small CLI. Reads keys through settings. Every model call:
-  1. **Estimates cost** before sending: input tokens = ceil(total characters of all messages and tool schemas ÷ 3.5); output tokens = the requested `max_tokens` (so the estimate is an upper bound); prices from `models.yaml`.
+  1. **Estimates cost** before sending: input tokens = ceil(message text characters ÷ 2.5 + tool schema and tool call characters ÷ 1.25) + 32 per request; output tokens = the requested `max_tokens`; prices from `models.yaml`. (Revised 2026-10-13: the original ÷ 3.5 under-estimated every billed smoke call; the revised rule is an upper bound on all 32 of them, checked by `test_estimate_upper_bound.py`.)
   2. **Refuses** before sending if phase spend + estimate > the phase cap (`--phase`, cap from `caps.yaml`), or use spend + estimate > that use's allowance (`--use`, required, allowance from `caps.yaml`), or laptop spend + estimate > the laptop allowance ($19, from `caps.yaml`).
   3. Sends, then records the **real** cost from the returned token usage.
 - `budget/ledger.jsonl` (**git-ignored**: one local file that survives branch switches; no keys, no prompts, no responses). At each gate Bhargavi commits a snapshot, `budget/ledger-<gate>.jsonl`. One JSON object per line:
