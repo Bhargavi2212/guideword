@@ -1,13 +1,15 @@
 """The Guideword API (PROJECT.md §11 "API contract"), frozen as `contract-v1`.
 
-In mock mode (GUIDEWORD_MOCK=1) every endpoint serves contract/fixtures/. Otherwise every
-endpoint returns 501 naming the phase that will build it. Run with:
+In mock mode (GUIDEWORD_MOCK=1) every endpoint serves contract/fixtures/. Otherwise the
+built endpoints run for real and every other one returns 501 naming the phase that will
+build it (NOT_BUILT_PHASE). Run with:
   uvicorn guideword.api.app:create_app --factory
 """
 
 import hmac
 from collections.abc import Callable
 from datetime import UTC, datetime
+from functools import cache
 from pathlib import Path
 from typing import Annotated, Any
 
@@ -16,6 +18,9 @@ from fastapi.responses import JSONResponse, Response
 
 from guideword.api import models as api
 from guideword.api.mock import DEFAULT_FIXTURES, XLSX_MEDIA_TYPE, MockStore, worksheet_xlsx
+from guideword.reference import ReferenceSet, load_reference_set
+from guideword.runs.db import make_session_factory
+from guideword.runs.plants import PlantRepository, load_plant, not_stated_issues, plant_facts
 from guideword.schema import ids
 from guideword.schema.enums import (
     PlantStatus,
@@ -26,15 +31,13 @@ from guideword.schema.enums import (
     RunStatus,
 )
 from guideword.schema.records import Override, Question, Run
+from guideword.schema.validate import Issue, validate_plant
 from guideword.settings import Settings
 
 Clock = Callable[[], datetime]
 
 # The phase that builds each endpoint for real (PROJECT.md §15); a 501 names it.
 NOT_BUILT_PHASE: dict[tuple[str, str], int] = {
-    ("GET", "/plants"): 1,
-    ("POST", "/plants"): 1,
-    ("GET", "/plants/{id}"): 1,
     ("POST", "/plants/{id}/sections/propose"): 1,
     ("PUT", "/plants/{id}/sections"): 1,
     ("GET", "/runs"): 2,
@@ -60,6 +63,10 @@ NOT_BUILT_PHASE: dict[tuple[str, str], int] = {
 ERRORS: dict[int | str, dict[str, Any]] = {
     code: {"model": api.ErrorBody} for code in (401, 403, 404, 409, 501)
 }
+
+
+def _issues(issues: list[Issue]) -> list[api.Issue]:
+    return [api.Issue(code=i.code, object_id=i.object_id, message=i.message) for i in issues]
 
 
 class ApiError(Exception):
@@ -109,19 +116,65 @@ def create_app(
 
     # --- plants ---------------------------------------------------------------------------
 
+    # The store and the reference tables are opened on the first plant request, so routes
+    # that are not built yet (and the OpenAPI export) never create a database.
+    @cache
+    def plant_store() -> PlantRepository:
+        return PlantRepository(make_session_factory(settings.database_url))
+
+    @cache
+    def reference() -> ReferenceSet:
+        return load_reference_set()
+
     @app.get("/plants", response_model=api.PlantList, responses=ERRORS)
     def list_plants() -> api.PlantList:
-        return need("GET", "/plants").plant_list
+        if store is not None:
+            return store.plant_list
+        return api.PlantList(
+            plants=[
+                api.PlantSummary(plant_record_id=r.id, plant_id=r.plant_id, status=r.status)
+                for r in plant_store().records()
+            ]
+        )
 
     @app.post("/plants", response_model=api.PlantUploadResult, responses=ERRORS)
     def upload_plant(plant_file: Annotated[dict[str, Any], Body()]) -> api.PlantUploadResult:
-        return need("POST", "/plants").plant_upload_result
+        if store is not None:
+            return store.plant_upload_result
+        record, report = load_plant(plant_file, reference())
+        if record is None:
+            return api.PlantUploadResult(
+                plant_record_id=None,
+                ok=False,
+                errors=_issues(report.errors),
+                warnings=_issues(report.warnings),
+            )
+        facts = plant_facts(record.plant_file, record.id)
+        plant_store().add(record, plant_file, facts)
+        return api.PlantUploadResult(
+            plant_record_id=record.id,
+            ok=True,
+            errors=[],
+            warnings=_issues(report.warnings + not_stated_issues(facts)),
+        )
 
     @app.get("/plants/{id}", response_model=api.PlantDetail, responses=ERRORS)
     def get_plant(id: str) -> api.PlantDetail:
-        mock = need("GET", "/plants/{id}")
-        plant_of(mock, id)
-        return mock.plant_detail
+        if store is not None:
+            plant_of(store, id)
+            return store.plant_detail
+        stored = plant_store().get(id)
+        if stored is None:
+            raise ApiError(404, f"no plant {id}")
+        report = validate_plant(stored.raw, reference())
+        return api.PlantDetail(
+            plant_record_id=stored.record.id,
+            plant_id=stored.record.plant_id,
+            status=stored.record.status,
+            facts=stored.facts,
+            warnings=_issues(report.warnings + not_stated_issues(stored.facts)),
+            sections=stored.sections,
+        )
 
     @app.post("/plants/{id}/sections/propose", response_model=api.SectionProposal, responses=ERRORS)
     def propose_sections(id: str) -> api.SectionProposal:

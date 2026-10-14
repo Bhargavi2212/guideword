@@ -383,11 +383,22 @@ def test_restart_of_a_stopped_cap_run_with_a_higher_cap_starts(extra_fixtures: P
     assert _client(fixtures=extra_fixtures).post("/runs", json=body).status_code == 200
 
 
-ALL_ROUTES = sorted(CONTRACT_ROUTES - {("POST", "/internal/runs/{id}/advance")})
+# Routes leave NOT_BUILT_PHASE as their phase builds them (Phase 1 plan, P7).
+UNBUILT_ROUTES = sorted(
+    route
+    for route in CONTRACT_ROUTES - {("POST", "/internal/runs/{id}/advance")}
+    if route in NOT_BUILT_PHASE
+)
 
 
-@pytest.mark.parametrize("method, template", ALL_ROUTES)
-def test_without_mock_mode_every_route_is_501_naming_its_phase(method: str, template: str) -> None:
+def test_not_built_phase_names_only_contract_routes() -> None:
+    assert NOT_BUILT_PHASE.keys() <= CONTRACT_ROUTES
+
+
+@pytest.mark.parametrize("method, template", UNBUILT_ROUTES)
+def test_without_mock_mode_every_unbuilt_route_is_501_naming_its_phase(
+    method: str, template: str
+) -> None:
     bodies: dict[str, Any] = {
         "/plants": {"plant_id": "x", "schema_version": "1.0"},
         "/runs": {"plant_id": PLANT, "spend_cap_usd": 1.0, "mode": "full"},
