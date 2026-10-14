@@ -411,52 +411,109 @@
     {
       "id": "HGO",
       "name": "heavy gas oil",
-      "source": "cases/dev/source/case_e_fcc_shutdown.md"
+      "source": "cases/dev/source/case_e_fcc_shutdown.md",
+      "epa_groups": [
+        29
+      ],
+      "cameo_groups": [
+        29,
+        16
+      ]
     },
     {
       "id": "CATALYST",
       "name": "catalyst",
-      "source": "cases/dev/source/case_e_fcc_shutdown.md"
+      "source": "cases/dev/source/case_e_fcc_shutdown.md",
+      "cameo_groups": [
+        99
+      ]
     },
     {
       "id": "COKE",
       "name": "coke",
-      "source": "cases/dev/source/case_e_fcc_shutdown.md"
+      "source": "cases/dev/source/case_e_fcc_shutdown.md",
+      "epa_groups": [
+        101
+      ],
+      "cameo_groups": [
+        99
+      ]
     },
     {
       "id": "AIR",
       "name": "combustion air",
-      "source": "cases/dev/source/case_e_fcc_shutdown.md"
+      "source": "cases/dev/source/case_e_fcc_shutdown.md",
+      "cameo_groups": [
+        49
+      ]
     },
     {
       "id": "CRACKED-VAPOURS",
       "name": "cracked vapours",
-      "source": "cases/dev/source/case_e_fcc_shutdown.md"
+      "source": "cases/dev/source/case_e_fcc_shutdown.md",
+      "epa_groups": [
+        28,
+        29
+      ],
+      "cameo_groups": [
+        28,
+        29
+      ]
     },
     {
       "id": "C1-C4-GASES",
       "name": "C1–C4 gases",
-      "source": "cases/dev/source/case_e_fcc_shutdown.md"
+      "source": "cases/dev/source/case_e_fcc_shutdown.md",
+      "epa_groups": [
+        28,
+        29
+      ],
+      "cameo_groups": [
+        28,
+        29
+      ]
     },
     {
       "id": "NAPHTHA",
       "name": "naphtha",
-      "source": "cases/dev/source/case_e_fcc_shutdown.md"
+      "source": "cases/dev/source/case_e_fcc_shutdown.md",
+      "epa_groups": [
+        29
+      ],
+      "cameo_groups": [
+        29,
+        16
+      ]
     },
     {
       "id": "FLUE-GAS",
       "name": "flue gas",
-      "source": "cases/dev/source/case_e_fcc_shutdown.md"
+      "source": "cases/dev/source/case_e_fcc_shutdown.md",
+      "cameo_groups": [
+        99
+      ]
     },
     {
       "id": "TORCH-OIL",
       "name": "torch oil",
-      "source": "cases/dev/source/case_e_fcc_shutdown.md"
+      "source": "cases/dev/source/case_e_fcc_shutdown.md",
+      "epa_groups": [
+        29
+      ],
+      "cameo_groups": [
+        29
+      ]
     },
     {
       "id": "ASPHALT",
       "name": "asphalt",
-      "source": "cases/dev/source/case_e_fcc_shutdown.md"
+      "source": "cases/dev/source/case_e_fcc_shutdown.md",
+      "epa_groups": [
+        101
+      ],
+      "cameo_groups": [
+        29
+      ]
     },
     {
       "id": "HF",
@@ -467,6 +524,13 @@
           "text": "An alkylation unit using hydrofluoric (HF) acid, 300 m away.",
           "source": "cases/dev/source/case_e_fcc_shutdown.md"
         }
+      ],
+      "epa_groups": [
+        1,
+        15
+      ],
+      "cameo_groups": [
+        1
       ]
     }
   ],
@@ -548,17 +612,32 @@
   "provenance": {
     "ABSORBER": "cases/dev/source/case_e_fcc_shutdown.md",
     "AIR": "cases/dev/source/case_e_fcc_shutdown.md",
+    "AIR.cameo_groups": "assumed",
     "ASPHALT": "cases/dev/source/case_e_fcc_shutdown.md",
+    "ASPHALT.cameo_groups": "assumed",
+    "ASPHALT.epa_groups": "assumed",
     "C1-C4-GASES": "cases/dev/source/case_e_fcc_shutdown.md",
+    "C1-C4-GASES.cameo_groups": "assumed",
+    "C1-C4-GASES.epa_groups": "assumed",
     "CATALYST": "cases/dev/source/case_e_fcc_shutdown.md",
+    "CATALYST.cameo_groups": "assumed",
     "CO-BOILER": "cases/dev/source/case_e_fcc_shutdown.md",
     "COKE": "cases/dev/source/case_e_fcc_shutdown.md",
+    "COKE.cameo_groups": "assumed",
+    "COKE.epa_groups": "assumed",
     "CRACKED-VAPOURS": "cases/dev/source/case_e_fcc_shutdown.md",
+    "CRACKED-VAPOURS.cameo_groups": "assumed",
+    "CRACKED-VAPOURS.epa_groups": "assumed",
     "DEBUTANISER": "cases/dev/source/case_e_fcc_shutdown.md",
     "EXPANDER": "cases/dev/source/case_e_fcc_shutdown.md",
     "FLUE-GAS": "cases/dev/source/case_e_fcc_shutdown.md",
+    "FLUE-GAS.cameo_groups": "assumed",
     "HF": "cases/dev/source/case_e_fcc_shutdown.md",
+    "HF.cameo_groups": "assumed",
+    "HF.epa_groups": "assumed",
     "HGO": "cases/dev/source/case_e_fcc_shutdown.md",
+    "HGO.cameo_groups": "assumed",
+    "HGO.epa_groups": "assumed",
     "L-AIR": "cases/dev/source/case_e_fcc_shutdown.md",
     "L-CATALYST-WITHDRAWAL": "cases/dev/source/case_e_fcc_shutdown.md",
     "L-FEED": "cases/dev/source/case_e_fcc_shutdown.md",
@@ -579,6 +658,8 @@
     "MAIN-AIR-BLOWER": "cases/dev/source/case_e_fcc_shutdown.md",
     "MAIN-FRACTIONATOR": "cases/dev/source/case_e_fcc_shutdown.md",
     "NAPHTHA": "cases/dev/source/case_e_fcc_shutdown.md",
+    "NAPHTHA.cameo_groups": "assumed",
+    "NAPHTHA.epa_groups": "assumed",
     "P-E-SHUTDOWN": "cases/dev/source/case_e_fcc_shutdown.md",
     "P-E-SHUTDOWN-1": "cases/dev/source/case_e_fcc_shutdown.md",
     "P-E-SHUTDOWN-2": "cases/dev/source/case_e_fcc_shutdown.md",
@@ -609,6 +690,8 @@
     "TK-ASPHALT-2": "cases/dev/source/case_e_fcc_shutdown.md",
     "TK-ASPHALT-2.operating.temperature.normal": "cases/dev/source/case_e_fcc_shutdown.md",
     "TORCH-OIL": "cases/dev/source/case_e_fcc_shutdown.md",
+    "TORCH-OIL.cameo_groups": "assumed",
+    "TORCH-OIL.epa_groups": "assumed",
     "UT-E-STEAM": "cases/dev/source/case_e_fcc_shutdown.md",
     "WET-GAS-COMPRESSOR": "cases/dev/source/case_e_fcc_shutdown.md"
   }

@@ -261,52 +261,100 @@
     {
       "id": "PDMS",
       "name": "polydimethylsiloxane fluids (several viscosities)",
-      "source": "cases/dev/source/case_g_batch_plant.md"
+      "source": "cases/dev/source/case_g_batch_plant.md",
+      "cameo_groups": [
+        58
+      ]
     },
     {
       "id": "SIH",
       "name": "methylhydrogen siloxane fluid (contains Si–H groups)",
-      "source": "cases/dev/source/case_g_batch_plant.md"
+      "source": "cases/dev/source/case_g_batch_plant.md",
+      "epa_groups": [
+        105
+      ],
+      "cameo_groups": [
+        58,
+        35
+      ]
     },
     {
       "id": "VINYL-POLYMER",
       "name": "vinyl-functional silicone polymer",
-      "source": "cases/dev/source/case_g_batch_plant.md"
+      "source": "cases/dev/source/case_g_batch_plant.md",
+      "cameo_groups": [
+        58
+      ]
     },
     {
       "id": "PT-CATALYST",
       "name": "platinum catalyst solution",
-      "source": "cases/dev/source/case_g_batch_plant.md"
+      "source": "cases/dev/source/case_g_batch_plant.md",
+      "cameo_groups": [
+        99
+      ]
     },
     {
       "id": "SURFACTANTS",
       "name": "non-ionic surfactants",
-      "source": "cases/dev/source/case_g_batch_plant.md"
+      "source": "cases/dev/source/case_g_batch_plant.md",
+      "cameo_groups": [
+        99
+      ]
     },
     {
       "id": "KOH-EMULSIFIER",
       "name": "emulsifier solution containing potassium hydroxide",
-      "source": "cases/dev/source/case_g_batch_plant.md"
+      "source": "cases/dev/source/case_g_batch_plant.md",
+      "epa_groups": [
+        10,
+        106
+      ],
+      "cameo_groups": [
+        10,
+        100
+      ]
     },
     {
       "id": "ACETIC-ACID",
       "name": "acetic acid (for pH adjustment)",
-      "source": "cases/dev/source/case_g_batch_plant.md"
+      "source": "cases/dev/source/case_g_batch_plant.md",
+      "epa_groups": [
+        3
+      ],
+      "cameo_groups": [
+        3
+      ]
     },
     {
       "id": "IPA",
       "name": "isopropyl alcohol",
-      "source": "cases/dev/source/case_g_batch_plant.md"
+      "source": "cases/dev/source/case_g_batch_plant.md",
+      "epa_groups": [
+        4
+      ],
+      "cameo_groups": [
+        4
+      ]
     },
     {
       "id": "BIOCIDE",
       "name": "biocide",
-      "source": "cases/dev/source/case_g_batch_plant.md"
+      "source": "cases/dev/source/case_g_batch_plant.md",
+      "cameo_groups": [
+        99
+      ]
     },
     {
       "id": "DI-WATER",
       "name": "deionised water (from the plant system)",
-      "source": "cases/dev/source/case_g_batch_plant.md"
+      "source": "cases/dev/source/case_g_batch_plant.md",
+      "epa_groups": [
+        106
+      ],
+      "cameo_groups": [
+        100
+      ]
     }
   ],
   "procedures": [
@@ -351,12 +399,21 @@
   ],
   "provenance": {
     "ACETIC-ACID": "cases/dev/source/case_g_batch_plant.md",
+    "ACETIC-ACID.cameo_groups": "assumed",
+    "ACETIC-ACID.epa_groups": "assumed",
     "BIOCIDE": "cases/dev/source/case_g_batch_plant.md",
+    "BIOCIDE.cameo_groups": "assumed",
     "DI-WATER": "cases/dev/source/case_g_batch_plant.md",
+    "DI-WATER.cameo_groups": "assumed",
+    "DI-WATER.epa_groups": "assumed",
     "FILLING-LINE": "cases/dev/source/case_g_batch_plant.md",
     "HOMOGENISER": "cases/dev/source/case_g_batch_plant.md",
     "IPA": "cases/dev/source/case_g_batch_plant.md",
+    "IPA.cameo_groups": "assumed",
+    "IPA.epa_groups": "assumed",
     "KOH-EMULSIFIER": "cases/dev/source/case_g_batch_plant.md",
+    "KOH-EMULSIFIER.cameo_groups": "assumed",
+    "KOH-EMULSIFIER.epa_groups": "assumed",
     "L-HOSE-MX-1": "cases/dev/source/case_g_batch_plant.md",
     "L-HOSE-MX-2": "cases/dev/source/case_g_batch_plant.md",
     "L-HOSE-MX-3": "cases/dev/source/case_g_batch_plant.md",
@@ -373,15 +430,21 @@
     "P-G-CHARGE-3": "cases/dev/source/case_g_batch_plant.md",
     "P-G-CHARGE-4": "cases/dev/source/case_g_batch_plant.md",
     "PDMS": "cases/dev/source/case_g_batch_plant.md",
+    "PDMS.cameo_groups": "assumed",
     "PORTABLE-PUMP": "cases/dev/source/case_g_batch_plant.md",
     "PT-CATALYST": "cases/dev/source/case_g_batch_plant.md",
+    "PT-CATALYST.cameo_groups": "assumed",
     "SG-G-EXHAUST": "cases/dev/source/case_g_batch_plant.md",
     "SG-G-JACKET-TEMP": "cases/dev/source/case_g_batch_plant.md",
     "SG-G-PPE": "cases/dev/source/case_g_batch_plant.md",
     "SG-G-SMOKE-SPRINKLER": "cases/dev/source/case_g_batch_plant.md",
     "SIH": "cases/dev/source/case_g_batch_plant.md",
+    "SIH.cameo_groups": "assumed",
+    "SIH.epa_groups": "assumed",
     "SURFACTANTS": "cases/dev/source/case_g_batch_plant.md",
+    "SURFACTANTS.cameo_groups": "assumed",
     "TOTES": "cases/dev/source/case_g_batch_plant.md",
-    "VINYL-POLYMER": "cases/dev/source/case_g_batch_plant.md"
+    "VINYL-POLYMER": "cases/dev/source/case_g_batch_plant.md",
+    "VINYL-POLYMER.cameo_groups": "assumed"
   }
 }

@@ -559,55 +559,114 @@
     {
       "id": "BUTANES",
       "name": "butanes",
-      "source": "cases/dev/source/case_d_c4_unit.md"
+      "source": "cases/dev/source/case_d_c4_unit.md",
+      "epa_groups": [
+        29
+      ],
+      "cameo_groups": [
+        29
+      ]
     },
     {
       "id": "BUTENES",
       "name": "butenes",
-      "source": "cases/dev/source/case_d_c4_unit.md"
+      "source": "cases/dev/source/case_d_c4_unit.md",
+      "epa_groups": [
+        28
+      ],
+      "cameo_groups": [
+        28
+      ]
     },
     {
       "id": "BUTADIENE",
       "name": "1,3-butadiene",
-      "source": "cases/dev/source/case_d_c4_unit.md"
+      "source": "cases/dev/source/case_d_c4_unit.md",
+      "epa_groups": [
+        28,
+        103
+      ],
+      "cameo_groups": [
+        65,
+        76
+      ]
     },
     {
       "id": "ACETYLENES",
       "name": "acetylenes (traces)",
-      "source": "cases/dev/source/case_d_c4_unit.md"
+      "source": "cases/dev/source/case_d_c4_unit.md",
+      "epa_groups": [
+        28
+      ],
+      "cameo_groups": [
+        63
+      ]
     },
     {
       "id": "WATER",
       "name": "water (traces)",
-      "source": "cases/dev/source/case_d_c4_unit.md"
+      "source": "cases/dev/source/case_d_c4_unit.md",
+      "epa_groups": [
+        106
+      ],
+      "cameo_groups": [
+        100
+      ]
     },
     {
       "id": "NMP",
       "name": "N-methylpyrrolidone",
-      "source": "cases/dev/source/case_d_c4_unit.md"
+      "source": "cases/dev/source/case_d_c4_unit.md",
+      "epa_groups": [
+        6
+      ],
+      "cameo_groups": [
+        6
+      ]
     },
     {
       "id": "TBC",
       "name": "tert-butylcatechol",
-      "source": "cases/dev/source/case_d_c4_unit.md"
+      "source": "cases/dev/source/case_d_c4_unit.md",
+      "epa_groups": [
+        31
+      ],
+      "cameo_groups": [
+        31
+      ]
     },
     {
       "id": "ANTIFOAM",
       "name": "antifoam",
-      "source": "cases/dev/source/case_d_c4_unit.md"
+      "source": "cases/dev/source/case_d_c4_unit.md",
+      "cameo_groups": [
+        99
+      ]
     },
     {
       "id": "HEAVIES",
       "name": "heavies",
-      "source": "cases/dev/source/case_d_c4_unit.md"
+      "source": "cases/dev/source/case_d_c4_unit.md",
+      "cameo_groups": [
+        99
+      ]
     }
   ],
   "provenance": {
     "ACETYLENES": "cases/dev/source/case_d_c4_unit.md",
+    "ACETYLENES.cameo_groups": "assumed",
+    "ACETYLENES.epa_groups": "assumed",
     "ANTIFOAM": "cases/dev/source/case_d_c4_unit.md",
+    "ANTIFOAM.cameo_groups": "assumed",
     "BUTADIENE": "cases/dev/source/case_d_c4_unit.md",
+    "BUTADIENE.cameo_groups": "assumed",
+    "BUTADIENE.epa_groups": "assumed",
     "BUTANES": "cases/dev/source/case_d_c4_unit.md",
+    "BUTANES.cameo_groups": "assumed",
+    "BUTANES.epa_groups": "assumed",
     "BUTENES": "cases/dev/source/case_d_c4_unit.md",
+    "BUTENES.cameo_groups": "assumed",
+    "BUTENES.epa_groups": "assumed",
     "BV-P104B-DIS": "cases/dev/source/case_d_c4_unit.md",
     "BV-P104B-SUC": "cases/dev/source/case_d_c4_unit.md",
     "C-101": "cases/dev/source/case_d_c4_unit.md",
@@ -621,6 +680,7 @@
     "E-106": "cases/dev/source/case_d_c4_unit.md",
     "FLARE-HEADER": "cases/dev/source/case_d_c4_unit.md",
     "HEAVIES": "cases/dev/source/case_d_c4_unit.md",
+    "HEAVIES.cameo_groups": "assumed",
     "L-E106-BYPASS": "cases/dev/source/case_d_c4_unit.md",
     "L-FEED": "cases/dev/source/case_d_c4_unit.md",
     "L-HEAVIES": "cases/dev/source/case_d_c4_unit.md",
@@ -638,6 +698,8 @@
     "LOC-D-SPHERES": "cases/dev/source/case_d_c4_unit.md",
     "LOC-D-UNSTATED": "cases/dev/source/case_d_c4_unit.md",
     "NMP": "cases/dev/source/case_d_c4_unit.md",
+    "NMP.cameo_groups": "assumed",
+    "NMP.epa_groups": "assumed",
     "P-104A": "cases/dev/source/case_d_c4_unit.md",
     "P-104B": "cases/dev/source/case_d_c4_unit.md",
     "RV-C101": "cases/dev/source/case_d_c4_unit.md",
@@ -654,6 +716,8 @@
     "SG-D-LEVEL-ALARMS": "cases/dev/source/case_d_c4_unit.md",
     "SG-D-PRESSURE-ALARMS": "cases/dev/source/case_d_c4_unit.md",
     "TBC": "cases/dev/source/case_d_c4_unit.md",
+    "TBC.cameo_groups": "assumed",
+    "TBC.epa_groups": "assumed",
     "TK-201": "cases/dev/source/case_d_c4_unit.md",
     "TK-202": "cases/dev/source/case_d_c4_unit.md",
     "TK-OFFSPEC": "cases/dev/source/case_d_c4_unit.md",
@@ -663,6 +727,8 @@
     "V-101": "cases/dev/source/case_d_c4_unit.md",
     "V-101.operating.pressure.normal": "cases/dev/source/case_d_c4_unit.md",
     "V-104": "cases/dev/source/case_d_c4_unit.md",
-    "WATER": "cases/dev/source/case_d_c4_unit.md"
+    "WATER": "cases/dev/source/case_d_c4_unit.md",
+    "WATER.cameo_groups": "assumed",
+    "WATER.epa_groups": "assumed"
   }
 }
