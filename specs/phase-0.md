@@ -419,7 +419,7 @@ Warnings (missing facts, shown in the UI as gaps, never filled in by code):
 
 **Acceptance**
 - [x] All five validate with no errors.
-- [ ] Every assumed value in the files is ticked by Bhargavi in the report.
+- [x] Every assumed value in the files is ticked by Bhargavi in the report. (2026-10-13: all 79 proposals accepted, plus 10 case H locations Bhargavi proposed; 89 assumed values.)
 - [x] A test loads all five and checks every "assumed" provenance entry matches a ticked report line.
 
 ## 0.8 API contract and mock server

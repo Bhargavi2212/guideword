@@ -18,22 +18,22 @@ Five kill-test #4 packages in `cases/dev/source/` converted to plant files `case
 
 ### 1. Proposed assumptions
 
-- [ ] `BUTANES.epa_groups` = [29] (hydrocarbons, aliphatic, saturated)
-- [ ] `BUTANES.cameo_groups` = [29]
-- [ ] `BUTENES.epa_groups` = [28] (hydrocarbons, aliphatic, unsaturated)
-- [ ] `BUTENES.cameo_groups` = [28]
-- [ ] `BUTADIENE.epa_groups` = [28, 103] (unsaturated aliphatic; polymerizable)
-- [ ] `BUTADIENE.cameo_groups` = [65, 76] (conjugated dienes; polymerizable compounds)
-- [ ] `ACETYLENES.epa_groups` = [28]
-- [ ] `ACETYLENES.cameo_groups` = [63] (alkynes with acetylenic hydrogen)
-- [ ] `WATER.epa_groups` = [106]
-- [ ] `WATER.cameo_groups` = [100]
-- [ ] `NMP.epa_groups` = [6] (amides)
-- [ ] `NMP.cameo_groups` = [6] (amides and imides)
-- [ ] `TBC.epa_groups` = [31] (phenols and cresols)
-- [ ] `TBC.cameo_groups` = [31]
-- [ ] `HEAVIES.cameo_groups` = [99] (insufficient information for classification)
-- [ ] `ANTIFOAM.cameo_groups` = [99] (composition not stated)
+- [x] `BUTANES.epa_groups` = [29] (hydrocarbons, aliphatic, saturated)
+- [x] `BUTANES.cameo_groups` = [29]
+- [x] `BUTENES.epa_groups` = [28] (hydrocarbons, aliphatic, unsaturated)
+- [x] `BUTENES.cameo_groups` = [28]
+- [x] `BUTADIENE.epa_groups` = [28, 103] (unsaturated aliphatic; polymerizable)
+- [x] `BUTADIENE.cameo_groups` = [65, 76] (conjugated dienes; polymerizable compounds)
+- [x] `ACETYLENES.epa_groups` = [28]
+- [x] `ACETYLENES.cameo_groups` = [63] (alkynes with acetylenic hydrogen)
+- [x] `WATER.epa_groups` = [106]
+- [x] `WATER.cameo_groups` = [100]
+- [x] `NMP.epa_groups` = [6] (amides)
+- [x] `NMP.cameo_groups` = [6] (amides and imides)
+- [x] `TBC.epa_groups` = [31] (phenols and cresols)
+- [x] `TBC.cameo_groups` = [31]
+- [x] `HEAVIES.cameo_groups` = [99] (insufficient information for classification)
+- [x] `ANTIFOAM.cameo_groups` = [99] (composition not stated)
 
 Why: the reactivity lookup and the chemical-pair questions need groups; without them every pair is "not listed".
 
@@ -56,8 +56,7 @@ None left without a home: feed composition ("1,3-butadiene ~45%"), "ambient temp
 ### 4. Remaining warnings
 
 <!-- warnings:case_d -->
-Generated from `validate_plant`: 27 warnings, 0 errors.
-- `chemical_without_groups` (9): ACETYLENES, ANTIFOAM, BUTADIENE, BUTANES, BUTENES, HEAVIES, NMP, TBC, WATER
+Generated from `validate_plant`: 18 warnings, 0 errors.
 - `line_without_contents` (4): L-OFFSPEC, L-P104B-DIS, L-P104B-SUC, L-STARTUP-RECYCLE
 - `missing_design_limits` (12): C-101, C-102, C-103, C-104, E-104, E-105, E-106, TK-201, TK-202, TK-OFFSPEC, V-101, V-104
 - `missing_fail_position` (2): BV-P104B-DIS, BV-P104B-SUC
@@ -69,25 +68,25 @@ Generated from `validate_plant`: 27 warnings, 0 errors.
 
 ### 1. Proposed assumptions
 
-- [ ] `HGO.epa_groups` = [29] (heavy gas oil: saturated hydrocarbons)
-- [ ] `HGO.cameo_groups` = [29, 16]
-- [ ] `CRACKED-VAPOURS.epa_groups` = [28, 29]
-- [ ] `CRACKED-VAPOURS.cameo_groups` = [28, 29]
-- [ ] `C1-C4-GASES.epa_groups` = [28, 29]
-- [ ] `C1-C4-GASES.cameo_groups` = [28, 29]
-- [ ] `NAPHTHA.epa_groups` = [29]
-- [ ] `NAPHTHA.cameo_groups` = [29, 16]
-- [ ] `TORCH-OIL.epa_groups` = [29]
-- [ ] `TORCH-OIL.cameo_groups` = [29]
-- [ ] `ASPHALT.epa_groups` = [101] (combustible and flammable materials, miscellaneous)
-- [ ] `ASPHALT.cameo_groups` = [29]
-- [ ] `HF.epa_groups` = [1, 15] (mineral acid, non-oxidizing; inorganic fluorides)
-- [ ] `HF.cameo_groups` = [1]
-- [ ] `COKE.epa_groups` = [101]
-- [ ] `COKE.cameo_groups` = [99]
-- [ ] `CATALYST.cameo_groups` = [99] (composition not stated)
-- [ ] `FLUE-GAS.cameo_groups` = [99] (composition not stated)
-- [ ] `AIR.cameo_groups` = [49] (oxidizing agents, weak)
+- [x] `HGO.epa_groups` = [29] (heavy gas oil: saturated hydrocarbons)
+- [x] `HGO.cameo_groups` = [29, 16]
+- [x] `CRACKED-VAPOURS.epa_groups` = [28, 29]
+- [x] `CRACKED-VAPOURS.cameo_groups` = [28, 29]
+- [x] `C1-C4-GASES.epa_groups` = [28, 29]
+- [x] `C1-C4-GASES.cameo_groups` = [28, 29]
+- [x] `NAPHTHA.epa_groups` = [29]
+- [x] `NAPHTHA.cameo_groups` = [29, 16]
+- [x] `TORCH-OIL.epa_groups` = [29]
+- [x] `TORCH-OIL.cameo_groups` = [29]
+- [x] `ASPHALT.epa_groups` = [101] (combustible and flammable materials, miscellaneous)
+- [x] `ASPHALT.cameo_groups` = [29]
+- [x] `HF.epa_groups` = [1, 15] (mineral acid, non-oxidizing; inorganic fluorides)
+- [x] `HF.cameo_groups` = [1]
+- [x] `COKE.epa_groups` = [101]
+- [x] `COKE.cameo_groups` = [99]
+- [x] `CATALYST.cameo_groups` = [99] (composition not stated)
+- [x] `FLUE-GAS.cameo_groups` = [99] (composition not stated)
+- [x] `AIR.cameo_groups` = [49] (oxidizing agents, weak)
 
 ### 2. Package facts the schema cannot hold
 
@@ -105,8 +104,7 @@ None left without a home. "~25,000 bbl/day" stays a note: converting it to `norm
 ### 4. Remaining warnings
 
 <!-- warnings:case_e -->
-Generated from `validate_plant`: 21 warnings, 0 errors.
-- `chemical_without_groups` (11): AIR, ASPHALT, C1-C4-GASES, CATALYST, COKE, CRACKED-VAPOURS, FLUE-GAS, HF, HGO, NAPHTHA, TORCH-OIL
+Generated from `validate_plant`: 10 warnings, 0 errors.
 - `missing_design_limits` (8): ABSORBER, DEBUTANISER, MAIN-FRACTIONATOR, REGENERATOR, RISER, STRIPPER, TK-ASPHALT-1, TK-ASPHALT-2
 - `missing_fail_position` (2): SV-REGEN, SV-SPENT
 <!-- /warnings:case_e -->
@@ -117,21 +115,21 @@ Generated from `validate_plant`: 21 warnings, 0 errors.
 
 ### 1. Proposed assumptions
 
-- [ ] `WATER.epa_groups` = [106]
-- [ ] `WATER.cameo_groups` = [100]
-- [ ] `METHANOL.epa_groups` = [4] (alcohols and glycols)
-- [ ] `METHANOL.cameo_groups` = [4]
-- [ ] `TURPENTINE.epa_groups` = [28]
-- [ ] `TURPENTINE.cameo_groups` = [28]
-- [ ] `ORGANICS.cameo_groups` = [99] (composition not stated)
-- [ ] `BLACK-LIQUOR.epa_groups` = [10, 106] (caustic, aqueous)
-- [ ] `BLACK-LIQUOR.cameo_groups` = [10, 100]
-- [ ] `WEAK-BLACK-LIQUOR.epa_groups` = [10, 106] ("hot, caustic")
-- [ ] `WEAK-BLACK-LIQUOR.cameo_groups` = [10, 100]
-- [ ] `NAOH.epa_groups` = [10]
-- [ ] `NAOH.cameo_groups` = [10]
-- [ ] `NA2S.epa_groups` = [33] (sulfides, inorganic)
-- [ ] `NA2S.cameo_groups` = [33]
+- [x] `WATER.epa_groups` = [106]
+- [x] `WATER.cameo_groups` = [100]
+- [x] `METHANOL.epa_groups` = [4] (alcohols and glycols)
+- [x] `METHANOL.cameo_groups` = [4]
+- [x] `TURPENTINE.epa_groups` = [28]
+- [x] `TURPENTINE.cameo_groups` = [28]
+- [x] `ORGANICS.cameo_groups` = [99] (composition not stated)
+- [x] `BLACK-LIQUOR.epa_groups` = [10, 106] (caustic, aqueous)
+- [x] `BLACK-LIQUOR.cameo_groups` = [10, 100]
+- [x] `WEAK-BLACK-LIQUOR.epa_groups` = [10, 106] ("hot, caustic")
+- [x] `WEAK-BLACK-LIQUOR.cameo_groups` = [10, 100]
+- [x] `NAOH.epa_groups` = [10]
+- [x] `NAOH.cameo_groups` = [10]
+- [x] `NA2S.epa_groups` = [33] (sulfides, inorganic)
+- [x] `NA2S.cameo_groups` = [33]
 
 ### 2. Package facts the schema cannot hold
 
@@ -148,8 +146,7 @@ None left without a home: "atmospheric, fixed cone roof", "an organic layer can 
 ### 4. Remaining warnings
 
 <!-- warnings:case_f -->
-Generated from `validate_plant`: 18 warnings, 0 errors.
-- `chemical_without_groups` (8): BLACK-LIQUOR, METHANOL, NA2S, NAOH, ORGANICS, TURPENTINE, WATER, WEAK-BLACK-LIQUOR
+Generated from `validate_plant`: 10 warnings, 0 errors.
 - `line_without_contents` (5): L-CONDENSATE-8IN, L-T31-VENT, L-T32-VENT, L-T33-VENT, L-VENT-DISCHARGE
 - `missing_design_limits` (5): SURFACE-CONDENSER, T-31, T-32, T-33, TK-WEAK-BLACK-LIQUOR
 <!-- /warnings:case_f -->
@@ -160,21 +157,21 @@ Generated from `validate_plant`: 18 warnings, 0 errors.
 
 ### 1. Proposed assumptions
 
-- [ ] `SIH.epa_groups` = [105] (strong reducing agents; plant-data decision of 2026-10-12)
-- [ ] `SIH.cameo_groups` = [58, 35] (siloxanes; metal hydrides and silanes)
-- [ ] `KOH-EMULSIFIER.epa_groups` = [10, 106] (caustic, aqueous)
-- [ ] `KOH-EMULSIFIER.cameo_groups` = [10, 100]
-- [ ] `PDMS.cameo_groups` = [58]
-- [ ] `VINYL-POLYMER.cameo_groups` = [58]
-- [ ] `ACETIC-ACID.epa_groups` = [3] (organic acids)
-- [ ] `ACETIC-ACID.cameo_groups` = [3]
-- [ ] `IPA.epa_groups` = [4]
-- [ ] `IPA.cameo_groups` = [4]
-- [ ] `DI-WATER.epa_groups` = [106]
-- [ ] `DI-WATER.cameo_groups` = [100]
-- [ ] `PT-CATALYST.cameo_groups` = [99] (composition not stated)
-- [ ] `SURFACTANTS.cameo_groups` = [99] (composition not stated)
-- [ ] `BIOCIDE.cameo_groups` = [99] (composition not stated)
+- [x] `SIH.epa_groups` = [105] (strong reducing agents; plant-data decision of 2026-10-12)
+- [x] `SIH.cameo_groups` = [58, 35] (siloxanes; metal hydrides and silanes)
+- [x] `KOH-EMULSIFIER.epa_groups` = [10, 106] (caustic, aqueous)
+- [x] `KOH-EMULSIFIER.cameo_groups` = [10, 100]
+- [x] `PDMS.cameo_groups` = [58]
+- [x] `VINYL-POLYMER.cameo_groups` = [58]
+- [x] `ACETIC-ACID.epa_groups` = [3] (organic acids)
+- [x] `ACETIC-ACID.cameo_groups` = [3]
+- [x] `IPA.epa_groups` = [4]
+- [x] `IPA.cameo_groups` = [4]
+- [x] `DI-WATER.epa_groups` = [106]
+- [x] `DI-WATER.cameo_groups` = [100]
+- [x] `PT-CATALYST.cameo_groups` = [99] (composition not stated)
+- [x] `SURFACTANTS.cameo_groups` = [99] (composition not stated)
+- [x] `BIOCIDE.cameo_groups` = [99] (composition not stated)
 
 ### 2. Package facts the schema cannot hold
 
@@ -191,8 +188,7 @@ None left without a home: "loose lids with a manway", "re-packaged into totes on
 ### 4. Remaining warnings
 
 <!-- warnings:case_g -->
-Generated from `validate_plant`: 19 warnings, 0 errors.
-- `chemical_without_groups` (10): ACETIC-ACID, BIOCIDE, DI-WATER, IPA, KOH-EMULSIFIER, PDMS, PT-CATALYST, SIH, SURFACTANTS, VINYL-POLYMER
+Generated from `validate_plant`: 9 warnings, 0 errors.
 - `line_without_contents` (4): L-HOSE-MX-1, L-HOSE-MX-2, L-HOSE-MX-3, L-HOSE-MX-4
 - `missing_design_limits` (5): MX-1, MX-2, MX-3, MX-4, TOTES
 <!-- /warnings:case_g -->
@@ -203,20 +199,32 @@ Generated from `validate_plant`: 19 warnings, 0 errors.
 
 ### 1. Proposed assumptions
 
-- [ ] `CORNMEAL.combustible_dust` = true (survey decision C; the package does not say combustible)
-- [ ] `CORN-FLOUR.combustible_dust` = true (survey decision C)
-- [ ] `CORN.epa_groups` = [101]
-- [ ] `CORN.cameo_groups` = [98] (not chemically reactive)
-- [ ] `GRITS.epa_groups` = [101]
-- [ ] `GRITS.cameo_groups` = [98]
-- [ ] `CORNMEAL.epa_groups` = [101]
-- [ ] `CORNMEAL.cameo_groups` = [98]
-- [ ] `CORN-FLOUR.epa_groups` = [101]
-- [ ] `CORN-FLOUR.cameo_groups` = [98]
-- [ ] `WATER.epa_groups` = [106]
-- [ ] `WATER.cameo_groups` = [100]
-- [ ] `NATURAL-GAS.epa_groups` = [29]
-- [ ] `NATURAL-GAS.cameo_groups` = [29]
+- [x] `CORNMEAL.combustible_dust` = true (survey decision C; the package does not say combustible)
+- [x] `CORN-FLOUR.combustible_dust` = true (survey decision C)
+- [x] `CORN.epa_groups` = [101]
+- [x] `CORN.cameo_groups` = [98] (not chemically reactive)
+- [x] `GRITS.epa_groups` = [101]
+- [x] `GRITS.cameo_groups` = [98]
+- [x] `CORNMEAL.epa_groups` = [101]
+- [x] `CORNMEAL.cameo_groups` = [98]
+- [x] `CORN-FLOUR.epa_groups` = [101]
+- [x] `CORN-FLOUR.cameo_groups` = [98]
+- [x] `WATER.epa_groups` = [106]
+- [x] `WATER.cameo_groups` = [100]
+- [x] `NATURAL-GAS.epa_groups` = [29]
+- [x] `NATURAL-GAS.cameo_groups` = [29]
+- [x] `DEGERMINATION.location_id` = LOC-H-MILL-BUILDING
+- [x] `ROLLER-MILLS.location_id` = LOC-H-MILL-BUILDING
+- [x] `HAMMER-MILLS.location_id` = LOC-H-MILL-BUILDING
+- [x] `ROTARY-SIFTERS.location_id` = LOC-H-MILL-BUILDING
+- [x] `ASPIRATORS.location_id` = LOC-H-MILL-BUILDING
+- [x] `PURIFIERS.location_id` = LOC-H-MILL-BUILDING
+- [x] `BUCKET-ELEVATORS.location_id` = LOC-H-MILL-BUILDING
+- [x] `SCREW-CONVEYORS.location_id` = LOC-H-MILL-BUILDING
+- [x] `PNEUMATIC-CONVEYING.location_id` = LOC-H-MILL-BUILDING
+- [x] `BAGGING.location_id` = LOC-H-MILL-BUILDING
+
+Why the locations (proposed by Bhargavi, 2026-10-13): "5-storey mill building; operators work on all floors", with the mill process listed under it. SILOS, BINS, CORN-DRYER, CLEANING, TEMPERING and BULK-LOADOUT stay unlocated.
 
 ### 2. Package facts the schema cannot hold
 
@@ -233,8 +241,7 @@ None left without a home: the three-year records (bearing replacements, "3 repor
 ### 4. Remaining warnings
 
 <!-- warnings:case_h -->
-Generated from `validate_plant`: 16 warnings, 0 errors.
-- `chemical_without_groups` (6): CORN, CORN-FLOUR, CORNMEAL, GRITS, NATURAL-GAS, WATER
+Generated from `validate_plant`: 10 warnings, 0 errors.
 - `line_without_contents` (7): L-DUCT-BAGGING, L-DUCT-ELEVATORS, L-DUCT-HAMMER-MILLS, L-DUCT-PNEUMATIC, L-DUCT-ROLLER-MILLS, L-DUCT-SCREW-CONVEYORS, L-DUCT-SIFTERS
 - `missing_design_limits` (3): BINS, CORN-DRYER, SILOS
 <!-- /warnings:case_h -->

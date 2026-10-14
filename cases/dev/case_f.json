@@ -332,42 +332,91 @@
     {
       "id": "WATER",
       "name": "water",
-      "source": "cases/dev/source/case_f_pulp_mill_area.md"
+      "source": "cases/dev/source/case_f_pulp_mill_area.md",
+      "epa_groups": [
+        106
+      ],
+      "cameo_groups": [
+        100
+      ]
     },
     {
       "id": "METHANOL",
       "name": "methanol",
-      "source": "cases/dev/source/case_f_pulp_mill_area.md"
+      "source": "cases/dev/source/case_f_pulp_mill_area.md",
+      "epa_groups": [
+        4
+      ],
+      "cameo_groups": [
+        4
+      ]
     },
     {
       "id": "TURPENTINE",
       "name": "turpentine",
-      "source": "cases/dev/source/case_f_pulp_mill_area.md"
+      "source": "cases/dev/source/case_f_pulp_mill_area.md",
+      "epa_groups": [
+        28
+      ],
+      "cameo_groups": [
+        28
+      ]
     },
     {
       "id": "ORGANICS",
       "name": "other organic compounds",
-      "source": "cases/dev/source/case_f_pulp_mill_area.md"
+      "source": "cases/dev/source/case_f_pulp_mill_area.md",
+      "cameo_groups": [
+        99
+      ]
     },
     {
       "id": "BLACK-LIQUOR",
       "name": "black liquor",
-      "source": "cases/dev/source/case_f_pulp_mill_area.md"
+      "source": "cases/dev/source/case_f_pulp_mill_area.md",
+      "epa_groups": [
+        10,
+        106
+      ],
+      "cameo_groups": [
+        10,
+        100
+      ]
     },
     {
       "id": "WEAK-BLACK-LIQUOR",
       "name": "weak black liquor",
-      "source": "cases/dev/source/case_f_pulp_mill_area.md"
+      "source": "cases/dev/source/case_f_pulp_mill_area.md",
+      "epa_groups": [
+        10,
+        106
+      ],
+      "cameo_groups": [
+        10,
+        100
+      ]
     },
     {
       "id": "NAOH",
       "name": "sodium hydroxide",
-      "source": "cases/dev/source/case_f_pulp_mill_area.md"
+      "source": "cases/dev/source/case_f_pulp_mill_area.md",
+      "epa_groups": [
+        10
+      ],
+      "cameo_groups": [
+        10
+      ]
     },
     {
       "id": "NA2S",
       "name": "sodium sulfide",
-      "source": "cases/dev/source/case_f_pulp_mill_area.md"
+      "source": "cases/dev/source/case_f_pulp_mill_area.md",
+      "epa_groups": [
+        33
+      ],
+      "cameo_groups": [
+        33
+      ]
     }
   ],
   "planned_work": [
@@ -427,6 +476,8 @@
   ],
   "provenance": {
     "BLACK-LIQUOR": "cases/dev/source/case_f_pulp_mill_area.md",
+    "BLACK-LIQUOR.cameo_groups": "assumed",
+    "BLACK-LIQUOR.epa_groups": "assumed",
     "EVAPORATORS": "cases/dev/source/case_f_pulp_mill_area.md",
     "L-CONDENSATE-8IN": "cases/dev/source/case_f_pulp_mill_area.md",
     "L-STRIPPER-FEED": "cases/dev/source/case_f_pulp_mill_area.md",
@@ -442,9 +493,16 @@
     "LOC-F-T32-ROOF": "cases/dev/source/case_f_pulp_mill_area.md",
     "LOC-F-UNSTATED": "cases/dev/source/case_f_pulp_mill_area.md",
     "METHANOL": "cases/dev/source/case_f_pulp_mill_area.md",
+    "METHANOL.cameo_groups": "assumed",
+    "METHANOL.epa_groups": "assumed",
     "NA2S": "cases/dev/source/case_f_pulp_mill_area.md",
+    "NA2S.cameo_groups": "assumed",
+    "NA2S.epa_groups": "assumed",
     "NAOH": "cases/dev/source/case_f_pulp_mill_area.md",
+    "NAOH.cameo_groups": "assumed",
+    "NAOH.epa_groups": "assumed",
     "ORGANICS": "cases/dev/source/case_f_pulp_mill_area.md",
+    "ORGANICS.cameo_groups": "assumed",
     "OVERFLOW-HEADER": "cases/dev/source/case_f_pulp_mill_area.md",
     "SG-F-EXTINGUISHERS": "cases/dev/source/case_f_pulp_mill_area.md",
     "SG-F-EYEWASH": "cases/dev/source/case_f_pulp_mill_area.md",
@@ -459,6 +517,8 @@
     "T-33": "cases/dev/source/case_f_pulp_mill_area.md",
     "TK-WEAK-BLACK-LIQUOR": "cases/dev/source/case_f_pulp_mill_area.md",
     "TURPENTINE": "cases/dev/source/case_f_pulp_mill_area.md",
+    "TURPENTINE.cameo_groups": "assumed",
+    "TURPENTINE.epa_groups": "assumed",
     "UT-F-CW": "cases/dev/source/case_f_pulp_mill_area.md",
     "UT-F-LP-STEAM": "cases/dev/source/case_f_pulp_mill_area.md",
     "VACUUM-SYSTEM": "cases/dev/source/case_f_pulp_mill_area.md",
@@ -468,6 +528,10 @@
     "W-3": "cases/dev/source/case_f_pulp_mill_area.md",
     "W-4": "cases/dev/source/case_f_pulp_mill_area.md",
     "WATER": "cases/dev/source/case_f_pulp_mill_area.md",
-    "WEAK-BLACK-LIQUOR": "cases/dev/source/case_f_pulp_mill_area.md"
+    "WATER.cameo_groups": "assumed",
+    "WATER.epa_groups": "assumed",
+    "WEAK-BLACK-LIQUOR": "cases/dev/source/case_f_pulp_mill_area.md",
+    "WEAK-BLACK-LIQUOR.cameo_groups": "assumed",
+    "WEAK-BLACK-LIQUOR.epa_groups": "assumed"
   }
 }
