@@ -437,14 +437,14 @@ Warnings (missing facts, shown in the UI as gaps, never filled in by code):
 - **TypeScript types:** `openapi-typescript` (frontend dev dependency, approved by Bhargavi on Oct 11) generates `frontend/src/api/types.ts` from `contract/openapi.json`.
 
 **Acceptance**
-- [ ] A test lists the §11 endpoints and fails if any route is missing or extra.
-- [ ] Every endpoint's mock response validates against its model; every response model has a fixture.
-- [ ] Every run-related mock response has `label.kind == "mock"`.
-- [ ] `advance` without the secret returns 401.
-- [ ] An override on a `recorded` run returns 403.
-- [ ] The mock events test runs in well under a second using the injected clock.
-- [ ] `contract/openapi.json` matches the app (test regenerates and compares).
-- [ ] The frontend generates types and `npm run typecheck` passes.
+- [x] A test lists the §11 endpoints and fails if any route is missing or extra.
+- [x] Every endpoint's mock response validates against its model; every response model has a fixture.
+- [x] Every run-related mock response has `label.kind == "mock"`.
+- [x] `advance` without the secret returns 401.
+- [x] An override on a `recorded` run returns 403.
+- [x] The mock events test runs in well under a second using the injected clock.
+- [x] `contract/openapi.json` matches the app (test regenerates and compares).
+- [x] The frontend generates types and `npm run typecheck` passes.
 - [ ] Tagged `contract-v1` on `main`. Later changes only through `contract/...` branches.
 
 ## 0.9 Feasibility (remaining items)
