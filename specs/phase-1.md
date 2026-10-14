@@ -55,13 +55,14 @@ Phase 2 adds `GatewaySuggester` as the gateway's first job (`section_suggestion:
 - `backend/guideword/runs/db.py`: SQLAlchemy models and a session factory from `settings.database_url` (SQLite in development). Phase 1 creates only `plants`, `plant_facts` and `sections` (`PROJECT.md` §11 storage list); later phases add their tables. Tables are created with `metadata.create_all`; no migration tool (no new dependency).
 - `backend/guideword/runs/plants.py` (pure functions plus a repository class):
   - `load_plant(data, ref) -> (PlantRecord | None, ValidationReport)`: runs `schema.validate.validate_plant`. With errors, nothing is stored. With only warnings, the plant is stored with status `uploaded`.
-  - Plant record ID `plant:<plant_id>:<h(plant file)>` (`ids.plant_record_id`). Uploading the identical file again returns the existing record (idempotent). A changed file is a new record.
-  - `plant_facts(plant) -> list[PlantFact]`: one fact per non-empty top-level field of every plant object (`<object id>.<field>`), plus one per operating limit (`<target_id>.operating.<parameter>.<limit field>`). Value objects are one fact at their parent's field (D10). `notes` are not facts. Source, in this order: the provenance entry for the fact ID; else for the object ID; else a chemical's own `source` field; else `"not stated"`. A fact with `"not stated"` is listed in the response's warnings, never filled in.
+  - Plant record ID `plant:<plant_id>:<h(plant file)>` (`ids.plant_record_id`), where `h` runs on the parsed JSON object as uploaded, not the Pydantic model, so a schema default never changes the ID (P11). Uploading the identical file again returns the existing record (idempotent). A changed file is a new record.
+  - `plant_facts(plant) -> list[PlantFact]`: one fact per top-level field of every plant object, procedure steps included, that is not None and not an empty list (booleans count, including `false`) (`<object id>.<field>`), plus one per non-null operating limit (`<target_id>.operating.<parameter>.<limit field>`). Value objects are one fact at their parent's field (D10). `id` and `notes` are not facts, nor are the plant's `plant_id` and `schema_version`, a procedure's `steps` list, a chemical's `source`, or an operating row's instrument IDs (P10, Q3). Source, in this order: the provenance entry for the fact ID; else for the object ID; else a chemical's own `source` field; else `"not stated"`. Each fact with `"not stated"` is one `source_not_stated` warning (`object_id` = the object, the message names the field), never filled in (P3).
 - Endpoints (non-mock; `api/`), using the `contract-v1` request and response models:
-  - `POST /plants` → `PlantUploadResult`, HTTP 200 in both cases. With validation errors: `ok: false`, `plant_record_id: null`, every error as an `Issue` (code, object ID, message), and nothing stored. Otherwise `ok: true`, the record ID, `errors: []` and the missing-fact warnings. (A body that is not JSON at all gets FastAPI's own 422, as the contract already declares.)
+  - `POST /plants` → `PlantUploadResult`, HTTP 200 in both cases. With validation errors: `ok: false`, `plant_record_id: null`, every error as an `Issue` (code, object ID, message), and nothing stored. Otherwise `ok: true`, the record ID, `errors: []` and the warnings: the validation warnings, then the `source_not_stated` ones (Q8). (A body that is not JSON at all gets FastAPI's own 422, as the contract already declares.)
   - `GET /plants` → `PlantList` of `PlantSummary` (record ID, `plant_id`, status).
   - `GET /plants/{id}` → `PlantDetail`: facts with sources, warnings (validation warnings plus "not stated" sources), status, and the plant's current sections (empty until a propose). Unknown ID → 404 `ErrorBody`.
 - `{id}` in every plant route is the plant record ID (`plant:<plant_id>:<hash>`), URL-encoded by the client.
+- Each plant route leaves `NOT_BUILT_PHASE` in the PR that builds it (the three above in PR 1, propose and PUT in PR 3), and the 501 test covers only the routes still in the map (P7).
 
 **Acceptance (tests first)**
 - [ ] `example_mixing_unit.json` uploads: `ok: true`, status `uploaded`, facts include `MX-1.design_pressure_kpa` with source `"assumed"` and `MX-1.operating.temperature.trip_high`.
@@ -92,7 +93,7 @@ Phase 2 adds `GatewaySuggester` as the gateway's first job (`section_suggestion:
 
 Utilities, locations, instruments, logic solvers, valves (other than as line components), safeguards, relief devices and chemicals get no section. Relief devices and chemicals get their questions from the cross lists (1.4).
 
-**Names.** `name` defaults to the object ID plus its kind, e.g. `MX-1 (mixer)`, `L-12 from P-1 (pipe)`. `purpose` is empty until a suggestion fills it. The engineer can rename; renaming never changes the ID.
+**Names.** `name` defaults to the object ID plus its kind (P8): whole object `<id> (<type>)`, e.g. `MX-1 (mixer)` or `L-12 (pipe)`; a later line part `<line id> from <split point id> (pipe)`, e.g. `L-12 from P-1 (pipe)`; a no-flow line `<line id> (no-flow line)`; a procedure `<id> (procedure: <kind>)`; a job `<id> (<work type>)`. `purpose` is empty until a suggestion fills it. The engineer can rename; renaming never changes the ID.
 
 **Acceptance (tests first)**
 - [ ] §9 example: sections exactly `S-MX-1`, `S-P-1`, `S-TOTE-1`, `S-L-12`, `S-L-12~P-1`, `S-L-STM`, `S-L-STM~TV-1`, `S-P-CHARGE`, `S-W-1` (hand-checked in the test), with the kinds and types in the table.
@@ -115,7 +116,8 @@ Utilities, locations, instruments, logic solvers, valves (other than as line com
     - it names an unknown section or component;
     - it merges or splits a flagged no-flow section (`PROJECT.md` §5: it can never merge away a flagged no-flow section);
     - it merges sections of different kinds or different section types;
-    - it splits a section that is not a line section, or at a component outside that part.
+    - it splits a section that is not a line section, or at a component outside that part;
+    - it merges parts of two different lines, or two procedure or two planned-work sections, which `check_confirmed` would refuse (Q1, Q9).
   - `apply(sections, accepted) -> list[Section]`:
     - split → the new part gets `S-<line>~<component>` with `drawn_by: "suggestion"` and the reason;
     - merge → keeps the lowest ID (`ids.merged_section_id`), `object_ids` is the ordered union, `drawn_by: "suggestion"`;
@@ -126,17 +128,21 @@ Utilities, locations, instruments, logic solvers, valves (other than as line com
   - a line with a non-empty `no_flow` is not its own flagged `no_flow_line` section;
   - a section ID is not a valid section ID, or is duplicated;
   - an engineer-added section (`S~eng~<h(sorted covered object IDs)>`, `drawn_by: "engineer"`) has an ID that does not match its `object_ids`, or no section type when its kind needs one;
-  - a section has a kind or type that its objects cannot have.
+  - a section has a kind or type that its objects cannot have (Q1): an equipment section holds only equipment of exactly its `section_type`; a line or no-flow section holds one line and only components of that line; a procedure or planned-work section holds that one object;
+  - an engineer-added section covers an object that is not in the plant: engineer sections only regroup existing plant objects, and a new procedure or job means uploading a new plant file (P6);
+  - a section's `plant_record_id` is not the plant's;
+  - something the rule cut drew was dropped (Q9): every equipment item must be in an equipment section of its own type, every component of every line in a line or no-flow section of that line, and every line must keep a section `S-<line id>` (a merge that includes it keeps that ID).
 - Endpoints:
   - `POST /plants/{id}/sections/propose` → `SectionProposal`: the rule cut and the suggester's **valid** suggestions. In Phase 1 the suggester is `NullSuggester`, so `suggestions` is empty. Plant status → `sections_proposed`; the rule cut is stored as the plant's current sections.
   - **Rejected suggestions:** `SectionProposal` has no field for them in `contract-v1`. Each one is logged through `guideword/logs.py` with its reason (never dropped without a trace). Whether to show them on screen is a Phase 2 decision with a `contract/...` change, taken when the live suggester exists. Record this in `docs/decisions.md`.
-  - `PUT /plants/{id}/sections` with `ConfirmSectionsRequest` (a list of `Section` records: accepted, rejected or edited suggestions already applied by the client, renames, engineer-added sections) → `ConfirmSectionsResult` (record ID, status, section IDs). Every section's `plant_record_id` must equal `{id}`. Issues from `check_confirmed` → 409 `ErrorBody` whose `detail` lists each issue on its own line as `<code> <object id>: <message>`. Otherwise the set is stored, `PlantRecord.confirmed_section_ids` is set, and the status → `sections_confirmed`. A later propose or PUT replaces the stored set and moves the status accordingly.
+  - `PUT /plants/{id}/sections` with `ConfirmSectionsRequest` (a list of `Section` records: accepted, rejected or edited suggestions already applied by the client, renames, engineer-added sections) → `ConfirmSectionsResult` (record ID, status, section IDs). Every section's `plant_record_id` must equal `{id}`. Issues from `check_confirmed` → 409 `ErrorBody` whose `detail` lists each issue on its own line as `<code> <object id>: <message>`. Otherwise the set is stored, `PlantRecord.confirmed_section_ids` is set, and the status → `sections_confirmed`. A later propose or PUT replaces the stored set and moves the status accordingly (P5): a propose after confirm stores the new rule cut, clears `confirmed_section_ids` and moves the status back to `sections_proposed` (existing runs keep their own snapshots); a PUT is allowed from any status, including straight after upload, with `check_confirmed` as the guard.
 
 **Acceptance (tests first)**
 - [ ] With `FakeSuggester`: a valid split `section_ids=["S-L-12~P-1", "S-L-12~HV-12"]` creates `S-L-12~HV-12`; a merge keeps the lowest ID; a purpose is set. Each carries its reason as `suggestion_reason` and `drawn_by: "suggestion"`.
 - [ ] Each rejection rule above produces a rejected suggestion with its reason, and the endpoint logs it; none raises.
 - [ ] A merge that includes a flagged no-flow section is rejected.
 - [ ] Each `check_confirmed` rule has a test that produces exactly that issue with the offending ID.
+- [ ] Q9 on the §9 example: a valid split passes, a dropped empty first part fails, a dropped equipment section fails, a dropped later part fails, and a merge of two parts of one line passes.
 - [ ] Propose then PUT on the §9 example moves the plant `uploaded → sections_proposed → sections_confirmed`; the stored sections read back identical.
 - [ ] Renaming a section in the PUT body keeps its ID.
 - [ ] The prompt file exists, asks for the schema and a reason, and is not called by any code in this phase (test: nothing imports a model client).
@@ -162,10 +168,11 @@ Procedure and planned-work sections get no matrix questions. No-flow line sectio
 - its `equipment_ids` and `line_ids`;
 - every equipment item whose `location_id` is the job's location;
 - every line whose `from_id` or `to_id` is in the job's location: an endpoint equipment item or utility located there, or the location itself;
-- every other planned job at the same location whose time window overlaps the job's. If either job has no `start` or `end`, overlap cannot be ruled out, so the other job is included (completeness over precision).
+- every relief device whose `discharge.location_id` is the job's location; the target is the relief device ID (P9);
+- every other planned job at the same location whose time window overlaps the job's (`a.start <= b.end and b.start <= a.end`, so touching windows overlap). If either job has no `start` or `end`, or the two jobs' times mix time zones, overlap cannot be ruled out, so the other job is included (completeness over precision) (Q4). A job with no location shares a location with no other job (P4).
 - If the union is empty (a job with no location and no listed objects), the job gets one question `work:<job>:<job>`, so every job is checked at least once.
 
-**Section of each question:** matrix → its section; `nf:` → the line's section; `proc:` → the procedure's section; `work:` → the job's section; `dust:` → the equipment's section; `relief:` → the section of the protected equipment (`protects_id`), or none if it protects a location; `pair:` and `env:` → none (plant-wide).
+**Section of each question:** matrix → its section; `nf:` → the line's section; `proc:` → the procedure's section; `work:` → the job's section; `dust:` → the equipment's section; `relief:` → the section of the protected equipment (`protects_id`), or none if it protects a location; `pair:` and `env:` → none (plant-wide). An equipment-keyed question (`dust:`, `relief:`) takes the equipment-kind section containing that equipment, and a line-keyed one (`nf:`) the line's section; if several qualify, the lowest section ID (Q5).
 
 **Question text** comes from fixed templates in `questions/text.py`, filled only with IDs, names and enum values: for example "More pressure in S-MX-1 (mixer): what could cause it, what would happen, and is the existing protection adequate?" Templates are neutral. They never add facts, hints or causes, and never read `notes`.
 
@@ -188,7 +195,7 @@ Procedure and planned-work sections get no matrix questions. No-flow line sectio
 **Build** `backend/guideword/questions/coverage.py`: `coverage(sections, questions, findings=()) -> tuple[list[CoverageList], list[str]]` (the `contract-v1` `CoverageList` lines and the failed question IDs). The `GET /runs/{id}/coverage` endpoint that wraps them in `Coverage` with the run's label is Phase 2, when runs exist.
 - One `CoverageList` per list, in this order, with `list` set to: `sections`, then every `QuestionKind` value (`matrix`, `chemical_pair`, `chemical_environment`, `no_flow_line`, `procedure_step`, `planned_work`, `dust`, `relief_discharge`, `added_by_ai`, `engineer`). Each line has `total`, `checked`, `unsure` and `failed`.
 - A question counts as checked only when its status is `answered` or `not_credible`. `failed` counts per list, and every failed question ID is returned.
-- A section counts as checked when every question whose `section_id` is that section is checked; a section with no questions counts as checked.
+- A section counts as checked when every question whose `section_id` is that section is checked; a section with no questions counts as checked. On the `sections` line, `unsure` is the number of sections with at least one answered question that has an unsure finding, and `failed` the number with at least one failed question (Q6).
 - Unsure: the number of `answered` questions whose findings include one with confidence `unsure`, shown separately. With no findings (this phase) it is 0.
 - Lists with no questions show `0 of 0`, never disappear.
 
