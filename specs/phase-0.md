@@ -418,9 +418,9 @@ Warnings (missing facts, shown in the UI as gaps, never filled in by code):
   3. Remaining warnings.
 
 **Acceptance**
-- [ ] All five validate with no errors.
+- [x] All five validate with no errors.
 - [ ] Every assumed value in the files is ticked by Bhargavi in the report.
-- [ ] A test loads all five and checks every "assumed" provenance entry matches a ticked report line.
+- [x] A test loads all five and checks every "assumed" provenance entry matches a ticked report line.
 
 ## 0.8 API contract and mock server
 

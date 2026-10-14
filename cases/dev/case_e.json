@@ -1,0 +1,615 @@
+{
+  "plant_id": "case_e",
+  "schema_version": "1.0",
+  "notes": [
+    {
+      "text": "Feed: heavy gas oil, ~25,000 bbl/day.",
+      "source": "cases/dev/source/case_e_fcc_shutdown.md"
+    },
+    {
+      "text": "Relief valves to the flare; emergency shutdown push buttons.",
+      "source": "cases/dev/source/case_e_fcc_shutdown.md"
+    },
+    {
+      "text": "Perform a full HAZOP of the planned shutdown of this unit.",
+      "source": "cases/dev/source/case_e_fcc_shutdown.md"
+    }
+  ],
+  "locations": [
+    {
+      "id": "LOC-E-UNSTATED",
+      "description": "endpoint not stated in the package"
+    },
+    {
+      "id": "LOC-E-GAS-PLANT",
+      "description": "gas plant (absorber, stripper, debutaniser)"
+    },
+    {
+      "id": "LOC-E-STACK",
+      "description": "stack"
+    },
+    {
+      "id": "LOC-E-ASPHALT",
+      "description": "two asphalt storage tanks, 60 m from the reactor structure",
+      "distance_m": 60
+    },
+    {
+      "id": "LOC-E-ALKY",
+      "description": "alkylation unit using hydrofluoric (HF) acid",
+      "distance_m": 300
+    },
+    {
+      "id": "LOC-E-CONTROL-ROOM",
+      "description": "control room",
+      "distance_m": 120
+    }
+  ],
+  "utilities": [
+    {
+      "id": "UT-E-STEAM",
+      "kind": "steam",
+      "notes": [
+        {
+          "text": "Keep riser steam on.",
+          "source": "cases/dev/source/case_e_fcc_shutdown.md"
+        }
+      ]
+    }
+  ],
+  "equipment": [
+    {
+      "id": "RISER",
+      "type": "reactor",
+      "contents": [
+        "CATALYST",
+        "HGO",
+        "CRACKED-VAPOURS"
+      ],
+      "notes": [
+        {
+          "text": "Riser reactor: hot catalyst (~700 °C) contacts feed; cracked vapours go to the main fractionator.",
+          "source": "cases/dev/source/case_e_fcc_shutdown.md"
+        }
+      ]
+    },
+    {
+      "id": "REGENERATOR",
+      "type": "reactor",
+      "contents": [
+        "CATALYST",
+        "COKE",
+        "AIR",
+        "FLUE-GAS"
+      ],
+      "notes": [
+        {
+          "text": "Regenerator: combustion air from the main air blower burns coke off the spent catalyst at ~700 °C, ~2 bar g.",
+          "source": "cases/dev/source/case_e_fcc_shutdown.md"
+        }
+      ]
+    },
+    {
+      "id": "MAIN-AIR-BLOWER",
+      "type": "compressor",
+      "contents": [
+        "AIR"
+      ],
+      "notes": [
+        {
+          "text": "combustion air from the main air blower",
+          "source": "cases/dev/source/case_e_fcc_shutdown.md"
+        }
+      ]
+    },
+    {
+      "id": "MAIN-FRACTIONATOR",
+      "type": "column",
+      "contents": [
+        "CRACKED-VAPOURS"
+      ],
+      "notes": [
+        {
+          "text": "Main fractionator, then a wet gas compressor and a gas plant (absorber, stripper, debutaniser) handling C1–C4 gases and naphtha.",
+          "source": "cases/dev/source/case_e_fcc_shutdown.md"
+        }
+      ]
+    },
+    {
+      "id": "WET-GAS-COMPRESSOR",
+      "type": "compressor",
+      "contents": [
+        "C1-C4-GASES"
+      ]
+    },
+    {
+      "id": "ABSORBER",
+      "type": "column",
+      "location_id": "LOC-E-GAS-PLANT",
+      "contents": [
+        "C1-C4-GASES",
+        "NAPHTHA"
+      ]
+    },
+    {
+      "id": "STRIPPER",
+      "type": "column",
+      "location_id": "LOC-E-GAS-PLANT",
+      "contents": [
+        "C1-C4-GASES",
+        "NAPHTHA"
+      ]
+    },
+    {
+      "id": "DEBUTANISER",
+      "type": "column",
+      "location_id": "LOC-E-GAS-PLANT",
+      "contents": [
+        "C1-C4-GASES",
+        "NAPHTHA"
+      ]
+    },
+    {
+      "id": "EXPANDER",
+      "type": "other",
+      "contents": [
+        "FLUE-GAS"
+      ],
+      "notes": [
+        {
+          "text": "Flue gas from the regenerator goes through an expander and a CO boiler to the stack.",
+          "source": "cases/dev/source/case_e_fcc_shutdown.md"
+        }
+      ]
+    },
+    {
+      "id": "CO-BOILER",
+      "type": "other",
+      "contents": [
+        "FLUE-GAS"
+      ]
+    },
+    {
+      "id": "SPENT-CATALYST-HOPPER",
+      "type": "other",
+      "contents": [
+        "CATALYST"
+      ],
+      "notes": [
+        {
+          "text": "Withdraw catalyst from the regenerator to the spent catalyst hopper.",
+          "source": "cases/dev/source/case_e_fcc_shutdown.md"
+        }
+      ]
+    },
+    {
+      "id": "TK-ASPHALT-1",
+      "type": "tank",
+      "location_id": "LOC-E-ASPHALT",
+      "contents": [
+        "ASPHALT"
+      ],
+      "notes": [
+        {
+          "text": "Two asphalt storage tanks (~150 °C) 60 m from the reactor structure.",
+          "source": "cases/dev/source/case_e_fcc_shutdown.md"
+        }
+      ]
+    },
+    {
+      "id": "TK-ASPHALT-2",
+      "type": "tank",
+      "location_id": "LOC-E-ASPHALT",
+      "contents": [
+        "ASPHALT"
+      ],
+      "notes": [
+        {
+          "text": "Two asphalt storage tanks (~150 °C) 60 m from the reactor structure.",
+          "source": "cases/dev/source/case_e_fcc_shutdown.md"
+        }
+      ]
+    }
+  ],
+  "valves": [
+    {
+      "id": "SV-SPENT",
+      "kind": "control",
+      "on_line_id": "L-SPENT-STANDPIPE",
+      "notes": [
+        {
+          "text": "Flow is controlled by a spent-catalyst slide valve (reactor → regenerator) and a regenerated-catalyst slide valve (regenerator → reactor).",
+          "source": "cases/dev/source/case_e_fcc_shutdown.md"
+        },
+        {
+          "text": "Slide valves: last overhauled at the turnaround 6 years ago.",
+          "source": "cases/dev/source/case_e_fcc_shutdown.md"
+        }
+      ]
+    },
+    {
+      "id": "SV-REGEN",
+      "kind": "control",
+      "on_line_id": "L-REGEN-STANDPIPE",
+      "notes": [
+        {
+          "text": "Flow is controlled by a spent-catalyst slide valve (reactor → regenerator) and a regenerated-catalyst slide valve (regenerator → reactor).",
+          "source": "cases/dev/source/case_e_fcc_shutdown.md"
+        },
+        {
+          "text": "Slide valves: last overhauled at the turnaround 6 years ago.",
+          "source": "cases/dev/source/case_e_fcc_shutdown.md"
+        }
+      ]
+    }
+  ],
+  "lines": [
+    {
+      "id": "L-FEED",
+      "from_id": "LOC-E-UNSTATED",
+      "to_id": "RISER",
+      "contents": [
+        "HGO"
+      ]
+    },
+    {
+      "id": "L-SPENT-STANDPIPE",
+      "from_id": "RISER",
+      "to_id": "REGENERATOR",
+      "components": [
+        "SV-SPENT"
+      ],
+      "contents": [
+        "CATALYST"
+      ],
+      "notes": [
+        {
+          "text": "Catalyst circulates between reactor and regenerator through standpipes.",
+          "source": "cases/dev/source/case_e_fcc_shutdown.md"
+        }
+      ]
+    },
+    {
+      "id": "L-REGEN-STANDPIPE",
+      "from_id": "REGENERATOR",
+      "to_id": "RISER",
+      "components": [
+        "SV-REGEN"
+      ],
+      "contents": [
+        "CATALYST"
+      ],
+      "notes": [
+        {
+          "text": "Catalyst circulates between reactor and regenerator through standpipes.",
+          "source": "cases/dev/source/case_e_fcc_shutdown.md"
+        }
+      ]
+    },
+    {
+      "id": "L-AIR",
+      "from_id": "MAIN-AIR-BLOWER",
+      "to_id": "REGENERATOR",
+      "contents": [
+        "AIR"
+      ]
+    },
+    {
+      "id": "L-VAPOURS",
+      "from_id": "RISER",
+      "to_id": "MAIN-FRACTIONATOR",
+      "contents": [
+        "CRACKED-VAPOURS"
+      ]
+    },
+    {
+      "id": "L-WET-GAS",
+      "from_id": "MAIN-FRACTIONATOR",
+      "to_id": "WET-GAS-COMPRESSOR",
+      "contents": [
+        "C1-C4-GASES"
+      ]
+    },
+    {
+      "id": "L-GAS-PLANT",
+      "from_id": "WET-GAS-COMPRESSOR",
+      "to_id": "LOC-E-GAS-PLANT",
+      "contents": [
+        "C1-C4-GASES"
+      ]
+    },
+    {
+      "id": "L-FLUE-1",
+      "from_id": "REGENERATOR",
+      "to_id": "EXPANDER",
+      "contents": [
+        "FLUE-GAS"
+      ]
+    },
+    {
+      "id": "L-FLUE-2",
+      "from_id": "EXPANDER",
+      "to_id": "CO-BOILER",
+      "contents": [
+        "FLUE-GAS"
+      ]
+    },
+    {
+      "id": "L-FLUE-3",
+      "from_id": "CO-BOILER",
+      "to_id": "LOC-E-STACK",
+      "contents": [
+        "FLUE-GAS"
+      ]
+    },
+    {
+      "id": "L-CATALYST-WITHDRAWAL",
+      "from_id": "REGENERATOR",
+      "to_id": "SPENT-CATALYST-HOPPER",
+      "contents": [
+        "CATALYST"
+      ]
+    }
+  ],
+  "operating": [
+    {
+      "target_id": "RISER",
+      "parameter": "temperature",
+      "normal": 700
+    },
+    {
+      "target_id": "REGENERATOR",
+      "parameter": "temperature",
+      "normal": 700
+    },
+    {
+      "target_id": "REGENERATOR",
+      "parameter": "pressure",
+      "normal": 200
+    },
+    {
+      "target_id": "TK-ASPHALT-1",
+      "parameter": "temperature",
+      "normal": 150
+    },
+    {
+      "target_id": "TK-ASPHALT-2",
+      "parameter": "temperature",
+      "normal": 150
+    }
+  ],
+  "safeguards": [
+    {
+      "id": "SG-E-BPCS",
+      "description": "Basic process control system"
+    },
+    {
+      "id": "SG-E-SLIDE-VALVE-DP",
+      "description": "slide valve differential-pressure indication and low-differential alarms"
+    },
+    {
+      "id": "SG-E-TEMPERATURE",
+      "description": "Reactor and regenerator temperature indication"
+    },
+    {
+      "id": "SG-E-O2-ANALYSER",
+      "description": "flue gas oxygen analyser"
+    },
+    {
+      "id": "SG-E-RELIEF",
+      "description": "Relief valves to the flare"
+    },
+    {
+      "id": "SG-E-ESD",
+      "description": "emergency shutdown push buttons"
+    },
+    {
+      "id": "SG-E-FIRE-MONITORS",
+      "description": "Fixed fire water monitors."
+    }
+  ],
+  "chemicals": [
+    {
+      "id": "HGO",
+      "name": "heavy gas oil",
+      "source": "cases/dev/source/case_e_fcc_shutdown.md"
+    },
+    {
+      "id": "CATALYST",
+      "name": "catalyst",
+      "source": "cases/dev/source/case_e_fcc_shutdown.md"
+    },
+    {
+      "id": "COKE",
+      "name": "coke",
+      "source": "cases/dev/source/case_e_fcc_shutdown.md"
+    },
+    {
+      "id": "AIR",
+      "name": "combustion air",
+      "source": "cases/dev/source/case_e_fcc_shutdown.md"
+    },
+    {
+      "id": "CRACKED-VAPOURS",
+      "name": "cracked vapours",
+      "source": "cases/dev/source/case_e_fcc_shutdown.md"
+    },
+    {
+      "id": "C1-C4-GASES",
+      "name": "C1–C4 gases",
+      "source": "cases/dev/source/case_e_fcc_shutdown.md"
+    },
+    {
+      "id": "NAPHTHA",
+      "name": "naphtha",
+      "source": "cases/dev/source/case_e_fcc_shutdown.md"
+    },
+    {
+      "id": "FLUE-GAS",
+      "name": "flue gas",
+      "source": "cases/dev/source/case_e_fcc_shutdown.md"
+    },
+    {
+      "id": "TORCH-OIL",
+      "name": "torch oil",
+      "source": "cases/dev/source/case_e_fcc_shutdown.md"
+    },
+    {
+      "id": "ASPHALT",
+      "name": "asphalt",
+      "source": "cases/dev/source/case_e_fcc_shutdown.md"
+    },
+    {
+      "id": "HF",
+      "name": "hydrofluoric (HF) acid",
+      "source": "cases/dev/source/case_e_fcc_shutdown.md",
+      "notes": [
+        {
+          "text": "An alkylation unit using hydrofluoric (HF) acid, 300 m away.",
+          "source": "cases/dev/source/case_e_fcc_shutdown.md"
+        }
+      ]
+    }
+  ],
+  "procedures": [
+    {
+      "id": "P-E-SHUTDOWN",
+      "kind": "shutdown",
+      "notes": [
+        {
+          "text": "Planned shutdown procedure (summary of the written procedure)",
+          "source": "cases/dev/source/case_e_fcc_shutdown.md"
+        }
+      ],
+      "steps": [
+        {
+          "id": "P-E-SHUTDOWN-1",
+          "text": "Reduce feed to minimum, then cut feed. Keep riser steam on.",
+          "equipment_ids": [
+            "RISER"
+          ]
+        },
+        {
+          "id": "P-E-SHUTDOWN-2",
+          "text": "Reduce main air blower rate. Keep the regenerator hot with torch oil if needed.",
+          "equipment_ids": [
+            "MAIN-AIR-BLOWER",
+            "REGENERATOR"
+          ]
+        },
+        {
+          "id": "P-E-SHUTDOWN-3",
+          "text": "Withdraw catalyst from the regenerator to the spent catalyst hopper.",
+          "equipment_ids": [
+            "REGENERATOR",
+            "SPENT-CATALYST-HOPPER"
+          ]
+        },
+        {
+          "id": "P-E-SHUTDOWN-4",
+          "text": "Close both slide valves as the catalyst inventory reaches minimum.",
+          "valve_ids": [
+            "SV-SPENT",
+            "SV-REGEN"
+          ]
+        },
+        {
+          "id": "P-E-SHUTDOWN-5",
+          "text": "Steam-purge the reactor and the main fractionator to the flare.",
+          "equipment_ids": [
+            "RISER",
+            "MAIN-FRACTIONATOR"
+          ]
+        },
+        {
+          "id": "P-E-SHUTDOWN-6",
+          "text": "Shut down the wet gas compressor; depressure the gas plant to the flare.",
+          "equipment_ids": [
+            "WET-GAS-COMPRESSOR",
+            "ABSORBER",
+            "STRIPPER",
+            "DEBUTANISER"
+          ]
+        },
+        {
+          "id": "P-E-SHUTDOWN-7",
+          "text": "Shut down the main air blower; cool the regenerator.",
+          "equipment_ids": [
+            "MAIN-AIR-BLOWER",
+            "REGENERATOR"
+          ]
+        },
+        {
+          "id": "P-E-SHUTDOWN-8",
+          "text": "Isolate and blind for maintenance entry."
+        }
+      ]
+    }
+  ],
+  "provenance": {
+    "ABSORBER": "cases/dev/source/case_e_fcc_shutdown.md",
+    "AIR": "cases/dev/source/case_e_fcc_shutdown.md",
+    "ASPHALT": "cases/dev/source/case_e_fcc_shutdown.md",
+    "C1-C4-GASES": "cases/dev/source/case_e_fcc_shutdown.md",
+    "CATALYST": "cases/dev/source/case_e_fcc_shutdown.md",
+    "CO-BOILER": "cases/dev/source/case_e_fcc_shutdown.md",
+    "COKE": "cases/dev/source/case_e_fcc_shutdown.md",
+    "CRACKED-VAPOURS": "cases/dev/source/case_e_fcc_shutdown.md",
+    "DEBUTANISER": "cases/dev/source/case_e_fcc_shutdown.md",
+    "EXPANDER": "cases/dev/source/case_e_fcc_shutdown.md",
+    "FLUE-GAS": "cases/dev/source/case_e_fcc_shutdown.md",
+    "HF": "cases/dev/source/case_e_fcc_shutdown.md",
+    "HGO": "cases/dev/source/case_e_fcc_shutdown.md",
+    "L-AIR": "cases/dev/source/case_e_fcc_shutdown.md",
+    "L-CATALYST-WITHDRAWAL": "cases/dev/source/case_e_fcc_shutdown.md",
+    "L-FEED": "cases/dev/source/case_e_fcc_shutdown.md",
+    "L-FLUE-1": "cases/dev/source/case_e_fcc_shutdown.md",
+    "L-FLUE-2": "cases/dev/source/case_e_fcc_shutdown.md",
+    "L-FLUE-3": "cases/dev/source/case_e_fcc_shutdown.md",
+    "L-GAS-PLANT": "cases/dev/source/case_e_fcc_shutdown.md",
+    "L-REGEN-STANDPIPE": "cases/dev/source/case_e_fcc_shutdown.md",
+    "L-SPENT-STANDPIPE": "cases/dev/source/case_e_fcc_shutdown.md",
+    "L-VAPOURS": "cases/dev/source/case_e_fcc_shutdown.md",
+    "L-WET-GAS": "cases/dev/source/case_e_fcc_shutdown.md",
+    "LOC-E-ALKY": "cases/dev/source/case_e_fcc_shutdown.md",
+    "LOC-E-ASPHALT": "cases/dev/source/case_e_fcc_shutdown.md",
+    "LOC-E-CONTROL-ROOM": "cases/dev/source/case_e_fcc_shutdown.md",
+    "LOC-E-GAS-PLANT": "cases/dev/source/case_e_fcc_shutdown.md",
+    "LOC-E-STACK": "cases/dev/source/case_e_fcc_shutdown.md",
+    "LOC-E-UNSTATED": "cases/dev/source/case_e_fcc_shutdown.md",
+    "MAIN-AIR-BLOWER": "cases/dev/source/case_e_fcc_shutdown.md",
+    "MAIN-FRACTIONATOR": "cases/dev/source/case_e_fcc_shutdown.md",
+    "NAPHTHA": "cases/dev/source/case_e_fcc_shutdown.md",
+    "P-E-SHUTDOWN": "cases/dev/source/case_e_fcc_shutdown.md",
+    "P-E-SHUTDOWN-1": "cases/dev/source/case_e_fcc_shutdown.md",
+    "P-E-SHUTDOWN-2": "cases/dev/source/case_e_fcc_shutdown.md",
+    "P-E-SHUTDOWN-3": "cases/dev/source/case_e_fcc_shutdown.md",
+    "P-E-SHUTDOWN-4": "cases/dev/source/case_e_fcc_shutdown.md",
+    "P-E-SHUTDOWN-5": "cases/dev/source/case_e_fcc_shutdown.md",
+    "P-E-SHUTDOWN-6": "cases/dev/source/case_e_fcc_shutdown.md",
+    "P-E-SHUTDOWN-7": "cases/dev/source/case_e_fcc_shutdown.md",
+    "P-E-SHUTDOWN-8": "cases/dev/source/case_e_fcc_shutdown.md",
+    "REGENERATOR": "cases/dev/source/case_e_fcc_shutdown.md",
+    "REGENERATOR.operating.pressure.normal": "cases/dev/source/case_e_fcc_shutdown.md",
+    "REGENERATOR.operating.temperature.normal": "cases/dev/source/case_e_fcc_shutdown.md",
+    "RISER": "cases/dev/source/case_e_fcc_shutdown.md",
+    "RISER.operating.temperature.normal": "cases/dev/source/case_e_fcc_shutdown.md",
+    "SG-E-BPCS": "cases/dev/source/case_e_fcc_shutdown.md",
+    "SG-E-ESD": "cases/dev/source/case_e_fcc_shutdown.md",
+    "SG-E-FIRE-MONITORS": "cases/dev/source/case_e_fcc_shutdown.md",
+    "SG-E-O2-ANALYSER": "cases/dev/source/case_e_fcc_shutdown.md",
+    "SG-E-RELIEF": "cases/dev/source/case_e_fcc_shutdown.md",
+    "SG-E-SLIDE-VALVE-DP": "cases/dev/source/case_e_fcc_shutdown.md",
+    "SG-E-TEMPERATURE": "cases/dev/source/case_e_fcc_shutdown.md",
+    "SPENT-CATALYST-HOPPER": "cases/dev/source/case_e_fcc_shutdown.md",
+    "STRIPPER": "cases/dev/source/case_e_fcc_shutdown.md",
+    "SV-REGEN": "cases/dev/source/case_e_fcc_shutdown.md",
+    "SV-SPENT": "cases/dev/source/case_e_fcc_shutdown.md",
+    "TK-ASPHALT-1": "cases/dev/source/case_e_fcc_shutdown.md",
+    "TK-ASPHALT-1.operating.temperature.normal": "cases/dev/source/case_e_fcc_shutdown.md",
+    "TK-ASPHALT-2": "cases/dev/source/case_e_fcc_shutdown.md",
+    "TK-ASPHALT-2.operating.temperature.normal": "cases/dev/source/case_e_fcc_shutdown.md",
+    "TORCH-OIL": "cases/dev/source/case_e_fcc_shutdown.md",
+    "UT-E-STEAM": "cases/dev/source/case_e_fcc_shutdown.md",
+    "WET-GAS-COMPRESSOR": "cases/dev/source/case_e_fcc_shutdown.md"
+  }
+}
