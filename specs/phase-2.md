@@ -183,7 +183,7 @@ Every call is a `ToolCall` record and a `tool_call` event; arguments validated (
 - [x] Hand-worked example: a C01 cause (IE-BPCS, 0.1 / year → L4) with S4 → rating per `risk_matrix.csv`; ties broken exactly as above.
 - [x] A C20 cause on a line without `length_m` → unrated, names `<line>.length_m`.
 - [x] An outside-library cause gets the highest library frequency of its component type, flagged.
-- [ ] Ranking is identical across two runs replayed from cache.
+- [x] Ranking is identical across two runs replayed from cache.
 
 ## 2.7 Live section suggestions
 
