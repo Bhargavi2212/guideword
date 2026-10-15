@@ -159,6 +159,10 @@ class StepWriter:
 
     # --- reads within the step (stored rows plus this step's pending ones) ------------------
 
+    def sections(self) -> list[Section]:
+        """The run's own section snapshot (full records, frozen at start)."""
+        return [Section.model_validate(s) for s in self._row.sections]
+
     def questions(self) -> list[Question]:
         return self._records(QuestionRow, Question)
 
