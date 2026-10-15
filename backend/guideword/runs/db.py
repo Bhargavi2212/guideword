@@ -1,6 +1,6 @@
-"""The run store's tables (PROJECT.md §11 "Storage schema"); Phase 1 creates only these three.
+"""The run store's tables (PROJECT.md §11 "Storage schema").
 
-Links are foreign keys; large payloads are JSON columns. Later phases add their tables.
+Links are foreign keys; large payloads are JSON columns holding the validated record.
 Tables are created with `metadata.create_all`; there is no migration tool.
 """
 
@@ -42,6 +42,106 @@ class SectionRow(Base):
     # the order the set was stored in, so it reads back identical
     position: Mapped[int] = mapped_column(Integer)
     # the Section record
+    record: Mapped[dict[str, Any]] = mapped_column(JSON)
+
+
+class RunRow(Base):
+    __tablename__ = "runs"
+
+    id: Mapped[str] = mapped_column(String, primary_key=True)
+    # the run ID without its attempt suffix: every attempt with the same inputs shares it
+    base_id: Mapped[str] = mapped_column(String, index=True)
+    attempt: Mapped[int] = mapped_column(Integer)
+    plant_record_id: Mapped[str] = mapped_column(ForeignKey("plants.id"), index=True)
+    status: Mapped[str] = mapped_column(String)
+    # the Run record
+    record: Mapped[dict[str, Any]] = mapped_column(JSON)
+    # the full Section records of the snapshot, frozen when the run started
+    sections: Mapped[list[dict[str, Any]]] = mapped_column(JSON)
+
+
+class RunRecordRow(Base):
+    """A record belonging to a run, keyed by (run ID, record ID)."""
+
+    __abstract__ = True
+
+    run_id: Mapped[str] = mapped_column(ForeignKey("runs.id"), primary_key=True)
+    id: Mapped[str] = mapped_column(String, primary_key=True)
+    # the order records were written in, so they read back in that order
+    position: Mapped[int] = mapped_column(Integer)
+    record: Mapped[dict[str, Any]] = mapped_column(JSON)
+
+
+class QuestionRow(RunRecordRow):
+    __tablename__ = "questions"
+
+
+class FindingRow(RunRecordRow):
+    __tablename__ = "findings"
+
+
+class AgentStepRow(RunRecordRow):
+    __tablename__ = "agent_steps"
+
+
+class ModelCallRow(RunRecordRow):
+    __tablename__ = "model_calls"
+
+
+class ToolCallRow(RunRecordRow):
+    __tablename__ = "tool_calls"
+
+
+# Phase 3 fills these; they exist now so no migration step is needed then.
+class ChainRow(RunRecordRow):
+    __tablename__ = "chains"
+
+
+class LopaRecordRow(RunRecordRow):
+    __tablename__ = "lopa_records"
+
+
+class RecommendationRow(RunRecordRow):
+    __tablename__ = "recommendations"
+
+
+class EvidenceRow(RunRecordRow):
+    __tablename__ = "evidence"
+
+
+class OverrideRow(RunRecordRow):
+    __tablename__ = "overrides"
+
+
+class EventRow(Base):
+    """Append-only; an event is identified by (run ID, seq)."""
+
+    __tablename__ = "events"
+
+    run_id: Mapped[str] = mapped_column(ForeignKey("runs.id"), primary_key=True)
+    seq: Mapped[int] = mapped_column(Integer, primary_key=True)
+    type: Mapped[str] = mapped_column(String)
+    record: Mapped[dict[str, Any]] = mapped_column(JSON)
+
+
+class ResponseCacheRow(Base):
+    """One model response per cache key (decision R15); the gateway reads and writes it."""
+
+    __tablename__ = "response_cache"
+
+    key: Mapped[str] = mapped_column(String, primary_key=True)
+    model_id: Mapped[str] = mapped_column(String)
+    prompt_version: Mapped[str] = mapped_column(String)
+    response: Mapped[dict[str, Any]] = mapped_column(JSON)
+
+
+class SpendLedgerRow(Base):
+    """The hosted ledger (PROJECT.md §11); keyed by the hash of the entry."""
+
+    __tablename__ = "spend_ledger"
+
+    key: Mapped[str] = mapped_column(String, primary_key=True)
+    environment: Mapped[str] = mapped_column(String, index=True)
     record: Mapped[dict[str, Any]] = mapped_column(JSON)
 
 

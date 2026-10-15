@@ -76,10 +76,10 @@ Connector and chains, LOPA, shortlist by gap, recommendations (Phase 3); `web_re
 - **Cancel**: sets `cancelled`; the next `advance` does nothing.
 
 **Acceptance (tests first)**
-- [ ] Start on an unconfirmed plant → 409; on a confirmed one → questions stored, counts equal the Phase 1 builder's.
-- [ ] Identical inputs while running return the same run; after cancel, a new start gives `…:2`; `stopped_cap` + higher cap resumes the same run.
+- [x] Start on an unconfirmed plant → 409; on a confirmed one → questions stored, counts equal the Phase 1 builder's.
+- [x] Identical inputs while running return the same run; after cancel, a new start gives `…:2`; `stopped_cap` + higher cap resumes the same run.
 - [ ] Killing the process between two `advance` calls and calling `advance` again continues from the saved step; no model call is repeated (fake gateway counts calls).
-- [ ] Events are contiguous from 1 and every record created in a step has its event.
+- [x] Events are contiguous from 1 and every record created in a step has its event.
 
 ## 2.2 Model gateway and ledgers
 
