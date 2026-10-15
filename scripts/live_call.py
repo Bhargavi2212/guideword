@@ -1,4 +1,4 @@
-"""The only code allowed to call Token Factory or Tavily until the Phase 2 gateway exists.
+"""Budget-capped live calls for scripts (Phase 0); the run pipeline uses guideword/gateway.
 
 Bhargavi starts every live call. Each model call is estimated before sending (input =
 ceil(text characters / 2.5 + tool-schema characters / 1.25) + 32, output = max_tokens; an
@@ -14,37 +14,54 @@ CLI (from the repo root, venv active):
 """
 
 import argparse
-import json
-import math
 import sys
 import threading
 from collections.abc import Callable, Iterator, Sequence
 from contextlib import contextmanager
-from dataclasses import dataclass
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
 import openai
 import tavily  # type: ignore[import-untyped]
-from guideword.config import Config, TierModel, load_config
+from guideword.config import Config, load_config
+from guideword.gateway.estimate import (
+    REQUEST_OVERHEAD_TOKENS,
+    TEXT_CHARS_PER_TOKEN,
+    TOOL_CHARS_PER_TOKEN,
+    Estimate,
+    cost_usd,
+    estimate_cost,
+)
+from guideword.gateway.ledgers import DEFAULT_LEDGER
+from guideword.gateway.ledgers import LaptopLedger as Ledger
 from guideword.logs import configure, get_logger
 from guideword.schema.enums import BudgetUse, Environment, Tier
 from guideword.schema.records import SpendEntry
 from guideword.settings import Settings
 
-# The spec 0.3 estimating rule (revised 2026-10-13 from the smoke run), not a budget.
-# English text bills at about 2.9 characters per token; tool schemas and tool calls are
-# rendered into the prompt at about twice their JSON size; each request adds a chat-template
-# wrapper of about 15 tokens.
-TEXT_CHARS_PER_TOKEN = 2.5
-TOOL_CHARS_PER_TOKEN = 1.25
-REQUEST_OVERHEAD_TOKENS = 32
+# The estimate rule and the laptop ledger live in guideword/gateway/ (Phase 2 plan R16);
+# they are re-exported here for the scripts and tests that use them.
 OPENING_BALANCE_PHASE = "opening_balance"
-DEFAULT_LEDGER = Path(__file__).resolve().parents[1] / "budget" / "ledger.jsonl"
 SCRIPT = Path(__file__).name
 
 log = get_logger("guideword.live_call")
+
+__all__ = [
+    "DEFAULT_LEDGER",
+    "REQUEST_OVERHEAD_TOKENS",
+    "TEXT_CHARS_PER_TOKEN",
+    "TOOL_CHARS_PER_TOKEN",
+    "CallFailed",
+    "Estimate",
+    "Ledger",
+    "LiveCaller",
+    "MissingKey",
+    "Refused",
+    "cost_usd",
+    "default_caller",
+    "estimate_cost",
+]
 
 Clock = Callable[[], datetime]
 
@@ -74,71 +91,6 @@ TAVILY_ERRORS: tuple[type[Exception], ...] = (
     tavily.errors.TimeoutError,
     OSError,
 )
-
-
-@dataclass(frozen=True)
-class Estimate:
-    input_tokens: int
-    output_tokens: int
-    cost_usd: float
-
-
-def cost_usd(prices: TierModel, input_tokens: int, output_tokens: int) -> float:
-    return (
-        input_tokens * prices.input_usd_per_1m + output_tokens * prices.output_usd_per_1m
-    ) / 1_000_000
-
-
-def estimate_cost(
-    prices: TierModel,
-    messages: Sequence[dict[str, Any]],
-    tools: Sequence[dict[str, Any]] | None,
-    max_tokens: int,
-) -> Estimate:
-    """Upper-bound estimate: output tokens are the requested max_tokens."""
-    text_chars = 0
-    tool_chars = 0
-    for message in messages:
-        text_chars += len(str(message.get("content") or ""))
-        if message.get("tool_calls"):
-            tool_chars += len(json.dumps(message["tool_calls"], separators=(",", ":")))
-    for tool in tools or ():
-        tool_chars += len(json.dumps(tool, separators=(",", ":")))
-    input_tokens = (
-        math.ceil(text_chars / TEXT_CHARS_PER_TOKEN + tool_chars / TOOL_CHARS_PER_TOKEN)
-        + REQUEST_OVERHEAD_TOKENS
-    )
-    return Estimate(input_tokens, max_tokens, cost_usd(prices, input_tokens, max_tokens))
-
-
-class Ledger:
-    """The laptop ledger: one SpendEntry per line. Every limit check reads it."""
-
-    def __init__(self, path: Path = DEFAULT_LEDGER) -> None:
-        self.path = path
-        self._lock = threading.Lock()
-
-    def entries(self) -> list[SpendEntry]:
-        if not self.path.exists():
-            return []
-        lines = self.path.read_text(encoding="utf-8").splitlines()
-        return [SpendEntry.model_validate_json(line) for line in lines if line.strip()]
-
-    def append(self, entry: SpendEntry) -> None:
-        with self._lock:
-            self.path.parent.mkdir(parents=True, exist_ok=True)
-            with self.path.open("a", encoding="utf-8", newline="\n") as f:
-                f.write(entry.model_dump_json() + "\n")
-
-    def spent(self, *, phase: str | None = None, use: BudgetUse | str | None = None) -> float:
-        """Laptop spend, optionally for one phase or one use."""
-        return sum(
-            e.cost_usd
-            for e in self.entries()
-            if e.environment == Environment.LAPTOP
-            and (phase is None or e.phase == phase)
-            and (use is None or e.use == use)
-        )
 
 
 class LiveCaller:

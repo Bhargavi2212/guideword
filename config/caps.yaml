@@ -9,6 +9,29 @@ run:
   evidence_top_n: 5
   question_max_attempts: 2
   connector_max_input_tokens: 80000
+  # the orchestrator phase stops at the run cap minus this, so severity can finish (R38)
+  severity_reserve_usd: 0.15
+  # per routing job; a batch of 10 bulk questions needs room for several findings each (R18)
+  max_tokens:
+    orchestrator: 4096
+    specialist_bulk: 6144
+    specialist_hard: 6144
+    unsure_answer: 6144
+    severity_reason: 4096
+    section_suggestion: 6144
+    test5a: 8192
+  # questions per specialist call, by tier
+  specialist_batch_size:
+    lightning: 10
+    nano: 10
+    super: 5
+    ultra: 5
+  ai_questions_per_batch: 2
+  ai_questions_per_run: 20
+  unsure_reanswers_per_run: 10
+  # what the orchestrator sees each step (lists are truncated, with counts)
+  orchestrator_view: {id_list_max: 20, recent_steps: 5, dispatch_max_question_ids: 60}
+  severity_batch_size: 20
 
 plant:
   # the Super section-suggestion call, which runs outside any run
@@ -31,3 +54,18 @@ environments:
 # live-call caps per phase; a phase with no entry may not make live calls
 phase_caps_usd:
   "0": 0.65
+  "2": 5.00
+
+# ranking enters Run.caps with the run block (R18). An outside-library cause whose
+# failing-component type has no library cause gets this frequency, flagged
+# "frequency assumed" (PROJECT.md section 5, Step 6; decision R12).
+ranking:
+  outside_library_default_frequency_per_year: 0.1
+
+# parallel calls per tier (smoke tests T9 and T13; Super and Nano untested, start at 3)
+concurrency: {ultra: 3, super: 3, lightning: 5, nano: 3}
+
+# retries of 429 and 5xx: attempts in total, and the wait before each retry (R13)
+gateway:
+  max_attempts: 3
+  backoff_seconds: [1, 2]

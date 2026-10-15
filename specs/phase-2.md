@@ -78,7 +78,7 @@ Connector and chains, LOPA, shortlist by gap, recommendations (Phase 3); `web_re
 **Acceptance (tests first)**
 - [x] Start on an unconfirmed plant → 409; on a confirmed one → questions stored, counts equal the Phase 1 builder's.
 - [x] Identical inputs while running return the same run; after cancel, a new start gives `…:2`; `stopped_cap` + higher cap resumes the same run.
-- [ ] Killing the process between two `advance` calls and calling `advance` again continues from the saved step; no model call is repeated (fake gateway counts calls).
+- [x] Killing the process between two `advance` calls and calling `advance` again continues from the saved step; no model call is repeated (fake gateway counts calls).
 - [x] Events are contiguous from 1 and every record created in a step has its event.
 
 ## 2.2 Model gateway and ledgers
@@ -106,13 +106,13 @@ Every call goes through `Gateway.call(job, prompt_version, messages, schema=None
 **Live checks (Bhargavi runs, development use, ≤ $0.30):** `scripts/gateway_check.py` sends one call per tier through the real gateway and one Lightning call that combines **tool calling with `json_schema` and reasoning off** (the specialist path; smoke tested tool calling and structured output separately, never together). If that combination fails, the specialist falls back to two calls (tool call without schema, then the answer with schema) and the result goes in `docs/decisions.md` and `docs/feedback-log.md`.
 
 **Acceptance (tests first, fake client)**
-- [ ] Route: missing tier falls back and logs; past `shutdown_date` counts as missing.
-- [ ] Cache: second identical call costs 0, `cache_hit: true`; changing the prompt version or one input character misses.
-- [ ] Budget guard: over run cap → refused, run `stopped_cap`; over a use or environment allowance → refused, `stopped_budget`; nothing sent in either case.
-- [ ] Retries: 429 then success → one `ModelCall` with `attempts: 2`; three 5xx → `outcome: error`.
-- [ ] Validation: `length` → `truncated`, not parsed; `<think>` stripped; invalid JSON → one retry with the error, then `invalid`; unknown ID → invalid.
-- [ ] Ledger line written after every non-cached call, with job, use and phase; laptop and hosted ledgers never read each other.
-- [ ] Allow-list test updated: `openai` allowed in `gateway/`; still forbidden everywhere else except `scripts/live_call.py`.
+- [x] Route: missing tier falls back and logs; past `shutdown_date` counts as missing.
+- [x] Cache: second identical call costs 0, `cache_hit: true`; changing the prompt version or one input character misses.
+- [x] Budget guard: over run cap → refused, run `stopped_cap`; over a use or environment allowance → refused, `stopped_budget`; nothing sent in either case.
+- [x] Retries: 429 then success → one `ModelCall` with `attempts: 2`; three 5xx → `outcome: error`.
+- [x] Validation: `length` → `truncated`, not parsed; `<think>` stripped; invalid JSON → one retry with the error, then `invalid`; unknown ID → invalid.
+- [x] Ledger line written after every non-cached call, with job, use and phase; laptop and hosted ledgers never read each other.
+- [x] Allow-list test updated: `openai` allowed in `gateway/`; still forbidden everywhere else except `scripts/live_call.py`.
 
 ## 2.3 `reactivity_lookup`
 

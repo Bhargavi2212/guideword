@@ -9,6 +9,7 @@ from collections.abc import Mapping
 from dataclasses import dataclass
 from typing import Protocol
 
+from guideword.gateway.client import BudgetRefused
 from guideword.runs.store import RunRepository, StepWriter
 from guideword.schema.enums import EventType, RunStatus
 from guideword.schema.records import Run
@@ -52,6 +53,12 @@ def advance(runs: RunRepository, run_id: str, steppers: Mapping[str, Stepper]) -
         elif writer.run.status == RunStatus.FAILED:
             writer.emit(EventType.RUN_FAILED, {"step": run.step})
         return writer.run.status
+
+
+def stop_for_refusal(writer: StepWriter, refused: BudgetRefused) -> StepResult:
+    """A gateway refusal ends the run with its status (`stopped_cap` or `stopped_budget`)."""
+    writer.emit(EventType.CAP_HIT, {"reason": str(refused), "status": refused.status})
+    return StepResult(status=refused.status)
 
 
 def cancel(runs: RunRepository, run_id: str) -> RunStatus:

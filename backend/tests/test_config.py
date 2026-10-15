@@ -69,7 +69,75 @@ def test_caps(shipped: Config) -> None:
     assert run.question_max_attempts == 2
     assert run.connector_max_input_tokens == 80000
     assert shipped.caps.plant.section_suggest_cap_usd == 0.05
-    assert shipped.caps.phase_caps_usd == {"0": 0.65}
+    # Phase 2 adds its cap (specs/phase-2.md)
+    assert shipped.caps.phase_caps_usd == {"0": 0.65, "2": 5.00}
+
+
+def test_phase_2_run_caps(shipped: Config) -> None:
+    """Decisions R18 (with specialist_bulk 6144) and R38."""
+    run = shipped.caps.run
+    assert run.severity_reserve_usd == 0.15
+    assert run.max_tokens == {
+        "orchestrator": 4096,
+        "specialist_bulk": 6144,
+        "specialist_hard": 6144,
+        "unsure_answer": 6144,
+        "severity_reason": 4096,
+        "section_suggestion": 6144,
+        "test5a": 8192,
+    }
+    assert run.specialist_batch_size == {
+        Tier.LIGHTNING: 10,
+        Tier.NANO: 10,
+        Tier.SUPER: 5,
+        Tier.ULTRA: 5,
+    }
+    assert (run.ai_questions_per_batch, run.ai_questions_per_run) == (2, 20)
+    assert run.unsure_reanswers_per_run == 10
+    assert run.orchestrator_view.model_dump() == {
+        "id_list_max": 20,
+        "recent_steps": 5,
+        "dispatch_max_question_ids": 60,
+    }
+    assert run.severity_batch_size == 20
+    assert shipped.caps.ranking.outside_library_default_frequency_per_year == 0.1
+
+
+def test_gateway_caps(shipped: Config) -> None:
+    caps = shipped.caps
+    assert caps.concurrency == {Tier.ULTRA: 3, Tier.SUPER: 3, Tier.LIGHTNING: 5, Tier.NANO: 3}
+    assert caps.gateway.max_attempts == 3
+    assert caps.gateway.backoff_seconds == [1.0, 2.0]
+
+
+def test_tier_request_settings(shipped: Config) -> None:
+    """From the smoke-test decisions: Ultra and Super reason, Lightning and Nano do not."""
+    tiers = shipped.models.tiers
+    assert {t: tiers[t].request.reasoning for t in Tier} == {
+        Tier.ULTRA: True,
+        Tier.SUPER: True,
+        Tier.LIGHTNING: False,
+        Tier.NANO: False,
+    }
+    for tier in Tier:
+        request = tiers[tier].request
+        assert (request.structured_output, request.tool_calling) == ("json_schema", "native")
+        assert request.tools_with_schema is True
+
+
+def test_prompt_versions_name_existing_files(shipped: Config) -> None:
+    assert shipped.routing.prompts == {"section_suggestion": "v1"}
+    assert shipped.routing.jobs["test5a"] == Tier.ULTRA
+
+
+def test_run_input_caps_hold_everything_that_changes_answers(shipped: Config) -> None:
+    """R18: the run block and ranking enter Run.caps; concurrency, retries, allowances do not."""
+    caps = shipped.caps.run_input_caps()
+    assert caps["max_tokens"]["specialist_bulk"] == 6144
+    assert caps["severity_reserve_usd"] == 0.15
+    assert caps["ranking"] == {"outside_library_default_frequency_per_year": 0.1}
+    for left_out in ("concurrency", "gateway", "uses", "environments", "phase_caps_usd"):
+        assert left_out not in caps
 
 
 def test_budget_split(shipped: Config) -> None:
@@ -185,6 +253,51 @@ def test_unknown_cap_key(config_dir: Path) -> None:
     _refused(config_dir, "caps.yaml")
 
 
+def test_max_tokens_for_an_unknown_job(config_dir: Path) -> None:
+    _edit(config_dir, "caps.yaml", r"^    test5a: 8192", "    test5a: 8192\n    poetry: 100")
+    _refused(config_dir, "caps.yaml")
+
+
+def test_concurrency_must_cover_every_tier(config_dir: Path) -> None:
+    _edit(
+        config_dir,
+        "caps.yaml",
+        r"^concurrency: .*$",
+        "concurrency: {ultra: 3, super: 3, lightning: 5}",
+    )
+    _refused(config_dir, "caps.yaml")
+
+
+def test_backoff_has_one_wait_per_retry(config_dir: Path) -> None:
+    _edit(config_dir, "caps.yaml", r"backoff_seconds: \[1, 2\]", "backoff_seconds: [1]")
+    _refused(config_dir, "caps.yaml")
+
+
+def test_severity_reserve_below_the_run_cap(config_dir: Path) -> None:
+    _edit(config_dir, "caps.yaml", r"severity_reserve_usd: 0\.15", "severity_reserve_usd: 1.00")
+    _refused(config_dir, "caps.yaml")
+
+
+def test_batch_size_for_an_unknown_tier(config_dir: Path) -> None:
+    _edit(config_dir, "caps.yaml", r"^    nano: 10", "    nano: 10\n    mega: 10")
+    _refused(config_dir, "caps.yaml")
+
+
+def test_prompt_version_without_its_file(config_dir: Path) -> None:
+    _edit(config_dir, "routing.yaml", r"section_suggestion: v1$", "section_suggestion: v9")
+    _refused(config_dir, "routing.yaml")
+
+
+def test_tier_without_request_settings(config_dir: Path) -> None:
+    _edit(
+        config_dir,
+        "models.yaml",
+        r"^    request: \{structured_output: json_schema, reasoning: false, (.*)\n",
+        "",
+    )
+    _refused(config_dir, "models.yaml")
+
+
 def test_missing_file(config_dir: Path) -> None:
     (config_dir / "routing.yaml").unlink()
     _refused(config_dir, "routing.yaml")
@@ -195,5 +308,5 @@ def test_no_caps_in_code() -> None:
     source = (Path(__file__).resolve().parents[1] / "guideword" / "config.py").read_text(
         encoding="utf-8"
     )
-    for literal in ("19", "25", "0.65", "0.05", "80000"):
+    for literal in ("19", "25", "0.65", "0.05", "80000", "0.15", "6144", "0.1", "5.00"):
         assert re.search(rf"(?<![\w.]){re.escape(literal)}(?![\w.])", source) is None, literal
