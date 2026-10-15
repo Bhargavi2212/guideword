@@ -44,6 +44,7 @@
       "output_tokens": 90,
       "latency_ms": 810.0,
       "cost_usd": 0.00006,
+      "cap_cost_usd": 0.00006,
       "attempts": 1,
       "raw_response": "{}",
       "reasoning_text": null,
