@@ -138,14 +138,14 @@ Utilities, locations, instruments, logic solvers, valves (other than as line com
   - `PUT /plants/{id}/sections` with `ConfirmSectionsRequest` (a list of `Section` records: accepted, rejected or edited suggestions already applied by the client, renames, engineer-added sections) → `ConfirmSectionsResult` (record ID, status, section IDs). Every section's `plant_record_id` must equal `{id}`. Issues from `check_confirmed` → 409 `ErrorBody` whose `detail` lists each issue on its own line as `<code> <object id>: <message>`. Otherwise the set is stored, `PlantRecord.confirmed_section_ids` is set, and the status → `sections_confirmed`. A later propose or PUT replaces the stored set and moves the status accordingly (P5): a propose after confirm stores the new rule cut, clears `confirmed_section_ids` and moves the status back to `sections_proposed` (existing runs keep their own snapshots); a PUT is allowed from any status, including straight after upload, with `check_confirmed` as the guard.
 
 **Acceptance (tests first)**
-- [ ] With `FakeSuggester`: a valid split `section_ids=["S-L-12~P-1", "S-L-12~HV-12"]` creates `S-L-12~HV-12`; a merge keeps the lowest ID; a purpose is set. Each carries its reason as `suggestion_reason` and `drawn_by: "suggestion"`.
-- [ ] Each rejection rule above produces a rejected suggestion with its reason, and the endpoint logs it; none raises.
-- [ ] A merge that includes a flagged no-flow section is rejected.
-- [ ] Each `check_confirmed` rule has a test that produces exactly that issue with the offending ID.
-- [ ] Q9 on the §9 example: a valid split passes, a dropped empty first part fails, a dropped equipment section fails, a dropped later part fails, and a merge of two parts of one line passes.
-- [ ] Propose then PUT on the §9 example moves the plant `uploaded → sections_proposed → sections_confirmed`; the stored sections read back identical.
-- [ ] Renaming a section in the PUT body keeps its ID.
-- [ ] The prompt file exists, asks for the schema and a reason, and is not called by any code in this phase (test: nothing imports a model client).
+- [x] With `FakeSuggester`: a valid split `section_ids=["S-L-12~P-1", "S-L-12~HV-12"]` creates `S-L-12~HV-12`; a merge keeps the lowest ID; a purpose is set. Each carries its reason as `suggestion_reason` and `drawn_by: "suggestion"`.
+- [x] Each rejection rule above produces a rejected suggestion with its reason, and the endpoint logs it; none raises.
+- [x] A merge that includes a flagged no-flow section is rejected.
+- [x] Each `check_confirmed` rule has a test that produces exactly that issue with the offending ID.
+- [x] Q9 on the §9 example: a valid split passes, a dropped empty first part fails, a dropped equipment section fails, a dropped later part fails, and a merge of two parts of one line passes.
+- [x] Propose then PUT on the §9 example moves the plant `uploaded → sections_proposed → sections_confirmed`; the stored sections read back identical.
+- [x] Renaming a section in the PUT body keeps its ID.
+- [x] The prompt file exists, asks for the schema and a reason, and is not called by any code in this phase (test: nothing imports a model client).
 
 ## 1.4 Question builder
 

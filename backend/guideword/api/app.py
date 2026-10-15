@@ -18,9 +18,16 @@ from fastapi.responses import JSONResponse, Response
 
 from guideword.api import models as api
 from guideword.api.mock import DEFAULT_FIXTURES, XLSX_MEDIA_TYPE, MockStore, worksheet_xlsx
+from guideword.logs import get_logger
 from guideword.reference import ReferenceSet, load_reference_set
 from guideword.runs.db import make_session_factory
-from guideword.runs.plants import PlantRepository, load_plant, not_stated_issues, plant_facts
+from guideword.runs.plants import (
+    PlantRepository,
+    StoredPlant,
+    load_plant,
+    not_stated_issues,
+    plant_facts,
+)
 from guideword.schema import ids
 from guideword.schema.enums import (
     PlantStatus,
@@ -32,14 +39,16 @@ from guideword.schema.enums import (
 )
 from guideword.schema.records import Override, Question, Run
 from guideword.schema.validate import Issue, validate_plant
+from guideword.sections.confirm import check_confirmed
+from guideword.sections.rules import rule_cut
+from guideword.sections.suggest import NullSuggester, Suggester, check_suggestions
 from guideword.settings import Settings
 
 Clock = Callable[[], datetime]
+log = get_logger(__name__)
 
 # The phase that builds each endpoint for real (PROJECT.md §15); a 501 names it.
 NOT_BUILT_PHASE: dict[tuple[str, str], int] = {
-    ("POST", "/plants/{id}/sections/propose"): 1,
-    ("PUT", "/plants/{id}/sections"): 1,
     ("GET", "/runs"): 2,
     ("POST", "/runs"): 2,
     ("POST", "/runs/{id}/cancel"): 2,
@@ -81,8 +90,11 @@ def create_app(
     settings: Settings | None = None,
     clock: Clock | None = None,
     fixtures_dir: Path | None = None,
+    suggester: Suggester | None = None,
 ) -> FastAPI:
     settings = settings if settings is not None else Settings()
+    # Phase 1 has no live suggester; Phase 2 passes the gateway one
+    suggester = suggester if suggester is not None else NullSuggester()
     now: Clock = clock if clock is not None else (lambda: datetime.now(UTC))
     store = MockStore(fixtures_dir or DEFAULT_FIXTURES) if settings.guideword_mock else None
     app = FastAPI(
@@ -176,17 +188,50 @@ def create_app(
             sections=stored.sections,
         )
 
+    def stored_plant(record_id: str) -> StoredPlant:
+        stored = plant_store().get(record_id)
+        if stored is None:
+            raise ApiError(404, f"no plant {record_id}")
+        return stored
+
     @app.post("/plants/{id}/sections/propose", response_model=api.SectionProposal, responses=ERRORS)
     def propose_sections(id: str) -> api.SectionProposal:
-        mock = need("POST", "/plants/{id}/sections/propose")
-        plant_of(mock, id)
-        return mock.section_proposal
+        if store is not None:
+            plant_of(store, id)
+            return store.section_proposal
+        plant = stored_plant(id).record.plant_file
+        sections = rule_cut(plant, id)
+        valid, rejected = check_suggestions(plant, sections, suggester.suggest(plant, sections))
+        for suggestion, reason in rejected:
+            log.info(
+                "section suggestion rejected",
+                extra={
+                    "context": {
+                        "plant_record_id": id,
+                        "suggestion": suggestion.model_dump(mode="json"),
+                        "reason": reason,
+                    }
+                },
+            )
+        # the rule cut is the plant's current set; a propose after confirm clears it (P5)
+        plant_store().set_sections(id, sections, PlantStatus.SECTIONS_PROPOSED)
+        return api.SectionProposal(plant_record_id=id, sections=sections, suggestions=valid)
 
     @app.put("/plants/{id}/sections", response_model=api.ConfirmSectionsResult, responses=ERRORS)
     def confirm_sections(id: str, request: api.ConfirmSectionsRequest) -> api.ConfirmSectionsResult:
-        mock = need("PUT", "/plants/{id}/sections")
-        plant_of(mock, id)
-        return mock.confirm_sections_result
+        if store is not None:
+            plant_of(store, id)
+            return store.confirm_sections_result
+        plant = stored_plant(id).record.plant_file
+        issues = check_confirmed(plant, id, request.sections)
+        if issues:
+            raise ApiError(409, "\n".join(f"{i.code} {i.object_id}: {i.message}" for i in issues))
+        plant_store().confirm(id, request.sections)
+        return api.ConfirmSectionsResult(
+            plant_record_id=id,
+            status=PlantStatus.SECTIONS_CONFIRMED,
+            section_ids=[s.id for s in request.sections],
+        )
 
     # --- runs -----------------------------------------------------------------------------
 
