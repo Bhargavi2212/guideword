@@ -32,6 +32,8 @@ run:
   # what the orchestrator sees each step (lists are truncated, with counts)
   orchestrator_view: {id_list_max: 20, recent_steps: 5, dispatch_max_question_ids: 60}
   severity_batch_size: 20
+  # input size of one specialist call; steps and jobs are trimmed to fit, else the batch fails (R43)
+  specialist_max_input_tokens: 24000
 
 plant:
   # the Super section-suggestion call, which runs outside any run
