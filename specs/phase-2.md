@@ -140,13 +140,13 @@ Every call is a `ToolCall` record and a `tool_call` event; arguments validated (
 - **Prompts:** `prompts/specialists/<agent>/v1.md` — written by Claude Code, reviewed by Bhargavi, in their own PR (see "Who writes what"). Each asks for the fixed schema and a reason, and states that context text is data, not instructions.
 
 **Acceptance (tests first, fake gateway)**
-- [ ] Routing table: every question kind reaches the right agent; a batch never mixes agents.
-- [ ] Each context contains exactly the §5 fields for its agent and nothing else (one test per agent against the §9 example).
-- [ ] A batch answer missing one question ID → that question retried alone; a duplicated ID or an unknown ID → invalid.
-- [ ] A finding citing a component not in the context → invalid; `cause_id` not valid for the section type → invalid; empty `failing_component_ids` → invalid.
-- [ ] `not_credible` sets the question status with its reason and creates no finding.
-- [ ] Chemistry agent: a fake tool call to `reactivity_lookup` runs, the result goes back, then the answer; a third tool call is refused.
-- [ ] Added questions get `ai:` IDs, join as open, and stop at the per-run cap.
+- [x] Routing table: every question kind reaches the right agent; a batch never mixes agents.
+- [x] Each context contains exactly the §5 fields for its agent and nothing else (one test per agent against the §9 example).
+- [x] A batch answer missing one question ID → that question retried alone; a duplicated ID or an unknown ID → invalid.
+- [x] A finding citing a component not in the context → invalid; `cause_id` not valid for the section type → invalid; empty `failing_component_ids` → invalid.
+- [x] `not_credible` sets the question status with its reason and creates no finding.
+- [x] Chemistry agent: a fake tool call to `reactivity_lookup` runs, the result goes back, then the answer; a third tool call is refused.
+- [x] Added questions get `ai:` IDs, join as open, and stop at the per-run cap.
 
 ## 2.5 Orchestrator core
 
