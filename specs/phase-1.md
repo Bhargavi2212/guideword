@@ -253,8 +253,8 @@ PRs 3 and 4 can run in parallel after PR 2. 1.8 is not code and runs alongside.
 
 ## Done when
 
-- [ ] Every acceptance box above is ticked, CI green on `main`.
-- [ ] The question counts on D–H match `expected_counts.json` exactly.
+- [ ] Every acceptance box above is ticked, CI green on `main`. (2026-10-15: CI green on `main` (G7) and every 1.1–1.7 box ticked; open only because the 1.8 video script is deferred, decision G4.)
+- [x] The question counts on D–H match `expected_counts.json` exactly.
 - [ ] `docs/video-script.md` is written.
-- [ ] Phase 1 spent $0.00 (ledger unchanged).
-- [ ] Every decision taken in this phase has a dated line in `docs/decisions.md`.
+- [x] Phase 1 spent $0.00 (ledger unchanged).
+- [x] Every decision taken in this phase has a dated line in `docs/decisions.md`.
