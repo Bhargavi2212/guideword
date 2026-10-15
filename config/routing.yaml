@@ -12,4 +12,8 @@ jobs:
   specialist_bulk: lightning
   not_credible: lightning
   extraction: lightning
+  test5a: ultra
+# prompt name -> version; a change is a new prompts/<name>/<version>.md plus this entry (R19)
+prompts:
+  section_suggestion: v1
 fallback_order: [nano, lightning, super, ultra]

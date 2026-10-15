@@ -1,21 +1,26 @@
 # The four Nemotron tiers on Nebius Token Factory (spec 0.2, PROJECT.md section 6).
 # expected_id is an expectation: code confirms it against the live model list (smoke test T1).
-# Prices are US dollars per 1M tokens as of prices_as_of.
+# Prices are US dollars per 1M tokens as of prices_as_of. `request` holds each tier's call
+# settings from the smoke-test decisions; tools_with_schema is set by the gateway check (R34).
 prices_as_of: "2026-10-11"
 tiers:
   ultra:
     expected_id: nvidia/Nemotron-3-Ultra-550b-a55b
     input_usd_per_1m: 1.00
     output_usd_per_1m: 3.00
+    request: {structured_output: json_schema, reasoning: true, tool_calling: native, tools_with_schema: true}
   super:
     expected_id: nvidia/nemotron-3-super-120b-a12b
     input_usd_per_1m: 0.30
     output_usd_per_1m: 0.90
+    request: {structured_output: json_schema, reasoning: true, tool_calling: native, tools_with_schema: true}
   lightning:
     expected_id: nvidia/Nemotron-3_5-Lightning
     input_usd_per_1m: 0.06
     output_usd_per_1m: 0.24
+    request: {structured_output: json_schema, reasoning: false, tool_calling: native, tools_with_schema: true}
   nano:
     expected_id: nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B
     input_usd_per_1m: 0.06
     output_usd_per_1m: 0.24
+    request: {structured_output: json_schema, reasoning: false, tool_calling: native, tools_with_schema: true}
