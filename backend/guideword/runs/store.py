@@ -65,15 +65,24 @@ def base_run_id(run_id: str) -> str:
 
 
 class StepWriter:
-    """The writes of one step, in one transaction. Events get the next `seq` of the run."""
+    """The writes of one step, in one transaction. Events get the next `seq` of the run.
+
+    Nothing is written to the database until the step commits (autoflush is off, new rows
+    wait in the session), so a step holds no write lock while it makes model calls and the
+    cache can commit each response on its own. The read helpers include the pending writes.
+    """
 
     def __init__(self, session: Session, run_row: RunRow, clock: Clock) -> None:
+        session.autoflush = False
         self._session = session
         self._row = run_row
         self._clock = clock
         self.run = Run.model_validate(run_row.record)
         latest = session.scalar(select(func.max(EventRow.seq)).where(EventRow.run_id == run_row.id))
         self._seq = int(latest or 0)
+        # rows added in this step and not yet written, by table, in the order added
+        self._new: dict[type[RunRecordRow], dict[str, RunRecordRow]] = {}
+        self._stored_count: dict[type[RunRecordRow], int] = {}
 
     # --- the run ---------------------------------------------------------------------------
 
@@ -117,17 +126,17 @@ class StepWriter:
 
     def put_question(self, question: Question) -> None:
         """Add a question or store its new status; a question is never removed."""
-        _put(self._session, QuestionRow, self.run.id, question)
+        self._put(QuestionRow, question)
 
     def add_finding(self, finding: Finding) -> None:
-        _put(self._session, FindingRow, self.run.id, finding)
+        self._put(FindingRow, finding)
         self.emit(
             EventType.FINDING_ADDED,
             {"finding_id": finding.id, "question_id": finding.question_id, "tier": finding.tier},
         )
 
     def add_step(self, step: AgentStep) -> None:
-        _put(self._session, AgentStepRow, self.run.id, step)
+        self._put(AgentStepRow, step)
         self.emit(
             EventType.AGENT_DECISION,
             {"step_id": step.id, "agent": step.agent, "tool": step.tool, "reason": step.reason},
@@ -135,7 +144,7 @@ class StepWriter:
 
     def add_model_call(self, call: ModelCall, *, fell_back_from: Sequence[str] = ()) -> None:
         """`fell_back_from` names the tiers skipped because they left the catalog."""
-        _put(self._session, ModelCallRow, self.run.id, call)
+        self._put(ModelCallRow, call)
         payload: dict[str, Any] = {
             "model_call_id": call.id,
             "job": call.job,
@@ -148,8 +157,56 @@ class StepWriter:
             payload["fell_back_from"] = [str(t) for t in fell_back_from]
         self.emit(EventType.MODEL_CALL, payload)
 
+    # --- reads within the step (stored rows plus this step's pending ones) ------------------
+
+    def questions(self) -> list[Question]:
+        return self._records(QuestionRow, Question)
+
+    def findings(self) -> list[Finding]:
+        return self._records(FindingRow, Finding)
+
+    def steps(self) -> list[AgentStep]:
+        return self._records(AgentStepRow, AgentStep)
+
+    def tool_calls(self) -> list[ToolCall]:
+        return self._records(ToolCallRow, ToolCall)
+
+    def _records[R: BaseModel](self, table: type[RunRecordRow], model: type[R]) -> list[R]:
+        stored = self._session.scalars(
+            select(table).where(table.run_id == self.run.id).order_by(table.position)
+        ).all()
+        pending = list(self._new.get(table, {}).values())
+        return [model.model_validate(r.record) for r in [*stored, *pending]]
+
+    def _put(self, table: type[RunRecordRow], record: BaseModel) -> None:
+        record_id: str = getattr(record, "id")  # noqa: B009
+        dumped = record.model_dump(mode="json")
+        new = self._new.setdefault(table, {})
+        if record_id in new:
+            new[record_id].record = dumped
+            return
+        row = self._session.get(table, (self.run.id, record_id))
+        if row is not None:
+            row.record = dumped
+            return
+        if table not in self._stored_count:
+            self._stored_count[table] = int(
+                self._session.scalar(
+                    select(func.count()).select_from(table).where(table.run_id == self.run.id)
+                )
+                or 0
+            )
+        row = table(
+            run_id=self.run.id,
+            id=record_id,
+            position=self._stored_count[table] + len(new),
+            record=dumped,
+        )
+        new[record_id] = row
+        self._session.add(row)
+
     def add_tool_call(self, call: ToolCall) -> None:
-        _put(self._session, ToolCallRow, self.run.id, call)
+        self._put(ToolCallRow, call)
         self.emit(
             EventType.TOOL_CALL,
             {
@@ -158,17 +215,6 @@ class StepWriter:
                 "refused": call.refused_reason is not None,
             },
         )
-
-
-def _put(session: Session, table: type[RunRecordRow], run_id: str, record: BaseModel) -> None:
-    record_id: str = getattr(record, "id")  # noqa: B009
-    row = session.get(table, (run_id, record_id))
-    dumped = record.model_dump(mode="json")
-    if row is not None:
-        row.record = dumped
-        return
-    position = session.scalar(select(func.count()).select_from(table).where(table.run_id == run_id))
-    session.add(table(run_id=run_id, id=record_id, position=int(position or 0), record=dumped))
 
 
 class RunRepository:
