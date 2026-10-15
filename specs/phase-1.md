@@ -215,8 +215,8 @@ Procedure and planned-work sections get no matrix questions. No-flow line sectio
 **If a count disagrees:** stop and ask. Do not change the expected file, and do not change the builder to match it. Bhargavi and Cowork find which side breaks the §5 rule, and the fix is a commit with its reason.
 
 **Acceptance**
-- [ ] All five cases match every list count exactly.
-- [ ] `scripts/build_questions.py cases/dev/case_g.json` runs on Windows and prints the counts.
+- [x] All five cases match every list count exactly.
+- [x] `scripts/build_questions.py cases/dev/case_g.json` runs on Windows and prints the counts.
 
 ## 1.7 Determinism and completeness
 
