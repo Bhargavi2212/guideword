@@ -71,6 +71,8 @@ class BatchOutcome:
     tool_calls: list[ToolCall] = field(default_factory=list)
     steps: list[AgentStep] = field(default_factory=list)
     cost_usd: float = 0.0
+    # counted against the run cap (R45)
+    cap_cost_usd: float = 0.0
     dropped_ids: tuple[str, ...] = ()
     fell_back_from: tuple[Tier, ...] = ()
 
@@ -167,7 +169,7 @@ def run_batch(
         return _failed(outcome, batch, str(error), caps.question_max_attempts)
     outcome.dropped_ids = context.dropped_ids
     conversation = _messages(prompt.body, context, questions_text, causes_text, max_added, agent)
-    spent = budget.spent_usd
+    spent = budget.cap_spent_usd
     step_id = previous_step_id
 
     def call(**kwargs: Any) -> GatewayResult:
@@ -178,8 +180,9 @@ def run_batch(
             run=RunBudget(budget.run_id, spent, budget.limit_usd),
             **kwargs,
         )
-        spent += result.cost_usd
+        spent += result.cap_cost_usd
         outcome.cost_usd += result.cost_usd
+        outcome.cap_cost_usd += result.cap_cost_usd
         outcome.model_calls += result.model_calls
         outcome.tier, outcome.fell_back_from = result.tier, result.fell_back_from
         return result
@@ -311,7 +314,7 @@ def run_batch(
             level=level,
             retry_missing=False,
         )
-        spent += alone.cost_usd
+        spent += alone.cap_cost_usd
         _merge(outcome, alone)
     return outcome
 
@@ -329,7 +332,7 @@ def apply_batch(writer: StepWriter, outcome: BatchOutcome) -> None:
         writer.add_finding(finding)
     for question in [*outcome.questions, *outcome.added]:
         writer.put_question(question)
-    writer.add_spent(outcome.cost_usd)
+    writer.add_spent(outcome.cost_usd, cap_usd=outcome.cap_cost_usd)
 
 
 def _arguments(text: str) -> dict[str, Any]:
@@ -436,3 +439,4 @@ def _merge(outcome: BatchOutcome, extra: BatchOutcome) -> None:
     outcome.tool_calls += extra.tool_calls
     outcome.steps += extra.steps
     outcome.cost_usd += extra.cost_usd
+    outcome.cap_cost_usd += extra.cap_cost_usd

@@ -309,7 +309,7 @@ class OrchestratorStepper:
             caps.ai_questions_per_run - sum(1 for q in questions if q.kind.value == "added_by_ai"),
         )
         budget = RunBudget(
-            run.id, writer.run.spent_usd, run.spend_cap_usd - caps.severity_reserve_usd
+            run.id, writer.run.cap_spent_usd, run.spend_cap_usd - caps.severity_reserve_usd
         )
         existing = set(by_id)
         outcomes: list[BatchOutcome | BaseException] = []
@@ -433,11 +433,11 @@ class OrchestratorStepper:
             messages=messages,
             tools=tool_schemas(),
             tool_choice="required",
-            run=RunBudget(run.id, writer.run.spent_usd, limit),
+            run=RunBudget(run.id, writer.run.cap_spent_usd, limit),
         )
         for call in result.model_calls:
             writer.add_model_call(call, fell_back_from=result.fell_back_from)
-        writer.add_spent(result.cost_usd)
+        writer.add_spent(result.cost_usd, cap_usd=result.cap_cost_usd)
         return result
 
     def _record(

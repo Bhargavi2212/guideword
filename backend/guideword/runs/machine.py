@@ -2,19 +2,26 @@
 
 `advance` performs exactly one step of the run's current phase (`analysis`, `severity`,
 `ranked`) through the stepper for that phase, and saves everything the step wrote before
-returning. A step that raises saves nothing, so the next `advance` redoes it.
+returning. A step that raises saves nothing, so the next `advance` redoes it. When a run
+stops, both spend figures are checked against its call records (R45).
 """
 
+import math
 from collections.abc import Mapping
 from dataclasses import dataclass
 from typing import Protocol
 
 from guideword.gateway.client import BudgetRefused
+from guideword.logs import get_logger
 from guideword.runs.store import RunRepository, StepWriter
 from guideword.schema.enums import EventType, RunStatus
 from guideword.schema.records import Run
 
 ENDED = {RunStatus.FINISHED, RunStatus.FAILED, RunStatus.CANCELLED}
+# float sums in a different order differ in the last places; a real mismatch is far larger
+SPEND_TOLERANCE_USD = 1e-9
+
+log = get_logger(__name__)
 
 
 @dataclass(frozen=True)
@@ -48,11 +55,39 @@ def advance(runs: RunRepository, run_id: str, steppers: Mapping[str, Stepper]) -
             EventType.STEP_FINISHED,
             {"step": run.step, "status": writer.run.status, "next_step": writer.run.step},
         )
+        if writer.run.status != RunStatus.RUNNING:
+            spend_matches_records(writer)
         if writer.run.status == RunStatus.FINISHED:
             writer.emit(EventType.RUN_FINISHED, {"spent_usd": writer.run.spent_usd})
         elif writer.run.status == RunStatus.FAILED:
             writer.emit(EventType.RUN_FAILED, {"step": run.step})
         return writer.run.status
+
+
+def spend_matches_records(writer: StepWriter) -> bool:
+    """R45: `spent_usd` is the sum of the call records' `cost_usd` and `cap_spent_usd` the sum
+    of their `cap_cost_usd`. A mismatch is logged as an error; the run's status stands."""
+    calls = writer.model_calls()
+    paid = sum(c.cost_usd for c in calls)
+    counted = sum(c.cap_cost_usd for c in calls)
+    run = writer.run
+    ok = math.isclose(run.spent_usd, paid, abs_tol=SPEND_TOLERANCE_USD) and math.isclose(
+        run.cap_spent_usd, counted, abs_tol=SPEND_TOLERANCE_USD
+    )
+    if not ok:
+        log.error(
+            "run spend does not match its call records",
+            extra={
+                "context": {
+                    "run_id": run.id,
+                    "spent_usd": run.spent_usd,
+                    "records_cost_usd": paid,
+                    "cap_spent_usd": run.cap_spent_usd,
+                    "records_cap_cost_usd": counted,
+                }
+            },
+        )
+    return ok
 
 
 def stop_for_refusal(writer: StepWriter, refused: BudgetRefused) -> StepResult:

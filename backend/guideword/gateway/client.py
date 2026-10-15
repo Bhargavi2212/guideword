@@ -20,8 +20,8 @@ from typing import Any, Literal
 
 from pydantic import BaseModel, ValidationError
 
-from guideword.config import Config
-from guideword.gateway.cache import ResponseCache
+from guideword.config import Config, TierModel
+from guideword.gateway.cache import Cached, ResponseCache
 from guideword.gateway.catalog import Catalog
 from guideword.gateway.estimate import cost_usd, estimate_cost
 from guideword.gateway.ledgers import Ledger
@@ -49,11 +49,12 @@ class BudgetRefused(RuntimeError):
 
 @dataclass(frozen=True)
 class RunBudget:
-    """The run a call belongs to: its ID, what it has spent, and the limit for this phase
-    (the spend cap, or the cap minus the severity reserve during analysis, R38)."""
+    """The run a call belongs to: its ID, what it has counted against its cap (paid calls plus
+    cache hits at their stored cost, R45), and the limit for this phase (the spend cap, or the
+    cap minus the severity reserve during analysis, R38)."""
 
     run_id: str
-    spent_usd: float
+    cap_spent_usd: float
     limit_usd: float
 
 
@@ -67,7 +68,10 @@ class GatewayResult:
     content: str | None = None
     tool_calls: tuple[ToolCallRequest, ...] = ()
     error: str | None = None
+    # money actually paid
     cost_usd: float = 0.0
+    # counted against the run cap: paid cost plus cache hits at their stored cost (R45)
+    cap_cost_usd: float = 0.0
     cache_hit: bool = False
     fell_back_from: tuple[Tier, ...] = ()
     # one record per request sent or served from cache (a validation retry is a second one)
@@ -82,6 +86,7 @@ class _Sent:
     latency_ms: float
     cost_usd: float
     error: str | None
+    cap_cost_usd: float = 0.0
 
 
 class Gateway:
@@ -141,7 +146,7 @@ class Gateway:
             fell_back_from=resolved.fell_back_from,
         )
         conversation = list(messages)
-        spent_so_far = run.spent_usd if run is not None else 0.0
+        spent_so_far = run.cap_spent_usd if run is not None else 0.0
         for attempt in (1, 2):
             budget = RunBudget(run.run_id, spent_so_far, run.limit_usd) if run is not None else None
             request = self._request(
@@ -150,8 +155,9 @@ class Gateway:
             sent = self._send_once(
                 job, prompt_version, resolved.tier, resolved.model_id, request, tools, budget
             )
-            spent_so_far += sent.cost_usd
+            spent_so_far += sent.cap_cost_usd
             result.cost_usd += sent.cost_usd
+            result.cap_cost_usd += sent.cap_cost_usd
             result.cache_hit = sent.cache_hit
             outcome, value, content, error = self._validate(sent, schema, tools, validator)
             if run is not None:
@@ -231,10 +237,12 @@ class Gateway:
         run: RunBudget | None,
     ) -> _Sent:
         key = ids.cache_key(model_id, prompt_version, _exact_input(request))
+        prices = self.config.models.tiers[tier]
         cached = self._cache.get(key)
         if cached is not None:
-            return _Sent(cached, True, 1, 0.0, 0.0, None)
-        prices = self.config.models.tiers[tier]
+            return _Sent(
+                cached.reply, True, 1, 0.0, 0.0, None, self._stored_cost(key, cached, prices)
+            )
         estimate = estimate_cost(prices, request["messages"], tools, request["max_tokens"])
         with self._hold(run, estimate.cost_usd):
             started = self._timer()
@@ -242,8 +250,8 @@ class Gateway:
             latency_ms = (self._timer() - started) * 1000
             if reply is None:
                 return _Sent(None, False, attempts, latency_ms, 0.0, error)
-            self._cache.put(key, model_id, prompt_version, reply)
             cost = cost_usd(prices, reply.input_tokens, reply.output_tokens)
+            self._cache.put(key, model_id, prompt_version, reply, cost)
             self._ledger.append(
                 SpendEntry(
                     ts=self._clock(),
@@ -259,7 +267,24 @@ class Gateway:
                     purpose=job if run is None else f"{job} {run.run_id}",
                 )
             )
-            return _Sent(reply, False, attempts, latency_ms, cost, None)
+            return _Sent(reply, False, attempts, latency_ms, cost, None, cost)
+
+    def _stored_cost(self, key: str, cached: Cached, prices: TierModel) -> float:
+        """What a cache hit counts against the run cap: the cost stored with the entry. An
+        entry written before R45 has none: it is worked out once from the entry's tokens and
+        stored, so every later hit reads the same figure."""
+        if cached.cost_usd is not None:
+            return cached.cost_usd
+        if not cached.has_tokens:
+            log.warning(
+                "cached response has no stored cost and no token counts",
+                extra={"context": {"cache_key": key}},
+            )
+            return 0.0
+        cost = cost_usd(prices, cached.reply.input_tokens, cached.reply.output_tokens)
+        self._cache.store_cost(key, cost)
+        log.info("cache cost backfill", extra={"context": {"cache_key": key, "cost_usd": cost}})
+        return cost
 
     def _send_with_retries(
         self, job: str, tier: Tier, request: dict[str, Any]
@@ -297,7 +322,7 @@ class Gateway:
             held_all = sum(a for _, a in self._holds.values())
             if run is not None:
                 held_run = sum(a for r, a in self._holds.values() if r == run.run_id)
-                if run.spent_usd + held_run + amount > run.limit_usd:
+                if run.cap_spent_usd + held_run + amount > run.limit_usd:
                     raise BudgetRefused(
                         f"run {run.run_id} limit ${run.limit_usd:.2f} would be exceeded",
                         RunStatus.STOPPED_CAP,
@@ -391,6 +416,7 @@ class Gateway:
             output_tokens=reply.output_tokens if reply is not None else 0,
             latency_ms=sent.latency_ms,
             cost_usd=sent.cost_usd,
+            cap_cost_usd=sent.cap_cost_usd,
             attempts=sent.attempts,
             raw_response=json.dumps(reply.raw if reply is not None else {"error": sent.error}),
             reasoning_text=reply.reasoning if reply is not None else None,
