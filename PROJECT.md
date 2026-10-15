@@ -88,12 +88,12 @@ After the engineer confirms the sections, **an orchestrator agent (Nemotron Ultr
 
 | Specialist agent | Gets only | Answers |
 |---|---|---|
-| Process deviations | Sections, operating values, alarm/trip setpoints, design limits, control loops with valve fail positions, safeguards, relief devices | Guideword × parameter questions; relief discharge questions |
-| Chemical interactions | Chemical list, properties, reactivity groups, and where each chemical is present (the equipment and lines whose contents list it, and the injection points that add it) | Every pair, plus water, air, heat |
-| Piping and no-flow lines | Line list, no-flow lines (non-empty `no_flow`), injection points on lines and equipment | What builds up, what is missing |
+| Process deviations | Sections, operating values, alarm/trip setpoints, design limits, control loops with valve fail positions, safeguards, relief devices, and the procedure steps and planned jobs that act on them (rule R40) | Guideword × parameter questions; relief discharge questions |
+| Chemical interactions | Chemical list, properties, reactivity groups, and where each chemical is present (the equipment and lines whose contents list it, and the injection points that add it), and the procedure steps and planned jobs that act on them (rule R40) | Every pair, plus water, air, heat |
+| Piping and no-flow lines | Line list, no-flow lines (non-empty `no_flow`), injection points on lines and equipment, and the procedure steps and planned jobs that act on them (rule R40) | What builds up, what is missing |
 | Procedures | Start-up, shutdown, charging steps | Each step × time and sequence deviations |
 | Maintenance work | Planned jobs and their surroundings | Hot work, overlapping jobs, isolation |
-| Dust and ignition | Solids handling, hot surfaces, dust collection | Explosion and how it spreads |
+| Dust and ignition | Solids handling, hot surfaces, dust collection, and the procedure steps and planned jobs that act on them (rule R40) | Explosion and how it spreads |
 
 Every answer is a **finding**: cause (a cause-library ID bound to the specific failing component IDs in this plant, e.g. C01 + `TV-1`; or a new cause tagged "outside library, needs evidence", with its failing component IDs), consequence, existing protection, whether protection is adequate, confidence (sure / unsure), and optional not-credible reason.
 

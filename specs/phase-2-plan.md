@@ -256,6 +256,7 @@ Their content is mine to draft and yours to review, tuned only on D–H.
   - the list of plant IDs the agent may cite;
   - **chemistry (R5, decided):** where each chemical is present: the equipment and lines whose `contents` list it, and the injection points on equipment and lines that add it, with their IDs (and each holder's location ID), so a finding can cite where two chemicals meet;
   - **process (R6):** the name and physical form of each chemical in an in-scope `contents` list.
+  - **every agent (R40):** the procedure steps and planned jobs that act on its objects (rule in R40), ordered by ID, trimmed to `specialist_max_input_tokens` from the end with the dropped IDs logged, or the batch fails if it still does not fit (R43).
 - **`schema.py`:**
   - **Answer schema:** per question ID, either `not_credible {reason}` or `findings[]` with `cause_id`, `cause_text?`, `failing_component_type`, `failing_component_ids`, `consequence`, `safeguard_ids`, `adequacy`, `confidence` and `reason`. Optionally `added_questions[] {section_id, text}`.
   - **Length caps:** consequence, reason and text are capped in this internal schema.
@@ -265,6 +266,7 @@ Their content is mine to draft and yours to review, tuned only on D–H.
     - component and safeguard IDs must be in the context;
     - `cause_id` must be valid for what the question is about (R7, decided): matrix, `nf:`, `relief:` and `dust:` check the question's section type against `applies_to`; `pair:` and `env:` accept any library cause; `work:` accepts `planned_work` or the target's section type; `proc:` accepts `procedure`; `outside_library` with `cause_text` is always allowed;
     - `failing_component_ids` must not be empty;
+    - an operator cause must name a step or job ID from this agent's packet (R40, R41);
     - two findings with the same finding ID are invalid (R8).
 - **`run.py`, `run_batch(gateway, run, agent, questions, tier)`:**
   - **Tool loop:** at most `specialist_max_tool_steps` tool calls per batch (R33), then the answer in the schema. Chemistry has `reactivity_lookup` in this phase, and other agents get no tools. A third tool call is refused. Two paths, chosen by the tier's `request.tools_with_schema` (R34): tools and schema in one request, or the tool call without a schema and then the answer with it.
@@ -283,6 +285,7 @@ Their content is mine to draft and yours to review, tuned only on D–H.
   - `test_cause_validity_per_question_kind` (R7: one case each for matrix, `nf:`, `relief:`, `dust:`, `pair:`, `env:`, `work:`, `proc:`, and outside library);
   - `test_empty_failing_components_invalid`;
   - `test_duplicate_finding_id_invalid` (R8).
+- **Steps and jobs (R40, R43):** per agent, `test_<agent>_includes_a_step_in_scope_and_excludes_one_outside`; `test_chemistry_step_matched_through_equipment_contents`; `test_job_matched_through_reach`; `test_unlocated_job_never_matches`; `test_operator_cause_naming_a_step_outside_the_packet_is_invalid`; `test_steps_and_jobs_dropped_from_the_end_and_logged`; `test_batch_over_the_cap_with_nothing_left_to_drop_fails`.
 - **Outcomes:**
   - `test_not_credible_sets_status_and_reason_no_finding`;
   - `test_chemistry_tool_call_runs_result_returned_then_answer`;
@@ -454,6 +457,10 @@ Each gets a dated line in `docs/decisions.md`, in PR 0 unless noted.
 | R37 | Kill test #4 is **not re-scored**. The #4 configuration is Ultra: report the rank of the real cause per case as recorded in the file, plus Bhargavi's hand review from `PROJECT.md` §20 (2 of 4 unrecognised cases in the top 3; 3 counting the under-ranked dead leg). Case H was recognised by Ultra and is excluded. Nano's rows are reported but are not the #4 configuration. |
 | R38 | A run stopped by a cap during severity is reported and not scored until Bhargavi decides. The run caps gain `severity_reserve_usd: 0.15` (it enters `Run.caps`): the orchestrator phase stops at the run cap minus the reserve, so severity can finish. |
 | R39 | Approved: PR 9a regenerates only `frontend/src/api/types.ts`, and its description tells the frontend session to rebase. |
+| R40 | Added Oct 15 (found while checking case G; same class as R5, not tuning). Every specialist context gains the procedure steps and planned jobs that act on its objects, chosen by code: a step that names an equipment, valve or line ID in the agent's scope (chemistry: equipment whose contents include the chemical and lines carrying it; dust: equipment holding the dust); a job whose Phase 1 within-reach set overlaps the scope (unlocated jobs never match). Per step: ID, procedure ID, its words verbatim inside the data delimiters, equipment and valve IDs; per job: ID, type, line IDs; ordered by ID. An operator cause must name a step or job from that agent's packet. `PROJECT.md` §5 rows for process, chemistry, piping and dust updated. Log entry, word for word: "R40 — found while checking case G (dev, G2). Needed for valid findings under the frozen §5 failing-component rule, not tuning: no prompt wording, threshold or case-specific content changed. Same class as R5." |
+| R41 | The R40 operator-cause guard lives in the answer validator with the other answer checks: invalid, one retry with the error, the reason on the model call record (not `ToolCall.refused_reason`; an answer is not a tool call). |
+| R42 | R8 still applies within one answer; across answers the same finding ID is stored once; different questions naming the same step stay separate findings. No extra dedupe logic. |
+| R43 | `run.specialist_max_input_tokens: 24000` (in the run-ID hash). Steps and jobs are dropped from the end in ID order until the batch fits, with the dropped IDs on the `dispatch` event and in the log. If it still does not fit with all of them dropped, the batch fails (no oversized call, nothing else dropped, a `dispatch` event with status failed; its questions count one attempt). `run_case.py` and the test #5 results report the dropped count per run. Input cost at the cap: about $0.0014 Lightning, $0.0072 Super, $0.024 Ultra. |
 
 ### Still open: your confirmations (PR 0 can merge only after these)
 
