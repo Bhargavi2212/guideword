@@ -131,6 +131,7 @@ def test_prompt_versions_name_existing_files(shipped: Config) -> None:
     assert shipped.routing.prompts == {
         "orchestrator": "v1",
         "section_suggestion": "v1",
+        "severity": "v1",
         **{
             f"specialists/{a}": "v1"
             for a in ("process", "chemistry", "piping", "procedures", "maintenance", "dust")
