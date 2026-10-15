@@ -152,7 +152,7 @@ Docs, ticks and records only, no code. Each item uses an answer from you (G1–G
 - `test_start_on_unconfirmed_plant_is_refused`; `test_start_stores_questions_equal_to_the_builder`, on the §9 example: 98 questions and 9 sections.
 - `test_identical_inputs_while_running_return_the_same_run`; `test_after_cancel_a_new_start_is_attempt_2`; `test_stopped_cap_with_a_higher_cap_resumes_the_same_run`; `test_stopped_cap_without_a_higher_cap_is_refused`.
 - `test_run_id_matches_its_stored_inputs` (`Run` validates it).
-- `test_advance_after_a_crash_continues_from_the_saved_step`: a stepper that raises after recording one call, then a fresh repository on the same DB file. No model call is repeated (the fake gateway counts calls).
+- `test_advance_after_a_crash_continues_from_the_saved_step`: a stepper that raises after writing a record saves nothing; a fresh repository on the same DB file redoes the step. (Changed during the build, Oct 15: the "no model call is repeated" half needs the response cache, which lives with the gateway, so it moved to PR 2 as `test_crash_after_a_call_repeats_no_call`.)
 - `test_events_are_contiguous_from_1_and_every_record_has_its_event`.
 - `test_phase_2_event_types` (R32: the emitted set equals `EventType` minus `chain_added`, `lopa_done` and `evidence_added`; checked again after PR 8).
 - `test_cancelled_run_does_nothing_on_advance`.
@@ -201,7 +201,7 @@ Docs, ticks and records only, no code. Each item uses an answer from you (G1–G
 
 **Tests first** (`backend/tests/gateway/`)
 - **Route:** `test_missing_tier_falls_back_and_logs`; `test_past_shutdown_date_counts_as_missing`; `test_model_list_fetched_once`.
-- **Cache:** `test_second_identical_call_costs_zero_and_is_a_hit`; `test_prompt_version_or_one_character_or_max_tokens_change_misses`.
+- **Cache:** `test_second_identical_call_costs_zero_and_is_a_hit`; `test_prompt_version_or_one_character_or_max_tokens_change_misses`; `test_crash_after_a_call_repeats_no_call` (moved from PR 1: a step that calls the fake client and then raises; the next `advance` gets a cache hit, and the fake counts one call). The cache row is committed on its own, outside the step's transaction, so a failed step never loses a paid response.
 - **Budget:**
   - `test_over_run_cap_refused_run_stopped_cap_nothing_sent`;
   - `test_over_use_or_environment_allowance_refused_stopped_budget`;
