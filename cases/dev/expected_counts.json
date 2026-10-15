@@ -1,0 +1,67 @@
+{
+  "case_d": {
+    "sections": 25,
+    "matrix": 286,
+    "chemical_pair": 36,
+    "chemical_environment": 27,
+    "no_flow_line": 5,
+    "procedure_step": 0,
+    "planned_work": 0,
+    "dust": 0,
+    "relief_discharge": 8,
+    "added_by_ai": 0,
+    "engineer": 0
+  },
+  "case_e": {
+    "sections": 27,
+    "matrix": 315,
+    "chemical_pair": 55,
+    "chemical_environment": 33,
+    "no_flow_line": 0,
+    "procedure_step": 40,
+    "planned_work": 0,
+    "dust": 0,
+    "relief_discharge": 0,
+    "added_by_ai": 0,
+    "engineer": 0
+  },
+  "case_f": {
+    "sections": 24,
+    "matrix": 225,
+    "chemical_pair": 28,
+    "chemical_environment": 24,
+    "no_flow_line": 0,
+    "procedure_step": 0,
+    "planned_work": 5,
+    "dust": 0,
+    "relief_discharge": 0,
+    "added_by_ai": 0,
+    "engineer": 0
+  },
+  "case_g": {
+    "sections": 17,
+    "matrix": 188,
+    "chemical_pair": 45,
+    "chemical_environment": 30,
+    "no_flow_line": 0,
+    "procedure_step": 20,
+    "planned_work": 0,
+    "dust": 0,
+    "relief_discharge": 0,
+    "added_by_ai": 0,
+    "engineer": 0
+  },
+  "case_h": {
+    "sections": 25,
+    "matrix": 223,
+    "chemical_pair": 15,
+    "chemical_environment": 18,
+    "no_flow_line": 0,
+    "procedure_step": 0,
+    "planned_work": 0,
+    "dust": 14,
+    "relief_discharge": 0,
+    "added_by_ai": 0,
+    "engineer": 0
+  }
+}
