@@ -123,9 +123,9 @@ Every call goes through `Gateway.call(job, prompt_version, messages, schema=None
 Every call is a `ToolCall` record and a `tool_call` event; arguments validated (both IDs must be plant chemicals).
 
 **Acceptance (tests first)**
-- [ ] §9 example SIH × KOH → listed, codes GF and GT from 105 × 106, with the row source.
-- [ ] A pair with no chart row → `not_listed`, never "compatible"; group 107 → `do_not_mix`.
-- [ ] Unknown chemical ID → refused with a reason (tool error goes back to the agent once).
+- [x] §9 example SIH × KOH → listed, codes GF and GT from 105 × 106, with the row source.
+- [x] A pair with no chart row → `not_listed`, never "compatible"; group 107 → `do_not_mix`.
+- [x] Unknown chemical ID → refused with a reason (tool error goes back to the agent once).
 
 ## 2.4 Specialist agents
 
