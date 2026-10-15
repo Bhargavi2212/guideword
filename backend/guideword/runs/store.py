@@ -135,6 +135,16 @@ class StepWriter:
             {"finding_id": finding.id, "question_id": finding.question_id, "tier": finding.tier},
         )
 
+    def fill_severity(self, finding: Finding) -> None:
+        """The one-time severity fill (R10): the stored finding gains its severity and reason.
+        Its event is the severity call's `model_call` event, whose record lists the findings."""
+        stored = {f.id: f for f in self.findings()}.get(finding.id)
+        if stored is None:
+            raise LookupError(f"no finding {finding.id} in this run")
+        if stored.severity_class is not None:
+            raise ValueError(f"{finding.id} already has a severity; it is never overwritten")
+        self._put(FindingRow, finding)
+
     def add_step(self, step: AgentStep) -> None:
         self._put(AgentStepRow, step)
         self.emit(
