@@ -1,6 +1,6 @@
 # Benchmark case template
 
-For the person writing held-out benchmark cases. Each case is one past industrial accident, written as the plant looked **before** the accident, plus a sealed answer key. Cases and keys live in your own private repository (`guideword-heldout`), never in this one, until the benchmark has been run and scored.
+For the person writing held-out benchmark cases. Each case is one past industrial accident, written as the plant looked **before** the accident, plus a sealed answer key. Cases and keys live in the `guideword-heldout` folder outside this repo (owned by Bhargavi, pushed to a private GitHub repo), never in this one, until the benchmark has been run and scored.
 
 This template names no sources and no accidents on purpose.
 
