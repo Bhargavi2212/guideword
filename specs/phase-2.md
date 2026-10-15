@@ -164,11 +164,11 @@ Every call is a `ToolCall` record and a `tool_call` event; arguments validated (
 - **Prompt:** `prompts/orchestrator/v1.md` — Claude Code writes, Bhargavi reviews, own PR.
 
 **Acceptance (tests first, fake gateway with scripted orchestrator decisions)**
-- [ ] `finish` with open questions → refused with the IDs; after they are answered → accepted, run `finished`.
-- [ ] Dispatching an answered question costs no call.
-- [ ] Step cap reached → `stopped_cap`, event `cap_hit`.
-- [ ] The orchestrator's input never contains a finding's consequence text (test on the built context).
-- [ ] A full fake run on the §9 example reaches `finished` with every question answered or not credible.
+- [x] `finish` with open questions → refused with the IDs; after they are answered → accepted, run `finished`.
+- [x] Dispatching an answered question costs no call.
+- [x] Step cap reached → `stopped_cap`, event `cap_hit`.
+- [x] The orchestrator's input never contains a finding's consequence text (test on the built context).
+- [x] A full fake run on the §9 example reaches `finished` with every question answered or not credible.
 
 ## 2.6 Severity and risk-matrix ranking
 
