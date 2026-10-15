@@ -106,7 +106,10 @@ class Run(_Record):
     step: str
     mode: Literal["full", "sample"]
     spend_cap_usd: Annotated[float, Field(gt=0)]
+    # money actually paid, from the call records ($0 on a full cache replay)
     spent_usd: Annotated[float, Field(ge=0)] = 0.0
+    # counted against the cap: paid calls plus cache hits at their stored cost (R45)
+    cap_spent_usd: Annotated[float, Field(ge=0)] = 0.0
     reference_versions: dict[str, str]
     routing_config: dict[str, str]
     caps: dict[str, Any]
@@ -232,16 +235,30 @@ class ModelCall(_Record):
     output_tokens: Annotated[int, Field(ge=0)]
     latency_ms: Annotated[float, Field(ge=0)]
     cost_usd: Annotated[float, Field(ge=0)]
+    # counted against the run cap (R45): cost_usd on a paid call, the cached response's
+    # stored cost on a cache hit; a record without it is a paid call's cost_usd
+    cap_cost_usd: Annotated[float, Field(ge=0)] = 0.0
     # retries of the same input are attempts inside one record
     attempts: Annotated[int, Field(ge=1)] = 1
     raw_response: str
     reasoning_text: str | None = None
     record_ids: list[str] = Field(default_factory=list)
 
+    @model_validator(mode="before")
+    @classmethod
+    def _paid_cap_cost_defaults_to_cost(cls, data: Any) -> Any:
+        if isinstance(data, dict) and "cap_cost_usd" not in data and not data.get("cache_hit"):
+            return {**data, "cap_cost_usd": data.get("cost_usd", 0.0)}
+        return data
+
     @model_validator(mode="after")
     def _cache_hit_costs_nothing(self) -> "ModelCall":
         if self.cache_hit and self.cost_usd != 0:
             raise ValueError("a cache hit costs nothing: cost_usd must be 0")
+        if not self.cache_hit and self.cap_cost_usd != self.cost_usd:
+            raise ValueError(
+                "a paid call counts its cost against the cap: cap_cost_usd == cost_usd"
+            )
         return self
 
 

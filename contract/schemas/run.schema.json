@@ -69,6 +69,12 @@
       "title": "Attempt",
       "type": "integer"
     },
+    "cap_spent_usd": {
+      "default": 0.0,
+      "minimum": 0,
+      "title": "Cap Spent Usd",
+      "type": "number"
+    },
     "caps": {
       "additionalProperties": true,
       "title": "Caps",

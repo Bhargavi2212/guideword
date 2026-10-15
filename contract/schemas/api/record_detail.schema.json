@@ -14,6 +14,12 @@
           "title": "Cache Hit",
           "type": "boolean"
         },
+        "cap_cost_usd": {
+          "default": 0.0,
+          "minimum": 0,
+          "title": "Cap Cost Usd",
+          "type": "number"
+        },
         "cost_usd": {
           "minimum": 0,
           "title": "Cost Usd",

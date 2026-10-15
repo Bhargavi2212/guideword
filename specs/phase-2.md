@@ -188,7 +188,7 @@ Every call is a `ToolCall` record and a `tool_call` event; arguments validated (
 ## 2.7 Live section suggestions
 
 - `GatewaySuggester` (job `section_suggestion`, Super, prompt `section_suggestion/v1`, cap `section_suggest_cap_usd`) replaces `NullSuggester` in the propose endpoint when not in mock mode; the call is logged to the ledger with use `development`.
-- **Rejected suggestions on screen:** add `rejected: list[RejectedSuggestion]` (suggestion + reason) to `SectionProposal` through a `contract/section-rejections` branch and PR (additive; tag `contract-v1.1`). Recommended because the engineer should see what Super proposed and why code refused it; if Bhargavi declines, keep logging only.
+- **Rejected suggestions on screen:** add `rejected: list[RejectedSuggestion]` (suggestion + reason) to `SectionProposal` through a `contract/section-rejections` branch and PR (additive; tag `contract-v1.2`). Recommended because the engineer should see what Super proposed and why code refused it; if Bhargavi declines, keep logging only.
 
 **Acceptance:** fake gateway returns valid and invalid suggestions → valid ones returned, rejected ones returned with reasons (or logged, per the decision); the cap refuses a call that would exceed it.
 

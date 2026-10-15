@@ -878,6 +878,12 @@
             "title": "Cache Hit",
             "type": "boolean"
           },
+          "cap_cost_usd": {
+            "default": 0.0,
+            "minimum": 0.0,
+            "title": "Cap Cost Usd",
+            "type": "number"
+          },
           "cost_usd": {
             "minimum": 0.0,
             "title": "Cost Usd",
@@ -1563,6 +1569,12 @@
             "minimum": 1.0,
             "title": "Attempt",
             "type": "integer"
+          },
+          "cap_spent_usd": {
+            "default": 0.0,
+            "minimum": 0.0,
+            "title": "Cap Spent Usd",
+            "type": "number"
           },
           "caps": {
             "additionalProperties": true,
