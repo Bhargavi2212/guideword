@@ -93,6 +93,7 @@ class RunCaps(_Strict):
     unsure_reanswers_per_run: NonNegativeInt
     orchestrator_view: OrchestratorView
     severity_batch_size: PositiveInt
+    specialist_max_input_tokens: PositiveInt
 
 
 class RankingCaps(_Strict):

@@ -100,6 +100,7 @@ def test_phase_2_run_caps(shipped: Config) -> None:
         "dispatch_max_question_ids": 60,
     }
     assert run.severity_batch_size == 20
+    assert run.specialist_max_input_tokens == 24000
     assert shipped.caps.ranking.outside_library_default_frequency_per_year == 0.1
 
 
@@ -142,6 +143,8 @@ def test_run_input_caps_hold_everything_that_changes_answers(shipped: Config) ->
     caps = shipped.caps.run_input_caps()
     assert caps["max_tokens"]["specialist_bulk"] == 6144
     assert caps["severity_reserve_usd"] == 0.15
+    # R43: it changes what the model sees, so it is hashed into the run ID
+    assert caps["specialist_max_input_tokens"] == 24000
     assert caps["ranking"] == {"outside_library_default_frequency_per_year": 0.1}
     for left_out in ("concurrency", "gateway", "uses", "environments", "phase_caps_usd"):
         assert left_out not in caps
