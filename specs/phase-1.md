@@ -181,14 +181,14 @@ Procedure and planned-work sections get no matrix questions. No-flow line sectio
 `Question.fact_ids` stays empty in this phase. Choosing the facts each specialist needs is Phase 2 work (specialist context), so it is decided there, not guessed here.
 
 **Acceptance (tests first)**
-- [ ] §9 example: exact counts per list, hand-computed in the test file with the arithmetic written out (e.g. matrix = mixer rows + pump rows + tank rows + 4 pipe parts × pipe rows).
-- [ ] Chemical counts: n = 0, 1, 2, 10 give 0, 0, 1, 45 pairs and 0, 3, 6, 30 environment questions.
-- [ ] A no-flow line produces its pipe matrix questions plus exactly one `nf:`.
-- [ ] Procedure steps × 5; the `before` and `after` guidewords never appear in `proc:` IDs.
-- [ ] Within reach: one test per bullet above, including overlapping windows, a missing window (included) and the empty case (`work:<job>:<job>`).
-- [ ] Dust: an equipment item that is a dryer *and* contains combustible dust gets one `dust:` question, not two.
-- [ ] Every ID parses with `ids.parse_question_id`; no duplicates; every question's `section_id` exists in the section set or is none.
-- [ ] Templates never include note text (test with a plant whose notes contain a marker string).
+- [x] §9 example: exact counts per list, hand-computed in the test file with the arithmetic written out (e.g. matrix = mixer rows + pump rows + tank rows + 4 pipe parts × pipe rows).
+- [x] Chemical counts: n = 0, 1, 2, 10 give 0, 0, 1, 45 pairs and 0, 3, 6, 30 environment questions.
+- [x] A no-flow line produces its pipe matrix questions plus exactly one `nf:`.
+- [x] Procedure steps × 5; the `before` and `after` guidewords never appear in `proc:` IDs.
+- [x] Within reach: one test per bullet above, including overlapping windows, a missing window (included) and the empty case (`work:<job>:<job>`).
+- [x] Dust: an equipment item that is a dryer *and* contains combustible dust gets one `dust:` question, not two.
+- [x] Every ID parses with `ids.parse_question_id`; no duplicates; every question's `section_id` exists in the section set or is none.
+- [x] Templates never include note text (test with a plant whose notes contain a marker string).
 
 ## 1.5 Coverage counts
 
@@ -221,11 +221,11 @@ Procedure and planned-work sections get no matrix questions. No-flow line sectio
 ## 1.7 Determinism and completeness
 
 **Acceptance (tests first)**
-- [ ] Building twice gives identical sections and questions (same IDs, same order, same text).
-- [ ] Shuffling every list in the plant file (equipment, lines, chemicals, procedures and so on, but not a line's `components` or a procedure's `steps`, whose order is meaningful) gives the identical section set and question list.
-- [ ] Two separate processes give identical output (IDs are content-built).
-- [ ] No code path deletes a question: the builder's output is append-only, and no function in `questions/` removes items from a question list (test over the module's public functions with a known list).
-- [ ] `sections/` and `questions/` import no HTTP or model client (allow-list test still passes).
+- [x] Building twice gives identical sections and questions (same IDs, same order, same text).
+- [x] Shuffling every list in the plant file (equipment, lines, chemicals, procedures and so on, but not a line's `components` or a procedure's `steps`, whose order is meaningful) gives the identical section set and question list.
+- [x] Two separate processes give identical output (IDs are content-built).
+- [x] No code path deletes a question: the builder's output is append-only, and no function in `questions/` removes items from a question list (test over the module's public functions with a known list).
+- [x] `sections/` and `questions/` import no HTTP or model client (allow-list test still passes).
 
 ## 1.8 Video script (Bhargavi, with Cowork drafting)
 
