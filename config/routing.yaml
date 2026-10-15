@@ -15,6 +15,7 @@ jobs:
   test5a: ultra
 # prompt name -> version; a change is a new prompts/<name>/<version>.md plus this entry (R19)
 prompts:
+  orchestrator: v1
   section_suggestion: v1
   specialists/process: v1
   specialists/chemistry: v1
