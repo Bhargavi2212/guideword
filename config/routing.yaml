@@ -16,4 +16,10 @@ jobs:
 # prompt name -> version; a change is a new prompts/<name>/<version>.md plus this entry (R19)
 prompts:
   section_suggestion: v1
+  specialists/process: v1
+  specialists/chemistry: v1
+  specialists/piping: v1
+  specialists/procedures: v1
+  specialists/maintenance: v1
+  specialists/dust: v1
 fallback_order: [nano, lightning, super, ultra]
