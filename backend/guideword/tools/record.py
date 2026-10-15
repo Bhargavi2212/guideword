@@ -29,6 +29,7 @@ class ReactivityArgs(BaseModel):
 
 @dataclass(frozen=True)
 class _Tool:
+    description: str
     arguments: type[BaseModel]
     run: Callable[[BaseModel, Plant, ReferenceSet], dict[str, Any]]
 
@@ -40,7 +41,14 @@ def _reactivity(args: BaseModel, plant: Plant, ref: ReferenceSet) -> dict[str, A
 
 
 # The agent tools that run in Phase 2; the rest arrive with their phases.
-TOOLS: dict[str, _Tool] = {"reactivity_lookup": _Tool(ReactivityArgs, _reactivity)}
+TOOLS: dict[str, _Tool] = {
+    "reactivity_lookup": _Tool(
+        "What the EPA 1980 compatibility chart says about two chemicals of this plant: hazard "
+        "codes per pair of their reactive groups, not_listed (not proof of safety) or do_not_mix.",
+        ReactivityArgs,
+        _reactivity,
+    )
+}
 
 
 @dataclass(frozen=True)
@@ -50,15 +58,17 @@ class ToolOutcome:
     refused_reason: str | None
 
 
-def run_tool(
-    writer: StepWriter,
+def execute_tool(
+    run_id: str,
     step_id: str,
     tool: str,
     arguments: dict[str, Any],
     *,
     plant: Plant,
     ref: ReferenceSet,
-) -> ToolOutcome:
+) -> ToolCall:
+    """Validate and run a tool; the ToolCall holds the result or the refused reason. Writes
+    nothing, so it can run inside a parallel batch."""
     result: dict[str, Any] | None = None
     refused: str | None = None
     spec = TOOLS.get(tool)
@@ -75,14 +85,27 @@ def run_tool(
             )
         except ToolRefused as error:
             refused = str(error)
-    call = ToolCall(
+    return ToolCall(
         id=ids.tool_call_id(step_id, tool, arguments),
-        run_id=writer.run.id,
+        run_id=run_id,
         agent_step_id=step_id,
         tool=tool,
         arguments=arguments,
         result=result,
         refused_reason=refused,
     )
+
+
+def run_tool(
+    writer: StepWriter,
+    step_id: str,
+    tool: str,
+    arguments: dict[str, Any],
+    *,
+    plant: Plant,
+    ref: ReferenceSet,
+) -> ToolOutcome:
+    """Run a tool and record its ToolCall (with its event) in this step."""
+    call = execute_tool(writer.run.id, step_id, tool, arguments, plant=plant, ref=ref)
     writer.add_tool_call(call)
-    return ToolOutcome(call, result, refused)
+    return ToolOutcome(call, call.result, call.refused_reason)
