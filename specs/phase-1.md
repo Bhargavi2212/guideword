@@ -200,10 +200,10 @@ Procedure and planned-work sections get no matrix questions. No-flow line sectio
 - Lists with no questions show `0 of 0`, never disappear.
 
 **Acceptance (tests first)**
-- [ ] On a freshly built list everything is `0 of N` with the exact N per list.
-- [ ] Marking questions answered, not credible and failed moves `checked` and the failed list exactly as defined; failed never counts as checked.
-- [ ] Unsure counting with a fake finding of confidence `unsure`.
-- [ ] A section with one open question is not checked; when that question is answered, it is.
+- [x] On a freshly built list everything is `0 of N` with the exact N per list.
+- [x] Marking questions answered, not credible and failed moves `checked` and the failed list exactly as defined; failed never counts as checked.
+- [x] Unsure counting with a fake finding of confidence `unsure`.
+- [x] A section with one open question is not checked; when that question is answered, it is.
 
 ## 1.6 Dev-case counts
 
