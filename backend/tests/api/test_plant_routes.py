@@ -141,11 +141,9 @@ def test_each_dev_case_uploads_with_no_errors(client: TestClient, path: Path) ->
     assert result.ok, result.errors
 
 
-def test_the_1_1_routes_are_built_and_propose_and_put_are_not_yet() -> None:
-    """P7, staged: the 1.1 routes leave NOT_BUILT_PHASE now, propose and PUT in PR 3."""
+def test_the_1_1_routes_are_built() -> None:
+    """P7: the 1.1 routes left NOT_BUILT_PHASE in PR 1 (propose and PUT follow in PR 3)."""
     assert not PLANT_ROUTES_BUILT_IN_PR_1 & NOT_BUILT_PHASE.keys()
-    assert NOT_BUILT_PHASE[("POST", "/plants/{id}/sections/propose")] == 1
-    assert NOT_BUILT_PHASE[("PUT", "/plants/{id}/sections")] == 1
 
 
 def test_no_database_is_created_until_a_plant_route_is_used(
