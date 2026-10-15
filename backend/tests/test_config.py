@@ -122,7 +122,8 @@ def test_tier_request_settings(shipped: Config) -> None:
     for tier in Tier:
         request = tiers[tier].request
         assert (request.structured_output, request.tool_calling) == ("json_schema", "native")
-        assert request.tools_with_schema is True
+        # the gateway check of 2026-10-15: tool calls and a strict schema do not combine (R34)
+        assert request.tools_with_schema is False
 
 
 def test_prompt_versions_name_existing_files(shipped: Config) -> None:
