@@ -8,10 +8,10 @@ from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[2]
 
-# Phase 0. From Phase 2, backend/guideword/gateway/** (openai, httpx) and
-# backend/guideword/tools/** (tavily, httpx) are added.
+# Phase 2 adds openai in backend/guideword/gateway/** (specs/phase-2.md 2.2, approved there).
+# backend/guideword/tools/** (tavily) is added with the Phase 4 tools that call Tavily.
 ALLOWED: dict[str, tuple[str, ...]] = {
-    "openai": ("scripts/live_call.py",),
+    "openai": ("scripts/live_call.py", "backend/guideword/gateway/**"),
     "tavily": ("scripts/live_call.py",),
     "httpx": ("scripts/live_call.py", "backend/tests/**"),
 }
@@ -72,3 +72,19 @@ def test_a_forbidden_import_fails(tmp_path: Path) -> None:
         "backend/guideword/sneaky.py imports openai",
         "scripts/helper.py imports tavily",
     ]
+
+
+def test_openai_is_allowed_only_in_the_gateway(tmp_path: Path) -> None:
+    """Phase 2: the gateway may import openai; every other package still may not."""
+    for package in ("gateway", "specialists", "orchestrator"):
+        (tmp_path / "backend" / "guideword" / package).mkdir(parents=True)
+        (tmp_path / "backend" / "guideword" / package / "client.py").write_text("import openai\n")
+    (tmp_path / "scripts").mkdir()
+    assert violations(tmp_path) == [
+        "backend/guideword/orchestrator/client.py imports openai",
+        "backend/guideword/specialists/client.py imports openai",
+    ]
+
+
+def test_the_gateway_is_where_openai_is_imported() -> None:
+    assert "openai" in _imports(REPO / "backend" / "guideword" / "gateway" / "transport.py")
