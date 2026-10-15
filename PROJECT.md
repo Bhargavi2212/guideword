@@ -84,12 +84,12 @@ After the engineer confirms the sections, **an orchestrator agent (Nemotron Ultr
 | `run_simulation` | A fault on the Tennessee Eastman demo plant | Variables that moved, limits crossed |
 | `finish` | Ends the run | Accepted, or refused with the reason |
 
-**Specialist agents.** Each gets only its own questions and the data they need, works independently of the others, may take **at most 2 tool steps** (`reactivity_lookup`, `web_research`), then must answer in the fixed schema. The data includes the `notes` of the plant objects in its scope (the source's exact words, passed as data, never parsed by code), and safeguards with no `layer_type` as existing protection, with their description.
+**Specialist agents.** Each gets only its own questions and the data they need, works independently of the others, may take **at most 2 tool steps per batch** (`reactivity_lookup`, `web_research`), then must answer in the fixed schema. The data includes the `notes` of the plant objects in its scope (the source's exact words, passed as data, never parsed by code), and safeguards with no `layer_type` as existing protection, with their description.
 
 | Specialist agent | Gets only | Answers |
 |---|---|---|
 | Process deviations | Sections, operating values, alarm/trip setpoints, design limits, control loops with valve fail positions, safeguards, relief devices | Guideword × parameter questions; relief discharge questions |
-| Chemical interactions | Chemical list, properties, reactivity groups | Every pair, plus water, air, heat |
+| Chemical interactions | Chemical list, properties, reactivity groups, and where each chemical is present (the equipment and lines whose contents list it, and the injection points that add it) | Every pair, plus water, air, heat |
 | Piping and no-flow lines | Line list, no-flow lines (non-empty `no_flow`), injection points on lines and equipment | What builds up, what is missing |
 | Procedures | Start-up, shutdown, charging steps | Each step × time and sequence deviations |
 | Maintenance work | Planned jobs and their surroundings | Hot work, overlapping jobs, isolation |
@@ -181,12 +181,12 @@ Test #5 confirms or moves each job to the cheapest tier that passes. The four-ti
 Laptop $19 = 5 + 4 + 8 + 2; hosted $6 = 1 + 3 + 2; total $25.
 
 Cost rules, enforced in code:
-- Development uses Lightning only. Every model response is cached by model, prompt version and exact input; a re-run after a code change costs nothing.
+- Development iterates on specialist prompts with Lightning. Ultra and Super are used only for the jobs routed to them (orchestrator, severity, section suggestions, unsure answers, the gateway check), always under the run and phase caps. Every model response is cached by model, prompt version and exact input; a re-run after a code change costs nothing.
 - Claude Code sessions never make live model calls. Bhargavi starts every live call: through the budget-capped `scripts/live_call.py` until the Phase 2 gateway exists, then through `guideword/gateway` and `guideword/tools`.
 - Ultra runs the orchestrator (about 30–60 small steps per run, each seeing counts and summaries, not full findings), the connector, LOPA arguments, recommendations and unsure answers (capped per run). Evidence and LOPA run on the top findings only.
 - The connector receives one-line finding summaries (ID, cause, consequence, components) plus the plant, never raw answers, capped at `connector_max_input_tokens` in `config/caps.yaml`.
 - The Super section-suggestion call has its own cap, `section_suggest_cap_usd`, in `config/caps.yaml`.
-- Specialist agents run on the cheap tier and take at most 2 tool steps per question.
+- Specialist agents run on the cheap tier and take at most 2 tool steps per batch.
 - Hard spend cap per run and a running total per environment and per use; a call that would cross any of them is refused and the run stops with a message. The per-run cap lives only in `config/caps.yaml`.
 - **Each environment enforces its own allowance:** laptop $19 (development, test #5, benchmark, video), tracked in `budget/ledger.jsonl`; hosted $6 (demo recording, judging period, buffer), tracked in the `spend_ledger` table. Neither reads the other. A weekly check of the Token Factory dashboard balance reconciles the two. Every ledger line carries a required `use`, and a call that would push a use past its allowance is refused.
 - `budget/ledger.jsonl` is git-ignored: one local file that survives branch switches. At each gate Bhargavi commits a snapshot, `budget/ledger-<gate>.jsonl`.
@@ -530,7 +530,7 @@ Same dev cases, three versions:
 Plus the four-tier comparison on 50 fixed questions. Hand-scored.
 
 ### Held-out benchmark (Phase 6, gate G3)
-- About 6–10 lesser-known accidents not used in any earlier test, from several countries (CSB plus ARIA, eMARS, Dutch Safety Board, UK HSE and national reports; aim for about half outside the US). Written by **a person other than the builder**, as the plant looked before the accident, with unrelated equipment mixed in. Answer keys sealed in the private repo.
+- About 6–10 lesser-known accidents not used in any earlier test, from several countries (CSB plus ARIA, eMARS, Dutch Safety Board, UK HSE and national reports; aim for about half outside the US). Written by **a separate Claude session**, run once as a scheduled task on Oct 13 on Bhargavi's computer and instructed not to read this repo's code, prompts or specs, as the plant looked before the accident, with unrelated equipment mixed in. The cases and keys live in the `guideword-heldout` folder outside this repo, which Bhargavi owns and does not open before Phase 6 (an honour system, stated in the README); each file is sealed by SHA-256 in `SEALS.txt`, copied here as `bench/heldout-seals.txt`.
 - A case qualifies only if its source describes the plant in enough detail to rebuild it (equipment, chemicals, procedures, safeguards) and states the root cause. Famous accidents (Bhopal, Texas City, Flixborough, Seveso) are excluded: models recognise them, so they would test memory, not reasoning.
 - **Memorisation probe**: each model is first asked whether the case is a real accident it knows; a correctly named case is excluded for that model.
 - Configurations: Guideword on the routing chosen in test #5; baseline 1 = one big prompt; baseline 2 = plain checklist with no reasoning.
@@ -662,8 +662,8 @@ guideword/                public repo, Apache 2.0
   .gitattributes          LF line endings for all text files
   bench/                  runner config and published results
   bench/replay/<case>/    committed replay fixtures for the CI replay test (no keys)
-guideword-heldout/        private repo created and owned by the case writer (not Bhargavi): held-out
-                          cases, sealed keys and the brief; Bhargavi is invited only in Phase 6
+guideword-heldout/        folder outside this repo, owned by Bhargavi and pushed to a private GitHub repo
+                          unopened until Phase 6: held-out cases and keys, sealed by SEALS.txt (copied as bench/heldout-seals.txt)
 ```
 
 ### Build method
@@ -715,7 +715,7 @@ guideword-heldout/        private repo created and owned by the case writer (not
 
 | Task | By |
 |---|---|
-| Choose the held-out case writer (not the builder) and brief them; they start writing | Oct 12 |
+| Held-out cases written (done Oct 13: a separate scheduled Claude session, told not to read this repo; sealed in `SEALS.txt`) | Oct 12 |
 | Facilitator call: one 30-minute call with a HAZOP facilitator (Haber network, then LinkedIn); questions: what takes the most prep time, would a measured hit rate on past accidents make you trust a draft, what would make you refuse to use it; capture one quotable line for the video and README | Oct 16 |
 | Feedback log, kept from day 1: 401 from using the wrong key, answers cut off at the token limit, Unicode hyphens breaking scoring, Nano slowness, catalog deprecations with no automatic rerouting, plus anything new | Ongoing |
 | Confirm the City Winner attendance rule in the Nebius Discord (FAQ and resources page disagree; official rules require attending a Builders & Brews event) | Oct 13 |

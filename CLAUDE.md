@@ -53,7 +53,7 @@ No code is written for a phase until Bhargavi has approved a written plan for it
 ## 4. Credits, secrets and money
 
 - **You never make live model calls or live Tavily calls.** Use fake clients, the fake gateway and cached fixtures. Until the Phase 2 gateway exists, the only path to real models is `scripts/live_call.py`; from Phase 2 it is `guideword/gateway` and `guideword/tools`. Either way, Bhargavi starts every live call herself, under a spend cap, and every call is written to `budget/ledger.jsonl`.
-- Never write a loop, retry or test that could call a paid API.
+- Never write a test that calls a paid API, or a loop that can call one outside the gateway. Gateway retries and the run loop are allowed because every call passes the budget guard and caps, and only Bhargavi starts a live run.
 - Never write budgets or caps as literals. The per-run spend cap, allowances and phase caps live only in `config/caps.yaml`; `GLOBAL_BUDGET_USD` comes from settings.
 - Each environment enforces its own allowance: laptop $19 in `budget/ledger.jsonl`, hosted $6 in the `spend_ledger` table. Neither reads the other; Bhargavi reconciles them weekly against the Token Factory dashboard. Every ledger line carries a `use` (development, test_5, benchmark, video, demo_recording, judging, buffer), and a call that would push a use past its allowance in `config/caps.yaml` is refused.
 - `budget/ledger.jsonl` is git-ignored (one local file that survives branch switches). Bhargavi commits a snapshot `budget/ledger-<gate>.jsonl` at each gate.
@@ -63,7 +63,7 @@ No code is written for a phase until Bhargavi has approved a written plan for it
 
 ## 5. Held-out benchmark isolation
 
-- Never open, clone, list or read the `guideword-heldout` repository or anything under `bench/heldout/`. That repo is created and owned by the case writer; Bhargavi is invited only in Phase 6.
+- Never open, clone, list or read `guideword-heldout` (the folder `D:\Hackathon\guideword\guideword-heldout` or its GitHub repo), anything under `bench/heldout/`, or `bench/heldout-seals.txt`. The held-out cases were written by a separate Claude session that was told not to read this repo; Bhargavi owns the folder and does not open it before Phase 6.
 - Never search the web for, open or summarise accident investigation reports (CSB, ARIA, eMARS or others) unless the task explicitly names a dev case (D–H) or the demo plants.
 - Never tune prompts, rules or reference tables against anything other than dev cases D–H and the demo plants.
 - **Dev-case survey and conversion:** read only `cases/dev/source/`, never `cases/dev/keys/`. Record what each package states, in the package's own words; never classify anything beyond what the package says (e.g. do not set `no_flow: dead_leg` unless the package says dead leg).

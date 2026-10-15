@@ -146,7 +146,7 @@ guideword/
 Never in this repo before G3: held-out cases, held-out keys, the case writer brief. They live in `guideword-heldout`, which the case writer creates and owns.
 
 **Acceptance**
-- [ ] The bootstrap commit is the only commit on `main` not made through a pull request: every later commit in `git log --first-parent main` ends with GitHub's `(#<PR number>)` suffix from the squash merge. (Note 2026-10-13: PR #2 was merged with a merge commit, "Merge pull request #2 …"; it did go through a PR. Later PRs are squash-merged.)
+- [x] The bootstrap commit is the only commit on `main` not made through a pull request: every later commit in `git log --first-parent main` ends with GitHub's `(#<PR number>)` suffix from the squash merge. (Note 2026-10-13: PR #2 was merged with a merge commit, "Merge pull request #2 …"; it did go through a PR. Later PRs are squash-merged.) (Note 2026-10-15, decision G1: PRs #2–#22 were all merged with merge commits, each through a pull request, so no commit reached `main` outside a PR; from PR #23 on, PRs are squash-merged.)
 - [x] Every folder in the tree exists on `phase-0/scaffold`.
 - [x] `git ls-files --eol` shows `i/lf` for every text file.
 
@@ -445,7 +445,7 @@ Warnings (missing facts, shown in the UI as gaps, never filled in by code):
 - [x] The mock events test runs in well under a second using the injected clock.
 - [x] `contract/openapi.json` matches the app (test regenerates and compares).
 - [x] The frontend generates types and `npm run typecheck` passes.
-- [ ] Tagged `contract-v1` on `main`. Later changes only through `contract/...` branches.
+- [x] Tagged `contract-v1` on `main` (on `b44f9b2`). Later changes only through `contract/...` branches.
 
 ## 0.9 Feasibility (remaining items)
 
@@ -457,8 +457,8 @@ Already resolved on Oct 11 and recorded in `docs/decisions.md`: LOPA source (EGP
 
 ## 0.10 Non-build tasks (Bhargavi)
 
-- [ ] Case writer chosen. **The case writer creates and owns `guideword-heldout`**; Bhargavi has no access until Phase 6, when she is invited to run and score.
-- [ ] Case writer brief: Cowork drafts it; it goes to the writer without Bhargavi reading it; the writer commits it to their repo. This repo keeps only a generic `docs/case-template.md` with no sources named: Claude Code drafts it after the schema freeze, showing the plant file format and the answer key format, and Bhargavi reviews it.
+- [x] (Superseded 2026-10-15, decision G3: the held-out cases were written on Oct 13 by a separate scheduled Claude session told not to read this repo; Bhargavi owns the `guideword-heldout` folder and does not open it before Phase 6.) Case writer chosen. **The case writer creates and owns `guideword-heldout`**; Bhargavi has no access until Phase 6, when she is invited to run and score.
+- [x] (Superseded 2026-10-15, decision G3: the scheduled session's own instructions took the place of a brief; no brief is in this repo.) Case writer brief: Cowork drafts it; it goes to the writer without Bhargavi reading it; the writer commits it to their repo. This repo keeps only a generic `docs/case-template.md` with no sources named: Claude Code drafts it after the schema freeze, showing the plant file format and the answer key format, and Bhargavi reviews it.
 - [ ] Facilitator outreach sent (Haber network, then LinkedIn).
 - [ ] Second $25 Token Factory grant claimed if not already.
 - [ ] City Winner attendance rule asked in the Nebius Discord (by Oct 13).
@@ -487,13 +487,13 @@ Already resolved on Oct 11 and recorded in `docs/decisions.md`: LOPA source (EGP
 ## G1 gate (Oct 14 morning)
 
 All must be true to start Phase 1:
-- [ ] Bootstrap commit only; everything else merged by pull request; CI green on `main`; licence visible.
-- [ ] Smoke test complete; decisions written; model IDs confirmed; opening balance recorded; spend ≤ $0.65.
-- [ ] Ultra tool calling (T12) confirmed, or the JSON next-action fallback chosen and written into `docs/decisions.md`.
-- [ ] Schema frozen; contract tagged `contract-v1`.
-- [ ] Reference loaders pass on all tables; LOPA source named.
-- [ ] Dev cases D–H validate; every assumption ticked.
-- [ ] Case writer has started and owns the held-out repo.
+- [x] Bootstrap commit only; everything else merged by pull request; CI green on `main`; licence visible. (2026-10-15: merge commits through PRs, decision G1; Actions green on `main`, decision G7.)
+- [x] Smoke test complete; decisions written; model IDs confirmed; opening balance recorded; spend ≤ $0.65. ($0.1277; opening balance $1.37, reconciled against trial credits, decision G8.)
+- [x] Ultra tool calling (T12) confirmed, or the JSON next-action fallback chosen and written into `docs/decisions.md`. (Native tool calling confirmed.)
+- [x] Schema frozen; contract tagged `contract-v1`.
+- [x] Reference loaders pass on all tables; LOPA source named.
+- [x] Dev cases D–H validate; every assumption ticked.
+- [x] Case writer has started and owns the held-out repo. (Superseded 2026-10-15, decision G3: the 8 cases were written on Oct 13 by a separate scheduled Claude session; Bhargavi owns the folder.)
 
 If an item fails, apply the fallback in `PROJECT.md` §16, record it in `docs/decisions.md`, and continue. Only a missing schema or contract blocks Phase 1.
 
