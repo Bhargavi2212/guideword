@@ -43,7 +43,7 @@ def test_cache_commits_while_a_step_with_writes_is_open(
 
         def put() -> None:
             try:
-                cache.put("k1", "m", "p/v1", Reply(content="{}", reasoning=None))
+                cache.put("k1", "m", "p/v1", Reply(content="{}", reasoning=None), 0.0)
             except BaseException as error:  # noqa: BLE001 - collected for the assert
                 errors.append(error)
 

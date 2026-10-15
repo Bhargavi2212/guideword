@@ -206,13 +206,55 @@ def test_events_are_contiguous_from_1_and_every_record_has_its_event(
 
 
 def test_spend_is_added_to_the_run(runs: RunRepository, run: Run) -> None:
+    """R45: paid money and the cap figure are kept apart."""
+
     def stepper(current: Run, writer: StepWriter) -> StepResult:
-        writer.add_spent(0.25)
-        writer.add_spent(0.125)
+        writer.add_spent(0.25, cap_usd=0.25)
+        writer.add_spent(0.0, cap_usd=0.125)  # a cache hit
         return StepResult()
 
     advance(runs, run.id, {"analysis": stepper})
-    assert runs.get(run.id).spent_usd == pytest.approx(0.375)  # type: ignore[union-attr]
+    stored = runs.get(run.id)
+    assert stored is not None
+    assert stored.spent_usd == pytest.approx(0.25)
+    assert stored.cap_spent_usd == pytest.approx(0.375)
+
+
+def _finish_with(
+    runs: RunRepository, run: Run, call: ModelCall, paid: float, counted: float
+) -> RunStatus:
+    def stepper(current: Run, writer: StepWriter) -> StepResult:
+        writer.add_model_call(call)
+        writer.add_spent(paid, cap_usd=counted)
+        return StepResult(status=RunStatus.FINISHED)
+
+    return advance(runs, run.id, {"analysis": stepper})
+
+
+def test_spend_matching_its_records_logs_nothing(
+    runs: RunRepository, run: Run, caplog: pytest.LogCaptureFixture
+) -> None:
+    _, call, _ = _records(run)
+    with caplog.at_level("ERROR", logger="guideword.runs.machine"):
+        assert _finish_with(runs, run, call, call.cost_usd, call.cap_cost_usd) == RunStatus.FINISHED
+    assert caplog.records == []
+
+
+@pytest.mark.parametrize("paid_extra, counted_extra", [(0.01, 0.0), (0.0, 0.01)])
+def test_spend_not_matching_its_records_is_logged_when_the_run_stops(
+    runs: RunRepository,
+    run: Run,
+    caplog: pytest.LogCaptureFixture,
+    paid_extra: float,
+    counted_extra: float,
+) -> None:
+    _, call, _ = _records(run)
+    with caplog.at_level("ERROR", logger="guideword.runs.machine"):
+        status = _finish_with(
+            runs, run, call, call.cost_usd + paid_extra, call.cap_cost_usd + counted_extra
+        )
+    assert status == RunStatus.FINISHED  # the status stands
+    assert [r.message for r in caplog.records] == ["run spend does not match its call records"]
 
 
 def test_phase_2_event_types() -> None:

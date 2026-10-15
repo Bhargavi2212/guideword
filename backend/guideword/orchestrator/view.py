@@ -101,7 +101,8 @@ def build_view(
         "recent_steps": recent,
         "steps_left": caps.orchestrator_max_steps - len(orchestrator_steps),
         "spend": {
-            "spent_usd": round(run.spent_usd, 6),
+            # what counts against the cap, so a cache replay sees what the original saw (R45)
+            "cap_spent_usd": round(run.cap_spent_usd, 6),
             "limit_usd": round(run.spend_cap_usd - caps.severity_reserve_usd, 6),
         },
         "unsure_reanswers_left": max(0, caps.unsure_reanswers_per_run - reanswers_used(findings)),

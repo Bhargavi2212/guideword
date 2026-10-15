@@ -86,7 +86,7 @@ class SeverityStepper:
                 messages=self._messages(batch, questions),
                 schema=SeverityAnswer,
                 validator=validator,
-                run=RunBudget(run.id, writer.run.spent_usd, run.spend_cap_usd),
+                run=RunBudget(run.id, writer.run.cap_spent_usd, run.spend_cap_usd),
             )
         except BudgetRefused as refused:
             return stop_for_refusal(writer, refused)
@@ -95,7 +95,7 @@ class SeverityStepper:
                 call.model_copy(update={"record_ids": sorted(wanted)}),
                 fell_back_from=result.fell_back_from,
             )
-        writer.add_spent(result.cost_usd)
+        writer.add_spent(result.cost_usd, cap_usd=result.cap_cost_usd)
         rated: dict[str, Severity] = {}
         if result.outcome == "ok" and isinstance(result.value, SeverityAnswer):
             rated = {s.finding_id: s for s in result.value.severities}

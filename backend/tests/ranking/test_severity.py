@@ -12,6 +12,7 @@ from guideword.config import Config, load_config
 from guideword.gateway.fake import fake_gateway, reply
 from guideword.gateway.transport import ToolCallRequest
 from guideword.orchestrator.loop import OrchestratorStepper
+from guideword.ranking.rank import rank_findings
 from guideword.ranking.severity import RankedStepper, SeverityStepper
 from guideword.reference import ReferenceSet, load_reference_set
 from guideword.runs.db import make_session_factory
@@ -125,7 +126,12 @@ class World:
         severity: Any = severity_answer,
         decide: Any = drain,
         orchestrator_output_tokens: int = 50,
+        cache_from: "World | None" = None,
+        gateway_config: Config | None = None,
     ) -> tuple[dict[str, Any], Any]:
+        """`cache_from` shares another world's response cache (a replay in a fresh store);
+        `gateway_config` gives the gateway other prices."""
+
         def script(job: str, request: dict[str, Any]) -> Any:
             if job == "orchestrator":
                 name, args = decide(block(request, "view"))
@@ -136,9 +142,9 @@ class World:
             return specialist(request)
 
         gateway, transport = fake_gateway(
-            self.config,
+            gateway_config or self.config,
             script,
-            sessions=self.sessions,
+            sessions=(cache_from or self).sessions,
             ledger_path=self.tmp / "l.jsonl",
             clock=lambda: datetime(2026, 10, 15, tzinfo=UTC),
         )
@@ -218,3 +224,114 @@ def test_fake_run_at_the_cap_boundary_still_completes_severity(world: World) -> 
     findings = world.runs.findings(run.id)
     assert findings and all(f.severity_class == SeverityClass.S3 for f in findings)
     assert world.runs.get(run.id).spent_usd <= 0.17  # type: ignore[union-attr]
+
+
+# --- replays (R45) -----------------------------------------------------------------------------
+
+
+def ranked(world: World, run: Run) -> list[tuple[str, Any, Any]]:
+    order = rank_findings(world.runs.findings(run.id), world.plant, world.ref, world.config.caps)
+    return [(r.finding.id, r.rating, r.likelihood.frequency_per_year) for r in order]
+
+
+def spend(world: World, run: Run) -> tuple[float, float]:
+    """(spent_usd, cap_spent_usd), after checking both equal the sums of the call records."""
+    stored = world.runs.get(run.id)
+    assert stored is not None
+    calls = world.runs.model_calls(run.id)
+    assert stored.spent_usd == pytest.approx(sum(c.cost_usd for c in calls), abs=1e-12)
+    assert stored.cap_spent_usd == pytest.approx(sum(c.cap_cost_usd for c in calls), abs=1e-12)
+    return stored.spent_usd, stored.cap_spent_usd
+
+
+def doubled_prices(config: Config) -> Config:
+    tiers = {
+        tier: model.model_copy(
+            update={
+                "input_usd_per_1m": model.input_usd_per_1m * 2,
+                "output_usd_per_1m": model.output_usd_per_1m * 2,
+            }
+        )
+        for tier, model in config.models.tiers.items()
+    }
+    return config.model_copy(update={"models": config.models.model_copy(update={"tiers": tiers})})
+
+
+def replay_world(world: World) -> World:
+    (world.tmp / "replay").mkdir()
+    return World(world.tmp / "replay", world.ref, world.config)
+
+
+def test_ranking_identical_across_two_cache_replays(world: World) -> None:
+    first = world.start()
+    steppers, transport = world.steppers()
+    world.run(first, steppers)
+    paid = len(transport.sent)
+    with world.runs.step(first.id) as writer:
+        writer.set_status(RunStatus.FINISHED)
+    second = world.start()
+    assert second.id == f"{first.id}:2"
+    steppers2, transport2 = world.steppers()
+    world.run(second, steppers2)
+    assert transport2.sent == []  # every call served from the cache
+    assert paid > 0
+    assert ranked(world, first) == ranked(world, second)
+    first_spent, first_cap = spend(world, first)
+    assert first_spent == pytest.approx(first_cap) and first_spent > 0
+    # a full replay pays nothing and counts against its cap what the original did
+    assert spend(world, second) == (0.0, pytest.approx(first_cap))
+
+
+def test_capped_run_replays_to_the_same_stop_point_after_a_price_change(world: World) -> None:
+    first = world.start(cap=0.17)
+    steppers, _ = world.steppers(orchestrator_output_tokens=2000)
+    assert world.run(first, steppers) == RunStatus.STOPPED_CAP
+
+    again = replay_world(world)
+    second = again.start(cap=0.17)
+    assert second.id == first.id  # same inputs, fresh store
+    steppers2, transport2 = again.steppers(
+        orchestrator_output_tokens=2000,
+        cache_from=world,
+        gateway_config=doubled_prices(world.config),
+    )
+    assert again.run(second, steppers2) == RunStatus.STOPPED_CAP
+    assert transport2.sent == []  # the call refused in the original is refused again, unsent
+
+    def stops(w: World) -> list[Any]:
+        return [
+            e.payload.get("reason") for e in w.runs.events(first.id) if e.type == EventType.CAP_HIT
+        ]
+
+    assert stops(again) == stops(world)
+    assert [c.id for c in again.runs.model_calls(first.id)] == [
+        c.id for c in world.runs.model_calls(first.id)
+    ]
+    assert ranked(again, second) == ranked(world, first)
+    _, first_cap = spend(world, first)
+    assert spend(again, second) == (0.0, pytest.approx(first_cap))
+    # replays write no ledger lines, so no allowance is used
+    ledger = again.tmp / "l.jsonl"
+    assert not ledger.exists() or ledger.read_text(encoding="utf-8") == ""
+
+
+def test_a_run_partly_served_from_the_cache_sums_both_figures(world: World) -> None:
+    """A higher cap changes the orchestrator's view (its limit), so its turns are paid again;
+    the specialist and severity answers are cache hits at their stored cost."""
+    first = world.start(cap=1.0)
+    steppers, _ = world.steppers()
+    assert world.run(first, steppers) == RunStatus.FINISHED
+
+    again = replay_world(world)
+    second = again.start(cap=2.0)
+    steppers2, transport2 = again.steppers(cache_from=world)
+    assert again.run(second, steppers2) == RunStatus.FINISHED
+    calls = again.runs.model_calls(second.id)
+    hits = [c for c in calls if c.cache_hit]
+    sent = [c for c in calls if not c.cache_hit]
+    assert hits and sent and len(transport2.sent) == len(sent)
+    assert {c.job for c in sent} == {"orchestrator"}
+    spent, cap = spend(again, second)
+    assert spent == pytest.approx(sum(c.cost_usd for c in sent))
+    assert cap == pytest.approx(spent + sum(c.cap_cost_usd for c in hits))
+    assert 0 < spent < cap

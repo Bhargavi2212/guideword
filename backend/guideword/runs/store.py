@@ -95,8 +95,12 @@ class StepWriter:
     def set_spend_cap(self, spend_cap_usd: float) -> None:
         self._update(spend_cap_usd=spend_cap_usd)
 
-    def add_spent(self, usd: float) -> None:
-        self._update(spent_usd=self.run.spent_usd + usd)
+    def add_spent(self, usd: float, *, cap_usd: float) -> None:
+        """`usd` is money actually paid; `cap_usd` is what counts against the cap: the paid
+        cost plus cache hits at their stored cost (R45)."""
+        self._update(
+            spent_usd=self.run.spent_usd + usd, cap_spent_usd=self.run.cap_spent_usd + cap_usd
+        )
 
     def _update(self, **changes: Any) -> None:
         self.run = self.run.model_copy(update=changes)
@@ -162,6 +166,7 @@ class StepWriter:
             "cache_hit": call.cache_hit,
             "outcome": call.outcome,
             "cost_usd": call.cost_usd,
+            "cap_cost_usd": call.cap_cost_usd,
         }
         if fell_back_from:
             payload["fell_back_from"] = [str(t) for t in fell_back_from]
@@ -184,6 +189,9 @@ class StepWriter:
 
     def tool_calls(self) -> list[ToolCall]:
         return self._records(ToolCallRow, ToolCall)
+
+    def model_calls(self) -> list[ModelCall]:
+        return self._records(ModelCallRow, ModelCall)
 
     def _records[R: BaseModel](self, table: type[RunRecordRow], model: type[R]) -> list[R]:
         stored = self._session.scalars(
