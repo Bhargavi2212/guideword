@@ -133,19 +133,20 @@ class StepWriter:
             {"step_id": step.id, "agent": step.agent, "tool": step.tool, "reason": step.reason},
         )
 
-    def add_model_call(self, call: ModelCall) -> None:
+    def add_model_call(self, call: ModelCall, *, fell_back_from: Sequence[str] = ()) -> None:
+        """`fell_back_from` names the tiers skipped because they left the catalog."""
         _put(self._session, ModelCallRow, self.run.id, call)
-        self.emit(
-            EventType.MODEL_CALL,
-            {
-                "model_call_id": call.id,
-                "job": call.job,
-                "model_id": call.model_id,
-                "cache_hit": call.cache_hit,
-                "outcome": call.outcome,
-                "cost_usd": call.cost_usd,
-            },
-        )
+        payload: dict[str, Any] = {
+            "model_call_id": call.id,
+            "job": call.job,
+            "model_id": call.model_id,
+            "cache_hit": call.cache_hit,
+            "outcome": call.outcome,
+            "cost_usd": call.cost_usd,
+        }
+        if fell_back_from:
+            payload["fell_back_from"] = [str(t) for t in fell_back_from]
+        self.emit(EventType.MODEL_CALL, payload)
 
     def add_tool_call(self, call: ToolCall) -> None:
         _put(self._session, ToolCallRow, self.run.id, call)
