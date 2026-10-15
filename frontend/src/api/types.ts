@@ -663,6 +663,11 @@ export interface components {
             attempts: number;
             /** Cache Hit */
             cache_hit: boolean;
+            /**
+             * Cap Cost Usd
+             * @default 0
+             */
+            cap_cost_usd: number;
             /** Cost Usd */
             cost_usd: number;
             /** Finish Reason */
@@ -896,6 +901,11 @@ export interface components {
         Run: {
             /** Attempt */
             attempt: number;
+            /**
+             * Cap Spent Usd
+             * @default 0
+             */
+            cap_spent_usd: number;
             /** Caps */
             caps: {
                 [key: string]: unknown;

@@ -170,6 +170,7 @@
       "mode": "full",
       "spend_cap_usd": 1.0,
       "spent_usd": 0.31,
+      "cap_spent_usd": 0.31,
       "reference_versions": {
         "applicability.csv": "d725cd824798c98e398362369d0e8c277caf8e49d720809aa9537705eaa899f6",
         "causes.csv": "984049c70047943e47cefb79866a4de8f50e418be6b80ed70357956a0cc3da7b",

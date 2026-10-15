@@ -441,3 +441,36 @@ def test_run_label_kind_is_live_recorded_or_mock() -> None:
     data["label"]["kind"] = "demo"
     with pytest.raises(ValidationError):
         r.Run.model_validate(data)
+
+
+# --- cap spend (R45) ---------------------------------------------------------------------------
+
+
+def test_paid_call_counts_its_cost_against_the_cap() -> None:
+    call = r.ModelCall.model_validate(_sample(r.ModelCall))
+    assert (call.cost_usd, call.cap_cost_usd) == (0.0001, 0.0001)
+
+
+def test_paid_call_cap_cost_must_equal_its_cost() -> None:
+    with pytest.raises(ValidationError, match="cap_cost_usd"):
+        r.ModelCall.model_validate({**_sample(r.ModelCall), "cap_cost_usd": 0.5})
+
+
+def test_cache_hit_counts_its_stored_cost_against_the_cap() -> None:
+    cached = r.ModelCall.model_validate(
+        {**_sample(r.ModelCall), "cache_hit": True, "cost_usd": 0.0, "cap_cost_usd": 0.0001}
+    )
+    assert (cached.cost_usd, cached.cap_cost_usd) == (0.0, 0.0001)
+
+
+def test_cap_cost_is_never_negative() -> None:
+    with pytest.raises(ValidationError):
+        r.ModelCall.model_validate(
+            {**_sample(r.ModelCall), "cache_hit": True, "cost_usd": 0.0, "cap_cost_usd": -1.0}
+        )
+
+
+def test_run_cap_spent_defaults_to_zero_and_is_never_negative() -> None:
+    assert r.Run.model_validate(_sample(r.Run)).cap_spent_usd == 0.0
+    with pytest.raises(ValidationError):
+        r.Run.model_validate({**_sample(r.Run), "cap_spent_usd": -0.01})

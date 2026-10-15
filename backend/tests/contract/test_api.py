@@ -143,6 +143,28 @@ def test_fixtures_describe_mock_plant_a_only() -> None:
             assert word not in text, f"{path.name} mentions {word}"
 
 
+def _walk(value: Any) -> list[dict[str, Any]]:
+    if isinstance(value, dict):
+        return [value, *(d for v in value.values() for d in _walk(v))]
+    if isinstance(value, list):
+        return [d for v in value for d in _walk(v)]
+    return []
+
+
+def test_fixture_runs_and_model_calls_show_their_cap_spend() -> None:
+    """R45: the mock data states both spend figures; every mock call was paid."""
+    runs = calls = 0
+    for path in FIXTURES.glob("*.json"):
+        for obj in _walk(json.loads(path.read_text(encoding="utf-8"))):
+            if "spend_cap_usd" in obj and "spent_usd" in obj:
+                runs += 1
+                assert obj["cap_spent_usd"] == obj["spent_usd"], path.name
+            if "raw_response" in obj and "cost_usd" in obj:
+                calls += 1
+                assert obj["cap_cost_usd"] == obj["cost_usd"], path.name
+    assert runs and calls
+
+
 def test_openapi_json_matches_the_app() -> None:
     committed = (Path(export_openapi.OUT)).read_text(encoding="utf-8")
     assert committed == export_openapi.render(), "run: python scripts/export_openapi.py"
