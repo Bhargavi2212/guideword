@@ -249,6 +249,6 @@ Every call is a `ToolCall` record and a `tool_call` event; arguments validated (
 
 - [ ] Every acceptance box ticked; CI green on `main`.
 - [ ] A 5B run on every dev case reaches `finished` (or a recorded cap stop) with a ranked list.
-- [ ] G2 decided and recorded.
+- [x] G2 decided and recorded.
 - [ ] Phase 2 spend within its cap, by use; ledger snapshot `budget/ledger-g2.jsonl` committed; `g2` tag.
 - [ ] Every decision has a dated line in `docs/decisions.md`; Token Factory friction in `docs/feedback-log.md`.

@@ -1,0 +1,123 @@
+{
+ "case": "case_g",
+ "package": "case_g_batch_plant.md",
+ "model_id": "nvidia/Nemotron-3-Ultra-550b-a55b",
+ "prompt_version": "test5a/v1",
+ "outcome": "ok",
+ "error": null,
+ "cost_usd": 0.012853,
+ "cache_hit": false,
+ "seconds": 12.270521999991615,
+ "hazards": [
+  {
+   "rank": 1,
+   "hazard": "Wrong tote selected and charged due to hand-labelled totes and manual paper batch sheet — incorrect stoichiometry triggers runaway hydrosilylation or hydrogen evolution, overpressurising mixing tank",
+   "equipment": [
+    "mixing tanks (MX-1 to MX-4)",
+    "warehouse bay",
+    "paper batch sheet",
+    "portable air-operated diaphragm pump and hoses"
+   ],
+   "reason": "Package states totes are 'labelled by hand' and operator 'reads the paper batch sheet, collects the listed tote … connects the hose and pumps the contents'. No barcode, scale, or independent check. A single mis-read or mis-pick puts catalyst with Si–H fluid in wrong ratio, or KOH emulsifier with Si–"
+  },
+  {
+   "rank": 2,
+   "hazard": "Uncontrolled hydrosilylation (methylhydrogen siloxane + platinum catalyst) from wrong addition order, ratio, or agitator failure — rapid exotherm overheats batch, tank overpressures through loose lid/manway",
+   "equipment": [
+    "mixing tanks (MX-1 to MX-4)",
+    "portable air-operated diaphragm pump and hoses",
+    "loose lids with a manway",
+    "jacket temperature control with a high-temperature alarm"
+   ],
+   "reason": "Reaction is intended but highly exothermic. Safeguards: only jacket high-temperature alarm (operator must react). No emergency quench, no pressure relief device, no agitator stall detection. Loose lid is not sized for emergency venting."
+  },
+  {
+   "rank": 3,
+   "hazard": "Hydrogen gas from Si–H hydrolysis (methylhydrogen siloxane + KOH emulsifier + water) accumulates in building — unclassified electrical equipment ignites flash fire/explosion",
+   "equipment": [
+    "mixing tanks (MX-1 to MX-4)",
+    "loose lids with a manway",
+    "general exhaust fans",
+    "emulsifier solution containing potassium hydroxide",
+    "methylhydrogen siloxane fluid"
+   ],
+   "reason": "KOH catalyses Si–H hydrolysis to H2. Water comes from DI water charge or humidity. Gas vents through loose lid/manway into 2000 m² building with only general exhaust fans and 'unclassified, general-purpose equipment throughout'. No H2 detection, no inerting, no classified electrical."
+  },
+  {
+   "rank": 4,
+   "hazard": "Isopropyl alcohol vapours displaced during charging fill building — static spark from unclassified equipment ignites vapour cloud",
+   "equipment": [
+    "mixing tanks (MX-1 to MX-4)",
+    "loose lids with a manway",
+    "portable air-operated diaphragm pump and hoses",
+    "general exhaust fans",
+    "isopropyl alcohol"
+   ],
+   "reason": "IPA is charged via open manway; vapours escape. Building has only general exhaust fans and unclassified electrical. No vapour recovery, no inerting, no LEL monitoring. Likelihood high every batch that uses IPA."
+  },
+  {
+   "rank": 5,
+   "hazard": "Portable pump/hose cross-contamination — catalyst residue in hose contacts next batch's Si–H fluid causing reaction in hose or tank",
+   "equipment": [
+    "portable air-operated diaphragm pump and hoses",
+    "mixing tanks (MX-1 to MX-4)",
+    "platinum catalyst solution",
+    "methylhydrogen siloxane fluid"
+   ],
+   "reason": "Single pump/hose set used for all totes. Package describes no cleaning, flushing, or dedicate‑hose procedure. Catalyst trace in hose meets Si–H fluid on next charge → immediate hydrosilylation in hose (blockage, rupture) or tank (runaway)."
+  },
+  {
+   "rank": 6,
+   "hazard": "Jacket temperature control fails open — batch overheats, exothermic reaction accelerates, tank overpressures before operator responds to high-temperature alarm",
+   "equipment": [
+    "mixing tanks (MX-1 to MX-4)",
+    "jacket temperature control with a high-temperature alarm"
+   ],
+   "reason": "Only safeguard is high-temperature alarm. No automatic steam/cooling water shut-off, no emergency dump/quench. Alarm relies on operator presence and speed; building is 2000 m², operator may be at warehouse."
+  },
+  {
+   "rank": 7,
+   "hazard": "Agitator failure during reaction — poor mixing creates hot spots, local runaway reaction, tank overpressure",
+   "equipment": [
+    "mixing tanks (MX-1 to MX-4)",
+    "loose lids with a manway"
+   ],
+   "reason": "Agitators have no stall/torque monitoring, no interlock with jacket heating. If agitator stops, exothermic reaction stratifies; hot spot drives thermal runaway. Loose lid not designed for emergency relief."
+  },
+  {
+   "rank": 8,
+   "hazard": "Overfilling mixing tank during charging — chemical spills through manway, operator exposure, environmental release",
+   "equipment": [
+    "mixing tanks (MX-1 to MX-4)",
+    "loose lids with a manway",
+    "portable air-operated diaphragm pump and hoses",
+    "paper batch sheet"
+   ],
+   "reason": "No level instrument, no high-level alarm, no automatic pump stop. Operator watches manway and stops pump manually. Paper batch sheet gives no real-time quantity feedback. Spill likely on over-pump or wrong tote volume."
+  },
+  {
+   "rank": 9,
+   "hazard": "Acetic acid charged into KOH emulsifier (or vice versa) too fast — violent neutralisation heat and splashing corrosive liquid onto operator at manway",
+   "equipment": [
+    "mixing tanks (MX-1 to MX-4)",
+    "loose lids with a manway",
+    "portable air-operated diaphragm pump and hoses",
+    "acetic acid",
+    "emulsifier solution containing potassium hydroxide"
+   ],
+   "reason": "Both charged via same pump/hose through manway. No addition-rate control, no sequence interlock. Operator at manway connecting hose. PPE (gloves, goggles, apron) limited against splash."
+  },
+  {
+   "rank": 10,
+   "hazard": "Vinyl-functional silicone polymer + platinum catalyst charged without sufficient Si–H fluid — catalyst remains active, later Si–H addition causes delayed runaway",
+   "equipment": [
+    "mixing tanks (MX-1 to MX-4)",
+    "portable air-operated diaphragm pump and hoses",
+    "platinum catalyst solution",
+    "vinyl-functional silicone polymer",
+    "methylhydrogen siloxane fluid"
+   ],
+   "reason": "Catalyst activates vinyl groups; reaction normally consumes Si–H. If Si–H short-charged (wrong tote, pump error), unreacted catalyst/vinyl stays. Later Si–H addition (next batch or top-up) triggers unexpected exotherm. No catalyst deactivation step, no composition verification."
+  }
+ ]
+}
