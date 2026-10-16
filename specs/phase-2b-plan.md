@@ -1,6 +1,6 @@
 # Phase 2b plan — hybrid ranking (R50)
 
-Status: **draft, final for Bhargavi's read** (mark `Status: approved <date>` here). No code until then.
+Status: approved 2026-10-16 (Bhargavi), with changes C1–C5 below folded in.
 
 Covers every item of `specs/phase-2b-hybrid.md`. It includes Bhargavi's answers to Q1–Q13, her review points A–E, and gaps G1–G15 found on two rereads. Each gap is settled here as a plan decision, marked **(plan)**, for her to keep or change.
 
@@ -31,13 +31,25 @@ Facts checked:
 | B | External- and utility-type hypotheses link no questions for priority, because they are plant-wide. Their support is a finding with the same cause on the same component ID. Both are tested. |
 | E | `support_finding_ids` moves to `ShortlistItem`, computed. The Hypothesis record keeps `question_ids`. |
 
+## Changes at approval (Bhargavi, 2026-10-16)
+
+| # | Change |
+|---|---|
+| C1 | `Hypothesis` gains optional `chemical_ids` (validated: plant chemicals). Question links use `component_ids` ∪ `chemical_ids` ∪ the equipment and valves named by any step or job in `component_ids` (the reverse of R40). Support (b): component overlap **or** the same chemicals. Tested on case G's shape: C14 on a step with chemicals `KOH-EMULSIFIER` and `SIH` links, and is supported by, a `pair:KOH-EMULSIFIER:SIH` C14 finding. This replaces G12. |
+| C2 | 2b.4a: the LOPA top N counts only confirmed and also-found lines; unconfirmed lines get no LOPA and are listed after. |
+| C3 | G3 changed: on confirmed lines the automatic scorer reads only the hypothesis text (`<mechanism> — <consequence>`), as for `5a-plant`. The hand sheet shows both texts. |
+| C4 | The G2b rules (G5, G14) add the grader fallback, fixed now: if Bhargavi can't score, a fresh Claude session is given only each case's `actual_event` and the ten lines (no repo, no design, no other configs), and its scores are recorded as such. |
+| C5 | `max_tokens.plant_screen`: 12288. |
+
+G1, G2, G4, G6, G7 and G8 are kept as written.
+
 ## Gaps found on rereading, settled here (plan)
 
 | # | Gap | Plan decision |
 |---|---|---|
 | G1 | A confirmed hypothesis can have several supporting scenarios, and the spec says the line shows "the supporting scenario's severity and likelihood". | **(plan)** The line shows its **lead** scenario: the supporting scenario first in the spec 2.6 code order (rating, severity, frequency, protection, ID). The others fold under it. |
 | G2 | One scenario can support two hypotheses. | **(plan)** It counts as support for each, so both are confirmed. It is **displayed** only under the highest-ranked hypothesis it supports, so it never appears twice. A confirmed hypothesis whose every supporting scenario is shown under a higher one stays a confirmed line with its own text, and its folded list names those scenarios by ID ("shown under h:…"). |
-| G3 | What text the scorer and the hand sheet read on a tiered line. | **(plan)** Confirmed lines: `<mechanism> — <consequence>` from the hypothesis, followed by the lead finding's text, as one line, since both are the models' own words shown on it. Unconfirmed lines: the hypothesis text only. Also-found lines: the finding text, as now. IDs are never matched. |
+| G3 | What text the scorer and the hand sheet read on a tiered line. | **Changed by C3.** Automatic scorer: on confirmed and unconfirmed lines, the hypothesis text (`<mechanism> — <consequence>`), as for `5a-plant`; on also-found lines, the finding text, as now. Hand sheet: confirmed lines show both the hypothesis text and the lead finding's text. IDs are never matched. |
 | G4 | `hybrid-codeorder` ordering of tier 3, whose hypotheses have no rating. | **(plan)** Tier 1 by its lead scenario's 2.6 key; tier 3 by hypothesis ID. Tier 3's order is reproducible but carries no risk meaning, and the report says so. |
 | G5 | The spec says the G2b rules are "fixed before any run", but nothing records them yet. | **(plan)** This PR adds a `decisions.md` entry with the G2b rules (cases E and F; scored config `hybrid`; the hit rule; Bhargavi's hand scores; the pass condition; what happens on failure), dated before any E or F run. |
 | G6 | Q1(a) amends `CLAUDE.md`. | **(plan)** This PR amends `CLAUDE.md` §3 and §14 with the Q1 wording, and `PROJECT.md` §5 Step 6 with the same wording. |
@@ -46,9 +58,9 @@ Facts checked:
 | G9 | My run order (E hybrid, F hybrid, then 5A on both) didn't follow the spec's order. | **(plan)** Follow the spec's order, per case: hybrid run → hand-score its top 10 → commit → 5A run → hand-score → commit. Do E, then F, then `test5_results.py`. |
 | G10 | The replay manifest holds only the plain ranked list (`gateway/replay.py`), so a replay can't check the tiers. | **(plan)** The manifest gains the hypotheses and the `hybrid` tiered lines (ID, tier, lead finding). The replay test compares them, along with the stop point. |
 | G11 | The answer's ranks and repeats are unchecked. | **(plan)** Structural checks on the whole answer:<br>• ranks are unique and run 1 to n;<br>• no two hypotheses share an ID;<br>• field limits: `mechanism`, `consequence` and `reason` at most 300 characters each, `cause_text` at most 200.<br>A failure here invalidates the answer (the retry path). Gaps left in the ranks by later per-hypothesis drops are kept, and display order follows rank. |
-| G12 | "The same chemicals" for pair and environment links and support is undefined, because a hypothesis's components are plant objects, not chemicals (R46 lets no type name a chemical). | **(plan)** A hypothesis's chemicals are the contents of its equipment and line components, plus the contents of the equipment that its procedure steps act on (`ProcedureStep.equipment_ids`, as in R40). Pair and environment questions link, and pair and environment findings support, through those chemicals. |
+| G12 | "The same chemicals" for pair and environment links and support was undefined. | **Replaced by C1** (`chemical_ids` on the hypothesis; links through components, chemicals, and the equipment and valves of its steps and jobs). |
 | G13 | Two lines are undefined: the text of a `5a-plant` line, and the order of a `hybrid-codeorder` confirmed line whose scenarios all show under a higher one. | **(plan)** A `5a-plant` line is `<mechanism> — <consequence>`. Such a confirmed line is ordered by its lead scenario's 2.6 key, even though the lead is displayed under the higher line. |
-| G14 | The G2b rules entry (G5) doesn't spell out what it must contain. | **(plan)** The entry states:<br>• the cases, E and F;<br>• the per-case order (G9);<br>• the scored config, `hybrid`;<br>• the hit rule, with partials not passing;<br>• R38: a `stopped_cap` hybrid run is reported, not scored;<br>• hand scores are Bhargavi's alone, and Cowork may explain the rule but does not propose scores;<br>• the pass condition: a hit in the top 3 on at least one of E and F, and on as many cases as 5A;<br>• the recognition caveat;<br>• if it fails: stop, report honestly, and re-plan Phase 3. |
+| G14 | The G2b rules entry (G5) doesn't spell out what it must contain. | **(plan)** The entry states:<br>• the cases, E and F;<br>• the per-case order (G9);<br>• the scored config, `hybrid`;<br>• the hit rule, with partials not passing;<br>• R38: a `stopped_cap` hybrid run is reported, not scored;<br>• hand scores are Bhargavi's alone, and Cowork may explain the rule but does not propose scores;<br>• the pass condition: a hit in the top 3 on at least one of E and F, and on as many cases as 5A;<br>• the recognition caveat;<br>• if it fails: stop, report honestly, and re-plan Phase 3;<br>• the grader fallback (C4). |
 | G15 | Two gaps:<br>• the spec's "Cowork does not" review the screen prompt isn't in the plan;<br>• the spec's run summary line has no place in `run_case.py`. | **(plan)**<br>• The prompt PR says it is reviewed by Bhargavi only.<br>• `run_case.py` prints the linked-before-first-unlinked count, and the case report carries it. |
 
 ## Per item
@@ -57,7 +69,7 @@ Facts checked:
 
 - **Branch / PR:** `contract/hypotheses-tiers`, then tag `contract-v1.2`.
 - **Files:**
-  - `schema/records.py`: the immutable `Hypothesis` record, with `id`, `run_id`, `rank`, `mechanism`, `component_ids` (non-empty), `failing_component_type`, `cause_id`, `cause_text` (outside library only), `consequence`, `reason`, `question_ids` and `model_call_id`.
+  - `schema/records.py`: the immutable `Hypothesis` record, with `id`, `run_id`, `rank`, `mechanism`, `component_ids` (non-empty), `chemical_ids` (optional, C1), `failing_component_type`, `cause_id`, `cause_text` (outside library only), `consequence`, `reason`, `question_ids` and `model_call_id`.
   - `schema/ids.py`: `hypothesis_id(rank, mechanism, component_ids)` → `h:<rank>:<h(normalised mechanism, sorted component_ids)>`, built with `normalise_text`.
   - `schema/enums.py`: `EventType.HYPOTHESIS_ADDED`, `EventType.HYPOTHESIS_DROPPED`, and `ShortlistTier` (`confirmed`, `also_found`, `unconfirmed`).
   - `api/models.py`: `ShortlistItem` gains:
@@ -98,7 +110,7 @@ Facts checked:
   - `runs/case.py`: the steppers.
   - `runs/db.py` and `runs/store.py`: the `hypotheses` table, `add_hypothesis` (refused if the ID is already stored), the `hypotheses()` read, and `EMITTED_EVENT_TYPES` (G7).
   - `config/routing.yaml`: `plant_screen: ultra`, and prompt `plant_screen: v1`.
-  - `config/caps.yaml`: `run.plant_screen_max_hypotheses: 12` and `max_tokens.plant_screen`, both in `Run.caps` and the run-ID hash.
+  - `config/caps.yaml`: `run.plant_screen_max_hypotheses: 12` and `max_tokens.plant_screen: 12288` (C5), both in `Run.caps` and the run-ID hash.
 - **The screen's input:**
   - the confirmed plant record as JSON inside the untrusted-data delimiters;
   - the R46-filtered cause list (Q7);
@@ -120,11 +132,11 @@ Facts checked:
 
 - **Branch:** `phase-2b/hybrid`.
 - **Question links** (stored at creation):
-  - a hypothesis links to every question whose section, pair or environment contains one of its component IDs, with chemicals reached through equipment contents (R40);
+  - a hypothesis links to every question whose section, pair or environment contains one of: its `component_ids`; its `chemical_ids`; or the equipment and valves named by any procedure step or planned job in its `component_ids` (the reverse of R40) (C1);
   - external- and utility-type hypotheses link none (B).
 - **Support** (computed when read, never stored) requires all three of:
   - (a) the finding answers a linked question;
-  - (b) its failing components overlap the hypothesis's, or, for pair and environment questions, it has the same chemicals;
+  - (b) its failing components overlap the hypothesis's components, **or** its question's chemicals (pair or environment) are among the hypothesis's `chemical_ids` (C1);
   - (c) its cause ID matches, or both causes are outside-library with the same failing-component type (Q8).
 
   External and utility hypotheses: a finding with the same cause on the same component ID (B).
@@ -136,7 +148,9 @@ Facts checked:
   - `test_external_hypothesis_links_no_questions_and_is_supported_by_the_same_cause_on_the_same_location`.
   - `test_utility_hypothesis_same_for_the_same_utility`.
   - `test_support_follows_the_current_findings_and_the_record_never_changes`.
-  - `test_pair_links_go_through_component_and_step_equipment_contents` (G12).
+  - `test_case_g_shape_a_c14_step_hypothesis_with_its_chemicals_links_and_is_supported_by_the_pair_finding` (C1): on `cases/dev/case_g.json`, C14 on `P-G-CHARGE-2` with chemicals `KOH-EMULSIFIER` and `SIH` links `pair:KOH-EMULSIFIER:SIH` and is supported by a C14 finding on it; the test first checks those IDs exist.
+  - `test_links_through_the_equipment_and_valves_of_a_step` (C1).
+  - `test_unknown_chemical_id_is_dropped_with_the_hypothesis` (C1).
   - `test_links_are_deterministic`.
 
 ### 2b.3 Priority dispatch
@@ -170,7 +184,7 @@ Facts checked:
     - the four configs, plus `5a`;
     - the scorer reads each config's displayed top N, with line text per G3;
     - the hand sheet gets rows for `hybrid` only (Q10).
-  - `PROJECT.md` §5 Step 6 (this PR): the screen is the tiered list, and its top `lopa_top_n` lines get LOPA. The shortlist sorts by tier, then by LOPA gap within a tier; gap never lifts an also-found line above a confirmed one; chains take the tier of their highest-ranked member.
+  - `PROJECT.md` §5 Step 6 (this PR): the screen is the tiered list; the LOPA top `lopa_top_n` counts only confirmed and also-found lines, and unconfirmed lines get no LOPA and are listed after (C2). The shortlist sorts by tier, then by LOPA gap within a tier; gap never lifts an also-found line above a confirmed one; chains take the tier of their highest-ranked member.
 - **Tests first:**
   - `test_tier_order_confirmed_also_found_unconfirmed`.
   - `test_lead_scenario_is_first_in_code_order_and_the_rest_fold_under_it`.
@@ -178,7 +192,7 @@ Facts checked:
   - `test_also_found_never_repeats_a_confirmed_lines_scenarios`.
   - `test_codeorder_keeps_membership_and_orders_by_code`.
   - `test_5b_from_hybrid_equals_the_current_ranking_with_no_hypotheses`.
-  - `test_scorer_reads_the_displayed_text_per_line_kind` (G3).
+  - `test_scorer_reads_the_hypothesis_text_on_confirmed_lines_and_the_sheet_shows_both` (G3, C3).
   - `test_hand_sheet_rows_only_for_hybrid`.
 
 ### Run machine, replay and the $0 check

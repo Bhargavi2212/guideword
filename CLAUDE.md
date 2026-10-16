@@ -40,6 +40,7 @@ No code is written for a phase until Bhargavi has approved a written plan for it
 - **Code owns completeness and arithmetic; data owns facts; Nemotron owns judgment, always with a reason.**
   - The question list is built by code from the plant file and `reference/` tables. Models may add questions (tagged) or mark them not credible (with a reason). Models never delete questions.
   - LOPA arithmetic, the protection-independence check, chain ID validation, risk ranking and coverage counting are deterministic code. Never ask a model to compute them.
+  - One exception (R50, decided 2026-10-16): the whole-plant pass's hypothesis rank, a model judgment with a reason, orders only the confirmed and unconfirmed tiers; code computes tier membership, ratings, links, the fold, LOPA gap and all of "also found"; the model never sets a number.
 - The orchestrator's `finish` is refused while any question is open, unless it has failed twice and is listed as failed.
 - Every record carries the IDs of what it came from. Every number shown in the UI must trace to a plant fact, a model call or a reference table row.
 - Model output is never edited in place. Engineer changes are stored as overrides.
@@ -211,7 +212,7 @@ Next step:       the first thing to do next session
 - Never commit to or force-push `main`.
 - Never call paid APIs or print keys.
 - Never read held-out material or accident reports outside dev cases and demo plants.
-- Never let a model do arithmetic, ranking, coverage counting or ID checking.
+- Never let a model do arithmetic, ranking, coverage counting or ID checking. The one exception is R50 (§3): the whole-plant pass's hypothesis rank orders the confirmed and unconfirmed tiers, and nothing else.
 - Never delete a question, a test or a failing record to make numbers look better.
 - Never invent data, sources or results. Every number in the README, video and UI comes from run records.
 - Never use Operon code. Never add P&ID image reading.
