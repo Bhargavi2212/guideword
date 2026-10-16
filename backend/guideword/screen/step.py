@@ -26,6 +26,7 @@ from guideword.screen.schema import (
     ScreenHypothesis,
     answer_problems,
     every_problem,
+    fitting,
     hypothesis_problem,
     parse_answer,
     plant_for_screen,
@@ -58,6 +59,8 @@ class PlantScreenStepper:
                 # as data: a note cannot close the <plant> block (CLAUDE.md §3)
                 "plant": as_data(plant_for_screen(self.plant)),
                 "causes": as_data(screen_causes(self.plant, self.ref)),
+                # the same list the misfit check reads (plant_screen v2)
+                "can_fail_as": as_data(fitting(self.plant)),
                 "question_kinds": question_kinds(kinds),
                 "max_hypotheses": str(self.max_hypotheses),
             },
