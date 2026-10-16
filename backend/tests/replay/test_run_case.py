@@ -259,3 +259,47 @@ def test_case_d_at_1_20_on_the_fake_gateway_defers_then_sends_then_stops_for_a_r
     assert set(reasons) <= {"severity reserve", "admission", "questions left open"}
     if report["status"] == "stopped_cap":
         assert reasons and report["open_questions"] > 0
+
+
+def test_with_no_hypotheses_5b_from_hybrid_equals_the_current_ranking(
+    case: Case, script: Any
+) -> None:
+    case.run(script)
+    result = case.written()
+    assert result["hypotheses"] == []
+    assert result["5b-from-hybrid"] == result["folded"]
+    assert {line["tier"] for line in result["hybrid"]} == {"also_found"}
+    assert [line["finding_id"] for line in result["hybrid"]] == [
+        line["finding_id"] for line in result["folded"]
+    ]
+
+
+def test_a_supported_screen_hypothesis_heads_the_list_as_confirmed(
+    case: Case, script_factory: Any, capsys: pytest.CaptureFixture[str]
+) -> None:
+    """The fake specialists answer every question with an outside-library external cause on the
+    first location of their context; a screen hypothesis of that shape is confirmed."""
+    plant = json.loads(EXAMPLE.read_text(encoding="utf-8"))
+    location = plant["locations"][0]["id"]
+    screen = [
+        {
+            "rank": 1,
+            "mechanism": "something outside hits the building",
+            "component_ids": [location],
+            "chemical_ids": [],
+            "failing_component_type": "external",
+            "cause_id": "outside_library",
+            "cause_text": "something outside",
+            "consequence": "a release in the building",
+            "reason": "test",
+        }
+    ]
+    case.run(script_factory(screen_hypotheses=screen))
+    out = capsys.readouterr().out
+    result = case.written()
+    first = result["hybrid"][0]
+    assert first["tier"] == "confirmed" and first["hypothesis_rank"] == 1
+    assert first["text"] == "something outside hits the building — a release in the building"
+    assert first["support_finding_ids"]
+    assert result["5a-plant"][0]["text"] == first["text"]
+    assert "confirmed" in out

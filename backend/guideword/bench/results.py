@@ -4,6 +4,10 @@
 Everything here is read from the run outputs under `bench/test5/`: the 5B reports written by
 `run_case.py`, the 5A records, `scores.json`, and the sheets Bhargavi fills. Nothing is typed
 into the table, and a score that is not in a sheet is shown as "not scored".
+
+From R50 a run's report holds four views of the same run: `hybrid` (the displayed tiered list,
+hand-scored), `hybrid-codeorder`, `5a-plant` and `5b-from-hybrid` (automatic only). A report
+from before R50 is scored as `5b`, as it was.
 """
 
 import csv
@@ -22,7 +26,18 @@ KILL4_SUMMARY = Path("kill4") / "summary.json"
 FOUR_TIER_SUMMARY = Path("four_tier") / "summary.json"
 FINISHED = "finished"
 OK = "ok"
-CONFIGS = {"5b": "5B", "5a": "5A"}
+CONFIGS = {
+    "hybrid": "hybrid",
+    "hybrid-codeorder": "hybrid-codeorder",
+    "5a-plant": "5a-plant",
+    "5b-from-hybrid": "5b-from-hybrid",
+    "5b": "5B",
+    "5a": "5A",
+}
+HYBRID_VIEWS = ("hybrid", "hybrid-codeorder", "5a-plant", "5b-from-hybrid")
+# hand scores only for the scored configs (Q10); the others are automatic only
+HAND_CONFIGS = ("5a", "5b", "hybrid")
+NOT_IN_RUN = "not in this run"
 
 
 def _read(path: Path) -> Any:
@@ -37,8 +52,31 @@ def _5a(root: Path, letter: str) -> Any:
     return _read(root / "5a" / f"case_{letter}.json")
 
 
+def _record(root: Path, letter: str, config: str) -> Any:
+    return _5a(root, letter) if config == "5a" else _5b(root, letter)
+
+
+def _applies(config: str, record: Any) -> bool:
+    """A report from a hybrid run has the four views; an older one is `5b`."""
+    if config == "5a" or record is None:
+        return True
+    hybrid = "hybrid" in record
+    return hybrid if config in HYBRID_VIEWS else not hybrid
+
+
 def _lines(config: str, record: Any) -> list[dict[str, Any]]:
     """The ranked lines in the agent's own words, with the IDs for the hand sheet."""
+    if config in HYBRID_VIEWS:
+        return [
+            {
+                "rank": r["rank"],
+                "text": r["text"],
+                "sheet_text": r.get("sheet_text", r["text"]),
+                "question_id": r.get("question_id") or "",
+                "component_ids": " ".join(r.get("failing_component_ids") or []),
+            }
+            for r in record[config]
+        ]
     if config == "5b":
         # R48: the folded list, one line per cause and components (older reports: the ranked)
         rows = record.get("folded", record["ranked"])
@@ -60,8 +98,10 @@ def _lines(config: str, record: Any) -> list[dict[str, Any]]:
 def _scored(record: Any, config: str, groups: Sequence[Sequence[str]]) -> dict[str, Any]:
     if record is None:
         return {"status": "not run", "scored": False}
-    status = record["status"] if config == "5b" else record["outcome"]
-    if status != (FINISHED if config == "5b" else OK):
+    if not _applies(config, record):
+        return {"status": NOT_IN_RUN, "scored": False}
+    status = record["outcome"] if config == "5a" else record["status"]
+    if status != (OK if config == "5a" else FINISHED):
         # R38: a run stopped by a cap is reported, not scored, until Bhargavi decides
         return {"status": status, "scored": False}
     lines = _lines(config, record)
@@ -77,10 +117,7 @@ def _scored(record: Any, config: str, groups: Sequence[Sequence[str]]) -> dict[s
 
 
 def score_case(letter: str, groups: Sequence[Sequence[str]], root: Path) -> dict[str, Any]:
-    return {
-        "5b": _scored(_5b(root, letter), "5b", groups),
-        "5a": _scored(_5a(root, letter), "5a", groups),
-    }
+    return {config: _scored(_record(root, letter, config), config, groups) for config in CONFIGS}
 
 
 def _hand_rows(root: Path) -> list[dict[str, str]]:
@@ -104,16 +141,20 @@ def update_hand_sheet(root: Path, letters: Iterable[str]) -> list[tuple[str, str
     rows = {(r["case"], r["config"], int(r["rank"])): r for r in _hand_rows(root)}
     stale = []
     for letter in letters:
-        for config, record in (("5a", _5a(root, letter)), ("5b", _5b(root, letter))):
-            if record is None:
+        for config in HAND_CONFIGS:
+            record = _record(root, letter, config)
+            if record is None or not _applies(config, record):
                 continue
             for line in _lines(config, record)[:TOP_10]:
                 key = (letter, config, int(line["rank"]))
                 existing = rows.get(key)
-                fresh = {"case": letter, "config": config, **line, "score": "", "reason": ""}
+                # the hand sheet shows both texts on a confirmed line (C3)
+                shown = {k: v for k, v in line.items() if k != "sheet_text"}
+                shown["text"] = line.get("sheet_text", line["text"])
+                fresh = {"case": letter, "config": config, **shown, "score": "", "reason": ""}
                 fresh["rank"] = str(line["rank"])
                 if existing is not None and existing["score"]:
-                    if existing["text"] != line["text"]:
+                    if existing["text"] != shown["text"]:
                         stale.append(key)
                     continue
                 rows[key] = fresh
@@ -162,16 +203,22 @@ def render_results(root: Path) -> str:
     total = 0.0
     for letter in sorted(scores):
         for config, label in CONFIGS.items():
-            score = scores[letter][config]
-            record = _5b(root, letter) if config == "5b" else _5a(root, letter)
+            score = scores[letter].get(config)
+            if score is None or score["status"] == NOT_IN_RUN:
+                continue
+            record = _record(root, letter, config)
             if score["scored"]:
                 rank = "-" if score["rank"] is None else str(score["rank"])
                 auto = score["bucket"]
             else:
                 rank, auto = "-", "not scored"
             rows = [r for r in hand if r["case"] == letter and r["config"] == config]
-            cost = record.get("spent_usd", record.get("cost_usd")) if record else None
-            seconds = record.get("seconds") if record else None
+            # the three extra views come from the hybrid run itself, at no cost of their own
+            derived = config in HYBRID_VIEWS and config != "hybrid"
+            cost = (
+                None if derived or not record else record.get("spent_usd", record.get("cost_usd"))
+            )
+            seconds = None if derived or not record else record.get("seconds")
             total += cost or 0.0
             out.append(
                 f"| case_{letter} | {label} | {score['status']} | {rank} | {auto} | "

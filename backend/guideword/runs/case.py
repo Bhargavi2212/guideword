@@ -13,14 +13,22 @@ from guideword.orchestrator.loop import OrchestratorStepper
 from guideword.questions.coverage import coverage
 from guideword.ranking.rank import RankedFinding, fold, rank_findings
 from guideword.ranking.severity import RankedStepper, SeverityStepper
+from guideword.ranking.tiers import UNCONFIRMED_FLAG, TieredLine, tiered
 from guideword.reference import ReferenceSet
 from guideword.runs.machine import Stepper, advance
 from guideword.runs.plants import PlantRepository, load_plant, plant_facts
 from guideword.runs.start import RunSettings, start_run
 from guideword.runs.store import RunRepository
-from guideword.schema.enums import EventType, QuestionKind, QuestionStatus, RunStatus
+from guideword.schema.enums import EventType, QuestionKind, QuestionStatus, RunStatus, ShortlistTier
 from guideword.schema.plant import Plant
-from guideword.schema.records import OUTSIDE_LIBRARY, Finding, PlantRecord, Question, Run
+from guideword.schema.records import (
+    OUTSIDE_LIBRARY,
+    Finding,
+    Hypothesis,
+    PlantRecord,
+    Question,
+    Run,
+)
 from guideword.schema.validate import Issue
 from guideword.screen.step import PlantScreenStepper
 from guideword.sections.rules import rule_cut
@@ -142,6 +150,78 @@ def folded_lines(
     ]
 
 
+def _hypothesis_text(h: Hypothesis) -> str:
+    """The whole-plant pass's own words: `<mechanism> — <consequence>` (plan C3, G13)."""
+    return f"{h.mechanism}{DASH}{h.consequence}"
+
+
+def _tiered_line(line: TieredLine, rank: int, causes: Mapping[str, str]) -> dict[str, Any]:
+    """A displayed line (R50). The scorer reads `text`: on hypothesis lines the hypothesis's
+    words only; the hand sheet reads `sheet_text`, which also shows the lead finding (C3)."""
+    h = line.hypothesis
+    row: dict[str, Any] = (
+        _line(line.lead, causes, rank)
+        if line.lead is not None
+        else {
+            "rank": rank,
+            "finding_id": None,
+            "question_id": "",
+            "failing_component_ids": list(h.component_ids) if h else [],
+            "rating": None,
+            "severity_class": None,
+            "likelihood_class": None,
+        }
+    )
+    lead_text = _text(line.lead.finding, causes) if line.lead is not None else None
+    text = _hypothesis_text(h) if h is not None else (lead_text or "")
+    row |= {
+        "tier": line.tier.value,
+        "text": text,
+        "sheet_text": f"{text} | finding: {lead_text}" if h is not None and lead_text else text,
+        "lead_text": lead_text,
+        "hypothesis_id": h.id if h else None,
+        "hypothesis_rank": h.rank if h else None,
+        "support_finding_ids": list(line.support_ids),
+        "shown_under": list(line.shown_under),
+        "folded_count": len(line.folded),
+        "folded_finding_ids": [r.finding.id for r in line.folded],
+    }
+    if line.tier == ShortlistTier.UNCONFIRMED:
+        row["flag"] = UNCONFIRMED_FLAG
+    return row
+
+
+def tiered_lines(
+    findings: Sequence[Finding],
+    hypotheses: Sequence[Hypothesis],
+    questions: Sequence[Question],
+    plant: Plant,
+    ref: ReferenceSet,
+    caps: CapsConfig,
+    *,
+    code_order: bool = False,
+) -> list[dict[str, Any]]:
+    causes = {c.id: c.cause for c in ref.causes}
+    ranked = rank_findings(findings, plant, ref, caps)
+    lines = tiered(ranked, hypotheses, findings, questions, code_order=code_order)
+    return [_tiered_line(line, rank, causes) for rank, line in enumerate(lines, start=1)]
+
+
+def plant_screen_lines(hypotheses: Sequence[Hypothesis]) -> list[dict[str, Any]]:
+    """The whole-plant pass's own ranked list, as config `5a-plant` (spec 2b.4)."""
+    return [
+        {
+            "rank": h.rank,
+            "text": _hypothesis_text(h),
+            "sheet_text": _hypothesis_text(h),
+            "hypothesis_id": h.id,
+            "question_id": "",
+            "failing_component_ids": list(h.component_ids),
+        }
+        for h in sorted(hypotheses, key=lambda h: h.rank)
+    ]
+
+
 def ranked_lines(
     findings: Sequence[Finding], plant: Plant, ref: ReferenceSet, caps: CapsConfig
 ) -> list[dict[str, Any]]:
@@ -176,12 +256,14 @@ def case_report(
         raise LookupError(f"no run {run_id}")
     questions = runs.questions(run_id)
     findings = runs.findings(run_id)
+    hypotheses = runs.hypotheses(run_id)
     events = runs.events(run_id)
     lines, failed = coverage(runs.sections(run_id), questions, findings)
     dropped = [
         i for e in events if e.type == EventType.DISPATCH for i in e.payload.get("dropped_ids", [])
     ]
     ranked = ranked_lines(findings, plant, ref, caps)
+    folded = folded_lines(findings, plant, ref, caps)
     return {
         "case": case,
         "run_id": run.id,
@@ -200,5 +282,13 @@ def case_report(
         "dropped": {"total": len(dropped), "distinct": len(set(dropped))},
         "unrated": sum(1 for r in ranked if r["rating"] is None),
         "ranked": ranked,
-        "folded": folded_lines(findings, plant, ref, caps),
+        "folded": folded,
+        # R50: the displayed tiered list (scored), and three views of the same run at $0
+        "hypotheses": [h.model_dump(mode="json") for h in hypotheses],
+        "hybrid": tiered_lines(findings, hypotheses, questions, plant, ref, caps),
+        "hybrid-codeorder": tiered_lines(
+            findings, hypotheses, questions, plant, ref, caps, code_order=True
+        ),
+        "5a-plant": plant_screen_lines(hypotheses),
+        "5b-from-hybrid": folded,
     }
