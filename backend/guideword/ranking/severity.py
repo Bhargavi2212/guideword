@@ -25,11 +25,20 @@ from guideword.gateway.prompts import Prompt, load_prompt, render
 from guideword.ranking.rank import cause_key
 from guideword.reference import ReferenceSet
 from guideword.runs.machine import StepResult, stop_for_refusal
+from guideword.runs.plants import plant_facts
 from guideword.runs.store import StepWriter
 from guideword.schema import ids
-from guideword.schema.enums import EventType, QuestionStatus, RunStatus, SeverityClass, Tier
+from guideword.schema.enums import (
+    EventType,
+    QuestionKind,
+    QuestionStatus,
+    RunStatus,
+    SeverityClass,
+    Tier,
+)
 from guideword.schema.plant import Plant
 from guideword.schema.records import OUTSIDE_LIBRARY, Finding, Question, Run
+from guideword.tools.reactivity import CODE_MEANINGS, reactivity_lookup
 
 JOB = "severity_reason"
 ASK = "Give the severity of every finding in the batch, in the required JSON schema."
@@ -186,6 +195,7 @@ def severity_messages(
     plant: Plant,
 ) -> list[dict[str, Any]]:
     causes = {c.id: c.cause for c in ref.causes}
+    facts = _facts_by_object(plant)
     findings = [
         {
             "finding_id": f.id,
@@ -199,6 +209,7 @@ def severity_messages(
             "consequence": f.consequence,
             "safeguard_ids": f.safeguard_ids,
             "adequacy": f.adequacy.value,
+            "evidence": finding_evidence(f, plant, ref, facts),
         }
         for f in batch
     ]
@@ -283,3 +294,57 @@ class RankedStepper:
             writer.emit(EventType.CAP_HIT, {"reason": "questions left open", "open": open_count})
             return StepResult(status=RunStatus.STOPPED_CAP)
         return StepResult(status=RunStatus.FINISHED)
+
+
+# R49 (after case G run 1): severity sees the evidence code already holds for each finding
+WATER_GROUP = 106  # EPA chart group "Water and Mixtures Containing Water" (reactive_groups.csv)
+NO_CHART = "the EPA chart has no entry for air or heat"
+
+
+def _facts_by_object(plant: Plant) -> dict[str, dict[str, Any]]:
+    by_object: dict[str, dict[str, Any]] = {}
+    # only the values are used; the record ID the facts would carry does not matter here
+    for fact in plant_facts(plant, f"plant:{plant.plant_id}:severity"):
+        by_object.setdefault(fact.id.split(".")[0], {})[fact.id] = fact.value
+    return by_object
+
+
+def _chart_rows(ref: ReferenceSet, group: int, other: int) -> dict[str, Any]:
+    names = {g.epa_group_id: g.name for g in ref.reactive_groups}
+    found = ref.reactivity(group, other)
+    return {
+        "groups": [group, other],
+        "group_names": [names[group], names[other]],
+        "status": found.status,
+        "codes": [{"code": c, "meaning": CODE_MEANINGS[c]} for c in found.codes],
+    }
+
+
+def finding_evidence(
+    finding: Finding, plant: Plant, ref: ReferenceSet, facts: dict[str, dict[str, Any]]
+) -> dict[str, Any]:
+    """The stored facts of the failing components and, for chemical pair and environment
+    findings, what the reactivity chart says (a pair not listed is `not_listed`, never safe)."""
+    evidence: dict[str, Any] = {
+        "facts": {k: v for c in finding.failing_component_ids for k, v in facts.get(c, {}).items()}
+    }
+    parsed = ids.parse_question_id(finding.question_id)
+    if parsed.kind == QuestionKind.CHEMICAL_PAIR:
+        chart = reactivity_lookup(plant, ref, parsed.parts[0], parsed.parts[1])
+        evidence["reactivity"] = {
+            "pairs": [
+                {k: p[k] for k in ("groups", "group_names", "status", "codes")}
+                for p in chart["pairs"]
+            ],
+            "no_groups": chart["no_groups"],
+        }
+    elif parsed.kind == QuestionKind.CHEMICAL_ENVIRONMENT:
+        chemical = next(c for c in plant.chemicals if c.id == parsed.parts[0])
+        if parsed.parts[1] == "water":
+            evidence["reactivity"] = {
+                "pairs": [_chart_rows(ref, g, WATER_GROUP) for g in chemical.epa_groups],
+                "no_groups": [] if chemical.epa_groups else [chemical.id],
+            }
+        else:
+            evidence["reactivity"] = {"chart": NO_CHART, "epa_groups": list(chemical.epa_groups)}
+    return evidence
