@@ -215,13 +215,13 @@ def prepare_batch(
 
 
 def batch_slice_usd(prepared: PreparedBatch, config: Config) -> float:
-    """The batch's worst case, from its request alone (R13 as amended): every allowed tool
-    request (tool agents), the answer and one validation retry, each at the agreed estimate
-    with `max_tokens` as output, each later call re-sending up to `max_tokens` of earlier
-    output as input."""
+    """The batch's slice, from its request alone (R13 as amended): the answer and one
+    validation retry, and for tool agents the tool request before them (the R34 two-call
+    path), each at the agreed estimate with `max_tokens` as output, each later call
+    re-sending up to `max_tokens` of earlier output as input. A batch that needs more (a
+    further tool request) fails on its own slice; the run goes on."""
     max_tokens = config.caps.run.max_tokens[prepared.job]
-    tool_calls = config.caps.run.specialist_max_tool_steps + 1 if prepared.tools else 0
-    calls = tool_calls + 2
+    calls = 3 if prepared.tools else 2
     first = estimate_cost(
         prepared.prices, prepared.conversation, prepared.tools or None, max_tokens
     )

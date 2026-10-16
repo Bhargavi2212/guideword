@@ -1,6 +1,7 @@
 """`scripts/run_case.py` (spec 2.9; plan R11, R38, R43): fake transport only, no network."""
 
 import json
+import re
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
@@ -190,3 +191,71 @@ def test_the_report_folds_repeated_causes_and_prints_the_folded_top_10(
     assert first["finding_id"] == ranked[0]["finding_id"]
     assert len(first["folded_finding_ids"]) == first["folded_count"]
     assert f"(+{first['folded_count']} folded)" in out
+
+
+def test_case_d_at_1_20_on_the_fake_gateway_defers_then_sends_then_stops_for_a_real_reason(
+    tmp_path: Path, script_factory: Any
+) -> None:
+    """The $0 check before the live case D run (R13 as amended): prices ×3 and answers billed at
+    their estimated input and near max_tokens, so dispatches near the end defer batches; each
+    deferred question is sent at bulk by a later dispatch (never promoted, never a repeat), and
+    the run ends for a stated reason within its cap."""
+    import sqlite3  # noqa: PLC0415
+
+    base = load_config(global_budget_usd=25.0)
+    tiers = {
+        tier: model.model_copy(
+            update={
+                "input_usd_per_1m": model.input_usd_per_1m * 3,
+                "output_usd_per_1m": model.output_usd_per_1m * 3,
+            }
+        )
+        for tier, model in base.models.tiers.items()
+    }
+    config = base.model_copy(update={"models": base.models.model_copy(update={"tiers": tiers})})
+    script = script_factory(orchestrator_output_tokens=4000, specialist_tokens=(None, 12_000))
+    transport = FakeTransport(script, catalog_for(config))
+    case_d = REPO / "cases" / "dev" / "case_d.json"
+    run_case.main(
+        [str(case_d), "--cap", "1.20"],
+        transport=transport,
+        config=config,
+        settings=Settings(
+            _env_file=None,  # type: ignore[call-arg]
+            database_url=f"sqlite:///{(tmp_path / 'g.db').as_posix()}",
+        ),
+        ledger=LaptopLedger(tmp_path / "l.jsonl"),
+        clock=lambda: NOW,
+        out_dir=tmp_path / "5b",
+    )
+    report = json.loads((tmp_path / "5b" / "case_d.json").read_text(encoding="utf-8"))
+    dispatches = []
+    with sqlite3.connect(tmp_path / "g.db") as db:
+        for (record,) in db.execute("select record from events order by seq"):
+            event = json.loads(record)
+            if event["type"] == "dispatch":
+                dispatches.append(event["payload"])
+    deferring = [i for i, d in enumerate(dispatches) if d["deferred_at_admission"]]
+    assert deferring, "no dispatch deferred a batch"
+    first = deferring[0]
+    deferred = {q for d in dispatches[first]["deferred_at_admission"] for q in d["question_ids"]}
+    later = {q for d in dispatches[first + 1 :] for q in d["question_ids"]}
+    assert deferred & later, "the deferred questions were not dispatched again"
+    sent_at_bulk = {
+        q["id"]
+        for job, request in transport.sent
+        if job == "specialist_bulk"
+        for q in json.loads(
+            re.search(
+                r"<questions>\s*(.*?)\s*</questions>", request["messages"][0]["content"], re.S
+            ).group(1)  # type: ignore[union-attr]
+        )
+    }
+    resent = deferred & later
+    assert resent <= sent_at_bulk  # sent at their own level, not promoted
+    assert report["cap_spent_usd"] <= 1.20
+    assert report["status"] in ("finished", "stopped_cap")
+    reasons = [hit["reason"] for hit in report["cap_hits"]]
+    assert set(reasons) <= {"severity reserve", "admission", "questions left open"}
+    if report["status"] == "stopped_cap":
+        assert reasons and report["open_questions"] > 0
