@@ -66,13 +66,48 @@ def fitting(plant: Plant) -> dict[str, list[str]]:
     return {kind: ids for kind, ids in listed.items() if ids}
 
 
-def _misfit(component: str, kind: str, listed: dict[str, list[str]]) -> str:
+def _on(component: str, plant: Plant) -> set[str]:
+    """What sits on or around a plant item: its location, the lines that start or end at it,
+    the valves on it, the instruments on it, the loops acting on it, the relief devices
+    protecting it, and the procedure steps and planned jobs that name it."""
+    found: set[str] = set()
+    found |= {e.location_id for e in plant.equipment if e.id == component and e.location_id}
+    found |= {line.id for line in plant.lines if component in (line.from_id, line.to_id)}
+    found |= {v.id for v in plant.valves if v.on_line_id == component}
+    found |= {i.id for i in plant.instruments if i.on_id == component}
+    found |= {loop.id for loop in plant.control_loops if loop.acts_on_id == component}
+    found |= {r.id for r in plant.relief_devices if r.protects_id == component}
+    for procedure in plant.procedures:
+        found |= {
+            step.id
+            for step in procedure.steps
+            if component in (*step.equipment_ids, *step.valve_ids)
+        }
+    found |= {job.id for job in plant.planned_work if component in job.equipment_ids}
+    found.discard(component)
+    return found
+
+
+def nameable_on(component: str, plant: Plant) -> dict[str, list[str]]:
+    """For an item that cannot fail itself: what on or around it can, by type, read from the
+    same `fitting` list (A, R50 review); types with nothing left out."""
+    on = _on(component, plant)
+    groups = {kind: [i for i in members if i in on] for kind, members in fitting(plant).items()}
+    return {kind: members for kind, members in groups.items() if members}
+
+
+def _misfit(component: str, kind: str, listed: dict[str, list[str]], plant: Plant) -> str:
     kinds = [k for k, members in listed.items() if component in members]
-    allowed = (
-        f"{component} can fail as: {', '.join(kinds)}"
-        if kinds
-        else f"{component} can fail as nothing; name its loop, instrument, line or location instead"
-    )
+    if kinds:
+        allowed = f"{component} can fail as: {', '.join(kinds)}"
+    elif groups := nameable_on(component, plant):
+        offered = "; ".join(f"{k}: {', '.join(v)}" for k, v in groups.items())
+        allowed = f"{component} can fail as nothing; name what fails on it instead: {offered}"
+    else:
+        allowed = (
+            f"{component} can fail as nothing, and nothing on it can be named; name a "
+            "component from the can_fail_as list"
+        )
     return f"{component} cannot fail as a {kind}; {allowed}"
 
 
@@ -115,7 +150,7 @@ def hypothesis_problem(h: ScreenHypothesis, plant: Plant, ref: ReferenceSet) -> 
     fits = listed.get(h.failing_component_type.value, [])
     misfits = [c for c in h.component_ids if c not in fits]
     if misfits:
-        why = "; ".join(_misfit(c, h.failing_component_type.value, listed) for c in misfits)
+        why = "; ".join(_misfit(c, h.failing_component_type.value, listed, plant) for c in misfits)
         return f"rank {h.rank}: {why}"
     if h.cause_id == OUTSIDE_LIBRARY:
         return None if h.cause_text else f"rank {h.rank}: an outside_library cause needs cause_text"

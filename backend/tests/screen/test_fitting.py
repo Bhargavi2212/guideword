@@ -18,6 +18,7 @@ from guideword.screen.schema import (
     _all_ids,
     fitting,
     hypothesis_problem,
+    nameable_on,
 )
 
 REPO = Path(__file__).resolve().parents[3]
@@ -74,11 +75,38 @@ def test_the_retry_message_names_what_the_id_can_fail_as_from_the_same_list(
         assert problem is not None and f"cannot fail as a {wrong.value}" in problem
         if kinds:
             assert problem.endswith(f"{component} can fail as: {', '.join(kinds)}")
+            continue
+        # A (R50 review): only what this item really offers, never generic advice
+        groups = nameable_on(component, plant)
+        for kind, members in groups.items():
+            assert members and set(members) <= set(listed[kind]), (component, kind)
+        if groups:
+            offered = "; ".join(f"{k}: {', '.join(v)}" for k, v in groups.items())
+            assert problem.endswith(
+                f"{component} can fail as nothing; name what fails on it instead: {offered}"
+            )
         else:
             assert problem.endswith(
-                f"{component} can fail as nothing; name its loop, instrument, line or "
-                "location instead"
+                f"{component} can fail as nothing, and nothing on it can be named; name a "
+                "component from the can_fail_as list"
             )
+        assert "loop, instrument" not in problem
+
+
+def test_on_case_h_items_with_no_failing_type_are_offered_only_what_h_has(
+    ref: ReferenceSet,
+) -> None:
+    """Case H has no instruments, loops, relief devices, procedures or jobs. The baghouse has a
+    location and duct lines, so those are offered; the dryer and tempering have neither in the
+    plant file, so nothing is, and the message says so instead of suggesting instruments."""
+    plant = load(PLANTS[4])
+    groups = nameable_on("BAGHOUSE", plant)
+    assert set(groups) == {"pipe", "external"} and groups["external"] == ["LOC-H-ROOF"]
+    assert len(groups["pipe"]) == 7
+    for component in ("CORN-DRYER", "TEMPERING"):
+        assert nameable_on(component, plant) == {}
+        problem = hypothesis_problem(hypothesis(component, FailingComponentType.TANK), plant, ref)
+        assert problem is not None and "nothing on it can be named" in problem
 
 
 def test_equipment_with_no_failing_type_is_in_no_list() -> None:
