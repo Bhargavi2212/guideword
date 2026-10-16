@@ -19,10 +19,10 @@ prompts:
   section_suggestion: v1
   severity: v1
   test5a: v1
-  specialists/process: v1
-  specialists/chemistry: v1
-  specialists/piping: v1
-  specialists/procedures: v1
-  specialists/maintenance: v1
-  specialists/dust: v1
+  specialists/process: v2
+  specialists/chemistry: v2
+  specialists/piping: v2
+  specialists/procedures: v2
+  specialists/maintenance: v2
+  specialists/dust: v2
 fallback_order: [nano, lightning, super, ultra]
