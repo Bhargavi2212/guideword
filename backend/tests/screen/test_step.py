@@ -217,3 +217,65 @@ def test_a_hypothesis_is_stored_once_and_never_rewritten(world: World) -> None:
     with pytest.raises(ValueError, match="already stored"), world.runs.step(run_id) as writer:
         writer.add_hypothesis(stored.model_copy(update={"reason": "changed"}))
     assert world.runs.hypotheses(run_id) == [stored]
+
+
+# --- B (Q6 amended, R50 review): after the retry, the attempt with more valid hypotheses ------
+
+
+def two_attempts(world: World, first: Any, second: Any) -> tuple[str, Any]:
+    """The first request gets `first`; the retry (it carries the error) gets `second`."""
+
+    def script(job: str, request: dict[str, Any]) -> Any:
+        return reply(second if len(request["messages"]) > 2 else first)
+
+    gateway, transport = fake_gateway(
+        world.config,
+        script,
+        sessions=world.sessions,
+        ledger_path=world.tmp / "l.jsonl",
+        clock=lambda: NOW,
+    )
+    run = start_case(world.plants, world.runs, world.ref, world.config, world.record.id, 1.0)
+    advance(
+        world.runs,
+        run.id,
+        steppers_for(gateway, world.config, world.ref, world.record.plant_file),
+    )
+    return run.id, transport
+
+
+BAD_2 = hyp(2, ["TANK-9"], "tank", "C21")
+BAD_3 = hyp(3, ["TANK-9"], "tank", "C21") | {"mechanism": "another"}
+
+
+def test_a_worse_retry_does_not_replace_a_better_first_attempt(world: World) -> None:
+    first = {"hypotheses": [GOOD_1, GOOD_2, BAD_3]}  # two valid
+    second = {"hypotheses": [GOOD_1, BAD_2]}  # one valid
+    run_id, transport = two_attempts(world, first, second)
+    assert len(transport.sent) == 2
+    assert [h.rank for h in world.runs.hypotheses(run_id)] == [1, 2]
+    assert [d["rank"] for d in world.events(run_id, EventType.HYPOTHESIS_DROPPED)] == [3]
+
+
+def test_a_better_retry_is_kept(world: World) -> None:
+    first = {"hypotheses": [GOOD_1, BAD_2]}
+    second = {"hypotheses": [GOOD_1, GOOD_2]}
+    run_id, _ = two_attempts(world, first, second)
+    assert [h.rank for h in world.runs.hypotheses(run_id)] == [1, 2]
+    assert world.events(run_id, EventType.HYPOTHESIS_DROPPED) == []
+
+
+def test_a_tie_keeps_the_first_attempt(world: World) -> None:
+    first = {"hypotheses": [GOOD_1, BAD_2]}  # one valid, one dropped
+    second = {"hypotheses": [GOOD_2 | {"rank": 1}]}  # one valid
+    run_id, _ = two_attempts(world, first, second)
+    [kept] = world.runs.hypotheses(run_id)
+    assert kept.component_ids == GOOD_1["component_ids"]
+    assert [d["rank"] for d in world.events(run_id, EventType.HYPOTHESIS_DROPPED)] == [2]
+
+
+def test_an_attempt_invalid_as_a_whole_is_never_chosen(world: World) -> None:
+    first = {"hypotheses": [GOOD_1, GOOD_2 | {"rank": 3}]}  # ranks 1, 3: invalid as a whole
+    second = {"hypotheses": [GOOD_1, BAD_2]}
+    run_id, _ = two_attempts(world, first, second)
+    assert [h.rank for h in world.runs.hypotheses(run_id)] == [1]

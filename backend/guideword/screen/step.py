@@ -2,8 +2,10 @@
 
 One Ultra call (job `plant_screen`) reads the plant record as data, the causes the plant can
 support and the question kinds, and proposes ranked hypotheses. Every problem goes back with
-the one retry; after it, the final answer is read again and only the hypotheses with a problem
-are dropped (Q6), each with a `hypothesis_dropped` event. The survivors are stored once, with
+the one retry. After it, code keeps the attempt with more hypotheses that pass every check
+(a tie keeps the first; an attempt invalid as a whole is never kept) and drops only that
+attempt's hypotheses with a problem (Q6 as amended, R50 review), each with a
+`hypothesis_dropped` event. The survivors are stored once, with
 their question links (2b.2), and the run moves on to the analysis. With none left, the run
 goes on without hypotheses. A cap refusal stops the run like any other.
 """
@@ -51,6 +53,9 @@ class PlantScreenStepper:
         self.plant = plant
         self.prompt = load_prompt(JOB, config)
         self.max_hypotheses = config.caps.run.plant_screen_max_hypotheses
+        # every parsed attempt of the last call, and which was kept (for scripts/screen_check)
+        self.attempts: list[ScreenAnswer] = []
+        self.kept_attempt: int | None = None
 
     def messages(self, kinds: list[str]) -> list[dict[str, Any]]:
         system = render(
@@ -69,8 +74,11 @@ class PlantScreenStepper:
 
     def __call__(self, run: Run, writer: StepWriter) -> StepResult:
         questions = writer.questions()
+        self.attempts, self.kept_attempt = [], None
 
         def validator(value: Any) -> None:
+            if isinstance(value, ScreenAnswer):
+                self.attempts.append(value)
             problems = every_problem(value, self.plant, self.ref, self.max_hypotheses)
             if problems:
                 raise ValueError("; ".join(problems))
@@ -93,25 +101,21 @@ class PlantScreenStepper:
         call_id = result.model_calls[-1].id if result.model_calls else None
 
         kept: list[ScreenHypothesis] = []
-        if result.outcome == "ok" and isinstance(result.value, ScreenAnswer):
-            kept = list(result.value.hypotheses)
+        chosen = self._best_attempt()
+        if result.outcome in ("ok", "invalid") and chosen is not None:
+            for h in self.attempts[chosen].hypotheses:
+                problem = hypothesis_problem(h, self.plant, self.ref)
+                if problem is None:
+                    kept.append(h)
+                else:
+                    writer.emit(EventType.HYPOTHESIS_DROPPED, {"rank": h.rank, "reason": problem})
         elif result.outcome == "invalid":
             answer = parse_answer(result.content)
-            if answer is None or answer_problems(answer, self.max_hypotheses):
-                why = "; ".join(answer_problems(answer, self.max_hypotheses)) if answer else ""
-                writer.emit(
-                    EventType.HYPOTHESIS_DROPPED,
-                    {"rank": None, "reason": f"the answer was invalid: {why or result.error}"},
-                )
-            else:
-                for h in answer.hypotheses:
-                    problem = hypothesis_problem(h, self.plant, self.ref)
-                    if problem is None:
-                        kept.append(h)
-                    else:
-                        writer.emit(
-                            EventType.HYPOTHESIS_DROPPED, {"rank": h.rank, "reason": problem}
-                        )
+            why = "; ".join(answer_problems(answer, self.max_hypotheses)) if answer else ""
+            writer.emit(
+                EventType.HYPOTHESIS_DROPPED,
+                {"rank": None, "reason": f"the answer was invalid: {why or result.error}"},
+            )
         else:
             writer.emit(
                 EventType.HYPOTHESIS_DROPPED,
@@ -144,8 +148,29 @@ class PlantScreenStepper:
                     model_call_id=call_id,
                 )
             )
+        if chosen is not None and len(self.attempts) > 1:
+            log.info(
+                "plant_screen attempt kept",
+                extra={"context": {"run_id": run.id, "attempt": chosen + 1}},
+            )
         if not kept:
             log.warning(
                 "the whole-plant pass gave no hypotheses", extra={"context": {"run_id": run.id}}
             )
         return StepResult(next_step=NEXT)
+
+    def _best_attempt(self) -> int | None:
+        """The attempt with more hypotheses passing every check; a tie keeps the earlier one.
+        Code chooses between two model answers; it never edits either (Q6 as amended)."""
+        best: int | None = None
+        best_count = -1
+        for index, answer in enumerate(self.attempts):
+            if answer_problems(answer, self.max_hypotheses):
+                continue
+            count = sum(
+                1 for h in answer.hypotheses if hypothesis_problem(h, self.plant, self.ref) is None
+            )
+            if count > best_count:
+                best, best_count = index, count
+        self.kept_attempt = best
+        return best

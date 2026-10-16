@@ -108,3 +108,34 @@ def test_an_unusable_answer_is_reported_as_such(
 def test_the_cap_is_required(tmp_path: Path, config: Config) -> None:
     with pytest.raises(SystemExit):
         screen_check.main([str(CASE_H)], config=config)
+
+
+def test_each_attempt_is_reported_and_the_kept_one_named(
+    tmp_path: Path, config: Config, capsys: pytest.CaptureFixture[str]
+) -> None:
+    """B: a worse retry is reported but not kept."""
+    location = plant()["locations"][0]["id"]
+    good = [hyp(1, [location]), hyp(2, [location]) | {"mechanism": "other"}]
+    first = {"hypotheses": [*good, hyp(3, ["NOT-AN-ID-1"])]}
+    second = {"hypotheses": [good[0], hyp(2, ["NOT-AN-ID-2"])]}
+    transport = FakeTransport(
+        lambda job, request: reply(second if len(request["messages"]) > 2 else first),
+        catalog_for(config),
+    )
+    screen_check.main(
+        [str(CASE_H), "--cap", "0.09"],
+        transport=transport,
+        config=config,
+        settings=Settings(
+            _env_file=None,  # type: ignore[call-arg]
+            database_url=f"sqlite:///{(tmp_path / 's.db').as_posix()}",
+        ),
+        ledger=LaptopLedger(tmp_path / "l.jsonl"),
+        clock=lambda: NOW,
+    )
+    out = capsys.readouterr().out
+    assert "attempt 1: valid as a whole True, returned 3, passing 2" in out
+    assert "attempt 2: valid as a whole True, returned 2, passing 1" in out
+    assert "attempt kept: 1" in out
+    assert "returned 3, kept 2, dropped 1" in out
+    assert "NOT-AN-ID" not in out and WORDS not in out
