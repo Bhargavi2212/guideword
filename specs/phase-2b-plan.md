@@ -2,7 +2,7 @@
 
 Status: **draft, final for Bhargavi's read** (mark `Status: approved <date>` here). No code until then.
 
-Covers every item of `specs/phase-2b-hybrid.md`. It includes Bhargavi's answers to Q1–Q13, her review points A–E, and gaps G1–G8 found on rereading. Each gap is settled here as a plan decision, marked **(plan)**, for her to keep or change.
+Covers every item of `specs/phase-2b-hybrid.md`. It includes Bhargavi's answers to Q1–Q13, her review points A–E, and gaps G1–G15 found on two rereads. Each gap is settled here as a plan decision, marked **(plan)**, for her to keep or change.
 
 Facts checked:
 
@@ -85,7 +85,7 @@ Facts checked:
 ### 2b.1 Whole-plant pass (`plant_screen`) and question links
 
 - **Branch / PR:**
-  - `prompts/plant_screen/v1.md` in `phase-2b/prompts`, which Bhargavi reviews;
+  - `prompts/plant_screen/v1.md` in `phase-2b/prompts`, which Bhargavi reviews and Cowork does not (G15);
   - the code in `phase-2b/hybrid`.
 - **Files:**
   - `guideword/screen/schema.py`: the answer schema and its checks (Q4, Q5).
@@ -111,6 +111,7 @@ Facts checked:
   - `test_failing_components_must_fit_the_type_over_the_whole_plant`.
   - `test_library_cause_type_must_match`.
   - `test_at_most_max_hypotheses`.
+  - `test_ranks_unique_one_to_n_and_no_duplicate_ids_or_the_answer_is_retried` (G11).
   - `test_one_call_per_run_counted_against_the_cap`.
   - `test_input_holds_the_plant_and_no_case_package_or_key_text`.
   - `test_hypothesis_added_and_dropped_events`.
@@ -135,6 +136,7 @@ Facts checked:
   - `test_external_hypothesis_links_no_questions_and_is_supported_by_the_same_cause_on_the_same_location`.
   - `test_utility_hypothesis_same_for_the_same_utility`.
   - `test_support_follows_the_current_findings_and_the_record_never_changes`.
+  - `test_pair_links_go_through_component_and_step_equipment_contents` (G12).
   - `test_links_are_deterministic`.
 
 ### 2b.3 Priority dispatch
@@ -146,7 +148,7 @@ Facts checked:
   - `orchestrator/view.py`: a `priority` block, one entry per hypothesis, with its rank, component IDs, cause ID, linked open question IDs and `supported` (on demand, A). No mechanism or consequence text.
   - `orchestrator/tools.py`: `Dispatch.priority: bool = False`.
   - `orchestrator/loop.py`: with `priority` set and the list omitted, linked open questions come first, in hypothesis rank and then ID order, then the other open questions.
-  - The dispatch payload and the run summary carry the count of linked questions answered before the first unlinked dispatch.
+  - The dispatch payload carries the count of linked questions answered before the first unlinked dispatch; the case report carries it and `run_case.py` prints it (G15).
 - **Tests first:**
   - `test_view_priority_block_has_no_mechanism_or_consequence_text`.
   - `test_supported_flag_follows_the_findings`.
@@ -182,10 +184,11 @@ Facts checked:
 ### Run machine, replay and the $0 check
 
 - **Branch:** `phase-2b/hybrid`.
+- **Files:** `gateway/replay.py`: the manifest gains the hypotheses and the tiered lines (G10).
 - **Steps:** `plant_screen` → `analysis` → `severity` → `ranked`.
 - **Test helpers:** every test that builds steppers gains a screen stepper. This is a mechanical change to the helpers; no test changes what it checks.
 - **Tests first:**
-  - `test_replay_reproduces_hypotheses_links_tiers_and_stop_point` (R45).
+  - `test_replay_reproduces_hypotheses_links_tiers_and_stop_point` (R45; the manifest carries the hypotheses and the tiered lines, G10).
   - `test_case_d_end_to_end_on_the_fake_gateway_with_a_scripted_screen`. The scripted screen reply is generic and does not encode case D's real cause.
 
 ### Budget (Q12)
