@@ -43,8 +43,8 @@ def load_prompt(name: str, config: Config, prompts_dir: Path | None = None) -> P
     return Prompt(name, version, (body if found else text).lstrip("\n"))
 
 
-def as_data(value: Any) -> str:
-    text = json.dumps(value, indent=1, ensure_ascii=False)
+def as_data(value: Any, *, default: Any = None) -> str:
+    text = json.dumps(value, indent=1, ensure_ascii=False, default=default)
     return text.replace("&", "\\u0026").replace("<", "\\u003c").replace(">", "\\u003e")
 
 

@@ -9,7 +9,6 @@ leaves the rest without severity (R24). The ranked step ends the run: `finished`
 `stopped_cap` when the analysis ended at the severity reserve with questions still open (R38).
 """
 
-import json
 import math
 from collections import Counter
 from collections.abc import Mapping, Sequence
@@ -21,7 +20,7 @@ from pydantic import BaseModel, ConfigDict, StringConstraints
 from guideword.config import Config
 from guideword.gateway.client import BudgetRefused, Gateway, RunBudget
 from guideword.gateway.estimate import estimate_cost
-from guideword.gateway.prompts import Prompt, load_prompt, render
+from guideword.gateway.prompts import Prompt, as_data, load_prompt, render
 from guideword.ranking.rank import cause_key
 from guideword.reference import ReferenceSet
 from guideword.runs.machine import StepResult, stop_for_refusal
@@ -239,9 +238,10 @@ def severity_messages(
     system = render(
         prompt.body,
         {
-            "severity_classes": json.dumps(classes, indent=1),
-            "findings": json.dumps(findings, indent=1, ensure_ascii=False),
-            "context": json.dumps(context, indent=1, ensure_ascii=False, default=str),
+            # as data: model consequences and plant text cannot close a block (CLAUDE.md §3)
+            "severity_classes": as_data(classes),
+            "findings": as_data(findings),
+            "context": as_data(context, default=str),
         },
     )
     return [{"role": "system", "content": system}, {"role": "user", "content": ASK}]

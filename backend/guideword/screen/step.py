@@ -8,7 +8,6 @@ their question links (2b.2), and the run moves on to the analysis. With none lef
 goes on without hypotheses. A cap refusal stops the run like any other.
 """
 
-import json
 from typing import Any
 
 from guideword.config import Config
@@ -58,7 +57,7 @@ class PlantScreenStepper:
             {
                 # as data: a note cannot close the <plant> block (CLAUDE.md §3)
                 "plant": as_data(plant_for_screen(self.plant)),
-                "causes": json.dumps(screen_causes(self.plant, self.ref), indent=1),
+                "causes": as_data(screen_causes(self.plant, self.ref)),
                 "question_kinds": question_kinds(kinds),
                 "max_hypotheses": str(self.max_hypotheses),
             },

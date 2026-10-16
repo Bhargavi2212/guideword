@@ -17,7 +17,7 @@ from pydantic import ValidationError
 
 from guideword.config import Config
 from guideword.gateway.client import BudgetRefused, Gateway, GatewayResult, RunBudget
-from guideword.gateway.prompts import load_prompt, render
+from guideword.gateway.prompts import as_data, load_prompt, render
 from guideword.logs import get_logger
 from guideword.orchestrator.tools import ARGUMENTS, Dispatch, Reactivity, tool_schemas
 from guideword.orchestrator.view import (
@@ -118,7 +118,8 @@ class OrchestratorStepper:
         system = render(
             self.prompt.body,
             {
-                "view": json.dumps(view, indent=1, ensure_ascii=False),
+                # as data: tool results and step reasons cannot close the block (CLAUDE.md §3)
+                "view": as_data(view),
                 "dispatch_max_question_ids": str(caps.orchestrator_view.dispatch_max_question_ids),
                 "unsure_reanswers_left": str(view["unsure_reanswers_left"]),
             },

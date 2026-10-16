@@ -2,7 +2,7 @@
 
 Status: approved 2026-10-16 (Bhargavi), with changes C1–C5 below folded in.
 
-Covers every item of `specs/phase-2b-hybrid.md`. It includes Bhargavi's answers to Q1–Q13, her review points A–E, and gaps G1–G15 found on two rereads (G16–G21 found while building and in review). Each gap is settled here as a plan decision, marked **(plan)**, for her to keep or change.
+Covers every item of `specs/phase-2b-hybrid.md`. It includes Bhargavi's answers to Q1–Q13, her review points A–E, and gaps G1–G15 found on two rereads (G16–G22 found while building and in review). Each gap is settled here as a plan decision, marked **(plan)**, for her to keep or change.
 
 Facts checked:
 
@@ -68,6 +68,7 @@ G1, G2, G4, G6, G7 and G8 are kept as written.
 | G19 | Found in Bhargavi's review of the PR: the view cuts each agent's open list to the first IDs, so a linked question can be out of sight and the model would have to guess its agent from the ID. | **(Bhargavi, 2026-10-16)** Each `priority` entry groups its linked open question IDs by agent. Acceptance on the $0 case D run: every linked question is answered by the first dispatch that sends an unlinked one, and that dispatch leads with them. G18 kept as built. |
 | G20 | Found in Bhargavi's review: no injection test for the screen prompt. Writing one showed that a plant note holding `</plant>` closed the data block, because JSON leaves `<` and `>` as they are. | **(Bhargavi, 2026-10-16)** The screen writes the plant record with `as_data` (`<`, `>`, `&` escaped as `<` …; it reads back to the same value). A $0 test plants an instruction in two notes, with and without a closing tag: it stays inside the block, and the same answer validates, links and drops exactly as without it. The specialist, severity and orchestrator data blocks embed JSON the same way and are not changed here (open question). |
 | G21 | Found in Bhargavi's review: before any paid E or F run, a check that the screen prompt's new lines carry no key words, and one screen-only live call. | **(Bhargavi, 2026-10-16)** `scripts/prompt_leak_check.py` (written against the key formats only; counts and line numbers unless `--show`), which Bhargavi runs on `plant_screen/v1` against `test5a/v1`. `scripts/screen_check.py` runs only the `plant_screen` step on one plant and prints validity and counts, never hypothesis text, ranks or IDs; Bhargavi runs it once on case H at a $0.05 cap. No E or F run until G19, G20 and G21 pass. |
+| G22 | Follows G20: the specialist, severity and orchestrator data blocks embedded JSON the same way, so plant notes, step text, model-written consequences and tool results could close their blocks. | **(Bhargavi, 2026-10-16)** Every data slot is written with `as_data`, before E and F. A structural test reads every `render()` call and fails on any slot that skips `as_data` unless it is listed as code-only with its reason, so a later slot is covered too. The test 5A `package` is the one text slot kept as written, so 5A on E and F reads what it read on D and G; a package holding a `<package>` tag is refused before any call. Old D and G response caches no longer match; their committed outputs stay the record. |
 
 ## Per item
 

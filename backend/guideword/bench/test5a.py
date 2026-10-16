@@ -70,7 +70,12 @@ def run_5a(
 ) -> dict[str, Any]:
     package = package_for(letter, source_dir)
     prompt = load_prompt(JOB, config)
-    system = render(prompt.body, {"package": package.read_text(encoding="utf-8").rstrip("\n")})
+    text = package.read_text(encoding="utf-8").rstrip("\n")
+    # kept as written, so 5A on E and F reads what it read on D and G (G22): a package that
+    # could open or close its block is refused instead of escaped
+    if "<package>" in text or "</package>" in text:
+        raise ValueError(f"{package.name} holds a <package> tag; it cannot be sent as data")
+    system = render(prompt.body, {"package": text})
     messages = [{"role": "system", "content": system}, {"role": "user", "content": ASK}]
     result = gateway.call(
         job=JOB,
