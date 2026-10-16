@@ -250,3 +250,7 @@ Generated from `validate_plant`: 10 warnings, 0 errors.
 - `line_without_contents` (7): L-DUCT-BAGGING, L-DUCT-ELEVATORS, L-DUCT-HAMMER-MILLS, L-DUCT-PNEUMATIC, L-DUCT-ROLLER-MILLS, L-DUCT-SCREW-CONVEYORS, L-DUCT-SIFTERS
 - `missing_design_limits` (3): BINS, CORN-DRYER, SILOS
 <!-- /warnings:case_h -->
+
+## Known gap, after G2b: equipment locations (logged 2026-10-16)
+
+Most equipment in these plant files has no `location_id`: D 13 of 15, E 8 of 13, F 10 of 10, G 1 of 8, H 6 of 17. Where the package does not state a location, none was assigned (no invented facts). Effects: an external cause cannot be raised on such an item, and the whole-plant pass cannot name its location for it. Equipment that can be named neither as a failing type nor through anything on it: D 1 (`FLARE-HEADER`), F 2 (`EVAPORATORS`, `VACUUM-SYSTEM`), H 2 (`TEMPERING`, `CORN-DRYER`). No plant-file edits before G2b, so the G2b inputs stay as they were; after G2b, any location that a package states can be proposed here for ticking.
