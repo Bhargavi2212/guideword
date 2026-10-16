@@ -17,7 +17,7 @@ jobs:
 prompts:
   orchestrator: v1
   section_suggestion: v1
-  severity: v1
+  severity: v2
   test5a: v1
   specialists/process: v2
   specialists/chemistry: v2

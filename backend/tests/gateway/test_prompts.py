@@ -79,3 +79,10 @@ def test_specialist_prompts_v2_rule_out_dismissing_for_missing_data() -> None:
         assert "no listed cause or ID seems to fit" in body, agent
         assert "`control_loop`: a control loop, one of its instruments, or a control valve" in body
         assert "`regulator`: nothing in the plant file" in body, agent
+
+
+def test_severity_prompt_v2_tells_the_model_to_use_the_evidence() -> None:
+    """Changed after case G run 1 (R49): the chart result and the component facts are evidence."""
+    body = load_prompt("severity", load_config(global_budget_usd=25.0)).body
+    assert "`evidence`" in body and "`not_listed` means the chart has no row" in body
+    assert "{{" not in render(body, {"severity_classes": "C", "findings": "F", "context": "X"})
