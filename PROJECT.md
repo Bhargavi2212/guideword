@@ -66,6 +66,9 @@ Code builds a numbered list of every question. Nothing on it can be deleted.
 
 Nemotron may **add plant-specific questions** (tagged "added by AI") and **mark questions not credible with a reason** (the question stays; the engineer can disagree). The engineer may **add questions** to a run (`POST /runs/{id}/questions`, origin `engineer`, status open): in a running run the orchestrator treats them like any open question; in a finished run they stay open until the engineer answers them with the override action `answer`. The question list is what the coverage report counts.
 
+### Step 3b — Whole-plant pass (`plant_screen`, R50)
+Before any dispatch, one Ultra call reads the confirmed plant record (as data), the cause library the plant can support (R46) and the question kinds, and proposes up to `plant_screen_max_hypotheses` ranked hypotheses: mechanism, component and chemical IDs, cause, consequence and a reason each. Code validates every ID and the failing-component mapping (R46); bad hypotheses are dropped and logged. Each hypothesis is linked by code, once, to the questions on its components, chemicals and the equipment and valves of its steps and jobs. It steers dispatch (the orchestrator may dispatch linked questions first) and the final tiers (Step 6); it never deletes or answers a question.
+
 ### Step 4 — The agent runs the analysis (agent drives, code guards)
 After the engineer confirms the sections, **an orchestrator agent (Nemotron Ultra, tool calling) runs the whole analysis** to the end. It dispatches six **specialist agents**, researches, builds chains, runs LOPA and gathers evidence, deciding at each step what to do next. Code decides what it is allowed to do and when it may stop.
 
@@ -119,8 +122,9 @@ Ultra reads a one-line summary of every finding (ID, cause, consequence, compone
 - Chains are labelled **multi-failure** and are **never ranked down** for needing two failures.
 - Misused terms and scenarios needing more than two independent failures are flagged for the engineer, never filtered out.
 
-### Step 6 — Ranking (code, with reasons from Ultra)
+### Step 6 — Ranking (code, with reasons from Ultra; tier order per R50)
 1. **Screen**: every row gets a severity × likelihood risk-matrix rating from `risk_matrix.csv` (the engineer can load their company's matrix). The screening likelihood is the likelihood band (`likelihood_classes.csv`) that holds the cause's initiating frequency, chosen by code.
+   The screened list is shown in three tiers (R50): **confirmed** (hypotheses with at least one supporting finding, each line showing its lead scenario), **also found** (every other scenario, in the risk-matrix order, folded as in R48) and **unconfirmed** (hypotheses no check supported, flagged for the engineer). Per R50, the whole-plant pass's hypothesis rank, a model judgment with a reason, orders only the confirmed and unconfirmed tiers; code computes tier membership, ratings, links, the fold, LOPA gap and all of "also found"; the model never sets a number. LOPA (below) runs on the top `lopa_top_n` confirmed and also-found lines; unconfirmed lines get no LOPA and are listed after.
 2. **LOPA** for every high-severity finding and every chain:
    - Initiating event frequency from the reference table (each cause-library entry maps to one initiating-event class). Classes not given per year are converted with a plant fact: `per_metre_year` × `lines.length_m`, `per_lift` × `planned_work.lifts_per_year`. **If that fact is missing, the LOPA record is marked incomplete and names the missing fact ID; code never substitutes a default frequency.** The finding stays on the list, flagged. **Outside-library causes:** code (never a model) assigns the highest frequency among library causes with the same failing-component type (converted by the same rule), or 0.1 per year if the type has none, flagged "frequency assumed — engineer to confirm".
    - Conditional modifiers (ignition probability, occupancy) from the reference table.
@@ -129,7 +133,7 @@ Ultra reads a one-line summary of every finding (ID, cause, consequence, compone
    - Mitigated frequency = initiating frequency × modifiers × each credited layer's failure-on-demand probability.
    - Compared to the tolerable frequency for its severity class → **gap**.
    - Shown as orders of magnitude ("about 1 in 10,000 years"), never false precision.
-3. **Shortlist** = the top findings and chains ranked by gap. Counts and caps (how many get LOPA, how many get evidence, step and spend caps) live in `config/caps.yaml`; starting values: LOPA on the top 10, full evidence on the top 5.
+3. **Shortlist** = the top findings and chains ranked by tier first (R50), then by gap within a tier; gap never lifts an also-found line above a confirmed one, and a chain takes the tier of its highest-ranked member. Counts and caps (how many get LOPA, how many get evidence, step and spend caps) live in `config/caps.yaml`; starting values: LOPA on the top 10, full evidence on the top 5.
 4. **Recommendation**: where the gap is above 1, Ultra proposes an action (e.g. an independent high-temperature trip), stored as a Recommendation record with its reason and target finding or chain; the engineer accepts, rejects or edits it (overrides).
 
 Severity: Ultra picks a severity class and must give a reason; code looks up the tolerable frequency and the risk rating. Likelihood never comes from the model.
@@ -529,6 +533,14 @@ Same dev cases, three versions:
 
 Plus the four-tier comparison on 50 fixed questions. Hand-scored.
 
+**G2 result (Oct 16): failed.** 5B found the real cause on D and G but ranked it at folded rank 23 and at 229; 5A hit G at #3 and missed D. See `docs/decisions.md`.
+
+### G2b (Phase 2b, R50)
+- Cases **E and F** only (D and G are spent as gate cases; H is excluded for recognition, R37).
+- Configurations: **hybrid** (the tiered list, model-ordered tiers, scored), with `hybrid-codeorder`, `5a-plant` and `5b-from-hybrid` written from the same run at $0 and scored automatically only; and 5A.
+- Per case: hybrid run → hand-score its top 10 → commit → 5A run → hand-score → commit. Hit rule: only a hit in the top 3 passes; a partial does not.
+- **Passes** if the hybrid has a hit in the top 3 on at least one of E and F, and on as many cases as 5A. Hand scores are Bhargavi's (fallback fixed in `docs/decisions.md`).
+
 ### Held-out benchmark (Phase 6, gate G3)
 - About 6–10 lesser-known accidents not used in any earlier test, from several countries (CSB plus ARIA, eMARS, Dutch Safety Board, UK HSE and national reports; aim for about half outside the US). Written by **a separate Claude session**, run once as a scheduled task on Oct 13 on Bhargavi's computer and instructed not to read this repo's code, prompts or specs, as the plant looked before the accident, with unrelated equipment mixed in. The cases and keys live in the `guideword-heldout` folder outside this repo, which Bhargavi owns and does not open before Phase 6 (an honour system, stated in the README); each file is sealed by SHA-256 in `SEALS.txt`, copied here as `bench/heldout-seals.txt`.
 - A case qualifies only if its source describes the plant in enough detail to rebuild it (equipment, chemicals, procedures, safeguards) and states the root cause. Famous accidents (Bhopal, Texas City, Flixborough, Seveso) are excluded: models recognise them, so they would test memory, not reasoning.
@@ -581,7 +593,8 @@ Each phase has a spec (`specs/phase-N.md`) written and approved before it starts
 | Gate | Date | Pass condition | If it fails |
 |---|---|---|---|
 | G1 Foundations | Oct 14 (morning) | Smoke test passed per model (JSON schema, tool calling, reasoning on/off, cost per call); schema frozen; API contract frozen; LOPA source and CAMEO data confirmed; dev cases D–H validate; simulator and DEXPI feasibility decided; case writer started | Fall back per §16; only a missing schema or contract blocks Phase 1 |
-| G2 Architecture | Oct 17 | 5B (core) puts the real cause in the top 3 on cases D and G, hand-scored | Stop and rethink before building further; use 5A if it matches 5B |
+| G2 Architecture | Oct 17 (decided Oct 16: **failed**) | 5B (core) puts the real cause in the top 3 on cases D and G, hand-scored | Stop and rethink before building further; use 5A if it matches 5B |
+| G2b Hybrid | Oct 17–18 | The hybrid (R50) has a hit in the top 3 on at least one of E and F, and on as many cases as 5A, hand-scored | Stop; the pitch reports the finding honestly (the pipeline finds, the whole-plant pass ranks) and Phase 3 is re-planned |
 | G3 Proof | Oct 24 | Held-out benchmark run and hand-scored | Report honestly; pitch leans on coverage and LOPA |
 | G4 Dry run | Oct 28 | Devpost draft saved; repo public with licence; demo works logged out; video under 3 min; feedback written | Cut the last unfinished feature, never the video |
 
