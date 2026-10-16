@@ -22,6 +22,7 @@ from guideword.config import Config
 from guideword.gateway.client import BudgetRefused, Gateway, RunBudget
 from guideword.gateway.estimate import estimate_cost
 from guideword.gateway.prompts import Prompt, load_prompt, render
+from guideword.ranking.rank import cause_key
 from guideword.reference import ReferenceSet
 from guideword.runs.machine import StepResult, stop_for_refusal
 from guideword.runs.store import StepWriter
@@ -61,12 +62,8 @@ def _done(finding: Finding) -> bool:
 def scenario_key(finding: Finding, section_of: Mapping[str, str | None]) -> str:
     """R48: one scenario per cause (library ID, or the normalised outside-library text), sorted
     failing components and section; its findings differ only in the question that found it."""
-    if finding.cause_id == OUTSIDE_LIBRARY:
-        cause = "outside:" + ids.normalise_text(finding.cause_text or "")
-    else:
-        cause = finding.cause_id
     components = sorted(finding.failing_component_ids)
-    return ids.h([cause, components, section_of.get(finding.question_id) or ""])
+    return ids.h([cause_key(finding), components, section_of.get(finding.question_id) or ""])
 
 
 def scenarios(

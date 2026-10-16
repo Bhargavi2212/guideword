@@ -40,6 +40,8 @@ def _5a(root: Path, letter: str) -> Any:
 def _lines(config: str, record: Any) -> list[dict[str, Any]]:
     """The ranked lines in the agent's own words, with the IDs for the hand sheet."""
     if config == "5b":
+        # R48: the folded list, one line per cause and components (older reports: the ranked)
+        rows = record.get("folded", record["ranked"])
         return [
             {
                 "rank": r["rank"],
@@ -47,7 +49,7 @@ def _lines(config: str, record: Any) -> list[dict[str, Any]]:
                 "question_id": r["question_id"],
                 "component_ids": " ".join(r["failing_component_ids"]),
             }
-            for r in record["ranked"]
+            for r in rows
         ]
     return [
         {"rank": h["rank"], "text": h["hazard"], "question_id": "", "component_ids": ""}

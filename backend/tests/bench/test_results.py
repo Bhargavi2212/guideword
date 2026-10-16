@@ -182,3 +182,20 @@ def test_results_read_hand_scores_and_never_invent_them(tmp_path: Path) -> None:
 def test_an_unknown_hand_score_is_refused(tmp_path: Path) -> None:
     with pytest.raises(ValueError, match="good"):
         _results(tmp_path, hand=[{"config": "5b", "rank": "1", "score": "good"}])
+
+
+def test_the_score_reads_the_folded_lines_when_the_report_has_them(tmp_path: Path) -> None:
+    """R48: the scorer reads the folded top N, so a line folded under another is not ranked."""
+    write_5b(
+        tmp_path,
+        "g",
+        [line(1, "pump trips"), line(2, "pump trips again"), line(3, "chlorine — dead leg")],
+    )
+    path = tmp_path / "5b" / "case_g.json"
+    report = json.loads(path.read_text(encoding="utf-8"))
+    report["folded"] = [
+        {**line(1, "pump trips"), "folded_count": 1, "folded_finding_ids": ["f:2"]},
+        {**line(2, "chlorine — dead leg"), "folded_count": 0, "folded_finding_ids": []},
+    ]
+    path.write_text(json.dumps(report), encoding="utf-8")
+    assert score_case("g", GROUPS, tmp_path)["5b"]["rank"] == 2
