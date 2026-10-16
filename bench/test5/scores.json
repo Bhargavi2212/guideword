@@ -8,5 +8,18 @@
    "scored": false,
    "status": "stopped_cap"
   }
+ },
+ "g": {
+  "5a": {
+   "scored": false,
+   "status": "not run"
+  },
+  "5b": {
+   "bucket": "missed",
+   "line": null,
+   "rank": null,
+   "scored": true,
+   "status": "finished"
+  }
  }
 }
