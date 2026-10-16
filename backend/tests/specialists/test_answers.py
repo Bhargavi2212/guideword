@@ -440,3 +440,35 @@ def test_case_d_contexts_offer_no_cause_they_cannot_support(ref: ReferenceSet) -
         assert not offered & never, (question.id, sorted(offered & never))
         seen |= offered
     assert "C22" in seen  # external fire: plant D has locations
+
+
+def _case_d(ref: ReferenceSet) -> tuple[Plant, dict[str, Section], list[Question]]:
+    plant = Plant.model_validate(
+        json.loads((REPO / "cases" / "dev" / "case_d.json").read_text(encoding="utf-8"))
+    )
+    sections = {s.id: s for s in rule_cut(plant, "plant:d:0")}
+    return plant, sections, build_questions(plant, list(sections.values()), ref, "run:test")
+
+
+def test_process_contexts_hold_every_plant_utility(ref: ReferenceSet) -> None:
+    """R47: utility causes name the utility (§5), and no dev plant links a utility to a line,
+    so every process context lists the plant's utilities; C07 is then offered on case D."""
+    from guideword.specialists.routing import agent_for  # noqa: PLC0415
+
+    plant, sections, questions = _case_d(ref)
+    process = [q for q in questions if agent_for(q, sections) == Agent.PROCESS]
+    question = next(q for q in process if q.id == "m:S-C-103:no:level")
+    context = build_context(Agent.PROCESS, plant, sections, [question])
+    assert {"UT-D-CW", "UT-D-STEAM", "UT-D-LP-STEAM"} <= context.citable_ids
+    assert {u["id"] for u in context.data["utilities"]} == {u.id for u in plant.utilities}
+    assert "C07" in _offered(plant, sections, ref, [question], Agent.PROCESS)
+
+
+def test_chemistry_contexts_get_no_utilities(ref: ReferenceSet) -> None:
+    from guideword.specialists.routing import agent_for  # noqa: PLC0415
+
+    plant, sections, questions = _case_d(ref)
+    for question in (q for q in questions if agent_for(q, sections) == Agent.CHEMISTRY):
+        context = build_context(Agent.CHEMISTRY, plant, sections, [question])
+        assert not context.citable_ids & {u.id for u in plant.utilities}, question.id
+        assert "C07" not in _offered(plant, sections, ref, [question], Agent.CHEMISTRY)

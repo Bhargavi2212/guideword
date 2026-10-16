@@ -287,7 +287,9 @@ def _process(
     solver_ids = {loop.controller_id for loop in loops} | {
         c for g in plant.safeguards if g.id in guard_ids for c in g.component_ids
     }
-    utility_ids = {u for u in scope if u in index.utilities}
+    # R47: utilities are plant-wide, and utility causes name the utility (§5); no dev plant
+    # links a utility to a line, so only this makes them citable (case D dev run)
+    utility_ids = set(index.utilities)
     steps, jobs = _packet(index, scope)
     data = {
         "sections": [_dump(sections[s]) | {"purpose": sections[s].purpose} for s in section_ids],
