@@ -13,8 +13,8 @@ def test_loads_the_version_named_in_routing_without_its_header() -> None:
     prompt = load_prompt("specialists/process", config)
     assert (prompt.name, prompt.version, prompt.label) == (
         "specialists/process",
-        "v1",
-        "specialists/process/v1",
+        "v2",
+        "specialists/process/v2",
     )
     assert prompt.body.startswith("You are the process deviations specialist")
     assert "Placeholders filled by code" not in prompt.body
@@ -67,3 +67,15 @@ def test_test5a_prompt_has_only_the_package_placeholder() -> None:
     assert "{{" not in text
     assert "<package>\nP\n</package>" in text
     assert '"hazards"' in text and '"reason"' in text
+
+
+def test_specialist_prompts_v2_rule_out_dismissing_for_missing_data() -> None:
+    """Changed after the case D dev run: missing information or no fitting cause is never a
+    reason for "not credible", and the failing-component mapping is stated per type (R46)."""
+    config = load_config(global_budget_usd=25.0)
+    for agent in ("process", "chemistry", "piping", "procedures", "maintenance", "dust"):
+        body = load_prompt(f"specialists/{agent}", config).body
+        assert "Missing information is never a reason" in body, agent
+        assert "no listed cause or ID seems to fit" in body, agent
+        assert "`control_loop`: a control loop, one of its instruments, or a control valve" in body
+        assert "`regulator`: nothing in the plant file" in body, agent
