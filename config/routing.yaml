@@ -18,6 +18,7 @@ prompts:
   orchestrator: v1
   section_suggestion: v1
   severity: v1
+  test5a: v1
   specialists/process: v1
   specialists/chemistry: v1
   specialists/piping: v1
