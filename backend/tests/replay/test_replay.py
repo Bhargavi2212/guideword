@@ -189,3 +189,67 @@ def test_replay_transport_lists_the_recorded_models_and_never_sends(
     assert {m["id"] for m in transport.models()} == set(manifest.models)
     with pytest.raises(ReplayMiss):
         transport.send("orchestrator", {"model": "m", "messages": []})
+
+
+def test_replay_reproduces_hypotheses_links_tiers_and_stop_point(
+    tmp_path: Path, ref: ReferenceSet, config: Config, script_factory: Any
+) -> None:
+    """G10: the manifest carries the hypotheses with their links and the hybrid tiered lines,
+    and a replay gives the same, stopping where the original stopped."""
+    from guideword.ranking.rank import rank_findings  # noqa: PLC0415
+    from guideword.ranking.tiers import tiered  # noqa: PLC0415
+
+    plant_raw = json.loads(EXAMPLE.read_text(encoding="utf-8"))
+    location = plant_raw["locations"][0]["id"]
+    screen = [
+        {
+            "rank": rank,
+            "mechanism": mechanism,
+            "component_ids": components,
+            "chemical_ids": [],
+            "failing_component_type": kind,
+            "cause_id": cause,
+            "cause_text": text,
+            "consequence": "a release",
+            "reason": "test",
+        }
+        for rank, mechanism, components, kind, cause, text in [
+            (
+                1,
+                "something outside hits it",
+                [location],
+                "external",
+                "outside_library",
+                "something outside",
+            ),
+            (2, "the tote overheats", ["TOTE-1"], "tank", "outside_library", "a hot day"),
+        ]
+    ]
+    store, run_id = original_run(tmp_path, ref, config, script_factory(screen_hypotheses=screen))
+    fixtures = export(store, run_id, tmp_path / "out", ref, config)
+    manifest = json.loads((fixtures / MANIFEST).read_text(encoding="utf-8"))
+    assert [h[1] for h in manifest["hypotheses"]] == [1, 2]
+    assert {t[0] for t in manifest["tiered"]} >= {"confirmed", "also_found"}
+    assert manifest["step"] == store.runs.get(run_id).step  # type: ignore[union-attr]
+
+    again, replayed_id, status = replay(fixtures, tmp_path, ref, config)
+    assert status.value == manifest["status"]
+    assert again.runs.get(replayed_id).step == manifest["step"]  # type: ignore[union-attr]
+    hypotheses = again.runs.hypotheses(replayed_id)
+    assert [[h.id, h.rank, h.question_ids] for h in hypotheses] == manifest["hypotheses"]
+    plant = prepare_plant(again.plants, plant_raw, ref).plant_file
+    findings = again.runs.findings(replayed_id)
+    lines = tiered(
+        rank_findings(findings, plant, ref, config.caps),
+        hypotheses,
+        findings,
+        again.runs.questions(replayed_id),
+    )
+    assert [
+        [
+            line.tier.value,
+            line.hypothesis.id if line.hypothesis else None,
+            line.lead.finding.id if line.lead else None,
+        ]
+        for line in lines
+    ] == manifest["tiered"]

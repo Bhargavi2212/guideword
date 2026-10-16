@@ -1,16 +1,17 @@
 """Replay fixtures (spec 2.9; plan R30, R45).
 
 `export_replay` writes every response a run used to `bench/replay/<case>/<cache key>.json`,
-plus a manifest with the run's ranked list. `load_replay` puts them back into a response
-cache, and `ReplayTransport` stands in for Token Factory: it lists the recorded models and
-raises `ReplayMiss` on any send, so a replay is served only from the fixtures and a missing
-one fails loudly instead of calling out. Each response keeps its stored cost, so a replay
-counts against its cap what the original did.
+plus a manifest with the run's ranked list, its whole-plant hypotheses with their question
+links, the hybrid tiered lines and where the run stopped (R50, G10). `load_replay` puts them
+back into a response cache, and `ReplayTransport` stands in for Token Factory: it lists the
+recorded models and raises `ReplayMiss` on any send, so a replay is served only from the
+fixtures and a missing one fails loudly instead of calling out. Each response keeps its
+stored cost, so a replay counts against its cap what the original did.
 """
 
 import json
 from collections.abc import Sequence
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
@@ -20,6 +21,7 @@ from guideword.config import CapsConfig
 from guideword.gateway.cache import ResponseCache
 from guideword.gateway.transport import Reply
 from guideword.ranking.rank import rank_findings
+from guideword.ranking.tiers import tiered
 from guideword.reference import ReferenceSet
 from guideword.runs.store import RunRepository
 from guideword.schema.plant import Plant
@@ -45,6 +47,11 @@ class Manifest:
     ranked: list[list[Any]]
     spent_usd: float
     cap_spent_usd: float
+    # R50 (G10): the step the run stopped at; [hypothesis ID, rank, question IDs] in rank
+    # order; [tier, hypothesis ID or None, lead finding ID or None] in display order
+    step: str = ""
+    hypotheses: list[list[Any]] = field(default_factory=list)
+    tiered: list[list[Any]] = field(default_factory=list)
 
 
 class ReplayTransport:
@@ -96,7 +103,10 @@ def export_replay(
                 "response": response,
             }
         )
-    ranked = rank_findings(runs.findings(run_id), plant, ref, caps)
+    findings = runs.findings(run_id)
+    hypotheses = runs.hypotheses(run_id)
+    ranked = rank_findings(findings, plant, ref, caps)
+    lines = tiered(ranked, hypotheses, findings, runs.questions(run_id))
     manifest = {
         "run_id": run.id,
         "case": case or plant.plant_id,
@@ -107,6 +117,19 @@ def export_replay(
         "ranked": [[r.finding.id, r.rating, r.likelihood.frequency_per_year] for r in ranked],
         "spent_usd": run.spent_usd,
         "cap_spent_usd": run.cap_spent_usd,
+        "step": run.step,
+        "hypotheses": [
+            [h.id, h.rank, list(h.question_ids)]
+            for h in sorted(hypotheses, key=lambda h: (h.rank, h.id))
+        ],
+        "tiered": [
+            [
+                line.tier.value,
+                line.hypothesis.id if line.hypothesis else None,
+                line.lead.finding.id if line.lead else None,
+            ]
+            for line in lines
+        ],
     }
     files[MANIFEST] = _dump(manifest)
     live = [s for s in secrets if s]
