@@ -1,7 +1,7 @@
-"""What can fail as what, told to the model by the same function that judges it (plant_screen
-v2; R46 made visible). The per-type ID list in the prompt, the validator's misfit check and the
-retry message all come from `screen.schema.fitting`; these tests prove they agree on every
-dev plant and the example, for every plant ID and every failing-component type."""
+"""The `can_fail_as` list in the plant_screen prompt (R50 review, G23). It is guidance for the
+whole-plant pass, computed by `screen.schema.fitting` from the plant: the same rule every
+finding is held to (R46, `specialists.causes.fitting_ids`). It is not enforced on hypotheses:
+since G23 a hypothesis may name any real plant ID, whatever its type."""
 
 import json
 from datetime import UTC, datetime
@@ -13,13 +13,8 @@ from guideword.config import load_config
 from guideword.reference import ReferenceSet, load_reference_set
 from guideword.schema.enums import FailingComponentType
 from guideword.schema.plant import Plant
-from guideword.screen.schema import (
-    ScreenHypothesis,
-    _all_ids,
-    fitting,
-    hypothesis_problem,
-    nameable_on,
-)
+from guideword.screen.schema import ScreenHypothesis, _all_ids, fitting, hypothesis_problem
+from guideword.specialists.causes import fitting_ids
 
 REPO = Path(__file__).resolve().parents[3]
 PLANTS = [REPO / "cases" / "dev" / f"case_{c}.json" for c in "defgh"] + [
@@ -51,66 +46,39 @@ def hypothesis(component: str, kind: FailingComponentType) -> ScreenHypothesis:
 
 
 @pytest.mark.parametrize("path", PLANTS, ids=lambda p: p.stem)
-def test_the_listed_ids_are_exactly_those_the_validator_accepts(
-    path: Path, ref: ReferenceSet
-) -> None:
+def test_prompt_guidance_list_comes_from_fitting(path: Path) -> None:
+    """The list is computed from the plant by the rule findings are held to: per type, the
+    IDs `fitting_ids` gives, and for `operator` the procedure steps and planned jobs."""
     plant = load(path)
-    listed = fitting(plant)
+    steps = sorted(
+        [s.id for p in plant.procedures for s in p.steps] + [j.id for j in plant.planned_work]
+    )
     for kind in FailingComponentType:
-        for component in sorted(_all_ids(plant)):
-            accepted = hypothesis_problem(hypothesis(component, kind), plant, ref) is None
-            assert accepted == (component in listed.get(kind.value, [])), (component, kind)
+        expected = (
+            steps
+            if kind == FailingComponentType.OPERATOR
+            else sorted(fitting_ids(kind.value, plant))
+        )
+        assert fitting(plant).get(kind.value, []) == expected, kind
 
 
 @pytest.mark.parametrize("path", PLANTS, ids=lambda p: p.stem)
-def test_the_retry_message_names_what_the_id_can_fail_as_from_the_same_list(
-    path: Path, ref: ReferenceSet
-) -> None:
+def test_any_real_plant_id_is_accepted_for_any_type(path: Path, ref: ReferenceSet) -> None:
+    """G23: the type is not checked against a hypothesis's components."""
     plant = load(path)
-    listed = fitting(plant)
-    for component in sorted(_all_ids(plant)):
-        kinds = [k for k, members in listed.items() if component in members]
-        wrong = next(k for k in FailingComponentType if k.value not in kinds)
-        problem = hypothesis_problem(hypothesis(component, wrong), plant, ref)
-        assert problem is not None and f"cannot fail as a {wrong.value}" in problem
-        if kinds:
-            assert problem.endswith(f"{component} can fail as: {', '.join(kinds)}")
-            continue
-        # A (R50 review): only what this item really offers, never generic advice
-        groups = nameable_on(component, plant)
-        for kind, members in groups.items():
-            assert members and set(members) <= set(listed[kind]), (component, kind)
-        if groups:
-            offered = "; ".join(f"{k}: {', '.join(v)}" for k, v in groups.items())
-            assert problem.endswith(
-                f"{component} can fail as nothing; name what fails on it instead: {offered}"
-            )
-        else:
-            assert problem.endswith(
-                f"{component} can fail as nothing, and nothing on it can be named; name a "
-                "component from the can_fail_as list"
-            )
-        assert "loop, instrument" not in problem
+    for kind in FailingComponentType:
+        for component in sorted(_all_ids(plant)):
+            assert hypothesis_problem(hypothesis(component, kind), plant, ref) is None
 
 
-def test_on_case_h_items_with_no_failing_type_are_offered_only_what_h_has(
-    ref: ReferenceSet,
-) -> None:
-    """Case H has no instruments, loops, relief devices, procedures or jobs. The baghouse has a
-    location and duct lines, so those are offered; the dryer and tempering have neither in the
-    plant file, so nothing is, and the message says so instead of suggesting instruments."""
-    plant = load(PLANTS[4])
-    groups = nameable_on("BAGHOUSE", plant)
-    assert set(groups) == {"pipe", "external"} and groups["external"] == ["LOC-H-ROOF"]
-    assert len(groups["pipe"]) == 7
-    for component in ("CORN-DRYER", "TEMPERING"):
-        assert nameable_on(component, plant) == {}
-        problem = hypothesis_problem(hypothesis(component, FailingComponentType.TANK), plant, ref)
-        assert problem is not None and "nothing on it can be named" in problem
+def test_an_unknown_id_is_still_refused(ref: ReferenceSet) -> None:
+    plant = load(PLANTS[0])
+    problem = hypothesis_problem(hypothesis("NOT-IN-PLANT", FailingComponentType.TANK), plant, ref)
+    assert problem is not None and "not in this plant" in problem
 
 
 def test_equipment_with_no_failing_type_is_in_no_list() -> None:
-    plant = load(REPO / "backend" / "tests" / "schema" / "fixtures" / "example_mixing_unit.json")
+    plant = load(PLANTS[-1])
     listed = fitting(plant)
     assert not any("MX-1" in members for members in listed.values())  # a mixer
     assert all(members for members in listed.values())  # empty types are left out

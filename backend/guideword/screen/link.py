@@ -10,11 +10,15 @@ environment questions) include one of the hypothesis's chemicals. External and u
 hypotheses are plant-wide and link no questions.
 
 **Support** is computed from the current findings whenever it is read, never stored. A finding
-supports a hypothesis when (a) it answers a linked question, (b) its failing components overlap
-the hypothesis's components or its question's chemicals are all among the hypothesis's
-chemicals, and (c) it has the same library cause, or both are outside-library with the same
-failing-component type. For external and utility hypotheses: the same cause on the same
-component ID, on any question.
+supports a hypothesis when it answers a linked question and:
+- for a library cause: its failing components overlap the hypothesis's components, or its
+  question's chemicals are all among the hypothesis's chemicals, and it has the same cause;
+- for an outside-library cause (G23): it is outside-library too, and its failing components
+  overlap the hypothesis's own components, or its question's chemicals are all among the
+  hypothesis's, or its question's section holds one of the hypothesis's own components (not
+  what they are attached to). The failing type is not compared: a hypothesis may name an item
+  no failing type fits, and every finding already passed R46.
+For external and utility hypotheses: the same cause on the same component ID, on any question.
 """
 
 from collections.abc import Iterable, Mapping, Sequence
@@ -137,8 +141,14 @@ def _same_cause(hypothesis: Hypothesis, finding: Finding) -> bool:
     return finding.cause_id == hypothesis.cause_id
 
 
-def supports(hypothesis: Hypothesis, finding: Finding, questions: Mapping[str, Question]) -> bool:
-    overlap = bool(set(finding.failing_component_ids) & set(hypothesis.component_ids))
+def supports(
+    hypothesis: Hypothesis,
+    finding: Finding,
+    questions: Mapping[str, Question],
+    sections: Mapping[str, Section],
+) -> bool:
+    own = set(hypothesis.component_ids)
+    overlap = bool(set(finding.failing_component_ids) & own)
     if hypothesis.failing_component_type in PLANT_WIDE:
         return overlap and _same_cause(hypothesis, finding)
     if finding.question_id not in hypothesis.question_ids:
@@ -146,12 +156,26 @@ def supports(hypothesis: Hypothesis, finding: Finding, questions: Mapping[str, Q
     question = questions.get(finding.question_id)
     chemicals = _chemicals(question) if question is not None else set()
     same_chemicals = bool(chemicals) and chemicals <= set(hypothesis.chemical_ids)
-    return (overlap or same_chemicals) and _same_cause(hypothesis, finding)
+    if hypothesis.cause_id == OUTSIDE_LIBRARY:
+        section = (
+            sections.get(question.section_id)
+            if question is not None and question.section_id is not None
+            else None
+        )
+        in_own_section = section is not None and bool(set(section.object_ids) & own)
+        return finding.cause_id == OUTSIDE_LIBRARY and (overlap or same_chemicals or in_own_section)
+    return (overlap or same_chemicals) and finding.cause_id == hypothesis.cause_id
 
 
 def support(
-    hypothesis: Hypothesis, findings: Iterable[Finding], questions: Iterable[Question]
+    hypothesis: Hypothesis,
+    findings: Iterable[Finding],
+    questions: Iterable[Question],
+    sections: Iterable[Section],
 ) -> list[Finding]:
     """The findings that support the hypothesis now, in ID order."""
     by_id = {q.id: q for q in questions}
-    return sorted((f for f in findings if supports(hypothesis, f, by_id)), key=lambda f: f.id)
+    by_section = {s.id: s for s in sections}
+    return sorted(
+        (f for f in findings if supports(hypothesis, f, by_id, by_section)), key=lambda f: f.id
+    )

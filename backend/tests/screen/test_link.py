@@ -133,14 +133,14 @@ def test_same_pair_same_cause_supports_a_different_cause_does_not(ref: Reference
     plant, sections, questions = world(EXAMPLE, ref)
     h = hypothesis(["P-CHARGE-1"], "operator", chemicals=["KOH", "SIH"])
     h = h.model_copy(update={"question_ids": links_for(plant, sections, questions, h)})
-    by_id = {q.id: q for q in questions}
+    by_id, secs = {q.id: q for q in questions}, {x.id: x for x in sections}
     same = finding("pair:KOH:SIH", ["P-CHARGE-2"], "operator", "C14")
     other = finding("pair:KOH:SIH", ["P-CHARGE-2"], "operator", "C15")
-    assert supports(h, same, by_id)
-    assert not supports(h, other, by_id)
+    assert supports(h, same, by_id, secs)
+    assert not supports(h, other, by_id, secs)
 
 
-def test_outside_library_support_needs_the_same_type(ref: ReferenceSet) -> None:
+def test_outside_library_support_needs_an_outside_library_finding(ref: ReferenceSet) -> None:
     plant, sections, questions = world(EXAMPLE, ref)
     h = hypothesis(
         ["P-CHARGE-1"],
@@ -150,12 +150,43 @@ def test_outside_library_support_needs_the_same_type(ref: ReferenceSet) -> None:
         cause_text="wrong tote",
     )
     h = h.model_copy(update={"question_ids": links_for(plant, sections, questions, h)})
-    by_id = {q.id: q for q in questions}
-    assert supports(
-        h, finding("pair:KOH:SIH", ["P-CHARGE-1"], "operator", "outside_library", "anything"), by_id
+    by_id, secs = {q.id: q for q in questions}, {x.id: x for x in sections}
+    outside = finding("pair:KOH:SIH", ["P-CHARGE-1"], "operator", "outside_library", "anything")
+    assert supports(h, outside, by_id, secs)
+    assert not supports(h, finding("pair:KOH:SIH", ["P-CHARGE-1"], "operator", "C14"), by_id, secs)
+
+
+def test_outside_library_support_by_own_ids_or_own_section_never_by_type(
+    ref: ReferenceSet,
+) -> None:
+    """G23: the failing type is not checked. An outside-library finding on a linked question
+    supports when its components overlap the hypothesis's own IDs, or the question's section
+    holds one of them; a section reached only through what the item is attached to does not."""
+    plant, sections, questions = world(EXAMPLE, ref)
+    by_id, secs = {q.id: q for q in questions}, {x.id: x for x in sections}
+    # a mixer, which has no failing type: its own section's questions
+    h = hypothesis(["MX-1"], "tank", cause="outside_library", cause_text="overheats")
+    h = h.model_copy(update={"question_ids": links_for(plant, sections, questions, h)})
+    own = next(
+        q
+        for q in h.question_ids
+        if q.startswith("m:") and "MX-1" in secs[by_id[q].section_id or ""].object_ids
+    )
+    on_loop = finding(own, ["TIC-1"], "control_loop", "outside_library", "anything")
+    assert supports(h, on_loop, by_id, secs)  # in MX-1's own section, any type
+    # a step reaches its equipment's sections, but those hold the pump, not the step
+    step = hypothesis(["P-CHARGE-2"], "operator", cause="outside_library", cause_text="x")
+    step = step.model_copy(update={"question_ids": links_for(plant, sections, questions, step)})
+    reached = next(
+        q
+        for q in step.question_ids
+        if q.startswith("m:") and "P-CHARGE-2" not in secs[by_id[q].section_id or ""].object_ids
     )
     assert not supports(
-        h, finding("pair:KOH:SIH", ["TOTE-1"], "tank", "outside_library", "anything"), by_id
+        step, finding(reached, ["P-1"], "pump", "outside_library", "anything"), by_id, secs
+    )
+    assert supports(
+        step, finding(reached, ["P-CHARGE-2"], "operator", "outside_library", "x"), by_id, secs
     )
 
 
@@ -163,10 +194,10 @@ def test_component_overlap_is_required_for_section_questions(ref: ReferenceSet) 
     plant, sections, questions = world(EXAMPLE, ref)
     h = hypothesis(["TIC-1"], "control_loop", cause="C01")
     h = h.model_copy(update={"question_ids": links_for(plant, sections, questions, h)})
-    by_id = {q.id: q for q in questions}
+    by_id, secs = {q.id: q for q in questions}, {x.id: x for x in sections}
     section_q = next(q for q in h.question_ids if q.startswith("m:"))
-    assert supports(h, finding(section_q, ["TIC-1"], "control_loop", "C01"), by_id)
-    assert not supports(h, finding(section_q, ["TV-1"], "control_loop", "C01"), by_id)
+    assert supports(h, finding(section_q, ["TIC-1"], "control_loop", "C01"), by_id, secs)
+    assert not supports(h, finding(section_q, ["TV-1"], "control_loop", "C01"), by_id, secs)
 
 
 def test_a_finding_on_an_unlinked_question_does_not_support(ref: ReferenceSet) -> None:
@@ -174,9 +205,8 @@ def test_a_finding_on_an_unlinked_question_does_not_support(ref: ReferenceSet) -
     h = hypothesis(["TIC-1"], "control_loop", cause="C01")
     h = h.model_copy(update={"question_ids": links_for(plant, sections, questions, h)})
     unlinked = next(q.id for q in questions if q.id not in h.question_ids and q.id.startswith("m:"))
-    assert not supports(
-        h, finding(unlinked, ["TIC-1"], "control_loop", "C01"), {q.id: q for q in questions}
-    )
+    by_id, secs = {q.id: q for q in questions}, {x.id: x for x in sections}
+    assert not supports(h, finding(unlinked, ["TIC-1"], "control_loop", "C01"), by_id, secs)
 
 
 def test_external_hypothesis_links_nothing_and_needs_the_same_cause_on_the_same_location(
@@ -185,11 +215,11 @@ def test_external_hypothesis_links_nothing_and_needs_the_same_cause_on_the_same_
     plant, sections, questions = world(EXAMPLE, ref)
     h = hypothesis(["BLDG-1"], "external", cause="C22")
     assert links_for(plant, sections, questions, h) == []
-    by_id = {q.id: q for q in questions}
+    by_id, secs = {q.id: q for q in questions}, {x.id: x for x in sections}
     anywhere = next(q.id for q in questions if q.id.startswith("m:"))
-    assert supports(h, finding(anywhere, ["BLDG-1"], "external", "C22"), by_id)
-    assert not supports(h, finding(anywhere, ["ROOF"], "external", "C22"), by_id)
-    assert not supports(h, finding(anywhere, ["BLDG-1"], "external", "C23"), by_id)
+    assert supports(h, finding(anywhere, ["BLDG-1"], "external", "C22"), by_id, secs)
+    assert not supports(h, finding(anywhere, ["ROOF"], "external", "C22"), by_id, secs)
+    assert not supports(h, finding(anywhere, ["BLDG-1"], "external", "C23"), by_id, secs)
 
 
 def test_utility_hypothesis_same_for_the_same_utility(ref: ReferenceSet) -> None:
@@ -198,10 +228,10 @@ def test_utility_hypothesis_same_for_the_same_utility(ref: ReferenceSet) -> None
     )
     h = hypothesis(["UT-CW"], "utility_cooling", cause="C07")
     assert links_for(plant, sections, questions, h) == []
-    by_id = {q.id: q for q in questions}
+    by_id, secs = {q.id: q for q in questions}, {x.id: x for x in sections}
     anywhere = next(q.id for q in questions if q.id.startswith("m:"))
-    assert supports(h, finding(anywhere, ["UT-CW"], "utility_cooling", "C07"), by_id)
-    assert not supports(h, finding(anywhere, ["UT-STEAM"], "utility_cooling", "C07"), by_id)
+    assert supports(h, finding(anywhere, ["UT-CW"], "utility_cooling", "C07"), by_id, secs)
+    assert not supports(h, finding(anywhere, ["UT-STEAM"], "utility_cooling", "C07"), by_id, secs)
 
 
 def test_support_follows_the_current_findings_and_the_record_never_changes(
@@ -212,8 +242,8 @@ def test_support_follows_the_current_findings_and_the_record_never_changes(
     h = h.model_copy(update={"question_ids": links_for(plant, sections, questions, h)})
     before = h.model_dump()
     one = finding("pair:KOH:SIH", ["P-CHARGE-1"], "operator", "C14")
-    assert support(h, [], questions) == []
-    assert support(h, [one], questions) == [one]
+    assert support(h, [], questions, sections) == []
+    assert support(h, [one], questions, sections) == [one]
     assert h.model_dump() == before
 
 
@@ -230,7 +260,7 @@ def test_case_g_shape_c14_on_a_step_with_its_chemicals_links_and_is_supported_by
     assert "pair:KOH-EMULSIFIER:SIH" in linked
     h = h.model_copy(update={"question_ids": linked})
     pair = finding("pair:KOH-EMULSIFIER:SIH", ["P-G-CHARGE-2"], "operator", "C14")
-    assert support(h, [pair], questions) == [pair]
+    assert support(h, [pair], questions, sections) == [pair]
 
 
 def test_a_control_loop_reaches_the_sections_of_what_it_acts_on(ref: ReferenceSet) -> None:

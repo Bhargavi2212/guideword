@@ -19,7 +19,7 @@ from dataclasses import dataclass
 
 from guideword.ranking.rank import RankedFinding, fold
 from guideword.schema.enums import ShortlistTier
-from guideword.schema.records import Finding, Hypothesis, Question
+from guideword.schema.records import Finding, Hypothesis, Question, Section
 from guideword.screen.link import support
 
 UNCONFIRMED_FLAG = "not confirmed by the checks — engineer to review"
@@ -49,6 +49,7 @@ def tiered(
     findings: Sequence[Finding],
     questions: Sequence[Question],
     *,
+    sections: Sequence[Section],
     code_order: bool = False,
 ) -> list[TieredLine]:
     position = {r.finding.id: i for i, r in enumerate(ranked)}
@@ -56,7 +57,7 @@ def tiered(
     supported: dict[str, list[str]] = {}
     for h in sorted(hypotheses, key=lambda h: (h.rank, h.id)):
         ids_ = sorted(
-            (f.id for f in support(h, findings, questions) if f.id in by_id),
+            (f.id for f in support(h, findings, questions, sections) if f.id in by_id),
             key=position.__getitem__,
         )
         supported[h.id] = ids_

@@ -126,12 +126,15 @@ def test_unknown_id_is_retried_then_dropped_and_the_rest_stand(world: World) -> 
     assert dropped["rank"] == 2 and "TANK-9" in dropped["reason"]
 
 
-def test_failing_components_must_fit_the_type_over_the_whole_plant(world: World) -> None:
+def test_a_hypothesis_may_name_any_real_plant_id_whatever_its_type(world: World) -> None:
+    """G23: the failing type is not checked against the components of a hypothesis (it is for
+    every finding); a mixer, which no failing type fits, can be named."""
     pump_as_loop = hyp(2, ["P-1"], "control_loop", "C01")
-    run_id, _ = world.screen({"hypotheses": [GOOD_1, pump_as_loop]})
-    assert [h.rank for h in world.runs.hypotheses(run_id)] == [1]
-    [dropped] = world.events(run_id, EventType.HYPOTHESIS_DROPPED)
-    assert "cannot fail as a control_loop" in dropped["reason"]
+    mixer = hyp(3, ["MX-1"], "tank", "outside_library", cause_text="overheats")
+    run_id, transport = world.screen({"hypotheses": [GOOD_1, pump_as_loop, mixer]})
+    assert len(transport.sent) == 1
+    assert [h.rank for h in world.runs.hypotheses(run_id)] == [1, 2, 3]
+    assert world.events(run_id, EventType.HYPOTHESIS_DROPPED) == []
 
 
 def test_library_cause_type_must_match(world: World) -> None:

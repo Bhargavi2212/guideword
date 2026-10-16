@@ -244,6 +244,7 @@ def test_replay_reproduces_hypotheses_links_tiers_and_stop_point(
         hypotheses,
         findings,
         again.runs.questions(replayed_id),
+        sections=again.runs.sections(replayed_id),
     )
     assert [
         [
