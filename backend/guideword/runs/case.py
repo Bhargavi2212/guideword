@@ -152,6 +152,7 @@ def case_report(
         "spend_cap_usd": run.spend_cap_usd,
         "spent_usd": run.spent_usd,
         "cap_spent_usd": run.cap_spent_usd,
+        "seconds": (events[-1].time - events[0].time).total_seconds() if events else 0.0,
         "coverage": [line.model_dump(mode="json") for line in lines],
         "failed_question_ids": failed,
         "open_questions": sum(1 for q in questions if q.status == QuestionStatus.OPEN),
