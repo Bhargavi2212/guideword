@@ -23,6 +23,7 @@ from guideword.schema.enums import EventType, QuestionKind, QuestionStatus, RunS
 from guideword.schema.plant import Plant
 from guideword.schema.records import (
     OUTSIDE_LIBRARY,
+    Event,
     Finding,
     Hypothesis,
     PlantRecord,
@@ -248,6 +249,23 @@ def not_credible_counts(questions: Sequence[Question]) -> list[dict[str, Any]]:
     return rows
 
 
+def priority_summary(events: Sequence[Event], hypotheses: Sequence[Hypothesis]) -> dict[str, int]:
+    """The run summary line of spec 2b.3 (G15): how many linked questions were answered
+    before the first dispatch that sent an unlinked one. Code does not force the order; it
+    reports it. A dispatch's batches run together, so that dispatch's linked answers count."""
+    answered = 0
+    for event in sorted(events, key=lambda e: e.seq):
+        if event.type != EventType.DISPATCH:
+            continue
+        answered += int(event.payload.get("linked_answered", 0))
+        if event.payload.get("unlinked_sent", 0):
+            break
+    return {
+        "linked_questions": len({q for h in hypotheses for q in h.question_ids}),
+        "linked_answered_before_first_unlinked": answered,
+    }
+
+
 def case_report(
     runs: RunRepository, run_id: str, plant: Plant, ref: ReferenceSet, caps: CapsConfig, case: str
 ) -> dict[str, Any]:
@@ -291,4 +309,5 @@ def case_report(
         ),
         "5a-plant": plant_screen_lines(hypotheses),
         "5b-from-hybrid": folded,
+        "priority": priority_summary(events, hypotheses),
     }

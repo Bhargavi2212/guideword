@@ -1,5 +1,7 @@
 """Batching a specialist's questions (spec 2.4): one section, or one chunk of a plant-wide
-list, per batch; never two agents; ordered by question ID so batches are deterministic."""
+list, per batch; never two agents; ordered by question ID so batches are deterministic.
+A priority dispatch (spec 2b.3) asks to keep its own order instead: groups in order of first
+appearance, members in the given order, so admission reaches the linked questions first."""
 
 from collections.abc import Mapping, Sequence
 
@@ -8,7 +10,11 @@ from guideword.specialists.routing import agent_for
 
 
 def batches(
-    questions: Sequence[Question], sections: Mapping[str, Section], size: int
+    questions: Sequence[Question],
+    sections: Mapping[str, Section],
+    size: int,
+    *,
+    keep_order: bool = False,
 ) -> list[list[Question]]:
     if size < 1:
         raise ValueError("a batch holds at least one question")
@@ -16,11 +22,11 @@ def batches(
     if len(agents) > 1:
         raise ValueError(f"a batch is for one agent, not {sorted(agents)}")
     groups: dict[str, list[Question]] = {}
-    for question in sorted(questions, key=lambda q: q.id):
+    for question in questions if keep_order else sorted(questions, key=lambda q: q.id):
         # pair and environment questions have no section: they form one plant-wide list
         groups.setdefault(question.section_id or "", []).append(question)
     out: list[list[Question]] = []
-    for key in sorted(groups):
+    for key in groups if keep_order else sorted(groups):
         group = groups[key]
         out += [group[i : i + size] for i in range(0, len(group), size)]
     return out

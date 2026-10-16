@@ -2,7 +2,7 @@
 
 Status: approved 2026-10-16 (Bhargavi), with changes C1–C5 below folded in.
 
-Covers every item of `specs/phase-2b-hybrid.md`. It includes Bhargavi's answers to Q1–Q13, her review points A–E, and gaps G1–G15 found on two rereads. Each gap is settled here as a plan decision, marked **(plan)**, for her to keep or change.
+Covers every item of `specs/phase-2b-hybrid.md`. It includes Bhargavi's answers to Q1–Q13, her review points A–E, and gaps G1–G15 found on two rereads (G16–G18 found while building). Each gap is settled here as a plan decision, marked **(plan)**, for her to keep or change.
 
 Facts checked:
 
@@ -64,6 +64,7 @@ G1, G2, G4, G6, G7 and G8 are kept as written.
 | G15 | Two gaps:<br>• the spec's "Cowork does not" review the screen prompt isn't in the plan;<br>• the spec's run summary line has no place in `run_case.py`. | **(plan)**<br>• The prompt PR says it is reviewed by Bhargavi only.<br>• `run_case.py` prints the linked-before-first-unlinked count, and the case report carries it. |
 | G16 | Found while building 2b.2: sections list only equipment and lines, so a hypothesis naming a control loop, instrument, valve or relief device would link no section question and could never be confirmed through one. | **(plan, build)** A component also reaches what it is attached to: a valve its line (`on_line_id`), an instrument its equipment or line (`on_id`), a control loop what it acts on (`acts_on_id`) and where its sensor and final element sit, a relief device what it protects (`protects_id`). The same goes for the valves a step names. |
 | G17 | Found while building 2b.1: a dev plant file names its case in `plant_id` and in every `source` (notes, chemicals) and `provenance` value (e.g. `cases/dev/source/case_g_batch_plant.md`), but the spec says the screen gets no case names. | **(plan, build)** The screen's copy of the plant leaves out `plant_id`, `provenance` and every `source`; the notes' text stays word for word. The specialists' contexts are outside 2b's scope and unchanged; flagged to Bhargavi. |
+| G18 | Found while building 2b.3: two gaps.<br>• `batches()` re-sorts a dispatch by section and ID, so admission would still reach the linked questions last and a deferral could leave them unanswered.<br>• "Linked questions answered before the first non-linked dispatch" was undefined when one dispatch holds both. | **(plan)**<br>• A priority dispatch (`priority: true`, list left out) batches with `keep_order`: section groups in order of first appearance, members in the priority order. Batch sizes and section grouping are unchanged, and every other dispatch batches exactly as before.<br>• Each dispatch event carries `priority`, `linked_answered` and `unlinked_sent` (first answers only; an `unsure` re-answer counts 0 for both). The report's count adds `linked_answered` over the dispatches in order, up to and including the first with `unlinked_sent` > 0: one dispatch's batches run together, so that dispatch's linked answers count. |
 
 ## Per item
 

@@ -133,7 +133,7 @@ def test_tier_request_settings(shipped: Config) -> None:
 
 def test_prompt_versions_name_existing_files(shipped: Config) -> None:
     assert shipped.routing.prompts == {
-        "orchestrator": "v1",
+        "orchestrator": "v2",
         "section_suggestion": "v1",
         "severity": "v2",
         "test5a": "v1",

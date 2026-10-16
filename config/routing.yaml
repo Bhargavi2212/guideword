@@ -17,7 +17,7 @@ jobs:
   plant_screen: ultra
 # prompt name -> version; a change is a new prompts/<name>/<version>.md plus this entry (R19)
 prompts:
-  orchestrator: v1
+  orchestrator: v2
   section_suggestion: v1
   severity: v2
   test5a: v1

@@ -83,6 +83,12 @@ def _print_report(report: dict[str, Any]) -> None:
     print(
         f"of {checked} questions checked: answered {checked - dismissed}, not credible {dismissed}"
     )
+    priority = report["priority"]
+    print(
+        f"{priority['linked_answered_before_first_unlinked']} of "
+        f"{priority['linked_questions']} questions linked to the whole-plant hazards answered "
+        "before the first unlinked dispatch"
+    )
     print(f"top {TOP}: confirmed, also found, unconfirmed (R50); one line per cause (R48)")
     for line in report["hybrid"][:TOP]:
         if line["tier"] == "unconfirmed":

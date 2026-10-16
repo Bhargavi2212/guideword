@@ -20,7 +20,14 @@ from guideword.gateway.client import BudgetRefused, Gateway, GatewayResult, RunB
 from guideword.gateway.prompts import load_prompt, render
 from guideword.logs import get_logger
 from guideword.orchestrator.tools import ARGUMENTS, Dispatch, Reactivity, tool_schemas
-from guideword.orchestrator.view import build_view, by_agent, reanswers_used, unsure_question_ids
+from guideword.orchestrator.view import (
+    build_view,
+    by_agent,
+    linked_ids,
+    prioritised,
+    reanswers_used,
+    unsure_question_ids,
+)
 from guideword.questions.coverage import coverage
 from guideword.ranking.severity import SeverityReserve, severity_reserve
 from guideword.reference import ReferenceSet
@@ -29,7 +36,7 @@ from guideword.runs.store import StepWriter
 from guideword.schema import ids
 from guideword.schema.enums import Agent, AgentTool, EventType, QuestionStatus, RunStatus, Tier
 from guideword.schema.plant import Plant
-from guideword.schema.records import AgentStep, Question, Run, Section, ToolCall
+from guideword.schema.records import AgentStep, Hypothesis, Question, Run, Section, ToolCall
 from guideword.specialists.batch import batches
 from guideword.specialists.routing import agent_for
 from guideword.specialists.run import (
@@ -71,6 +78,7 @@ class OrchestratorStepper:
         findings = writer.findings()
         steps = writer.steps()
         tool_calls = writer.tool_calls()
+        hypotheses = writer.hypotheses()
         mine = [s for s in steps if s.agent == Agent.ORCHESTRATOR]
         if len(mine) >= caps.orchestrator_max_steps:
             writer.emit(
@@ -105,6 +113,7 @@ class OrchestratorStepper:
             sections=sections,
             caps=caps,
             limit_usd=limit,
+            hypotheses=hypotheses,
         )
         system = render(
             self.prompt.body,
@@ -258,7 +267,8 @@ class OrchestratorStepper:
         agent = Agent(args.agent)
         limit = caps.orchestrator_view.dispatch_max_question_ids
         by_id = {q.id: q for q in questions}
-        eligible = self._eligible(agent, args.level, questions, findings, sections)
+        hypotheses = writer.hypotheses() if args.priority else []
+        eligible = self._eligible(agent, args.level, questions, findings, sections, hypotheses)
         skipped: list[str] = []
         if args.question_ids is None:
             chosen = eligible[:limit]
@@ -317,6 +327,7 @@ class OrchestratorStepper:
             "level": args.level,
             "question_ids": chosen if args.question_ids is None else list(args.question_ids),
             "selected_by_code": args.question_ids is None,
+            "priority": args.priority,
             "skipped": skipped,
         }
         if not chosen:
@@ -331,7 +342,8 @@ class OrchestratorStepper:
             return StepResult()
 
         to_run = [by_id[q] for q in chosen]
-        groups = batches(to_run, sections, caps.specialist_batch_size[tier])
+        keep_order = args.priority and args.question_ids is None
+        groups = batches(to_run, sections, caps.specialist_batch_size[tier], keep_order=keep_order)
         ai_left = max(
             0,
             caps.ai_questions_per_run - sum(1 for q in questions if q.kind.value == "added_by_ai"),
@@ -455,6 +467,7 @@ class OrchestratorStepper:
         found = 0
         dropped: list[str] = []
         failed_batches = []
+        answered_ids: list[str] = []
         for outcome in outcomes:
             if isinstance(outcome, BudgetRefused):
                 refusal = refusal or outcome
@@ -472,6 +485,7 @@ class OrchestratorStepper:
             found += len(outcome.findings)
             if outcome.status == "answered":
                 answered += len(outcome.question_ids)
+                answered_ids += list(outcome.question_ids)
             else:
                 failed += len(outcome.question_ids)
                 failed_batches.append(
@@ -481,7 +495,13 @@ class OrchestratorStepper:
                         "reason": outcome.error,
                     }
                 )
+        # G15: first answers only; an unsure re-answer neither counts nor ends the count
+        linked = linked_ids(writer.hypotheses())
+        first_answers = args.level != "unsure"
+        sent = [q.id for index in admitted for q in groups[index]]
         payload |= {
+            "linked_answered": sum(1 for q in answered_ids if q in linked) if first_answers else 0,
+            "unlinked_sent": sum(1 for q in sent if q not in linked) if first_answers else 0,
             "batches": len(groups),
             "dropped_ids": dropped,
             "failed_batches": failed_batches,
@@ -522,24 +542,24 @@ class OrchestratorStepper:
         questions: Sequence[Question],
         findings: Sequence[Any],
         sections: dict[str, Section],
+        hypotheses: Sequence[Hypothesis] = (),
     ) -> list[str]:
         """R44 as amended after the case D dev run: bulk → open and not yet tried; hard → open
         with a failed attempt; unsure → answered with an unsure finding and no Ultra
-        re-answer, within the cap. In ID order. A tried question never goes back to bulk:
-        the same batch again is a cache hit and can only fail again."""
+        re-answer, within the cap. In ID order, or with `hypotheses` (a priority dispatch,
+        spec 2b.3) the linked ones first. A tried question never goes back to bulk: the same
+        batch again is a cache hit and can only fail again."""
         if level == "unsure":
             left = max(0, self.caps.unsure_reanswers_per_run - reanswers_used(findings))
             pool = set(unsure_question_ids(questions, findings))
-            mine = [
-                q for q in by_agent([x for x in questions if x.id in pool], sections).get(agent, [])
-            ]
-            return mine[:left]
+            mine = by_agent([x for x in questions if x.id in pool], sections).get(agent, [])
+            return prioritised(mine, hypotheses)[:left]
         wanted = [
             q
             for q in questions
             if q.status == QuestionStatus.OPEN and ((q.attempts == 0) == (level == "bulk"))
         ]
-        return by_agent(wanted, sections).get(agent, [])
+        return prioritised(by_agent(wanted, sections).get(agent, []), hypotheses)
 
     # --- records and refusals ---------------------------------------------------------------
 

@@ -135,3 +135,24 @@ def test_batches_refuse_mixed_agents(built: tuple[dict[str, Section], list[Quest
     ]
     with pytest.raises(ValueError, match="one agent"):
         batches(mixed, sections, size=10)
+
+
+def test_batches_keep_the_given_order_when_asked(
+    built: tuple[dict[str, Section], list[Question]],
+) -> None:
+    """A priority dispatch (spec 2b.3) keeps its order through batching, so admission reaches
+    the linked questions first: groups in order of first appearance, members in input order.
+    The same sections and sizes as without it."""
+    sections, questions = built
+    process = sorted(
+        (q for q in questions if agent_for(q, sections) == Agent.PROCESS), key=lambda q: q.id
+    )
+    given = [process[-1], *process[:-1]]
+    out = batches(given, sections, size=5, keep_order=True)
+    flat = [q.id for b in out for q in b]
+    assert flat[0] == process[-1].id
+    assert sorted(flat) == sorted(q.id for q in process) and len(flat) == len(set(flat))
+    for batch in out:
+        assert len(batch) <= 5 and len({q.section_id for q in batch}) == 1
+        assert [q.id for q in batch] == [q.id for q in given if q in batch]
+    assert sorted(map(len, out)) == sorted(map(len, batches(given, sections, size=5)))

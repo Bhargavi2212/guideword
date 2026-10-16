@@ -763,3 +763,244 @@ def test_the_same_deferrals_whatever_the_thread_timing(
             (event["deferred_at_admission"], calls, world.runs.get(run.id).cap_spent_usd)
         )  # type: ignore[union-attr]
     assert results[0][0] and results[0] == results[1]
+
+
+# --- spec 2b.3: priority dispatch (R50) -----------------------------------------------------
+
+MECHANISM = "MECHANISM-TEXT-never-in-the-view"
+CONSEQUENCE = "CONSEQUENCE-TEXT-never-in-the-view"
+
+
+def agent_ids(world: World, run: Run, agent: str) -> list[str]:
+    from guideword.specialists.routing import agent_for  # noqa: PLC0415
+
+    sections = {s.id: s for s in world.runs.sections(run.id)}
+    return sorted(
+        q.id for q in world.runs.questions(run.id) if agent_for(q, sections).value == agent
+    )
+
+
+def add_hypothesis(
+    world: World,
+    run: Run,
+    rank: int,
+    question_ids: list[str],
+    components: tuple[str, ...] = ("MX-1",),
+    cause: str = "C01",
+) -> Any:
+    from guideword.schema import ids  # noqa: PLC0415
+    from guideword.schema.records import Hypothesis  # noqa: PLC0415
+
+    mechanism = f"{MECHANISM} {rank}"
+    h = Hypothesis(
+        id=ids.hypothesis_id(rank, mechanism, components),
+        run_id=run.id,
+        rank=rank,
+        mechanism=mechanism,
+        component_ids=list(components),
+        failing_component_type="control_loop",
+        cause_id=cause,
+        consequence=CONSEQUENCE,
+        reason="test",
+        question_ids=sorted(question_ids),
+    )
+    with world.runs.step(run.id) as writer:
+        writer.add_hypothesis(h)
+    return h
+
+
+def test_view_priority_block_has_no_mechanism_or_consequence_text(world: World) -> None:
+    run = world.start()
+    process = agent_ids(world, run, "process")
+    add_hypothesis(world, run, 2, process[:2])
+    add_hypothesis(world, run, 1, [process[-1]])
+    gateway, transport = world.gateway(lambda view: ("check_coverage", {}))
+    advance(world.runs, run.id, world.steppers(gateway))
+    [(_, request)] = transport.sent
+    view = view_of(request)
+    assert [p["rank"] for p in view["priority"]] == [1, 2]
+    first = view["priority"][0]
+    assert set(first) == {"rank", "component_ids", "cause_id", "open_question_ids", "supported"}
+    assert first["open_question_ids"] == {"count": 1, "ids": [process[-1]]}
+    assert first["component_ids"] == ["MX-1"] and first["cause_id"] == "C01"
+    assert first["supported"] is False
+    text = json.dumps(request)
+    assert MECHANISM not in text and CONSEQUENCE not in text
+
+
+def test_supported_flag_follows_the_findings(world: World) -> None:
+    from guideword.orchestrator.view import build_view  # noqa: PLC0415
+    from guideword.schema import ids  # noqa: PLC0415
+    from guideword.schema.records import Finding  # noqa: PLC0415
+
+    run = world.start()
+    question = "m:S-MX-1:more:pressure"
+    h = add_hypothesis(world, run, 1, [question])
+    finding = Finding(
+        id=ids.finding_id(question, "lightning", ["MX-1"], cause_id="C01"),
+        run_id=run.id,
+        question_id=question,
+        tier="lightning",
+        cause_id="C01",
+        failing_component_type="control_loop",
+        failing_component_ids=["MX-1"],
+        consequence="test",
+        adequacy="unknown",
+        confidence="sure",
+    )
+
+    def view(findings: list[Finding]) -> dict[str, Any]:
+        return build_view(
+            run,
+            questions=world.runs.questions(run.id),
+            findings=findings,
+            steps=[],
+            tool_calls=[],
+            sections={s.id: s for s in world.runs.sections(run.id)},
+            caps=world.config.caps.run,
+            limit_usd=1.0,
+            hypotheses=[h],
+        )
+
+    assert view([])["priority"][0]["supported"] is False
+    assert view([finding])["priority"][0]["supported"] is True
+    other = finding.model_copy(update={"cause_id": "C02"})
+    assert view([other])["priority"][0]["supported"] is False
+
+
+def test_priority_selects_linked_first_in_rank_then_id_order(world: World, config: Config) -> None:
+    run = world.start()
+    process = agent_ids(world, run, "process")
+    chemistry = agent_ids(world, run, "chemistry")
+    # rank 1 links the last process question (and one of another agent, which stays out);
+    # rank 2 links two more and the rank 1 one again, which keeps its rank 1 place
+    add_hypothesis(world, run, 1, [process[-1], chemistry[0]])
+    add_hypothesis(world, run, 2, [process[-2], process[-3], process[-1]], ("TK-1",))
+    gateway, _ = world.gateway(
+        lambda view: (
+            "dispatch_specialist",
+            {"agent": "process", "level": "bulk", "priority": True},
+        )
+    )
+    advance(world.runs, run.id, world.steppers(gateway))
+    [event] = _dispatch_events(world, run)
+    limit = config.caps.run.orchestrator_view.dispatch_max_question_ids
+    linked = [process[-1], process[-3], process[-2]]
+    rest = [q for q in process if q not in linked]
+    assert event["question_ids"] == (linked + rest)[:limit]
+    assert event["priority"] is True and event["selected_by_code"] is True
+    assert event["linked_answered"] == 3
+    assert event["unlinked_sent"] == min(limit, len(process)) - 3
+
+
+def test_explicit_question_ids_ignore_priority(world: World) -> None:
+    run = world.start()
+    process = agent_ids(world, run, "process")
+    add_hypothesis(world, run, 1, [process[-1]])
+    chosen = [process[0], process[1], process[-1]]
+    gateway, _ = world.gateway(
+        lambda view: (
+            "dispatch_specialist",
+            {"agent": "process", "level": "bulk", "question_ids": chosen, "priority": True},
+        )
+    )
+    advance(world.runs, run.id, world.steppers(gateway))
+    [event] = _dispatch_events(world, run)
+    assert (event["question_ids"], event["selected_by_code"]) == (chosen, False)
+
+
+def test_without_priority_the_order_is_unchanged(world: World, config: Config) -> None:
+    run = world.start()
+    process = agent_ids(world, run, "process")
+    add_hypothesis(world, run, 1, [process[-1]])
+    gateway, _ = world.gateway(
+        lambda view: ("dispatch_specialist", {"agent": "process", "level": "bulk"})
+    )
+    advance(world.runs, run.id, world.steppers(gateway))
+    [event] = _dispatch_events(world, run)
+    limit = config.caps.run.orchestrator_view.dispatch_max_question_ids
+    assert event["question_ids"] == process[:limit] and event["priority"] is False
+
+
+def test_bulk_then_hard_no_repeat_and_deferral_still_hold_with_priority(
+    tmp_path: Path, ref: ReferenceSet, config: Config
+) -> None:
+    # bulk then hard, and no repeat: a failed priority dispatch goes on at hard only
+    (tmp_path / "a").mkdir()
+    world = World(tmp_path / "a", ref, config)
+    run = world.start()
+    process = agent_ids(world, run, "process")
+    add_hypothesis(world, run, 1, [process[-1]])
+    levels = iter(["bulk", "bulk", "hard"])
+    gateway, transport = world.gateway(
+        lambda view: (
+            "dispatch_specialist",
+            {"agent": "process", "level": next(levels), "priority": True},
+        ),
+        broken,
+    )
+    steppers = world.steppers(gateway)
+    for _ in range(3):
+        advance(world.runs, run.id, steppers)
+    first, second, third = _dispatch_events(world, run)
+    assert first["question_ids"][0] == process[-1]
+    assert not set(first["question_ids"]) & set(second["question_ids"])
+    tried = set(first["question_ids"]) | set(second["question_ids"])
+    assert set(third["question_ids"]) <= tried and third["question_ids"][0] == process[-1]
+    sent = [json.dumps(r, sort_keys=True) for job, r in transport.sent if job != "orchestrator"]
+    assert len(sent) == len(set(sent))
+
+    # deferral: with room for the first batches only, the linked question is in them
+    def once(name: str, cap: float) -> tuple[World, Run, dict[str, Any]]:
+        (tmp_path / name).mkdir()
+        w = World(tmp_path / name, ref, config)
+        r = w.start(cap=cap)
+        add_hypothesis(w, r, 1, [agent_ids(w, r, "process")[-1]])
+        g, _ = w.gateway(
+            lambda view: (
+                "dispatch_specialist",
+                {"agent": "process", "level": "bulk", "priority": True},
+            ),
+            finds,
+        )
+        advance(w.runs, r.id, w.steppers(g))
+        [event] = _dispatch_events(w, r)
+        return w, r, event
+
+    _, _, probe = once("probe", 5.0)
+    slices = probe["admission"]["slices_usd"]
+    assert len(slices) > 2
+    # room for the orchestrator turn and the first two slices only, as in the test above
+    cap = probe["admission"]["cap_spent_usd"] + slices[0] + slices[1] + slices[2] / 2
+    w, r, event = once("tight", round(cap, 6))
+    deferred = [q for d in event["deferred_at_admission"] for q in d["question_ids"]]
+    assert deferred and process[-1] not in deferred
+    stored = {q.id: q for q in w.runs.questions(r.id)}
+    assert stored[process[-1]].status == QuestionStatus.ANSWERED
+    assert all(stored[q].attempts == 0 for q in deferred)
+    assert event["linked_answered"] == 1
+
+
+def test_the_report_counts_linked_answered_before_the_first_unlinked_dispatch(
+    world: World,
+) -> None:
+    """G15: a dispatch's batches run together, so the linked questions of the first dispatch
+    that also sends an unlinked one count; later dispatches do not."""
+    from guideword.runs.case import priority_summary  # noqa: PLC0415
+
+    run = world.start()
+    process = agent_ids(world, run, "process")
+    add_hypothesis(world, run, 1, [process[-1], process[-2], process[-3]])
+    script = iter(
+        [
+            {"agent": "process", "level": "bulk", "question_ids": [process[-1]]},
+            {"agent": "process", "level": "bulk", "priority": True},
+            {"agent": "process", "level": "bulk", "priority": True},
+        ]
+    )
+    gateway, _ = world.gateway(lambda view: ("dispatch_specialist", next(script)))
+    steppers = world.steppers(gateway)
+    for _ in range(3):
+        advance(world.runs, run.id, steppers)
+    summary = priority_summary(world.runs.events(run.id), world.runs.hypotheses(run.id))
+    assert summary == {"linked_questions": 3, "linked_answered_before_first_unlinked": 3}

@@ -28,6 +28,8 @@ class Dispatch(_Args):
     level: Literal["bulk", "hard", "unsure"] = "bulk"
     # left out: code picks the next questions for this agent at this level (R44)
     question_ids: Annotated[list[str], Field(min_length=1)] | None = None
+    # with question_ids left out: the questions linked to the priority hypotheses first (2b.3)
+    priority: bool = False
 
 
 class Reactivity(_Args):
@@ -50,7 +52,8 @@ DESCRIPTIONS = {
     "check_coverage": "The current coverage counts and the open, failed and unsure question IDs.",
     "dispatch_specialist": (
         "Send questions to one specialist agent. Leave question_ids out to send the next ones for "
-        "that agent at that level; code batches them and runs the batches in parallel."
+        "that agent at that level; code batches them and runs the batches in parallel. "
+        "With priority true, code sends the questions linked to the priority hazards first."
     ),
     "reactivity_lookup": (
         "What the EPA 1980 compatibility chart says about two chemicals of this plant."
