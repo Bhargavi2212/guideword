@@ -182,3 +182,31 @@ def test_plant_screen_v2_only_adds_the_fitting_list_and_two_lines() -> None:
         "max_hypotheses": "12",
     }
     assert "<can_fail_as>\nF\n</can_fail_as>" in render("\n".join(v2), values)
+
+
+def test_plant_screen_v3_only_rewords_the_rule_lines_of_v2() -> None:
+    """G23: v3 is v2 with the four lines that said code rejects other IDs reworded, and the
+    same placeholders; nothing else changes."""
+    v2 = _with("plant_screen", "v2").body.splitlines()
+    v3 = _with("plant_screen", "v3").body.splitlines()
+    removed = [line for line in v2 if line not in v3]
+    added = [line for line in v3 if line not in v2]
+    assert len(removed) == len(added) == 4
+    assert all(
+        "code checks" in r
+        or "code rejects" in r
+        or "cannot be named" in r
+        or "name components listed" in r
+        for r in removed
+    )
+    text = "\n".join(added)
+    assert "code rejects" not in text and "cannot be named" not in text
+    assert "guide" in text
+    values = {
+        "plant": "P",
+        "causes": "C",
+        "can_fail_as": "F",
+        "question_kinds": "K",
+        "max_hypotheses": "12",
+    }
+    assert "{{" not in render("\n".join(v3), values)

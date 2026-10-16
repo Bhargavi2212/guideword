@@ -137,7 +137,7 @@ def test_prompt_versions_name_existing_files(shipped: Config) -> None:
         "section_suggestion": "v1",
         "severity": "v2",
         "test5a": "v1",
-        "plant_screen": "v2",
+        "plant_screen": "v3",
         **{
             f"specialists/{a}": "v2"
             for a in ("process", "chemistry", "piping", "procedures", "maintenance", "dust")
