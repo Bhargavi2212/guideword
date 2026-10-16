@@ -340,6 +340,18 @@ class EventType(StrEnum):
     CAP_HIT = "cap_hit"
     RUN_FINISHED = "run_finished"
     RUN_FAILED = "run_failed"
+    # the whole-plant pass (R50)
+    HYPOTHESIS_ADDED = "hypothesis_added"
+    HYPOTHESIS_DROPPED = "hypothesis_dropped"
+
+
+class ShortlistTier(StrEnum):
+    """The three tiers of the final list (R50): hypotheses the checks support, the other
+    scenarios the pipeline found, and hypotheses no check supported."""
+
+    CONFIRMED = "confirmed"
+    ALSO_FOUND = "also_found"
+    UNCONFIRMED = "unconfirmed"
 
 
 class Environment(StrEnum):

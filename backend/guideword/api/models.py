@@ -6,14 +6,15 @@ carries `label`. Records come from `schema/records.py`.
 
 from typing import Annotated, Any, Literal
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, model_validator
 
-from guideword.schema.enums import OverrideAction, PlantStatus, RunStatus
+from guideword.schema.enums import OverrideAction, PlantStatus, RunStatus, ShortlistTier
 from guideword.schema.records import (
     Chain,
     Event,
     Evidence,
     Finding,
+    Hypothesis,
     LopaRecord,
     ModelCall,
     Override,
@@ -181,7 +182,8 @@ class QuestionCreated(_RunResponse):
 class ShortlistItem(_Model):
     rank: int
     target_id: str
-    target_kind: Literal["finding", "chain"]
+    # "hypothesis": an unconfirmed hypothesis, a line with no finding of its own (R50)
+    target_kind: Literal["finding", "chain", "hypothesis"]
     gap: float | None
     multi_failure: bool
     unsure: bool
@@ -190,6 +192,23 @@ class ShortlistItem(_Model):
     lopa: LopaRecord | None = None
     evidence: list[Evidence] = Field(default_factory=list)
     recommendations: list[Recommendation] = Field(default_factory=list)
+    # R50 (contract v1.2): the line's tier and, on confirmed and unconfirmed lines, its hypothesis
+    tier: ShortlistTier = ShortlistTier.ALSO_FOUND
+    hypothesis_id: str | None = None
+    hypothesis_rank: int | None = None
+    hypothesis: Hypothesis | None = None
+    # computed when the list is read: the findings supporting the hypothesis
+    support_finding_ids: list[str] = Field(default_factory=list)
+
+    @model_validator(mode="after")
+    def _hypothesis_fields_agree(self) -> "ShortlistItem":
+        if self.target_kind == "hypothesis" and self.hypothesis is None:
+            raise ValueError("a hypothesis line carries its hypothesis")
+        if self.hypothesis is not None and (
+            self.hypothesis_id != self.hypothesis.id or self.hypothesis_rank != self.hypothesis.rank
+        ):
+            raise ValueError("hypothesis_id and hypothesis_rank must match the hypothesis")
+        return self
 
 
 class Shortlist(_RunResponse):
@@ -272,6 +291,8 @@ class RunDump(_RunResponse):
     sections: list[Section]
     questions: list[Question]
     findings: list[Finding]
+    # R50 (contract v1.2)
+    hypotheses: list[Hypothesis] = Field(default_factory=list)
     chains: list[Chain]
     lopa_records: list[LopaRecord]
     recommendations: list[Recommendation]

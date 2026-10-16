@@ -309,6 +309,103 @@
       "title": "Finding",
       "type": "object"
     },
+    "Hypothesis": {
+      "additionalProperties": false,
+      "description": "One hypothesis of the whole-plant pass (R50), as validated. Immutable: its question\nlinks are set when it is created; whether findings support it is computed when read.",
+      "properties": {
+        "cause_id": {
+          "title": "Cause Id",
+          "type": "string"
+        },
+        "cause_text": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Cause Text"
+        },
+        "chemical_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Chemical Ids",
+          "type": "array"
+        },
+        "component_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Component Ids",
+          "type": "array"
+        },
+        "consequence": {
+          "title": "Consequence",
+          "type": "string"
+        },
+        "failing_component_type": {
+          "$ref": "#/$defs/FailingComponentType"
+        },
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "mechanism": {
+          "title": "Mechanism",
+          "type": "string"
+        },
+        "model_call_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Model Call Id"
+        },
+        "question_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Question Ids",
+          "type": "array"
+        },
+        "rank": {
+          "minimum": 1,
+          "title": "Rank",
+          "type": "integer"
+        },
+        "reason": {
+          "title": "Reason",
+          "type": "string"
+        },
+        "run_id": {
+          "title": "Run Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "run_id",
+        "rank",
+        "mechanism",
+        "component_ids",
+        "failing_component_type",
+        "cause_id",
+        "consequence",
+        "reason"
+      ],
+      "title": "Hypothesis",
+      "type": "object"
+    },
     "Issue": {
       "additionalProperties": false,
       "description": "A plant validation error or warning (schema/validate.py), naming the offending ID.",
@@ -1063,6 +1160,41 @@
           ],
           "title": "Gap"
         },
+        "hypothesis": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Hypothesis"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "hypothesis_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Hypothesis Id"
+        },
+        "hypothesis_rank": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Hypothesis Rank"
+        },
         "lopa": {
           "anyOf": [
             {
@@ -1089,6 +1221,13 @@
           "title": "Recommendations",
           "type": "array"
         },
+        "support_finding_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Support Finding Ids",
+          "type": "array"
+        },
         "target_id": {
           "title": "Target Id",
           "type": "string"
@@ -1096,10 +1235,15 @@
         "target_kind": {
           "enum": [
             "finding",
-            "chain"
+            "chain",
+            "hypothesis"
           ],
           "title": "Target Kind",
           "type": "string"
+        },
+        "tier": {
+          "$ref": "#/$defs/ShortlistTier",
+          "default": "also_found"
         },
         "unsure": {
           "title": "Unsure",
@@ -1116,6 +1260,16 @@
       ],
       "title": "ShortlistItem",
       "type": "object"
+    },
+    "ShortlistTier": {
+      "description": "The three tiers of the final list (R50): hypotheses the checks support, the other\nscenarios the pipeline found, and hypotheses no check supported.",
+      "enum": [
+        "confirmed",
+        "also_found",
+        "unconfirmed"
+      ],
+      "title": "ShortlistTier",
+      "type": "string"
     },
     "Tier": {
       "description": "Model tiers; config/routing.yaml maps jobs to these, the live model list to IDs.",

@@ -15,7 +15,55 @@
     },
     {
       "run_id": "run:8ede059837927e4a",
-      "seq": 2,
+      "type": "step_started",
+      "payload": {
+        "step": "plant_screen"
+      },
+      "time": "2026-10-13T09:00:10Z",
+      "seq": 2
+    },
+    {
+      "run_id": "run:8ede059837927e4a",
+      "type": "hypothesis_added",
+      "payload": {
+        "hypothesis_id": "h:1:f01ab4b68eb8942e",
+        "rank": 1
+      },
+      "time": "2026-10-13T09:00:20Z",
+      "seq": 3
+    },
+    {
+      "run_id": "run:8ede059837927e4a",
+      "type": "hypothesis_added",
+      "payload": {
+        "hypothesis_id": "h:2:9d68c13bfb25b1bc",
+        "rank": 2
+      },
+      "time": "2026-10-13T09:00:21Z",
+      "seq": 4
+    },
+    {
+      "run_id": "run:8ede059837927e4a",
+      "type": "hypothesis_dropped",
+      "payload": {
+        "rank": 3,
+        "reason": "TANK-9 is not in this plant"
+      },
+      "time": "2026-10-13T09:00:22Z",
+      "seq": 5
+    },
+    {
+      "run_id": "run:8ede059837927e4a",
+      "type": "step_finished",
+      "payload": {
+        "step": "plant_screen"
+      },
+      "time": "2026-10-13T09:00:30Z",
+      "seq": 6
+    },
+    {
+      "run_id": "run:8ede059837927e4a",
+      "seq": 7,
       "type": "step_started",
       "payload": {
         "step": "questions"
@@ -24,7 +72,7 @@
     },
     {
       "run_id": "run:8ede059837927e4a",
-      "seq": 3,
+      "seq": 8,
       "type": "step_finished",
       "payload": {
         "step": "questions"
@@ -33,7 +81,7 @@
     },
     {
       "run_id": "run:8ede059837927e4a",
-      "seq": 4,
+      "seq": 9,
       "type": "agent_decision",
       "payload": {
         "agent_step_id": "step:a47ec56c6dd3d542",
@@ -44,7 +92,7 @@
     },
     {
       "run_id": "run:8ede059837927e4a",
-      "seq": 5,
+      "seq": 10,
       "type": "tool_call",
       "payload": {
         "tool_call_id": "tc:step:a47ec56c6dd3d542:check_coverage:44136fa355b3678a"
@@ -53,7 +101,7 @@
     },
     {
       "run_id": "run:8ede059837927e4a",
-      "seq": 6,
+      "seq": 11,
       "type": "dispatch",
       "payload": {
         "agent": "chemistry",
@@ -66,7 +114,7 @@
     },
     {
       "run_id": "run:8ede059837927e4a",
-      "seq": 7,
+      "seq": 12,
       "type": "model_call",
       "payload": {
         "model_call_id": "mc:ab5f07020aa1cf8d",
@@ -76,7 +124,7 @@
     },
     {
       "run_id": "run:8ede059837927e4a",
-      "seq": 8,
+      "seq": 13,
       "type": "finding_added",
       "payload": {
         "finding_id": "f:pair:KOH:SIH:lightning:C14:541f633168214c61"
@@ -85,7 +133,7 @@
     },
     {
       "run_id": "run:8ede059837927e4a",
-      "seq": 9,
+      "seq": 14,
       "type": "finding_added",
       "payload": {
         "finding_id": "f:m:S-MX-1:more:temperature:lightning:C01:a92ada9e786e565d"
@@ -94,7 +142,7 @@
     },
     {
       "run_id": "run:8ede059837927e4a",
-      "seq": 10,
+      "seq": 15,
       "type": "finding_added",
       "payload": {
         "finding_id": "f:relief:PSV-1:ultra:8b8e942809f7e00a:f222cda333ff2d9b"
@@ -103,7 +151,7 @@
     },
     {
       "run_id": "run:8ede059837927e4a",
-      "seq": 11,
+      "seq": 16,
       "type": "chain_added",
       "payload": {
         "chain_id": "ch:f:pair:KOH:SIH:lightning:C14:541f633168214c61+f:relief:PSV-1:ultra:8b8e942809f7e00a:f222cda333ff2d9b"
@@ -112,7 +160,7 @@
     },
     {
       "run_id": "run:8ede059837927e4a",
-      "seq": 12,
+      "seq": 17,
       "type": "lopa_done",
       "payload": {
         "lopa_id": "lopa:ch:f:pair:KOH:SIH:lightning:C14:541f633168214c61+f:relief:PSV-1:ultra:8b8e942809f7e00a:f222cda333ff2d9b"
@@ -121,7 +169,7 @@
     },
     {
       "run_id": "run:8ede059837927e4a",
-      "seq": 13,
+      "seq": 18,
       "type": "evidence_added",
       "payload": {
         "evidence_id": "ev:f:m:S-MX-1:more:temperature:lightning:C01:a92ada9e786e565d:calculation:heat_up_rate"
@@ -130,7 +178,7 @@
     },
     {
       "run_id": "run:8ede059837927e4a",
-      "seq": 14,
+      "seq": 19,
       "type": "coverage_updated",
       "payload": {
         "checked": 7,
@@ -140,7 +188,7 @@
     },
     {
       "run_id": "run:8ede059837927e4a",
-      "seq": 15,
+      "seq": 20,
       "type": "run_finished",
       "payload": {
         "spent_usd": 0.31
@@ -148,5 +196,5 @@
       "time": "2026-10-13T09:14:00Z"
     }
   ],
-  "next_after": 15
+  "next_after": 20
 }

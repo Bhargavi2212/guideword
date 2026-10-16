@@ -91,6 +91,20 @@ SAMPLES: dict[type[BaseModel], dict[str, Any]] = {
         "severity_reason": "Hot release inside an occupied building",
         "confidence": "sure",
     },
+    r.Hypothesis: {
+        "id": "h:1:0123456789abcdef",
+        "run_id": RUN,
+        "rank": 1,
+        "mechanism": "Wrong material charged into the mixer reacts and releases gas",
+        "component_ids": ["P-CHARGE-1"],
+        "chemical_ids": ["KOH", "SIH"],
+        "failing_component_type": "operator",
+        "cause_id": "C14",
+        "consequence": "Flammable gas builds up in the building and ignites",
+        "reason": "The charging step adds KOH to a vessel that can hold SIH",
+        "question_ids": ["pair:KOH:SIH"],
+        "model_call_id": "mc:0123456789abcdef",
+    },
     r.AgentStep: {
         "id": STEP,
         "run_id": RUN,
@@ -224,6 +238,7 @@ def test_unknown_fields_are_rejected(model: type[BaseModel]) -> None:
         (r.Section, "MX-1"),
         (r.Question, "q:1"),
         (r.Finding, "finding-1"),
+        (r.Hypothesis, "hyp-1"),
         (r.AgentStep, "step-1"),
         (r.ModelCall, "call-1"),
         (r.ToolCall, "tool-1"),
@@ -474,3 +489,45 @@ def test_run_cap_spent_defaults_to_zero_and_is_never_negative() -> None:
     assert r.Run.model_validate(_sample(r.Run)).cap_spent_usd == 0.0
     with pytest.raises(ValidationError):
         r.Run.model_validate({**_sample(r.Run), "cap_spent_usd": -0.01})
+
+
+# --- R50: hypotheses (contract v1.2) ------------------------------------------------------------
+
+
+def test_hypothesis_needs_components_and_a_type() -> None:
+    sample = _sample(r.Hypothesis)
+    with pytest.raises(ValidationError):
+        r.Hypothesis.model_validate({**sample, "component_ids": []})
+    with pytest.raises(ValidationError):
+        r.Hypothesis.model_validate(
+            {k: v for k, v in sample.items() if k != "failing_component_type"}
+        )
+
+
+def test_outside_library_hypothesis_needs_its_cause_text() -> None:
+    sample = _sample(r.Hypothesis)
+    with pytest.raises(ValidationError, match="cause_text"):
+        r.Hypothesis.model_validate({**sample, "cause_id": "outside_library"})
+    ok = r.Hypothesis.model_validate(
+        {**sample, "cause_id": "outside_library", "cause_text": "valve left open"}
+    )
+    assert ok.cause_text == "valve left open"
+
+
+def test_hypothesis_chemicals_and_links_default_empty() -> None:
+    sample = {
+        k: v for k, v in _sample(r.Hypothesis).items() if k not in ("chemical_ids", "question_ids")
+    }
+    hypothesis = r.Hypothesis.model_validate(sample)
+    assert (hypothesis.chemical_ids, hypothesis.question_ids) == ([], [])
+
+
+def test_hypothesis_is_immutable() -> None:
+    hypothesis = r.Hypothesis.model_validate(_sample(r.Hypothesis))
+    with pytest.raises(ValidationError):
+        hypothesis.rank = 2  # type: ignore[misc]
+
+
+def test_hypothesis_rank_starts_at_one() -> None:
+    with pytest.raises(ValidationError):
+        r.Hypothesis.model_validate({**_sample(r.Hypothesis), "rank": 0})

@@ -275,6 +275,35 @@ class ToolCall(_Record):
     record_ids: list[str] = Field(default_factory=list)
 
 
+class Hypothesis(_Record):
+    """One hypothesis of the whole-plant pass (R50), as validated. Immutable: its question
+    links are set when it is created; whether findings support it is computed when read."""
+
+    model_config = ConfigDict(extra="forbid", frozen=True)
+
+    id: Annotated[str, _prefixed("h:")]
+    run_id: RunId
+    rank: Annotated[int, Field(ge=1)]
+    mechanism: str
+    component_ids: Annotated[list[str], Field(min_length=1)]
+    # plant chemicals the hypothesis is about (C1); links reach pair and environment questions
+    chemical_ids: list[str] = Field(default_factory=list)
+    failing_component_type: FailingComponentType
+    # a causes.csv ID, or "outside_library" with cause_text
+    cause_id: str
+    cause_text: str | None = None
+    consequence: str
+    reason: str
+    question_ids: list[QuestionId] = Field(default_factory=list)
+    model_call_id: str | None = None
+
+    @model_validator(mode="after")
+    def _outside_library_needs_text(self) -> "Hypothesis":
+        if self.cause_id == OUTSIDE_LIBRARY and not self.cause_text:
+            raise ValueError("an outside-library cause needs cause_text")
+        return self
+
+
 class Chain(_Record):
     id: Annotated[str, _prefixed("ch:")]
     run_id: RunId
@@ -401,6 +430,7 @@ RECORD_MODELS: list[type[BaseModel]] = [
     Section,
     Question,
     Finding,
+    Hypothesis,
     AgentStep,
     ModelCall,
     ToolCall,

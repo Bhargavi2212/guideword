@@ -122,7 +122,9 @@
         "coverage_updated",
         "cap_hit",
         "run_finished",
-        "run_failed"
+        "run_failed",
+        "hypothesis_added",
+        "hypothesis_dropped"
       ],
       "title": "EventType",
       "type": "string"
@@ -404,6 +406,15 @@
         "S5"
       ],
       "title": "SeverityClass",
+      "type": "string"
+    },
+    "ShortlistTier": {
+      "enum": [
+        "confirmed",
+        "also_found",
+        "unconfirmed"
+      ],
+      "title": "ShortlistTier",
       "type": "string"
     },
     "Tier": {

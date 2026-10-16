@@ -489,3 +489,22 @@ def test_same_inputs_give_same_ids_in_another_process() -> None:
         [sys.executable, "-c", code], capture_output=True, text=True, check=True, timeout=60
     )
     assert json.loads(out.stdout) == _sample_ids()
+
+
+def test_hypothesis_id_is_built_from_rank_mechanism_and_components() -> None:
+    """R50, Q3: `h:<rank>:<h(normalised mechanism, sorted component IDs)>`, no run in it."""
+    a = ids.hypothesis_id(2, "Wrong  material charged", ["P-CHARGE-1", "MX-1"])
+    assert a == ids.hypothesis_id(2, "wrong material charged", ["MX-1", "P-CHARGE-1"])
+    assert (
+        a == f"h:2:{ids.h([ids.normalise_text('Wrong material charged'), ['MX-1', 'P-CHARGE-1']])}"
+    )
+    assert a != ids.hypothesis_id(3, "wrong material charged", ["MX-1", "P-CHARGE-1"])
+    assert a != ids.hypothesis_id(2, "valve left open", ["MX-1", "P-CHARGE-1"])
+    assert "run:" not in a
+
+
+def test_hypothesis_id_needs_components_and_a_rank_from_one() -> None:
+    with pytest.raises(ValueError):
+        ids.hypothesis_id(1, "x", [])
+    with pytest.raises(ValueError):
+        ids.hypothesis_id(0, "x", ["MX-1"])

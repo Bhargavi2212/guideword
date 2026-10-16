@@ -345,9 +345,10 @@ def create_app(
     def get_record(id: str, record_id: str) -> api.RecordDetail:
         mock = need("GET", "/runs/{id}/records/{record_id}")
         run_of(mock, id)
-        if record_id != mock.record_detail.record_id:
+        detail = mock.records.get(record_id)
+        if detail is None:
             raise ApiError(404, f"no record {record_id}")
-        return mock.record_detail
+        return detail
 
     @app.post("/runs/{id}/overrides", response_model=api.OverrideResult, responses=ERRORS)
     def add_override(id: str, request: api.OverrideRequest) -> api.OverrideResult:

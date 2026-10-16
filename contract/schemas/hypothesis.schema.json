@@ -1,0 +1,122 @@
+{
+  "$defs": {
+    "FailingComponentType": {
+      "description": "The values used in reference/causes.csv.",
+      "enum": [
+        "control_loop",
+        "pump",
+        "compressor",
+        "check_valve",
+        "regulator",
+        "relief_device",
+        "exchanger_tube",
+        "interlock",
+        "operator",
+        "hose",
+        "pipe",
+        "tank",
+        "external",
+        "solids_handler",
+        "utility_cooling",
+        "utility_power"
+      ],
+      "title": "FailingComponentType",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "One hypothesis of the whole-plant pass (R50), as validated. Immutable: its question\nlinks are set when it is created; whether findings support it is computed when read.",
+  "properties": {
+    "cause_id": {
+      "title": "Cause Id",
+      "type": "string"
+    },
+    "cause_text": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Cause Text"
+    },
+    "chemical_ids": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Chemical Ids",
+      "type": "array"
+    },
+    "component_ids": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Component Ids",
+      "type": "array"
+    },
+    "consequence": {
+      "title": "Consequence",
+      "type": "string"
+    },
+    "failing_component_type": {
+      "$ref": "#/$defs/FailingComponentType"
+    },
+    "id": {
+      "title": "Id",
+      "type": "string"
+    },
+    "mechanism": {
+      "title": "Mechanism",
+      "type": "string"
+    },
+    "model_call_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Model Call Id"
+    },
+    "question_ids": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Question Ids",
+      "type": "array"
+    },
+    "rank": {
+      "minimum": 1,
+      "title": "Rank",
+      "type": "integer"
+    },
+    "reason": {
+      "title": "Reason",
+      "type": "string"
+    },
+    "run_id": {
+      "title": "Run Id",
+      "type": "string"
+    }
+  },
+  "required": [
+    "id",
+    "run_id",
+    "rank",
+    "mechanism",
+    "component_ids",
+    "failing_component_type",
+    "cause_id",
+    "consequence",
+    "reason"
+  ],
+  "title": "Hypothesis",
+  "type": "object"
+}

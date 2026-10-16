@@ -519,7 +519,7 @@ export interface components {
          * EventType
          * @enum {string}
          */
-        EventType: "run_started" | "step_started" | "step_finished" | "agent_decision" | "dispatch" | "model_call" | "tool_call" | "finding_added" | "chain_added" | "lopa_done" | "evidence_added" | "coverage_updated" | "cap_hit" | "run_finished" | "run_failed";
+        EventType: "run_started" | "step_started" | "step_finished" | "agent_decision" | "dispatch" | "model_call" | "tool_call" | "finding_added" | "chain_added" | "lopa_done" | "evidence_added" | "coverage_updated" | "cap_hit" | "run_finished" | "run_failed" | "hypothesis_added" | "hypothesis_dropped";
         /** EventsPage */
         EventsPage: {
             /** Events */
@@ -592,6 +592,38 @@ export interface components {
         HTTPValidationError: {
             /** Detail */
             detail?: components["schemas"]["ValidationError"][];
+        };
+        /**
+         * Hypothesis
+         * @description One hypothesis of the whole-plant pass (R50), as validated. Immutable: its question
+         *     links are set when it is created; whether findings support it is computed when read.
+         */
+        Hypothesis: {
+            /** Cause Id */
+            cause_id: string;
+            /** Cause Text */
+            cause_text?: string | null;
+            /** Chemical Ids */
+            chemical_ids?: string[];
+            /** Component Ids */
+            component_ids: string[];
+            /** Consequence */
+            consequence: string;
+            failing_component_type: components["schemas"]["FailingComponentType"];
+            /** Id */
+            id: string;
+            /** Mechanism */
+            mechanism: string;
+            /** Model Call Id */
+            model_call_id?: string | null;
+            /** Question Ids */
+            question_ids?: string[];
+            /** Rank */
+            rank: number;
+            /** Reason */
+            reason: string;
+            /** Run Id */
+            run_id: string;
         };
         /**
          * Issue
@@ -978,6 +1010,8 @@ export interface components {
             evidence: components["schemas"]["Evidence"][];
             /** Findings */
             findings: components["schemas"]["Finding"][];
+            /** Hypotheses */
+            hypotheses?: components["schemas"]["Hypothesis"][];
             label: components["schemas"]["RunLabel"];
             /** Lopa Records */
             lopa_records: components["schemas"]["LopaRecord"][];
@@ -1117,6 +1151,11 @@ export interface components {
             finding?: components["schemas"]["Finding"] | null;
             /** Gap */
             gap: number | null;
+            hypothesis?: components["schemas"]["Hypothesis"] | null;
+            /** Hypothesis Id */
+            hypothesis_id?: string | null;
+            /** Hypothesis Rank */
+            hypothesis_rank?: number | null;
             lopa?: components["schemas"]["LopaRecord"] | null;
             /** Multi Failure */
             multi_failure: boolean;
@@ -1124,16 +1163,27 @@ export interface components {
             rank: number;
             /** Recommendations */
             recommendations?: components["schemas"]["Recommendation"][];
+            /** Support Finding Ids */
+            support_finding_ids?: string[];
             /** Target Id */
             target_id: string;
             /**
              * Target Kind
              * @enum {string}
              */
-            target_kind: "finding" | "chain";
+            target_kind: "finding" | "chain" | "hypothesis";
+            /** @default also_found */
+            tier: components["schemas"]["ShortlistTier"];
             /** Unsure */
             unsure: boolean;
         };
+        /**
+         * ShortlistTier
+         * @description The three tiers of the final list (R50): hypotheses the checks support, the other
+         *     scenarios the pipeline found, and hypotheses no check supported.
+         * @enum {string}
+         */
+        ShortlistTier: "confirmed" | "also_found" | "unconfirmed";
         /** StartRunRequest */
         StartRunRequest: {
             /**
