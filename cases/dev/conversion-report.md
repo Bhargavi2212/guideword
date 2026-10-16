@@ -62,6 +62,10 @@ Generated from `validate_plant`: 18 warnings, 0 errors.
 - `missing_fail_position` (2): BV-P104B-DIS, BV-P104B-SUC
 <!-- /warnings:case_d -->
 
+### 5. Known gaps (found in the first 5B dev run, 2026-10-16)
+
+- **No line joins C-104 to its reflux drum V-104.** The package says "overhead condenser E-105, reflux drum V-104" for C-104, and V-104 is in the file, but no line connects it to C-104's section, so specialists answering C-104's questions cannot cite it (2 refusals in the run). Adding the overhead line would add a section and questions and change the case D counts in `expected_counts.json` (25 sections, 362 questions), so it is left as it is until after G2 (Bhargavi, 2026-10-16).
+
 ---
 
 ## case_e — Unit E: FCC unit, planned shutdown
