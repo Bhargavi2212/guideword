@@ -1,0 +1,131 @@
+{
+ "case": "case_d",
+ "package": "case_d_c4_unit.md",
+ "model_id": "nvidia/Nemotron-3-Ultra-550b-a55b",
+ "prompt_version": "test5a/v1",
+ "outcome": "ok",
+ "error": null,
+ "cost_usd": 0.016062,
+ "cache_hit": false,
+ "seconds": 14.80647979999776,
+ "hazards": [
+  {
+   "rank": 1,
+   "hazard": "TBC (tert-butylcatechol) injection failure at V-104 outlet — butadiene polymerizes exothermically in the 400 m insulated rundown line and storage spheres, plugging the line, building pressure, and rupturing equipment with massive flammable release",
+   "equipment": [
+    "V-104",
+    "P-104A/B",
+    "E-106",
+    "rundown line (6\" CS, insulated, ~400 m)",
+    "TK-201/202"
+   ],
+   "reason": "Butadiene inventory in the 400 m line and spheres is large; polymerization is rapid once inhibitor drops below ~50 ppm. Package notes only continuous injection at 50–100 ppm with no backup pump, no TBC flow alarm, no rundown temperature monitoring, and no quench system. Consequence is catastrophic;,"
+  },
+  {
+   "rank": 2,
+   "hazard": "Trace acetylenes in crude C4 feed meet copper/brass instrument fittings or tubing — form shock-sensitive copper acetylide that detonates from vibration or thermal shock",
+   "equipment": [
+    "V-101",
+    "C-101",
+    "C-102",
+    "C-103",
+    "C-104",
+    "V-104",
+    "sample connections (1\")"
+   ],
+   "reason": "Feed explicitly contains traces of acetylenes. Copper/brass is common in instrument taps, gauge roots, and analyzer lines — none of which are called out as prohibited. No acetylene-specific safeguard (e.g., acetylenic guard bed, copper-free specs) is mentioned. Detonation can initiate a larger butad"
+  },
+  {
+   "rank": 3,
+   "hazard": "Low-pressure steam supply to C-104 reboiler E-104 loses pressure control (regulator fails open or control valve sticks) — column overheats, butadiene vapor pressure exceeds 5 bar g design, relief lifts to flare",
+   "equipment": [
+    "C-104",
+    "E-104",
+    "V-104",
+    "flare header"
+   ],
+   "reason": "C-104 operates at ~5 bar g with a low-pressure steam reboiler; a steam-side overpressure is a classic cause. Safeguards listed: high-pressure alarm on columns and relief valves to flare — but only a basic control system, no SIS, no steam pressure trip. Flare capacity for simultaneous multi-relief "
+  },
+  {
+   "rank": 4,
+   "hazard": "P-104A seal failure or deadheading during changeover to spare P-104B (block valves misoperated) — large butadiene release at pump area, ignition from hot surfaces or static",
+   "equipment": [
+    "P-104A",
+    "P-104B",
+    "suction/discharge block valves",
+    "strainers"
+   ],
+   "reason": "Changeover occurs a few times per year; spare suction/discharge block valves are normally closed — misoperation sequence (open suction before discharge, or vice versa) can deadhead the running pump or start the spare against closed discharge. Hydrocarbon detectors only at pump area and column base; "
+  },
+  {
+   "rank": 5,
+   "hazard": "Fire or common-cause overpressure lifts multiple relief valves simultaneously — flare header/knockout drum overwhelmed, flare tip extinguishes, hydrocarbon discharges at grade forming vapor cloud explosion",
+   "equipment": [
+    "flare header",
+    "relief valves (all columns, drums, pump discharge)"
+   ],
+   "reason": "All relief valves discharge to a single flare header. Package gives no flare capacity, knockout drum sizing, purge gas backup, or flame-front monitoring. A unit fire (credible from butadiene leak) would challenge all reliefs at once. Residential area 1 km away — off-site consequence severe."
+  },
+  {
+   "rank": 6,
+   "hazard": "Flow stops in rundown line (pump trip, start-up, shutdown) — stagnant butadiene polymerizes even with residual TBC, plugs 400 m insulated line; restart attempts overpressure and rupture line",
+   "equipment": [
+    "rundown line (6\" CS, insulated, ~400 m)",
+    "E-106",
+    "3\" bypass",
+    "2\" start-up recycle line",
+    "P-104A/B"
+   ],
+   "reason": "Line is long, insulated, and holds large butadiene volume. Bypass around E-106 and start-up recycle line are normally closed; recycle last used 14 months ago — likely corroded/blocked. No line temperature or flow-loss alarm mentioned. Polymerization in stagnant lines is a known butadiene hazard."
+  },
+  {
+   "rank": 7,
+   "hazard": "N-methylpyrrolidone solvent lost from C-101/C-102 (leak, degradation, foam carryover) — butadiene breaks through to raffinate pipeline and heavies, creating off-spec product and downstream reactivity hazards",
+   "equipment": [
+    "C-101",
+    "C-102",
+    "antifoam injection",
+    "raffinate pipeline",
+    "heavies line"
+   ],
+   "reason": "Extractive distillation depends entirely on solvent selectivity. Antifoam injection to C-101 is the only mentioned safeguard against foam-induced solvent loss. No solvent makeup rate monitor, no raffinate butadiene analyzer, no solvent degradation tracking. Downstream units not described but raff"
+  },
+  {
+   "rank": 8,
+   "hazard": "C-103 solvent stripper bottoms overheat (~150 °C) from reboiler control failure or fouling — solvent degrades to reactive by-products, pressure rises, toxic/flammable release via relief",
+   "equipment": [
+    "C-103",
+    "reboiler (steam)",
+    "flare header"
+   ],
+   "reason": "Stripper runs at ~150 °C bottoms — near solvent thermal degradation temperature. Only safeguards listed: high-pressure alarm on columns and relief to flare. No high-temperature trip, no reboiler steam pressure control description, no solvent quality monitoring. Degradation products can be peroxides"
+  },
+  {
+   "rank": 9,
+   "hazard": "Hydrocarbon leak at locations without gas detectors (V-101, C-101/102, C-103, C-104, V-104 sample points, rundown line flanges, sphere vents) — vapor cloud forms undetected, delayed ignition causes flash fire or VCE",
+   "equipment": [
+    "hydrocarbon gas detectors (pump area, column base only)",
+    "V-101",
+    "C-101",
+    "C-102",
+    "C-103",
+    "C-104",
+    "V-104",
+    "rundown line",
+    "TK-201/202"
+   ],
+   "reason": "Package explicitly lists detectors only at pump area and column base. Many potential leak points (sample connections, flanges, relief valve outlets, sphere vents) have no fixed detection. Basic control system implies no automated isolation on gas detection. Site boundary 300 m — off-site impact"
+  },
+  {
+   "rank": 10,
+   "hazard": "2-inch start-up recycle line from P-104 discharge to C-104 inadvertently left open or opened during normal operation — product recycles, disrupts column mass balance, wastes reboiler duty, can overpressure C-104",
+   "equipment": [
+    "2\" start-up recycle line",
+    "P-104A/B",
+    "C-104",
+    "V-104"
+   ],
+   "reason": "Line is normally closed, last used 14 months ago — valve may not seat, position indication not mentioned, no interlock with pump run status. Start-up is infrequent, increasing human error likelihood. Consequence is moderate (column upset, energy loss) but could combine with other deviations (e.g.,"
+  }
+ ]
+}

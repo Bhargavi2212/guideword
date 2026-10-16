@@ -1,8 +1,11 @@
 {
  "d": {
   "5a": {
-   "scored": false,
-   "status": "not run"
+   "bucket": "top10",
+   "line": "Flow stops in rundown line (pump trip, start-up, shutdown) \u2014 stagnant butadiene polymerizes even with residual TBC, plugs 400 m insulated line; restart attempts overpressure and rupture line",
+   "rank": 6,
+   "scored": true,
+   "status": "ok"
   },
   "5b": {
    "bucket": "missed",
@@ -14,8 +17,11 @@
  },
  "g": {
   "5a": {
-   "scored": false,
-   "status": "not run"
+   "bucket": "top3",
+   "line": "Wrong tote selected and charged due to hand-labelled totes and manual paper batch sheet \u2014 incorrect stoichiometry triggers runaway hydrosilylation or hydrogen evolution, overpressurising mixing tank",
+   "rank": 1,
+   "scored": true,
+   "status": "ok"
   },
   "5b": {
    "bucket": "missed",
