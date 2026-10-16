@@ -13,7 +13,7 @@ from guideword.gateway.fake import fake_gateway, reply
 from guideword.gateway.transport import ToolCallRequest
 from guideword.orchestrator.loop import OrchestratorStepper
 from guideword.ranking.rank import rank_findings
-from guideword.ranking.severity import RankedStepper, SeverityStepper
+from guideword.ranking.severity import RankedStepper, SeverityStepper, scenarios
 from guideword.reference import ReferenceSet, load_reference_set
 from guideword.runs.db import make_session_factory
 from guideword.runs.machine import advance
@@ -185,9 +185,18 @@ def test_severity_batches_set_each_finding_once_and_record_ids(
     assert all(f.severity_reason == "one person hurt" for f in findings)
     severity_calls = [c for c in world.runs.model_calls(run.id) if c.job == "severity_reason"]
     batch = config.caps.run.severity_batch_size
-    assert len(severity_calls) == -(-len(findings) // batch)
+    # R48: one finding per scenario is sent, and its rating is copied to the whole scenario
+    groups = scenarios(findings, world.runs.questions(run.id))
+    assert 1 < len(groups) < len(findings)
+    assert len(severity_calls) == -(-len(groups) // batch)
     assert sorted(i for c in severity_calls for i in c.record_ids) == sorted(f.id for f in findings)
-    # the severity answers see no instruction text from the plant and only the batch's findings
+    sent = [
+        f["finding_id"]
+        for j, r in transport.sent
+        if j == "severity_reason"
+        for f in block(r, "findings")
+    ]
+    assert sorted(sent) == sorted(min(m.id for m in members) for members in groups.values())
     for job, request in transport.sent:
         if job == "severity_reason":
             assert len(block(request, "findings")) <= batch
@@ -219,7 +228,7 @@ def test_an_unknown_finding_id_in_the_severity_answer_is_invalid(world: World) -
 def test_fake_run_at_the_cap_boundary_still_completes_severity(world: World) -> None:
     """R38: analysis stops at cap minus the severity reserve; severity still runs within the
     cap; the run ends stopped_cap because questions were left open."""
-    run = world.start(cap=0.17)
+    run = world.start(cap=0.08)
     # each orchestrator turn really spends about $0.01, so the second one meets the reserve
     steppers, _ = world.steppers(orchestrator_output_tokens=2000)
     assert world.run(run, steppers) == RunStatus.STOPPED_CAP
@@ -229,7 +238,7 @@ def test_fake_run_at_the_cap_boundary_still_completes_severity(world: World) -> 
     assert "severity reserve" in reasons
     findings = world.runs.findings(run.id)
     assert findings and all(f.severity_class == SeverityClass.S3 for f in findings)
-    assert world.runs.get(run.id).spent_usd <= 0.17  # type: ignore[union-attr]
+    assert world.runs.get(run.id).spent_usd <= 0.08  # type: ignore[union-attr]
 
 
 # --- replays (R45) -----------------------------------------------------------------------------
@@ -289,12 +298,12 @@ def test_ranking_identical_across_two_cache_replays(world: World) -> None:
 
 
 def test_capped_run_replays_to_the_same_stop_point_after_a_price_change(world: World) -> None:
-    first = world.start(cap=0.17)
+    first = world.start(cap=0.08)
     steppers, _ = world.steppers(orchestrator_output_tokens=2000)
     assert world.run(first, steppers) == RunStatus.STOPPED_CAP
 
     again = replay_world(world)
-    second = again.start(cap=0.17)
+    second = again.start(cap=0.08)
     assert second.id == first.id  # same inputs, fresh store
     steppers2, transport2 = again.steppers(
         orchestrator_output_tokens=2000,
@@ -365,12 +374,18 @@ def test_the_reserve_is_one_severity_call_per_batch_of_unrated_findings(world: W
     unrated = [
         f.model_copy(update={"severity_class": None, "severity_reason": None}) for f in rated
     ]
-    marked = unrated[0].model_copy(update={"severity_reason": "not assessed: cut off"})
-    findings = [marked, *unrated[1:]]
+    groups = scenarios(unrated, questions)
+    # a scenario with a finding already marked not assessed is done: it is not counted
+    done = sorted(groups)[0]
+    marked = groups[done][0].model_copy(update={"severity_reason": "not assessed: cut off"})
+    findings = [marked if f.id == marked.id else f for f in unrated]
     reserve = severity_reserve(findings, questions, world.plant, world.ref, cfg)
     size = cfg.caps.run.severity_batch_size
-    todo = sorted(unrated[1:], key=lambda f: f.id)
-    assert reserve.unrated == len(todo)  # a finding marked not assessed is not counted
+    todo = sorted(
+        (min(members, key=lambda f: f.id) for key, members in groups.items() if key != done),
+        key=lambda f: f.id,
+    )
+    assert reserve.unrated == len(todo) == len(groups) - 1  # unrated scenarios, not findings
     assert reserve.calls == math.ceil(len(todo) / size)
     ultra = cfg.models.tiers[Tier.ULTRA]
     messages = severity_messages(
@@ -384,6 +399,63 @@ def test_the_reserve_is_one_severity_call_per_batch_of_unrated_findings(world: W
     output = cfg.caps.run.severity_output_tokens_estimate
     assert output < cfg.caps.run.max_tokens["severity_reason"]
     per_call = estimate_cost(ultra, messages, None, output).cost_usd
+    # one call is reserved at the ceiling the gateway checks it at, so the last call fits
+    ceiling = estimate_cost(ultra, messages, None, cfg.caps.run.max_tokens["severity_reason"])
     assert reserve.per_call_usd == pytest.approx(per_call)
-    assert reserve.usd == pytest.approx(reserve.calls * per_call)
+    assert reserve.ceiling_call_usd == pytest.approx(ceiling.cost_usd)
+    assert reserve.usd == pytest.approx((reserve.calls - 1) * per_call + ceiling.cost_usd)
     assert per_call >= output * ultra.output_usd_per_1m / 1_000_000
+
+
+# --- R48: one severity per scenario --------------------------------------------------------------
+
+
+def _finding_like(base: Any, **changes: Any) -> Any:
+    return base.model_copy(update={"severity_class": None, "severity_reason": None, **changes})
+
+
+def test_a_scenario_is_cause_components_and_section(world: World) -> None:
+    from guideword.ranking.severity import scenario_key  # noqa: PLC0415
+
+    run = world.start()
+    steppers, _ = world.steppers()
+    world.run(run, steppers)
+    questions = world.runs.questions(run.id)
+    section_of = {q.id: q.section_id for q in questions}
+    base = world.runs.findings(run.id)[0]
+    same = _finding_like(
+        base, id="f:other", failing_component_ids=list(reversed(base.failing_component_ids))
+    )
+    assert scenario_key(base, section_of) == scenario_key(same, section_of)
+    # the outside-library text is compared after normalising
+    shout = _finding_like(base, id="f:x", cause_text=base.cause_text.upper() + "  ")  # type: ignore[union-attr]
+    assert scenario_key(base, section_of) == scenario_key(shout, section_of)
+    other_text = _finding_like(base, id="f:y", cause_text="something else entirely")
+    assert scenario_key(base, section_of) != scenario_key(other_text, section_of)
+    other_section = next(
+        q for q in questions if q.section_id not in (None, section_of[base.question_id])
+    )
+    moved = _finding_like(base, id="f:z", question_id=other_section.id)
+    assert scenario_key(base, section_of) != scenario_key(moved, section_of)
+
+
+def test_an_unrated_finding_of_a_rated_scenario_is_copied_without_a_call(world: World) -> None:
+    from guideword.ranking.severity import scenario_key  # noqa: PLC0415
+
+    run = world.start()
+    steppers, transport = world.steppers()
+    world.run(run, steppers)
+    rated = world.runs.findings(run.id)[0]
+    with world.runs.step(run.id) as writer:
+        late = _finding_like(rated, id=f"{rated.id}x", confidence=rated.confidence)
+        writer.add_finding(late)
+        writer.set_step("severity")
+        writer.set_status(RunStatus.RUNNING)
+    sent = len(transport.sent)
+    advance(world.runs, run.id, steppers)
+    copied = next(f for f in world.runs.findings(run.id) if f.id == late.id)
+    assert len(transport.sent) == sent
+    assert copied.severity_class == rated.severity_class
+    assert copied.severity_reason == f"same scenario as {rated.id}: {rated.severity_reason}"[:300]
+    section_of = {q.id: q.section_id for q in world.runs.questions(run.id)}
+    assert scenario_key(copied, section_of) == scenario_key(rated, section_of)

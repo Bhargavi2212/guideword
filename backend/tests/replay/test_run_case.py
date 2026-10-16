@@ -101,7 +101,7 @@ def test_a_run_at_the_severity_reserve_names_the_cap_and_what_was_left(
 ) -> None:
     """R38: the orchestrator stops at the cap minus the reserve, severity still runs, and the
     run ends stopped_cap with questions open; the output says so."""
-    code, _ = case.run(capped_script, "--cap", "0.17")
+    code, _ = case.run(capped_script, "--cap", "0.08")
     out = capsys.readouterr().out
     result = case.written()
     assert result["status"] == "stopped_cap"

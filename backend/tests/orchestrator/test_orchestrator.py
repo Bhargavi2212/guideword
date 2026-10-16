@@ -527,7 +527,11 @@ def test_the_analysis_stops_where_the_computed_severity_reserve_begins(
         probe.runs.findings(first.id), probe.runs.questions(first.id), probe.plant, ref, config
     )
     spent = probe.runs.get(first.id).cap_spent_usd  # type: ignore[union-attr]
-    assert reserve.unrated == len(probe.runs.findings(first.id)) > 0
+    from guideword.ranking.severity import scenarios  # noqa: PLC0415
+
+    found = probe.runs.findings(first.id)
+    # R48: the reserve counts scenarios, not findings
+    assert reserve.unrated == len(scenarios(found, probe.runs.questions(first.id))) > 0
 
     (tmp_path / "b").mkdir()
     world = World(tmp_path / "b", ref, config)

@@ -160,10 +160,10 @@ def test_a_missing_fixture_fails_the_replay_instead_of_calling_out(
 def test_a_capped_run_replays_to_the_same_stop(
     tmp_path: Path, ref: ReferenceSet, config: Config, capped_script: Any
 ) -> None:
-    store, run_id = original_run(tmp_path, ref, config, capped_script, cap=0.17)
+    store, run_id = original_run(tmp_path, ref, config, capped_script, cap=0.08)
     assert store.runs.get(run_id).status == RunStatus.STOPPED_CAP  # type: ignore[union-attr]
     fixtures = export(store, run_id, tmp_path / "out", ref, config)
-    _, _, status = replay(fixtures, tmp_path, ref, config, cap=0.17)
+    _, _, status = replay(fixtures, tmp_path, ref, config, cap=0.08)
     assert status == RunStatus.STOPPED_CAP
 
 
