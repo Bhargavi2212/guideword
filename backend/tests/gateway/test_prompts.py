@@ -58,3 +58,12 @@ def test_prompts_dir_can_be_given(tmp_path: Path) -> None:
         "# head\n\n---\n\nBody {{x}}\n", encoding="utf-8"
     )
     assert load_prompt("section_suggestion", config, tmp_path).body == "Body {{x}}\n"
+
+
+def test_test5a_prompt_has_only_the_package_placeholder() -> None:
+    """5A sends the package text alone; the checklist and the answer schema are fixed text."""
+    body = load_prompt("test5a", load_config(global_budget_usd=25.0)).body
+    text = render(body, {"package": "P"})
+    assert "{{" not in text
+    assert "<package>\nP\n</package>" in text
+    assert '"hazards"' in text and '"reason"' in text
