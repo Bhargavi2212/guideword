@@ -90,6 +90,8 @@ def test_the_report_carries_both_spend_figures_and_the_dropped_count(
     assert result["spent_usd"] > 0
     assert result["cap_spent_usd"] == pytest.approx(result["spent_usd"])
     assert result["dropped"] == {"total": 0, "distinct": 0}
+    # the run's duration, from its first and last event (the fake clock stands still)
+    assert result["seconds"] == 0.0
     assert "dropped 0" in out
     assert "paid $" in out
 

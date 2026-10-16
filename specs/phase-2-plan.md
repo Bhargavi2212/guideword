@@ -58,7 +58,8 @@ G2 is judged on D and G, so the process, chemistry, piping and procedures agents
 | 8c | `phase-2/cap-spend` | R45: stored cache costs, the cap figure in the guard, view and reserve; the 2.6 replay item | PR 8, 8b | Oct 16 |
 | 11 | `phase-2/run-cli-replay` | 2.9 | PR 8 | Oct 16 |
 | 12a | `phase-2/test5a-prompt` | `prompts/test5a/v1.md`, for your review | PR 0 | Oct 16 |
-| 12 | `phase-2/test5` | 2.10 | PR 11, 12a | Oct 17 |
+| 12 | `phase-2/test5` | 2.10: 5A, the automatic score, the hand-score sheet, the results table | PR 11, 12a | Oct 17 |
+| 12b | `phase-2/test5-kill4-four-tier` | 2.10: `kill4.py` (after Bhargavi copies the #4 results, R37) and the four-tier comparison | PR 12 | Oct 17–18 |
 | 9a | `contract/section-rejections` | the additive `SectionProposal.rejected` field; tag `contract-v1.2` (R23) | PR 0 | Oct 17–18 |
 | 9 | `phase-2/live-suggestions` | 2.7 | PR 2, 9a | Oct 17–18 |
 | 10 | `phase-2/run-endpoints` | 2.8 | PR 8 | Oct 17–18 |
