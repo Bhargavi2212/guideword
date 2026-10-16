@@ -552,7 +552,7 @@ def test_the_analysis_stops_where_the_computed_severity_reserve_begins(
     steppers = world.steppers(gateway)
     advance(world.runs, run.id, steppers)
     [admitted] = _dispatch_events(world, run)
-    assert admitted["refused_at_admission"] == []
+    assert admitted["deferred_at_admission"] == []
     sent = len(transport.sent)
     assert advance(world.runs, run.id, steppers) == RunStatus.RUNNING
     assert len(transport.sent) == sent  # the second orchestrator call was refused, unsent
@@ -628,37 +628,107 @@ def _dispatch_once(
     return run, event
 
 
-def test_batches_are_admitted_in_order_until_one_does_not_fit(
+def test_batches_that_do_not_fit_are_deferred_in_order_and_the_analysis_goes_on(
     tmp_path: Path, ref: ReferenceSet, config: Config
 ) -> None:
-    """Each batch's slice is set from its request; batches are admitted in batch order against
-    the cap spent before the dispatch; the first that does not fit and all after it are refused
-    at admission, recorded in order; their questions are untouched and the analysis ends."""
+    """Batches are admitted in batch order against the cap spent before the dispatch; from the
+    first that does not fit, the rest are deferred, recorded in order on the dispatch event and
+    not as a cap hit. Their questions are untouched (never sent, never promoted) and the
+    analysis goes on."""
     (tmp_path / "probe").mkdir()
     _, probe = _dispatch_once(World(tmp_path / "probe", ref, config), cap=5.0)
     admission = probe["admission"]
     slices = admission["slices_usd"]
-    assert len(slices) > 2 and probe["refused_at_admission"] == []
+    assert len(slices) > 2 and probe["deferred_at_admission"] == []
     # a cap that fits the orchestrator turn and the first two slices only
     cap = admission["cap_spent_usd"] + slices[0] + slices[1] + slices[2] / 2
     (tmp_path / "run").mkdir()
     world = World(tmp_path / "run", ref, config)
     run, event = _dispatch_once(world, cap=round(cap, 6))
     assert event["admission"]["slices_usd"] == slices
-    refused = event["refused_at_admission"]
-    assert [r["reason"] for r in refused] == ["refused at admission"] * (len(slices) - 2)
-    assert [r["slice_usd"] for r in refused] == slices[2:]
-    untouched = {q for r in refused for q in r["question_ids"]}
+    deferred = event["deferred_at_admission"]
+    assert [d["slice_usd"] for d in deferred] == slices[2:]
+    untouched = [q for d in deferred for q in d["question_ids"]]
     stored = {q.id: q for q in world.runs.questions(run.id)}
     assert untouched and all(stored[q].attempts == 0 for q in untouched)
+    assert all(stored[q].status == QuestionStatus.OPEN for q in untouched)
+    assert world.runs.get(run.id).step == "analysis"  # type: ignore[union-attr]
+    assert [e for e in world.runs.events(run.id) if e.type == EventType.CAP_HIT] == []
+
+
+def test_a_deferred_batch_is_sent_at_bulk_by_a_later_dispatch(
+    tmp_path: Path, ref: ReferenceSet, config: Config
+) -> None:
+    """A deferred batch was never sent: it is no repeat, keeps its level, and a later bulk
+    dispatch sends it."""
+    (tmp_path / "probe").mkdir()
+    _, probe = _dispatch_once(World(tmp_path / "probe", ref, config), cap=5.0)
+    slices = probe["admission"]["slices_usd"]
+    cap = probe["admission"]["cap_spent_usd"] + slices[0] + slices[1] + slices[2] / 2
+    (tmp_path / "run").mkdir()
+    world = World(tmp_path / "run", ref, config)
+    run = world.start(cap=round(cap + 0.5, 6))
+    gateway, transport = world.gateway(
+        lambda view: ("dispatch_specialist", {"agent": "process", "level": "bulk"}), finds
+    )
+    steppers = world.steppers(gateway)
+    # the first dispatch runs at the low cap: lower it by setting the stored spend cap
+    with world.runs.step(run.id) as writer:
+        writer.set_spend_cap(round(cap, 6))
+    advance(world.runs, run.id, steppers)
+    [first] = _dispatch_events(world, run)
+    deferred = [q for d in first["deferred_at_admission"] for q in d["question_ids"]]
+    assert deferred
+    with world.runs.step(run.id) as writer:
+        writer.set_spend_cap(round(cap + 0.5, 6))
+    advance(world.runs, run.id, steppers)
+    second = _dispatch_events(world, run)[1]
+    assert second["level"] == "bulk" and set(deferred) <= set(second["question_ids"])
+    sent = {q for job, r in transport.sent if job == "specialist_bulk" for q in batch_ids(r)}
+    assert set(deferred) <= sent
+    stored = {q.id: q for q in world.runs.questions(run.id)}
+    assert {stored[q].status for q in deferred} <= {
+        QuestionStatus.ANSWERED,
+        QuestionStatus.NOT_CREDIBLE,
+    }
+
+
+def test_the_analysis_ends_when_a_dispatch_cannot_admit_its_first_batch(
+    tmp_path: Path, ref: ReferenceSet, config: Config
+) -> None:
+    """With bulk calls allowed a very large output, a batch's slice is larger than the room
+    left after the orchestrator turn: nothing is admitted, the cap hit says so, and the
+    analysis ends. Every dispatch therefore either admits a batch or ends the analysis."""
+    big = {**config.caps.run.max_tokens, "specialist_bulk": 400_000}
+    cfg = config.model_copy(
+        update={
+            "caps": config.caps.model_copy(
+                update={"run": config.caps.run.model_copy(update={"max_tokens": big})}
+            )
+        }
+    )
+    world = World(tmp_path, ref, config)
+    run = world.start(cap=0.03, config=cfg)
+    gateway, transport = world.gateway(
+        lambda view: ("dispatch_specialist", {"agent": "process", "level": "bulk"}),
+        finds,
+        config=cfg,
+    )
+    advance(world.runs, run.id, world.steppers(gateway, config=cfg))
+    assert [job for job, _ in transport.sent] == ["orchestrator"]
+    [event] = _dispatch_events(world, run)
+    assert event["admission"]["slices_usd"][0] > 0.03
+    [hit] = [e.payload for e in world.runs.events(run.id) if e.type == EventType.CAP_HIT]
+    assert hit["reason"] == "admission"
+    assert "first batch" in hit["detail"]
     assert world.runs.get(run.id).step == "severity"  # type: ignore[union-attr]
 
 
-def test_the_same_refusals_whatever_the_thread_timing(
+def test_the_same_deferrals_whatever_the_thread_timing(
     tmp_path: Path, ref: ReferenceSet, config: Config
 ) -> None:
     """Concurrency is not a run input; one batch at a time or five at once, the same batches
-    are admitted and refused and the same calls recorded."""
+    are admitted and deferred and the same calls recorded."""
     (tmp_path / "probe").mkdir()
     _, probe = _dispatch_once(World(tmp_path / "probe", ref, config), cap=5.0)
     slices = probe["admission"]["slices_usd"]
@@ -676,5 +746,7 @@ def test_the_same_refusals_whatever_the_thread_timing(
         world = World(tmp_path / name, ref, config)
         run, event = _dispatch_once(world, cap=cap, config=cfg)
         calls = sorted((c.id, c.cost_usd) for c in world.runs.model_calls(run.id))
-        results.append((event["refused_at_admission"], calls, world.runs.get(run.id).cap_spent_usd))  # type: ignore[union-attr]
+        results.append(
+            (event["deferred_at_admission"], calls, world.runs.get(run.id).cap_spent_usd)
+        )  # type: ignore[union-attr]
     assert results[0][0] and results[0] == results[1]

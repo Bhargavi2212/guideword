@@ -9,6 +9,8 @@ from typing import Any
 
 import pytest
 
+from guideword.config import load_config
+from guideword.gateway.estimate import estimate_cost
 from guideword.gateway.fake import reply
 from guideword.gateway.transport import Reply, ToolCallRequest
 
@@ -22,8 +24,38 @@ def block(request: dict[str, Any], name: str) -> Any:
     return json.loads(match.group(1))
 
 
-def _specialist(request: dict[str, Any], not_credible_every: int = 0) -> Reply:
-    location = block(request, "context")["locations"][0]["id"]
+def _input_tokens(request: dict[str, Any]) -> int:
+    """The request's own estimated input: a realistic bill never exceeds the estimate."""
+    prices = next(iter(load_config(global_budget_usd=25.0).models.tiers.values()))
+    return estimate_cost(prices, request["messages"], request.get("tools"), 0).input_tokens
+
+
+def _specialist(
+    request: dict[str, Any],
+    not_credible_every: int = 0,
+    tokens: tuple[int | None, int] = (100, 50),
+) -> Reply:
+    if tokens[0] is None:
+        tokens = (_input_tokens(request), tokens[1])
+    locations = block(request, "context").get("locations") or []
+    if not locations:
+        # nothing citable for an external cause: dismiss, so the answer stays valid
+        return reply(
+            {
+                "answers": [
+                    {
+                        "question_id": q["id"],
+                        "not_credible": {"reason": "no location"},
+                        "findings": [],
+                    }
+                    for q in block(request, "questions")
+                ],
+                "added_questions": [],
+            },
+            input_tokens=tokens[0],
+            output_tokens=tokens[1],
+        )
+    location = locations[0]["id"]
 
     def dismissed(i: int) -> bool:
         return not_credible_every > 0 and i % not_credible_every == 0
@@ -57,12 +89,17 @@ def _specialist(request: dict[str, Any], not_credible_every: int = 0) -> Reply:
                 for i, q in enumerate(block(request, "questions"))
             ],
             "added_questions": [],
-        }
+        },
+        input_tokens=tokens[0],
+        output_tokens=tokens[1],
     )
 
 
 def make_script(
-    orchestrator_output_tokens: int = 50, secret: str | None = None, not_credible_every: int = 0
+    orchestrator_output_tokens: int = 50,
+    secret: str | None = None,
+    not_credible_every: int = 0,
+    specialist_tokens: tuple[int | None, int] = (100, 50),
 ) -> Script:
     """`secret` puts that text into every severity reply (to test the export's key check);
     `not_credible_every` dismisses every n-th question of a batch as not credible."""
@@ -89,7 +126,7 @@ def make_script(
                     ]
                 }
             )
-        return _specialist(request, not_credible_every)
+        return _specialist(request, not_credible_every, specialist_tokens)
 
     return script
 

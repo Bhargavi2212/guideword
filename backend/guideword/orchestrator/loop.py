@@ -43,7 +43,7 @@ from guideword.specialists.run import (
 from guideword.tools.record import execute_tool
 
 log = get_logger(__name__)
-REFUSED_AT_ADMISSION = "refused at admission"
+ADMISSION = "admission"
 
 JOB = "orchestrator"
 ASK = "Choose the next step: call exactly one tool."
@@ -360,20 +360,56 @@ class OrchestratorStepper:
             for p in prepared
         ]
         admitted: list[int] = []
-        refused_at_admission: list[dict[str, Any]] = []
+        # from the first batch that does not fit, the rest wait for a later dispatch: never
+        # sent, so no repeat; never tried, so they keep their level (R13 as amended)
+        deferred_at_admission: list[dict[str, Any]] = []
         running = before
         for index, slice_usd in enumerate(slices):
-            if not refused_at_admission and running + slice_usd <= spend_limit:
+            if not deferred_at_admission and running + slice_usd <= spend_limit:
                 admitted.append(index)
                 running += slice_usd
             else:
-                refused_at_admission.append(
-                    {
-                        "question_ids": [q.id for q in groups[index]],
-                        "reason": REFUSED_AT_ADMISSION,
-                        "slice_usd": slice_usd,
-                    }
+                deferred_at_admission.append(
+                    {"question_ids": [q.id for q in groups[index]], "slice_usd": slice_usd}
                 )
+        if groups and not admitted:
+            # no room even for the first batch: the analysis ends here, and severity runs
+            room = spend_limit - before
+            writer.emit(
+                EventType.DISPATCH,
+                payload
+                | {
+                    "batches": len(groups),
+                    "admission": {
+                        "cap_spent_usd": before,
+                        "limit_usd": spend_limit,
+                        "slices_usd": slices,
+                    },
+                    "deferred_at_admission": deferred_at_admission,
+                },
+            )
+            writer.emit(
+                EventType.CAP_HIT,
+                {
+                    "reason": ADMISSION,
+                    "detail": (
+                        f"the first batch of the dispatch does not fit: slice "
+                        f"${slices[0]:.4f}, room ${room:.4f} under the limit ${spend_limit:.4f}"
+                    ),
+                    "reserve_usd": reserve.usd,
+                    "unrated": reserve.unrated,
+                    "severity_calls": reserve.calls,
+                },
+            )
+            self._record(
+                writer,
+                step,
+                "dispatch_specialist",
+                arguments,
+                None,
+                "no batch fits the spend left: the analysis ends",
+            )
+            return StepResult(next_step=NEXT)
         existing = set(by_id)
         made = frozenset(c.id for c in writer.model_calls())
         outcomes: list[BatchOutcome | BaseException] = []
@@ -450,14 +486,8 @@ class OrchestratorStepper:
             "dropped_ids": dropped,
             "failed_batches": failed_batches,
             "admission": {"cap_spent_usd": before, "limit_usd": spend_limit, "slices_usd": slices},
-            "refused_at_admission": refused_at_admission,
+            "deferred_at_admission": deferred_at_admission,
         }
-        if refused_at_admission and refusal is None:
-            refusal = BudgetRefused(
-                f"{len(refused_at_admission)} batches refused at admission: limit "
-                f"${spend_limit:.4f}, spent ${before:.4f} before the dispatch",
-                RunStatus.STOPPED_CAP,
-            )
         writer.emit(EventType.DISPATCH, payload)
         lines, _ = coverage(list(sections.values()), writer.questions(), writer.findings())
         writer.emit(EventType.COVERAGE_UPDATED, {"lines": [line.model_dump() for line in lines]})
@@ -466,6 +496,9 @@ class OrchestratorStepper:
         )
         if added_total:
             summary += f", {added_total} questions added"
+        if deferred_at_admission:
+            waiting = sum(len(d["question_ids"]) for d in deferred_at_admission)
+            summary += f", {waiting} questions deferred for spend (still open)"
         self._record(
             writer,
             step,

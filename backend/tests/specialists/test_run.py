@@ -505,3 +505,36 @@ def test_a_batch_that_uses_up_its_slice_fails_without_stopping_the_run(
     )
     assert out.status == "failed" and "slice" in (out.error or "")
     assert len(transport.sent) == 1
+
+
+def test_a_tool_agents_slice_is_the_two_tool_path_calls_and_one_retry(
+    build: Any, world: Any, ref: ReferenceSet, config: Config
+) -> None:
+    from guideword.specialists.run import batch_slice_usd, prepare_batch  # noqa: PLC0415
+
+    gateway, _ = build(lambda job, r: answers(batch_ids(r)))
+    plant, sections, questions = world
+    prepared = prepare_batch(
+        gateway,
+        plant=plant,
+        ref=ref,
+        config=config,
+        sections=sections,
+        questions=[questions["pair:KOH:SIH"]],
+        agent=Agent.CHEMISTRY,
+        ai_remaining=0,
+        level="bulk",
+    )
+    assert not isinstance(prepared, BatchOutcome) and prepared.tools
+    max_tokens = config.caps.run.max_tokens["specialist_bulk"]
+    prices = config.models.tiers[Tier.LIGHTNING]
+    first = estimate_cost(prices, prepared.conversation, prepared.tools, max_tokens)
+    total = sum(
+        (
+            (first.input_tokens + k * max_tokens) * prices.input_usd_per_1m
+            + max_tokens * prices.output_usd_per_1m
+        )
+        / 1_000_000
+        for k in range(3)
+    )
+    assert batch_slice_usd(prepared, config) == pytest.approx(total)
