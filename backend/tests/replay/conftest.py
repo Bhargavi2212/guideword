@@ -58,11 +58,12 @@ def make_script(orchestrator_output_tokens: int = 50, secret: str | None = None)
         if job == "orchestrator":
             view = block(request, "view")
             agents = sorted(view["open"])
-            name, args = (
-                ("dispatch_specialist", {"agent": agents[0], "level": "bulk"})
-                if agents
-                else ("finish", {})
-            )
+            if agents:
+                retry = view["retry_at_hard"].get(agents[0], {"count": 0})["count"]
+                level = "bulk" if view["open"][agents[0]]["count"] > retry else "hard"
+                name, args = "dispatch_specialist", {"agent": agents[0], "level": level}
+            else:
+                name, args = "finish", {}
             call = ToolCallRequest("t", name, json.dumps({"reason": "go", **args}))
             return reply(tool_calls=(call,), output_tokens=orchestrator_output_tokens)
         if job == "severity_reason":

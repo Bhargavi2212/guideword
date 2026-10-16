@@ -87,6 +87,7 @@ class SeverityStepper:
                 schema=SeverityAnswer,
                 validator=validator,
                 run=RunBudget(run.id, writer.run.cap_spent_usd, run.spend_cap_usd),
+                made=frozenset(c.id for c in writer.model_calls()),
             )
         except BudgetRefused as refused:
             return stop_for_refusal(writer, refused)

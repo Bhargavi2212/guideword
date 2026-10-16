@@ -2,6 +2,7 @@
 
 import json
 import re
+from dataclasses import replace
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
@@ -363,14 +364,20 @@ def test_apply_batch_writes_every_record_with_its_event(
         ai_remaining=20,
         existing_question_ids=set(questions),
     )
-    for _ in range(2):  # applying the same outcome twice stores each finding once (R42)
-        with runs.step(run.id) as writer:
-            apply_batch(writer, out)
+    with runs.step(run.id) as writer:
+        apply_batch(writer, out)
+    # a second answer giving the same findings stores each finding once (R42)
+    again = replace(out, model_calls=[], steps=[], cost_usd=0.0, cap_cost_usd=0.0)
+    with runs.step(run.id) as writer:
+        apply_batch(writer, again)
     assert len(runs.findings(run.id)) == len(MX)
     stored = {q.id: q for q in runs.questions(run.id)}
     assert {stored[q].status for q in MX} == {QuestionStatus.ANSWERED}
     assert len(runs.model_calls(run.id)) == 1
-    assert runs.get(run.id).spent_usd == pytest.approx(2 * out.cost_usd)  # type: ignore[union-attr]
+    assert runs.get(run.id).spent_usd == pytest.approx(out.cost_usd)  # type: ignore[union-attr]
+    # the same call record again is refused, not overwritten (case D dev run)
+    with pytest.raises(ValueError, match="already recorded"), runs.step(run.id) as writer:
+        apply_batch(writer, out)
     types = [e.type for e in runs.events(run.id)]
     assert (
         EventType.FINDING_ADDED in types

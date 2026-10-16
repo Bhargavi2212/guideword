@@ -329,6 +329,7 @@ class OrchestratorStepper:
                     ai_remaining=ai_left,
                     existing_question_ids=existing,
                     level=args.level,
+                    made=frozenset(c.id for c in writer.model_calls()),
                 )
                 for group in groups
             ]
@@ -407,8 +408,10 @@ class OrchestratorStepper:
         findings: Sequence[Any],
         sections: dict[str, Section],
     ) -> list[str]:
-        """R44: bulk → open; hard → open with a failed attempt; unsure → answered with an
-        unsure finding and no Ultra re-answer, within the cap. In ID order."""
+        """R44 as amended after the case D dev run: bulk → open and not yet tried; hard → open
+        with a failed attempt; unsure → answered with an unsure finding and no Ultra
+        re-answer, within the cap. In ID order. A tried question never goes back to bulk:
+        the same batch again is a cache hit and can only fail again."""
         if level == "unsure":
             left = max(0, self.caps.unsure_reanswers_per_run - reanswers_used(findings))
             pool = set(unsure_question_ids(questions, findings))
@@ -419,7 +422,7 @@ class OrchestratorStepper:
         wanted = [
             q
             for q in questions
-            if q.status == QuestionStatus.OPEN and (level == "bulk" or q.attempts > 0)
+            if q.status == QuestionStatus.OPEN and ((q.attempts == 0) == (level == "bulk"))
         ]
         return by_agent(wanted, sections).get(agent, [])
 
@@ -434,6 +437,7 @@ class OrchestratorStepper:
             tools=tool_schemas(),
             tool_choice="required",
             run=RunBudget(run.id, writer.run.cap_spent_usd, limit),
+            made=frozenset(c.id for c in writer.model_calls()),
         )
         for call in result.model_calls:
             writer.add_model_call(call, fell_back_from=result.fell_back_from)

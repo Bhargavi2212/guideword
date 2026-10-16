@@ -14,7 +14,7 @@ from dataclasses import dataclass, field
 from typing import Any, Literal
 
 from guideword.config import Config
-from guideword.gateway.client import Gateway, GatewayResult, RunBudget
+from guideword.gateway.client import Gateway, GatewayResult, RepeatedRequest, RunBudget
 from guideword.gateway.estimate import estimate_cost
 from guideword.gateway.prompts import load_prompt, render
 from guideword.logs import get_logger
@@ -140,8 +140,11 @@ def run_batch(
     existing_question_ids: set[str],
     level: Level = "bulk",
     retry_missing: bool = True,
+    made: frozenset[str] = frozenset(),
 ) -> BatchOutcome:
-    """Answer one batch. `BudgetRefused` from the gateway is not caught: it stops the run."""
+    """Answer one batch. `BudgetRefused` from the gateway is not caught: it stops the run. A
+    request already made in this run (`made`, its model call IDs) is not sent: the call comes
+    back as an error, so the batch fails like any other."""
     caps = config.caps.run
     job = JOB_FOR_LEVEL[level]
     batch = list(questions)
@@ -174,12 +177,19 @@ def run_batch(
 
     def call(**kwargs: Any) -> GatewayResult:
         nonlocal spent
-        result = gateway.call(
-            job=job,
-            prompt_version=prompt.label,
-            run=RunBudget(budget.run_id, spent, budget.limit_usd),
-            **kwargs,
-        )
+        try:
+            result = gateway.call(
+                job=job,
+                prompt_version=prompt.label,
+                run=RunBudget(budget.run_id, spent, budget.limit_usd),
+                made=made,
+                **kwargs,
+            )
+        except RepeatedRequest as repeated:
+            log.error("repeated request refused", extra={"context": {"error": str(repeated)}})
+            return GatewayResult(
+                outcome="error", tier=resolved.tier, model_id=resolved.model_id, error=str(repeated)
+            )
         spent += result.cap_cost_usd
         outcome.cost_usd += result.cost_usd
         outcome.cap_cost_usd += result.cap_cost_usd
@@ -313,6 +323,7 @@ def run_batch(
             existing_question_ids=existing_question_ids,
             level=level,
             retry_missing=False,
+            made=made,
         )
         spent += alone.cap_cost_usd
         _merge(outcome, alone)

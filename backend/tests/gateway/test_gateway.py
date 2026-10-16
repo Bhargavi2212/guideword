@@ -558,3 +558,22 @@ def test_real_cost_comes_from_usage(build: Build, config: Config) -> None:
     assert result.cost_usd == pytest.approx(
         (1000 * prices.input_usd_per_1m + 500 * prices.output_usd_per_1m) / 1e6
     )
+
+
+def test_a_request_already_made_in_the_run_is_refused_before_cache_or_send(
+    build: Build,
+) -> None:
+    """The backstop: the same request twice in one run could only repeat the stored answer and
+    would overwrite its record, so the gateway refuses it before looking anything up."""
+    from guideword.gateway.client import RepeatedRequest  # noqa: PLC0415
+
+    gateway, transport = build(_ok)
+    run = RunBudget("run:0123456789abcdef", 0.0, 1.0)
+    first = _call(gateway, run=run)
+    made = frozenset(c.id for c in first.model_calls)
+    with pytest.raises(RepeatedRequest, match=next(iter(made))):
+        _call(gateway, run=run, made=made)
+    assert len(transport.sent) == 1
+    # a different request in the same run goes through
+    other = _call(gateway, run=run, made=made, messages=[{"role": "user", "content": "Other?"}])
+    assert other.outcome == "ok"

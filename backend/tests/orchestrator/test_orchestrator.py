@@ -75,10 +75,16 @@ def tool(name: str, **args: Any) -> Any:
     )
 
 
+def level_for(view: dict[str, Any], agent: str) -> str:
+    """Bulk while the agent has untried open questions, then hard for the tried ones (R44)."""
+    retry = view["retry_at_hard"].get(agent, {"count": 0})["count"]
+    return "bulk" if view["open"][agent]["count"] > retry else "hard"
+
+
 def drain(view: dict[str, Any]) -> tuple[str, dict[str, Any]]:
     """Dispatch the first agent with open questions; finish when none are open."""
     for agent in sorted(view["open"]):
-        return "dispatch_specialist", {"agent": agent, "level": "bulk"}
+        return "dispatch_specialist", {"agent": agent, "level": level_for(view, agent)}
     return "finish", {}
 
 
@@ -480,3 +486,51 @@ def test_reaching_the_severity_reserve_moves_the_run_to_severity(world: World) -
     assert world.runs.get(run.id).step == "severity"  # type: ignore[union-attr]
     cap_hits = [e.payload for e in world.runs.events(run.id) if e.type == EventType.CAP_HIT]
     assert cap_hits and cap_hits[0]["reason"] == "severity reserve"
+
+
+# --- no identical request twice in one run (found in the case D dev run) ----------------------
+
+
+def broken(request: dict[str, Any]) -> Any:
+    return reply("this is not the answer schema")
+
+
+def test_a_question_that_failed_at_bulk_is_never_sent_to_bulk_again(world: World) -> None:
+    """The same batch sent again is a cache hit and can only fail again: a question with a
+    failed attempt goes on at hard, never back to bulk (R44 as amended)."""
+    run = world.start()
+    gateway, transport = world.gateway(
+        lambda view: ("dispatch_specialist", {"agent": "process", "level": "bulk"}), broken
+    )
+    steppers = world.steppers(gateway)
+    advance(world.runs, run.id, steppers)
+    first = set(_dispatch_events(world, run)[0]["question_ids"])
+    tried = {q.id for q in world.runs.questions(run.id) if q.attempts > 0}
+    assert first and first == tried
+    advance(world.runs, run.id, steppers)
+    second = _dispatch_events(world, run)[1]
+    assert not first & set(second["question_ids"])
+    sent = [json.dumps(r, sort_keys=True) for job, r in transport.sent if job != "orchestrator"]
+    assert len(sent) == len(set(sent))  # no request was sent twice
+
+
+def test_naming_failed_questions_at_bulk_again_is_refused_before_any_call(world: World) -> None:
+    run = world.start()
+    chosen = ["m:S-MX-1:more:pressure", "m:S-MX-1:less:pressure"]
+    gateway, transport = world.gateway(
+        lambda view: (
+            "dispatch_specialist",
+            {"agent": "process", "level": "bulk", "question_ids": chosen},
+        ),
+        broken,
+    )
+    steppers = world.steppers(gateway)
+    advance(world.runs, run.id, steppers)
+    specialist_calls = sum(1 for job, _ in transport.sent if job != "orchestrator")
+    advance(world.runs, run.id, steppers)
+    assert sum(1 for job, _ in transport.sent if job != "orchestrator") == specialist_calls
+    second = _dispatch_events(world, run)[1]
+    assert second["skipped"] == chosen and second["batches"] == 0
+    # one record per model call ID: nothing was overwritten
+    ids = [c.id for c in world.runs.model_calls(run.id)]
+    assert len(ids) == len(set(ids))

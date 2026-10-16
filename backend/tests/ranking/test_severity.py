@@ -87,9 +87,15 @@ def severity_answer(request: dict[str, Any], skip: int = 0) -> Any:
     )
 
 
+def level_for(view: dict[str, Any], agent: str) -> str:
+    """Bulk while the agent has untried open questions, then hard for the tried ones (R44)."""
+    retry = view["retry_at_hard"].get(agent, {"count": 0})["count"]
+    return "bulk" if view["open"][agent]["count"] > retry else "hard"
+
+
 def drain(view: dict[str, Any]) -> Any:
     for agent in sorted(view["open"]):
-        return "dispatch_specialist", {"agent": agent, "level": "bulk"}
+        return "dispatch_specialist", {"agent": agent, "level": level_for(view, agent)}
     return "finish", {}
 
 
