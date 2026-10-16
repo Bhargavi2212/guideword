@@ -476,16 +476,73 @@ def test_unsure_reanswer_on_ultra_allowed_up_to_the_cap(world: World, config: Co
 # --- R38: the severity reserve -------------------------------------------------------------
 
 
-def test_reaching_the_severity_reserve_moves_the_run_to_severity(world: World) -> None:
-    """With cap 0.16 and a 0.15 reserve, the orchestrator's first call does not fit: the
-    analysis phase ends with a cap_hit and the run moves on to severity, not stopped."""
-    run = world.start(cap=0.16)
-    gateway, transport = world.gateway(drain)
-    assert advance(world.runs, run.id, world.steppers(gateway)) == RunStatus.RUNNING
-    assert transport.sent == []
+def finds(request: dict[str, Any]) -> Any:
+    """One outside-library finding per question, on a location every agent may cite."""
+    return reply(
+        {
+            "answers": [
+                {
+                    "question_id": q,
+                    "not_credible": None,
+                    "findings": [
+                        {
+                            "cause_id": "outside_library",
+                            "cause_text": "a gremlin",
+                            "failing_component_type": "external",
+                            "failing_component_ids": ["ROOF"],
+                            "consequence": "a release",
+                            "safeguard_ids": [],
+                            "adequacy": "unknown",
+                            "confidence": "sure",
+                            "reason": "test",
+                        }
+                    ],
+                }
+                for q in batch_ids(request)
+            ],
+            "added_questions": [],
+        }
+    )
+
+
+def test_the_analysis_stops_where_the_computed_severity_reserve_begins(
+    tmp_path: Path, ref: ReferenceSet, config: Config
+) -> None:
+    """The reserve is ceil(unrated / batch) severity calls at their max_tokens, worked out each
+    step from the findings so far. A first run measures what the first dispatch's findings
+    need; a second run with a cap just under that ends the analysis at the reserve."""
+    from guideword.ranking.severity import severity_reserve  # noqa: PLC0415
+
+    def process(view: dict[str, Any]) -> tuple[str, dict[str, Any]]:
+        return "dispatch_specialist", {"agent": "process", "level": "bulk"}
+
+    (tmp_path / "a").mkdir()
+    probe = World(tmp_path / "a", ref, config)
+    first = probe.start(cap=1.0)
+    gateway, transport = probe.gateway(process, finds)
+    advance(probe.runs, first.id, probe.steppers(gateway))
+    # with no findings yet, nothing is reserved: the view's limit is the whole cap
+    assert view_of(transport.sent[0][1])["spend"]["limit_usd"] == 1.0
+    reserve = severity_reserve(
+        probe.runs.findings(first.id), probe.runs.questions(first.id), probe.plant, ref, config
+    )
+    spent = probe.runs.get(first.id).cap_spent_usd  # type: ignore[union-attr]
+    assert reserve.unrated == len(probe.runs.findings(first.id)) > 0
+
+    (tmp_path / "b").mkdir()
+    world = World(tmp_path / "b", ref, config)
+    run = world.start(cap=round(spent + reserve.usd / 2, 6))
+    gateway, transport = world.gateway(process, finds)
+    steppers = world.steppers(gateway)
+    advance(world.runs, run.id, steppers)
+    sent = len(transport.sent)
+    assert advance(world.runs, run.id, steppers) == RunStatus.RUNNING
+    assert len(transport.sent) == sent  # the second orchestrator call was refused, unsent
     assert world.runs.get(run.id).step == "severity"  # type: ignore[union-attr]
-    cap_hits = [e.payload for e in world.runs.events(run.id) if e.type == EventType.CAP_HIT]
-    assert cap_hits and cap_hits[0]["reason"] == "severity reserve"
+    [hit] = [e.payload for e in world.runs.events(run.id) if e.type == EventType.CAP_HIT]
+    assert hit["reason"] == "severity reserve"
+    assert hit["reserve_usd"] == pytest.approx(reserve.usd)
+    assert (hit["unrated"], hit["severity_calls"]) == (reserve.unrated, reserve.calls)
 
 
 # --- no identical request twice in one run (found in the case D dev run) ----------------------

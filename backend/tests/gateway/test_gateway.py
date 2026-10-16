@@ -11,6 +11,7 @@ from pydantic import BaseModel
 
 from guideword.config import Config, load_config
 from guideword.gateway.client import BudgetRefused, Gateway, RunBudget
+from guideword.gateway.estimate import estimate_cost
 from guideword.gateway.fake import FakeTransport, catalog_for, fake_gateway, reply
 from guideword.gateway.ledgers import LaptopLedger
 from guideword.gateway.transport import ToolCallRequest, TransportError
@@ -380,8 +381,12 @@ def test_holds_count_calls_in_flight(build: Build) -> None:
         return reply({"verdict": "yes", "reason": "r"})
 
     gateway, _ = build(slow)
-    one = _call  # the estimate of one Lightning call with these messages
-    limit = 0.0025  # above one estimate (~0.0015), below two
+    one = _call
+    # the estimate of one Lightning call with these messages; the limit fits one, not two
+    request_settings = gateway.config.models.tiers[Tier.LIGHTNING]
+    max_tokens = gateway.config.caps.run.max_tokens["specialist_bulk"]
+    estimate = estimate_cost(request_settings, MESSAGES, None, max_tokens).cost_usd
+    limit = 1.5 * estimate
     errors: list[BaseException] = []
 
     def first() -> None:

@@ -9,15 +9,15 @@ run:
   evidence_top_n: 5
   question_max_attempts: 2
   connector_max_input_tokens: 80000
-  # the orchestrator phase stops at the run cap minus this, so severity can finish (R38)
-  severity_reserve_usd: 0.15
   # per routing job; a batch of 10 bulk questions needs room for several findings each (R18)
   max_tokens:
     orchestrator: 4096
-    specialist_bulk: 6144
-    specialist_hard: 6144
+    # raised after the case D dev run: answers were cut off at 6144 (you pay only for output)
+    specialist_bulk: 12288
+    specialist_hard: 12288
     unsure_answer: 6144
-    severity_reason: 4096
+    # raised after the case D dev run: Ultra's reasoning used up 4096
+    severity_reason: 12288
     section_suggestion: 6144
     test5a: 8192
   # questions per specialist call, by tier
@@ -31,7 +31,9 @@ run:
   unsure_reanswers_per_run: 10
   # what the orchestrator sees each step (lists are truncated, with counts)
   orchestrator_view: {id_list_max: 20, recent_steps: 5, dispatch_max_question_ids: 60}
-  severity_batch_size: 20
+  # the analysis stops at the cap minus the severity reserve: ceil(unrated / this) calls,
+  # each estimated at severity_reason's max_tokens (computed by code, R38)
+  severity_batch_size: 10
   # input size of one specialist call; steps and jobs are trimmed to fit, else the batch fails (R43)
   specialist_max_input_tokens: 24000
 

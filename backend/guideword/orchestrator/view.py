@@ -63,7 +63,9 @@ def build_view(
     tool_calls: Sequence[ToolCall],
     sections: Mapping[str, Section],
     caps: RunCaps,
+    limit_usd: float,
 ) -> dict[str, Any]:
+    """`limit_usd` is what the analysis may spend: the cap minus the computed severity reserve."""
     view_caps = caps.orchestrator_view
     lines, failed = coverage(list(sections.values()), list(questions), findings)
     open_q = [q for q in questions if q.status == QuestionStatus.OPEN]
@@ -103,7 +105,7 @@ def build_view(
         "spend": {
             # what counts against the cap, so a cache replay sees what the original saw (R45)
             "cap_spent_usd": round(run.cap_spent_usd, 6),
-            "limit_usd": round(run.spend_cap_usd - caps.severity_reserve_usd, 6),
+            "limit_usd": round(limit_usd, 6),
         },
         "unsure_reanswers_left": max(0, caps.unsure_reanswers_per_run - reanswers_used(findings)),
     }
