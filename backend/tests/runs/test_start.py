@@ -90,7 +90,8 @@ def test_start_stores_questions_equal_to_the_builder(
 ) -> None:
     record_id = upload()
     run = _start(plants, runs, ref, settings, record_id)
-    assert (run.status, run.step, run.attempt) == (RunStatus.RUNNING, "analysis", 1)
+    # the whole-plant pass is the first step of every run (R50)
+    assert (run.status, run.step, run.attempt) == (RunStatus.RUNNING, "plant_screen", 1)
     assert run.label.kind == RunLabelKind.LIVE
     stored = plants.get(record_id)
     assert stored is not None

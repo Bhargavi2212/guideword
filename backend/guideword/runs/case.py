@@ -22,6 +22,7 @@ from guideword.schema.enums import EventType, QuestionKind, QuestionStatus, RunS
 from guideword.schema.plant import Plant
 from guideword.schema.records import OUTSIDE_LIBRARY, Finding, PlantRecord, Question, Run
 from guideword.schema.validate import Issue
+from guideword.screen.step import PlantScreenStepper
 from guideword.sections.rules import rule_cut
 
 DASH = " — "
@@ -75,6 +76,7 @@ def steppers_for(
     gateway: Gateway, config: Config, ref: ReferenceSet, plant: Plant
 ) -> dict[str, Stepper]:
     return {
+        "plant_screen": PlantScreenStepper(gateway, config=config, ref=ref, plant=plant),
         "analysis": OrchestratorStepper(gateway, config=config, ref=ref, plant=plant),
         "severity": SeverityStepper(gateway, config=config, ref=ref, plant=plant),
         "ranked": RankedStepper(),

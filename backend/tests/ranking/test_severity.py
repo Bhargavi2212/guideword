@@ -99,6 +99,18 @@ def drain(view: dict[str, Any]) -> Any:
     return "finish", {}
 
 
+def past_screen(runs: RunRepository, run: Run) -> Run:
+    """Harnesses that test later steps start where runs started before R50: a new run's
+    plant_screen step is skipped (it is tested in tests/screen)."""
+    if run.step != "plant_screen":
+        return run
+    with runs.step(run.id) as writer:
+        writer.set_step("analysis")
+    moved = runs.get(run.id)
+    assert moved is not None
+    return moved
+
+
 class World:
     def __init__(self, tmp_path: Path, ref: ReferenceSet, config: Config) -> None:
         self.sessions = make_session_factory(f"sqlite:///{(tmp_path / 'g.db').as_posix()}")
@@ -117,7 +129,7 @@ class World:
         settings = RunSettings(
             dict(cfg.routing.jobs), cfg.caps.run_input_caps(), dict(cfg.routing.prompts)
         )
-        return start_run(
+        run = start_run(
             self.plants,
             self.runs,
             self.ref,
@@ -126,6 +138,7 @@ class World:
             spend_cap_usd=cap,
             mode="full",
         )
+        return past_screen(self.runs, run)
 
     def steppers(
         self,

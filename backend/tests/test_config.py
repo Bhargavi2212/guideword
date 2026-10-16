@@ -85,6 +85,7 @@ def test_phase_2_run_caps(shipped: Config) -> None:
         "severity_reason": 12288,
         "section_suggestion": 6144,
         "test5a": 8192,
+        "plant_screen": 12288,
     }
     assert run.specialist_batch_size == {
         Tier.LIGHTNING: 5,
@@ -102,6 +103,7 @@ def test_phase_2_run_caps(shipped: Config) -> None:
     assert run.severity_batch_size == 10
     # the severity reserve prices each call at this, under the max_tokens ceiling
     assert run.severity_output_tokens_estimate == 4700
+    assert run.plant_screen_max_hypotheses == 12
     assert run.specialist_max_input_tokens == 24000
     assert shipped.caps.ranking.outside_library_default_frequency_per_year == 0.1
 
@@ -135,6 +137,7 @@ def test_prompt_versions_name_existing_files(shipped: Config) -> None:
         "section_suggestion": "v1",
         "severity": "v2",
         "test5a": "v1",
+        "plant_screen": "v1",
         **{
             f"specialists/{a}": "v2"
             for a in ("process", "chemistry", "piping", "procedures", "maintenance", "dust")

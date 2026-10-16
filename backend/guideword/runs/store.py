@@ -18,6 +18,7 @@ from guideword.runs.db import (
     AgentStepRow,
     EventRow,
     FindingRow,
+    HypothesisRow,
     ModelCallRow,
     QuestionRow,
     RunRecordRow,
@@ -30,6 +31,7 @@ from guideword.schema.records import (
     AgentStep,
     Event,
     Finding,
+    Hypothesis,
     ModelCall,
     Question,
     Run,
@@ -55,6 +57,8 @@ EMITTED_EVENT_TYPES = frozenset(
         EventType.CAP_HIT,
         EventType.RUN_FINISHED,
         EventType.RUN_FAILED,
+        EventType.HYPOTHESIS_ADDED,
+        EventType.HYPOTHESIS_DROPPED,
     }
 )
 
@@ -139,6 +143,18 @@ class StepWriter:
             {"finding_id": finding.id, "question_id": finding.question_id, "tier": finding.tier},
         )
 
+    def add_hypothesis(self, hypothesis: Hypothesis) -> None:
+        """Store a hypothesis of the whole-plant pass, once (R50: it is never edited)."""
+        if hypothesis.id in self._new.get(HypothesisRow, {}) or (
+            self._session.get(HypothesisRow, (self.run.id, hypothesis.id)) is not None
+        ):
+            raise ValueError(f"hypothesis {hypothesis.id} is already stored in run {self.run.id}")
+        self._put(HypothesisRow, hypothesis)
+        self.emit(
+            EventType.HYPOTHESIS_ADDED,
+            {"hypothesis_id": hypothesis.id, "rank": hypothesis.rank},
+        )
+
     def fill_severity(self, finding: Finding) -> None:
         """The one-time severity fill (R10): the stored finding gains its severity and reason.
         Its event is the severity call's `model_call` event, whose record lists the findings."""
@@ -188,6 +204,9 @@ class StepWriter:
 
     def findings(self) -> list[Finding]:
         return self._records(FindingRow, Finding)
+
+    def hypotheses(self) -> list[Hypothesis]:
+        return self._records(HypothesisRow, Hypothesis)
 
     def steps(self) -> list[AgentStep]:
         return self._records(AgentStepRow, AgentStep)
@@ -317,6 +336,9 @@ class RunRepository:
 
     def findings(self, run_id: str) -> list[Finding]:
         return self._read(FindingRow, run_id, Finding)
+
+    def hypotheses(self, run_id: str) -> list[Hypothesis]:
+        return self._read(HypothesisRow, run_id, Hypothesis)
 
     def steps(self, run_id: str) -> list[AgentStep]:
         return self._read(AgentStepRow, run_id, AgentStep)

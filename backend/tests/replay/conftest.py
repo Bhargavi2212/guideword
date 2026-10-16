@@ -100,11 +100,14 @@ def make_script(
     secret: str | None = None,
     not_credible_every: int = 0,
     specialist_tokens: tuple[int | None, int] = (100, 50),
+    screen_hypotheses: list[dict[str, Any]] | None = None,
 ) -> Script:
     """`secret` puts that text into every severity reply (to test the export's key check);
     `not_credible_every` dismisses every n-th question of a batch as not credible."""
 
     def script(job: str, request: dict[str, Any]) -> Reply:
+        if job == "plant_screen":
+            return reply({"hypotheses": screen_hypotheses or []})
         if job == "orchestrator":
             view = block(request, "view")
             agents = sorted(view["open"])

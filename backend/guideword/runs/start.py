@@ -18,7 +18,8 @@ from guideword.schema.enums import PlantStatus, RunLabelKind, RunStatus
 from guideword.schema.records import Run, RunLabel
 
 FULL = "full"
-FIRST_STEP = "analysis"
+# the whole-plant pass comes before any dispatch (R50)
+FIRST_STEP = "plant_screen"
 # statuses a new start with identical inputs picks up again
 RESUMABLE = {RunStatus.STOPPED_CAP, RunStatus.STOPPED_BUDGET}
 
