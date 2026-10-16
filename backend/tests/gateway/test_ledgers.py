@@ -87,3 +87,60 @@ def test_live_call_and_budget_status_use_the_moved_ledger() -> None:
     assert budget_status.Ledger is LaptopLedger
     assert live_call.estimate_cost is estimate_cost
     assert live_call.cost_usd is cost_usd
+
+
+# --- a read during an append (found in CI, contract v1.2 PR) -----------------------------------
+
+
+def test_a_half_written_last_line_is_an_append_in_progress_and_is_skipped(tmp_path: Path) -> None:
+    """The budget guard reads the ledger while parallel calls append to it; a read that lands
+    mid-append sees the last line cut short. Every append ends with a newline, so an
+    unterminated last line is a write in progress: skipped, never parsed."""
+    ledger = LaptopLedger(tmp_path / "ledger.jsonl")
+    ledger.append(_entry(Environment.LAPTOP, BudgetUse.DEVELOPMENT, 0.25))
+    whole = _entry(Environment.LAPTOP, BudgetUse.TEST_5, 0.5).model_dump_json()
+    with ledger.path.open("a", encoding="utf-8", newline="\n") as f:
+        f.write(whole[: len(whole) // 2])
+    assert [e.cost_usd for e in ledger.entries()] == [0.25]
+    assert ledger.spent() == pytest.approx(0.25)
+
+
+def test_a_corrupt_complete_line_still_fails_loudly(tmp_path: Path) -> None:
+    ledger = LaptopLedger(tmp_path / "ledger.jsonl")
+    ledger.append(_entry(Environment.LAPTOP, BudgetUse.DEVELOPMENT, 0.25))
+    with ledger.path.open("a", encoding="utf-8", newline="\n") as f:
+        f.write('{"not": "an entry"}\n')
+    with pytest.raises(ValueError):
+        ledger.entries()
+
+
+def test_reads_while_threads_append_never_fail_and_lose_nothing(tmp_path: Path) -> None:
+    import threading  # noqa: PLC0415
+
+    ledger = LaptopLedger(tmp_path / "ledger.jsonl")
+    errors: list[BaseException] = []
+    done = threading.Event()
+
+    def write() -> None:
+        for _ in range(100):
+            ledger.append(_entry(Environment.LAPTOP, BudgetUse.DEVELOPMENT, 0.001))
+
+    def read() -> None:
+        while not done.is_set():
+            try:
+                ledger.entries()
+            except BaseException as error:  # noqa: BLE001 - collected for the assert
+                errors.append(error)
+                return
+
+    readers = [threading.Thread(target=read) for _ in range(2)]
+    writers = [threading.Thread(target=write) for _ in range(4)]
+    for thread in [*readers, *writers]:
+        thread.start()
+    for thread in writers:
+        thread.join(30)
+    done.set()
+    for thread in readers:
+        thread.join(30)
+    assert errors == []
+    assert len(ledger.entries()) == 400
