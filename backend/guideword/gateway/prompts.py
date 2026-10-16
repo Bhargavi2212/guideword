@@ -4,12 +4,18 @@
 `prompts/<name>/<version>.md`. Everything above the first `---` line is a header for people
 (job, placeholders, tools) and is not sent. Placeholders `{{name}}` are filled in one pass,
 so plant text that happens to contain `{{...}}` is never expanded.
+
+`as_data` writes a value as JSON for a data block such as `<plant>...</plant>`: `<`, `>` and
+`&` are escaped (`<` ...), so text in the data cannot open or close a block, and the
+JSON still reads back to the same value.
 """
 
+import json
 import re
 from collections.abc import Mapping
 from dataclasses import dataclass
 from pathlib import Path
+from typing import Any
 
 from guideword.config import DEFAULT_PROMPTS_DIR, Config
 
@@ -35,6 +41,11 @@ def load_prompt(name: str, config: Config, prompts_dir: Path | None = None) -> P
     text = (root / name / f"{version}.md").read_text(encoding="utf-8")
     _, found, body = text.partition(_HEADER_END)
     return Prompt(name, version, (body if found else text).lstrip("\n"))
+
+
+def as_data(value: Any) -> str:
+    text = json.dumps(value, indent=1, ensure_ascii=False)
+    return text.replace("&", "\\u0026").replace("<", "\\u003c").replace(">", "\\u003e")
 
 
 def render(body: str, values: Mapping[str, str]) -> str:
