@@ -1,173 +1,236 @@
 # Phase 2b plan — hybrid ranking (R50)
 
-Status: **draft, awaiting Bhargavi's approval** (mark `Status: approved <date>` here). No code until then.
+Status: **draft, final for Bhargavi's read** (mark `Status: approved <date>` here). No code until then.
 
-Covers every item of `specs/phase-2b-hybrid.md`. Written after reading the spec, `PROJECT.md` §5, §11, §13, §15, the G2 entry and the code it touches (`gateway/client.py`, `orchestrator/{loop,view,tools}.py`, `runs/{start,machine,case}.py`, `ranking/{rank,severity}.py`, `specialists/{causes,context,run}.py`, `api/models.py`, `schema/{records,ids,enums}.py`, `bench/results.py`, `config/caps.yaml`, the ledger via `budget_status.py`).
+Covers every item of `specs/phase-2b-hybrid.md`. It includes Bhargavi's answers to Q1–Q13, her review points A–E, and gaps G1–G8 found on rereading. Each gap is settled here as a plan decision, marked **(plan)**, for her to keep or change.
 
-Facts checked: no tag `contract-v1.2` exists locally or on GitHub (only `contract-v1`, `contract-v1.1`), so this bump takes **v1.2** and section-rejections (9a) moves to v1.3. The ledger shows phase 2 at **$3.41** ($3.40 test_5), `test_5` $0.60 left, `benchmark` $8.00 untouched; `benchmark` and `test_5` are both laptop uses, so moving between them keeps the laptop $19 and the per-environment sums.
+Facts checked:
+
+- No tag `contract-v1.2` exists, locally or on GitHub, so this bump takes **v1.2**. Section rejections (9a) moves to v1.3.
+- The ledger shows phase 2 at **$3.41** ($3.40 of it test_5), with $0.60 of `test_5` left and `benchmark` untouched at $8.00.
+- `benchmark` and `test_5` are both laptop uses, so moving money between them keeps the $19 laptop allowance and the per-environment sums.
+
+## The decisions this plan builds on
+
+| # | Decision (Bhargavi, 2026-10-16) |
+|---|---|
+| Q1 | (a), narrow wording: "the whole-plant pass's hypothesis rank, a model judgment with a reason, orders only the confirmed and unconfirmed tiers; code computes tier membership, ratings, links, the fold, LOPA gap and all of 'also found'; the model never sets a number." `hybrid-codeorder` is also written, at $0. The model-ordered list (`hybrid`) is the scored G2b config. |
+| Q2 | The `PROJECT.md` §11 lines go in the contract PR. |
+| Q3 | ID `h:<rank>:<h(normalised mechanism, sorted component_ids)>`, with `run_id` as a field. |
+| Q4 | `failing_component_type` is required. When a library cause is given, it must equal that cause's type. |
+| Q5 | Validity = the library cause exists, and every component fits the type under R46 over the whole plant (operator causes name the plant's steps or jobs). |
+| Q6 | The validator lists every bad hypothesis on the first attempt (the retry with the error). After the retry, code parses the final answer with the schema and drops the hypotheses that fail. A cut-off answer is never parsed. With zero survivors, the run continues with no hypotheses, and this is logged. |
+| Q7 | The screen gets the R46-filtered cause list: only causes the whole plant can support. |
+| Q8 | Support rule (c) is kept, but outside-library support also requires the same `failing_component_type`. Every confirmed line shows its supporting finding's text. The R50 entry states what "confirmed" means. |
+| Q9 / D | Contract v1.2 also: `ShortlistItem.target_kind` gains `"hypothesis"`; an optional `ShortlistItem.hypothesis`; event types `hypothesis_added` and `hypothesis_dropped`. |
+| Q10 / C | Configs `hybrid` (hand-scored), and `hybrid-codeorder`, `5a-plant` and `5b-from-hybrid` (automatic only). |
+| Q11 | One code PR, small commits, each green. |
+| Q12 | Budget: `benchmark` 8.00 → 6.50, `test_5` 4.00 → 5.50, phase 2 cap 5.00 → 6.50. |
+| Q13 | Orchestrator v2 changes only the `priority` option. |
+| A | Question links are computed and stored when the hypothesis is created, from the plant and sections only. Support is computed on demand from the current findings and is never stored or updated, like `rank.py`. The view's `supported` flag uses it. The Hypothesis record is immutable. |
+| B | External- and utility-type hypotheses link no questions for priority, because they are plant-wide. Their support is a finding with the same cause on the same component ID. Both are tested. |
+| E | `support_finding_ids` moves to `ShortlistItem`, computed. The Hypothesis record keeps `question_ids`. |
+
+## Gaps found on rereading, settled here (plan)
+
+| # | Gap | Plan decision |
+|---|---|---|
+| G1 | A confirmed hypothesis can have several supporting scenarios, and the spec says the line shows "the supporting scenario's severity and likelihood". | **(plan)** The line shows its **lead** scenario: the supporting scenario first in the spec 2.6 code order (rating, severity, frequency, protection, ID). The others fold under it. |
+| G2 | One scenario can support two hypotheses. | **(plan)** It counts as support for each, so both are confirmed. It is **displayed** only under the highest-ranked hypothesis it supports, so it never appears twice. A confirmed hypothesis whose every supporting scenario is shown under a higher one stays a confirmed line with its own text, and its folded list names those scenarios by ID ("shown under h:…"). |
+| G3 | What text the scorer and the hand sheet read on a tiered line. | **(plan)** Confirmed lines: `<mechanism> — <consequence>` from the hypothesis, followed by the lead finding's text, as one line, since both are the models' own words shown on it. Unconfirmed lines: the hypothesis text only. Also-found lines: the finding text, as now. IDs are never matched. |
+| G4 | `hybrid-codeorder` ordering of tier 3, whose hypotheses have no rating. | **(plan)** Tier 1 by its lead scenario's 2.6 key; tier 3 by hypothesis ID. Tier 3's order is reproducible but carries no risk meaning, and the report says so. |
+| G5 | The spec says the G2b rules are "fixed before any run", but nothing records them yet. | **(plan)** This PR adds a `decisions.md` entry with the G2b rules (cases E and F; scored config `hybrid`; the hit rule; Bhargavi's hand scores; the pass condition; what happens on failure), dated before any E or F run. |
+| G6 | Q1(a) amends `CLAUDE.md`. | **(plan)** This PR amends `CLAUDE.md` §3 and §14 with the Q1 wording, and `PROJECT.md` §5 Step 6 with the same wording. |
+| G7 | `runs/store.py` refuses event types it doesn't list (`EMITTED_EVENT_TYPES`). | **(plan)** `hypothesis_added` and `hypothesis_dropped` are added to it in the code PR, with a test. |
+| G8 | My first draft linked questions at analysis end, which contradicts A. | **(plan)** Linking runs inside the `plant_screen` step, when each hypothesis is created; support is computed only when read. |
 
 ## Per item
 
 ### 2b.5 Contract (first, so the frontend can start on the mock server)
 
-- **Branch / PR:** `contract/hypotheses-tiers` → tag `contract-v1.2`.
+- **Branch / PR:** `contract/hypotheses-tiers`, then tag `contract-v1.2`.
 - **Files:**
-  - `schema/records.py`: `Hypothesis` (id, run_id, rank, mechanism, component_ids, failing_component_type, cause_id, cause_text, consequence, reason, question_ids, support_finding_ids, model_call_id).
-  - `schema/ids.py`: `hypothesis_id(...)`.
-  - `schema/enums.py`: `EventType.HYPOTHESIS_ADDED`, and `ShortlistTier` (`confirmed`, `also_found`, `unconfirmed`).
-  - `api/models.py`: `ShortlistItem` gains `tier`, `hypothesis_id`, `hypothesis_rank` (the last two nullable; `tier` defaults so older fixtures stay valid).
-  - `scripts/export_schemas.py`: register `Hypothesis`.
-  - Regenerated: `contract/schemas/hypothesis.schema.json`, `enums.schema.json`, `api/shortlist.schema.json`, `contract/openapi.json`, `frontend/src/api/types.ts`.
-  - Mock fixtures: `shortlist.json` items carry tiers (one of each); a hypothesis appears through the record endpoint fixture (`record_detail` for an `h:` ID); `events_page.json` gains one `hypothesis_added` event.
-  - `PROJECT.md` §11 (the contract section): the `hypotheses` table, the `h:` ID form, the event type, the shortlist fields.
+  - `schema/records.py`: the immutable `Hypothesis` record, with `id`, `run_id`, `rank`, `mechanism`, `component_ids` (non-empty), `failing_component_type`, `cause_id`, `cause_text` (outside library only), `consequence`, `reason`, `question_ids` and `model_call_id`.
+  - `schema/ids.py`: `hypothesis_id(rank, mechanism, component_ids)` → `h:<rank>:<h(normalised mechanism, sorted component_ids)>`, built with `normalise_text`.
+  - `schema/enums.py`: `EventType.HYPOTHESIS_ADDED`, `EventType.HYPOTHESIS_DROPPED`, and `ShortlistTier` (`confirmed`, `also_found`, `unconfirmed`).
+  - `api/models.py`: `ShortlistItem` gains:
+    - `target_kind` `"hypothesis"`;
+    - `tier` (default `also_found`, so older items stay valid);
+    - `hypothesis_id` and `hypothesis_rank` (nullable);
+    - `hypothesis` (an optional `Hypothesis`);
+    - `support_finding_ids` (default `[]`).
+  - `scripts/export_schemas.py`: registers `Hypothesis`.
+  - Regenerated: `contract/schemas/hypothesis.schema.json`, `enums.schema.json`, the shortlist schema, `contract/openapi.json`, `frontend/src/api/types.ts`.
+  - Mock fixtures:
+    - `shortlist.json`: one item per tier, with a confirmed item that has a hypothesis and its support;
+    - `record_detail.json`: an `h:` record;
+    - `events_page.json`: one `hypothesis_added` and one `hypothesis_dropped` event.
+  - `PROJECT.md` §11 (Q2): the `hypotheses` table, the `h:` ID form, the two event types, and the shortlist fields.
+  - `docs/decisions.md`: the 9a tag moves to v1.3.
 - **Tests first:**
-  - `test_hypothesis_record_round_trips_and_rejects_unknown_fields`.
-  - `test_hypothesis_id_is_built_from_content` (same inputs, same ID; mechanism normalised; component order ignored).
-  - `test_shortlist_item_tier_fields_default_for_older_items`.
-  - `test_fixture_shortlist_shows_each_tier`.
-  - The existing exported-schema, openapi and fixture-validity tests then cover the rest.
-- **Dependencies:** none.
+  - `test_hypothesis_record_is_strict_and_round_trips`.
+  - `test_hypothesis_needs_components_and_the_library_type` (Q4).
+  - `test_hypothesis_id_is_built_from_content` (same input, same ID; the mechanism normalised; component order ignored; no run in the ID).
+  - `test_shortlist_item_new_fields_default_for_older_items`.
+  - `test_fixture_shortlist_shows_each_tier_and_a_hypothesis_item`.
+  - The existing schema, openapi and fixture tests cover the rest.
 
-### 2b.1 Whole-plant pass (`plant_screen`)
+### 2b.1 Whole-plant pass (`plant_screen`) and question links
 
 - **Branch / PR:**
-  - prompt `prompts/plant_screen/v1.md` in `phase-2b/prompts`, which Bhargavi reviews;
-  - code in `phase-2b/hybrid`.
+  - `prompts/plant_screen/v1.md` in `phase-2b/prompts`, which Bhargavi reviews;
+  - the code in `phase-2b/hybrid`.
 - **Files:**
-  - `guideword/screen/step.py`: the `PlantScreenStepper`.
-  - `guideword/screen/schema.py`: the answer schema and its checks.
-  - `runs/start.py`: the first step becomes `plant_screen`.
+  - `guideword/screen/schema.py`: the answer schema and its checks (Q4, Q5).
+  - `guideword/screen/step.py`: `PlantScreenStepper`. It builds the input, calls the gateway, validates (Q6), creates hypotheses with their question links, and records `hypothesis_added` and `hypothesis_dropped` events.
+  - `guideword/screen/link.py`:
+    - question links (A, B), from the run's section snapshot;
+    - support on demand (Q8, B);
+    - the lead scenario (G1).
+  - `runs/start.py`: the first step is `plant_screen`.
   - `runs/case.py`: the steppers.
-  - `runs/store.py`: `add_hypothesis`, and the `hypotheses` read.
-  - `runs/db.py`: the `hypotheses` table.
-  - `config/routing.yaml`: `plant_screen: ultra`, prompt `plant_screen: v1`.
-  - `config/caps.yaml`: `run.plant_screen_max_hypotheses: 12` and `max_tokens.plant_screen`; both enter `Run.caps` and the run-ID hash.
-- **Input:** the confirmed plant record as JSON inside the untrusted-data delimiters, the cause library (see Q7) and the question kinds.
-- **Validation:** see Q4–Q6. One retry with the errors. After the retry, the final answer is parsed with the schema; hypotheses that fail their checks are dropped and logged, and the rest are recorded.
+  - `runs/db.py` and `runs/store.py`: the `hypotheses` table, `add_hypothesis` (refused if the ID is already stored), the `hypotheses()` read, and `EMITTED_EVENT_TYPES` (G7).
+  - `config/routing.yaml`: `plant_screen: ultra`, and prompt `plant_screen: v1`.
+  - `config/caps.yaml`: `run.plant_screen_max_hypotheses: 12` and `max_tokens.plant_screen`, both in `Run.caps` and the run-ID hash.
+- **The screen's input:**
+  - the confirmed plant record as JSON inside the untrusted-data delimiters;
+  - the R46-filtered cause list (Q7);
+  - the question kinds.
+
+  No case name, package or key.
 - **Tests first:**
   - `test_unknown_id_is_retried_then_dropped_and_the_rest_stand`.
-  - `test_failing_components_must_fit_the_type` (R46, whole plant).
+  - `test_zero_survivors_leave_the_run_going_with_no_hypotheses_logged`.
+  - `test_failing_components_must_fit_the_type_over_the_whole_plant`.
+  - `test_library_cause_type_must_match`.
   - `test_at_most_max_hypotheses`.
-  - `test_one_call_per_run_and_it_counts_against_the_cap`.
-  - `test_screen_failure_leaves_the_run_going_with_no_hypotheses`.
-  - `test_input_holds_the_plant_and_no_case_or_key_text`.
+  - `test_one_call_per_run_counted_against_the_cap`.
+  - `test_input_holds_the_plant_and_no_case_package_or_key_text`.
+  - `test_hypothesis_added_and_dropped_events`.
 
-### 2b.2 Linking (code only)
+### 2b.2 Links and support (code only)
 
 - **Branch:** `phase-2b/hybrid`.
-- **Files:** `guideword/screen/link.py`. Links are computed after the analysis and stored on the hypothesis by an update; the record is otherwise never edited.
-- **Rules:**
-  - Questions link when their section, pair or environment contains a component ID. Chemicals come through equipment contents, as in R40.
-  - Support is the spec's rules (a), (b) and (c).
+- **Question links** (stored at creation):
+  - a hypothesis links to every question whose section, pair or environment contains one of its component IDs, with chemicals reached through equipment contents (R40);
+  - external- and utility-type hypotheses link none (B).
+- **Support** (computed when read, never stored) requires all three of:
+  - (a) the finding answers a linked question;
+  - (b) its failing components overlap the hypothesis's, or, for pair and environment questions, it has the same chemicals;
+  - (c) its cause ID matches, or both causes are outside-library with the same failing-component type (Q8).
+
+  External and utility hypotheses: a finding with the same cause on the same component ID (B).
 - **Tests first:**
   - `test_pair_hypothesis_links_the_pair_question`.
   - `test_same_pair_same_cause_supports_a_different_cause_does_not`.
+  - `test_outside_library_support_needs_the_same_type`.
   - `test_component_overlap_is_required_for_section_questions`.
+  - `test_external_hypothesis_links_no_questions_and_is_supported_by_the_same_cause_on_the_same_location`.
+  - `test_utility_hypothesis_same_for_the_same_utility`.
+  - `test_support_follows_the_current_findings_and_the_record_never_changes`.
   - `test_links_are_deterministic`.
 
-### 2b.3 Priority dispatch (the agent part)
+### 2b.3 Priority dispatch
 
 - **Branch / PR:**
-  - prompt `prompts/orchestrator/v2.md` in `phase-2b/prompts`;
-  - code in `phase-2b/hybrid`.
+  - `prompts/orchestrator/v2.md` (Q13, narrow) in `phase-2b/prompts`;
+  - the code in `phase-2b/hybrid`.
 - **Files:**
-  - `orchestrator/view.py`: a `priority` block per hypothesis with its rank, component IDs, cause ID, linked open question IDs and supported yes/no. No mechanism or consequence text.
+  - `orchestrator/view.py`: a `priority` block, one entry per hypothesis, with its rank, component IDs, cause ID, linked open question IDs and `supported` (on demand, A). No mechanism or consequence text.
   - `orchestrator/tools.py`: `Dispatch.priority: bool = False`.
-  - `orchestrator/loop.py`: `_eligible` puts linked questions first, in hypothesis rank and then ID order.
-  - The run summary gains the linked-before-first-unlinked count.
+  - `orchestrator/loop.py`: with `priority` set and the list omitted, linked open questions come first, in hypothesis rank and then ID order, then the other open questions.
+  - The dispatch payload and the run summary carry the count of linked questions answered before the first unlinked dispatch.
 - **Tests first:**
   - `test_view_priority_block_has_no_mechanism_or_consequence_text`.
-  - `test_priority_dispatch_selects_linked_questions_first_in_rank_then_id_order`.
+  - `test_supported_flag_follows_the_findings`.
+  - `test_priority_selects_linked_first_in_rank_then_id_order`.
   - `test_explicit_question_ids_ignore_priority`.
   - `test_bulk_then_hard_no_repeat_and_deferral_still_hold_with_priority`.
 
-### 2b.4 and 2b.4a Final ranking, tiers and the Phase 3 shortlist rule
+### 2b.4 and 2b.4a Tiers, the four views, and the Phase 3 shortlist rule
 
 - **Branch:** `phase-2b/hybrid`.
 - **Files:**
-  - `ranking/rank.py`: `tiered(...)`, with the fold applied within the tiers. A confirmed line folds its supporting scenarios, which never reappear under also found.
-  - `runs/case.py`: the report carries `tiered` (the displayed list), `5a-plant` (the screen's own top 10) and `5b-from-hybrid` (2.6 order over all scenarios).
-  - `bench/results.py`: new configs (Q10), and the scorer reads the displayed top N.
-  - `PROJECT.md` §5 Step 6: the screen is the tiered list; the shortlist sorts by tier, then LOPA gap within a tier; chains take the tier of their highest member.
+  - `ranking/tiers.py` (or an addition to `ranking/rank.py`): `tiered(...)`.
+    - Confirmed: in hypothesis rank order, each line showing its lead scenario with the rest folded under it (G1, G2).
+    - Also found: the R48 fold of every scenario not displayed under a confirmed line, in the 2.6 order.
+    - Unconfirmed: in hypothesis rank order, flagged "not confirmed by the checks — engineer to review".
+    - `hybrid-codeorder` uses the same membership in code order (G4).
+  - `runs/case.py`: the report carries `hybrid` (displayed), `hybrid-codeorder`, `5a-plant` (the screen's own top 10, in its order) and `5b-from-hybrid` (the R48 folded list over every scenario, unchanged code).
+  - `bench/results.py`:
+    - the four configs, plus `5a`;
+    - the scorer reads each config's displayed top N, with line text per G3;
+    - the hand sheet gets rows for `hybrid` only (Q10).
+  - `PROJECT.md` §5 Step 6 (this PR): the screen is the tiered list, and its top `lopa_top_n` lines get LOPA. The shortlist sorts by tier, then by LOPA gap within a tier; gap never lifts an also-found line above a confirmed one; chains take the tier of their highest-ranked member.
 - **Tests first:**
   - `test_tier_order_confirmed_also_found_unconfirmed`.
-  - `test_confirmed_line_folds_its_support_and_it_is_not_repeated`.
+  - `test_lead_scenario_is_first_in_code_order_and_the_rest_fold_under_it`.
+  - `test_a_scenario_supporting_two_hypotheses_shows_once_under_the_higher`.
+  - `test_also_found_never_repeats_a_confirmed_lines_scenarios`.
+  - `test_codeorder_keeps_membership_and_orders_by_code`.
   - `test_5b_from_hybrid_equals_the_current_ranking_with_no_hypotheses`.
-  - `test_scorer_reads_the_displayed_top_n_across_tiers`.
-  - `test_unconfirmed_lines_are_flagged`.
+  - `test_scorer_reads_the_displayed_text_per_line_kind` (G3).
+  - `test_hand_sheet_rows_only_for_hybrid`.
 
 ### Run machine, replay and the $0 check
 
 - **Branch:** `phase-2b/hybrid`.
-- **Order of steps:** `plant_screen` → `analysis` → link (at analysis end) → `severity` → `ranked`.
-- **Test helpers:** every test that builds steppers gains a screen stepper.
+- **Steps:** `plant_screen` → `analysis` → `severity` → `ranked`.
+- **Test helpers:** every test that builds steppers gains a screen stepper. This is a mechanical change to the helpers; no test changes what it checks.
 - **Tests first:**
   - `test_replay_reproduces_hypotheses_links_tiers_and_stop_point` (R45).
   - `test_case_d_end_to_end_on_the_fake_gateway_with_a_scripted_screen`. The scripted screen reply is generic and does not encode case D's real cause.
 
-### Budget (2b, Budget)
+### Budget (Q12)
 
-- **Branch:** `phase-2b/hybrid`, one commit, logged in `decisions.md`.
-- **Files:** `config/caps.yaml`:
-  - `benchmark` 8.00 → 6.50;
-  - `test_5` 4.00 → 5.50;
-  - `phase_caps_usd."2"` 5.00 → 6.50.
-- **Tests:** `test_config` values updated; the sums still equal `GLOBAL_BUDGET_USD` and the laptop allowance (the loader checks this).
+- **Branch:** `phase-2b/hybrid`, in one commit, with a `decisions.md` line.
+- **Files:** `config/caps.yaml`, with the three values above. `test_config` is updated, and the loader still checks that every sum equals `GLOBAL_BUDGET_USD` and the laptop allowance.
 
-## PROJECT.md edits (in this plan's PR, as the spec asks)
+## This plan's PR (`docs/phase-2b-plan`)
 
-- **§5:**
-  - Step 4 gains "Step 3b: the whole-plant pass" before the orchestrator.
-  - Step 6 gets the tiered screen and the shortlist rule (2b.4a).
-- **§13 Test #5:**
-  - G2's result.
-  - G2b: cases E and F; hybrid against 5A; the hit rule; Bhargavi's hand scores.
-- **§15 gates:**
-  - G2 recorded as failed (Oct 16).
-  - G2b (Oct 17–18), with its "if it fails" line from the spec.
-- **§11:** see Q2. It needs the record, the ID form, the event type, the table and the shortlist fields. I'd put the §11 lines in the contract PR, since that is the contract.
-
-The wording of §5 Step 6 depends on Q1, so these edits are written into this PR after your answers, before merge.
+- The spec and this plan.
+- **`CLAUDE.md` §3 and §14:** the Q1 wording (G6).
+- **`PROJECT.md`:**
+  - §5: the whole-plant pass before the orchestrator, and Step 6 per 2b.4a with the Q1 wording;
+  - §13: Test #5 records G2's result and adds G2b;
+  - §15: G2 recorded as failed (Oct 16), and G2b (Oct 17–18) with its "if it fails" line.
+- **`docs/decisions.md`** (G5):
+  - R50 (option A), with what "confirmed" means (Q8), the recognition caveat, and the 5A input difference;
+  - the G2b rules, fixed before any run.
 
 ## Order of pull requests
 
-1. `docs/phase-2b-plan`: the spec, this plan and the PROJECT.md edits. Bhargavi approves.
-2. `contract/hypotheses-tiers` (2b.5), then tag `contract-v1.2`. The frontend starts from it.
-3. `phase-2b/prompts`: `plant_screen/v1` and `orchestrator/v2`. Bhargavi reviews.
-4. `phase-2b/hybrid`: 2b.1, 2b.2, 2b.4, then 2b.3, the machine, the $0 check and the budget. Small commits, one PR, to save merge rounds on a one-day build (see Q11).
-5. Bhargavi's runs: E hybrid, score, commit; F hybrid, score, commit; 5A on E and F, score, commit; `test5_results.py`; the G2b entry.
-
-## Questions for Bhargavi (not resolved here)
-
-1. **A model orders tiers 1 and 3.** "Confirmed … in hypothesis rank order" uses the model's ranking. `CLAUDE.md` §3 and §14 say risk ranking is code and never a model's, and `PROJECT.md` §5 Step 6 is titled "Ranking (code, with reasons from Ultra)". Choose one:
-   - (a) Amend `CLAUDE.md` §3/§14 and §5 Step 6 in this PR to say: "the whole-plant pass's hypothesis rank, a model judgment with a reason, orders the confirmed and unconfirmed tiers; code computes ratings, links, tiers and the fold". This is recommended, because it is the spec as written, and it says plainly what the model does.
-   - (b) Within each tier, order by the spec 2.6 code key, so the model decides only membership. This keeps the rule, but drops the ordering that made 5A work.
-2. **`PROJECT.md` §11** lists every record, ID form, event type and table, and the spec's edit list (§5, §13, §15) leaves it out. Add the §11 lines in the contract PR?
-3. **The hypothesis ID.** The spec gives `h:<run>:<rank>:<h(normalised mechanism, sorted component_ids)>`. Findings and the other run records leave the run ID out, because they are stored per (run ID, record ID), and a run ID holds `:` and the attempt number, so the same hypothesis would get a different ID on attempt `:2`. Use `h:<rank>:<h(...)>` instead?
-4. **The failing-component type.** The output has `cause_id` but no failing-component type, and R46 needs a type to check the components. A library cause has one, but an outside-library cause has none. Add `failing_component_type` to the schema, required and equal to the library cause's type when one is given?
-5. **"Cause valid for the component type".** R7 decides validity per question, and a hypothesis has none. I read it as: the library cause exists, and every component fits the type under R46 over the whole plant (operator causes name the plant's steps or jobs). Correct?
-6. **Dropping only the bad hypotheses.** The gateway marks a whole answer invalid after its one retry. To keep the good hypotheses, the validator lists every bad one on the first attempt (that is the retry with the error). After the retry, code parses the final content with the schema and drops the hypotheses that fail their checks. A cut-off answer is still never parsed, and a structurally invalid one is dropped whole. Agree?
-7. **The cause library sent to the screen.** Send all 26 causes, or only those the whole plant can support (R46, so C10 regulator and anything without a fitting ID drops out)? The second is recommended, for consistency with the specialists.
-8. **Support rule (c), "both outside-library", ignores the cause text,** so any outside-library finding on the linked components supports any outside-library hypothesis. That's loose but it is the spec; keep it?
-9. **Contract scope for v1.2.** The bump covers `Hypothesis`, the `hypothesis_added` event type, `ShortlistTier`, the three `ShortlistItem` fields and the fixtures. `Run.step` is free text, so `plant_screen` needs no contract change. Anything else the frontend needs?
-10. **Config names in `results.md`.** Use `hybrid` for the run's displayed tiered list, `5a-plant` and `5b-from-hybrid` for the two $0 views, and keep `5b` for the D and G rows. Should `5a-plant` and `5b-from-hybrid` get hand-score rows, or are they automatic only? The spec says "same scoring".
-11. **One code PR or three?** `CLAUDE.md` asks for a PR per task. With a one-day build I propose one code PR with small commits per item. Or should 2b.1/2b.2, 2b.4 and 2b.3 go as three PRs?
-12. **Budget:** move $1.50 from `benchmark` to `test_5`, and raise the phase 2 cap to $6.50? The spec's reason for the cap rests on held slices. The gateway in fact holds only the estimates of calls in flight, not slices. The raise is still prudent: $3.41 spent plus about $1.55 is about $4.96.
-13. **Orchestrator v2 changes only the `priority` option** (and nothing else), so the cache keeps every specialist answer, but every orchestrator call changes. Agree to keep v2 that narrow?
+1. `docs/phase-2b-plan`. Bhargavi approves and merges it.
+2. `contract/hypotheses-tiers`, then tag `contract-v1.2`. The frontend starts from it.
+3. `phase-2b/prompts`: `plant_screen/v1` and `orchestrator/v2`. Bhargavi reviews them.
+4. `phase-2b/hybrid`: one PR in small green commits.
+   1. Links and support.
+   2. The screen step.
+   3. Tiers and the views.
+   4. Priority dispatch.
+   5. The machine and replay.
+   6. The $0 check.
+   7. The budget.
+5. Bhargavi's runs, in order:
+   1. E hybrid; hand-score it; commit.
+   2. F hybrid; hand-score it; commit.
+   3. 5A on E and F; hand-score them; commit.
+   4. `test5_results.py`.
+   5. The G2b entry.
 
 ## Not doing
 
-- Any validity rule (R7, R40, R46, R47), severity (R48, R49), LOPA, admission or replay behaviour, beyond adding the new step.
-- Re-running D or G, or scoring anything against them.
-- PR 12b (kill test #4 and the four-tier comparison), PRs 9a, 9 and 10, `budget/ledger-g2.jsonl`, the `g2` tag, the video script.
-- The frontend: that's its own worktree, and the contract PR gives it what it needs.
+- Any change to validity rules (R7, R40, R46, R47), severity (R48, R49), LOPA, admission or replay, beyond adding the new step.
+- Re-running D or G, or scoring against them.
+- PR 12b, PRs 9a, 9 and 10, `budget/ledger-g2.jsonl`, the `g2` tag, the video script.
+- The frontend, which has its own worktree and builds from the contract PR.
 
 ## Live calls and spend
 
 | Step | Use | Expected cost |
 |---|---|---|
 | $0 fake case D run | — | $0 |
-| E hybrid (cap 1.20) | test_5 | ≈ $0.75 (+ $0.02 screen) |
-| F hybrid (cap 1.20) | test_5 | ≈ $0.75 (+ $0.02) |
+| E hybrid (cap 1.20) | test_5 | ≈ $0.77 |
+| F hybrid (cap 1.20) | test_5 | ≈ $0.77 |
 | 5A on E and F | test_5 | ≈ $0.03 |
-| **Total** | | **≈ $1.55**, above the $0.60 left unless Q12 is approved |
+| **Total** | | **≈ $1.57**, within the $2.10 left once the budget move (Q12) is in |
