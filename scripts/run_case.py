@@ -83,12 +83,13 @@ def _print_report(report: dict[str, Any]) -> None:
     print(
         f"of {checked} questions checked: answered {checked - dismissed}, not credible {dismissed}"
     )
-    print(f"top {TOP} ranked findings")
-    for line in report["ranked"][:TOP]:
+    print(f"top {TOP} ranked findings, one line per cause and components (R48)")
+    for line in report["folded"][:TOP]:
         rating = line["rating"] or f"unrated ({line['unrated_reason']})"
+        more = f" (+{line['folded_count']} folded)" if line["folded_count"] else ""
         print(
             f"  {line['rank']}. {rating} {line['severity_class'] or '-'} "
-            f"{line['likelihood_class'] or '-'} {line['text']} [{line['finding_id']}]"
+            f"{line['likelihood_class'] or '-'} {line['text']} [{line['finding_id']}]{more}"
         )
 
 

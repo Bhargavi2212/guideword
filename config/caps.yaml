@@ -22,7 +22,9 @@ run:
     test5a: 8192
   # questions per specialist call, by tier
   specialist_batch_size:
-    lightning: 10
+    # halved after case D dev run 2: Lightning answered questions twice, answered ones not in
+    # its batch and was cut off at 12288 with 10 per batch
+    lightning: 5
     nano: 10
     super: 5
     ultra: 5
@@ -34,9 +36,10 @@ run:
   # the analysis stops at the cap minus the severity reserve: ceil(unrated / this) calls,
   # each estimated at severity_output_tokens_estimate output tokens (computed by code, R38)
   severity_batch_size: 10
-  # expected output of one severity batch of 10 (case D dev run: ~4.4k reasoning + ~300 per
-  # finding); max_tokens.severity_reason stays the hard ceiling
-  severity_output_tokens_estimate: 8000
+  # expected output of one severity batch of 10: the 90th percentile measured in case D dev
+  # run 2 (median 3145, p90 4688, max 6961); max_tokens.severity_reason stays the ceiling.
+  # Re-measure after case G.
+  severity_output_tokens_estimate: 4700
   # input size of one specialist call; steps and jobs are trimmed to fit, else the batch fails (R43)
   specialist_max_input_tokens: 24000
 

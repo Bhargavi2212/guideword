@@ -102,7 +102,7 @@ def script() -> Script:
 @pytest.fixture
 def capped_script() -> Script:
     """Each orchestrator turn really spends about $0.01, so the run meets the severity reserve
-    at a cap of 0.17."""
+    at a cap of 0.08."""
     return make_script(orchestrator_output_tokens=2000)
 
 

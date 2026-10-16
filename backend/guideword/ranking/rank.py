@@ -4,6 +4,10 @@ Rated findings come first: by rating (very_high to low), then severity (S5 to S1
 initiating frequency (higher first), then finding ID. Unrated findings follow in the same
 order without the rating, each saying what is missing. Nothing is stored; the same findings
 always give the same list.
+
+`fold` (R48) shows the list one line per cause and failing components: the first, worst-ranked
+finding of each, with the others folded underneath, so one cause found from many questions
+takes one place in the top N. The scorer and the hand sheet read the folded list.
 """
 
 from collections.abc import Sequence
@@ -12,9 +16,10 @@ from dataclasses import dataclass
 from guideword.config import CapsConfig
 from guideword.ranking.likelihood import Likelihood, likelihood
 from guideword.reference import ReferenceSet
+from guideword.schema import ids
 from guideword.schema.enums import Confidence, RiskRating, SeverityClass, Tier
 from guideword.schema.plant import Plant
-from guideword.schema.records import Finding
+from guideword.schema.records import OUTSIDE_LIBRARY, Finding
 
 RATING_ORDER = [RiskRating.VERY_HIGH, RiskRating.HIGH, RiskRating.MEDIUM, RiskRating.LOW]
 SEVERITY_ORDER = [
@@ -37,6 +42,32 @@ class RankedFinding:
     missing_fact_ids: tuple[str, ...]
     # an earlier unsure finding names the Ultra re-answer of the same question (R28)
     superseded_by: str | None
+
+
+@dataclass(frozen=True)
+class FoldedLine:
+    rank: int
+    worst: RankedFinding
+    # the other findings of the same cause and components, in rank order
+    folded: tuple[RankedFinding, ...]
+
+
+def cause_key(finding: Finding) -> str:
+    """The cause as one value: the library ID, or the normalised outside-library text."""
+    if finding.cause_id == OUTSIDE_LIBRARY:
+        return "outside:" + ids.normalise_text(finding.cause_text or "")
+    return finding.cause_id
+
+
+def fold(ranked: Sequence[RankedFinding]) -> list[FoldedLine]:
+    groups: dict[tuple[str, tuple[str, ...]], list[RankedFinding]] = {}
+    for row in ranked:
+        key = (cause_key(row.finding), tuple(sorted(row.finding.failing_component_ids)))
+        groups.setdefault(key, []).append(row)
+    return [
+        FoldedLine(position, members[0], tuple(members[1:]))
+        for position, members in enumerate(groups.values(), start=1)
+    ]
 
 
 def _key(

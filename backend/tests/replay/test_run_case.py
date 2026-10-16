@@ -77,7 +77,9 @@ def test_a_finished_run_prints_coverage_and_the_top_10_and_writes_the_ranked_lis
     assert "finished" in out
     assert "sections" in out and "coverage" in out
     top = [line for line in out.splitlines() if line.lstrip().startswith(("1.", "10."))]
-    assert len(top) == 2 if len(ranked) >= 10 else len(top) == 1
+    # the printed top 10 is the folded list, one line per cause and components (R48)
+    shown = len(result["folded"])
+    assert len(top) == 2 if shown >= 10 else len(top) == 1
     assert "11." not in out
 
 
@@ -101,7 +103,7 @@ def test_a_run_at_the_severity_reserve_names_the_cap_and_what_was_left(
 ) -> None:
     """R38: the orchestrator stops at the cap minus the reserve, severity still runs, and the
     run ends stopped_cap with questions open; the output says so."""
-    code, _ = case.run(capped_script, "--cap", "0.17")
+    code, _ = case.run(capped_script, "--cap", "0.08")
     out = capsys.readouterr().out
     result = case.written()
     assert result["status"] == "stopped_cap"
@@ -170,3 +172,21 @@ def test_not_credible_is_counted_apart_from_answered(
         <= by_list["matrix"]["checked"]
     )
     assert f"not credible {total}" in out
+
+
+def test_the_report_folds_repeated_causes_and_prints_the_folded_top_10(
+    case: Case, script: Any, capsys: pytest.CaptureFixture[str]
+) -> None:
+    """R48: the fake script gives every question the same cause on the first location, so many
+    findings share a cause and components; the folded list shows each once."""
+    case.run(script)
+    out = capsys.readouterr().out
+    result = case.written()
+    folded, ranked = result["folded"], result["ranked"]
+    assert 0 < len(folded) < len(ranked)
+    assert sum(1 + line["folded_count"] for line in folded) == len(ranked)
+    assert [line["rank"] for line in folded] == list(range(1, len(folded) + 1))
+    first = folded[0]
+    assert first["finding_id"] == ranked[0]["finding_id"]
+    assert len(first["folded_finding_ids"]) == first["folded_count"]
+    assert f"(+{first['folded_count']} folded)" in out

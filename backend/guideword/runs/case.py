@@ -11,7 +11,7 @@ from guideword.config import CapsConfig, Config
 from guideword.gateway.client import Gateway
 from guideword.orchestrator.loop import OrchestratorStepper
 from guideword.questions.coverage import coverage
-from guideword.ranking.rank import rank_findings
+from guideword.ranking.rank import RankedFinding, fold, rank_findings
 from guideword.ranking.severity import RankedStepper, SeverityStepper
 from guideword.reference import ReferenceSet
 from guideword.runs.machine import Stepper, advance
@@ -100,34 +100,51 @@ def _text(finding: Finding, causes: Mapping[str, str]) -> str:
     return f"{cause}{DASH}{finding.consequence}"
 
 
+def _line(r: RankedFinding, causes: Mapping[str, str], rank: int) -> dict[str, Any]:
+    return {
+        "rank": rank,
+        "finding_id": r.finding.id,
+        "question_id": r.finding.question_id,
+        "failing_component_ids": list(r.finding.failing_component_ids),
+        "text": _text(r.finding, causes),
+        "cause_id": r.finding.cause_id,
+        "severity_class": r.finding.severity_class,
+        "severity_reason": r.finding.severity_reason,
+        "likelihood_class": r.likelihood.likelihood_class,
+        "frequency_per_year": r.likelihood.frequency_per_year,
+        "frequency_assumed": r.likelihood.assumed,
+        "initiating_event_id": r.likelihood.initiating_event_id,
+        "rating": r.rating,
+        "unrated_reason": r.unrated_reason,
+        "missing_fact_ids": list(r.missing_fact_ids),
+        "note": r.likelihood.note,
+        "superseded_by": r.superseded_by,
+        "tier": r.finding.tier,
+        "confidence": r.finding.confidence,
+    }
+
+
+def folded_lines(
+    findings: Sequence[Finding], plant: Plant, ref: ReferenceSet, caps: CapsConfig
+) -> list[dict[str, Any]]:
+    """R48: one line per cause and failing components, its worst finding shown; the scorer
+    and the hand sheet read these."""
+    causes = {c.id: c.cause for c in ref.causes}
+    return [
+        _line(line.worst, causes, line.rank)
+        | {
+            "folded_count": len(line.folded),
+            "folded_finding_ids": [r.finding.id for r in line.folded],
+        }
+        for line in fold(rank_findings(findings, plant, ref, caps))
+    ]
+
+
 def ranked_lines(
     findings: Sequence[Finding], plant: Plant, ref: ReferenceSet, caps: CapsConfig
 ) -> list[dict[str, Any]]:
     causes = {c.id: c.cause for c in ref.causes}
-    return [
-        {
-            "rank": r.rank,
-            "finding_id": r.finding.id,
-            "question_id": r.finding.question_id,
-            "failing_component_ids": list(r.finding.failing_component_ids),
-            "text": _text(r.finding, causes),
-            "cause_id": r.finding.cause_id,
-            "severity_class": r.finding.severity_class,
-            "severity_reason": r.finding.severity_reason,
-            "likelihood_class": r.likelihood.likelihood_class,
-            "frequency_per_year": r.likelihood.frequency_per_year,
-            "frequency_assumed": r.likelihood.assumed,
-            "initiating_event_id": r.likelihood.initiating_event_id,
-            "rating": r.rating,
-            "unrated_reason": r.unrated_reason,
-            "missing_fact_ids": list(r.missing_fact_ids),
-            "note": r.likelihood.note,
-            "superseded_by": r.superseded_by,
-            "tier": r.finding.tier,
-            "confidence": r.finding.confidence,
-        }
-        for r in rank_findings(findings, plant, ref, caps)
-    ]
+    return [_line(r, causes, r.rank) for r in rank_findings(findings, plant, ref, caps)]
 
 
 def not_credible_counts(questions: Sequence[Question]) -> list[dict[str, Any]]:
@@ -181,4 +198,5 @@ def case_report(
         "dropped": {"total": len(dropped), "distinct": len(set(dropped))},
         "unrated": sum(1 for r in ranked if r["rating"] is None),
         "ranked": ranked,
+        "folded": folded_lines(findings, plant, ref, caps),
     }

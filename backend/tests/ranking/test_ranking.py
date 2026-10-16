@@ -231,3 +231,47 @@ def test_ranking_is_a_pure_function_of_its_inputs(ref: ReferenceSet, config: Con
     assert rank_findings(findings, _plant(), ref, config.caps) == rank_findings(
         list(reversed(findings)), _plant(), ref, config.caps
     )
+
+
+# --- R48: the display fold ------------------------------------------------------------------------
+
+
+def test_fold_shows_one_line_per_cause_and_components_worst_first(
+    ref: ReferenceSet, config: Config
+) -> None:
+    """The same cause on the same components found from several questions is one line, the
+    worst-ranked finding shown and the rest folded underneath; other causes stay apart."""
+    from guideword.ranking.rank import fold  # noqa: PLC0415
+
+    plant = _plant()
+    worse = _finding("m:S-MX-1:more:pressure", severity=SeverityClass.S5)
+    same = _finding("m:S-MX-1:more:temperature", severity=SeverityClass.S3)
+    other_section = _finding("m:S-TOTE-1:more:pressure", severity=SeverityClass.S2)
+    different = _finding("m:S-MX-1:less:flow", cause="C02", severity=SeverityClass.S4)
+    ranked = rank_findings([same, different, other_section, worse], plant, ref, config.caps)
+    lines = fold(ranked)
+    assert [line.rank for line in lines] == [1, 2]
+    assert lines[0].worst.finding.id == worse.id
+    assert {r.finding.id for r in lines[0].folded} == {same.id, other_section.id}
+    assert [r.finding.id for r in lines[0].folded] == [
+        r.finding.id for r in ranked if r.finding.id in {same.id, other_section.id}
+    ]
+    assert lines[1].worst.finding.id == different.id and lines[1].folded == ()
+    assert sum(1 + len(line.folded) for line in lines) == len(ranked)
+
+
+def test_fold_compares_outside_library_text_after_normalising(
+    ref: ReferenceSet, config: Config
+) -> None:
+    from guideword.ranking.rank import fold  # noqa: PLC0415
+
+    outside = {
+        "cause": "outside_library",
+        "kind": FailingComponentType.EXTERNAL,
+        "components": ("ROOF",),
+    }
+    a = _finding("m:S-MX-1:more:pressure", cause_text="Roof  collapse", **outside)  # type: ignore[arg-type]
+    b = _finding("m:S-MX-1:less:pressure", cause_text="roof collapse", **outside)  # type: ignore[arg-type]
+    c = _finding("m:S-MX-1:less:flow", cause_text="roof leak", **outside)  # type: ignore[arg-type]
+    lines = fold(rank_findings([a, b, c], _plant(), ref, config.caps))
+    assert len(lines) == 2
