@@ -380,8 +380,10 @@ def test_the_reserve_is_one_severity_call_per_batch_of_unrated_findings(world: W
         world.ref,
         world.plant,
     )
-    max_tokens = cfg.caps.run.max_tokens["severity_reason"]
-    per_call = estimate_cost(ultra, messages, None, max_tokens).cost_usd
+    # each call is priced at the expected output, not the max_tokens ceiling
+    output = cfg.caps.run.severity_output_tokens_estimate
+    assert output < cfg.caps.run.max_tokens["severity_reason"]
+    per_call = estimate_cost(ultra, messages, None, output).cost_usd
     assert reserve.per_call_usd == pytest.approx(per_call)
     assert reserve.usd == pytest.approx(reserve.calls * per_call)
-    assert per_call >= max_tokens * ultra.output_usd_per_1m / 1_000_000
+    assert per_call >= output * ultra.output_usd_per_1m / 1_000_000

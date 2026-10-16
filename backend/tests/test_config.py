@@ -100,6 +100,8 @@ def test_phase_2_run_caps(shipped: Config) -> None:
         "dispatch_max_question_ids": 60,
     }
     assert run.severity_batch_size == 10
+    # the severity reserve prices each call at this, under the max_tokens ceiling
+    assert run.severity_output_tokens_estimate == 8000
     assert run.specialist_max_input_tokens == 24000
     assert shipped.caps.ranking.outside_library_default_frequency_per_year == 0.1
 
@@ -284,6 +286,16 @@ def test_concurrency_must_cover_every_tier(config_dir: Path) -> None:
 
 def test_backoff_has_one_wait_per_retry(config_dir: Path) -> None:
     _edit(config_dir, "caps.yaml", r"backoff_seconds: \[1, 2\]", "backoff_seconds: [1]")
+    _refused(config_dir, "caps.yaml")
+
+
+def test_severity_output_estimate_above_its_max_tokens_is_refused(config_dir: Path) -> None:
+    _edit(
+        config_dir,
+        "caps.yaml",
+        r"severity_output_tokens_estimate: 8000",
+        "severity_output_tokens_estimate: 20000",
+    )
     _refused(config_dir, "caps.yaml")
 
 

@@ -32,8 +32,11 @@ run:
   # what the orchestrator sees each step (lists are truncated, with counts)
   orchestrator_view: {id_list_max: 20, recent_steps: 5, dispatch_max_question_ids: 60}
   # the analysis stops at the cap minus the severity reserve: ceil(unrated / this) calls,
-  # each estimated at severity_reason's max_tokens (computed by code, R38)
+  # each estimated at severity_output_tokens_estimate output tokens (computed by code, R38)
   severity_batch_size: 10
+  # expected output of one severity batch of 10 (case D dev run: ~4.4k reasoning + ~300 per
+  # finding); max_tokens.severity_reason stays the hard ceiling
+  severity_output_tokens_estimate: 8000
   # input size of one specialist call; steps and jobs are trimmed to fit, else the batch fails (R43)
   specialist_max_input_tokens: 24000
 

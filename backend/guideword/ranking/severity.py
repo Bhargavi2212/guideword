@@ -183,8 +183,9 @@ def severity_messages(
 @dataclass(frozen=True)
 class SeverityReserve:
     """What the severity step will need, in place of a fixed reserve (case D dev run): one
-    call per batch of the findings still to rate, each estimated with the agreed rule at its
-    `max_tokens`."""
+    call per batch of the findings still to rate, each estimated with the agreed rule for its
+    input and `severity_output_tokens_estimate` output tokens (its expected output, not the
+    `max_tokens` ceiling, which would over-reserve)."""
 
     usd: float
     unrated: int
@@ -207,7 +208,8 @@ def severity_reserve(
     prompt = load_prompt("severity", config)
     messages = severity_messages(prompt, todo[:size], {q.id: q for q in questions}, ref, plant)
     prices = config.models.tiers[Tier(config.routing.jobs[JOB])]
-    per_call = estimate_cost(prices, messages, None, config.caps.run.max_tokens[JOB]).cost_usd
+    output = config.caps.run.severity_output_tokens_estimate
+    per_call = estimate_cost(prices, messages, None, output).cost_usd
     return SeverityReserve(calls * per_call, len(todo), calls, per_call)
 
 
