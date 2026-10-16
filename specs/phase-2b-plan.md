@@ -43,6 +43,13 @@ Facts checked:
 | G6 | Q1(a) amends `CLAUDE.md`. | **(plan)** This PR amends `CLAUDE.md` §3 and §14 with the Q1 wording, and `PROJECT.md` §5 Step 6 with the same wording. |
 | G7 | `runs/store.py` refuses event types it doesn't list (`EMITTED_EVENT_TYPES`). | **(plan)** `hypothesis_added` and `hypothesis_dropped` are added to it in the code PR, with a test. |
 | G8 | My first draft linked questions at analysis end, which contradicts A. | **(plan)** Linking runs inside the `plant_screen` step, when each hypothesis is created; support is computed only when read. |
+| G9 | My run order (E hybrid, F hybrid, then 5A on both) didn't follow the spec's order. | **(plan)** Follow the spec's order, per case: hybrid run → hand-score its top 10 → commit → 5A run → hand-score → commit. Do E, then F, then `test5_results.py`. |
+| G10 | The replay manifest holds only the plain ranked list (`gateway/replay.py`), so a replay can't check the tiers. | **(plan)** The manifest gains the hypotheses and the `hybrid` tiered lines (ID, tier, lead finding). The replay test compares them, along with the stop point. |
+| G11 | The answer's ranks and repeats are unchecked. | **(plan)** Structural checks on the whole answer:<br>• ranks are unique and run 1 to n;<br>• no two hypotheses share an ID;<br>• field limits: `mechanism`, `consequence` and `reason` at most 300 characters each, `cause_text` at most 200.<br>A failure here invalidates the answer (the retry path). Gaps left in the ranks by later per-hypothesis drops are kept, and display order follows rank. |
+| G12 | "The same chemicals" for pair and environment links and support is undefined, because a hypothesis's components are plant objects, not chemicals (R46 lets no type name a chemical). | **(plan)** A hypothesis's chemicals are the contents of its equipment and line components, plus the contents of the equipment that its procedure steps act on (`ProcedureStep.equipment_ids`, as in R40). Pair and environment questions link, and pair and environment findings support, through those chemicals. |
+| G13 | Two lines are undefined: the text of a `5a-plant` line, and the order of a `hybrid-codeorder` confirmed line whose scenarios all show under a higher one. | **(plan)** A `5a-plant` line is `<mechanism> — <consequence>`. Such a confirmed line is ordered by its lead scenario's 2.6 key, even though the lead is displayed under the higher line. |
+| G14 | The G2b rules entry (G5) doesn't spell out what it must contain. | **(plan)** The entry states:<br>• the cases, E and F;<br>• the per-case order (G9);<br>• the scored config, `hybrid`;<br>• the hit rule, with partials not passing;<br>• R38: a `stopped_cap` hybrid run is reported, not scored;<br>• hand scores are Bhargavi's alone, and Cowork may explain the rule but does not propose scores;<br>• the pass condition: a hit in the top 3 on at least one of E and F, and on as many cases as 5A;<br>• the recognition caveat;<br>• if it fails: stop, report honestly, and re-plan Phase 3. |
+| G15 | Two gaps:<br>• the spec's "Cowork does not" review the screen prompt isn't in the plan;<br>• the spec's run summary line has no place in `run_case.py`. | **(plan)**<br>• The prompt PR says it is reviewed by Bhargavi only.<br>• `run_case.py` prints the linked-before-first-unlinked count, and the case report carries it. |
 
 ## Per item
 
@@ -211,12 +218,11 @@ Facts checked:
    5. The machine and replay.
    6. The $0 check.
    7. The budget.
-5. Bhargavi's runs, in order:
-   1. E hybrid; hand-score it; commit.
-   2. F hybrid; hand-score it; commit.
-   3. 5A on E and F; hand-score them; commit.
-   4. `test5_results.py`.
-   5. The G2b entry.
+5. Bhargavi's runs, in the spec's per-case order (G9):
+   1. Case E: hybrid run; hand-score its top 10; commit; 5A run; hand-score; commit.
+   2. Case F: the same.
+   3. `test5_results.py`.
+   4. The G2b entry.
 
 ## Not doing
 
