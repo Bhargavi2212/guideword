@@ -57,10 +57,17 @@ class LaptopLedger:
         self._lock = threading.Lock()
 
     def entries(self) -> list[SpendEntry]:
-        if not self.path.exists():
-            return []
-        lines = self.path.read_text(encoding="utf-8").splitlines()
-        return [SpendEntry.model_validate_json(line) for line in lines if line.strip()]
+        """Every complete line. Reads take the append lock; and since every append ends with a
+        newline, an unterminated last line can only be a write in progress (from another
+        process, or another ledger object on the same file): it is skipped, never parsed."""
+        with self._lock:
+            if not self.path.exists():
+                return []
+            text = self.path.read_text(encoding="utf-8")
+        complete, _, _unfinished = text.rpartition("\n")
+        return [
+            SpendEntry.model_validate_json(line) for line in complete.split("\n") if line.strip()
+        ]
 
     def append(self, entry: SpendEntry) -> None:
         if entry.environment != self.environment:
