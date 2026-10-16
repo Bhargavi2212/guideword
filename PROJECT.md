@@ -439,6 +439,7 @@ Sections are proposed and confirmed on the plant before any run. A run has two p
   | Question | `m:<section>:<guideword>:<parameter>`, `pair:<chemA>:<chemB>` (sorted), `env:<chem>:<water\|air\|heat>`, `nf:<line>`, `proc:<step>:<guideword>`, `work:<job>:<target>`, `dust:<equipment>`, `relief:<device>`, `ai:<section>:<h(normalised question text)>`, `eng:<section>:<h(normalised question text)>` |
   | Run | `run:<h(plant ID, section snapshot, reference version hashes, routing config, caps, prompt versions, mode)>`. The run's `spend_cap_usd` is **not** hashed. Starting a run with identical inputs **resumes** that run if it is unfinished (draft, running, stopped_budget). A `stopped_cap` run resumes only when the new `spend_cap_usd` is higher than its cap, and then continues under the new cap; with the same or a lower cap the start is refused with 409 "cap reached; raise spend_cap_usd to continue". If the run is finished, cancelled or failed, the new run is `run:<h(inputs)>:<n>` (n = attempt number, 2, 3…): a deliberate, visible counter, so a cancelled run can be restarted and a benchmark case can be run more than once. |
   | Finding | `f:<question id>:<tier>:<cause id>:<h(sorted failing component IDs)>`. One question can have several findings (one per cause). For an outside-library cause, `h(normalised cause text)` replaces the cause ID. The tier is the one that answered; an Ultra re-answer of an unsure finding is a second finding, never an edit of the first |
+  | Hypothesis | `h:<rank>:<h(normalised mechanism, sorted component IDs)>` (R50, contract v1.2). Stored per run (run ID as a field, not in the ID). Immutable: its question links (`question_ids`) are set when it is created; whether findings support it is computed when read, never stored |
   | Chain | `ch:<link IDs sorted and joined with +>`; the same set of links is the same chain |
   | LOPA record | `lopa:<finding or chain id>` |
   | Recommendation | `rec:<finding or chain id>:<h(normalised action text)>` |
@@ -456,10 +457,10 @@ Sections are proposed and confirmed on the plant before any run. A run has two p
 - **Evidence kind:** calculation, precedent, simulation. **Verdict:** confirmed, contradicted, none.
 - **Protection adequacy:** adequate, inadequate, unknown.
 - **Agents:** orchestrator, process, chemistry, piping, procedures, maintenance, dust, connector.
-- **Event types:** run_started, step_started, step_finished, agent_decision, dispatch, model_call, tool_call, finding_added, chain_added, lopa_done, evidence_added, coverage_updated, cap_hit, run_finished, run_failed.
+- **Event types:** run_started, step_started, step_finished, agent_decision, dispatch, model_call, tool_call, finding_added, chain_added, lopa_done, evidence_added, coverage_updated, cap_hit, run_finished, run_failed, hypothesis_added, hypothesis_dropped (the last two: R50, contract v1.2).
 
 ### Storage schema (Postgres; SQLite in development)
-`plants` (status uploaded / sections_proposed / sections_confirmed), `plant_facts`, `runs` (status, step, section snapshot, spend_cap_usd, spent_usd, reference_versions, routing_config, caps, prompt_versions, label), `sections`, `questions` (status open / answered / not_credible / failed, not_credible_reason), `findings`, `agent_steps`, `model_calls` (key: run_id + id), `tool_calls`, `chains`, `lopa_records`, `recommendations`, `evidence`, `overrides`, `events` (append-only: seq, run_id, type, payload), `response_cache`, `spend_ledger` (environment, phase, use, model or tool, tokens or searches, cost). Links are foreign keys; large payloads are JSON columns.
+`plants` (status uploaded / sections_proposed / sections_confirmed), `plant_facts`, `runs` (status, step, section snapshot, spend_cap_usd, spent_usd, reference_versions, routing_config, caps, prompt_versions, label), `sections`, `questions` (status open / answered / not_credible / failed, not_credible_reason), `findings`, `hypotheses` (R50: rank, mechanism, component and chemical IDs, cause, consequence, reason, question links), `agent_steps`, `model_calls` (key: run_id + id), `tool_calls`, `chains`, `lopa_records`, `recommendations`, `evidence`, `overrides`, `events` (append-only: seq, run_id, type, payload), `response_cache`, `spend_ledger` (environment, phase, use, model or tool, tokens or searches, cost). Links are foreign keys; large payloads are JSON columns.
 
 ### API contract (frozen in Phase 0)
 
@@ -480,7 +481,7 @@ Every run-related response carries a `label`: `{kind: live | recorded | mock, re
 | `GET /runs/{id}/sections` | — | The run's section snapshot |
 | `GET /runs/{id}/questions` | filters | Questions with status |
 | `POST /runs/{id}/questions` | section_id, text | Add an engineer question (origin `engineer`, ID `eng:<section>:<h(text)>`, status open) |
-| `GET /runs/{id}/shortlist` | — | Ranked findings and chains with LOPA, evidence, sources |
+| `GET /runs/{id}/shortlist` | — | Ranked findings and chains with LOPA, evidence, sources; from contract v1.2 each item carries its `tier` (confirmed / also_found / unconfirmed), its hypothesis where it has one, and the supporting finding IDs (computed); an unconfirmed hypothesis is an item of kind `hypothesis` (R50) |
 | `GET /runs/{id}/worksheet` | filters | All rows with origin and override state |
 | `GET /runs/{id}/coverage` | — | Checked versus total per list; failed questions |
 | `GET /runs/{id}/records/{record_id}` | — | Any record with parents, model calls, tool calls |

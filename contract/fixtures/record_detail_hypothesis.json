@@ -1,0 +1,58 @@
+{
+  "label": {
+    "kind": "mock",
+    "recorded_at": null,
+    "cost_usd": 0.31
+  },
+  "run_id": "run:8ede059837927e4a",
+  "record_id": "h:1:f01ab4b68eb8942e",
+  "record_kind": "hypothesis",
+  "record": {
+    "id": "h:1:f01ab4b68eb8942e",
+    "run_id": "run:8ede059837927e4a",
+    "rank": 1,
+    "mechanism": "Wrong material charged at the charging step reacts with the fluid in the mixer and releases flammable gas",
+    "component_ids": [
+      "P-CHARGE-1"
+    ],
+    "chemical_ids": [
+      "KOH",
+      "SIH"
+    ],
+    "failing_component_type": "operator",
+    "cause_id": "C14",
+    "cause_text": null,
+    "consequence": "Flammable gas builds up inside the building and can ignite",
+    "reason": "Mock: the charging step adds KOH where SIH may be present; the chart lists the pair as gas-forming",
+    "question_ids": [
+      "pair:KOH:SIH",
+      "proc:P-CHARGE-1:wrong"
+    ],
+    "model_call_id": "mc:b4141dda9c7f08a1"
+  },
+  "parent_ids": [
+    "mc:b4141dda9c7f08a1"
+  ],
+  "model_calls": [
+    {
+      "id": "mc:b4141dda9c7f08a1",
+      "run_id": "run:8ede059837927e4a",
+      "model_id": "nvidia/Nemotron-3_5-Lightning",
+      "prompt_version": "plant_screen/v1",
+      "job": "plant_screen",
+      "cache_hit": false,
+      "outcome": "ok",
+      "finish_reason": "stop",
+      "input_tokens": 640,
+      "output_tokens": 90,
+      "latency_ms": 810.0,
+      "cost_usd": 6e-05,
+      "cap_cost_usd": 6e-05,
+      "attempts": 1,
+      "raw_response": "{}",
+      "reasoning_text": null,
+      "record_ids": []
+    }
+  ],
+  "tool_calls": []
+}

@@ -449,3 +449,58 @@ def test_advance_without_mock_mode_is_501_after_the_secret_check() -> None:
         _path("/internal/runs/{id}/advance"), headers={"X-Internal-Secret": SECRET}
     )
     assert response.status_code == 501
+
+
+# --- contract v1.2: hypotheses and tiers (R50) --------------------------------------------------
+
+
+def test_shortlist_item_new_fields_default_for_older_items() -> None:
+    old = dict(_fixture("shortlist.json")["items"][0])
+    for key in ("tier", "hypothesis_id", "hypothesis_rank", "hypothesis", "support_finding_ids"):
+        old.pop(key, None)
+    item = api.ShortlistItem.model_validate(old)
+    assert item.tier == "also_found"
+    assert (item.hypothesis_id, item.hypothesis_rank, item.hypothesis) == (None, None, None)
+    assert item.support_finding_ids == []
+
+
+def test_a_hypothesis_item_carries_its_hypothesis() -> None:
+    item = next(i for i in _fixture("shortlist.json")["items"] if i["target_kind"] == "hypothesis")
+    bad = {**item, "hypothesis": None}
+    with pytest.raises(ValueError, match="hypothesis"):
+        api.ShortlistItem.model_validate(bad)
+
+
+def test_fixture_shortlist_shows_each_tier_and_a_hypothesis_item() -> None:
+    items = api.Shortlist.model_validate(_fixture("shortlist.json")).items
+    assert {i.tier for i in items} == {"confirmed", "also_found", "unconfirmed"}
+    confirmed = next(i for i in items if i.tier == "confirmed")
+    assert confirmed.hypothesis is not None and confirmed.support_finding_ids
+    assert confirmed.hypothesis_id == confirmed.hypothesis.id
+    assert confirmed.hypothesis_rank == confirmed.hypothesis.rank
+    assert any(i.target_kind == "hypothesis" for i in items)
+
+
+def test_mock_serves_the_hypothesis_record_too() -> None:
+    hypothesis = _fixture("record_detail_hypothesis.json")
+    assert hypothesis["record_kind"] == "hypothesis" and hypothesis["record_id"].startswith("h:")
+    client = _client()
+    path = f"/runs/{quote(RUN, safe='')}/records/{quote(hypothesis['record_id'], safe='')}"
+    response = client.get(path)
+    assert response.status_code == 200
+    assert response.json()["record"]["id"] == hypothesis["record_id"]
+    finding = _fixture("record_detail.json")["record_id"]
+    assert (
+        client.get(f"/runs/{quote(RUN, safe='')}/records/{quote(finding, safe='')}").status_code
+        == 200
+    )
+
+
+def test_run_dump_carries_hypotheses() -> None:
+    dump = api.RunDump.model_validate(_fixture("run_dump.json"))
+    assert dump.hypotheses and all(h.run_id == dump.run.id for h in dump.hypotheses)
+
+
+def test_mock_events_include_both_hypothesis_events() -> None:
+    types = {e["type"] for e in _fixture("events_page.json")["events"]}
+    assert {"hypothesis_added", "hypothesis_dropped"} <= types

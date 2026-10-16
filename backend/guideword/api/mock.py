@@ -19,6 +19,8 @@ from guideword.schema.records import Event, Run
 
 DEFAULT_FIXTURES = Path(__file__).resolve().parents[3] / "contract" / "fixtures"
 EVENT_RELEASE_SECONDS = 20.0
+# the second record the mock serves: a hypothesis (R50, contract v1.2)
+HYPOTHESIS_RECORD_FIXTURE = "record_detail_hypothesis.json"
 XLSX_MEDIA_TYPE = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
 # The Excel worksheet columns (PROJECT.md §5 Step 8), and the WorksheetRow field for each.
 WORKSHEET_COLUMNS: list[tuple[str, str]] = [
@@ -43,7 +45,10 @@ WORKSHEET_COLUMNS: list[tuple[str, str]] = [
 
 
 def _load[M: BaseModel](directory: Path, model: type[M]) -> M:
-    path = directory / api.RESPONSE_FIXTURES[model]
+    return _load_file(directory / api.RESPONSE_FIXTURES[model], model)
+
+
+def _load_file[M: BaseModel](path: Path, model: type[M]) -> M:
     return model.model_validate(json.loads(path.read_text(encoding="utf-8")))
 
 
@@ -66,6 +71,14 @@ class MockStore:
         self.worksheet = _load(directory, api.Worksheet)
         self.coverage = _load(directory, api.Coverage)
         self.record_detail = _load(directory, api.RecordDetail)
+        # a second record so a hypothesis (R50) can be opened too
+        self.records = {
+            detail.record_id: detail
+            for detail in (
+                self.record_detail,
+                _load_file(directory / HYPOTHESIS_RECORD_FIXTURE, api.RecordDetail),
+            )
+        }
         self.override_result = _load(directory, api.OverrideResult)
         self.run_dump = _load(directory, api.RunDump)
         self.demo_response = _load(directory, api.DemoResponse)

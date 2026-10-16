@@ -356,6 +356,48 @@
       "model_call_id": null
     }
   ],
+  "hypotheses": [
+    {
+      "id": "h:1:f01ab4b68eb8942e",
+      "run_id": "run:8ede059837927e4a",
+      "rank": 1,
+      "mechanism": "Wrong material charged at the charging step reacts with the fluid in the mixer and releases flammable gas",
+      "component_ids": [
+        "P-CHARGE-1"
+      ],
+      "chemical_ids": [
+        "KOH",
+        "SIH"
+      ],
+      "failing_component_type": "operator",
+      "cause_id": "C14",
+      "cause_text": null,
+      "consequence": "Flammable gas builds up inside the building and can ignite",
+      "reason": "Mock: the charging step adds KOH where SIH may be present; the chart lists the pair as gas-forming",
+      "question_ids": [
+        "pair:KOH:SIH",
+        "proc:P-CHARGE-1:wrong"
+      ],
+      "model_call_id": "mc:b4141dda9c7f08a1"
+    },
+    {
+      "id": "h:2:9d68c13bfb25b1bc",
+      "run_id": "run:8ede059837927e4a",
+      "rank": 2,
+      "mechanism": "External fire in the building heats the stored fluid",
+      "component_ids": [
+        "BLDG-1"
+      ],
+      "chemical_ids": [],
+      "failing_component_type": "external",
+      "cause_id": "C22",
+      "cause_text": null,
+      "consequence": "The tote is heated and may release its contents",
+      "reason": "Mock: an indoor store with ignition sources; plant-wide, so it links no questions",
+      "question_ids": [],
+      "model_call_id": "mc:b4141dda9c7f08a1"
+    }
+  ],
   "chains": [
     {
       "id": "ch:f:pair:KOH:SIH:lightning:C14:541f633168214c61+f:relief:PSV-1:ultra:8b8e942809f7e00a:f222cda333ff2d9b",

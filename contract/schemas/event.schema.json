@@ -16,7 +16,9 @@
         "coverage_updated",
         "cap_hit",
         "run_finished",
-        "run_failed"
+        "run_failed",
+        "hypothesis_added",
+        "hypothesis_dropped"
       ],
       "title": "EventType",
       "type": "string"

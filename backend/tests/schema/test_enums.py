@@ -192,8 +192,11 @@ EXPECTED: list[tuple[type[StrEnum], set[str]]] = [
             "cap_hit",
             "run_finished",
             "run_failed",
+            "hypothesis_added",
+            "hypothesis_dropped",
         },
     ),
+    (e.ShortlistTier, {"confirmed", "also_found", "unconfirmed"}),
     (e.Environment, {"laptop", "hosted"}),
     (e.Tier, {"ultra", "super", "lightning", "nano"}),
     (

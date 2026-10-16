@@ -335,6 +335,17 @@ def chain_id(links: Iterable[str]) -> str:
     return "ch:" + "+".join(unique)
 
 
+def hypothesis_id(rank: int, mechanism: str, component_ids: Iterable[str]) -> str:
+    """`h:<rank>:<h(normalised mechanism, sorted component IDs)>` (R50); stored per run, so the
+    run is not part of the ID."""
+    if rank < 1:
+        raise ValueError("a hypothesis rank starts at 1")
+    components = sorted(component_ids)
+    if not components:
+        raise ValueError("a hypothesis names at least one component")
+    return f"h:{rank}:{h([normalise_text(mechanism), components])}"
+
+
 def lopa_id(target_id: str) -> str:
     return f"lopa:{_part(target_id, forbidden='')}"
 
