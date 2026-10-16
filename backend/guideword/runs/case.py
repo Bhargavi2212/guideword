@@ -18,9 +18,9 @@ from guideword.runs.machine import Stepper, advance
 from guideword.runs.plants import PlantRepository, load_plant, plant_facts
 from guideword.runs.start import RunSettings, start_run
 from guideword.runs.store import RunRepository
-from guideword.schema.enums import EventType, QuestionStatus, RunStatus
+from guideword.schema.enums import EventType, QuestionKind, QuestionStatus, RunStatus
 from guideword.schema.plant import Plant
-from guideword.schema.records import OUTSIDE_LIBRARY, Finding, PlantRecord, Run
+from guideword.schema.records import OUTSIDE_LIBRARY, Finding, PlantRecord, Question, Run
 from guideword.schema.validate import Issue
 from guideword.sections.rules import rule_cut
 
@@ -130,6 +130,25 @@ def ranked_lines(
     ]
 
 
+def not_credible_counts(questions: Sequence[Question]) -> list[dict[str, Any]]:
+    """Per list, how the checked questions split: answered, or dismissed as not credible.
+    Coverage counts both as checked, so this keeps the dismissed ones visible."""
+    rows = []
+    for kind in QuestionKind:
+        listed = [q for q in questions if q.kind == kind]
+        answered = sum(1 for q in listed if q.status == QuestionStatus.ANSWERED)
+        dismissed = sum(1 for q in listed if q.status == QuestionStatus.NOT_CREDIBLE)
+        rows.append(
+            {
+                "list": kind.value,
+                "checked": answered + dismissed,
+                "answered": answered,
+                "not_credible": dismissed,
+            }
+        )
+    return rows
+
+
 def case_report(
     runs: RunRepository, run_id: str, plant: Plant, ref: ReferenceSet, caps: CapsConfig, case: str
 ) -> dict[str, Any]:
@@ -155,6 +174,7 @@ def case_report(
         "seconds": (events[-1].time - events[0].time).total_seconds() if events else 0.0,
         "coverage": [line.model_dump(mode="json") for line in lines],
         "failed_question_ids": failed,
+        "not_credible": not_credible_counts(questions),
         "open_questions": sum(1 for q in questions if q.status == QuestionStatus.OPEN),
         "cap_hits": [e.payload for e in events if e.type == EventType.CAP_HIT],
         # R43: steps and jobs dropped to fit a specialist batch

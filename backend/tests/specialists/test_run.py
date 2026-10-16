@@ -2,6 +2,7 @@
 
 import json
 import re
+from dataclasses import replace
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
@@ -363,14 +364,20 @@ def test_apply_batch_writes_every_record_with_its_event(
         ai_remaining=20,
         existing_question_ids=set(questions),
     )
-    for _ in range(2):  # applying the same outcome twice stores each finding once (R42)
-        with runs.step(run.id) as writer:
-            apply_batch(writer, out)
+    with runs.step(run.id) as writer:
+        apply_batch(writer, out)
+    # a second answer giving the same findings stores each finding once (R42)
+    again = replace(out, model_calls=[], steps=[], cost_usd=0.0, cap_cost_usd=0.0)
+    with runs.step(run.id) as writer:
+        apply_batch(writer, again)
     assert len(runs.findings(run.id)) == len(MX)
     stored = {q.id: q for q in runs.questions(run.id)}
     assert {stored[q].status for q in MX} == {QuestionStatus.ANSWERED}
     assert len(runs.model_calls(run.id)) == 1
-    assert runs.get(run.id).spent_usd == pytest.approx(2 * out.cost_usd)  # type: ignore[union-attr]
+    assert runs.get(run.id).spent_usd == pytest.approx(out.cost_usd)  # type: ignore[union-attr]
+    # the same call record again is refused, not overwritten (case D dev run)
+    with pytest.raises(ValueError, match="already recorded"), runs.step(run.id) as writer:
+        apply_batch(writer, out)
     types = [e.type for e in runs.events(run.id)]
     assert (
         EventType.FINDING_ADDED in types
@@ -400,3 +407,27 @@ def test_batch_over_the_cap_fails_without_a_call(
     assert "specialist_max_input_tokens" in (out.error or "")
     assert transport.sent == []
     assert out.questions[0].attempts == 1
+
+
+def test_the_request_lists_only_causes_the_context_can_support(
+    build: Any, world: Any, ref: ReferenceSet, config: Config
+) -> None:
+    """R46: the causes sent are those valid for the batch whose type fits an ID in its context."""
+    import re  # noqa: PLC0415
+
+    from guideword.specialists.causes import can_fail_as, valid_cause_ids  # noqa: PLC0415
+    from guideword.specialists.context import build_context  # noqa: PLC0415
+
+    gateway, transport = build(lambda job, r: answers(batch_ids(r)))
+    _run(gateway, world, ref, config, Agent.PROCESS, MX)
+    text = transport.sent[0][1]["messages"][0]["content"]
+    match = re.search(r"<causes>\s*(.*?)\s*</causes>", text, re.S)
+    assert match is not None
+    sent = {c["id"] for c in json.loads(match.group(1))}
+    plant, sections, questions = world
+    batch = [questions[q] for q in MX]
+    context = build_context(Agent.PROCESS, plant, sections, batch)
+    valid = set().union(*(valid_cause_ids(q, sections, plant, ref) for q in batch))
+    types = {c.id: c.failing_component_type for c in ref.causes}
+    assert sent == {c for c in valid if can_fail_as(types[c], context, plant)}
+    assert "C10" not in sent and "C01" in sent

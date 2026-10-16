@@ -62,6 +62,11 @@ Generated from `validate_plant`: 18 warnings, 0 errors.
 - `missing_fail_position` (2): BV-P104B-DIS, BV-P104B-SUC
 <!-- /warnings:case_d -->
 
+### 5. Known gaps (found in the first 5B dev run, 2026-10-16)
+
+- **No line joins C-104 to its reflux drum V-104.** The package says "overhead condenser E-105, reflux drum V-104" for C-104, and V-104 is in the file, but no line connects it to C-104's section, so specialists answering C-104's questions cannot cite it (2 refusals in the run). Adding the overhead line would add a section and questions and change the case D counts in `expected_counts.json` (25 sections, 362 questions), so it is left as it is until after G2 (Bhargavi, 2026-10-16).
+- **No controllers, so no control-loop causes.** The package says "Basic process control system; high/low level alarms on all drums; high-pressure alarms on columns" and names no controller, loop or instrument (no LIC, PIC, FIC or TIC). The conversion holds these as the safeguards `SG-D-BPCS`, `SG-D-LEVEL-ALARMS` and `SG-D-PRESSURE-ALARMS`; adding loops would invent them. Under R46, C01–C03 (control loop) and C13 (interlock) therefore have nothing to name on case D, so "loss of level control" and the like can only appear as outside-library causes. Nothing was dropped by the conversion; left as it is until after G2 (2026-10-16).
+
 ---
 
 ## case_e — Unit E: FCC unit, planned shutdown

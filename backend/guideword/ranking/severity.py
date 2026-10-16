@@ -9,18 +9,21 @@ leaves the rest without severity (R24). The ranked step ends the run: `finished`
 """
 
 import json
+import math
 from collections import Counter
+from dataclasses import dataclass
 from typing import Annotated, Any
 
 from pydantic import BaseModel, ConfigDict, StringConstraints
 
 from guideword.config import Config
 from guideword.gateway.client import BudgetRefused, Gateway, RunBudget
-from guideword.gateway.prompts import load_prompt, render
+from guideword.gateway.estimate import estimate_cost
+from guideword.gateway.prompts import Prompt, load_prompt, render
 from guideword.reference import ReferenceSet
 from guideword.runs.machine import StepResult, stop_for_refusal
 from guideword.runs.store import StepWriter
-from guideword.schema.enums import EventType, QuestionStatus, RunStatus, SeverityClass
+from guideword.schema.enums import EventType, QuestionStatus, RunStatus, SeverityClass, Tier
 from guideword.schema.plant import Plant
 from guideword.schema.records import OUTSIDE_LIBRARY, Finding, Question, Run
 
@@ -83,10 +86,11 @@ class SeverityStepper:
             result = self.gateway.call(
                 job=JOB,
                 prompt_version=self.prompt.label,
-                messages=self._messages(batch, questions),
+                messages=severity_messages(self.prompt, batch, questions, self.ref, self.plant),
                 schema=SeverityAnswer,
                 validator=validator,
                 run=RunBudget(run.id, writer.run.cap_spent_usd, run.spend_cap_usd),
+                made=frozenset(c.id for c in writer.model_calls()),
             )
         except BudgetRefused as refused:
             return stop_for_refusal(writer, refused)
@@ -117,58 +121,96 @@ class SeverityStepper:
             writer.fill_severity(filled)
         return StepResult()
 
-    def _messages(
-        self, batch: list[Finding], questions: dict[str, Question]
-    ) -> list[dict[str, Any]]:
-        causes = {c.id: c.cause for c in self.ref.causes}
-        findings = [
-            {
-                "finding_id": f.id,
-                "question": questions[f.question_id].text
-                if f.question_id in questions
-                else f.question_id,
-                "cause": f.cause_text
-                if f.cause_id == OUTSIDE_LIBRARY
-                else causes.get(f.cause_id, f.cause_id),
-                "failing_component_ids": f.failing_component_ids,
-                "consequence": f.consequence,
-                "safeguard_ids": f.safeguard_ids,
-                "adequacy": f.adequacy.value,
-            }
-            for f in batch
-        ]
-        classes = [
-            {"severity_class": c.severity_class.value, "name": c.name, "definition": c.definition}
-            for c in sorted(self.ref.severity_classes, key=lambda c: c.severity_class)
-        ]
-        context = {
-            "locations": [
-                loc.model_dump(mode="json", exclude_none=True)
-                for loc in sorted(self.plant.locations, key=lambda x: x.id)
-            ],
-            "chemicals": [
-                {
-                    k: v
-                    for k, v in {
-                        "id": c.id,
-                        "name": c.name,
-                        "physical_form": c.physical_form,
-                        "flash_point_c": c.flash_point_c,
-                    }.items()
-                    if v is not None
-                }
-                for c in sorted(self.plant.chemicals, key=lambda c: c.id)
-            ],
+
+def severity_messages(
+    prompt: Prompt,
+    batch: list[Finding],
+    questions: dict[str, Question],
+    ref: ReferenceSet,
+    plant: Plant,
+) -> list[dict[str, Any]]:
+    causes = {c.id: c.cause for c in ref.causes}
+    findings = [
+        {
+            "finding_id": f.id,
+            "question": questions[f.question_id].text
+            if f.question_id in questions
+            else f.question_id,
+            "cause": f.cause_text
+            if f.cause_id == OUTSIDE_LIBRARY
+            else causes.get(f.cause_id, f.cause_id),
+            "failing_component_ids": f.failing_component_ids,
+            "consequence": f.consequence,
+            "safeguard_ids": f.safeguard_ids,
+            "adequacy": f.adequacy.value,
         }
-        system = render(
-            self.prompt.body,
+        for f in batch
+    ]
+    classes = [
+        {"severity_class": c.severity_class.value, "name": c.name, "definition": c.definition}
+        for c in sorted(ref.severity_classes, key=lambda c: c.severity_class)
+    ]
+    context = {
+        "locations": [
+            loc.model_dump(mode="json", exclude_none=True)
+            for loc in sorted(plant.locations, key=lambda x: x.id)
+        ],
+        "chemicals": [
             {
-                "severity_classes": json.dumps(classes, indent=1),
-                "findings": json.dumps(findings, indent=1, ensure_ascii=False),
-                "context": json.dumps(context, indent=1, ensure_ascii=False, default=str),
-            },
-        )
-        return [{"role": "system", "content": system}, {"role": "user", "content": ASK}]
+                k: v
+                for k, v in {
+                    "id": c.id,
+                    "name": c.name,
+                    "physical_form": c.physical_form,
+                    "flash_point_c": c.flash_point_c,
+                }.items()
+                if v is not None
+            }
+            for c in sorted(plant.chemicals, key=lambda c: c.id)
+        ],
+    }
+    system = render(
+        prompt.body,
+        {
+            "severity_classes": json.dumps(classes, indent=1),
+            "findings": json.dumps(findings, indent=1, ensure_ascii=False),
+            "context": json.dumps(context, indent=1, ensure_ascii=False, default=str),
+        },
+    )
+    return [{"role": "system", "content": system}, {"role": "user", "content": ASK}]
+
+
+@dataclass(frozen=True)
+class SeverityReserve:
+    """What the severity step will need, in place of a fixed reserve (case D dev run): one
+    call per batch of the findings still to rate, each estimated with the agreed rule for its
+    input and `severity_output_tokens_estimate` output tokens (its expected output, not the
+    `max_tokens` ceiling, which would over-reserve)."""
+
+    usd: float
+    unrated: int
+    calls: int
+    per_call_usd: float
+
+
+def severity_reserve(
+    findings: list[Finding],
+    questions: list[Question],
+    plant: Plant,
+    ref: ReferenceSet,
+    config: Config,
+) -> SeverityReserve:
+    todo = needs_severity(findings)
+    if not todo:
+        return SeverityReserve(0.0, 0, 0, 0.0)
+    size = config.caps.run.severity_batch_size
+    calls = math.ceil(len(todo) / size)
+    prompt = load_prompt("severity", config)
+    messages = severity_messages(prompt, todo[:size], {q.id: q for q in questions}, ref, plant)
+    prices = config.models.tiers[Tier(config.routing.jobs[JOB])]
+    output = config.caps.run.severity_output_tokens_estimate
+    per_call = estimate_cost(prices, messages, None, output).cost_usd
+    return SeverityReserve(calls * per_call, len(todo), calls, per_call)
 
 
 class RankedStepper:

@@ -157,7 +157,12 @@ class StepWriter:
         )
 
     def add_model_call(self, call: ModelCall, *, fell_back_from: Sequence[str] = ()) -> None:
-        """`fell_back_from` names the tiers skipped because they left the catalog."""
+        """`fell_back_from` names the tiers skipped because they left the catalog. A second
+        record with the same ID in one run is refused: it would overwrite the first."""
+        if call.id in self._new.get(ModelCallRow, {}) or (
+            self._session.get(ModelCallRow, (self.run.id, call.id)) is not None
+        ):
+            raise ValueError(f"model call {call.id} is already recorded in run {self.run.id}")
         self._put(ModelCallRow, call)
         payload: dict[str, Any] = {
             "model_call_id": call.id,

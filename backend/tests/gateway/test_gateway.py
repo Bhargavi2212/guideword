@@ -11,6 +11,7 @@ from pydantic import BaseModel
 
 from guideword.config import Config, load_config
 from guideword.gateway.client import BudgetRefused, Gateway, RunBudget
+from guideword.gateway.estimate import estimate_cost
 from guideword.gateway.fake import FakeTransport, catalog_for, fake_gateway, reply
 from guideword.gateway.ledgers import LaptopLedger
 from guideword.gateway.transport import ToolCallRequest, TransportError
@@ -380,8 +381,12 @@ def test_holds_count_calls_in_flight(build: Build) -> None:
         return reply({"verdict": "yes", "reason": "r"})
 
     gateway, _ = build(slow)
-    one = _call  # the estimate of one Lightning call with these messages
-    limit = 0.0025  # above one estimate (~0.0015), below two
+    one = _call
+    # the estimate of one Lightning call with these messages; the limit fits one, not two
+    request_settings = gateway.config.models.tiers[Tier.LIGHTNING]
+    max_tokens = gateway.config.caps.run.max_tokens["specialist_bulk"]
+    estimate = estimate_cost(request_settings, MESSAGES, None, max_tokens).cost_usd
+    limit = 1.5 * estimate
     errors: list[BaseException] = []
 
     def first() -> None:
@@ -558,3 +563,22 @@ def test_real_cost_comes_from_usage(build: Build, config: Config) -> None:
     assert result.cost_usd == pytest.approx(
         (1000 * prices.input_usd_per_1m + 500 * prices.output_usd_per_1m) / 1e6
     )
+
+
+def test_a_request_already_made_in_the_run_is_refused_before_cache_or_send(
+    build: Build,
+) -> None:
+    """The backstop: the same request twice in one run could only repeat the stored answer and
+    would overwrite its record, so the gateway refuses it before looking anything up."""
+    from guideword.gateway.client import RepeatedRequest  # noqa: PLC0415
+
+    gateway, transport = build(_ok)
+    run = RunBudget("run:0123456789abcdef", 0.0, 1.0)
+    first = _call(gateway, run=run)
+    made = frozenset(c.id for c in first.model_calls)
+    with pytest.raises(RepeatedRequest, match=next(iter(made))):
+        _call(gateway, run=run, made=made)
+    assert len(transport.sent) == 1
+    # a different request in the same run goes through
+    other = _call(gateway, run=run, made=made, messages=[{"role": "user", "content": "Other?"}])
+    assert other.outcome == "ok"

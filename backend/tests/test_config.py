@@ -74,15 +74,15 @@ def test_caps(shipped: Config) -> None:
 
 
 def test_phase_2_run_caps(shipped: Config) -> None:
-    """Decisions R18 (with specialist_bulk 6144) and R38."""
+    """Decisions R18 and R38, with the values raised after the case D dev run (the severity
+    reserve is computed by code, so it is no longer a setting)."""
     run = shipped.caps.run
-    assert run.severity_reserve_usd == 0.15
     assert run.max_tokens == {
         "orchestrator": 4096,
-        "specialist_bulk": 6144,
-        "specialist_hard": 6144,
+        "specialist_bulk": 12288,
+        "specialist_hard": 12288,
         "unsure_answer": 6144,
-        "severity_reason": 4096,
+        "severity_reason": 12288,
         "section_suggestion": 6144,
         "test5a": 8192,
     }
@@ -99,7 +99,9 @@ def test_phase_2_run_caps(shipped: Config) -> None:
         "recent_steps": 5,
         "dispatch_max_question_ids": 60,
     }
-    assert run.severity_batch_size == 20
+    assert run.severity_batch_size == 10
+    # the severity reserve prices each call at this, under the max_tokens ceiling
+    assert run.severity_output_tokens_estimate == 8000
     assert run.specialist_max_input_tokens == 24000
     assert shipped.caps.ranking.outside_library_default_frequency_per_year == 0.1
 
@@ -144,8 +146,9 @@ def test_prompt_versions_name_existing_files(shipped: Config) -> None:
 def test_run_input_caps_hold_everything_that_changes_answers(shipped: Config) -> None:
     """R18: the run block and ranking enter Run.caps; concurrency, retries, allowances do not."""
     caps = shipped.caps.run_input_caps()
-    assert caps["max_tokens"]["specialist_bulk"] == 6144
-    assert caps["severity_reserve_usd"] == 0.15
+    assert caps["max_tokens"]["specialist_bulk"] == 12288
+    assert caps["severity_batch_size"] == 10
+    assert "severity_reserve_usd" not in caps
     # R43: it changes what the model sees, so it is hashed into the run ID
     assert caps["specialist_max_input_tokens"] == 24000
     assert caps["ranking"] == {"outside_library_default_frequency_per_year": 0.1}
@@ -286,8 +289,24 @@ def test_backoff_has_one_wait_per_retry(config_dir: Path) -> None:
     _refused(config_dir, "caps.yaml")
 
 
-def test_severity_reserve_below_the_run_cap(config_dir: Path) -> None:
-    _edit(config_dir, "caps.yaml", r"severity_reserve_usd: 0\.15", "severity_reserve_usd: 1.00")
+def test_severity_output_estimate_above_its_max_tokens_is_refused(config_dir: Path) -> None:
+    _edit(
+        config_dir,
+        "caps.yaml",
+        r"severity_output_tokens_estimate: 8000",
+        "severity_output_tokens_estimate: 20000",
+    )
+    _refused(config_dir, "caps.yaml")
+
+
+def test_a_fixed_severity_reserve_is_refused(config_dir: Path) -> None:
+    """The reserve is computed by code from the findings still to rate (case D dev run)."""
+    _edit(
+        config_dir,
+        "caps.yaml",
+        r"^  severity_batch_size: 10",
+        "  severity_batch_size: 10\n  severity_reserve_usd: 0.15",
+    )
     _refused(config_dir, "caps.yaml")
 
 

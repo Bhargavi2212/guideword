@@ -87,9 +87,15 @@ def severity_answer(request: dict[str, Any], skip: int = 0) -> Any:
     )
 
 
+def level_for(view: dict[str, Any], agent: str) -> str:
+    """Bulk while the agent has untried open questions, then hard for the tried ones (R44)."""
+    retry = view["retry_at_hard"].get(agent, {"count": 0})["count"]
+    return "bulk" if view["open"][agent]["count"] > retry else "hard"
+
+
 def drain(view: dict[str, Any]) -> Any:
     for agent in sorted(view["open"]):
-        return "dispatch_specialist", {"agent": agent, "level": "bulk"}
+        return "dispatch_specialist", {"agent": agent, "level": level_for(view, agent)}
     return "finish", {}
 
 
@@ -335,3 +341,49 @@ def test_a_run_partly_served_from_the_cache_sums_both_figures(world: World) -> N
     assert spent == pytest.approx(sum(c.cost_usd for c in sent))
     assert cap == pytest.approx(spent + sum(c.cap_cost_usd for c in hits))
     assert 0 < spent < cap
+
+
+# --- the computed reserve (case D dev run) -----------------------------------------------------
+
+
+def test_the_reserve_is_one_severity_call_per_batch_of_unrated_findings(world: World) -> None:
+    import math  # noqa: PLC0415
+
+    from guideword.gateway.estimate import estimate_cost  # noqa: PLC0415
+    from guideword.gateway.prompts import load_prompt  # noqa: PLC0415
+    from guideword.ranking.severity import severity_messages, severity_reserve  # noqa: PLC0415
+    from guideword.schema.enums import Tier  # noqa: PLC0415
+
+    run = world.start()
+    steppers, _ = world.steppers()
+    world.run(run, steppers)
+    rated = world.runs.findings(run.id)
+    questions = world.runs.questions(run.id)
+    cfg = world.config
+    assert severity_reserve(rated, questions, world.plant, world.ref, cfg).usd == 0.0
+
+    unrated = [
+        f.model_copy(update={"severity_class": None, "severity_reason": None}) for f in rated
+    ]
+    marked = unrated[0].model_copy(update={"severity_reason": "not assessed: cut off"})
+    findings = [marked, *unrated[1:]]
+    reserve = severity_reserve(findings, questions, world.plant, world.ref, cfg)
+    size = cfg.caps.run.severity_batch_size
+    todo = sorted(unrated[1:], key=lambda f: f.id)
+    assert reserve.unrated == len(todo)  # a finding marked not assessed is not counted
+    assert reserve.calls == math.ceil(len(todo) / size)
+    ultra = cfg.models.tiers[Tier.ULTRA]
+    messages = severity_messages(
+        load_prompt("severity", cfg),
+        todo[:size],
+        {q.id: q for q in questions},
+        world.ref,
+        world.plant,
+    )
+    # each call is priced at the expected output, not the max_tokens ceiling
+    output = cfg.caps.run.severity_output_tokens_estimate
+    assert output < cfg.caps.run.max_tokens["severity_reason"]
+    per_call = estimate_cost(ultra, messages, None, output).cost_usd
+    assert reserve.per_call_usd == pytest.approx(per_call)
+    assert reserve.usd == pytest.approx(reserve.calls * per_call)
+    assert per_call >= output * ultra.output_usd_per_1m / 1_000_000

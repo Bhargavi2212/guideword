@@ -17,7 +17,7 @@ from guideword.schema import ids
 from guideword.schema.enums import Adequacy, Confidence, FailingComponentType, Tier
 from guideword.schema.plant import Plant
 from guideword.schema.records import OUTSIDE_LIBRARY, Question, Section
-from guideword.specialists.causes import valid_cause_ids
+from guideword.specialists.causes import can_fail_as, valid_cause_ids
 from guideword.specialists.context import SpecialistContext
 
 Text300 = Annotated[str, StringConstraints(min_length=1, max_length=300)]
@@ -103,7 +103,7 @@ def check_answer(
         valid = valid_cause_ids(question, sections, plant, ref)
         seen: set[str] = set()
         for finding in item.findings:
-            _check_finding(item.question_id, finding, valid, cause_types, context)
+            _check_finding(item.question_id, finding, valid, cause_types, context, plant)
             fid = finding_id(item.question_id, tier, finding)
             if fid in seen:
                 raise ValueError(
@@ -125,6 +125,7 @@ def _check_finding(
     valid: set[str],
     cause_types: Mapping[str, str],
     context: SpecialistContext,
+    plant: Plant,
 ) -> None:
     if finding.cause_id == OUTSIDE_LIBRARY:
         if not finding.cause_text:
@@ -142,12 +143,17 @@ def _check_finding(
     unknown = [c for c in finding.failing_component_ids if c not in context.citable_ids]
     if unknown:
         raise ValueError(f"{question_id}: {', '.join(unknown)} not in this agent's context")
-    if finding.failing_component_type == OPERATOR and not (
-        set(finding.failing_component_ids) & context.packet_ids
-    ):
+    # R46: every failing component must be something that can fail as the finding's type
+    fits = can_fail_as(finding.failing_component_type, context, plant)
+    misfits = [c for c in finding.failing_component_ids if c not in fits]
+    if misfits and finding.failing_component_type == OPERATOR:
         raise ValueError(
             f"{question_id}: an operator cause must name a procedure step or planned job from "
             "the context's procedure_steps or planned_jobs"
+        )
+    if misfits:
+        raise ValueError(
+            f"{question_id}: {', '.join(misfits)} cannot fail as a {finding.failing_component_type}"
         )
     not_guards = [s for s in finding.safeguard_ids if s not in context.safeguard_ids]
     if not_guards:

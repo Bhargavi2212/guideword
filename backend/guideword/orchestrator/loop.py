@@ -22,6 +22,7 @@ from guideword.logs import get_logger
 from guideword.orchestrator.tools import ARGUMENTS, Dispatch, Reactivity, tool_schemas
 from guideword.orchestrator.view import build_view, by_agent, reanswers_used, unsure_question_ids
 from guideword.questions.coverage import coverage
+from guideword.ranking.severity import SeverityReserve, severity_reserve
 from guideword.reference import ReferenceSet
 from guideword.runs.machine import StepResult, stop_for_refusal
 from guideword.runs.store import StepWriter
@@ -70,6 +71,23 @@ class OrchestratorStepper:
             )
             return StepResult(status=RunStatus.STOPPED_CAP)
 
+        # what severity will need for the findings so far; the analysis may spend up to the
+        # rest of the cap (R38, with the reserve computed after the case D dev run)
+        reserve = severity_reserve(findings, questions, self.plant, self.ref, self.config)
+        limit = run.spend_cap_usd - reserve.usd
+        log.info(
+            "severity reserve",
+            extra={
+                "context": {
+                    "run_id": run.id,
+                    "reserve_usd": reserve.usd,
+                    "unrated": reserve.unrated,
+                    "calls": reserve.calls,
+                    "per_call_usd": reserve.per_call_usd,
+                    "limit_usd": limit,
+                }
+            },
+        )
         view = build_view(
             run,
             questions=questions,
@@ -78,6 +96,7 @@ class OrchestratorStepper:
             tool_calls=tool_calls,
             sections=sections,
             caps=caps,
+            limit_usd=limit,
         )
         system = render(
             self.prompt.body,
@@ -94,9 +113,9 @@ class OrchestratorStepper:
         result: GatewayResult | None = None
         for attempt in (1, 2):
             try:
-                result = self._call(run, writer, messages)
+                result = self._call(run, writer, messages, limit)
             except BudgetRefused as refused:
-                return self._refused(writer, refused)
+                return self._refused(writer, refused, reserve)
             if result.outcome == "ok" and result.tool_calls:
                 break
             if attempt == 2:
@@ -149,7 +168,7 @@ class OrchestratorStepper:
 
         if isinstance(parsed, Dispatch):
             return self._dispatch(
-                run, writer, step, parsed, arguments, questions, findings, sections
+                run, writer, step, parsed, arguments, questions, findings, sections, reserve
             )
         if isinstance(parsed, Reactivity):
             call = execute_tool(
@@ -225,6 +244,7 @@ class OrchestratorStepper:
         questions: Sequence[Question],
         findings: Sequence[Any],
         sections: dict[str, Section],
+        reserve: SeverityReserve,
     ) -> StepResult:
         caps = self.caps
         agent = Agent(args.agent)
@@ -308,9 +328,7 @@ class OrchestratorStepper:
             0,
             caps.ai_questions_per_run - sum(1 for q in questions if q.kind.value == "added_by_ai"),
         )
-        budget = RunBudget(
-            run.id, writer.run.cap_spent_usd, run.spend_cap_usd - caps.severity_reserve_usd
-        )
+        budget = RunBudget(run.id, writer.run.cap_spent_usd, run.spend_cap_usd - reserve.usd)
         existing = set(by_id)
         outcomes: list[BatchOutcome | BaseException] = []
         with ThreadPoolExecutor(max_workers=self.config.caps.concurrency[tier]) as pool:
@@ -329,6 +347,7 @@ class OrchestratorStepper:
                     ai_remaining=ai_left,
                     existing_question_ids=existing,
                     level=args.level,
+                    made=frozenset(c.id for c in writer.model_calls()),
                 )
                 for group in groups
             ]
@@ -396,7 +415,7 @@ class OrchestratorStepper:
             },
         )
         if refusal is not None:
-            return self._refused(writer, refusal)
+            return self._refused(writer, refusal, reserve)
         return StepResult()
 
     def _eligible(
@@ -407,8 +426,10 @@ class OrchestratorStepper:
         findings: Sequence[Any],
         sections: dict[str, Section],
     ) -> list[str]:
-        """R44: bulk → open; hard → open with a failed attempt; unsure → answered with an
-        unsure finding and no Ultra re-answer, within the cap. In ID order."""
+        """R44 as amended after the case D dev run: bulk → open and not yet tried; hard → open
+        with a failed attempt; unsure → answered with an unsure finding and no Ultra
+        re-answer, within the cap. In ID order. A tried question never goes back to bulk:
+        the same batch again is a cache hit and can only fail again."""
         if level == "unsure":
             left = max(0, self.caps.unsure_reanswers_per_run - reanswers_used(findings))
             pool = set(unsure_question_ids(questions, findings))
@@ -419,14 +440,15 @@ class OrchestratorStepper:
         wanted = [
             q
             for q in questions
-            if q.status == QuestionStatus.OPEN and (level == "bulk" or q.attempts > 0)
+            if q.status == QuestionStatus.OPEN and ((q.attempts == 0) == (level == "bulk"))
         ]
         return by_agent(wanted, sections).get(agent, [])
 
     # --- records and refusals ---------------------------------------------------------------
 
-    def _call(self, run: Run, writer: StepWriter, messages: list[dict[str, Any]]) -> GatewayResult:
-        limit = run.spend_cap_usd - self.caps.severity_reserve_usd
+    def _call(
+        self, run: Run, writer: StepWriter, messages: list[dict[str, Any]], limit: float
+    ) -> GatewayResult:
         result = self.gateway.call(
             job=JOB,
             prompt_version=self.prompt.label,
@@ -434,6 +456,7 @@ class OrchestratorStepper:
             tools=tool_schemas(),
             tool_choice="required",
             run=RunBudget(run.id, writer.run.cap_spent_usd, limit),
+            made=frozenset(c.id for c in writer.model_calls()),
         )
         for call in result.model_calls:
             writer.add_model_call(call, fell_back_from=result.fell_back_from)
@@ -479,10 +502,21 @@ class OrchestratorStepper:
             return StepResult(status=RunStatus.FAILED)
         return StepResult()
 
-    def _refused(self, writer: StepWriter, refused: BudgetRefused) -> StepResult:
+    def _refused(
+        self, writer: StepWriter, refused: BudgetRefused, reserve: SeverityReserve
+    ) -> StepResult:
         if refused.status == RunStatus.STOPPED_CAP:
             # R38: the analysis phase stops at the run cap minus the reserve; severity runs next
-            writer.emit(EventType.CAP_HIT, {"reason": "severity reserve", "detail": str(refused)})
+            writer.emit(
+                EventType.CAP_HIT,
+                {
+                    "reason": "severity reserve",
+                    "detail": str(refused),
+                    "reserve_usd": reserve.usd,
+                    "unrated": reserve.unrated,
+                    "severity_calls": reserve.calls,
+                },
+            )
             return StepResult(next_step=NEXT)
         return stop_for_refusal(writer, refused)
 

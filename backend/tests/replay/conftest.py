@@ -22,12 +22,22 @@ def block(request: dict[str, Any], name: str) -> Any:
     return json.loads(match.group(1))
 
 
-def _specialist(request: dict[str, Any]) -> Reply:
+def _specialist(request: dict[str, Any], not_credible_every: int = 0) -> Reply:
     location = block(request, "context")["locations"][0]["id"]
+
+    def dismissed(i: int) -> bool:
+        return not_credible_every > 0 and i % not_credible_every == 0
+
     return reply(
         {
             "answers": [
                 {
+                    "question_id": q["id"],
+                    "not_credible": {"reason": "cannot happen here"},
+                    "findings": [],
+                }
+                if dismissed(i)
+                else {
                     "question_id": q["id"],
                     "not_credible": None,
                     "findings": [
@@ -44,25 +54,29 @@ def _specialist(request: dict[str, Any]) -> Reply:
                         }
                     ],
                 }
-                for q in block(request, "questions")
+                for i, q in enumerate(block(request, "questions"))
             ],
             "added_questions": [],
         }
     )
 
 
-def make_script(orchestrator_output_tokens: int = 50, secret: str | None = None) -> Script:
-    """`secret` puts that text into every severity reply (to test the export's key check)."""
+def make_script(
+    orchestrator_output_tokens: int = 50, secret: str | None = None, not_credible_every: int = 0
+) -> Script:
+    """`secret` puts that text into every severity reply (to test the export's key check);
+    `not_credible_every` dismisses every n-th question of a batch as not credible."""
 
     def script(job: str, request: dict[str, Any]) -> Reply:
         if job == "orchestrator":
             view = block(request, "view")
             agents = sorted(view["open"])
-            name, args = (
-                ("dispatch_specialist", {"agent": agents[0], "level": "bulk"})
-                if agents
-                else ("finish", {})
-            )
+            if agents:
+                retry = view["retry_at_hard"].get(agents[0], {"count": 0})["count"]
+                level = "bulk" if view["open"][agents[0]]["count"] > retry else "hard"
+                name, args = "dispatch_specialist", {"agent": agents[0], "level": level}
+            else:
+                name, args = "finish", {}
             call = ToolCallRequest("t", name, json.dumps({"reason": "go", **args}))
             return reply(tool_calls=(call,), output_tokens=orchestrator_output_tokens)
         if job == "severity_reason":
@@ -75,7 +89,7 @@ def make_script(orchestrator_output_tokens: int = 50, secret: str | None = None)
                     ]
                 }
             )
-        return _specialist(request)
+        return _specialist(request, not_credible_every)
 
     return script
 

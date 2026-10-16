@@ -13,6 +13,7 @@ import re
 import threading
 import time
 from collections.abc import Callable, Iterator, Sequence
+from collections.abc import Set as AbstractSet
 from contextlib import contextmanager
 from dataclasses import dataclass, field
 from datetime import datetime
@@ -37,6 +38,11 @@ Outcome = Literal["ok", "invalid", "truncated", "error"]
 Validator = Callable[[Any], None]
 SCRIPT = "gateway"
 _THINK = re.compile(r"^\s*<think>.*?</think>\s*", re.S)
+
+
+class RepeatedRequest(RuntimeError):
+    """This exact request was already made in this run: its answer is stored, and sending it
+    again would only repeat that answer and overwrite its record. Found in the case D dev run."""
 
 
 class BudgetRefused(RuntimeError):
@@ -134,9 +140,12 @@ class Gateway:
         tier: Tier | None = None,
         run: RunBudget | None = None,
         validator: Validator | None = None,
+        made: AbstractSet[str] = frozenset(),
     ) -> GatewayResult:
         """One logical call: a schema answer that fails validation is retried once with the
-        error appended (a new request, so a new record), then marked invalid."""
+        error appended (a new request, so a new record), then marked invalid. A request whose
+        model call ID is in `made` (this run's records) raises `RepeatedRequest` before the
+        cache is read or anything is sent."""
         wanted = tier if tier is not None else self.config.routing.jobs[job]
         resolved = self.catalog.resolve(Tier(wanted))
         result = GatewayResult(
@@ -152,6 +161,9 @@ class Gateway:
             request = self._request(
                 job, resolved.tier, resolved.model_id, conversation, schema, tools, tool_choice
             )
+            call_id = ids.model_call_id(resolved.model_id, prompt_version, _exact_input(request))
+            if call_id in made:
+                raise RepeatedRequest(f"{call_id} was already made in this run")
             sent = self._send_once(
                 job, prompt_version, resolved.tier, resolved.model_id, request, tools, budget
             )

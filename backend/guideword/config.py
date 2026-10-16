@@ -85,7 +85,6 @@ class RunCaps(_Strict):
     evidence_top_n: PositiveInt
     question_max_attempts: PositiveInt
     connector_max_input_tokens: PositiveInt
-    severity_reserve_usd: NonNegative
     max_tokens: dict[str, PositiveInt]
     specialist_batch_size: dict[Tier, PositiveInt]
     ai_questions_per_batch: NonNegativeInt
@@ -93,6 +92,7 @@ class RunCaps(_Strict):
     unsure_reanswers_per_run: NonNegativeInt
     orchestrator_view: OrchestratorView
     severity_batch_size: PositiveInt
+    severity_output_tokens_estimate: PositiveInt
     specialist_max_input_tokens: PositiveInt
 
 
@@ -201,8 +201,12 @@ def _check_run_caps(caps: CapsConfig, routing: RoutingConfig, models: ModelsConf
         raise ConfigError("caps.yaml", "concurrency needs a limit for every tier")
     if len(caps.gateway.backoff_seconds) != caps.gateway.max_attempts - 1:
         raise ConfigError("caps.yaml", "gateway.backoff_seconds needs one wait per retry")
-    if run.severity_reserve_usd >= run.run_spend_cap_usd:
-        raise ConfigError("caps.yaml", "severity_reserve_usd must be below run_spend_cap_usd")
+    ceiling = run.max_tokens.get("severity_reason")
+    if ceiling is not None and run.severity_output_tokens_estimate > ceiling:
+        raise ConfigError(
+            "caps.yaml",
+            "severity_output_tokens_estimate must not exceed max_tokens.severity_reason",
+        )
 
 
 def _check_caps(caps: CapsConfig, global_budget_usd: float) -> None:

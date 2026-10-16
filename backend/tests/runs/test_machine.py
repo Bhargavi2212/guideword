@@ -260,3 +260,29 @@ def test_spend_not_matching_its_records_is_logged_when_the_run_stops(
 def test_phase_2_event_types() -> None:
     """R32: the store emits only Phase 2 types; later ones come with their tools."""
     assert set(EventType) - LATER_PHASE_EVENTS >= EMITTED_EVENT_TYPES
+
+
+def test_a_second_record_with_the_same_model_call_id_is_refused(
+    runs: RunRepository, run: Run
+) -> None:
+    """Found in the case D dev run: a repeated request's cache hit overwrote the paid record."""
+    _, call, _ = _records(run)
+
+    def stepper(current: Run, writer: StepWriter) -> StepResult:
+        writer.add_model_call(call)
+        writer.add_model_call(call.model_copy(update={"cache_hit": True, "cost_usd": 0.0}))
+        return StepResult()
+
+    with pytest.raises(ValueError, match="already recorded"):
+        advance(runs, run.id, {"analysis": stepper})
+    assert runs.model_calls(run.id) == []  # the step saved nothing
+
+
+def test_a_model_call_id_stored_in_an_earlier_step_is_refused(
+    runs: RunRepository, run: Run
+) -> None:
+    _, call, _ = _records(run)
+    advance(runs, run.id, {"analysis": lambda r, w: (w.add_model_call(call), StepResult())[1]})
+    with pytest.raises(ValueError, match="already recorded"):
+        advance(runs, run.id, {"analysis": lambda r, w: (w.add_model_call(call), StepResult())[1]})
+    assert runs.model_calls(run.id) == [call]

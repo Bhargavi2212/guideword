@@ -305,3 +305,170 @@ def test_added_question_section_must_be_in_the_batch(world: Any, ref: ReferenceS
             [MX],
             _answer(_one(MX, _finding()), added=[{"section_id": "S-TOTE-1", "text": "what if"}]),
         )
+
+
+# --- R46: what each failing-component type may name (PROJECT.md §5, found in case D) ----------
+
+
+def test_c01_naming_a_pump_or_the_mixer_is_invalid(world: Any, ref: ReferenceSet) -> None:
+    """C01 "control valve fails open" is a control-loop cause: it may name the loop, one of
+    its instruments or a control valve, never a pump or a vessel in the same context."""
+    for wrong in ("P-1", "MX-1"):
+        with pytest.raises(ValueError, match="cannot fail as a control_loop"):
+            _check(
+                world,
+                ref,
+                Agent.PROCESS,
+                [MX],
+                _answer(_one(MX, _finding(failing_component_ids=[wrong]))),
+            )
+    for right in ("TIC-1", "TV-1", "TT-1"):
+        _check(
+            world,
+            ref,
+            Agent.PROCESS,
+            [MX],
+            _answer(_one(MX, _finding(failing_component_ids=[right]))),
+        )
+
+
+def test_external_cause_names_a_location(world: Any, ref: ReferenceSet) -> None:
+    """C22 applies to pipes: on the no-flow question for L-12 it may name a location the line
+    runs through, not the line itself."""
+    nf = "nf:L-12"
+    external = {"cause_id": "C22", "failing_component_type": "external", "safeguard_ids": []}
+    plant, sections, questions = world
+    context = build_context(Agent.PIPING, plant, sections, [questions[nf]])
+    location = sorted(context.citable_ids & {loc.id for loc in plant.locations})[0]
+    _check(
+        world,
+        ref,
+        Agent.PIPING,
+        [nf],
+        _answer(_one(nf, _finding(**external, failing_component_ids=[location]))),
+    )
+    with pytest.raises(ValueError, match="cannot fail as a external"):
+        _check(
+            world,
+            ref,
+            Agent.PIPING,
+            [nf],
+            _answer(_one(nf, _finding(**external, failing_component_ids=["L-12"]))),
+        )
+
+
+def test_outside_library_cause_must_fit_its_declared_type(world: Any, ref: ReferenceSet) -> None:
+    outside = {"cause_id": "outside_library", "cause_text": "impeller seizes", "safeguard_ids": []}
+    _check(
+        world,
+        ref,
+        Agent.PROCESS,
+        [MX],
+        _answer(
+            _one(
+                MX,
+                _finding(**outside, failing_component_type="pump", failing_component_ids=["P-1"]),
+            )
+        ),
+    )
+    with pytest.raises(ValueError, match="cannot fail as a pump"):
+        _check(
+            world,
+            ref,
+            Agent.PROCESS,
+            [MX],
+            _answer(
+                _one(
+                    MX,
+                    _finding(
+                        **outside, failing_component_type="pump", failing_component_ids=["MX-1"]
+                    ),
+                )
+            ),
+        )
+
+
+def test_operator_cause_names_only_steps_or_jobs(world: Any, ref: ReferenceSet) -> None:
+    operator = {"cause_id": "C14", "failing_component_type": "operator"}
+    with pytest.raises(ValueError, match="procedure step or planned job"):
+        _check(
+            world,
+            ref,
+            Agent.PROCESS,
+            [MX],
+            _answer(_one(MX, _finding(**operator, failing_component_ids=["P-CHARGE-2", "MX-1"]))),
+        )
+
+
+def _offered(
+    plant: Plant,
+    sections: dict[str, Section],
+    ref: ReferenceSet,
+    batch: list[Question],
+    agent: Agent,
+) -> set[str]:
+    from guideword.specialists.causes import offered_cause_ids  # noqa: PLC0415
+
+    context = build_context(agent, plant, sections, batch)
+    return offered_cause_ids(batch, sections, plant, ref, context)
+
+
+def test_regulator_is_never_offered(world: Any, ref: ReferenceSet) -> None:
+    """No plant object kind is a regulator, so C10 has nothing it could name (R46)."""
+    from guideword.specialists.routing import agent_for  # noqa: PLC0415
+
+    plant, sections, questions = world
+    for question in questions.values():
+        agent = agent_for(question, sections)
+        assert "C10" not in _offered(plant, sections, ref, [question], agent), question.id
+
+
+def test_case_d_contexts_offer_no_cause_they_cannot_support(ref: ReferenceSet) -> None:
+    """Plant D has no control loops, instruments, interlocks, check valves, hoses, procedures
+    or planned work, so no batch is offered C01–C03, C09, C10, C13 or C14–C19; it has locations
+    and a cooling-water utility."""
+    from guideword.specialists.routing import agent_for  # noqa: PLC0415
+
+    data = json.loads((REPO / "cases" / "dev" / "case_d.json").read_text(encoding="utf-8"))
+    plant = Plant.model_validate(data)
+    sections = {s.id: s for s in rule_cut(plant, "plant:d:0")}
+    questions = build_questions(plant, list(sections.values()), ref, "run:test")
+    never = {"C01", "C02", "C03", "C09", "C10", "C13", *(f"C{n}" for n in range(14, 20))}
+    seen: set[str] = set()
+    for question in questions:
+        offered = _offered(plant, sections, ref, [question], agent_for(question, sections))
+        assert not offered & never, (question.id, sorted(offered & never))
+        seen |= offered
+    assert "C22" in seen  # external fire: plant D has locations
+
+
+def _case_d(ref: ReferenceSet) -> tuple[Plant, dict[str, Section], list[Question]]:
+    plant = Plant.model_validate(
+        json.loads((REPO / "cases" / "dev" / "case_d.json").read_text(encoding="utf-8"))
+    )
+    sections = {s.id: s for s in rule_cut(plant, "plant:d:0")}
+    return plant, sections, build_questions(plant, list(sections.values()), ref, "run:test")
+
+
+def test_process_contexts_hold_every_plant_utility(ref: ReferenceSet) -> None:
+    """R47: utility causes name the utility (§5), and no dev plant links a utility to a line,
+    so every process context lists the plant's utilities; C07 is then offered on case D."""
+    from guideword.specialists.routing import agent_for  # noqa: PLC0415
+
+    plant, sections, questions = _case_d(ref)
+    process = [q for q in questions if agent_for(q, sections) == Agent.PROCESS]
+    question = next(q for q in process if q.id == "m:S-C-103:no:level")
+    context = build_context(Agent.PROCESS, plant, sections, [question])
+    assert {"UT-D-CW", "UT-D-STEAM", "UT-D-LP-STEAM"} <= context.citable_ids
+    assert {u["id"] for u in context.data["utilities"]} == {u.id for u in plant.utilities}
+    assert "C07" in _offered(plant, sections, ref, [question], Agent.PROCESS)
+
+
+def test_chemistry_contexts_get_no_utilities(ref: ReferenceSet) -> None:
+    from guideword.specialists.routing import agent_for  # noqa: PLC0415
+
+    plant, sections, questions = _case_d(ref)
+    for question in (q for q in questions if agent_for(q, sections) == Agent.CHEMISTRY):
+        context = build_context(Agent.CHEMISTRY, plant, sections, [question])
+        assert not context.citable_ids & {u.id for u in plant.utilities}, question.id
+        assert "C07" not in _offered(plant, sections, ref, [question], Agent.CHEMISTRY)
