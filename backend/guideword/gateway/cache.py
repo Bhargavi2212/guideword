@@ -9,6 +9,7 @@ exactly what the original call cost, whatever the price table says later.
 """
 
 from dataclasses import dataclass
+from typing import Any
 
 from sqlalchemy.orm import Session, sessionmaker
 
@@ -62,6 +63,23 @@ class ResponseCache:
             row = session.get(ResponseCacheRow, key)
             if row is not None and row.response.get(COST_KEY) is None:
                 row.response = {**row.response, COST_KEY: cost_usd}
+
+    def entry(self, key: str) -> tuple[str, str, dict[str, Any]] | None:
+        """(model ID, prompt version, stored response) as written, for the replay export."""
+        with self._sessions() as session:
+            row = session.get(ResponseCacheRow, key)
+            return None if row is None else (row.model_id, row.prompt_version, dict(row.response))
+
+    def put_entry(
+        self, key: str, model_id: str, prompt_version: str, response: dict[str, Any]
+    ) -> None:
+        """Store an exported entry unchanged (loading replay fixtures)."""
+        with self._sessions.begin() as session:
+            session.merge(
+                ResponseCacheRow(
+                    key=key, model_id=model_id, prompt_version=prompt_version, response=response
+                )
+            )
 
     def keys(self) -> list[str]:
         with self._sessions() as session:
