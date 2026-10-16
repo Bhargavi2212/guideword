@@ -87,7 +87,7 @@ def test_phase_2_run_caps(shipped: Config) -> None:
         "test5a": 8192,
     }
     assert run.specialist_batch_size == {
-        Tier.LIGHTNING: 10,
+        Tier.LIGHTNING: 5,
         Tier.NANO: 10,
         Tier.SUPER: 5,
         Tier.ULTRA: 5,
@@ -101,7 +101,7 @@ def test_phase_2_run_caps(shipped: Config) -> None:
     }
     assert run.severity_batch_size == 10
     # the severity reserve prices each call at this, under the max_tokens ceiling
-    assert run.severity_output_tokens_estimate == 8000
+    assert run.severity_output_tokens_estimate == 4700
     assert run.specialist_max_input_tokens == 24000
     assert shipped.caps.ranking.outside_library_default_frequency_per_year == 0.1
 
@@ -293,7 +293,7 @@ def test_severity_output_estimate_above_its_max_tokens_is_refused(config_dir: Pa
     _edit(
         config_dir,
         "caps.yaml",
-        r"severity_output_tokens_estimate: 8000",
+        r"severity_output_tokens_estimate: 4700",
         "severity_output_tokens_estimate: 20000",
     )
     _refused(config_dir, "caps.yaml")
