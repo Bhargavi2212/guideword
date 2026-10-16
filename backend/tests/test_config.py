@@ -70,7 +70,7 @@ def test_caps(shipped: Config) -> None:
     assert run.connector_max_input_tokens == 80000
     assert shipped.caps.plant.section_suggest_cap_usd == 0.05
     # Phase 2 adds its cap (specs/phase-2.md)
-    assert shipped.caps.phase_caps_usd == {"0": 0.65, "2": 5.00}
+    assert shipped.caps.phase_caps_usd == {"0": 0.65, "2": 6.50}
 
 
 def test_phase_2_run_caps(shipped: Config) -> None:
@@ -164,8 +164,8 @@ def test_budget_split(shipped: Config) -> None:
     assert set(uses) == set(BudgetUse)
     assert {u: uses[u].allowance_usd for u in uses} == {
         BudgetUse.DEVELOPMENT: 5.0,
-        BudgetUse.TEST_5: 4.0,
-        BudgetUse.BENCHMARK: 8.0,
+        BudgetUse.TEST_5: 5.5,
+        BudgetUse.BENCHMARK: 6.5,
         BudgetUse.VIDEO: 2.0,
         BudgetUse.DEMO_RECORDING: 1.0,
         BudgetUse.JUDGING: 3.0,
@@ -220,8 +220,8 @@ def test_use_allowances_must_sum_to_global_budget(config_dir: Path) -> None:
     _edit(
         config_dir,
         "caps.yaml",
-        r"benchmark: \{environment: laptop, allowance_usd: 8\.00\}",
-        "benchmark: {environment: laptop, allowance_usd: 9.00}",
+        r"benchmark: \{environment: laptop, allowance_usd: 6\.50\}",
+        "benchmark: {environment: laptop, allowance_usd: 7.50}",
     )
     _edit(
         config_dir,
