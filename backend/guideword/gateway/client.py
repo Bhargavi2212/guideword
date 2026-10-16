@@ -62,6 +62,13 @@ class RunBudget:
     run_id: str
     cap_spent_usd: float
     limit_usd: float
+    # a batch's own budget (R13 as amended): calls are checked against this slice alone, never
+    # against other batches in flight, so a refusal never depends on thread timing
+    slice_id: str | None = None
+
+    @property
+    def hold_key(self) -> str:
+        return self.run_id if self.slice_id is None else f"{self.run_id}#{self.slice_id}"
 
 
 @dataclass
@@ -122,7 +129,7 @@ class Gateway:
         self._semaphores = {
             tier: threading.BoundedSemaphore(n) for tier, n in config.caps.concurrency.items()
         }
-        self._holds: dict[int, tuple[str | None, float]] = {}
+        self._holds: dict[int, tuple[str | None, float]] = {}  # token -> (hold key, amount)
         self._hold_lock = threading.Lock()
         self._next_hold = 0
 
@@ -157,7 +164,11 @@ class Gateway:
         conversation = list(messages)
         spent_so_far = run.cap_spent_usd if run is not None else 0.0
         for attempt in (1, 2):
-            budget = RunBudget(run.run_id, spent_so_far, run.limit_usd) if run is not None else None
+            budget = (
+                RunBudget(run.run_id, spent_so_far, run.limit_usd, run.slice_id)
+                if run is not None
+                else None
+            )
             request = self._request(
                 job, resolved.tier, resolved.model_id, conversation, schema, tools, tool_choice
             )
@@ -333,7 +344,7 @@ class Gateway:
         with self._hold_lock:
             held_all = sum(a for _, a in self._holds.values())
             if run is not None:
-                held_run = sum(a for r, a in self._holds.values() if r == run.run_id)
+                held_run = sum(a for key, a in self._holds.values() if key == run.hold_key)
                 if run.cap_spent_usd + held_run + amount > run.limit_usd:
                     raise BudgetRefused(
                         f"run {run.run_id} limit ${run.limit_usd:.2f} would be exceeded",
@@ -370,7 +381,7 @@ class Gateway:
                 )
             token = self._next_hold
             self._next_hold += 1
-            self._holds[token] = (run.run_id if run is not None else None, amount)
+            self._holds[token] = (run.hold_key if run is not None else None, amount)
         try:
             yield
         finally:

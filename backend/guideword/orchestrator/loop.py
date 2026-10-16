@@ -10,7 +10,7 @@ refusal in a row fails the run; the orchestrator's own call failing twice fails 
 
 import json
 from collections.abc import Sequence
-from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import Future, ThreadPoolExecutor
 from typing import Any
 
 from pydantic import ValidationError
@@ -32,10 +32,18 @@ from guideword.schema.plant import Plant
 from guideword.schema.records import AgentStep, Question, Run, Section, ToolCall
 from guideword.specialists.batch import batches
 from guideword.specialists.routing import agent_for
-from guideword.specialists.run import JOB_FOR_LEVEL, BatchOutcome, apply_batch, run_batch
+from guideword.specialists.run import (
+    JOB_FOR_LEVEL,
+    BatchOutcome,
+    apply_batch,
+    batch_slice_usd,
+    prepare_batch,
+    run_batch,
+)
 from guideword.tools.record import execute_tool
 
 log = get_logger(__name__)
+REFUSED_AT_ADMISSION = "refused at admission"
 
 JOB = "orchestrator"
 ASK = "Choose the next step: call exactly one tool."
@@ -328,32 +336,80 @@ class OrchestratorStepper:
             0,
             caps.ai_questions_per_run - sum(1 for q in questions if q.kind.value == "added_by_ai"),
         )
-        budget = RunBudget(run.id, writer.run.cap_spent_usd, run.spend_cap_usd - reserve.usd)
+        # R13 as amended: every batch is prepared and priced from its request alone, then
+        # admitted in batch order against the cap spent before this dispatch; each admitted
+        # batch runs on its own slice, so no refusal depends on thread timing
+        spend_limit = run.spend_cap_usd - reserve.usd
+        before = writer.run.cap_spent_usd
+        prepared = [
+            prepare_batch(
+                self.gateway,
+                plant=self.plant,
+                ref=self.ref,
+                config=self.config,
+                sections=sections,
+                questions=group,
+                agent=agent,
+                ai_remaining=ai_left,
+                level=args.level,
+            )
+            for group in groups
+        ]
+        slices = [
+            0.0 if isinstance(p, BatchOutcome) else batch_slice_usd(p, self.config)
+            for p in prepared
+        ]
+        admitted: list[int] = []
+        refused_at_admission: list[dict[str, Any]] = []
+        running = before
+        for index, slice_usd in enumerate(slices):
+            if not refused_at_admission and running + slice_usd <= spend_limit:
+                admitted.append(index)
+                running += slice_usd
+            else:
+                refused_at_admission.append(
+                    {
+                        "question_ids": [q.id for q in groups[index]],
+                        "reason": REFUSED_AT_ADMISSION,
+                        "slice_usd": slice_usd,
+                    }
+                )
         existing = set(by_id)
+        made = frozenset(c.id for c in writer.model_calls())
         outcomes: list[BatchOutcome | BaseException] = []
         with ThreadPoolExecutor(max_workers=self.config.caps.concurrency[tier]) as pool:
-            futures = [
-                pool.submit(
-                    run_batch,
-                    self.gateway,
-                    plant=self.plant,
-                    ref=self.ref,
-                    config=self.config,
-                    sections=sections,
-                    questions=group,
-                    agent=agent,
-                    budget=budget,
-                    previous_step_id=step.id,
-                    ai_remaining=ai_left,
-                    existing_question_ids=existing,
-                    level=args.level,
-                    made=frozenset(c.id for c in writer.model_calls()),
+            # in batch order: a batch too large to send is already a failed outcome
+            pending: list[BatchOutcome | Future[BatchOutcome]] = []
+            for index in admitted:
+                ready = prepared[index]
+                if isinstance(ready, BatchOutcome):
+                    pending.append(ready)
+                    continue
+                pending.append(
+                    pool.submit(
+                        run_batch,
+                        self.gateway,
+                        plant=self.plant,
+                        ref=self.ref,
+                        config=self.config,
+                        sections=sections,
+                        questions=groups[index],
+                        agent=agent,
+                        budget=RunBudget(run.id, 0.0, slices[index], f"{step.id}/{index}"),
+                        previous_step_id=step.id,
+                        ai_remaining=ai_left,
+                        existing_question_ids=existing,
+                        level=args.level,
+                        made=made,
+                        prepared=ready,
+                    )
                 )
-                for group in groups
-            ]
-            for future in futures:
+            for item in pending:
+                if isinstance(item, BatchOutcome):
+                    outcomes.append(item)
+                    continue
                 try:
-                    outcomes.append(future.result())
+                    outcomes.append(item.result())
                 except BudgetRefused as refused:
                     outcomes.append(refused)
 
@@ -393,7 +449,15 @@ class OrchestratorStepper:
             "batches": len(groups),
             "dropped_ids": dropped,
             "failed_batches": failed_batches,
+            "admission": {"cap_spent_usd": before, "limit_usd": spend_limit, "slices_usd": slices},
+            "refused_at_admission": refused_at_admission,
         }
+        if refused_at_admission and refusal is None:
+            refusal = BudgetRefused(
+                f"{len(refused_at_admission)} batches refused at admission: limit "
+                f"${spend_limit:.4f}, spent ${before:.4f} before the dispatch",
+                RunStatus.STOPPED_CAP,
+            )
         writer.emit(EventType.DISPATCH, payload)
         lines, _ = coverage(list(sections.values()), writer.questions(), writer.findings())
         writer.emit(EventType.COVERAGE_UPDATED, {"lines": [line.model_dump() for line in lines]})

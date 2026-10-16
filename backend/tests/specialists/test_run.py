@@ -11,6 +11,7 @@ import pytest
 
 from guideword.config import Config, load_config
 from guideword.gateway.client import Gateway, RunBudget
+from guideword.gateway.estimate import estimate_cost
 from guideword.gateway.fake import FakeTransport, fake_gateway, reply
 from guideword.gateway.transport import ToolCallRequest
 from guideword.questions.build import build_questions
@@ -431,3 +432,76 @@ def test_the_request_lists_only_causes_the_context_can_support(
     types = {c.id: c.failing_component_type for c in ref.causes}
     assert sent == {c for c in valid if can_fail_as(types[c], context, plant)}
     assert "C10" not in sent and "C01" in sent
+
+
+# --- R13 as amended: per-batch slices ---------------------------------------------------------
+
+
+def test_the_slice_is_the_worst_case_of_the_batch_from_its_request_alone(
+    build: Any, world: Any, ref: ReferenceSet, config: Config
+) -> None:
+    """Answer plus one validation retry (tool agents also every allowed tool request), each at
+    the agreed estimate with max_tokens, later calls re-sending the earlier output."""
+    from guideword.specialists.run import batch_slice_usd, prepare_batch  # noqa: PLC0415
+
+    gateway, transport = build(lambda job, r: answers(batch_ids(r)))
+    plant, sections, questions = world
+    batch = [questions[q] for q in MX]
+    prepared = prepare_batch(
+        gateway,
+        plant=plant,
+        ref=ref,
+        config=config,
+        sections=sections,
+        questions=batch,
+        agent=Agent.PROCESS,
+        ai_remaining=20,
+        level="bulk",
+    )
+    assert not isinstance(prepared, BatchOutcome)
+    max_tokens = config.caps.run.max_tokens["specialist_bulk"]
+    prices = config.models.tiers[Tier.LIGHTNING]
+    first = estimate_cost(prices, prepared.conversation, None, max_tokens)
+    retry_input = first.input_tokens + max_tokens
+    retry = (
+        retry_input * prices.input_usd_per_1m + max_tokens * prices.output_usd_per_1m
+    ) / 1_000_000
+    assert batch_slice_usd(prepared, config) == pytest.approx(first.cost_usd + retry)
+    assert transport.sent == []  # computed from the request, nothing sent
+
+
+def test_a_batch_that_uses_up_its_slice_fails_without_stopping_the_run(
+    build: Any, world: Any, ref: ReferenceSet, config: Config
+) -> None:
+    gateway, transport = build(lambda job, r: reply("not the schema"))
+    plant, sections, questions = world
+    max_tokens = config.caps.run.max_tokens["specialist_bulk"]
+    prices = config.models.tiers[Tier.LIGHTNING]
+    # room for the first call only: the validation retry is refused by the slice
+    from guideword.specialists.run import prepare_batch  # noqa: PLC0415
+
+    prepared = prepare_batch(
+        gateway,
+        plant=plant,
+        ref=ref,
+        config=config,
+        sections=sections,
+        questions=[questions[q] for q in MX],
+        agent=Agent.PROCESS,
+        ai_remaining=20,
+        level="bulk",
+    )
+    assert not isinstance(prepared, BatchOutcome)
+    # exactly the first call: the retry, which re-sends the answer and the error, cannot fit
+    limit = estimate_cost(prices, prepared.conversation, None, max_tokens).cost_usd
+    out = _run(
+        gateway,
+        world,
+        ref,
+        config,
+        Agent.PROCESS,
+        MX,
+        budget=RunBudget(RUN, 0.0, limit, slice_id="b0"),
+    )
+    assert out.status == "failed" and "slice" in (out.error or "")
+    assert len(transport.sent) == 1

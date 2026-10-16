@@ -582,3 +582,36 @@ def test_a_request_already_made_in_the_run_is_refused_before_cache_or_send(
     # a different request in the same run goes through
     other = _call(gateway, run=run, made=made, messages=[{"role": "user", "content": "Other?"}])
     assert other.outcome == "ok"
+
+
+def test_holds_of_another_slice_do_not_count(build: Build) -> None:
+    """R13 as amended: a batch checks only against its own slice, so another batch's call in
+    flight never decides whether this one is refused."""
+    release = threading.Event()
+    started = threading.Event()
+
+    def slow(job: str, request: dict[str, Any]) -> Any:
+        started.set()
+        release.wait(5)
+        return reply({"verdict": "yes", "reason": "r"})
+
+    gateway, _ = build(slow)
+    request_settings = gateway.config.models.tiers[Tier.LIGHTNING]
+    max_tokens = gateway.config.caps.run.max_tokens["specialist_bulk"]
+    limit = 1.5 * estimate_cost(request_settings, MESSAGES, None, max_tokens).cost_usd
+    errors: list[BaseException] = []
+
+    def first() -> None:
+        try:
+            _call(gateway, run=RunBudget("run:test", 0.0, limit, slice_id="a"))
+        except BaseException as error:  # noqa: BLE001 - collected for the assert
+            errors.append(error)
+
+    thread = threading.Thread(target=first)
+    thread.start()
+    assert started.wait(5)
+    other = [{"role": "user", "content": "Is grass green? Answer yes or no."}]
+    release.set()
+    result = _call(gateway, run=RunBudget("run:test", 0.0, limit, slice_id="b"), messages=other)
+    thread.join(5)
+    assert result.outcome == "ok" and errors == []
