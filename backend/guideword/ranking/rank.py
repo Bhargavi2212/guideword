@@ -1,7 +1,8 @@
 """The risk-matrix ranking (spec 2.6; plan R11, R28): code only, computed on demand.
 
 Rated findings come first: by rating (very_high to low), then severity (S5 to S1), then
-initiating frequency (higher first), then finding ID. Unrated findings follow in the same
+initiating frequency (higher first), then protection (inadequate or unknown before adequate,
+added after case G run 1), then finding ID. Unrated findings follow in the same
 order without the rating, each saying what is missing. Nothing is stored; the same findings
 always give the same list.
 
@@ -17,7 +18,7 @@ from guideword.config import CapsConfig
 from guideword.ranking.likelihood import Likelihood, likelihood
 from guideword.reference import ReferenceSet
 from guideword.schema import ids
-from guideword.schema.enums import Confidence, RiskRating, SeverityClass, Tier
+from guideword.schema.enums import Adequacy, Confidence, RiskRating, SeverityClass, Tier
 from guideword.schema.plant import Plant
 from guideword.schema.records import OUTSIDE_LIBRARY, Finding
 
@@ -72,12 +73,14 @@ def fold(ranked: Sequence[RankedFinding]) -> list[FoldedLine]:
 
 def _key(
     finding: Finding, found: Likelihood, rating: RiskRating | None
-) -> tuple[int, int, float, str]:
+) -> tuple[int, int, float, int, str]:
     rating_pos = RATING_ORDER.index(rating) if rating is not None else len(RATING_ORDER)
     severity = finding.severity_class
     severity_pos = SEVERITY_ORDER.index(severity) if severity is not None else len(SEVERITY_ORDER)
     frequency = found.frequency_per_year if found.frequency_per_year is not None else -1.0
-    return (rating_pos, severity_pos, -frequency, finding.id)
+    # spec 2.6 as amended after case G run 1: weaker protection first, before the ID
+    protection = 1 if finding.adequacy == Adequacy.ADEQUATE else 0
+    return (rating_pos, severity_pos, -frequency, protection, finding.id)
 
 
 def rank_findings(

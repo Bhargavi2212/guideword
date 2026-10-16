@@ -275,3 +275,24 @@ def test_fold_compares_outside_library_text_after_normalising(
     c = _finding("m:S-MX-1:less:flow", cause_text="roof leak", **outside)  # type: ignore[arg-type]
     lines = fold(rank_findings([a, b, c], _plant(), ref, config.caps))
     assert len(lines) == 2
+
+
+def test_equal_rating_severity_and_frequency_rank_weaker_protection_first(
+    ref: ReferenceSet, config: Config
+) -> None:
+    """Spec 2.6 as amended after case G run 1: before the finding ID, findings whose protection
+    is inadequate or unknown rank above those judged adequate (fewer working layers, more
+    risk). Inadequate and unknown are equal; the ID breaks that tie."""
+    plant = _plant()
+
+    def with_adequacy(question: str, adequacy: Adequacy) -> Finding:
+        return _finding(question).model_copy(update={"adequacy": adequacy})
+
+    # its ID sorts first, so only the protection key can rank it last
+    adequate = with_adequacy("m:S-MX-1:as_well_as:composition", Adequacy.ADEQUATE)
+    unknown = with_adequacy("m:S-MX-1:less:pressure", Adequacy.UNKNOWN)
+    inadequate = with_adequacy("m:S-MX-1:less:temperature", Adequacy.INADEQUATE)
+    found = rank_findings([adequate, unknown, inadequate], plant, ref, config.caps)
+    order = [r.finding.id for r in found]
+    assert order[-1] == adequate.id
+    assert order[:2] == sorted([unknown.id, inadequate.id])

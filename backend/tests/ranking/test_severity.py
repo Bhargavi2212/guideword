@@ -459,3 +459,106 @@ def test_an_unrated_finding_of_a_rated_scenario_is_copied_without_a_call(world: 
     assert copied.severity_reason == f"same scenario as {rated.id}: {rated.severity_reason}"[:300]
     section_of = {q.id: q.section_id for q in world.runs.questions(run.id)}
     assert scenario_key(copied, section_of) == scenario_key(rated, section_of)
+
+
+# --- R49: severity sees the evidence code holds -----------------------------------------------
+
+
+def _evidence_for(world: World, finding: Any) -> dict[str, Any]:
+    from guideword.gateway.prompts import load_prompt  # noqa: PLC0415
+    from guideword.ranking.severity import severity_messages  # noqa: PLC0415
+
+    run_questions = {q.id: q for q in world.runs.questions(world.last_run)}
+    messages = severity_messages(
+        load_prompt("severity", world.config), [finding], run_questions, world.ref, world.plant
+    )
+    match = re.search(r"<findings>\s*(.*?)\s*</findings>", messages[0]["content"], re.S)
+    assert match is not None
+    [sent] = json.loads(match.group(1))
+    evidence: dict[str, Any] = sent["evidence"]
+    return evidence
+
+
+@pytest.fixture
+def rated_world(world: World) -> World:
+    run = world.start()
+    steppers, _ = world.steppers()
+    world.run(run, steppers)
+    world.last_run = run.id  # type: ignore[attr-defined]
+    return world
+
+
+def _a_finding(world: World, question_id: str) -> Any:
+    base = world.runs.findings(world.last_run)[0]  # type: ignore[attr-defined]
+    return base.model_copy(update={"question_id": question_id})
+
+
+def test_a_pair_finding_carries_the_chart_result_for_its_two_chemicals(rated_world: World) -> None:
+    from guideword.tools.reactivity import reactivity_lookup  # noqa: PLC0415
+
+    pair = next(
+        q.id for q in rated_world.runs.questions(rated_world.last_run) if q.id.startswith("pair:")
+    )  # type: ignore[attr-defined]
+    _, a, b = pair.split(":")
+    evidence = _evidence_for(rated_world, _a_finding(rated_world, pair))
+    chart = reactivity_lookup(rated_world.plant, rated_world.ref, a, b)
+    assert [p["status"] for p in evidence["reactivity"]["pairs"]] == [
+        p["status"] for p in chart["pairs"]
+    ]
+    assert [p["codes"] for p in evidence["reactivity"]["pairs"]] == [
+        p["codes"] for p in chart["pairs"]
+    ]
+
+
+def test_a_not_listed_pair_says_not_listed(rated_world: World) -> None:
+    """Two chemicals whose groups have no chart row: the evidence says not_listed, never safe."""
+    ref = rated_world.ref
+    groups = [g.epa_group_id for g in ref.reactive_groups if not g.do_not_mix]
+    free = next(
+        (a, b)
+        for a in groups
+        for b in groups
+        if a < b and ref.reactivity(a, b).status == "not_listed"
+    )
+    chemicals = [
+        c.model_copy(update={"epa_groups": [g]})
+        for c, g in zip(rated_world.plant.chemicals[:2], free, strict=True)
+    ]
+    plant = rated_world.plant.model_copy(
+        update={"chemicals": chemicals + rated_world.plant.chemicals[2:]}
+    )
+    rated_world.plant = plant
+    pair = f"pair:{chemicals[0].id}:{chemicals[1].id}"
+    evidence = _evidence_for(rated_world, _a_finding(rated_world, pair))
+    assert {p["status"] for p in evidence["reactivity"]["pairs"]} == {"not_listed"}
+
+
+def test_a_water_finding_is_looked_up_against_the_water_group(rated_world: World) -> None:
+    env = next(
+        q.id
+        for q in rated_world.runs.questions(rated_world.last_run)
+        if q.id.startswith("env:") and q.id.endswith(":water")
+    )  # type: ignore[attr-defined]
+    chemical = env.split(":")[1]
+    evidence = _evidence_for(rated_world, _a_finding(rated_world, env))
+    groups = next(c.epa_groups for c in rated_world.plant.chemicals if c.id == chemical)
+    assert [p["groups"][0] for p in evidence["reactivity"]["pairs"]] == list(groups)
+    assert all(
+        p["group_names"][1] == "Water and Mixtures Containing Water"
+        for p in evidence["reactivity"]["pairs"]
+    )
+
+
+def test_every_finding_carries_the_stored_facts_of_its_failing_components(
+    rated_world: World,
+) -> None:
+    from guideword.runs.plants import plant_facts  # noqa: PLC0415
+
+    finding = rated_world.runs.findings(rated_world.last_run)[0]  # type: ignore[attr-defined]
+    evidence = _evidence_for(rated_world, finding)
+    wanted = {
+        f.id: f.value
+        for f in plant_facts(rated_world.plant, "plant:x:0")
+        if f.id.split(".")[0] in finding.failing_component_ids
+    }
+    assert wanted and evidence["facts"] == wanted
