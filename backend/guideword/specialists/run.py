@@ -13,10 +13,16 @@ from collections.abc import Mapping, Sequence
 from dataclasses import dataclass, field
 from typing import Any, Literal
 
-from guideword.config import Config
-from guideword.gateway.client import Gateway, GatewayResult, RepeatedRequest, RunBudget
+from guideword.config import Config, TierModel
+from guideword.gateway.client import (
+    BudgetRefused,
+    Gateway,
+    GatewayResult,
+    RepeatedRequest,
+    RunBudget,
+)
 from guideword.gateway.estimate import estimate_cost
-from guideword.gateway.prompts import load_prompt, render
+from guideword.gateway.prompts import Prompt, load_prompt, render
 from guideword.logs import get_logger
 from guideword.reference import ReferenceSet
 from guideword.runs.store import StepWriter
@@ -27,6 +33,7 @@ from guideword.schema.enums import (
     QuestionKind,
     QuestionOrigin,
     QuestionStatus,
+    RunStatus,
     Tier,
 )
 from guideword.schema.plant import Plant
@@ -130,7 +137,26 @@ def _messages(
     return [{"role": "system", "content": render(body, values)}, {"role": "user", "content": ASK}]
 
 
-def run_batch(
+@dataclass(frozen=True)
+class PreparedBatch:
+    """A batch ready to send: what `run_batch` needs, built before any thread starts so a
+    dispatch can price every batch from its request alone (R13 as amended)."""
+
+    batch: list[Question]
+    agent: Agent
+    level: Level
+    job: str
+    tier: Tier
+    model_id: str
+    prices: TierModel
+    prompt: Prompt
+    tools: list[dict[str, Any]]
+    context: SpecialistContext
+    conversation: list[dict[str, Any]]
+    max_added: int
+
+
+def prepare_batch(
     gateway: Gateway,
     *,
     plant: Plant,
@@ -139,21 +165,14 @@ def run_batch(
     sections: Mapping[str, Section],
     questions: Sequence[Question],
     agent: Agent,
-    budget: RunBudget,
-    previous_step_id: str,
     ai_remaining: int,
-    existing_question_ids: set[str],
     level: Level = "bulk",
-    retry_missing: bool = True,
-    made: frozenset[str] = frozenset(),
-) -> BatchOutcome:
-    """Answer one batch. `BudgetRefused` from the gateway is not caught: it stops the run. A
-    request already made in this run (`made`, its model call IDs) is not sent: the call comes
-    back as an error, so the batch fails like any other."""
+) -> "PreparedBatch | BatchOutcome":
+    """The batch's context (fitted to the input cap, R43), cause list and messages; a batch
+    too large even with every step and job dropped comes back as a failed outcome."""
     caps = config.caps.run
     job = JOB_FOR_LEVEL[level]
     batch = list(questions)
-    outcome = BatchOutcome(agent=agent, question_ids=[q.id for q in batch])
     prompt = load_prompt(f"specialists/{agent.value}", config)
     tools = [tool_schema(t) for t in AGENT_TOOLS.get(agent, ())]
     questions_text = _questions_json(batch)
@@ -172,13 +191,98 @@ def run_batch(
         )
     except BatchTooLarge as error:
         log.warning(
-            "specialist batch too large", extra={"context": {"questions": outcome.question_ids}}
+            "specialist batch too large", extra={"context": {"questions": [q.id for q in batch]}}
         )
+        outcome = BatchOutcome(agent=agent, question_ids=[q.id for q in batch])
         return _failed(outcome, batch, str(error), caps.question_max_attempts)
-    outcome.dropped_ids = context.dropped_ids
     # offered from the context as sent: a step or job trimmed to fit no longer supports a cause
     causes_text = _causes_json(batch, sections, plant, ref, context)
     conversation = _messages(prompt.body, context, questions_text, causes_text, max_added, agent)
+    return PreparedBatch(
+        batch=batch,
+        agent=agent,
+        level=level,
+        job=job,
+        tier=resolved.tier,
+        model_id=resolved.model_id,
+        prices=prices,
+        prompt=prompt,
+        tools=tools,
+        context=context,
+        conversation=conversation,
+        max_added=max_added,
+    )
+
+
+def batch_slice_usd(prepared: PreparedBatch, config: Config) -> float:
+    """The batch's worst case, from its request alone (R13 as amended): every allowed tool
+    request (tool agents), the answer and one validation retry, each at the agreed estimate
+    with `max_tokens` as output, each later call re-sending up to `max_tokens` of earlier
+    output as input."""
+    max_tokens = config.caps.run.max_tokens[prepared.job]
+    tool_calls = config.caps.run.specialist_max_tool_steps + 1 if prepared.tools else 0
+    calls = tool_calls + 2
+    first = estimate_cost(
+        prepared.prices, prepared.conversation, prepared.tools or None, max_tokens
+    )
+    total = 0.0
+    for k in range(calls):
+        input_tokens = first.input_tokens + k * max_tokens
+        total += (
+            input_tokens * prepared.prices.input_usd_per_1m
+            + max_tokens * prepared.prices.output_usd_per_1m
+        ) / 1_000_000
+    return total
+
+
+def run_batch(
+    gateway: Gateway,
+    *,
+    plant: Plant,
+    ref: ReferenceSet,
+    config: Config,
+    sections: Mapping[str, Section],
+    questions: Sequence[Question],
+    agent: Agent,
+    budget: RunBudget,
+    previous_step_id: str,
+    ai_remaining: int,
+    existing_question_ids: set[str],
+    level: Level = "bulk",
+    retry_missing: bool = True,
+    made: frozenset[str] = frozenset(),
+    prepared: PreparedBatch | None = None,
+) -> BatchOutcome:
+    """Answer one batch. `BudgetRefused` from the gateway is not caught: it stops the run,
+    except a refusal by the batch's own slice (`budget.slice_id`), which fails the batch. A
+    request already made in this run (`made`, its model call IDs) is not sent: the call comes
+    back as an error, so the batch fails like any other."""
+    caps = config.caps.run
+    if prepared is None:
+        ready = prepare_batch(
+            gateway,
+            plant=plant,
+            ref=ref,
+            config=config,
+            sections=sections,
+            questions=questions,
+            agent=agent,
+            ai_remaining=ai_remaining,
+            level=level,
+        )
+        if isinstance(ready, BatchOutcome):
+            return ready
+        prepared = ready
+    job = prepared.job
+    batch = prepared.batch
+    outcome = BatchOutcome(agent=agent, question_ids=[q.id for q in batch])
+    prompt = prepared.prompt
+    tools = prepared.tools
+    max_added = prepared.max_added
+    context = prepared.context
+    outcome.dropped_ids = context.dropped_ids
+    conversation = list(prepared.conversation)
+    tier, model_id = prepared.tier, prepared.model_id
     spent = budget.cap_spent_usd
     step_id = previous_step_id
 
@@ -188,14 +292,21 @@ def run_batch(
             result = gateway.call(
                 job=job,
                 prompt_version=prompt.label,
-                run=RunBudget(budget.run_id, spent, budget.limit_usd),
+                run=RunBudget(budget.run_id, spent, budget.limit_usd, budget.slice_id),
                 made=made,
                 **kwargs,
             )
         except RepeatedRequest as repeated:
             log.error("repeated request refused", extra={"context": {"error": str(repeated)}})
+            return GatewayResult(outcome="error", tier=tier, model_id=model_id, error=str(repeated))
+        except BudgetRefused as refused:
+            if budget.slice_id is None or refused.status != RunStatus.STOPPED_CAP:
+                raise
             return GatewayResult(
-                outcome="error", tier=resolved.tier, model_id=resolved.model_id, error=str(repeated)
+                outcome="error",
+                tier=tier,
+                model_id=model_id,
+                error=f"the batch slice is used up: {refused}",
             )
         spent += result.cap_cost_usd
         outcome.cost_usd += result.cost_usd
@@ -278,7 +389,7 @@ def run_batch(
             sections=sections,
             plant=plant,
             ref=ref,
-            tier=resolved.tier,
+            tier=tier,
         )
 
     final = call(messages=conversation, schema=BatchAnswer, validator=validator)
@@ -324,7 +435,7 @@ def run_batch(
             sections=sections,
             questions=[question],
             agent=agent,
-            budget=RunBudget(budget.run_id, spent, budget.limit_usd),
+            budget=RunBudget(budget.run_id, spent, budget.limit_usd, budget.slice_id),
             previous_step_id=answer_step.id,
             ai_remaining=0,
             existing_question_ids=existing_question_ids,

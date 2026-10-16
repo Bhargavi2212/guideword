@@ -508,13 +508,16 @@ def finds(request: dict[str, Any]) -> Any:
 def test_the_analysis_stops_where_the_computed_severity_reserve_begins(
     tmp_path: Path, ref: ReferenceSet, config: Config
 ) -> None:
-    """The reserve is ceil(unrated / batch) severity calls at their max_tokens, worked out each
-    step from the findings so far. A first run measures what the first dispatch's findings
-    need; a second run with a cap just under that ends the analysis at the reserve."""
-    from guideword.ranking.severity import severity_reserve  # noqa: PLC0415
+    """The reserve is worked out each step from the findings so far. A first run measures one
+    small dispatch: the cap spent before it, its batch's slice and the reserve its findings
+    need. A second run with a cap just covering the first orchestrator turn and that dispatch
+    admits the dispatch, then the reserve leaves no room for the next orchestrator call."""
+    from guideword.ranking.severity import scenarios, severity_reserve  # noqa: PLC0415
+
+    chosen = ["m:S-MX-1:more:pressure", "m:S-MX-1:less:pressure"]
 
     def process(view: dict[str, Any]) -> tuple[str, dict[str, Any]]:
-        return "dispatch_specialist", {"agent": "process", "level": "bulk"}
+        return "dispatch_specialist", {"agent": "process", "level": "bulk", "question_ids": chosen}
 
     (tmp_path / "a").mkdir()
     probe = World(tmp_path / "a", ref, config)
@@ -523,22 +526,33 @@ def test_the_analysis_stops_where_the_computed_severity_reserve_begins(
     advance(probe.runs, first.id, probe.steppers(gateway))
     # with no findings yet, nothing is reserved: the view's limit is the whole cap
     assert view_of(transport.sent[0][1])["spend"]["limit_usd"] == 1.0
-    reserve = severity_reserve(
-        probe.runs.findings(first.id), probe.runs.questions(first.id), probe.plant, ref, config
-    )
-    spent = probe.runs.get(first.id).cap_spent_usd  # type: ignore[union-attr]
-    from guideword.ranking.severity import scenarios  # noqa: PLC0415
-
+    [dispatch] = _dispatch_events(probe, first)
+    admission = dispatch["admission"]
     found = probe.runs.findings(first.id)
+    reserve = severity_reserve(found, probe.runs.questions(first.id), probe.plant, ref, config)
     # R48: the reserve counts scenarios, not findings
     assert reserve.unrated == len(scenarios(found, probe.runs.questions(first.id))) > 0
 
     (tmp_path / "b").mkdir()
     world = World(tmp_path / "b", ref, config)
-    run = world.start(cap=round(spent + reserve.usd / 2, 6))
+    # the orchestrator's own call is checked at its max_tokens estimate, so the cap covers that
+    # and the dispatch's admission; the reserve the findings then need covers neither
+    from guideword.gateway.estimate import estimate_cost  # noqa: PLC0415
+    from guideword.schema.enums import Tier  # noqa: PLC0415
+
+    turn = transport.sent[0][1]
+    orchestrator = estimate_cost(
+        config.models.tiers[Tier.ULTRA], turn["messages"], turn["tools"], turn["max_tokens"]
+    ).cost_usd
+    # 10% over: this run's view shows its own (smaller) limit, so its prompt is a little longer
+    needed = 1.1 * max(orchestrator, admission["cap_spent_usd"] + sum(admission["slices_usd"]))
+    assert reserve.usd > needed
+    run = world.start(cap=round(needed, 6))
     gateway, transport = world.gateway(process, finds)
     steppers = world.steppers(gateway)
     advance(world.runs, run.id, steppers)
+    [admitted] = _dispatch_events(world, run)
+    assert admitted["refused_at_admission"] == []
     sent = len(transport.sent)
     assert advance(world.runs, run.id, steppers) == RunStatus.RUNNING
     assert len(transport.sent) == sent  # the second orchestrator call was refused, unsent
@@ -595,3 +609,72 @@ def test_naming_failed_questions_at_bulk_again_is_refused_before_any_call(world:
     # one record per model call ID: nothing was overwritten
     ids = [c.id for c in world.runs.model_calls(run.id)]
     assert len(ids) == len(set(ids))
+
+
+# --- R13 as amended: deterministic admission -------------------------------------------------
+
+
+def _dispatch_once(
+    world: World, cap: float, config: Config | None = None
+) -> tuple[Run, dict[str, Any]]:
+    run = world.start(cap=cap, config=config)
+    gateway, _ = world.gateway(
+        lambda view: ("dispatch_specialist", {"agent": "process", "level": "bulk"}),
+        finds,
+        config=config,
+    )
+    advance(world.runs, run.id, world.steppers(gateway, config=config))
+    [event] = _dispatch_events(world, run)
+    return run, event
+
+
+def test_batches_are_admitted_in_order_until_one_does_not_fit(
+    tmp_path: Path, ref: ReferenceSet, config: Config
+) -> None:
+    """Each batch's slice is set from its request; batches are admitted in batch order against
+    the cap spent before the dispatch; the first that does not fit and all after it are refused
+    at admission, recorded in order; their questions are untouched and the analysis ends."""
+    (tmp_path / "probe").mkdir()
+    _, probe = _dispatch_once(World(tmp_path / "probe", ref, config), cap=5.0)
+    admission = probe["admission"]
+    slices = admission["slices_usd"]
+    assert len(slices) > 2 and probe["refused_at_admission"] == []
+    # a cap that fits the orchestrator turn and the first two slices only
+    cap = admission["cap_spent_usd"] + slices[0] + slices[1] + slices[2] / 2
+    (tmp_path / "run").mkdir()
+    world = World(tmp_path / "run", ref, config)
+    run, event = _dispatch_once(world, cap=round(cap, 6))
+    assert event["admission"]["slices_usd"] == slices
+    refused = event["refused_at_admission"]
+    assert [r["reason"] for r in refused] == ["refused at admission"] * (len(slices) - 2)
+    assert [r["slice_usd"] for r in refused] == slices[2:]
+    untouched = {q for r in refused for q in r["question_ids"]}
+    stored = {q.id: q for q in world.runs.questions(run.id)}
+    assert untouched and all(stored[q].attempts == 0 for q in untouched)
+    assert world.runs.get(run.id).step == "severity"  # type: ignore[union-attr]
+
+
+def test_the_same_refusals_whatever_the_thread_timing(
+    tmp_path: Path, ref: ReferenceSet, config: Config
+) -> None:
+    """Concurrency is not a run input; one batch at a time or five at once, the same batches
+    are admitted and refused and the same calls recorded."""
+    (tmp_path / "probe").mkdir()
+    _, probe = _dispatch_once(World(tmp_path / "probe", ref, config), cap=5.0)
+    slices = probe["admission"]["slices_usd"]
+    cap = round(probe["admission"]["cap_spent_usd"] + sum(slices[:3]) + slices[3] / 2, 6)
+    serial = config.model_copy(
+        update={
+            "caps": config.caps.model_copy(
+                update={"concurrency": {tier: 1 for tier in config.caps.concurrency}}
+            )
+        }
+    )
+    results = []
+    for name, cfg in (("parallel", config), ("serial", serial)):
+        (tmp_path / name).mkdir()
+        world = World(tmp_path / name, ref, config)
+        run, event = _dispatch_once(world, cap=cap, config=cfg)
+        calls = sorted((c.id, c.cost_usd) for c in world.runs.model_calls(run.id))
+        results.append((event["refused_at_admission"], calls, world.runs.get(run.id).cap_spent_usd))  # type: ignore[union-attr]
+    assert results[0][0] and results[0] == results[1]
