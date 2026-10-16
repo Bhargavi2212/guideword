@@ -373,5 +373,20 @@ def test_case_d_end_to_end_on_the_fake_gateway_with_a_scripted_screen(
     assert report["5b-from-hybrid"] == report["folded"]
     priority = report["priority"]
     assert priority["linked_questions"] == len(pump_hypothesis["question_ids"])
-    assert priority["linked_answered_before_first_unlinked"] > 0
+    # acceptance (R50 review): the linked questions are answered before, or with, the first
+    # dispatch that sends an unlinked one, and that dispatch leads with them
+    linked = pump_hypothesis["question_ids"]
+    assert priority["linked_answered_before_first_unlinked"] == len(linked) > 0
+    import sqlite3  # noqa: PLC0415
+
+    with sqlite3.connect(tmp_path / "g.db") as db:
+        dispatches = [
+            json.loads(record)["payload"]
+            for (record,) in db.execute("select record from events order by seq")
+            if json.loads(record)["type"] == "dispatch"
+        ]
+    first = dispatches[0]
+    assert first["priority"] is True and first["selected_by_code"] is True
+    assert first["question_ids"][: len(linked)] == sorted(linked)
+    assert first["linked_answered"] == len(linked)
     assert "before the first unlinked dispatch" in out and "[confirmed #1]" in out
