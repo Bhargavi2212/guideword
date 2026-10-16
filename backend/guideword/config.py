@@ -93,6 +93,7 @@ class RunCaps(_Strict):
     orchestrator_view: OrchestratorView
     severity_batch_size: PositiveInt
     severity_output_tokens_estimate: PositiveInt
+    plant_screen_max_hypotheses: PositiveInt
     specialist_max_input_tokens: PositiveInt
 
 

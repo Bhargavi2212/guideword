@@ -29,6 +29,18 @@ Upload = Callable[..., str]
 LATER_PHASE_EVENTS = {EventType.CHAIN_ADDED, EventType.LOPA_DONE, EventType.EVIDENCE_ADDED}
 
 
+def past_screen(runs: RunRepository, run: Run) -> Run:
+    """Harnesses that test later steps start where runs started before R50: a new run's
+    plant_screen step is skipped (it is tested in tests/screen)."""
+    if run.step != "plant_screen":
+        return run
+    with runs.step(run.id) as writer:
+        writer.set_step("analysis")
+    moved = runs.get(run.id)
+    assert moved is not None
+    return moved
+
+
 @pytest.fixture
 def run(
     plants: PlantRepository,
@@ -37,9 +49,10 @@ def run(
     settings: RunSettings,
     upload: Upload,
 ) -> Run:
-    return start_run(
+    run = start_run(
         plants, runs, ref, settings, plant_record_id=upload(), spend_cap_usd=1.0, mode="full"
     )
+    return past_screen(runs, run)
 
 
 def _finding(run: Run, question_id: str) -> Finding:
@@ -140,7 +153,8 @@ def test_advance_after_a_crash_continues_from_the_saved_step(
 
 
 def test_steps_move_through_the_lifecycle_to_finished(runs: RunRepository, run: Run) -> None:
-    """R24: analysis, then severity, then ranked, then finished."""
+    """R24: analysis, then severity, then ranked, then finished (after the plant screen, R50,
+    which this fixture skips; `test_start` covers it as the first step)."""
     steppers: dict[str, Stepper] = {
         "analysis": lambda r, w: StepResult(next_step="severity"),
         "severity": lambda r, w: StepResult(next_step="ranked"),

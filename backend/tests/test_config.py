@@ -70,7 +70,7 @@ def test_caps(shipped: Config) -> None:
     assert run.connector_max_input_tokens == 80000
     assert shipped.caps.plant.section_suggest_cap_usd == 0.05
     # Phase 2 adds its cap (specs/phase-2.md)
-    assert shipped.caps.phase_caps_usd == {"0": 0.65, "2": 5.00}
+    assert shipped.caps.phase_caps_usd == {"0": 0.65, "2": 6.50}
 
 
 def test_phase_2_run_caps(shipped: Config) -> None:
@@ -85,6 +85,7 @@ def test_phase_2_run_caps(shipped: Config) -> None:
         "severity_reason": 12288,
         "section_suggestion": 6144,
         "test5a": 8192,
+        "plant_screen": 12288,
     }
     assert run.specialist_batch_size == {
         Tier.LIGHTNING: 5,
@@ -102,6 +103,7 @@ def test_phase_2_run_caps(shipped: Config) -> None:
     assert run.severity_batch_size == 10
     # the severity reserve prices each call at this, under the max_tokens ceiling
     assert run.severity_output_tokens_estimate == 4700
+    assert run.plant_screen_max_hypotheses == 12
     assert run.specialist_max_input_tokens == 24000
     assert shipped.caps.ranking.outside_library_default_frequency_per_year == 0.1
 
@@ -131,10 +133,11 @@ def test_tier_request_settings(shipped: Config) -> None:
 
 def test_prompt_versions_name_existing_files(shipped: Config) -> None:
     assert shipped.routing.prompts == {
-        "orchestrator": "v1",
+        "orchestrator": "v2",
         "section_suggestion": "v1",
         "severity": "v2",
         "test5a": "v1",
+        "plant_screen": "v1",
         **{
             f"specialists/{a}": "v2"
             for a in ("process", "chemistry", "piping", "procedures", "maintenance", "dust")
@@ -161,8 +164,8 @@ def test_budget_split(shipped: Config) -> None:
     assert set(uses) == set(BudgetUse)
     assert {u: uses[u].allowance_usd for u in uses} == {
         BudgetUse.DEVELOPMENT: 5.0,
-        BudgetUse.TEST_5: 4.0,
-        BudgetUse.BENCHMARK: 8.0,
+        BudgetUse.TEST_5: 5.5,
+        BudgetUse.BENCHMARK: 6.5,
         BudgetUse.VIDEO: 2.0,
         BudgetUse.DEMO_RECORDING: 1.0,
         BudgetUse.JUDGING: 3.0,
@@ -217,8 +220,8 @@ def test_use_allowances_must_sum_to_global_budget(config_dir: Path) -> None:
     _edit(
         config_dir,
         "caps.yaml",
-        r"benchmark: \{environment: laptop, allowance_usd: 8\.00\}",
-        "benchmark: {environment: laptop, allowance_usd: 9.00}",
+        r"benchmark: \{environment: laptop, allowance_usd: 6\.50\}",
+        "benchmark: {environment: laptop, allowance_usd: 7.50}",
     )
     _edit(
         config_dir,

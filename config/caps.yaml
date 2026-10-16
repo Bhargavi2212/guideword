@@ -20,6 +20,8 @@ run:
     severity_reason: 12288
     section_suggestion: 6144
     test5a: 8192
+    # the whole-plant pass (R50, plan C5)
+    plant_screen: 12288
   # questions per specialist call, by tier
   specialist_batch_size:
     # halved after case D dev run 2: Lightning answered questions twice, answered ones not in
@@ -40,6 +42,8 @@ run:
   # run 2 (median 3145, p90 4688, max 6961); max_tokens.severity_reason stays the ceiling.
   # Re-measure after case G.
   severity_output_tokens_estimate: 4700
+  # hypotheses the whole-plant pass may propose (R50); it changes the model's input
+  plant_screen_max_hypotheses: 12
   # input size of one specialist call; steps and jobs are trimmed to fit, else the batch fails (R43)
   specialist_max_input_tokens: 24000
 
@@ -50,8 +54,8 @@ plant:
 # allowance by use, each enforced in its own environment's ledger
 uses:
   development: {environment: laptop, allowance_usd: 5.00}
-  test_5: {environment: laptop, allowance_usd: 4.00}
-  benchmark: {environment: laptop, allowance_usd: 8.00}
+  test_5: {environment: laptop, allowance_usd: 5.50}
+  benchmark: {environment: laptop, allowance_usd: 6.50}
   video: {environment: laptop, allowance_usd: 2.00}
   demo_recording: {environment: hosted, allowance_usd: 1.00}
   judging: {environment: hosted, allowance_usd: 3.00}
@@ -64,7 +68,7 @@ environments:
 # live-call caps per phase; a phase with no entry may not make live calls
 phase_caps_usd:
   "0": 0.65
-  "2": 5.00
+  "2": 6.50
 
 # ranking enters Run.caps with the run block (R18). An outside-library cause whose
 # failing-component type has no library cause gets this frequency, flagged

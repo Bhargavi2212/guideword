@@ -4,6 +4,10 @@ Coverage per list and per section; the open question IDs grouped by agent (up to
 `dispatch_max_question_ids` per agent); the questions to retry at level `hard`, the failed
 and the unsure ones (up to `id_list_max`); the last few steps' one-line results; and the
 steps and spend left. Never a finding's consequence or cause text, nor the findings list.
+
+From R50 (spec 2b.3) it also holds a `priority` block: per whole-plant hypothesis, its rank,
+component IDs, cause ID, linked open question IDs and whether a finding supports it yet
+(computed here, never stored). Never the hypothesis's mechanism or consequence text.
 """
 
 from collections.abc import Mapping, Sequence
@@ -12,7 +16,16 @@ from typing import Any
 from guideword.config import RunCaps
 from guideword.questions.coverage import coverage
 from guideword.schema.enums import Agent, Confidence, QuestionStatus, Tier
-from guideword.schema.records import AgentStep, Finding, Question, Run, Section, ToolCall
+from guideword.schema.records import (
+    AgentStep,
+    Finding,
+    Hypothesis,
+    Question,
+    Run,
+    Section,
+    ToolCall,
+)
+from guideword.screen.link import support
 from guideword.specialists.routing import agent_for
 
 
@@ -40,6 +53,42 @@ def by_agent(
     return grouped
 
 
+def prioritised(ids: Sequence[str], hypotheses: Sequence[Hypothesis]) -> list[str]:
+    """Linked questions first, by the best rank linking them and then ID; then the rest in
+    ID order (spec 2b.3). Code orders; the model only asks for it."""
+    best: dict[str, int] = {}
+    for h in hypotheses:
+        for question_id in h.question_ids:
+            best[question_id] = min(best.get(question_id, h.rank), h.rank)
+    linked = sorted((q for q in ids if q in best), key=lambda q: (best[q], q))
+    return linked + sorted(q for q in ids if q not in best)
+
+
+def linked_ids(hypotheses: Sequence[Hypothesis]) -> set[str]:
+    return {q for h in hypotheses for q in h.question_ids}
+
+
+def _priority(
+    hypotheses: Sequence[Hypothesis],
+    questions: Sequence[Question],
+    findings: Sequence[Finding],
+    limit: int,
+) -> list[dict[str, Any]]:
+    open_ids = {q.id for q in questions if q.status == QuestionStatus.OPEN}
+    return [
+        {
+            "rank": h.rank,
+            "component_ids": list(h.component_ids),
+            "cause_id": h.cause_id,
+            "open_question_ids": _listing(
+                [q for q in sorted(h.question_ids) if q in open_ids], limit
+            ),
+            "supported": bool(support(h, findings, questions)),
+        }
+        for h in sorted(hypotheses, key=lambda h: (h.rank, h.id))
+    ]
+
+
 def _listing(ids: list[str], limit: int) -> dict[str, Any]:
     return {"count": len(ids), "ids": ids[:limit]}
 
@@ -64,6 +113,7 @@ def build_view(
     sections: Mapping[str, Section],
     caps: RunCaps,
     limit_usd: float,
+    hypotheses: Sequence[Hypothesis] = (),
 ) -> dict[str, Any]:
     """`limit_usd` is what the analysis may spend: the cap minus the computed severity reserve."""
     view_caps = caps.orchestrator_view
@@ -108,4 +158,5 @@ def build_view(
             "limit_usd": round(limit_usd, 6),
         },
         "unsure_reanswers_left": max(0, caps.unsure_reanswers_per_run - reanswers_used(findings)),
+        "priority": _priority(hypotheses, questions, findings, view_caps.id_list_max),
     }

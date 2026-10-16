@@ -83,13 +83,24 @@ def _print_report(report: dict[str, Any]) -> None:
     print(
         f"of {checked} questions checked: answered {checked - dismissed}, not credible {dismissed}"
     )
-    print(f"top {TOP} ranked findings, one line per cause and components (R48)")
-    for line in report["folded"][:TOP]:
-        rating = line["rating"] or f"unrated ({line['unrated_reason']})"
+    priority = report["priority"]
+    print(
+        f"{priority['linked_answered_before_first_unlinked']} of "
+        f"{priority['linked_questions']} questions linked to the whole-plant hazards answered "
+        "before the first unlinked dispatch"
+    )
+    print(f"top {TOP}: confirmed, also found, unconfirmed (R50); one line per cause (R48)")
+    for line in report["hybrid"][:TOP]:
+        if line["tier"] == "unconfirmed":
+            rating = "unconfirmed"
+        else:
+            rating = line["rating"] or f"unrated ({line.get('unrated_reason')})"
         more = f" (+{line['folded_count']} folded)" if line["folded_count"] else ""
+        hyp = f" #{line['hypothesis_rank']}" if line["hypothesis_rank"] else ""
         print(
-            f"  {line['rank']}. {rating} {line['severity_class'] or '-'} "
-            f"{line['likelihood_class'] or '-'} {line['text']} [{line['finding_id']}]{more}"
+            f"  {line['rank']}. [{line['tier']}{hyp}] {rating} {line['severity_class'] or '-'} "
+            f"{line['likelihood_class'] or '-'} {line['text']} "
+            f"[{line['finding_id'] or line['hypothesis_id']}]{more}"
         )
 
 

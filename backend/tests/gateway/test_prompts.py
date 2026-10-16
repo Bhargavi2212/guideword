@@ -132,7 +132,7 @@ def test_plant_screen_v1_treats_the_plant_as_data_and_states_the_mapping() -> No
 
 def test_orchestrator_v2_only_adds_the_priority_option() -> None:
     """Q13: v2 is v1 plus the priority block and option, nothing else."""
-    v1 = load_prompt("orchestrator", load_config(global_budget_usd=25.0)).body
+    v1 = _with("orchestrator", "v1").body
     v2 = _with("orchestrator", "v2").body
     assert "`priority`" in v2 and "`priority`" not in v1
     removed = [line for line in v1.splitlines() if line not in v2.splitlines()]

@@ -199,3 +199,69 @@ def test_the_score_reads_the_folded_lines_when_the_report_has_them(tmp_path: Pat
     ]
     path.write_text(json.dumps(report), encoding="utf-8")
     assert score_case("g", GROUPS, tmp_path)["5b"]["rank"] == 2
+
+
+# --- R50: the hybrid views (plan C3, Q10) -------------------------------------------------------
+
+
+def write_hybrid(root: Path, letter: str, status: str = "finished") -> None:
+    (root / "5b").mkdir(parents=True, exist_ok=True)
+    confirmed = {
+        **line(1, "wrong charge — hydrogen in the building", "pair:KOH:SIH", "P-CHARGE-1"),
+        "tier": "confirmed",
+        "sheet_text": "wrong charge — hydrogen in the building | finding: chlorine — dead leg",
+    }
+    also = {**line(2, "pump trips — no flow"), "tier": "also_found"}
+    also["sheet_text"] = also["text"]
+    report = {
+        "case": f"case_{letter}",
+        "status": status,
+        "spent_usd": 0.5,
+        "seconds": 90.0,
+        "ranked": [line(1, "chlorine — dead leg")],
+        "folded": [line(1, "chlorine — dead leg")],
+        "hybrid": [confirmed, also],
+        "hybrid-codeorder": [confirmed, also],
+        "5a-plant": [{**line(1, "wrong charge — hydrogen in the building"), "sheet_text": ""}],
+        "5b-from-hybrid": [line(1, "chlorine — dead leg")],
+    }
+    (root / "5b" / f"case_{letter}.json").write_text(json.dumps(report), encoding="utf-8")
+
+
+def test_scorer_reads_the_hypothesis_text_on_confirmed_lines_and_the_sheet_shows_both(
+    tmp_path: Path,
+) -> None:
+    """C3: the confirmed line's lead finding says "chlorine — dead leg", but the automatic
+    score reads only the hypothesis's own text; the hand sheet shows both."""
+    write_hybrid(tmp_path, "e")
+    scored = score_case("e", GROUPS, tmp_path)
+    assert scored["hybrid"]["bucket"] == "missed"
+    assert scored["5b-from-hybrid"]["rank"] == 1  # the pipeline-only view does match
+    assert "5b" not in scored or not scored["5b"]["scored"]
+    update_hand_sheet(tmp_path, ["e"])
+    [row] = [r for r in _rows(tmp_path) if r["config"] == "hybrid" and r["rank"] == "1"]
+    assert "| finding: chlorine — dead leg" in row["text"]
+
+
+def test_hand_sheet_rows_only_for_hybrid(tmp_path: Path) -> None:
+    write_hybrid(tmp_path, "e")
+    write_5a(tmp_path, "e", ["a hazard"])
+    update_hand_sheet(tmp_path, ["e"])
+    assert {r["config"] for r in _rows(tmp_path)} == {"hybrid", "5a"}
+
+
+def test_older_reports_still_score_as_5b(tmp_path: Path) -> None:
+    write_5b(tmp_path, "g", [line(1, "chlorine — dead leg")])
+    scored = score_case("g", GROUPS, tmp_path)
+    assert scored["5b"]["rank"] == 1
+    assert not scored["hybrid"]["scored"]
+
+
+def test_results_table_shows_the_hybrid_views(tmp_path: Path) -> None:
+    write_hybrid(tmp_path, "e")
+    scores = {"e": score_case("e", GROUPS, tmp_path)}
+    (tmp_path / SCORES).write_text(json.dumps(scores), encoding="utf-8")
+    text = render_results(tmp_path)
+    for config in ("hybrid", "hybrid-codeorder", "5a-plant", "5b-from-hybrid"):
+        assert f"| case_e | {config} |" in text, config
+    assert "| case_e | 5B |" not in text

@@ -13,12 +13,15 @@ jobs:
   not_credible: lightning
   extraction: lightning
   test5a: ultra
+  # the whole-plant pass, the first step of every run (R50)
+  plant_screen: ultra
 # prompt name -> version; a change is a new prompts/<name>/<version>.md plus this entry (R19)
 prompts:
-  orchestrator: v1
+  orchestrator: v2
   section_suggestion: v1
   severity: v2
   test5a: v1
+  plant_screen: v1
   specialists/process: v2
   specialists/chemistry: v2
   specialists/piping: v2

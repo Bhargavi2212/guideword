@@ -80,6 +80,12 @@ class FindingRow(RunRecordRow):
     __tablename__ = "findings"
 
 
+class HypothesisRow(RunRecordRow):
+    """The whole-plant pass's hypotheses (R50); written once, never updated."""
+
+    __tablename__ = "hypotheses"
+
+
 class AgentStepRow(RunRecordRow):
     __tablename__ = "agent_steps"
 
