@@ -39,7 +39,7 @@ from guideword.schema.records import (
     Section,
     ToolCall,
 )
-from guideword.specialists.causes import valid_cause_ids
+from guideword.specialists.causes import offered_cause_ids
 from guideword.specialists.context import BatchTooLarge, SpecialistContext, build_context, fit
 from guideword.specialists.schema import BatchAnswer, QuestionAnswer, check_answer, finding_id
 from guideword.tools.record import TOOLS, execute_tool
@@ -96,9 +96,14 @@ def _questions_json(questions: Sequence[Question]) -> str:
 
 
 def _causes_json(
-    questions: Sequence[Question], sections: Mapping[str, Section], plant: Plant, ref: ReferenceSet
+    questions: Sequence[Question],
+    sections: Mapping[str, Section],
+    plant: Plant,
+    ref: ReferenceSet,
+    context: SpecialistContext,
 ) -> str:
-    valid = set().union(*(valid_cause_ids(q, sections, plant, ref) for q in questions))
+    """The library causes valid for the batch that its context can support (R7, R46)."""
+    valid = offered_cause_ids(questions, sections, plant, ref, context)
     rows = [
         {"id": c.id, "cause": c.cause, "failing_component_type": c.failing_component_type}
         for c in sorted(ref.causes, key=lambda c: c.id)
@@ -152,13 +157,13 @@ def run_batch(
     prompt = load_prompt(f"specialists/{agent.value}", config)
     tools = [tool_schema(t) for t in AGENT_TOOLS.get(agent, ())]
     questions_text = _questions_json(batch)
-    causes_text = _causes_json(batch, sections, plant, ref)
     max_added = min(caps.ai_questions_per_batch, ai_remaining)
     resolved = gateway.catalog.resolve(Tier(config.routing.jobs[job]))
     prices = config.models.tiers[resolved.tier]
 
     def measure(ctx: SpecialistContext) -> int:
-        messages = _messages(prompt.body, ctx, questions_text, causes_text, max_added, agent)
+        causes = _causes_json(batch, sections, plant, ref, ctx)
+        messages = _messages(prompt.body, ctx, questions_text, causes, max_added, agent)
         return estimate_cost(prices, messages, tools, 0).input_tokens
 
     try:
@@ -171,6 +176,8 @@ def run_batch(
         )
         return _failed(outcome, batch, str(error), caps.question_max_attempts)
     outcome.dropped_ids = context.dropped_ids
+    # offered from the context as sent: a step or job trimmed to fit no longer supports a cause
+    causes_text = _causes_json(batch, sections, plant, ref, context)
     conversation = _messages(prompt.body, context, questions_text, causes_text, max_added, agent)
     spent = budget.cap_spent_usd
     step_id = previous_step_id

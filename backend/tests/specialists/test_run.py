@@ -407,3 +407,27 @@ def test_batch_over_the_cap_fails_without_a_call(
     assert "specialist_max_input_tokens" in (out.error or "")
     assert transport.sent == []
     assert out.questions[0].attempts == 1
+
+
+def test_the_request_lists_only_causes_the_context_can_support(
+    build: Any, world: Any, ref: ReferenceSet, config: Config
+) -> None:
+    """R46: the causes sent are those valid for the batch whose type fits an ID in its context."""
+    import re  # noqa: PLC0415
+
+    from guideword.specialists.causes import can_fail_as, valid_cause_ids  # noqa: PLC0415
+    from guideword.specialists.context import build_context  # noqa: PLC0415
+
+    gateway, transport = build(lambda job, r: answers(batch_ids(r)))
+    _run(gateway, world, ref, config, Agent.PROCESS, MX)
+    text = transport.sent[0][1]["messages"][0]["content"]
+    match = re.search(r"<causes>\s*(.*?)\s*</causes>", text, re.S)
+    assert match is not None
+    sent = {c["id"] for c in json.loads(match.group(1))}
+    plant, sections, questions = world
+    batch = [questions[q] for q in MX]
+    context = build_context(Agent.PROCESS, plant, sections, batch)
+    valid = set().union(*(valid_cause_ids(q, sections, plant, ref) for q in batch))
+    types = {c.id: c.failing_component_type for c in ref.causes}
+    assert sent == {c for c in valid if can_fail_as(types[c], context, plant)}
+    assert "C10" not in sent and "C01" in sent
