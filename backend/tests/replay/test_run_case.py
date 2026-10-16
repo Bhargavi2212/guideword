@@ -303,3 +303,75 @@ def test_a_supported_screen_hypothesis_heads_the_list_as_confirmed(
     assert first["support_finding_ids"]
     assert result["5a-plant"][0]["text"] == first["text"]
     assert "confirmed" in out
+
+
+def test_case_d_end_to_end_on_the_fake_gateway_with_a_scripted_screen(
+    tmp_path: Path, config: Config, script_factory: Any, capsys: pytest.CaptureFixture[str]
+) -> None:
+    """The $0 check before the G2b runs (R50): plant_screen → analysis → severity → ranked on
+    case D's plant file, with priority dispatch. The scripted screen is generic, built from
+    the plant file's own lists (every location; the first pump), and encodes no cause of
+    case D: one hypothesis matches what the fake specialists find, one does not."""
+    case_d = REPO / "cases" / "dev" / "case_d.json"
+    plant = json.loads(case_d.read_text(encoding="utf-8"))
+    pump = next(e["id"] for e in plant["equipment"] if e["type"] == "pump")
+    screen = [
+        {
+            "rank": 1,
+            "mechanism": "something outside hits the plant",
+            "component_ids": [loc["id"] for loc in plant["locations"]],
+            "chemical_ids": [],
+            "failing_component_type": "external",
+            "cause_id": "outside_library",
+            "cause_text": "something outside",
+            "consequence": "a release",
+            "reason": "test",
+        },
+        {
+            "rank": 2,
+            "mechanism": "a pump stops",
+            "component_ids": [pump],
+            "chemical_ids": [],
+            "failing_component_type": "pump",
+            "cause_id": "outside_library",
+            "cause_text": "a pump stops",
+            "consequence": "a loss of flow",
+            "reason": "test",
+        },
+    ]
+    transport = FakeTransport(
+        script_factory(screen_hypotheses=screen, priority=True), catalog_for(config)
+    )
+    code = run_case.main(
+        [str(case_d), "--cap", "1.20"],
+        transport=transport,
+        config=config,
+        settings=Settings(
+            _env_file=None,  # type: ignore[call-arg]
+            database_url=f"sqlite:///{(tmp_path / 'g.db').as_posix()}",
+        ),
+        ledger=LaptopLedger(tmp_path / "l.jsonl"),
+        clock=lambda: NOW,
+        out_dir=tmp_path / "5b",
+    )
+    out = capsys.readouterr().out
+    report = json.loads((tmp_path / "5b" / "case_d.json").read_text(encoding="utf-8"))
+    assert code == 0 and report["status"] == "finished"
+    assert report["cap_spent_usd"] <= 1.20 and report["open_questions"] == 0
+    assert [job for job, _ in transport.sent][0] == "plant_screen"
+    assert [h["rank"] for h in report["hypotheses"]] == [1, 2]
+    pump_hypothesis = report["hypotheses"][1]
+    assert pump_hypothesis["question_ids"], "the pump hypothesis links no question"
+    tiers = [line["tier"] for line in report["hybrid"]]
+    assert tiers[0] == "confirmed" and tiers[-1] == "unconfirmed"
+    # every fake finding is the outside cause on a location, so all support rank 1
+    order = ["confirmed", "also_found", "unconfirmed"]
+    assert tiers == sorted(tiers, key=order.index)
+    assert len(report["hybrid"][0]["support_finding_ids"]) == len(report["ranked"])
+    assert report["hybrid"][-1]["flag"] == "not confirmed by the checks — engineer to review"
+    assert [line["rank"] for line in report["5a-plant"]] == [1, 2]
+    assert report["5b-from-hybrid"] == report["folded"]
+    priority = report["priority"]
+    assert priority["linked_questions"] == len(pump_hypothesis["question_ids"])
+    assert priority["linked_answered_before_first_unlinked"] > 0
+    assert "before the first unlinked dispatch" in out and "[confirmed #1]" in out

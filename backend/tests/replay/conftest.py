@@ -101,9 +101,12 @@ def make_script(
     not_credible_every: int = 0,
     specialist_tokens: tuple[int | None, int] = (100, 50),
     screen_hypotheses: list[dict[str, Any]] | None = None,
+    priority: bool = False,
 ) -> Script:
     """`secret` puts that text into every severity reply (to test the export's key check);
-    `not_credible_every` dismisses every n-th question of a batch as not credible."""
+    `not_credible_every` dismisses every n-th question of a batch as not credible;
+    `priority` makes every dispatch ask for the linked questions first, taking the agents
+    that hold some first (spec 2b.3)."""
 
     def script(job: str, request: dict[str, Any]) -> Reply:
         if job == "plant_screen":
@@ -111,10 +114,22 @@ def make_script(
         if job == "orchestrator":
             view = block(request, "view")
             agents = sorted(view["open"])
+            if priority:
+                # as prompt v2 asks: agents holding questions linked to the hazards go first.
+                # The open lists are cut, so a model reads the agent from the kind of question;
+                # here, from the ID's kind prefix (`m`, `pair`, `nf` ...)
+                kinds = {
+                    q.split(":")[0] for h in view["priority"] for q in h["open_question_ids"]["ids"]
+                }
+                agents.sort(
+                    key=lambda a: not kinds & {q.split(":")[0] for q in view["open"][a]["ids"]}
+                )
             if agents:
                 retry = view["retry_at_hard"].get(agents[0], {"count": 0})["count"]
                 level = "bulk" if view["open"][agents[0]]["count"] > retry else "hard"
                 name, args = "dispatch_specialist", {"agent": agents[0], "level": level}
+                if priority:
+                    args["priority"] = True
             else:
                 name, args = "finish", {}
             call = ToolCallRequest("t", name, json.dumps({"reason": "go", **args}))
