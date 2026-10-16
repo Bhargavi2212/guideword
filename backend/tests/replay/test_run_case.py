@@ -152,3 +152,21 @@ def test_an_invalid_plant_file_is_refused_without_a_call(
     assert code == 1
     assert transport.sent == []
     assert "NOWHERE" in capsys.readouterr().err
+
+
+def test_not_credible_is_counted_apart_from_answered(
+    case: Case, capsys: pytest.CaptureFixture[str], script_factory: Any
+) -> None:
+    """Coverage counts not credible as checked; the summary shows how many were dismissed, so a
+    checked count never hides them."""
+    case.run(script_factory(not_credible_every=3))
+    out = capsys.readouterr().out
+    result = case.written()
+    by_list = {line["list"]: line for line in result["not_credible"]}
+    total = sum(line["not_credible"] for line in result["not_credible"])
+    assert total > 0
+    assert (
+        by_list["matrix"]["answered"] + by_list["matrix"]["not_credible"]
+        <= by_list["matrix"]["checked"]
+    )
+    assert f"not credible {total}" in out

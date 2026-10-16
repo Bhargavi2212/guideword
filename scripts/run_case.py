@@ -78,6 +78,11 @@ def _print_report(report: dict[str, Any]) -> None:
             f"  {line['list']:<16} {line['checked']:>4} / {line['total']:<4} "
             f"unsure {line['unsure']:<3} failed {line['failed']}"
         )
+    dismissed = sum(line["not_credible"] for line in report["not_credible"])
+    checked = sum(line["checked"] for line in report["not_credible"])
+    print(
+        f"of {checked} questions checked: answered {checked - dismissed}, not credible {dismissed}"
+    )
     print(f"top {TOP} ranked findings")
     for line in report["ranked"][:TOP]:
         rating = line["rating"] or f"unrated ({line['unrated_reason']})"
