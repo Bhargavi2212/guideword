@@ -43,6 +43,24 @@ ASK = "Name the hazards to put in front of the HAZOP team first, in the required
 log = get_logger(__name__)
 
 
+class PlantNotSent(RuntimeError):
+    """The rendered request does not carry the whole plant: a code bug, never sent."""
+
+
+def check_plant_sent(messages: list[dict[str, Any]], plant: Plant) -> None:
+    """Guard (R50 review): one <plant> block holding every equipment and line ID, before any
+    paid call."""
+    system = str(messages[0]["content"])
+    if system.count("<plant>") != 1 or system.count("</plant>") != 1:
+        raise PlantNotSent("the request has no single <plant> block")
+    block = system.split("<plant>")[1].split("</plant>")[0]
+    missing = [
+        i for i in [e.id for e in plant.equipment] + [x.id for x in plant.lines] if i not in block
+    ]
+    if missing:
+        raise PlantNotSent(f"the <plant> block lacks {len(missing)} IDs: {', '.join(missing[:5])}")
+
+
 class PlantScreenStepper:
     def __init__(
         self, gateway: Gateway, *, config: Config, ref: ReferenceSet, plant: Plant
@@ -83,11 +101,13 @@ class PlantScreenStepper:
             if problems:
                 raise ValueError("; ".join(problems))
 
+        messages = self.messages([q.kind.value for q in questions])
+        check_plant_sent(messages, self.plant)
         try:
             result = self.gateway.call(
                 job=JOB,
                 prompt_version=self.prompt.label,
-                messages=self.messages([q.kind.value for q in questions]),
+                messages=messages,
                 schema=ScreenAnswer,
                 validator=validator,
                 run=RunBudget(run.id, writer.run.cap_spent_usd, run.spend_cap_usd),

@@ -282,3 +282,35 @@ def test_an_attempt_invalid_as_a_whole_is_never_chosen(world: World) -> None:
     second = {"hypotheses": [GOOD_1, BAD_2]}
     run_id, _ = two_attempts(world, first, second)
     assert [h.rank for h in world.runs.hypotheses(run_id)] == [1]
+
+
+def test_a_request_without_the_whole_plant_is_refused_before_any_call(
+    world: World, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """Guard (R50 review): the rendered request must hold one <plant> block with every
+    equipment and line ID; otherwise the step fails loudly and nothing is sent."""
+    from guideword.screen import step  # noqa: PLC0415
+
+    monkeypatch.setattr(step, "plant_for_screen", lambda plant: {"equipment": []})
+    with pytest.raises(step.PlantNotSent, match="P-1"):
+        world.screen({"hypotheses": [GOOD_1]})
+
+
+def test_the_guard_passes_on_every_dev_plant(
+    ref: ReferenceSet, config: Config, tmp_path: Path
+) -> None:
+    from guideword.schema.plant import Plant  # noqa: PLC0415
+    from guideword.screen.step import PlantScreenStepper, check_plant_sent  # noqa: PLC0415
+
+    gateway, _ = fake_gateway(
+        config,
+        lambda job, request: None,
+        sessions=make_session_factory(f"sqlite:///{(tmp_path / 'g.db').as_posix()}"),
+        ledger_path=tmp_path / "l.jsonl",
+        clock=lambda: NOW,
+    )
+    for letter in "defgh":
+        path = REPO / "cases" / "dev" / f"case_{letter}.json"
+        plant = Plant.model_validate(json.loads(path.read_text(encoding="utf-8")))
+        stepper = PlantScreenStepper(gateway, config=config, ref=ref, plant=plant)
+        check_plant_sent(stepper.messages(["matrix"]), plant)
