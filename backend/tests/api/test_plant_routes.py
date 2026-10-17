@@ -149,7 +149,8 @@ def test_the_1_1_routes_are_built() -> None:
 def test_no_database_is_created_until_a_plant_route_is_used(
     client: TestClient, db_path: Path
 ) -> None:
-    assert client.get("/runs").status_code == 501
+    # a route not built yet answers 501 without opening the store (runs are built in PR 10)
+    assert client.get("/runs/run:x/shortlist").status_code == 501
     assert not db_path.exists()
     client.get("/plants")
     assert db_path.exists()
