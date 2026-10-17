@@ -23,6 +23,7 @@ from guideword.config import Config, load_config
 from guideword.gateway.cache import ResponseCache
 from guideword.gateway.client import Gateway
 from guideword.gateway.ledgers import Ledger, ledger_for
+from guideword.gateway.prompts import load_prompt_file
 from guideword.gateway.transport import OpenAITransport, Transport
 from guideword.logs import configure
 from guideword.reference import ReferenceSet, load_reference_set
@@ -59,6 +60,13 @@ def _arguments(argv: Sequence[str] | None) -> argparse.Namespace:
     parser.add_argument("plant", type=Path, help="the plant file")
     parser.add_argument("--use", choices=USES, default=BudgetUse.DEVELOPMENT.value)
     parser.add_argument("--cap", type=float, required=True, help="run spend cap in USD")
+    parser.add_argument(
+        "--prompt-file", type=Path, help="diagnostic: render the screen from this prompt file"
+    )
+    parser.add_argument(
+        "--nonce",
+        help="diagnostic: put 'Request marker: <nonce>' as the system message's first line",
+    )
     return parser.parse_args(argv)
 
 
@@ -175,6 +183,9 @@ def main(
 ) -> int:
     args = _arguments(argv)
     configure()
+    if args.nonce is not None and (not args.nonce.strip() or "\n" in args.nonce):
+        print("--nonce must be one non-empty line", file=sys.stderr)
+        return 1
     if settings is None:
         settings = Settings(database_url=f"sqlite:///{DEFAULT_DB.as_posix()}")
     config = (
@@ -208,7 +219,14 @@ def main(
         phase=PHASE,
         clock=clock,
     )
-    screen = PlantScreenStepper(gateway, config=config, ref=ref, plant=record.plant_file)
+    screen = PlantScreenStepper(
+        gateway,
+        config=config,
+        ref=ref,
+        plant=record.plant_file,
+        prompt=load_prompt_file(JOB, args.prompt_file) if args.prompt_file else None,
+        preamble=f"Request marker: {args.nonce}" if args.nonce is not None else None,
+    )
     advance(runs, run.id, {JOB: screen})
     _print(summary(runs, run.id, record.plant_file, ref, screen))
     return 0

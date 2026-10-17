@@ -139,3 +139,63 @@ def test_each_attempt_is_reported_and_the_kept_one_named(
     assert "attempt kept: 1" in out
     assert "returned 3, kept 2, dropped 1" in out
     assert "NOT-AN-ID" not in out and WORDS not in out
+
+
+# --- diagnostics: --prompt-file and --nonce (R50 review) ------------------------------------
+
+
+def run_with(tmp_path: Path, config: Config, *args: str) -> tuple[int, Any]:
+    transport = FakeTransport(lambda job, request: reply({"hypotheses": []}), catalog_for(config))
+    code = screen_check.main(
+        [str(CASE_H), "--cap", "0.09", *args],
+        transport=transport,
+        config=config,
+        settings=Settings(
+            _env_file=None,  # type: ignore[call-arg]
+            database_url=f"sqlite:///{(tmp_path / 's.db').as_posix()}",
+        ),
+        ledger=LaptopLedger(tmp_path / "l.jsonl"),
+        clock=lambda: NOW,
+    )
+    return code, transport
+
+
+def system_of(transport: Any) -> str:
+    return str(transport.sent[0][1]["messages"][0]["content"])
+
+
+def test_without_the_options_the_request_is_unchanged(tmp_path: Path, config: Config) -> None:
+    _, transport = run_with(tmp_path, config)
+    assert system_of(transport).startswith("You are the first reviewer")
+
+
+def test_nonce_is_the_very_first_line_of_the_system_message(tmp_path: Path, config: Config) -> None:
+    code, transport = run_with(tmp_path, config, "--nonce", "h-check-4")
+    assert code == 0
+    first, rest = system_of(transport).split("\n", 1)
+    assert first == "Request marker: h-check-4"
+    assert rest.lstrip("\n").startswith("You are the first reviewer")
+
+
+def test_a_nonce_with_a_line_break_is_refused(tmp_path: Path, config: Config) -> None:
+    code, transport = run_with(tmp_path, config, "--nonce", "a\nb")
+    assert code == 1 and transport.sent == []
+
+
+def test_prompt_file_is_rendered_and_recorded_by_its_content(
+    tmp_path: Path, config: Config
+) -> None:
+    shipped = (REPO / "prompts" / "plant_screen" / "v3.md").read_text(encoding="utf-8")
+    alt = tmp_path / "alt.md"
+    alt.write_text(
+        shipped.replace("You are the first reviewer", "ALT-MARKER You are the first reviewer"),
+        "utf-8",
+    )
+    code, transport = run_with(tmp_path, config, "--prompt-file", str(alt))
+    assert code == 0
+    assert system_of(transport).startswith("ALT-MARKER You are the first reviewer")
+    import sqlite3  # noqa: PLC0415
+
+    with sqlite3.connect(tmp_path / "s.db") as db:
+        [(record,)] = list(db.execute("select record from model_calls"))
+    assert json.loads(record)["prompt_version"].startswith("plant_screen/file-")

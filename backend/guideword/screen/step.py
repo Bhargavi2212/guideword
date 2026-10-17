@@ -14,7 +14,7 @@ from typing import Any
 
 from guideword.config import Config
 from guideword.gateway.client import BudgetRefused, Gateway, RunBudget
-from guideword.gateway.prompts import as_data, load_prompt, render
+from guideword.gateway.prompts import Prompt, as_data, load_prompt, render
 from guideword.logs import get_logger
 from guideword.reference import ReferenceSet
 from guideword.runs.machine import StepResult, stop_for_refusal
@@ -63,13 +63,23 @@ def check_plant_sent(messages: list[dict[str, Any]], plant: Plant) -> None:
 
 class PlantScreenStepper:
     def __init__(
-        self, gateway: Gateway, *, config: Config, ref: ReferenceSet, plant: Plant
+        self,
+        gateway: Gateway,
+        *,
+        config: Config,
+        ref: ReferenceSet,
+        plant: Plant,
+        prompt: Prompt | None = None,
+        preamble: str | None = None,
     ) -> None:
+        """`prompt` and `preamble` are for diagnostics only (scripts/screen_check.py): another
+        prompt file, and a first line put above the system message."""
         self.gateway = gateway
         self.config = config
         self.ref = ref
         self.plant = plant
-        self.prompt = load_prompt(JOB, config)
+        self.prompt = prompt if prompt is not None else load_prompt(JOB, config)
+        self.preamble = preamble
         self.max_hypotheses = config.caps.run.plant_screen_max_hypotheses
         # every parsed attempt of the last call, and which was kept (for scripts/screen_check)
         self.attempts: list[ScreenAnswer] = []
@@ -88,6 +98,8 @@ class PlantScreenStepper:
                 "max_hypotheses": str(self.max_hypotheses),
             },
         )
+        if self.preamble is not None:
+            system = f"{self.preamble}\n\n{system}"
         return [{"role": "system", "content": system}, {"role": "user", "content": ASK}]
 
     def __call__(self, run: Run, writer: StepWriter) -> StepResult:
