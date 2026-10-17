@@ -8,12 +8,11 @@ their question links (2b.2), and the run moves on to the analysis. With none lef
 goes on without hypotheses. A cap refusal stops the run like any other.
 """
 
-import json
 from typing import Any
 
 from guideword.config import Config
 from guideword.gateway.client import BudgetRefused, Gateway, RunBudget
-from guideword.gateway.prompts import load_prompt, render
+from guideword.gateway.prompts import as_data, load_prompt, render
 from guideword.logs import get_logger
 from guideword.reference import ReferenceSet
 from guideword.runs.machine import StepResult, stop_for_refusal
@@ -56,8 +55,9 @@ class PlantScreenStepper:
         system = render(
             self.prompt.body,
             {
-                "plant": json.dumps(plant_for_screen(self.plant), indent=1, ensure_ascii=False),
-                "causes": json.dumps(screen_causes(self.plant, self.ref), indent=1),
+                # as data: a note cannot close the <plant> block (CLAUDE.md §3)
+                "plant": as_data(plant_for_screen(self.plant)),
+                "causes": as_data(screen_causes(self.plant, self.ref)),
                 "question_kinds": question_kinds(kinds),
                 "max_hypotheses": str(self.max_hypotheses),
             },

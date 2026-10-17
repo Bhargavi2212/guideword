@@ -6,7 +6,7 @@ and the unsure ones (up to `id_list_max`); the last few steps' one-line results;
 steps and spend left. Never a finding's consequence or cause text, nor the findings list.
 
 From R50 (spec 2b.3) it also holds a `priority` block: per whole-plant hypothesis, its rank,
-component IDs, cause ID, linked open question IDs and whether a finding supports it yet
+component IDs, cause ID, linked open question IDs (by agent) and whether a finding supports it yet
 (computed here, never stored). Never the hypothesis's mechanism or consequence text.
 """
 
@@ -72,17 +72,23 @@ def _priority(
     hypotheses: Sequence[Hypothesis],
     questions: Sequence[Question],
     findings: Sequence[Finding],
+    sections: Mapping[str, Section],
     limit: int,
 ) -> list[dict[str, Any]]:
-    open_ids = {q.id for q in questions if q.status == QuestionStatus.OPEN}
+    """The linked open questions are grouped by the agent that answers them (R50 review), so
+    the model reads which agent to dispatch instead of guessing it from the ID."""
+    open_q = [q for q in questions if q.status == QuestionStatus.OPEN]
     return [
         {
             "rank": h.rank,
             "component_ids": list(h.component_ids),
             "cause_id": h.cause_id,
-            "open_question_ids": _listing(
-                [q for q in sorted(h.question_ids) if q in open_ids], limit
-            ),
+            "open_question_ids": {
+                agent.value: _listing(ids, limit)
+                for agent, ids in sorted(
+                    by_agent([q for q in open_q if q.id in set(h.question_ids)], sections).items()
+                )
+            },
             "supported": bool(support(h, findings, questions)),
         }
         for h in sorted(hypotheses, key=lambda h: (h.rank, h.id))
@@ -158,5 +164,5 @@ def build_view(
             "limit_usd": round(limit_usd, 6),
         },
         "unsure_reanswers_left": max(0, caps.unsure_reanswers_per_run - reanswers_used(findings)),
-        "priority": _priority(hypotheses, questions, findings, view_caps.id_list_max),
+        "priority": _priority(hypotheses, questions, findings, sections, view_caps.id_list_max),
     }

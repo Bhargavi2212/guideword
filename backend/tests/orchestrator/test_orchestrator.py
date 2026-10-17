@@ -821,7 +821,8 @@ def test_view_priority_block_has_no_mechanism_or_consequence_text(world: World) 
     assert [p["rank"] for p in view["priority"]] == [1, 2]
     first = view["priority"][0]
     assert set(first) == {"rank", "component_ids", "cause_id", "open_question_ids", "supported"}
-    assert first["open_question_ids"] == {"count": 1, "ids": [process[-1]]}
+    # grouped by the agent that answers them, so the model need not guess it
+    assert first["open_question_ids"] == {"process": {"count": 1, "ids": [process[-1]]}}
     assert first["component_ids"] == ["MX-1"] and first["cause_id"] == "C01"
     assert first["supported"] is False
     text = json.dumps(request)

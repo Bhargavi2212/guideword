@@ -22,7 +22,7 @@ from guideword.gateway.client import (
     RunBudget,
 )
 from guideword.gateway.estimate import estimate_cost
-from guideword.gateway.prompts import Prompt, load_prompt, render
+from guideword.gateway.prompts import Prompt, as_data, load_prompt, render
 from guideword.logs import get_logger
 from guideword.reference import ReferenceSet
 from guideword.runs.store import StepWriter
@@ -96,19 +96,17 @@ def tool_schema(name: str) -> dict[str, Any]:
     }
 
 
-def _questions_json(questions: Sequence[Question]) -> str:
-    return json.dumps(
-        [{"id": q.id, "text": q.text, "section_id": q.section_id} for q in questions], indent=1
-    )
+def _question_rows(questions: Sequence[Question]) -> list[dict[str, Any]]:
+    return [{"id": q.id, "text": q.text, "section_id": q.section_id} for q in questions]
 
 
-def _causes_json(
+def _cause_rows(
     questions: Sequence[Question],
     sections: Mapping[str, Section],
     plant: Plant,
     ref: ReferenceSet,
     context: SpecialistContext,
-) -> str:
+) -> list[dict[str, Any]]:
     """The library causes valid for the batch that its context can support (R7, R46)."""
     valid = offered_cause_ids(questions, sections, plant, ref, context)
     rows = [
@@ -116,21 +114,22 @@ def _causes_json(
         for c in sorted(ref.causes, key=lambda c: c.id)
         if c.id in valid
     ]
-    return json.dumps(rows, indent=1)
+    return rows
 
 
 def _messages(
     body: str,
     context: SpecialistContext,
-    questions: str,
-    causes: str,
+    questions: list[dict[str, Any]],
+    causes: list[dict[str, Any]],
     max_added: int,
     agent: Agent,
 ) -> list[dict[str, Any]]:
+    # as data: plant notes, step text and added questions cannot close a block (CLAUDE.md §3)
     values = {
-        "context": json.dumps(context.data, indent=1, ensure_ascii=False),
-        "questions": questions,
-        "causes": causes,
+        "context": as_data(context.data),
+        "questions": as_data(questions),
+        "causes": as_data(causes),
     }
     if agent != Agent.CHEMISTRY:
         values["max_added_questions"] = str(max_added)
@@ -175,14 +174,14 @@ def prepare_batch(
     batch = list(questions)
     prompt = load_prompt(f"specialists/{agent.value}", config)
     tools = [tool_schema(t) for t in AGENT_TOOLS.get(agent, ())]
-    questions_text = _questions_json(batch)
+    question_rows = _question_rows(batch)
     max_added = min(caps.ai_questions_per_batch, ai_remaining)
     resolved = gateway.catalog.resolve(Tier(config.routing.jobs[job]))
     prices = config.models.tiers[resolved.tier]
 
     def measure(ctx: SpecialistContext) -> int:
-        causes = _causes_json(batch, sections, plant, ref, ctx)
-        messages = _messages(prompt.body, ctx, questions_text, causes, max_added, agent)
+        causes = _cause_rows(batch, sections, plant, ref, ctx)
+        messages = _messages(prompt.body, ctx, question_rows, causes, max_added, agent)
         return estimate_cost(prices, messages, tools, 0).input_tokens
 
     try:
@@ -196,8 +195,8 @@ def prepare_batch(
         outcome = BatchOutcome(agent=agent, question_ids=[q.id for q in batch])
         return _failed(outcome, batch, str(error), caps.question_max_attempts)
     # offered from the context as sent: a step or job trimmed to fit no longer supports a cause
-    causes_text = _causes_json(batch, sections, plant, ref, context)
-    conversation = _messages(prompt.body, context, questions_text, causes_text, max_added, agent)
+    cause_rows = _cause_rows(batch, sections, plant, ref, context)
+    conversation = _messages(prompt.body, context, question_rows, cause_rows, max_added, agent)
     return PreparedBatch(
         batch=batch,
         agent=agent,

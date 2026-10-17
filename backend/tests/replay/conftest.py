@@ -115,15 +115,10 @@ def make_script(
             view = block(request, "view")
             agents = sorted(view["open"])
             if priority:
-                # as prompt v2 asks: agents holding questions linked to the hazards go first.
-                # The open lists are cut, so a model reads the agent from the kind of question;
-                # here, from the ID's kind prefix (`m`, `pair`, `nf` ...)
-                kinds = {
-                    q.split(":")[0] for h in view["priority"] for q in h["open_question_ids"]["ids"]
-                }
-                agents.sort(
-                    key=lambda a: not kinds & {q.split(":")[0] for q in view["open"][a]["ids"]}
-                )
+                # as prompt v2 asks: agents holding questions linked to the hazards go first,
+                # read from the priority block, which groups them by agent
+                holding = {a for h in view["priority"] for a in h["open_question_ids"]}
+                agents.sort(key=lambda a: a not in holding)
             if agents:
                 retry = view["retry_at_hard"].get(agents[0], {"count": 0})["count"]
                 level = "bulk" if view["open"][agents[0]]["count"] > retry else "hard"
