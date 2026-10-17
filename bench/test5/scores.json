@@ -56,6 +56,44 @@
    "status": "finished"
   }
  },
+ "f": {
+  "5a": {
+   "scored": false,
+   "status": "not run"
+  },
+  "5a-plant": {
+   "bucket": "top3",
+   "line": "Hot work (cutting, welding, grinding) on the roof of T-32 ignites flammable vapours (methanol, turpentine, organics) that escape from the tank vent or overflow while the tank remains in service with a floating organic layer. \u2014 Tank fire or explosion, personnel injury or fatality, release of burning organics to atmosphere via vent header, potential escalation to adjacent tanks T-31 and T-33 through common vent/overflow headers.",
+   "rank": 1,
+   "scored": true,
+   "status": "finished"
+  },
+  "5b": {
+   "scored": false,
+   "status": "not in this run"
+  },
+  "5b-from-hybrid": {
+   "bucket": "top3",
+   "line": "Hot work ignition source near black liquor leak \u2014 Ignition of black liquor vapors leading to fire, release of heat, smoke, SO2.",
+   "rank": 3,
+   "scored": true,
+   "status": "finished"
+  },
+  "hybrid": {
+   "bucket": "top3",
+   "line": "Hot work (cutting, welding, grinding) on the roof of T-32 ignites flammable vapours (methanol, turpentine, organics) that escape from the tank vent or overflow while the tank remains in service with a floating organic layer. \u2014 Tank fire or explosion, personnel injury or fatality, release of burning organics to atmosphere via vent header, potential escalation to adjacent tanks T-31 and T-33 through common vent/overflow headers.",
+   "rank": 1,
+   "scored": true,
+   "status": "finished"
+  },
+  "hybrid-codeorder": {
+   "bucket": "top3",
+   "line": "Mechanical seal replacement on the stripper feed pump (W-2) results in seal failure (immediate or delayed), releasing methanol/turpentine/organics mixture from T-33 under pump suction pressure. \u2014 Flammable and toxic liquid spray in pump area; pool fire if ignited; personnel exposure to methanol (toxic) and turpentine; potential vapour migration to nearby hot work on T-32 roof.",
+   "rank": 1,
+   "scored": true,
+   "status": "finished"
+  }
+ },
  "g": {
   "5a": {
    "bucket": "top3",
