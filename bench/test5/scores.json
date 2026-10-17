@@ -58,8 +58,11 @@
  },
  "f": {
   "5a": {
-   "scored": false,
-   "status": "not run"
+   "bucket": "top3",
+   "line": "Hot work (welding/grinding) on T-32 roof ignites flammable vapors venting from foul condensate tanks \u2014 flash fire/explosion in tank headspaces and vent header, roof collapse, personnel fatalities",
+   "rank": 1,
+   "scored": true,
+   "status": "ok"
   },
   "5a-plant": {
    "bucket": "top3",
