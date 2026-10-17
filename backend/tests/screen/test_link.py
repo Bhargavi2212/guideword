@@ -273,3 +273,22 @@ def test_a_control_loop_reaches_the_sections_of_what_it_acts_on(ref: ReferenceSe
     )
     acts_on = {s.id for s in sections if loop.acts_on_id in s.object_ids}
     assert acts_on and {q.id for q in questions if q.section_id in acts_on} <= linked
+
+
+CASE_F = REPO / "cases" / "dev" / "case_f.json"
+
+
+def test_library_cause_support_by_own_section_on_an_item_no_failing_type_fits(
+    ref: ReferenceSet,
+) -> None:
+    """G23 for library causes (R50 review): case F's EVAPORATORS fits no failing type, so a
+    finding (held to R46) can never name it. A C20 finding in its own section that names a
+    line supports a C20 hypothesis on it; a different cause does not."""
+    plant, sections, questions = world(CASE_F, ref)
+    by_id, secs = {q.id: q for q in questions}, {x.id: x for x in sections}
+    h = hypothesis(["EVAPORATORS"], "pipe", cause="C20")
+    h = h.model_copy(update={"question_ids": links_for(plant, sections, questions, h)})
+    own = next(q for q in h.question_ids if by_id[q].section_id == "S-EVAPORATORS")
+    line = plant.lines[0].id
+    assert supports(h, finding(own, [line], "pipe", "C20"), by_id, secs)
+    assert not supports(h, finding(own, [line], "pipe", "C21"), by_id, secs)

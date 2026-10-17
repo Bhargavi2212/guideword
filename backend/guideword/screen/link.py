@@ -11,13 +11,13 @@ hypotheses are plant-wide and link no questions.
 
 **Support** is computed from the current findings whenever it is read, never stored. A finding
 supports a hypothesis when it answers a linked question and:
-- for a library cause: its failing components overlap the hypothesis's components, or its
-  question's chemicals are all among the hypothesis's chemicals, and it has the same cause;
-- for an outside-library cause (G23): it is outside-library too, and its failing components
-  overlap the hypothesis's own components, or its question's chemicals are all among the
-  hypothesis's, or its question's section holds one of the hypothesis's own components (not
-  what they are attached to). The failing type is not compared: a hypothesis may name an item
-  no failing type fits, and every finding already passed R46.
+its failing components overlap the hypothesis's own components, or its question's chemicals
+are all among the hypothesis's chemicals, or its question's section holds one of the
+hypothesis's own components (not what they are attached to: G23, so an item no failing type
+fits, which no finding can name, can still be confirmed); and
+- for a library cause: it has the same cause;
+- for an outside-library cause: it is outside-library too. The failing type is not compared;
+  every finding already passed R46.
 For external and utility hypotheses: the same cause on the same component ID, on any question.
 """
 
@@ -156,15 +156,16 @@ def supports(
     question = questions.get(finding.question_id)
     chemicals = _chemicals(question) if question is not None else set()
     same_chemicals = bool(chemicals) and chemicals <= set(hypothesis.chemical_ids)
+    section = (
+        sections.get(question.section_id)
+        if question is not None and question.section_id is not None
+        else None
+    )
+    in_own_section = section is not None and bool(set(section.object_ids) & own)
+    matched = overlap or same_chemicals or in_own_section
     if hypothesis.cause_id == OUTSIDE_LIBRARY:
-        section = (
-            sections.get(question.section_id)
-            if question is not None and question.section_id is not None
-            else None
-        )
-        in_own_section = section is not None and bool(set(section.object_ids) & own)
-        return finding.cause_id == OUTSIDE_LIBRARY and (overlap or same_chemicals or in_own_section)
-    return (overlap or same_chemicals) and finding.cause_id == hypothesis.cause_id
+        return finding.cause_id == OUTSIDE_LIBRARY and matched
+    return matched and finding.cause_id == hypothesis.cause_id
 
 
 def support(
