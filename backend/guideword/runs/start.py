@@ -14,7 +14,7 @@ from guideword.reference import ReferenceSet
 from guideword.runs.plants import PlantRepository
 from guideword.runs.store import RunRepository, base_run_id
 from guideword.schema import ids
-from guideword.schema.enums import PlantStatus, RunLabelKind, RunStatus
+from guideword.schema.enums import PlantStatus, QuestionStatus, RunLabelKind, RunStatus
 from guideword.schema.records import Run, RunLabel
 
 FULL = "full"
@@ -22,6 +22,9 @@ FULL = "full"
 FIRST_STEP = "plant_screen"
 # statuses a new start with identical inputs picks up again
 RESUMABLE = {RunStatus.STOPPED_CAP, RunStatus.STOPPED_BUDGET}
+ANALYSIS = "analysis"
+# the steps after the analysis; a resume from one of them with questions open goes back
+AFTER_ANALYSIS = frozenset({"severity", "ranked"})
 
 
 @dataclass(frozen=True)
@@ -89,6 +92,14 @@ def start_run(
             with runs.step(run_id) as writer:
                 if existing.status == RunStatus.STOPPED_CAP:
                     writer.set_spend_cap(spend_cap_usd)
+                    # R38: the analysis ended at the severity reserve with questions open and
+                    # the run stopped after it; with more cap it goes back to the analysis, and
+                    # severity then rates only the new findings (case E run 1)
+                    past_analysis = existing.step in AFTER_ANALYSIS
+                    if past_analysis and any(
+                        q.status == QuestionStatus.OPEN for q in writer.questions()
+                    ):
+                        writer.set_step(ANALYSIS)
                 writer.set_status(RunStatus.RUNNING)
             resumed = runs.get(run_id)
             if resumed is None:
