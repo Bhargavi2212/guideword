@@ -15,6 +15,44 @@
    "status": "finished"
   }
  },
+ "e": {
+  "5a": {
+   "scored": false,
+   "status": "not run"
+  },
+  "5a-plant": {
+   "bucket": "top10",
+   "line": "Combustion air control failure drives excess air to REGENERATOR; oxygen breaks through in flue gas to EXPANDER and CO-BOILER, creating explosive mixture with residual CO. \u2014 Explosion in EXPANDER or CO-BOILER, hot flue gas discharge to stack area, structural damage to flue gas path, potential escalation to regenerator.",
+   "rank": 8,
+   "scored": true,
+   "status": "finished"
+  },
+  "5b": {
+   "scored": false,
+   "status": "not in this run"
+  },
+  "5b-from-hybrid": {
+   "bucket": "top3",
+   "line": "Procedure step skipped or done out of order (operator error) \u2014 Naphtha vapour mixed with air creates a flammable mixture; an ignition source could lead to fire or explosion in the gas plant.",
+   "rank": 2,
+   "scored": true,
+   "status": "finished"
+  },
+  "hybrid": {
+   "bucket": "top10",
+   "line": "Combustion air control failure drives excess air to REGENERATOR; oxygen breaks through in flue gas to EXPANDER and CO-BOILER, creating explosive mixture with residual CO. \u2014 Explosion in EXPANDER or CO-BOILER, hot flue gas discharge to stack area, structural damage to flue gas path, potential escalation to regenerator.",
+   "rank": 8,
+   "scored": true,
+   "status": "finished"
+  },
+  "hybrid-codeorder": {
+   "bucket": "top10",
+   "line": "Combustion air control failure drives excess air to REGENERATOR; oxygen breaks through in flue gas to EXPANDER and CO-BOILER, creating explosive mixture with residual CO. \u2014 Explosion in EXPANDER or CO-BOILER, hot flue gas discharge to stack area, structural damage to flue gas path, potential escalation to regenerator.",
+   "rank": 10,
+   "scored": true,
+   "status": "finished"
+  }
+ },
  "g": {
   "5a": {
    "bucket": "top3",
