@@ -17,8 +17,11 @@
  },
  "e": {
   "5a": {
-   "scored": false,
-   "status": "not run"
+   "bucket": "top3",
+   "line": "Steam purge (step 5) leaves flammable vapour in reactor and main fractionator \u2014 air ingress during maintenance entry (step 8) creates explosive atmosphere, ignited by pyrophoric catalyst or hot surfaces",
+   "rank": 2,
+   "scored": true,
+   "status": "ok"
   },
   "5a-plant": {
    "bucket": "top10",
