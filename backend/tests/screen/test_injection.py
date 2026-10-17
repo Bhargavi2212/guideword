@@ -64,7 +64,10 @@ def ref() -> ReferenceSet:
 
 @pytest.fixture(scope="module")
 def config() -> Config:
-    return load_config(global_budget_usd=25.0)
+    """Without the safety net (its re-ask is tested in test_step.py)."""
+    shipped = load_config(global_budget_usd=25.0)
+    run = shipped.caps.run.model_copy(update={"plant_screen_min_valid": 0})
+    return shipped.model_copy(update={"caps": shipped.caps.model_copy(update={"run": run})})
 
 
 def screened(

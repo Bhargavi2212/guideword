@@ -106,7 +106,9 @@ def export_replay(
     findings = runs.findings(run_id)
     hypotheses = runs.hypotheses(run_id)
     ranked = rank_findings(findings, plant, ref, caps)
-    lines = tiered(ranked, hypotheses, findings, runs.questions(run_id))
+    lines = tiered(
+        ranked, hypotheses, findings, runs.questions(run_id), sections=runs.sections(run_id)
+    )
     manifest = {
         "run_id": run.id,
         "case": case or plant.plant_id,

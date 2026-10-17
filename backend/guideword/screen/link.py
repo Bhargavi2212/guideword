@@ -6,15 +6,22 @@ sections: a question links when its objects include one of the hypothesis's comp
 equipment and valves named by a procedure step or planned job among them (the reverse of R40),
 or what any of those is attached to (a valve's line, an instrument's equipment, a loop's
 equipment, a relief device's protected item: G16), or when its chemicals (pair and
-environment questions) include one of the hypothesis's chemicals. External and utility
-hypotheses are plant-wide and link no questions.
+environment questions) include one of the hypothesis's chemicals. An external or utility
+hypothesis is plant-wide, and links no questions, only when every component really is of that
+type, per `fitting()`: locations for `external`, utilities of the matching kind for the
+utility types (G24). One that names equipment, a line or a step links like any other.
 
 **Support** is computed from the current findings whenever it is read, never stored. A finding
-supports a hypothesis when (a) it answers a linked question, (b) its failing components overlap
-the hypothesis's components or its question's chemicals are all among the hypothesis's
-chemicals, and (c) it has the same library cause, or both are outside-library with the same
-failing-component type. For external and utility hypotheses: the same cause on the same
-component ID, on any question.
+supports a hypothesis when it answers a linked question and:
+its failing components overlap the hypothesis's own components, or its question's chemicals
+are all among the hypothesis's chemicals, or its question's section holds one of the
+hypothesis's own components (not what they are attached to: G23, so an item no failing type
+fits, which no finding can name, can still be confirmed); and
+- for a library cause: it has the same cause;
+- for an outside-library cause: it is outside-library too. The failing type is not compared;
+  every finding already passed R46.
+For a plant-wide hypothesis (a plant-wide type and, by the rule above, no links): the same
+cause on the same component ID, on any question.
 """
 
 from collections.abc import Iterable, Mapping, Sequence
@@ -23,6 +30,7 @@ from guideword.schema import ids
 from guideword.schema.enums import FailingComponentType, QuestionKind
 from guideword.schema.plant import Plant
 from guideword.schema.records import OUTSIDE_LIBRARY, Finding, Hypothesis, Question, Section
+from guideword.screen.schema import fitting
 
 PLANT_WIDE = frozenset(
     {
@@ -114,7 +122,8 @@ def question_links(
     questions: Iterable[Question],
 ) -> list[str]:
     """The question IDs a new hypothesis links to, in ID order."""
-    if FailingComponentType(failing_component_type) in PLANT_WIDE:
+    kind = FailingComponentType(failing_component_type)
+    if kind in PLANT_WIDE and set(component_ids) <= set(fitting(plant).get(kind.value, [])):
         return []
     by_id = {s.id: s for s in sections}
     plant_ids = _plant_ids(plant)
@@ -137,21 +146,43 @@ def _same_cause(hypothesis: Hypothesis, finding: Finding) -> bool:
     return finding.cause_id == hypothesis.cause_id
 
 
-def supports(hypothesis: Hypothesis, finding: Finding, questions: Mapping[str, Question]) -> bool:
-    overlap = bool(set(finding.failing_component_ids) & set(hypothesis.component_ids))
-    if hypothesis.failing_component_type in PLANT_WIDE:
+def supports(
+    hypothesis: Hypothesis,
+    finding: Finding,
+    questions: Mapping[str, Question],
+    sections: Mapping[str, Section],
+) -> bool:
+    own = set(hypothesis.component_ids)
+    overlap = bool(set(finding.failing_component_ids) & own)
+    # plant-wide: the links were set by the rule above when the hypothesis was made (G24)
+    if hypothesis.failing_component_type in PLANT_WIDE and not hypothesis.question_ids:
         return overlap and _same_cause(hypothesis, finding)
     if finding.question_id not in hypothesis.question_ids:
         return False
     question = questions.get(finding.question_id)
     chemicals = _chemicals(question) if question is not None else set()
     same_chemicals = bool(chemicals) and chemicals <= set(hypothesis.chemical_ids)
-    return (overlap or same_chemicals) and _same_cause(hypothesis, finding)
+    section = (
+        sections.get(question.section_id)
+        if question is not None and question.section_id is not None
+        else None
+    )
+    in_own_section = section is not None and bool(set(section.object_ids) & own)
+    matched = overlap or same_chemicals or in_own_section
+    if hypothesis.cause_id == OUTSIDE_LIBRARY:
+        return finding.cause_id == OUTSIDE_LIBRARY and matched
+    return matched and finding.cause_id == hypothesis.cause_id
 
 
 def support(
-    hypothesis: Hypothesis, findings: Iterable[Finding], questions: Iterable[Question]
+    hypothesis: Hypothesis,
+    findings: Iterable[Finding],
+    questions: Iterable[Question],
+    sections: Iterable[Section],
 ) -> list[Finding]:
     """The findings that support the hypothesis now, in ID order."""
     by_id = {q.id: q for q in questions}
-    return sorted((f for f in findings if supports(hypothesis, f, by_id)), key=lambda f: f.id)
+    by_section = {s.id: s for s in sections}
+    return sorted(
+        (f for f in findings if supports(hypothesis, f, by_id, by_section)), key=lambda f: f.id
+    )

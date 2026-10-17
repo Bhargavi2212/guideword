@@ -102,11 +102,14 @@ def case(plant_and_questions: tuple, ref: ReferenceSet, config: Config) -> dict:
         "ranked": ranked,
         "questions": questions,
         "plant": plant,
+        "sections": plant_and_questions[2],
     }
 
 
 def test_tier_order_confirmed_also_found_unconfirmed(case: dict) -> None:
-    lines = tiered(case["ranked"], case["hyps"], case["findings"], case["questions"])
+    lines = tiered(
+        case["ranked"], case["hyps"], case["findings"], case["questions"], sections=case["sections"]
+    )
     tiers = [line.tier for line in lines]
     assert tiers == sorted(
         tiers,
@@ -127,7 +130,9 @@ def test_tier_order_confirmed_also_found_unconfirmed(case: dict) -> None:
 def test_lead_scenario_is_first_in_code_order_and_the_rest_fold_under_it(case: dict) -> None:
     """G1: both pair findings support both hypotheses (same pair, same cause); the first line's
     lead is the one first in the spec 2.6 order (the S4), the other folds under it."""
-    lines = tiered(case["ranked"], case["hyps"], case["findings"], case["questions"])
+    lines = tiered(
+        case["ranked"], case["hyps"], case["findings"], case["questions"], sections=case["sections"]
+    )
     first = lines[0]
     order = [r.finding.id for r in case["ranked"]]
     support = sorted(first.support_ids, key=order.index)
@@ -138,7 +143,9 @@ def test_lead_scenario_is_first_in_code_order_and_the_rest_fold_under_it(case: d
 def test_a_scenario_supporting_two_hypotheses_shows_once_under_the_higher(case: dict) -> None:
     """G2: H2 is supported by the same findings, all shown under H1, so H2 stays a confirmed
     line with nothing folded under it and names where its support is shown."""
-    lines = tiered(case["ranked"], case["hyps"], case["findings"], case["questions"])
+    lines = tiered(
+        case["ranked"], case["hyps"], case["findings"], case["questions"], sections=case["sections"]
+    )
     second = lines[1]
     assert second.hypothesis is not None and second.hypothesis.rank == 2
     assert second.folded == ()
@@ -152,7 +159,9 @@ def test_a_scenario_supporting_two_hypotheses_shows_once_under_the_higher(case: 
 
 
 def test_also_found_never_repeats_a_confirmed_lines_scenarios(case: dict) -> None:
-    lines = tiered(case["ranked"], case["hyps"], case["findings"], case["questions"])
+    lines = tiered(
+        case["ranked"], case["hyps"], case["findings"], case["questions"], sections=case["sections"]
+    )
     confirmed = {
         i for line in lines if line.tier == ShortlistTier.CONFIRMED for i in line.support_ids
     }
@@ -164,9 +173,16 @@ def test_also_found_never_repeats_a_confirmed_lines_scenarios(case: dict) -> Non
 
 def test_codeorder_keeps_membership_and_orders_by_code(case: dict) -> None:
     """G4: the same lines; confirmed by their lead's place in the code order, unconfirmed by ID."""
-    model = tiered(case["ranked"], case["hyps"], case["findings"], case["questions"])
+    model = tiered(
+        case["ranked"], case["hyps"], case["findings"], case["questions"], sections=case["sections"]
+    )
     code = tiered(
-        case["ranked"], case["hyps"], case["findings"], case["questions"], code_order=True
+        case["ranked"],
+        case["hyps"],
+        case["findings"],
+        case["questions"],
+        sections=case["sections"],
+        code_order=True,
     )
 
     def members(lines: list) -> set:
@@ -187,7 +203,9 @@ def test_codeorder_keeps_membership_and_orders_by_code(case: dict) -> None:
 
 
 def test_with_no_hypotheses_the_tiers_are_the_folded_list(case: dict) -> None:
-    lines = tiered(case["ranked"], [], case["findings"], case["questions"])
+    lines = tiered(
+        case["ranked"], [], case["findings"], case["questions"], sections=case["sections"]
+    )
     assert {line.tier for line in lines} == {ShortlistTier.ALSO_FOUND}
     folded = fold(case["ranked"])
     assert [(line.lead.finding.id if line.lead else None) for line in lines] == [
@@ -196,11 +214,14 @@ def test_with_no_hypotheses_the_tiers_are_the_folded_list(case: dict) -> None:
 
 
 def test_tiers_are_a_pure_function_of_their_inputs(case: dict) -> None:
-    a = tiered(case["ranked"], case["hyps"], case["findings"], case["questions"])
+    a = tiered(
+        case["ranked"], case["hyps"], case["findings"], case["questions"], sections=case["sections"]
+    )
     b = tiered(
         case["ranked"],
         list(reversed(case["hyps"])),
         list(reversed(case["findings"])),
         case["questions"],
+        sections=case["sections"],
     )
     assert a == b

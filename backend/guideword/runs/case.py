@@ -29,6 +29,7 @@ from guideword.schema.records import (
     PlantRecord,
     Question,
     Run,
+    Section,
 )
 from guideword.schema.validate import Issue
 from guideword.screen.step import PlantScreenStepper
@@ -200,11 +201,14 @@ def tiered_lines(
     ref: ReferenceSet,
     caps: CapsConfig,
     *,
+    sections: Sequence[Section],
     code_order: bool = False,
 ) -> list[dict[str, Any]]:
     causes = {c.id: c.cause for c in ref.causes}
     ranked = rank_findings(findings, plant, ref, caps)
-    lines = tiered(ranked, hypotheses, findings, questions, code_order=code_order)
+    lines = tiered(
+        ranked, hypotheses, findings, questions, sections=sections, code_order=code_order
+    )
     return [_tiered_line(line, rank, causes) for rank, line in enumerate(lines, start=1)]
 
 
@@ -276,7 +280,8 @@ def case_report(
     findings = runs.findings(run_id)
     hypotheses = runs.hypotheses(run_id)
     events = runs.events(run_id)
-    lines, failed = coverage(runs.sections(run_id), questions, findings)
+    sections = runs.sections(run_id)
+    lines, failed = coverage(sections, questions, findings)
     dropped = [
         i for e in events if e.type == EventType.DISPATCH for i in e.payload.get("dropped_ids", [])
     ]
@@ -303,9 +308,11 @@ def case_report(
         "folded": folded,
         # R50: the displayed tiered list (scored), and three views of the same run at $0
         "hypotheses": [h.model_dump(mode="json") for h in hypotheses],
-        "hybrid": tiered_lines(findings, hypotheses, questions, plant, ref, caps),
+        "hybrid": tiered_lines(
+            findings, hypotheses, questions, plant, ref, caps, sections=sections
+        ),
         "hybrid-codeorder": tiered_lines(
-            findings, hypotheses, questions, plant, ref, caps, code_order=True
+            findings, hypotheses, questions, plant, ref, caps, sections=sections, code_order=True
         ),
         "5a-plant": plant_screen_lines(hypotheses),
         "5b-from-hybrid": folded,

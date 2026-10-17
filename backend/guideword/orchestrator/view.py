@@ -89,7 +89,7 @@ def _priority(
                     by_agent([q for q in open_q if q.id in set(h.question_ids)], sections).items()
                 )
             },
-            "supported": bool(support(h, findings, questions)),
+            "supported": bool(support(h, findings, questions, sections.values())),
         }
         for h in sorted(hypotheses, key=lambda h: (h.rank, h.id))
     ]

@@ -153,3 +153,60 @@ def test_as_data_escapes_block_delimiters_and_reads_back_the_same() -> None:
     text = as_data(value)
     assert "<" not in text and ">" not in text and "&" not in text
     assert json.loads(text) == value
+
+
+V2_LINES = [
+    "The plant IDs that can fail as each failing-component type; code checks every hazard "
+    "against this same list:",
+    "<can_fail_as>",
+    "{{can_fail_as}}",
+    "</can_fail_as>",
+]
+
+
+def test_plant_screen_v2_only_adds_the_fitting_list_and_two_lines() -> None:
+    """v2 is v1 plus the code-filled list and two lines, nothing else (R50 review)."""
+    v1 = _with("plant_screen", "v1").body.splitlines()
+    v2 = _with("plant_screen", "v2").body.splitlines()
+    assert [line for line in v1 if line not in v2] == []
+    added = [line for line in v2 if line not in v1 and line.strip()]
+    assert added[:4] == V2_LINES
+    assert len(added) == 6
+    assert added[4].startswith("  Equipment in no list") and "`mechanism`" in added[4]
+    assert added[5].startswith("  A library cause's own failing-component type")
+    values = {
+        "plant": "P",
+        "causes": "C",
+        "can_fail_as": "F",
+        "question_kinds": "K",
+        "max_hypotheses": "12",
+    }
+    assert "<can_fail_as>\nF\n</can_fail_as>" in render("\n".join(v2), values)
+
+
+def test_plant_screen_v3_only_rewords_the_rule_lines_of_v2() -> None:
+    """G23: v3 is v2 with the four lines that said code rejects other IDs reworded, and the
+    same placeholders; nothing else changes."""
+    v2 = _with("plant_screen", "v2").body.splitlines()
+    v3 = _with("plant_screen", "v3").body.splitlines()
+    removed = [line for line in v2 if line not in v3]
+    added = [line for line in v3 if line not in v2]
+    assert len(removed) == len(added) == 4
+    assert all(
+        "code checks" in r
+        or "code rejects" in r
+        or "cannot be named" in r
+        or "name components listed" in r
+        for r in removed
+    )
+    text = "\n".join(added)
+    assert "code rejects" not in text and "cannot be named" not in text
+    assert "guide" in text
+    values = {
+        "plant": "P",
+        "causes": "C",
+        "can_fail_as": "F",
+        "question_kinds": "K",
+        "max_hypotheses": "12",
+    }
+    assert "{{" not in render("\n".join(v3), values)

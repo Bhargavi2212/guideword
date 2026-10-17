@@ -58,6 +58,14 @@ def _can_fail_as(kind: FailingComponentType, plant: Plant) -> frozenset[str]:
     return fitting_ids(kind, plant)
 
 
+def fitting(plant: Plant) -> dict[str, list[str]]:
+    """For each failing-component type, the plant IDs that can fail as it, in enum order, types
+    with none left out: the rule every finding is held to (R46), shown to the whole-plant pass
+    as guidance (`can_fail_as`). Not enforced on hypotheses since G23."""
+    listed = {kind.value: sorted(_can_fail_as(kind, plant)) for kind in FailingComponentType}
+    return {kind: ids for kind, ids in listed.items() if ids}
+
+
 def screen_causes(plant: Plant, ref: ReferenceSet) -> list[dict[str, str]]:
     """The library causes the whole plant can support (Q7, R46): their type fits a plant ID."""
     return [
@@ -93,9 +101,8 @@ def hypothesis_problem(h: ScreenHypothesis, plant: Plant, ref: ReferenceSet) -> 
     unknown_chemicals = [c for c in h.chemical_ids if c not in chemicals]
     if unknown_chemicals:
         return f"rank {h.rank}: {', '.join(unknown_chemicals)} not a chemical of this plant"
-    misfits = [c for c in h.component_ids if c not in _can_fail_as(h.failing_component_type, plant)]
-    if misfits:
-        return f"rank {h.rank}: {', '.join(misfits)} cannot fail as a {h.failing_component_type}"
+    # G23: the failing type is not checked against the components of a hypothesis; every
+    # finding that supports one is (R46)
     if h.cause_id == OUTSIDE_LIBRARY:
         return None if h.cause_text else f"rank {h.rank}: an outside_library cause needs cause_text"
     cause = next((c for c in ref.causes if c.id == h.cause_id), None)

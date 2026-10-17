@@ -10,6 +10,7 @@ so plant text that happens to contain `{{...}}` is never expanded.
 JSON still reads back to the same value.
 """
 
+import hashlib
 import json
 import re
 from collections.abc import Mapping
@@ -35,12 +36,24 @@ class Prompt:
         return f"{self.name}/{self.version}"
 
 
+def _body(text: str) -> str:
+    _, found, body = text.partition(_HEADER_END)
+    return (body if found else text).lstrip("\n")
+
+
 def load_prompt(name: str, config: Config, prompts_dir: Path | None = None) -> Prompt:
     version = config.routing.prompts[name]
     root = prompts_dir if prompts_dir is not None else DEFAULT_PROMPTS_DIR
-    text = (root / name / f"{version}.md").read_text(encoding="utf-8")
-    _, found, body = text.partition(_HEADER_END)
-    return Prompt(name, version, (body if found else text).lstrip("\n"))
+    return Prompt(name, version, _body((root / name / f"{version}.md").read_text(encoding="utf-8")))
+
+
+def load_prompt_file(name: str, path: Path) -> Prompt:
+    """A prompt from any file, for a diagnostic (scripts/screen_check.py --prompt-file). Its
+    version is `file-<hash of the file>`, so it is recorded and cached apart from any routed
+    version."""
+    text = path.read_text(encoding="utf-8")
+    digest = hashlib.sha256(text.encode("utf-8")).hexdigest()[:16]
+    return Prompt(name, f"file-{digest}", _body(text))
 
 
 def as_data(value: Any, *, default: Any = None) -> str:
