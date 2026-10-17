@@ -175,14 +175,14 @@ Test #5 confirms or moves each job to the cheapest tier that passes. The four-ti
 | Use (`use` in the ledger) | Environment | Allowance |
 |---|---|---|
 | Development (`development`) | laptop | $5 |
-| Test #5 (`test_5`) | laptop | $5.50 (was $4; moved for G2b, Oct 16) |
-| Held-out benchmark (`benchmark`) | laptop | $6.50 (was $8; moved for G2b, Oct 16) |
+| Test #5 (`test_5`) | laptop | $7.50 (was $4; moved for G2b, Oct 16 and 17) |
+| Held-out benchmark (`benchmark`) | laptop | $4.50 (was $8; moved for G2b, Oct 16 and 17) |
 | Video (`video`) | laptop | $2 |
 | Demo recording (`demo_recording`) | hosted | $1 |
 | Judging period, Dec 1–15 (`judging`) | hosted | $3 |
 | Buffer, released only by Bhargavi (`buffer`) | hosted | $2 |
 
-Laptop $19 = 5 + 5.50 + 6.50 + 2; hosted $6 = 1 + 3 + 2; total $25.
+Laptop $19 = 5 + 7.50 + 4.50 + 2; hosted $6 = 1 + 3 + 2; total $25.
 
 Cost rules, enforced in code:
 - Development iterates on specialist prompts with Lightning. Ultra and Super are used only for the jobs routed to them (orchestrator, severity, section suggestions, unsure answers, the gateway check), always under the run and phase caps. Every model response is cached by model, prompt version and exact input; a re-run after a code change costs nothing.
