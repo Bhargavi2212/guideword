@@ -104,6 +104,7 @@ def test_phase_2_run_caps(shipped: Config) -> None:
     # the severity reserve prices each call at this, under the max_tokens ceiling
     assert run.severity_output_tokens_estimate == 4700
     assert run.plant_screen_max_hypotheses == 12
+    assert run.plant_screen_min_valid == 5
     assert run.specialist_max_input_tokens == 24000
     assert shipped.caps.ranking.outside_library_default_frequency_per_year == 0.1
 

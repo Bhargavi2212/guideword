@@ -2,6 +2,7 @@
 only, never a hypothesis's words or rank. Fake transport only, no network."""
 
 import json
+import re
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
@@ -22,7 +23,10 @@ WORDS = "MECHANISM-WORDS-NEVER-PRINTED"
 
 @pytest.fixture(scope="module")
 def config() -> Config:
-    return load_config(global_budget_usd=25.0)
+    """Without the safety net, so each test sees one call (the net is tested in test_step)."""
+    shipped = load_config(global_budget_usd=25.0)
+    run = shipped.caps.run.model_copy(update={"plant_screen_min_valid": 0})
+    return shipped.model_copy(update={"caps": shipped.caps.model_copy(update={"run": run})})
 
 
 def plant() -> dict[str, Any]:
@@ -164,9 +168,13 @@ def system_of(transport: Any) -> str:
     return str(transport.sent[0][1]["messages"][0]["content"])
 
 
-def test_without_the_options_the_request_is_unchanged(tmp_path: Path, config: Config) -> None:
+def test_without_the_options_the_request_carries_the_run_marker(
+    tmp_path: Path, config: Config
+) -> None:
     _, transport = run_with(tmp_path, config)
-    assert system_of(transport).startswith("You are the first reviewer")
+    first, rest = system_of(transport).split("\n", 1)
+    assert re.fullmatch(r"Request marker: run:[0-9a-f]{16}", first)
+    assert rest.lstrip("\n").startswith("You are the first reviewer")
 
 
 def test_nonce_is_the_very_first_line_of_the_system_message(tmp_path: Path, config: Config) -> None:
@@ -193,9 +201,27 @@ def test_prompt_file_is_rendered_and_recorded_by_its_content(
     )
     code, transport = run_with(tmp_path, config, "--prompt-file", str(alt))
     assert code == 0
-    assert system_of(transport).startswith("ALT-MARKER You are the first reviewer")
+    assert (
+        system_of(transport)
+        .split("\n", 1)[1]
+        .lstrip("\n")
+        .startswith("ALT-MARKER You are the first reviewer")
+    )
     import sqlite3  # noqa: PLC0415
 
     with sqlite3.connect(tmp_path / "s.db") as db:
         [(record,)] = list(db.execute("select record from model_calls"))
     assert json.loads(record)["prompt_version"].startswith("plant_screen/file-")
+
+
+def test_the_reask_and_a_degraded_screen_are_reported(
+    tmp_path: Path, capsys: pytest.CaptureFixture[str]
+) -> None:
+    """With the shipped minimum: a short answer is re-asked once and the result reported."""
+    shipped = load_config(global_budget_usd=25.0)
+    location = plant()["locations"][0]["id"]
+    run(tmp_path, shipped, {"hypotheses": [hyp(1, [location])]})
+    out = capsys.readouterr().out
+    assert "re-ask: yes" in out
+    assert "attempt 2: valid as a whole True, returned 1, passing 1" in out
+    assert "dropped, screen degraded: 1" in out

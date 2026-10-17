@@ -46,12 +46,14 @@ DEFAULT_DB = Path(__file__).resolve().parents[1] / "screen_check.db"
 REASONS = (
     ("not in this plant", "unknown component"),
     ("not a chemical of this plant", "unknown chemical"),
-    ("cannot fail as a", "component cannot fail as that type"),
     ("is not a library cause", "unknown library cause"),
     ("fails a", "library cause of another component type"),
     ("needs cause_text", "outside-library cause without text"),
     ("the answer was invalid", "answer invalid as a whole"),
     ("no usable answer", "answer unusable"),
+    ("screen degraded", "screen degraded"),
+    ("re-ask refused at cap", "screen degenerate, re-ask refused at cap"),
+    ("no valid hypothesis", "screen degenerate, no valid hypothesis"),
 )
 
 
@@ -124,6 +126,7 @@ def summary(
         "cap_hits": [str(e.payload.get("reason")) for e in events if e.type == EventType.CAP_HIT],
         "attempts": attempts,
         "kept_attempt": None if screen.kept_attempt is None else screen.kept_attempt + 1,
+        "reasked": screen.reasked,
         "returned": chosen["returned"] if chosen else 0,
         "kept": len(kept),
         "dropped": sum(1 for p in dropped if p.get("rank") is not None),
@@ -154,6 +157,7 @@ def _print(result: dict[str, Any]) -> None:
             f"unknown component IDs {attempt['unknown_component_ids']}, "
             f"unknown chemical IDs {attempt['unknown_chemical_ids']}"
         )
+    print(f"re-ask: {'yes' if result['reasked'] else 'no'}")
     print(f"attempt kept: {result['kept_attempt'] or 'none'}")
     print(
         f"hypotheses: returned {result['returned']}, kept {result['kept']}, "

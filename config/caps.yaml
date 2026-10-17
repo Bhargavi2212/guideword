@@ -44,6 +44,8 @@ run:
   severity_output_tokens_estimate: 4700
   # hypotheses the whole-plant pass may propose (R50); it changes the model's input
   plant_screen_max_hypotheses: 12
+  # fewer valid hypotheses than this: one fresh re-ask, then the best attempt is kept (R50 review)
+  plant_screen_min_valid: 5
   # input size of one specialist call; steps and jobs are trimmed to fit, else the batch fails (R43)
   specialist_max_input_tokens: 24000
 

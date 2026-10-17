@@ -13,7 +13,7 @@ goes on without hypotheses. A cap refusal stops the run like any other.
 from typing import Any
 
 from guideword.config import Config
-from guideword.gateway.client import BudgetRefused, Gateway, RunBudget
+from guideword.gateway.client import BudgetRefused, Gateway, GatewayResult, RunBudget
 from guideword.gateway.prompts import Prompt, as_data, load_prompt, render
 from guideword.logs import get_logger
 from guideword.reference import ReferenceSet
@@ -73,7 +73,7 @@ class PlantScreenStepper:
         preamble: str | None = None,
     ) -> None:
         """`prompt` and `preamble` are for diagnostics only (scripts/screen_check.py): another
-        prompt file, and a first line put above the system message."""
+        prompt file, and a first line in place of the run's request marker."""
         self.gateway = gateway
         self.config = config
         self.ref = ref
@@ -81,11 +81,14 @@ class PlantScreenStepper:
         self.prompt = prompt if prompt is not None else load_prompt(JOB, config)
         self.preamble = preamble
         self.max_hypotheses = config.caps.run.plant_screen_max_hypotheses
+        self.min_valid = config.caps.run.plant_screen_min_valid
+        self.reasked = False
         # every parsed attempt of the last call, and which was kept (for scripts/screen_check)
         self.attempts: list[ScreenAnswer] = []
         self.kept_attempt: int | None = None
 
-    def messages(self, kinds: list[str]) -> list[dict[str, Any]]:
+    def messages(self, kinds: list[str], marker: str | None = None) -> list[dict[str, Any]]:
+        """`marker` is the system message's first line (the run's request marker)."""
         system = render(
             self.prompt.body,
             {
@@ -98,43 +101,38 @@ class PlantScreenStepper:
                 "max_hypotheses": str(self.max_hypotheses),
             },
         )
-        if self.preamble is not None:
-            system = f"{self.preamble}\n\n{system}"
+        if marker is not None:
+            system = f"{marker}\n\n{system}"
         return [{"role": "system", "content": system}, {"role": "user", "content": ASK}]
 
     def __call__(self, run: Run, writer: StepWriter) -> StepResult:
+        """One ask; with fewer than `plant_screen_min_valid` valid hypotheses, one fresh re-ask
+        (a new conversation with its own marker, so neither cache can replay the first answer);
+        then the attempt with the most valid hypotheses is kept (R50 review)."""
         questions = writer.questions()
-        self.attempts, self.kept_attempt = [], None
-
-        def validator(value: Any) -> None:
-            if isinstance(value, ScreenAnswer):
-                self.attempts.append(value)
-            problems = every_problem(value, self.plant, self.ref, self.max_hypotheses)
-            if problems:
-                raise ValueError("; ".join(problems))
-
-        messages = self.messages([q.kind.value for q in questions])
-        check_plant_sent(messages, self.plant)
+        kinds = [q.kind.value for q in questions]
+        self.attempts, self.kept_attempt, self.reasked = [], None, False
+        # the first line, so no provider cache reuses a prefix from another run's request; the
+        # run ID without its attempt number, so a re-run of the same inputs is served from our
+        # own cache with no provider call (scripts/screen_check.py --nonce replaces it)
+        base = ":".join(run.id.split(":")[:2])
+        marker = self.preamble if self.preamble is not None else f"Request marker: {base}"
+        call_of: list[str | None] = []
         try:
-            result = self.gateway.call(
-                job=JOB,
-                prompt_version=self.prompt.label,
-                messages=messages,
-                schema=ScreenAnswer,
-                validator=validator,
-                run=RunBudget(run.id, writer.run.cap_spent_usd, run.spend_cap_usd),
-                made=frozenset(c.id for c in writer.model_calls()),
-            )
+            result = self._ask(run, writer, kinds, marker, call_of)
         except BudgetRefused as refused:
             return stop_for_refusal(writer, refused)
-        for call in result.model_calls:
-            writer.add_model_call(call, fell_back_from=result.fell_back_from)
-        writer.add_spent(result.cost_usd, cap_usd=result.cap_cost_usd)
-        call_id = result.model_calls[-1].id if result.model_calls else None
+        notes: list[str] = []
+        if self._valid(self._best_attempt()) < self.min_valid:
+            self.reasked = True
+            try:
+                result = self._ask(run, writer, kinds, f"{marker}:reask", call_of)
+            except BudgetRefused:
+                notes.append("screen degenerate: re-ask refused at cap")
+        chosen = self._best_attempt()
 
         kept: list[ScreenHypothesis] = []
-        chosen = self._best_attempt()
-        if result.outcome in ("ok", "invalid") and chosen is not None:
+        if chosen is not None:
             for h in self.attempts[chosen].hypotheses:
                 problem = hypothesis_problem(h, self.plant, self.ref)
                 if problem is None:
@@ -153,8 +151,17 @@ class PlantScreenStepper:
                 EventType.HYPOTHESIS_DROPPED,
                 {"rank": None, "reason": f"no usable answer: {result.error or result.outcome}"},
             )
+        if self.reasked and not notes and len(kept) < self.min_valid:
+            notes.append(
+                f"screen degraded: {len(kept)} kept"
+                if kept
+                else "screen degenerate: no valid hypothesis"
+            )
+        for note in notes:
+            writer.emit(EventType.HYPOTHESIS_DROPPED, {"rank": None, "reason": note})
 
         sections = writer.sections()
+        call_id = call_of[chosen] if chosen is not None else None
         for h in kept:
             writer.add_hypothesis(
                 Hypothesis(
@@ -190,6 +197,52 @@ class PlantScreenStepper:
                 "the whole-plant pass gave no hypotheses", extra={"context": {"run_id": run.id}}
             )
         return StepResult(next_step=NEXT)
+
+    def _ask(
+        self,
+        run: Run,
+        writer: StepWriter,
+        kinds: list[str],
+        marker: str,
+        call_of: list[str | None],
+    ) -> GatewayResult:
+        """One gateway call (with its one validation retry); every parsed attempt is kept in
+        `self.attempts`, with the call that made it in `call_of`. Raises BudgetRefused."""
+        before = len(self.attempts)
+
+        def validator(value: Any) -> None:
+            if isinstance(value, ScreenAnswer):
+                self.attempts.append(value)
+            problems = every_problem(value, self.plant, self.ref, self.max_hypotheses)
+            if problems:
+                raise ValueError("; ".join(problems))
+
+        messages = self.messages(kinds, marker)
+        check_plant_sent(messages, self.plant)
+        result = self.gateway.call(
+            job=JOB,
+            prompt_version=self.prompt.label,
+            messages=messages,
+            schema=ScreenAnswer,
+            validator=validator,
+            run=RunBudget(run.id, writer.run.cap_spent_usd, run.spend_cap_usd),
+            made=frozenset(c.id for c in writer.model_calls()),
+        )
+        for call in result.model_calls:
+            writer.add_model_call(call, fell_back_from=result.fell_back_from)
+        writer.add_spent(result.cost_usd, cap_usd=result.cap_cost_usd)
+        last = result.model_calls[-1].id if result.model_calls else None
+        call_of.extend([last] * (len(self.attempts) - before))
+        return result
+
+    def _valid(self, index: int | None) -> int:
+        if index is None:
+            return 0
+        return sum(
+            1
+            for h in self.attempts[index].hypotheses
+            if hypothesis_problem(h, self.plant, self.ref) is None
+        )
 
     def _best_attempt(self) -> int | None:
         """The attempt with more hypotheses passing every check; a tie keeps the earlier one.
