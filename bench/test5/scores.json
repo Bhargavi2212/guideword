@@ -15,6 +15,88 @@
    "status": "finished"
   }
  },
+ "e": {
+  "5a": {
+   "bucket": "top3",
+   "line": "Steam purge (step 5) leaves flammable vapour in reactor and main fractionator \u2014 air ingress during maintenance entry (step 8) creates explosive atmosphere, ignited by pyrophoric catalyst or hot surfaces",
+   "rank": 2,
+   "scored": true,
+   "status": "ok"
+  },
+  "5a-plant": {
+   "bucket": "top10",
+   "line": "Combustion air control failure drives excess air to REGENERATOR; oxygen breaks through in flue gas to EXPANDER and CO-BOILER, creating explosive mixture with residual CO. \u2014 Explosion in EXPANDER or CO-BOILER, hot flue gas discharge to stack area, structural damage to flue gas path, potential escalation to regenerator.",
+   "rank": 8,
+   "scored": true,
+   "status": "finished"
+  },
+  "5b": {
+   "scored": false,
+   "status": "not in this run"
+  },
+  "5b-from-hybrid": {
+   "bucket": "top3",
+   "line": "Procedure step skipped or done out of order (operator error) \u2014 Naphtha vapour mixed with air creates a flammable mixture; an ignition source could lead to fire or explosion in the gas plant.",
+   "rank": 2,
+   "scored": true,
+   "status": "finished"
+  },
+  "hybrid": {
+   "bucket": "top10",
+   "line": "Combustion air control failure drives excess air to REGENERATOR; oxygen breaks through in flue gas to EXPANDER and CO-BOILER, creating explosive mixture with residual CO. \u2014 Explosion in EXPANDER or CO-BOILER, hot flue gas discharge to stack area, structural damage to flue gas path, potential escalation to regenerator.",
+   "rank": 8,
+   "scored": true,
+   "status": "finished"
+  },
+  "hybrid-codeorder": {
+   "bucket": "top10",
+   "line": "Combustion air control failure drives excess air to REGENERATOR; oxygen breaks through in flue gas to EXPANDER and CO-BOILER, creating explosive mixture with residual CO. \u2014 Explosion in EXPANDER or CO-BOILER, hot flue gas discharge to stack area, structural damage to flue gas path, potential escalation to regenerator.",
+   "rank": 10,
+   "scored": true,
+   "status": "finished"
+  }
+ },
+ "f": {
+  "5a": {
+   "bucket": "top3",
+   "line": "Hot work (welding/grinding) on T-32 roof ignites flammable vapors venting from foul condensate tanks \u2014 flash fire/explosion in tank headspaces and vent header, roof collapse, personnel fatalities",
+   "rank": 1,
+   "scored": true,
+   "status": "ok"
+  },
+  "5a-plant": {
+   "bucket": "top3",
+   "line": "Hot work (cutting, welding, grinding) on the roof of T-32 ignites flammable vapours (methanol, turpentine, organics) that escape from the tank vent or overflow while the tank remains in service with a floating organic layer. \u2014 Tank fire or explosion, personnel injury or fatality, release of burning organics to atmosphere via vent header, potential escalation to adjacent tanks T-31 and T-33 through common vent/overflow headers.",
+   "rank": 1,
+   "scored": true,
+   "status": "finished"
+  },
+  "5b": {
+   "scored": false,
+   "status": "not in this run"
+  },
+  "5b-from-hybrid": {
+   "bucket": "top3",
+   "line": "Hot work ignition source near black liquor leak \u2014 Ignition of black liquor vapors leading to fire, release of heat, smoke, SO2.",
+   "rank": 3,
+   "scored": true,
+   "status": "finished"
+  },
+  "hybrid": {
+   "bucket": "top3",
+   "line": "Hot work (cutting, welding, grinding) on the roof of T-32 ignites flammable vapours (methanol, turpentine, organics) that escape from the tank vent or overflow while the tank remains in service with a floating organic layer. \u2014 Tank fire or explosion, personnel injury or fatality, release of burning organics to atmosphere via vent header, potential escalation to adjacent tanks T-31 and T-33 through common vent/overflow headers.",
+   "rank": 1,
+   "scored": true,
+   "status": "finished"
+  },
+  "hybrid-codeorder": {
+   "bucket": "top3",
+   "line": "Mechanical seal replacement on the stripper feed pump (W-2) results in seal failure (immediate or delayed), releasing methanol/turpentine/organics mixture from T-33 under pump suction pressure. \u2014 Flammable and toxic liquid spray in pump area; pool fire if ignited; personnel exposure to methanol (toxic) and turpentine; potential vapour migration to nearby hot work on T-32 roof.",
+   "rank": 1,
+   "scored": true,
+   "status": "finished"
+  }
+ },
  "g": {
   "5a": {
    "bucket": "top3",

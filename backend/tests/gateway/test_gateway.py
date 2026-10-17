@@ -347,7 +347,7 @@ def test_over_the_laptop_allowance_refused(build: Build, ledger_path: Path) -> N
 
 def test_over_phase_cap_refused(build: Build, ledger_path: Path) -> None:
     """R17: the gateway also enforces the phase cap."""
-    _spend(ledger_path, BudgetUse.TEST_5, 5.5)
+    _spend(ledger_path, BudgetUse.TEST_5, 7.5)
     _spend(ledger_path, BudgetUse.DEVELOPMENT, 0.99999)
     gateway, transport = build(_ok)
     with pytest.raises(BudgetRefused, match="phase 2 cap"):

@@ -1,0 +1,125 @@
+{
+ "case": "case_f",
+ "package": "case_f_pulp_mill_area.md",
+ "model_id": "nvidia/Nemotron-3-Ultra-550b-a55b",
+ "prompt_version": "test5a/v1",
+ "outcome": "ok",
+ "error": null,
+ "cost_usd": 0.021196,
+ "cache_hit": false,
+ "seconds": 20.57655560001149,
+ "hazards": [
+  {
+   "rank": 1,
+   "hazard": "Hot work (welding/grinding) on T-32 roof ignites flammable vapors venting from foul condensate tanks — flash fire/explosion in tank headspaces and vent header, roof collapse, personnel fatalities",
+   "equipment": [
+    "T-32 tank roof",
+    "8\" condensate line",
+    "common vent header",
+    "T-31, T-32, T-33 foul condensate tanks",
+    "hot work permit"
+   ],
+   "reason": "Tanks stay in service with organic layer (methanol, turpentine) continuously generating flammable vapors; common vent header discharges at roofline directly at work area; scaffold puts ignition source in vapor path. Package lists hot work permit and fire extinguishers but no gas testing (LEL), vapor"
+  },
+  {
+   "rank": 2,
+   "hazard": "40-tonne crane lift over live white liquor line drops load or swings into line — line rupture sprays hot caustic NaOH/Na2S and releases H2S on riggers and below",
+   "equipment": [
+    "white liquor line",
+    "40-tonne mobile crane",
+    "lifting plan procedure",
+    "new pipe section"
+   ],
+   "reason": "White liquor is hot caustic (NaOH/Na2S); Na2S hydrolyzes to H2S on release. Lifting plan and operator sign-off are listed but no mention of line isolation/blinding, exclusion zone, or H2S monitors for contractors (only operators issued). Crane size (40T) makes impact energy high."
+  },
+  {
+   "rank": 3,
+   "hazard": "Cutting 8-inch condensate line on T-32 roof without full purge/inert releases flammable vapor and hot organic liquid at ignition-source height — immediate ignition or toxic/flammable cloud on scaffold",
+   "equipment": [
+    "8\" condensate line",
+    "T-32 tank roof",
+    "lockout/tagout procedure",
+    "scaffold"
+   ],
+   "reason": "Line carries foul condensate with organics; tanks in service so line may hold pressure/vapors. LOTO and hot work permit listed but no mention of line draining, purging, inerting, or continuous vapor monitoring during cutting. Scaffold places workers in release zone."
+  },
+  {
+   "rank": 4,
+   "hazard": "Stripper feed pump opened for seal change with residual hot foul condensate (organics, H2S) in pump and suction line — caustic/organic spray, flammable vapor release, H2S exposure to maintenance crew",
+   "equipment": [
+    "condensate stripper feed pump",
+    "T-33",
+    "mechanical seal",
+    "lockout/tagout procedure"
+   ],
+   "reason": "Pump draws from T-33 (foul condensate with methanol, turpentine, organics). Package notes seal replacement but no drain/purge/inert procedure for pump opening. H2S monitors issued to operators only; maintenance crew may lack them. Eyewash/showers are mitigative only."
+  },
+  {
+   "rank": 5,
+   "hazard": "Common vent header blocked (ice, foam, organics) causes tank overpressure or vacuum collapse with scaffold crew on T-32 roof — roof failure, personnel fall into tank, flammable release",
+   "equipment": [
+    "common vent header",
+    "T-31, T-32, T-33",
+    "fixed cone roof",
+    "scaffold"
+   ],
+   "reason": "Three tanks share one vent header to atmosphere at roofline; fixed cone roofs vulnerable to pressure/vacuum. No relief devices, blockage detection, or inspection mentioned. Scaffold crew on roof during Job 1 adds load and fall hazard if roof deforms."
+  },
+  {
+   "rank": 6,
+   "hazard": "Contractor orientation missed or inadequate — crews unaware of H2S, flammable vapors, caustic lines, roof hazards during all jobs — latent failure of all permit safeguards",
+   "equipment": [
+    "contractor safety orientation",
+    "permit-to-work system",
+    "hot work permit",
+    "lockout/tagout procedure",
+    "lifting plan procedure"
+   ],
+   "reason": "Orientation planned day 1 but no verification, content detail, or language assurance. All jobs rely on contractors recognizing hazards (flammables on roof, H2S at pump/white liquor, caustics, scaffold roof work). Missing orientation undermines every permit sign-off."
+  },
+  {
+   "rank": 7,
+   "hazard": "Common overflow line blocked — tank overfill spills flammable organic layer via vent header at roofline during hot work — ground-level flammable pool, fire escalation",
+   "equipment": [
+    "common overflow line",
+    "T-31, T-32, T-33",
+    "common vent header",
+    "8\" condensate line"
+   ],
+   "reason": "Three tanks share overflow; destination not described. No level alarms, high-level trips, or inspection mentioned. Overfill would discharge organic layer (methanol, turpentine) via vent header at roofline where hot work occurs. Safeguards only list overflow line existence."
+  },
+  {
+   "rank": 8,
+   "hazard": "Scaffold on T-32 fixed cone roof exceeds roof load capacity or lacks fall protection — crew falls into hot caustic/organic tank, drowning/chemical/thermal injury",
+   "equipment": [
+    "T-32 tank roof",
+    "scaffold",
+    "permit-to-work system",
+    "area operator sign-off"
+   ],
+   "reason": "Fixed cone roof not designed for scaffold loads; tank contains hot foul condensate. Package mentions scaffold but no roof load verification, scaffold design review, fall arrest, or tank entry rescue plan. Operator sign-off is only control."
+  },
+  {
+   "rank": 9,
+   "hazard": "Steam header condensate pockets form during insulation repair; restart without drain causes water hammer — pipe rupture, steam/condensate whip, damage to adjacent white liquor/condensate lines",
+   "equipment": [
+    "low-pressure steam header",
+    "insulation repair",
+    "cooling water lines",
+    "white liquor line"
+   ],
+   "reason": "Insulation repair (no hot work) cools header; condensate accumulates in low points. No mention of condensate drainage procedure or controlled warm-up. Adjacent white liquor line and condensate lines on same rack risk secondary damage from pipe whip."
+  },
+  {
+   "rank": 10,
+   "hazard": "White liquor line cools during crane lift or adjacent work — NaOH/Na2S crystallizes, blocks line; reheating causes overpressure rupture — delayed caustic/H2S release",
+   "equipment": [
+    "white liquor line",
+    "40-tonne mobile crane",
+    "insulation repair",
+    "pipe rack"
+   ],
+   "reason": "White liquor is hot caustic; cooling causes crystallization/blockage. Crane lift (Job 3) and steam header insulation (Job 4) may expose line to cooling. No temperature monitoring, heat tracing, or cool-down procedure mentioned. Rupture on reheating releases caustic + H2S."
+  }
+ ]
+}

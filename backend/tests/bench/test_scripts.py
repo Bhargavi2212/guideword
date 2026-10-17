@@ -127,3 +127,35 @@ def test_run_test5a_calls_ultra_once_per_case_under_test_5(tmp_path: Path, confi
     assert (tmp_path / "test5" / "5a" / "case_d.json").exists()
     ledger = [json.loads(x) for x in (tmp_path / "l.jsonl").read_text("utf-8").splitlines()]
     assert [line["use"] for line in ledger] == ["test_5"]
+
+
+def test_score_script_prints_the_hybrid_views_of_a_hybrid_run(
+    tmp_path: Path, capsys: pytest.CaptureFixture[str]
+) -> None:
+    """R50: a hybrid run's report is scored as its four views; the legacy 5B line does not
+    apply and is not printed."""
+    root = tmp_path / "test5"
+    (root / "5b").mkdir(parents=True)
+    line = {
+        "rank": 1,
+        "text": "chlorine — dead leg rupture",
+        "sheet_text": "chlorine — dead leg rupture",
+        "question_id": "q:x",
+        "failing_component_ids": ["L-1"],
+        "finding_id": "f:1",
+    }
+    report = {
+        "status": "finished",
+        "spent_usd": 0.2,
+        "seconds": 60.0,
+        "ranked": [line],
+        "folded": [line],
+        **{view: [line] for view in ("hybrid", "hybrid-codeorder", "5a-plant", "5b-from-hybrid")},
+    }
+    (root / "5b" / "case_g.json").write_text(json.dumps(report), encoding="utf-8")
+    score_test5.main(["--case", "g", "--keys", str(_key(tmp_path)), "--root", str(root)])
+    out = capsys.readouterr().out
+    for view in ("hybrid", "hybrid-codeorder", "5a-plant", "5b-from-hybrid"):
+        assert f"case_g {view}: rank 1 (top3)" in out
+    assert "case_g 5A: not scored (not run)" in out
+    assert "5B" not in out

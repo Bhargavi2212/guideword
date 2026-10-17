@@ -16,7 +16,14 @@ import sys
 from collections.abc import Sequence
 from pathlib import Path
 
-from guideword.bench.results import HAND_SCORES, SCORES, score_case, update_hand_sheet
+from guideword.bench.results import (
+    CONFIGS,
+    HAND_SCORES,
+    NOT_IN_RUN,
+    SCORES,
+    score_case,
+    update_hand_sheet,
+)
 from guideword.bench.scoring import load_keys
 
 REPO = Path(__file__).resolve().parents[1]
@@ -39,8 +46,10 @@ def main(argv: Sequence[str] | None = None) -> int:
     scores = json.loads(path.read_text(encoding="utf-8")) if path.exists() else {}
     for letter in args.case:
         scores[letter] = score_case(letter, keys[letter], args.root)
-        for config, label in (("5b", "5B"), ("5a", "5A")):
+        for config, label in CONFIGS.items():
             result = scores[letter][config]
+            if result["status"] == NOT_IN_RUN:
+                continue  # a hybrid run has no legacy 5B, an older one no hybrid views (R50)
             if not result["scored"]:
                 print(f"case_{letter} {label}: not scored ({result['status']})")
             elif result["rank"] is None:

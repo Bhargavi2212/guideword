@@ -1,0 +1,133 @@
+{
+ "case": "case_e",
+ "package": "case_e_fcc_shutdown.md",
+ "model_id": "nvidia/Nemotron-3-Ultra-550b-a55b",
+ "prompt_version": "test5a/v1",
+ "outcome": "ok",
+ "error": null,
+ "cost_usd": 0.016257,
+ "cache_hit": false,
+ "seconds": 20.304440800013253,
+ "hazards": [
+  {
+   "rank": 1,
+   "hazard": "Slide valves (last overhauled 6 years ago) fail to close or leak during step 4 — hot catalyst (~700 °C) and hydrocarbons circulate, preventing isolation and exposing maintenance crew to burns, pyrophoric catalyst fire, or loss of containment",
+   "equipment": [
+    "spent-catalyst slide valve",
+    "regenerated-catalyst slide valve",
+    "standpipes",
+    "step 4"
+   ],
+   "reason": "Package states valves last overhauled 6 years ago; step 4 requires both to close as catalyst inventory reaches minimum. Safeguards are only differential-pressure indication and low-dP alarms — weak for detecting seat wear, slow leakage, or sticking. Failure defeats the entire isolation philosophy of"
+  },
+  {
+   "rank": 2,
+   "hazard": "Steam purge (step 5) leaves flammable vapour in reactor and main fractionator — air ingress during maintenance entry (step 8) creates explosive atmosphere, ignited by pyrophoric catalyst or hot surfaces",
+   "equipment": [
+    "riser reactor",
+    "main fractionator",
+    "steam-purge",
+    "step 5",
+    "step 8"
+   ],
+   "reason": "Procedure has no verification step (gas test, O2 check) after purge. Reactor operates at 700 °C with cracking catalyst (pyrophoric). Fractionator receives cracked vapours. Safeguards listed for purge: none. Consequence: vessel explosion during confined-space entry."
+  },
+  {
+   "rank": 3,
+   "hazard": "Excessive air blower reduction (step 2) starves regenerator combustion — incomplete coke burn generates CO; CO accumulates in flue gas path and explodes in CO boiler or regenerator at 700 °C, ~2 bar g",
+   "equipment": [
+    "regenerator",
+    "main air blower",
+    "CO boiler",
+    "flue gas oxygen analyser",
+    "step 2"
+   ],
+   "reason": "Step 2 says 'reduce main air blower rate; keep regenerator hot with torch oil if needed.' No minimum air limit or CO trip stated. O2 analyser is indication only. Torch oil adds unburned fuel if air drops further. Explosion severity extreme at operating pressure/temperature."
+  },
+  {
+   "rank": 4,
+   "hazard": "Catalyst withdrawal to spent catalyst hopper (step 3) and subsequent vessel opening for maintenance disperse pyrophoric catalyst dust — dust cloud ignites spontaneously or from hot surfaces/asphalt tanks 60 m away",
+   "equipment": [
+    "regenerator",
+    "spent catalyst hopper",
+    "riser reactor",
+    "step 3",
+    "asphalt storage tanks"
+   ],
+   "reason": "Fluid catalytic cracking catalyst is pyrophoric (auto-ignites in air). Step 3 withdraws inventory to hopper — dust generation certain. Maintenance entry opens vessels — further dispersion. No dust controls, inerting, or ignition-source clearance mentioned. Asphalt tanks at 150 °C only 60 m from"
+  },
+  {
+   "rank": 5,
+   "hazard": "Simultaneous steam purge (step 5) and gas plant depressure (step 6) overload flare — radiation ignites asphalt tanks (150 °C, 60 m) or flare tip fails, raining burning liquid on reactor structure",
+   "equipment": [
+    "flare",
+    "steam-purge",
+    "wet gas compressor",
+    "gas plant",
+    "asphalt storage tanks",
+    "step 5",
+    "step 6"
+   ],
+   "reason": "Step 5 purges reactor and fractionator to flare; step 6 depressures gas plant (C1–C4 + naphtha) to flare. No flare capacity check or staging in procedure. Asphalt tanks at 150 °C are 60 m from reactor structure — within radiation zone of large flare load. Package gives no flare"
+  },
+  {
+   "rank": 6,
+   "hazard": "Steam purge (step 5) or rapid regenerator cooldown (step 7) thermally shocks 700 °C reactor/regenerator — vessel cracking, catastrophic loss of hot catalyst and hydrocarbon inventory",
+   "equipment": [
+    "riser reactor",
+    "regenerator",
+    "steam-purge",
+    "main air blower",
+    "step 5",
+    "step 7"
+   ],
+   "reason": "Equipment at ~700 °C. Step 5 introduces steam; step 7 shuts air blower and cools regenerator. No controlled cooldown rates, steam temperature limits, or thermal-stress safeguards listed. Thermal shock can rupture thick-walled refractory-lined vessels — immediate major release."
+  },
+  {
+   "rank": 7,
+   "hazard": "Isolation and blinding (step 8) incomplete or wrong — maintenance crew exposed to residual pressure, 700 °C surfaces, pyrophoric catalyst, HF acid (300 m) if flare/blast escalates, or nitrogen/steam asphyxiation",
+   "equipment": [
+    "step 8",
+    "riser reactor",
+    "regenerator",
+    "main fractionator",
+    "gas plant",
+    "alkylation unit (HF acid)"
+   ],
+   "reason": "Complex multi-vessel unit with hot catalyst, flammable gases, and nearby HF unit. Procedure step 8 is one line: 'Isolate and blind for maintenance entry.' No verification safeguards (tag audit, pressure test blinds, gas-free cert) listed. Human error likelihood high in multi-point isolation."
+  },
+  {
+   "rank": 8,
+   "hazard": "Heavy gas oil solidifies in feed line and riser after feed cut (step 1) — blocks restart, requires hazardous hot work to clear, creates latent overpressure/coking hazard on next heat-up",
+   "equipment": [
+    "feed line",
+    "riser reactor",
+    "step 1"
+   ],
+   "reason": "Feed is heavy gas oil (high pour point). Step 1: 'cut feed. Keep riser steam on.' Steam may not maintain line temperature above pour point once feed flow stops. No line tracing, circulation, or nitrogen displacement mentioned. Solidification certain in dead legs; clearing requires confined-space hot"
+  },
+  {
+   "rank": 9,
+   "hazard": "Torch oil system fails while regenerator on reduced air (step 2) — regenerator cools uncontrolled, coke remains unburned, creating restart explosion hazard or thermal stress damage",
+   "equipment": [
+    "regenerator",
+    "main air blower",
+    "torch oil",
+    "step 2"
+   ],
+   "reason": "Step 2: 'Keep regenerator hot with torch oil if needed.' Torch oil is sole backup heat. If it fails (no redundancy stated), regenerator temperature drops with coke on catalyst. Unburned coke + later air reintroduction = explosion risk. Also thermal cycling damage. No torch oil"
+  },
+  {
+   "rank": 10,
+   "hazard": "Major FCC event (vessel rupture, flare escalation, dust explosion) reaches alkylation unit 300 m away — HF acid release creates toxic cloud beyond unit boundaries",
+   "equipment": [
+    "alkylation unit (HF acid)",
+    "flare",
+    "riser reactor",
+    "regenerator",
+    "CO boiler"
+   ],
+   "reason": "300 m is within blast/fire escalation radius for refinery major event (vessel rupture at 700 °C/2 bar, large flare load, dust explosion). Package gives no HF unit safeguards, spacing study, or mutual-emergency coordination. Conditional on FCC major event, so lower likelihood than"
+  }
+ ]
+}

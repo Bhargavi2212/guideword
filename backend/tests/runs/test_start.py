@@ -230,3 +230,66 @@ def test_run_keeps_its_section_records_after_a_re_propose(
     plants.set_sections(record_id, renamed[:3], PlantStatus.SECTIONS_PROPOSED)
     assert runs.sections(run.id) == before
     assert all(s.name != "renamed" for s in runs.sections(run.id))
+
+
+def _stop_at(runs: RunRepository, run_id: str, step: str) -> None:
+    with runs.step(run_id) as writer:
+        writer.set_step(step)
+        writer.set_status(RunStatus.STOPPED_CAP)
+
+
+@pytest.mark.parametrize("step", ["severity", "ranked"])
+def test_a_run_stopped_past_the_analysis_with_questions_open_resumes_in_the_analysis(
+    plants: PlantRepository,
+    runs: RunRepository,
+    ref: ReferenceSet,
+    settings: RunSettings,
+    upload: Upload,
+    step: str,
+) -> None:
+    """R38 stop (case E run 1): the analysis ended at the severity reserve with questions
+    open, and the run stopped at the end. With a higher cap the same run goes back to the
+    analysis, so the open questions are answered; severity then rates the new findings."""
+    record_id = upload()
+    first = _start(plants, runs, ref, settings, record_id, cap=1.0)
+    _stop_at(runs, first.id, step)
+    resumed = _start(plants, runs, ref, settings, record_id, cap=2.0)
+    assert resumed.id == first.id
+    assert (resumed.status, resumed.step, resumed.spend_cap_usd) == (
+        RunStatus.RUNNING,
+        "analysis",
+        2.0,
+    )
+
+
+def test_a_run_stopped_in_the_analysis_resumes_where_it_stopped(
+    plants: PlantRepository,
+    runs: RunRepository,
+    ref: ReferenceSet,
+    settings: RunSettings,
+    upload: Upload,
+) -> None:
+    record_id = upload()
+    first = _start(plants, runs, ref, settings, record_id, cap=1.0)
+    _stop_at(runs, first.id, "plant_screen")
+    resumed = _start(plants, runs, ref, settings, record_id, cap=2.0)
+    assert resumed.step == "plant_screen"
+
+
+def test_a_run_stopped_at_the_end_with_nothing_open_keeps_its_step(
+    plants: PlantRepository,
+    runs: RunRepository,
+    ref: ReferenceSet,
+    settings: RunSettings,
+    upload: Upload,
+) -> None:
+    from guideword.schema.enums import QuestionStatus  # noqa: PLC0415
+
+    record_id = upload()
+    first = _start(plants, runs, ref, settings, record_id, cap=1.0)
+    with runs.step(first.id) as writer:
+        for q in writer.questions():
+            writer.put_question(q.model_copy(update={"status": QuestionStatus.ANSWERED}))
+    _stop_at(runs, first.id, "ranked")
+    resumed = _start(plants, runs, ref, settings, record_id, cap=2.0)
+    assert resumed.step == "ranked"
