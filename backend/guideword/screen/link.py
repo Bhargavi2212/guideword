@@ -6,8 +6,10 @@ sections: a question links when its objects include one of the hypothesis's comp
 equipment and valves named by a procedure step or planned job among them (the reverse of R40),
 or what any of those is attached to (a valve's line, an instrument's equipment, a loop's
 equipment, a relief device's protected item: G16), or when its chemicals (pair and
-environment questions) include one of the hypothesis's chemicals. External and utility
-hypotheses are plant-wide and link no questions.
+environment questions) include one of the hypothesis's chemicals. An external or utility
+hypothesis is plant-wide, and links no questions, only when every component really is of that
+type, per `fitting()`: locations for `external`, utilities of the matching kind for the
+utility types (G24). One that names equipment, a line or a step links like any other.
 
 **Support** is computed from the current findings whenever it is read, never stored. A finding
 supports a hypothesis when it answers a linked question and:
@@ -18,7 +20,8 @@ fits, which no finding can name, can still be confirmed); and
 - for a library cause: it has the same cause;
 - for an outside-library cause: it is outside-library too. The failing type is not compared;
   every finding already passed R46.
-For external and utility hypotheses: the same cause on the same component ID, on any question.
+For a plant-wide hypothesis (a plant-wide type and, by the rule above, no links): the same
+cause on the same component ID, on any question.
 """
 
 from collections.abc import Iterable, Mapping, Sequence
@@ -27,6 +30,7 @@ from guideword.schema import ids
 from guideword.schema.enums import FailingComponentType, QuestionKind
 from guideword.schema.plant import Plant
 from guideword.schema.records import OUTSIDE_LIBRARY, Finding, Hypothesis, Question, Section
+from guideword.screen.schema import fitting
 
 PLANT_WIDE = frozenset(
     {
@@ -118,7 +122,8 @@ def question_links(
     questions: Iterable[Question],
 ) -> list[str]:
     """The question IDs a new hypothesis links to, in ID order."""
-    if FailingComponentType(failing_component_type) in PLANT_WIDE:
+    kind = FailingComponentType(failing_component_type)
+    if kind in PLANT_WIDE and set(component_ids) <= set(fitting(plant).get(kind.value, [])):
         return []
     by_id = {s.id: s for s in sections}
     plant_ids = _plant_ids(plant)
@@ -149,7 +154,8 @@ def supports(
 ) -> bool:
     own = set(hypothesis.component_ids)
     overlap = bool(set(finding.failing_component_ids) & own)
-    if hypothesis.failing_component_type in PLANT_WIDE:
+    # plant-wide: the links were set by the rule above when the hypothesis was made (G24)
+    if hypothesis.failing_component_type in PLANT_WIDE and not hypothesis.question_ids:
         return overlap and _same_cause(hypothesis, finding)
     if finding.question_id not in hypothesis.question_ids:
         return False

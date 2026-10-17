@@ -292,3 +292,49 @@ def test_library_cause_support_by_own_section_on_an_item_no_failing_type_fits(
     line = plant.lines[0].id
     assert supports(h, finding(own, [line], "pipe", "C20"), by_id, secs)
     assert not supports(h, finding(own, [line], "pipe", "C21"), by_id, secs)
+
+
+# --- plant-wide only when every component really is of that type (R50 review, G24) ---------
+
+
+def test_c07_on_the_cooling_utility_stays_plant_wide(ref: ReferenceSet) -> None:
+    """Unchanged: no links; confirmed by a C07 finding naming the utility, on any question."""
+    plant, sections, questions = world(CASE_F, ref)
+    by_id, secs = {q.id: q for q in questions}, {x.id: x for x in sections}
+    h = hypothesis(["UT-F-CW"], "utility_cooling", cause="C07")
+    assert links_for(plant, sections, questions, h) == []
+    anywhere = next(q.id for q in questions if q.id.startswith("m:"))
+    assert supports(h, finding(anywhere, ["UT-F-CW"], "utility_cooling", "C07"), by_id, secs)
+    assert not supports(h, finding(anywhere, ["UT-F-CW"], "utility_cooling", "C08"), by_id, secs)
+
+
+def test_c07_on_an_equipment_item_links_its_own_section_and_is_confirmed_there(
+    ref: ReferenceSet,
+) -> None:
+    """A utility-type hypothesis on equipment is not plant-wide: it links the item's own
+    section, and a C07 finding there (which R46 makes name the utility) confirms it."""
+    plant, sections, questions = world(CASE_F, ref)
+    by_id, secs = {q.id: q for q in questions}, {x.id: x for x in sections}
+    h = hypothesis(["EVAPORATORS"], "utility_cooling", cause="C07")
+    linked = links_for(plant, sections, questions, h)
+    own = [q for q in linked if by_id[q].section_id == "S-EVAPORATORS"]
+    assert own
+    h = h.model_copy(update={"question_ids": linked})
+    assert supports(h, finding(own[0], ["UT-F-CW"], "utility_cooling", "C07"), by_id, secs)
+    assert not supports(h, finding(own[0], ["UT-F-CW"], "utility_cooling", "C08"), by_id, secs)
+    elsewhere = next(q.id for q in questions if q.id.startswith("m:") and q.id not in set(linked))
+    assert not supports(h, finding(elsewhere, ["UT-F-CW"], "utility_cooling", "C07"), by_id, secs)
+
+
+def test_a_utility_and_an_equipment_item_together_are_not_plant_wide(ref: ReferenceSet) -> None:
+    plant, sections, questions = world(CASE_F, ref)
+    by_id = {q.id: q for q in questions}
+    h = hypothesis(["UT-F-CW", "EVAPORATORS"], "utility_cooling", cause="C07")
+    linked = links_for(plant, sections, questions, h)
+    assert any(by_id[q].section_id == "S-EVAPORATORS" for q in linked)
+
+
+def test_external_on_an_equipment_item_is_not_plant_wide(ref: ReferenceSet) -> None:
+    plant, sections, questions = world(EXAMPLE, ref)
+    h = hypothesis(["MX-1"], "external", cause="C22")
+    assert links_for(plant, sections, questions, h) != []
