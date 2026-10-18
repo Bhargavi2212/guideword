@@ -220,7 +220,7 @@ Every call is a `ToolCall` record and a `tool_call` event; arguments validated (
 ## 2.11 G2 (Oct 17)
 
 - [ ] 5B puts the real cause in the **top 3 on cases D and G**, hand-scored by Bhargavi. *Failed (G2, Oct 16); replaced by R50 and G2b, which passed on Oct 17 (`docs/decisions.md`).*
-- [ ] Results table generated; spend recorded; `docs/decisions.md` records the routing chosen for Phase 3 (cheapest tier that passed per job, from the four-tier comparison).
+- [x] Results table generated; spend recorded; `docs/decisions.md` records the routing chosen for Phase 3 (cheapest tier that passed per job, from the four-tier comparison). *Routing unchanged, decided on validity and cost; four-tier accuracy not hand-scored (`docs/decisions.md`, 2026-10-18).*
 - If G2 fails: stop and rethink before Phase 3 (§15); if 5A matches 5B, record it and use 5A's finding honestly in the pitch.
 
 ---
@@ -248,7 +248,7 @@ Every call is a `ToolCall` record and a `tool_call` event; arguments validated (
 ## Done when
 
 - [ ] Every acceptance box ticked; CI green on `main`.
-- [ ] A 5B run on every dev case reaches `finished` (or a recorded cap stop) with a ranked list. *D and G (dev runs), E and F (hybrid, G2b) done; H has only the plant_screen checks.*
+- [ ] A 5B run on every dev case reaches `finished` (or a recorded cap stop) with a ranked list. *D and G (dev runs), E and F (hybrid, G2b) done; H not run (recognised by kill test #4; about $1.5 a run; `docs/decisions.md`, 2026-10-18).*
 - [x] G2 decided and recorded.
-- [ ] Phase 2 spend within its cap, by use; ledger snapshot `budget/ledger-g2.jsonl` committed; `g2` tag.
+- [x] Phase 2 spend within its cap, by use; ledger snapshot `budget/ledger-g2.jsonl` committed; `g2` tag. *Phase 2 $7.04 of $8.50; `ledger-g2.jsonl` (#62); `g2` tagged.*
 - [x] Every decision has a dated line in `docs/decisions.md`; Token Factory friction in `docs/feedback-log.md`.

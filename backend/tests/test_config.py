@@ -70,7 +70,7 @@ def test_caps(shipped: Config) -> None:
     assert run.connector_max_input_tokens == 80000
     assert shipped.caps.plant.section_suggest_cap_usd == 0.05
     # Phase 2 adds its cap (specs/phase-2.md)
-    assert shipped.caps.phase_caps_usd == {"0": 0.65, "2": 8.50}
+    assert shipped.caps.phase_caps_usd == {"0": 0.65, "2": 8.50, "3": 2.50}
 
 
 def test_phase_2_run_caps(shipped: Config) -> None:
