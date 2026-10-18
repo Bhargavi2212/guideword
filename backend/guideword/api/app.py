@@ -19,6 +19,7 @@ from fastapi.responses import JSONResponse, Response
 from guideword.api import models as api
 from guideword.api.live import GatewayFactory, LiveRuns, RunEnded, RunNotFound
 from guideword.api.mock import DEFAULT_FIXTURES, XLSX_MEDIA_TYPE, MockStore, worksheet_xlsx
+from guideword.api.suggester import GatewaySuggester
 from guideword.config import Config, load_config
 from guideword.gateway.cache import ResponseCache
 from guideword.gateway.client import Gateway
@@ -98,8 +99,6 @@ def create_app(
     """`gateway_factory` and `ledger` are injected by tests (fake gateway, temporary ledger);
     by default live runs go through Token Factory and this environment's ledger."""
     settings = settings if settings is not None else Settings()
-    # Phase 1 has no live suggester; Phase 2 passes the gateway one
-    suggester = suggester if suggester is not None else NullSuggester()
     now: Clock = clock if clock is not None else (lambda: datetime.now(UTC))
     store = MockStore(fixtures_dir or DEFAULT_FIXTURES) if settings.guideword_mock else None
     app = FastAPI(
@@ -171,6 +170,16 @@ def create_app(
             gateway_factory=gateway_factory if gateway_factory is not None else token_factory,
             clock=now,
         )
+
+    @cache
+    def the_suggester() -> Suggester:
+        """The suggester given, else Super through the gateway when one is configured (an
+        injected factory or an API key), else none (spec 2.7)."""
+        if suggester is not None:
+            return suggester
+        if gateway_factory is not None or settings.nebius_api_key.get_secret_value():
+            return GatewaySuggester(live().gateway(), config())
+        return NullSuggester()
 
     def live_run(run_id: str) -> Run:
         try:
@@ -245,7 +254,9 @@ def create_app(
             return store.section_proposal
         plant = stored_plant(id).record.plant_file
         sections = rule_cut(plant, id)
-        valid, rejected = check_suggestions(plant, sections, suggester.suggest(plant, sections))
+        valid, rejected = check_suggestions(
+            plant, sections, the_suggester().suggest(plant, sections)
+        )
         for suggestion, reason in rejected:
             log.info(
                 "section suggestion rejected",
@@ -259,7 +270,16 @@ def create_app(
             )
         # the rule cut is the plant's current set; a propose after confirm clears it (P5)
         plant_store().set_sections(id, sections, PlantStatus.SECTIONS_PROPOSED)
-        return api.SectionProposal(plant_record_id=id, sections=sections, suggestions=valid)
+        return api.SectionProposal(
+            plant_record_id=id,
+            sections=sections,
+            suggestions=valid,
+            # what code refused and why, shown to the engineer (contract v1.3, R23)
+            rejected=[
+                api.RejectedSuggestion(suggestion=suggestion, reason=reason)
+                for suggestion, reason in rejected
+            ],
+        )
 
     @app.put("/plants/{id}/sections", response_model=api.ConfirmSectionsResult, responses=ERRORS)
     def confirm_sections(id: str, request: api.ConfirmSectionsRequest) -> api.ConfirmSectionsResult:

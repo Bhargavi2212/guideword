@@ -48,7 +48,7 @@ def _longest(text_type: Any) -> int:
     raise ValueError(f"{text_type} has no max_length")
 
 
-def _calls_usd(prices: object, input_tokens: int, max_tokens: int, calls: int) -> float:
+def calls_usd(prices: object, input_tokens: int, max_tokens: int, calls: int) -> float:
     """`calls` calls in one conversation, each re-sending up to `max_tokens` of earlier output."""
     total = 0.0
     for k in range(calls):
@@ -79,7 +79,7 @@ def run_upper_bound(
     messages = screen.messages([q.kind.value for q in questions], f"Request marker: {base}")
     prices = config.models.tiers[Tier(config.routing.jobs[SCREEN_JOB])]
     first = estimate_cost(prices, messages, None, caps.max_tokens[SCREEN_JOB])
-    total += SCREEN_ASKS * _calls_usd(
+    total += SCREEN_ASKS * calls_usd(
         prices, first.input_tokens, caps.max_tokens[SCREEN_JOB], ATTEMPTS
     )
 
