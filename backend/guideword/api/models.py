@@ -98,10 +98,19 @@ class SectionSuggestion(_Model):
     reason: str
 
 
+class RejectedSuggestion(_Model):
+    """A Super suggestion that code refused, with code's reason (contract v1.3, R23)."""
+
+    suggestion: SectionSuggestion
+    reason: str
+
+
 class SectionProposal(_Model):
     plant_record_id: str
     sections: list[Section]
     suggestions: list[SectionSuggestion]
+    # additive in contract v1.3 (R23): what code refused and why, shown to the engineer
+    rejected: list[RejectedSuggestion] = Field(default_factory=list)
 
 
 class ConfirmSectionsRequest(_Model):

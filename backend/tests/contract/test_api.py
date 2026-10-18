@@ -509,3 +509,39 @@ def test_run_dump_carries_hypotheses() -> None:
 def test_mock_events_include_both_hypothesis_events() -> None:
     types = {e["type"] for e in _fixture("events_page.json")["events"]}
     assert {"hypothesis_added", "hypothesis_dropped"} <= types
+
+
+# --- contract v1.3: rejected section suggestions (R23) ------------------------------------------
+
+
+def test_section_proposal_without_rejected_still_validates() -> None:
+    """Additive: a proposal from an older server, with no `rejected`, is valid and has none."""
+    old = dict(_fixture("section_proposal.json"))
+    old.pop("rejected", None)
+    assert api.SectionProposal.model_validate(old).rejected == []
+
+
+def test_a_rejected_suggestion_carries_the_suggestion_and_the_reason() -> None:
+    proposal = api.SectionProposal.model_validate(
+        _fixture("section_proposal.json")
+        | {
+            "rejected": [
+                {
+                    "suggestion": {
+                        "kind": "merge",
+                        "section_ids": ["S-NOPE"],
+                        "purpose": None,
+                        "reason": "one tank",
+                    },
+                    "reason": "unknown section S-NOPE",
+                }
+            ]
+        }
+    )
+    [rejected] = proposal.rejected
+    assert rejected.suggestion.section_ids == ["S-NOPE"]
+    assert rejected.reason == "unknown section S-NOPE"
+
+
+def test_the_mock_proposal_lists_no_rejections() -> None:
+    assert _fixture("section_proposal.json")["rejected"] == []

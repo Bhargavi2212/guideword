@@ -471,7 +471,7 @@ Every run-related response carries a `label`: `{kind: live | recorded | mock, re
 | `GET /plants` | — | List plants |
 | `POST /plants` | plant file | Upload and validate; returns errors and missing-fact warnings |
 | `GET /plants/{id}` | — | Plant facts with sources |
-| `POST /plants/{id}/sections/propose` | — | Rules plus Super suggestions with reasons (under `section_suggest_cap_usd`; the live Super call is wired in Phase 2, and Phase 1 returns no suggestions); plant status → sections_proposed |
+| `POST /plants/{id}/sections/propose` | — | Rules plus Super suggestions with reasons (under `section_suggest_cap_usd`; the live Super call is wired in Phase 2, and Phase 1 returns no suggestions), and the suggestions code refused with its reasons (`rejected`, contract v1.3); plant status → sections_proposed |
 | `PUT /plants/{id}/sections` | confirmed section set | Save confirmed sections; plant status → sections_confirmed |
 | `GET /runs` | — | List runs |
 | `POST /runs` | plant_id, spend_cap_usd, mode (full, sample) | Start a run; returns run ID and estimated cost; 409 if the plant's sections are not confirmed, or if a `stopped_cap` run with the same inputs is restarted without a higher `spend_cap_usd` |
