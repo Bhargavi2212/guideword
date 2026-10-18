@@ -180,14 +180,6 @@ def _hand(rows: list[dict[str, str]]) -> str:
     return f"partial at {partial}" if partial is not None else "missed"
 
 
-def _summary(root: Path, path: Path, title: str, missing: str) -> list[str]:
-    data = _read(root / path)
-    lines = ["", f"## {title}", ""]
-    if data is None:
-        return [*lines, missing]
-    return [*lines, "```json", json.dumps(data, indent=1, ensure_ascii=False), "```"]
-
-
 def render_results(root: Path) -> str:
     scores: dict[str, Any] = _read(root / SCORES) or {}
     hand = _hand_rows(root)
@@ -226,11 +218,49 @@ def render_results(root: Path) -> str:
                 f"{'-' if seconds is None else f'{seconds:.0f}'} |"
             )
     out += ["", f"**Paid for these runs:** ${total:.4f}."]
-    out += _summary(
-        root, KILL4_SUMMARY, "Kill test #4", "Not reported yet (scripts/kill4.py, PR 12b)."
-    )
+    out += _kill4(root)
     out += _four_tier(root)
     return "\n".join(out) + "\n"
+
+
+def _kill4(root: Path) -> list[str]:
+    """Kill test #4 as recorded (R37): its ranks come from the kill test's own automatic match
+    rule, so they are labelled and never set beside the G2b hand scores as if comparable."""
+    lines = ["", "## Kill test #4", ""]
+    data = _read(root / KILL4_SUMMARY)
+    if data is None:
+        return [*lines, "Not reported yet (scripts/kill4.py, PR 12b)."]
+
+    def rank(r: dict[str, Any]) -> str:
+        return "not in top 10" if r["rank"] is None else str(r["rank"])
+
+    def recognised(r: dict[str, Any]) -> str:
+        return ("yes (excluded)" if r["excluded"] else "yes") if r["recognised"] else "no"
+
+    lines += [
+        f"Run {data['run']}. Ranks: **{data['label']}**.",
+        "",
+        "Ultra (the #4 configuration):",
+        "",
+        "| case | recorded rank | recognised by the model |",
+        "|---|---|---|",
+    ]
+    lines += [f"| {r['case']} | {rank(r)} | {recognised(r)} |" for r in data["ultra"]]
+    lines += [
+        "",
+        f"Ultra, top 3 on unrecognised cases (automatic): {data['ultra_top3_unrecognised']}.",
+        "",
+        "Nano (not the #4 configuration):",
+        "",
+        "| case | recorded rank | recognised by the model |",
+        "|---|---|---|",
+    ]
+    lines += [
+        f"| {r['case']} | {rank(r)} | {recognised(r)} |"
+        for r in data["nano_not_the_4_configuration"]
+    ]
+    lines += ["", f"Hand review: {data['hand_review']}"]
+    return lines
 
 
 FOUR_TIER_SCORES = "four_tier_scores.csv"
