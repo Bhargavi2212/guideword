@@ -229,7 +229,41 @@ def render_results(root: Path) -> str:
     out += _summary(
         root, KILL4_SUMMARY, "Kill test #4", "Not reported yet (scripts/kill4.py, PR 12b)."
     )
-    out += _summary(
-        root, FOUR_TIER_SUMMARY, "Four-tier comparison", "Not run yet (four_tier, PR 12b)."
-    )
+    out += _four_tier(root)
     return "\n".join(out) + "\n"
+
+
+FOUR_TIER_SCORES = "four_tier_scores.csv"
+HAND_GRADES = ("good", "partial", "wrong")
+
+
+def _four_tier(root: Path) -> list[str]:
+    """Per tier: valid answers, the hand scores from four_tier_scores.csv (R35; a blank one is
+    "not scored", never invented), median batch latency and cost."""
+    lines = ["", "## Four-tier comparison", ""]
+    data = _read(root / FOUR_TIER_SUMMARY)
+    if data is None:
+        return [*lines, "Not run yet (scripts/four_tier.py, PR 12b)."]
+    graded: dict[str, dict[str, int]] = {}
+    sheet = root / FOUR_TIER_SCORES
+    if sheet.exists():
+        with sheet.open(encoding="utf-8", newline="") as handle:
+            for row in csv.DictReader(handle):
+                grade = row["score"].strip().lower()
+                counts = graded.setdefault(row["tier"], {})
+                key = grade if grade in HAND_GRADES else "not scored"
+                counts[key] = counts.get(key, 0) + 1
+    if data.get("stopped"):
+        lines += [f"Stopped early: {data['stopped']}", ""]
+    lines += [
+        "| tier | valid answers | hand scores | median latency | cost |",
+        "|---|---|---|---|---|",
+    ]
+    for tier, t in data["tiers"].items():
+        counts = graded.get(tier, {})
+        hand = ", ".join(f"{counts.get(g, 0)} {g}" for g in (*HAND_GRADES, "not scored"))
+        rate = f"{t['valid']}/{t['questions']} ({t['valid_rate']:.0%})"
+        lines.append(
+            f"| {tier} | {rate} | {hand} | {t['median_latency_s']:.2f} s | ${t['cost_usd']:.4f} |"
+        )
+    return lines
