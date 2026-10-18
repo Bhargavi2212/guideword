@@ -442,13 +442,18 @@ def test_without_mock_mode_every_unbuilt_route_is_501_naming_its_phase(
     assert f"phase {detail['phase']}" in detail["detail"]
 
 
-def test_advance_without_mock_mode_is_501_after_the_secret_check() -> None:
-    client = _client(mock=False)
+def test_advance_without_mock_mode_checks_the_secret_before_the_run(tmp_path: Path) -> None:
+    """Built in PR 10 (spec 2.8): the secret first, then the run; a temporary store, never
+    the repo's guideword.db."""
+    settings = _settings(mock=False).model_copy(
+        update={"database_url": f"sqlite:///{(tmp_path / 'g.db').as_posix()}"}
+    )
+    client = TestClient(create_app(settings=settings, clock=Clock()))
     assert client.post(_path("/internal/runs/{id}/advance")).status_code == 401
     response = client.post(
         _path("/internal/runs/{id}/advance"), headers={"X-Internal-Secret": SECRET}
     )
-    assert response.status_code == 501
+    assert response.status_code == 404
 
 
 # --- contract v1.2: hypotheses and tiers (R50) --------------------------------------------------

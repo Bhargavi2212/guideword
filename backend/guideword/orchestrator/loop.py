@@ -69,6 +69,21 @@ class OrchestratorStepper:
         self.caps = config.caps.run
         self.prompt = load_prompt("orchestrator", config)
 
+    def messages(self, view: dict[str, Any]) -> list[dict[str, Any]]:
+        """The request of one step for this view (also priced by `runs/estimate.py`, R20)."""
+        system = render(
+            self.prompt.body,
+            {
+                # as data: tool results and step reasons cannot close the block (CLAUDE.md §3)
+                "view": as_data(view),
+                "dispatch_max_question_ids": str(
+                    self.caps.orchestrator_view.dispatch_max_question_ids
+                ),
+                "unsure_reanswers_left": str(view["unsure_reanswers_left"]),
+            },
+        )
+        return [{"role": "system", "content": system}, {"role": "user", "content": ASK}]
+
     # --- one step ------------------------------------------------------------------------
 
     def __call__(self, run: Run, writer: StepWriter) -> StepResult:
@@ -115,19 +130,7 @@ class OrchestratorStepper:
             limit_usd=limit,
             hypotheses=hypotheses,
         )
-        system = render(
-            self.prompt.body,
-            {
-                # as data: tool results and step reasons cannot close the block (CLAUDE.md §3)
-                "view": as_data(view),
-                "dispatch_max_question_ids": str(caps.orchestrator_view.dispatch_max_question_ids),
-                "unsure_reanswers_left": str(view["unsure_reanswers_left"]),
-            },
-        )
-        messages: list[dict[str, Any]] = [
-            {"role": "system", "content": system},
-            {"role": "user", "content": ASK},
-        ]
+        messages = self.messages(view)
         result: GatewayResult | None = None
         for attempt in (1, 2):
             try:
