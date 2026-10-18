@@ -929,6 +929,15 @@ export interface components {
             /** Tool Calls */
             tool_calls: components["schemas"]["ToolCall"][];
         };
+        /**
+         * RejectedSuggestion
+         * @description A Super suggestion that code refused, with code's reason (contract v1.3, R23).
+         */
+        RejectedSuggestion: {
+            /** Reason */
+            reason: string;
+            suggestion: components["schemas"]["SectionSuggestion"];
+        };
         /** Run */
         Run: {
             /** Attempt */
@@ -1100,6 +1109,8 @@ export interface components {
         SectionProposal: {
             /** Plant Record Id */
             plant_record_id: string;
+            /** Rejected */
+            rejected?: components["schemas"]["RejectedSuggestion"][];
             /** Sections */
             sections: components["schemas"]["Section"][];
             /** Suggestions */

@@ -1,5 +1,24 @@
 {
   "$defs": {
+    "RejectedSuggestion": {
+      "additionalProperties": false,
+      "description": "A Super suggestion that code refused, with code's reason (contract v1.3, R23).",
+      "properties": {
+        "reason": {
+          "title": "Reason",
+          "type": "string"
+        },
+        "suggestion": {
+          "$ref": "#/$defs/SectionSuggestion"
+        }
+      },
+      "required": [
+        "suggestion",
+        "reason"
+      ],
+      "title": "RejectedSuggestion",
+      "type": "object"
+    },
     "Section": {
       "additionalProperties": false,
       "properties": {
@@ -168,6 +187,13 @@
     "plant_record_id": {
       "title": "Plant Record Id",
       "type": "string"
+    },
+    "rejected": {
+      "items": {
+        "$ref": "#/$defs/RejectedSuggestion"
+      },
+      "title": "Rejected",
+      "type": "array"
     },
     "sections": {
       "items": {
