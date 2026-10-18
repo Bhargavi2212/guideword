@@ -153,6 +153,8 @@ class PreparedBatch:
     context: SpecialistContext
     conversation: list[dict[str, Any]]
     max_added: int
+    # set only by the four-tier comparison (spec 2.10): the tier to call instead of the job's
+    forced_tier: Tier | None = None
 
 
 def prepare_batch(
@@ -166,6 +168,7 @@ def prepare_batch(
     agent: Agent,
     ai_remaining: int,
     level: Level = "bulk",
+    tier: Tier | None = None,
 ) -> "PreparedBatch | BatchOutcome":
     """The batch's context (fitted to the input cap, R43), cause list and messages; a batch
     too large even with every step and job dropped comes back as a failed outcome."""
@@ -176,7 +179,7 @@ def prepare_batch(
     tools = [tool_schema(t) for t in AGENT_TOOLS.get(agent, ())]
     question_rows = _question_rows(batch)
     max_added = min(caps.ai_questions_per_batch, ai_remaining)
-    resolved = gateway.catalog.resolve(Tier(config.routing.jobs[job]))
+    resolved = gateway.catalog.resolve(tier if tier is not None else Tier(config.routing.jobs[job]))
     prices = config.models.tiers[resolved.tier]
 
     def measure(ctx: SpecialistContext) -> int:
@@ -210,6 +213,7 @@ def prepare_batch(
         context=context,
         conversation=conversation,
         max_added=max_added,
+        forced_tier=tier,
     )
 
 
@@ -293,6 +297,7 @@ def run_batch(
                 prompt_version=prompt.label,
                 run=RunBudget(budget.run_id, spent, budget.limit_usd, budget.slice_id),
                 made=made,
+                tier=prepared.forced_tier,
                 **kwargs,
             )
         except RepeatedRequest as repeated:

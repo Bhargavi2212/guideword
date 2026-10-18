@@ -265,3 +265,46 @@ def test_results_table_shows_the_hybrid_views(tmp_path: Path) -> None:
     for config in ("hybrid", "hybrid-codeorder", "5a-plant", "5b-from-hybrid"):
         assert f"| case_e | {config} |" in text, config
     assert "| case_e | 5B |" not in text
+
+
+def test_the_four_tier_table_reads_the_summary_and_the_hand_scores(tmp_path: Path) -> None:
+    """Per tier: valid rate, hand scores counted from four_tier_scores.csv (blank shows as not
+    scored, never invented), median latency and cost (R35)."""
+    from guideword.bench.results import render_results  # noqa: PLC0415
+
+    root = tmp_path / "test5"
+    (root / "four_tier").mkdir(parents=True)
+    summary = {
+        "stopped": None,
+        "tiers": {
+            "ultra": {
+                "questions": 2,
+                "valid": 2,
+                "valid_rate": 1.0,
+                "median_latency_s": 1.25,
+                "cost_usd": 0.05,
+            },
+            "nano": {
+                "questions": 2,
+                "valid": 1,
+                "valid_rate": 0.5,
+                "median_latency_s": 0.4,
+                "cost_usd": 0.001,
+            },
+        },
+    }
+    (root / "four_tier" / "summary.json").write_text(json.dumps(summary), encoding="utf-8")
+    (root / "four_tier_scores.csv").write_text(
+        "question_key,tier,score,reason\n"
+        "case_d:q1,ultra,good,ok\ncase_d:q2,ultra,partial,half\n"
+        "case_d:q1,nano,wrong,no\ncase_d:q2,nano,,\n",
+        encoding="utf-8",
+    )
+    text = render_results(root)
+    assert (
+        "| ultra | 2/2 (100%) | 1 good, 1 partial, 0 wrong, 0 not scored | 1.25 s | $0.0500 |"
+        in text
+    )
+    assert (
+        "| nano | 1/2 (50%) | 0 good, 0 partial, 1 wrong, 1 not scored | 0.40 s | $0.0010 |" in text
+    )

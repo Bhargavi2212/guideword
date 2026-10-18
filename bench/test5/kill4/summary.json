@@ -1,0 +1,83 @@
+{
+ "run": "20261009-215148",
+ "label": "automatic, older match rule (not hand/grader-scored)",
+ "ultra": [
+  {
+   "case": "case_d_c4_unit",
+   "rank": 1,
+   "recognised": false,
+   "excluded": false,
+   "finish_reason": "stop"
+  },
+  {
+   "case": "case_e_fcc_shutdown",
+   "rank": 2,
+   "recognised": false,
+   "excluded": false,
+   "finish_reason": "stop"
+  },
+  {
+   "case": "case_f_pulp_mill_area",
+   "rank": 2,
+   "recognised": false,
+   "excluded": false,
+   "finish_reason": "stop"
+  },
+  {
+   "case": "case_g_batch_plant",
+   "rank": null,
+   "recognised": false,
+   "excluded": false,
+   "finish_reason": "stop"
+  },
+  {
+   "case": "case_h_corn_mill",
+   "rank": 1,
+   "recognised": true,
+   "excluded": true,
+   "finish_reason": "stop"
+  }
+ ],
+ "ultra_top3_unrecognised": "3 of 4",
+ "nano_not_the_4_configuration": [
+  {
+   "case": "case_d_c4_unit",
+   "rank": null,
+   "recognised": true,
+   "excluded": false,
+   "finish_reason": "stop"
+  },
+  {
+   "case": "case_e_fcc_shutdown",
+   "rank": null,
+   "recognised": false,
+   "excluded": false,
+   "finish_reason": "stop"
+  },
+  {
+   "case": "case_f_pulp_mill_area",
+   "rank": null,
+   "recognised": false,
+   "excluded": false,
+   "finish_reason": "stop"
+  },
+  {
+   "case": "case_g_batch_plant",
+   "rank": null,
+   "recognised": false,
+   "excluded": false,
+   "finish_reason": "stop"
+  },
+  {
+   "case": "case_h_corn_mill",
+   "rank": null,
+   "recognised": false,
+   "excluded": false,
+   "finish_reason": "stop"
+  }
+ ],
+ "hand_review": "Ultra: real cause in top 3 on 2 of 4 unrecognised cases (3 counting the under-ranked dead leg); missed the chemical pair. Nano 0 of 5. (PROJECT.md §20, Bhargavi's hand review)",
+ "skipped_dry_runs": [
+  "20261009-215138"
+ ]
+}

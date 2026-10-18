@@ -1,0 +1,345 @@
+[
+ {
+  "key": "case_d:env:NMP:heat",
+  "question": "NMP (N-methylpyrrolidone) with heat: what would happen on contact or exposure, and is the existing protection adequate?",
+  "valid": false,
+  "answer": null
+ },
+ {
+  "key": "case_d:pair:ANTIFOAM:NMP",
+  "question": "ANTIFOAM (antifoam) and NMP (N-methylpyrrolidone): could they come into contact anywhere in the plant, and what would happen if they did?",
+  "valid": false,
+  "answer": null
+ },
+ {
+  "key": "case_d:pair:BUTADIENE:HEAVIES",
+  "question": "BUTADIENE (1,3-butadiene) and HEAVIES (heavies): could they come into contact anywhere in the plant, and what would happen if they did?",
+  "valid": false,
+  "answer": null
+ },
+ {
+  "key": "case_d:m:S-C-102:less:level",
+  "question": "Less level in S-C-102 (column): what could cause it, what would happen, and is the existing protection adequate?",
+  "valid": false,
+  "answer": null
+ },
+ {
+  "key": "case_d:m:S-E-104:reverse:flow",
+  "question": "Reverse flow in S-E-104 (heat exchanger): what could cause it, what would happen, and is the existing protection adequate?",
+  "valid": true,
+  "answer": "The section S-E-104 is a heat exchanger reboiler with no outlet line or downstream section described in the context. No process fluid is shown to exit E-104, so reverse flow through the equipment cannot be driven or detected. Additionally, the equipment is a reboiler where vapor generation occurs; a"
+ },
+ {
+  "key": "case_d:m:S-E-105:less:temperature",
+  "question": "Less temperature in S-E-105 (heat exchanger): what could cause it, what would happen, and is the existing protection adequate?",
+  "valid": true,
+  "answer": [
+   "Loss of cooling water — Heat input continues with no cooling water removal, temperature in the heat exchanger falls below normal operating range"
+  ]
+ },
+ {
+  "key": "case_d:m:S-L-E106-BYPASS:more:flow",
+  "question": "More flow in S-L-E106-BYPASS (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+  "valid": true,
+  "answer": [
+   "Piping leak — Undesired flow of butadiene through the bypass line while the main service valve is closed, potentially leading to unintended reactor charging or venting."
+  ]
+ },
+ {
+  "key": "case_d:m:S-L-P104B-DIS:other_than:phase",
+  "question": "Other than phase in S-L-P104B-DIS (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+  "valid": true,
+  "answer": [
+   "Pump stops or trips — Pump stops or trips. No flow in L-P104B-DIS. Liquid may accumulate in the pump suction or discharge depending on valve positions."
+  ]
+ },
+ {
+  "key": "case_d:m:S-L-P104B-DIS:part_of:composition",
+  "question": "Part of composition in S-L-P104B-DIS (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+  "valid": false,
+  "answer": null
+ },
+ {
+  "key": "case_d:m:S-L-RUNDOWN:more:flow",
+  "question": "More flow in S-L-RUNDOWN (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+  "valid": true,
+  "answer": [
+   "Piping leak — Butadiene releases from the pipe through a leak, forming a flammable vapor cloud in the surrounding area."
+  ]
+ },
+ {
+  "key": "case_e:env:CATALYST:heat",
+  "question": "CATALYST (catalyst) with heat: what would happen on contact or exposure, and is the existing protection adequate?",
+  "valid": true,
+  "answer": [
+   "Procedure step skipped or done out of order (operator error) — Catalyst exposed to additional heat during withdrawal to spent catalyst hopper may accelerate degradation or side reactions, releasing hot catalyst dust and combustion by‑products into the hopper and downstream lines."
+  ]
+ },
+ {
+  "key": "case_e:pair:C1-C4-GASES:COKE",
+  "question": "C1-C4-GASES (C1–C4 gases) and COKE (coke): could they come into contact anywhere in the plant, and what would happen if they did?",
+  "valid": true,
+  "answer": [
+   "Procedure step skipped or done out of order (operator error) — C1‑C4 gases and coke could meet if operator withdraws catalyst (which carries coke) into a line or equipment containing C1‑C4 gases, or if a leak from the regenerator discharges coke into the gas plant. The contact could generate heat or combustion, releasing hot gases or flammable vapour mixtures."
+  ]
+ },
+ {
+  "key": "case_e:pair:CRACKED-VAPOURS:FLUE-GAS",
+  "question": "CRACKED-VAPOURS (cracked vapours) and FLUE-GAS (flue gas): could they come into contact anywhere in the plant, and what would happen if they did?",
+  "valid": true,
+  "answer": [
+   "Procedure step skipped or done out of order (operator error) — Cracked vapours and flue gas could meet during steam purge or vent operations. The contact may produce heat, combustion products, or toxic gases (e.g., CO, NOx), released to the fractionator or flare."
+  ]
+ },
+ {
+  "key": "case_e:pair:FLUE-GAS:NAPHTHA",
+  "question": "FLUE-GAS (flue gas) and NAPHTHA (naphtha): could they come into contact anywhere in the plant, and what would happen if they did?",
+  "valid": true,
+  "answer": [
+   "Procedure step skipped or done out of order (operator error) — Flue gas and naphtha could meet during steam purge of the main fractionator to the flare. The contact may produce heat, incomplete combustion products, or toxic gases, released to the flare system."
+  ]
+ },
+ {
+  "key": "case_e:m:S-ABSORBER:other_than:phase",
+  "question": "Other than phase in S-ABSORBER (column): what could cause it, what would happen, and is the existing protection adequate?",
+  "valid": false,
+  "answer": null
+ },
+ {
+  "key": "case_e:m:S-EXPANDER:less:temperature",
+  "question": "Less temperature in S-EXPANDER (other): what could cause it, what would happen, and is the existing protection adequate?",
+  "valid": false,
+  "answer": null
+ },
+ {
+  "key": "case_e:m:S-L-CATALYST-WITHDRAWAL:other_than:composition",
+  "question": "Other than composition in S-L-CATALYST-WITHDRAWAL (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+  "valid": false,
+  "answer": null
+ },
+ {
+  "key": "case_e:m:S-L-FEED:more:pressure",
+  "question": "More pressure in S-L-FEED (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+  "valid": false,
+  "answer": null
+ },
+ {
+  "key": "case_e:m:S-L-FLUE-1:more:flow",
+  "question": "More flow in S-L-FLUE-1 (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+  "valid": false,
+  "answer": null
+ },
+ {
+  "key": "case_e:m:S-REGENERATOR:more:reaction",
+  "question": "More reaction in S-REGENERATOR (reactor): what could cause it, what would happen, and is the existing protection adequate?",
+  "valid": true,
+  "answer": [
+   "Control valve fails open — Pressure in REGENERATOR would rise above the 2 bar g normal operating value and its design pressure; over-pressure event could lead to relief device activation and release to EXPANDER and L-FLUE-1."
+  ]
+ },
+ {
+  "key": "case_e:m:S-RISER:no:level",
+  "question": "No level in S-RISER (reactor): what could cause it, what would happen, and is the existing protection adequate?",
+  "valid": false,
+  "answer": null
+ },
+ {
+  "key": "case_f:env:BLACK-LIQUOR:air",
+  "question": "BLACK-LIQUOR (black liquor) with air: what would happen on contact or exposure, and is the existing protection adequate?",
+  "valid": true,
+  "answer": "Air is not a chemical present in the plant; the plant context lists only black liquor, methanol, turpentine, and water as chemicals. Black liquor is an aqueous alkaline solution; its interaction with air (oxygen) is not the described deviation since air is not a handled substance in this system."
+ },
+ {
+  "key": "case_f:env:METHANOL:water",
+  "question": "METHANOL (methanol) with water: what would happen on contact or exposure, and is the existing protection adequate?",
+  "valid": true,
+  "answer": [
+   "Pump seal fails — Methanol and water mix completely; no violent reaction. If the pump seal or pump body fails, methanol and water could cross-contaminate in the STRIPPER-FEED-PUMP, creating a methanol-water mixture that remains flammable if ignition sources are present.",
+   "Valve left in wrong position (operator or maintenance error) — If operator leaves a valve in wrong position, water from one stream could flow into the methanol line, creating a dilute methanol-water mixture. The mixture would be less flammable but still combustible.",
+   "Procedure step skipped or done out of order (operator error) — Skipping or reordering a procedure step could result in water being added to the methanol line before intended, or vice versa, creating a methanol-water mixture in unexpected locations."
+  ]
+ },
+ {
+  "key": "case_f:env:WATER:heat",
+  "question": "WATER (water) with heat: what would happen on contact or exposure, and is the existing protection adequate?",
+  "valid": false,
+  "answer": null
+ },
+ {
+  "key": "case_f:env:WATER:water",
+  "question": "WATER (water) with water: what would happen on contact or exposure, and is the existing protection adequate?",
+  "valid": true,
+  "answer": [
+   "Procedure step skipped or done out of order (operator error) — Water contacts water, which is a normal condition with no chemical reaction hazard."
+  ]
+ },
+ {
+  "key": "case_f:pair:TURPENTINE:WATER",
+  "question": "TURPENTINE (turpentine) and WATER (water): could they come into contact anywhere in the plant, and what would happen if they did?",
+  "valid": true,
+  "answer": [
+   "Valve left in wrong position (operator or maintenance error) — Turpentine and water mix, potentially forming emulsions or releasing volatile organic compounds if water enters hot turpentine lines"
+  ]
+ },
+ {
+  "key": "case_f:m:S-EVAPORATORS:other_than:composition",
+  "question": "Other than composition in S-EVAPORATORS (other): what could cause it, what would happen, and is the existing protection adequate?",
+  "valid": false,
+  "answer": null
+ },
+ {
+  "key": "case_f:m:S-L-CONDENSATE-8IN:less:temperature",
+  "question": "Less temperature in S-L-CONDENSATE-8IN (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+  "valid": false,
+  "answer": null
+ },
+ {
+  "key": "case_f:m:S-L-CONDENSATE-8IN:reverse:flow",
+  "question": "Reverse flow in S-L-CONDENSATE-8IN (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+  "valid": false,
+  "answer": null
+ },
+ {
+  "key": "case_f:m:S-L-T33-VENT:other_than:phase",
+  "question": "Other than phase in S-L-T33-VENT (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+  "valid": false,
+  "answer": null
+ },
+ {
+  "key": "case_f:m:S-SURFACE-CONDENSER:reverse:flow",
+  "question": "Reverse flow in S-SURFACE-CONDENSER (heat exchanger): what could cause it, what would happen, and is the existing protection adequate?",
+  "valid": true,
+  "answer": "No pump, compressor, or pressure source downstream of the condenser is described as capable of pushing flow backwards; the context contains no line connections, valve positions, or pressure data to establish a reverse‑flow scenario"
+ },
+ {
+  "key": "case_f:m:S-T-31:less:level",
+  "question": "Less level in S-T-31 (tank): what could cause it, what would happen, and is the existing protection adequate?",
+  "valid": false,
+  "answer": null
+ },
+ {
+  "key": "case_f:m:S-T-31:no:level",
+  "question": "No level in S-T-31 (tank): what could cause it, what would happen, and is the existing protection adequate?",
+  "valid": false,
+  "answer": null
+ },
+ {
+  "key": "case_f:m:S-T-31:part_of:composition",
+  "question": "Part of composition in S-T-31 (tank): what could cause it, what would happen, and is the existing protection adequate?",
+  "valid": false,
+  "answer": null
+ },
+ {
+  "key": "case_f:m:S-VACUUM-SYSTEM:more:temperature",
+  "question": "More temperature in S-VACUUM-SYSTEM (other): what could cause it, what would happen, and is the existing protection adequate?",
+  "valid": false,
+  "answer": null
+ },
+ {
+  "key": "case_f:m:S-VACUUM-SYSTEM:no:flow",
+  "question": "No flow in S-VACUUM-SYSTEM (other): what could cause it, what would happen, and is the existing protection adequate?",
+  "valid": false,
+  "answer": null
+ },
+ {
+  "key": "case_g:pair:ACETIC-ACID:SIH",
+  "question": "ACETIC-ACID (acetic acid (for pH adjustment)) and SIH (methylhydrogen siloxane fluid (contains Si–H groups)): could they come into contact anywhere in the plant, and what would happen if they did?",
+  "valid": false,
+  "answer": null
+ },
+ {
+  "key": "case_g:proc:P-G-CHARGE-1:late",
+  "question": "Step P-G-CHARGE-1 of P-G-CHARGE (charging), late: what could cause it, what would happen, and is the existing protection adequate?",
+  "valid": false,
+  "answer": null
+ },
+ {
+  "key": "case_g:proc:P-G-CHARGE-3:late",
+  "question": "Step P-G-CHARGE-3 of P-G-CHARGE (charging), late: what could cause it, what would happen, and is the existing protection adequate?",
+  "valid": false,
+  "answer": null
+ },
+ {
+  "key": "case_g:proc:P-G-CHARGE-4:early",
+  "question": "Step P-G-CHARGE-4 of P-G-CHARGE (charging), early: what could cause it, what would happen, and is the existing protection adequate?",
+  "valid": false,
+  "answer": null
+ },
+ {
+  "key": "case_g:m:S-HOMOGENISER:as_well_as:composition",
+  "question": "As well as composition in S-HOMOGENISER (other): what could cause it, what would happen, and is the existing protection adequate?",
+  "valid": false,
+  "answer": null
+ },
+ {
+  "key": "case_g:m:S-MX-2:as_well_as:composition",
+  "question": "As well as composition in S-MX-2 (mixer): what could cause it, what would happen, and is the existing protection adequate?",
+  "valid": true,
+  "answer": [
+   "Wrong material charged or transferred (operator error) — Wrong material enters MX-2 mixer, contaminating the batch or causing unintended reaction."
+  ]
+ },
+ {
+  "key": "case_h:m:S-BULK-LOADOUT:as_well_as:composition",
+  "question": "As well as composition in S-BULK-LOADOUT (solids handler): what could cause it, what would happen, and is the existing protection adequate?",
+  "valid": true,
+  "answer": [
+   "Material stuck and overpressure in solids handler — Overpressure in BULK-LOADOUT could rupture the vessel or trigger relief device discharge"
+  ]
+ },
+ {
+  "key": "case_h:m:S-CORN-DRYER:as_well_as:composition",
+  "question": "As well as composition in S-CORN-DRYER (dryer): what could cause it, what would happen, and is the existing protection adequate?",
+  "valid": false,
+  "answer": null
+ },
+ {
+  "key": "case_h:m:S-L-DUCT-SCREW-CONVEYORS:reverse:flow",
+  "question": "Reverse flow in S-L-DUCT-SCREW-CONVEYORS (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+  "valid": true,
+  "answer": "The line L-DUCT-SCREW-CONVEYORS (pipe) discharges from SCREW-CONVEYORS to BAGHOUSE; there is no downstream equipment or storage vessel at higher pressure that could force reverse flow."
+ },
+ {
+  "key": "case_h:m:S-L-RECEIVING:less:temperature",
+  "question": "Less temperature in S-L-RECEIVING (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+  "valid": true,
+  "answer": [
+   "Piping leak — Corn escapes the pipe through a leak, cooling rapidly and causing the corn temperature in the line to drop below normal operating values."
+  ]
+ },
+ {
+  "key": "case_h:m:S-PNEUMATIC-CONVEYING:no:flow",
+  "question": "No flow in S-PNEUMATIC-CONVEYING (solids handler): what could cause it, what would happen, and is the existing protection adequate?",
+  "valid": true,
+  "answer": [
+   "Material overheated in a screw conveyor — Solids accumulate in the pneumatic conveying line and equipment; downstream processes receiving material are starved; potential for blockage that may require purge or entry to clear.",
+   "External fire near the equipment — Fire near or on the pneumatic conveying equipment could damage ductwork, filters, and structure; release of dust and potential for fire spread to building occupants."
+  ]
+ },
+ {
+  "key": "case_h:m:S-PURIFIERS:more:flow",
+  "question": "More flow in S-PURIFIERS (solids handler): what could cause it, what would happen, and is the existing protection adequate?",
+  "valid": true,
+  "answer": [
+   "External fire near the equipment — Structural damage to the 5-storey mill building and potential injury to the ~20 operators per shift due to fire exposure.",
+   "Material overheated in a screw conveyor — Overheating of the solids handler could lead to smoldering or ignition of accumulated grits, cornmeal, or corn flour, resulting in a fire or explosion within the equipment."
+  ]
+ },
+ {
+  "key": "case_h:m:S-ROLLER-MILLS:less:flow",
+  "question": "Less flow in S-ROLLER-MILLS (solids handler): what could cause it, what would happen, and is the existing protection adequate?",
+  "valid": true,
+  "answer": [
+   "External fire near the equipment — External fire near the roller-mills equipment could ignite accumulated dust and corn products, leading to a fire or deflagration in the mill building.",
+   "Material overheated in a screw conveyor — Material overheated in the roller-mills could cause smoldering, fire, or thermal degradation of corn products (cornmeal, grits, corn flour)."
+  ]
+ },
+ {
+  "key": "case_h:m:S-ROTARY-SIFTERS:as_well_as:composition",
+  "question": "As well as composition in S-ROTARY-SIFTERS (solids handler): what could cause it, what would happen, and is the existing protection adequate?",
+  "valid": true,
+  "answer": [
+   "Material overheated in a screw conveyor — Overheated material in the rotary sifters causes dust to ignite, leading to a fire in the solids handler."
+  ]
+ }
+]
