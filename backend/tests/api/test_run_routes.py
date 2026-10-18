@@ -54,6 +54,8 @@ def script(job: str, request: dict[str, Any]) -> Reply:
     """The orchestrator drains every open list and finishes; each specialist gives one
     outside-library finding per question on the first location of its context; severity
     rates every finding S3; the screen names one hypothesis on a location."""
+    if job == "section_suggestion":
+        return reply({"suggestions": []})
     if job == "plant_screen":
         location = _block(request, "plant")["locations"][0]["id"]
         hypothesis = {
