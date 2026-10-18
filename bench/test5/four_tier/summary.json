@@ -1,0 +1,33 @@
+{
+ "stopped": null,
+ "tiers": {
+  "ultra": {
+   "questions": 50,
+   "valid": 34,
+   "valid_rate": 0.68,
+   "median_latency_s": 13.017,
+   "cost_usd": 0.583893
+  },
+  "super": {
+   "questions": 50,
+   "valid": 46,
+   "valid_rate": 0.92,
+   "median_latency_s": 11.819,
+   "cost_usd": 0.133647
+  },
+  "lightning": {
+   "questions": 50,
+   "valid": 23,
+   "valid_rate": 0.46,
+   "median_latency_s": 3.664,
+   "cost_usd": 0.035237
+  },
+  "nano": {
+   "questions": 50,
+   "valid": 32,
+   "valid_rate": 0.64,
+   "median_latency_s": 2.617,
+   "cost_usd": 0.014374
+  }
+ }
+}

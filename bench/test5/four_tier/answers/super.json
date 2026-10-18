@@ -1,0 +1,403 @@
+[
+ {
+  "key": "case_d:env:NMP:heat",
+  "question": "NMP (N-methylpyrrolidone) with heat: what would happen on contact or exposure, and is the existing protection adequate?",
+  "valid": true,
+  "answer": "No heat sources (e.g., fired heater, steam tracing, hot surfaces) are listed for equipment containing NMP (C-101, C-102, C-103)."
+ },
+ {
+  "key": "case_d:pair:ANTIFOAM:NMP",
+  "question": "ANTIFOAM (antifoam) and NMP (N-methylpyrrolidone): could they come into contact anywhere in the plant, and what would happen if they did?",
+  "valid": true,
+  "answer": "Antifoam is injected into C-101 where NMP is present as contents, so they are already in contact during normal operation; the question does not represent a deviation."
+ },
+ {
+  "key": "case_d:pair:BUTADIENE:HEAVIES",
+  "question": "BUTADIENE (1,3-butadiene) and HEAVIES (heavies): could they come into contact anywhere in the plant, and what would happen if they did?",
+  "valid": true,
+  "answer": [
+   "Leak from heavies line L-HEAVIES into butadiene system — Heavies entering butadiene system; no reactivity data available, so possible heat, polymerization, or other unknown reaction."
+  ]
+ },
+ {
+  "key": "case_d:m:S-C-102:less:level",
+  "question": "Less level in S-C-102 (column): what could cause it, what would happen, and is the existing protection adequate?",
+  "valid": true,
+  "answer": [
+   "Loss of cooling water — Loss of cooling water reduces condenser duty, lowering reflux return and causing the column liquid level to fall, which can lead to dry trays, temperature rise and possible overpressure that may open RV-C102 and discharge vapors to the flare."
+  ]
+ },
+ {
+  "key": "case_d:m:S-E-104:reverse:flow",
+  "question": "Reverse flow in S-E-104 (heat exchanger): what could cause it, what would happen, and is the existing protection adequate?",
+  "valid": true,
+  "answer": [
+   "Loss of cooling water — Loss of cooling water reduces heat removal, raising temperature and pressure in the reboiler, which could cause flow to reverse if downstream pressure exceeds upstream.",
+   "Heat exchanger tube ruptures — A tube rupture in E-104 could equalize pressures between the steam and process sides, potentially allowing flow to reverse direction."
+  ]
+ },
+ {
+  "key": "case_d:m:S-E-105:less:temperature",
+  "question": "Less temperature in S-E-105 (heat exchanger): what could cause it, what would happen, and is the existing protection adequate?",
+  "valid": true,
+  "answer": [
+   "Increased cooling water flow or lower cooling water temperature — Overcooling of the overhead condenser E-105 could cause excessive subcooling of condensate, potentially leading to hydraulic instability or freezing of condensate."
+  ]
+ },
+ {
+  "key": "case_d:m:S-L-E106-BYPASS:more:flow",
+  "question": "More flow in S-L-E106-BYPASS (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+  "valid": true,
+  "answer": [
+   "External fire near the equipment — External fire raises temperature, increasing butadiene vapor pressure and potentially forcing fluid through the bypass line, resulting in a release of butadiene gas to the surrounding area."
+  ]
+ },
+ {
+  "key": "case_d:m:S-L-P104B-DIS:other_than:phase",
+  "question": "Other than phase in S-L-P104B-DIS (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+  "valid": true,
+  "answer": [
+   "External fire near the equipment — External fire heats the trapped fluid in the line, causing vaporization and pressure increase that could overpressurize the line and lead to rupture or release."
+  ]
+ },
+ {
+  "key": "case_d:m:S-L-P104B-DIS:part_of:composition",
+  "question": "Part of composition in S-L-P104B-DIS (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+  "valid": true,
+  "answer": [
+   "External fire near the equipment — External fire heats the fluid, causing thermal cracking or decomposition that changes composition (e.g., forms light gases or solids), potentially increasing pressure or causing blockage.",
+   "Piping leak — A leak allows loss of fluid and ingress of air or moisture, altering composition (e.g., creating flammable mixtures or causing corrosion) which could lead to overpressure or equipment damage."
+  ]
+ },
+ {
+  "key": "case_d:m:S-L-RUNDOWN:more:flow",
+  "question": "More flow in S-L-RUNDOWN (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+  "valid": true,
+  "answer": [
+   "Upstream pressure increase or downstream pressure decrease causing higher flow in the rundown line — Higher flow of butadiene could overload downstream equipment, potentially overpressuring storage spheres and leading to a release if relief protection is inadequate."
+  ]
+ },
+ {
+  "key": "case_e:env:CATALYST:heat",
+  "question": "CATALYST (catalyst) with heat: what would happen on contact or exposure, and is the existing protection adequate?",
+  "valid": true,
+  "answer": [
+   "Procedure step skipped or done out of order (operator error) — Catalyst exposed to excessive heat could lose activity, degrade, and potentially release fine particles."
+  ]
+ },
+ {
+  "key": "case_e:pair:C1-C4-GASES:COKE",
+  "question": "C1-C4-GASES (C1–C4 gases) and COKE (coke): could they come into contact anywhere in the plant, and what would happen if they did?",
+  "valid": true,
+  "answer": [
+   "Piping leak — Flammable C1‑C4 gases could contact hot coke in the regenerator, potentially igniting and causing a fire or explosion."
+  ]
+ },
+ {
+  "key": "case_e:pair:CRACKED-VAPOURS:FLUE-GAS",
+  "question": "CRACKED-VAPOURS (cracked vapours) and FLUE-GAS (flue gas): could they come into contact anywhere in the plant, and what would happen if they did?",
+  "valid": true,
+  "answer": [
+   "Piping leak — Mixing of hydrocarbon vapours with oxygen‑containing flue gas could create a flammable mixture; ignition could lead to a fire or explosion."
+  ]
+ },
+ {
+  "key": "case_e:pair:FLUE-GAS:NAPHTHA",
+  "question": "FLUE-GAS (flue gas) and NAPHTHA (naphtha): could they come into contact anywhere in the plant, and what would happen if they did?",
+  "valid": true,
+  "answer": [
+   "Piping leak — Naphtha vapour mixed with flue gas could form a flammable mixture that may ignite, causing a fire or explosion."
+  ]
+ },
+ {
+  "key": "case_e:m:S-ABSORBER:other_than:phase",
+  "question": "Other than phase in S-ABSORBER (column): what could cause it, what would happen, and is the existing protection adequate?",
+  "valid": true,
+  "answer": [
+   "Operator error in shutdown procedure (depressurizing gas plant) — Incorrect depressurization could lower pressure in the absorber, causing naphtha to flash to vapor and potentially overpressure the column, releasing hydrocarbon vapors.",
+   "External fire near the equipment — External fire could heat the absorber, vaporizing naphtha and increasing pressure, possibly leading to overpressure and release of hydrocarbon vapors.",
+   "Crane load dropped onto equipment — A crane load dropped onto the absorber could damage insulation or internals, altering temperature/pressure and causing naphtha to vaporize or gases to condense, leading to overpressure or hydraulic upset and possible release of hydrocarbons.",
+   "Lightning strike — A lightning strike could ignite a fire or damage the absorber, heating it and vaporizing naphtha, raising pressure and potentially releasing hydrocarbon vapors."
+  ]
+ },
+ {
+  "key": "case_e:m:S-EXPANDER:less:temperature",
+  "question": "Less temperature in S-EXPANDER (other): what could cause it, what would happen, and is the existing protection adequate?",
+  "valid": true,
+  "answer": [
+   "Reduced main air blower flow lowering regenerator temperature — Flue gas temperature in the expander drops below design, reducing expander work and possibly causing condensation in downstream lines."
+  ]
+ },
+ {
+  "key": "case_e:m:S-L-CATALYST-WITHDRAWAL:other_than:composition",
+  "question": "Other than composition in S-L-CATALYST-WITHDRAWAL (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+  "valid": true,
+  "answer": [
+   "Piping leak — A leak in the catalyst withdrawal line could allow ambient air or moisture to enter, mixing with the solid catalyst and potentially releasing catalyst dust to the surroundings, creating contamination and an inhalation hazard."
+  ]
+ },
+ {
+  "key": "case_e:m:S-L-FEED:more:pressure",
+  "question": "More pressure in S-L-FEED (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+  "valid": true,
+  "answer": [
+   "Downstream blockage (e.g., closed valve or plug) causing pressure accumulation — Pressure builds up in L-FEED, potentially exceeding design pressure and causing rupture or release of HGO.",
+   "External fire near the equipment — External fire heats L-FEED, raising HGO temperature and vapor pressure, which could overpressurize the line."
+  ]
+ },
+ {
+  "key": "case_e:m:S-L-FLUE-1:more:flow",
+  "question": "More flow in S-L-FLUE-1 (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+  "valid": true,
+  "answer": [
+   "Operator fails to reduce main air blower flow during shutdown, causing excess combustion air and higher regenerator pressure driving more flue gas flow. — Increased flue gas flow to the expander may cause overpressure or mechanical overload of the expander, potentially leading to release of hot flue gas if relief devices actuate or equipment damage."
+  ]
+ },
+ {
+  "key": "case_e:m:S-REGENERATOR:more:reaction",
+  "question": "More reaction in S-REGENERATOR (reactor): what could cause it, what would happen, and is the existing protection adequate?",
+  "valid": true,
+  "answer": [
+   "Main air blower delivers excess air (e.g., fails to reduce speed or discharge valve left open) — Increased oxygen raises coke combustion rate, raising temperature and pressure in the regenerator beyond design limits, risking overheating and overpressure.",
+   "Spent catalyst with higher coke content charged to regenerator (operator error) — More coke available for combustion increases heat release, driving temperature and pressure upward, potentially damaging the regenerator and overpressuring downstream equipment."
+  ]
+ },
+ {
+  "key": "case_e:m:S-RISER:no:level",
+  "question": "No level in S-RISER (reactor): what could cause it, what would happen, and is the existing protection adequate?",
+  "valid": true,
+  "answer": [
+   "Control valve fails closed — Catalyst cannot return from regenerator to riser, leading to depletion of catalyst inventory in the riser, loss of fluidization, reduced conversion and possible overheating.",
+   "Control valve fails open — Excessive catalyst flows from riser to regenerator via SV-SPENT, depleting the riser catalyst bed and causing loss of level, fluidization and reaction efficiency.",
+   "Valve left in wrong position (operator or maintenance error) — Both slide valves remain closed, blocking catalyst circulation between riser and regenerator, causing catalyst depletion in the riser and loss of level."
+  ]
+ },
+ {
+  "key": "case_f:env:BLACK-LIQUOR:air",
+  "question": "BLACK-LIQUOR (black liquor) with air: what would happen on contact or exposure, and is the existing protection adequate?",
+  "valid": true,
+  "answer": [
+   "Procedure step skipped or done out of order (operator error) — Exposure of black liquor to air may release volatile organic compounds and cause odors; no hazardous reaction is expected."
+  ]
+ },
+ {
+  "key": "case_f:env:METHANOL:water",
+  "question": "METHANOL (methanol) with water: what would happen on contact or exposure, and is the existing protection adequate?",
+  "valid": true,
+  "answer": [
+   "Wrong material charged or transferred (operator error) — Methanol mixes with water, forming a solution with slight exothermic heat; no hazardous gas is released."
+  ]
+ },
+ {
+  "key": "case_f:env:WATER:heat",
+  "question": "WATER (water) with heat: what would happen on contact or exposure, and is the existing protection adequate?",
+  "valid": true,
+  "answer": [
+   "Piping leak — Heated water generates steam, raising pressure and potentially causing a leak or burst that releases hot water/steam."
+  ]
+ },
+ {
+  "key": "case_f:env:WATER:water",
+  "question": "WATER (water) with water: what would happen on contact or exposure, and is the existing protection adequate?",
+  "valid": true,
+  "answer": [
+   "Normal mixing of process water — No chemical reaction; simply dilution with no release of hazardous material."
+  ]
+ },
+ {
+  "key": "case_f:pair:TURPENTINE:WATER",
+  "question": "TURPENTINE (turpentine) and WATER (water): could they come into contact anywhere in the plant, and what would happen if they did?",
+  "valid": true,
+  "answer": [
+   "Wrong material charged or transferred (operator error) — Turpentine forms a separate phase on water; if an ignition source is present, vapors may ignite, causing a fire or flash fire."
+  ]
+ },
+ {
+  "key": "case_f:m:S-EVAPORATORS:other_than:composition",
+  "question": "Other than composition in S-EVAPORATORS (other): what could cause it, what would happen, and is the existing protection adequate?",
+  "valid": false,
+  "answer": null
+ },
+ {
+  "key": "case_f:m:S-L-CONDENSATE-8IN:less:temperature",
+  "question": "Less temperature in S-L-CONDENSATE-8IN (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+  "valid": true,
+  "answer": [
+   "Loss of low-pressure steam heating or increased cooling water contact causing temperature drop. — Condensate temperature drops, increasing risk of freezing or increased viscosity, potentially causing flow restriction or equipment damage downstream."
+  ]
+ },
+ {
+  "key": "case_f:m:S-L-CONDENSATE-8IN:reverse:flow",
+  "question": "Reverse flow in S-L-CONDENSATE-8IN (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+  "valid": true,
+  "answer": [
+   "Valve left in wrong position (operator or maintenance error) — Condensate flows backward into upstream piping or equipment, risking overpressure, flooding, or damage to upstream units."
+  ]
+ },
+ {
+  "key": "case_f:m:S-L-T33-VENT:other_than:phase",
+  "question": "Other than phase in S-L-T33-VENT (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+  "valid": true,
+  "answer": [
+   "Tank overfill leading to liquid carryover into vent line — Liquid (water, methanol, turpentine, organics) enters the vent line and may be discharged to the atmosphere as a spray, creating slip, fire, and environmental hazards; could also block vent and pressurize the tank."
+  ]
+ },
+ {
+  "key": "case_f:m:S-SURFACE-CONDENSER:reverse:flow",
+  "question": "Reverse flow in S-SURFACE-CONDENSER (heat exchanger): what could cause it, what would happen, and is the existing protection adequate?",
+  "valid": true,
+  "answer": [
+   "Loss of cooling water — Loss of cooling water reduces pressure in the cooling‑water side, allowing higher‑pressure steam or condensate to flow backward into the cooling‑water circuit, potentially over‑pressurizing the cooling‑water system and exposing downstream equipment to steam.",
+   "Heat exchanger tube ruptures — A tube rupture creates a direct path between the shell and tube sides, enabling condensate or steam to flow opposite to the design direction into the cooling‑water side (or vice‑versa), which can cause contamination, over‑pressure, or thermal shock."
+  ]
+ },
+ {
+  "key": "case_f:m:S-T-31:less:level",
+  "question": "Less level in S-T-31 (tank): what could cause it, what would happen, and is the existing protection adequate?",
+  "valid": true,
+  "answer": [
+   "Atmospheric tank leaks — Loss of condensate (water, methanol, turpentine, organics) to surroundings via a tank leak, creating a pool and potential vapor release."
+  ]
+ },
+ {
+  "key": "case_f:m:S-T-31:no:level",
+  "question": "No level in S-T-31 (tank): what could cause it, what would happen, and is the existing protection adequate?",
+  "valid": true,
+  "answer": [
+   "Atmospheric tank leaks — Complete drainage of tank contents (water, methanol, turpentine, organics) to surroundings, resulting in vapor release, fire/toxicity hazard and environmental release."
+  ]
+ },
+ {
+  "key": "case_f:m:S-T-31:part_of:composition",
+  "question": "Part of composition in S-T-31 (tank): what could cause it, what would happen, and is the existing protection adequate?",
+  "valid": true,
+  "answer": [
+   "Preferential vapor loss of volatile organics through vent line leading to composition shift — Enrichment of heavier components (water) and depletion of methanol/turpentine in the liquid phase, potentially affecting downstream processing and corrosion."
+  ]
+ },
+ {
+  "key": "case_f:m:S-VACUUM-SYSTEM:more:temperature",
+  "question": "More temperature in S-VACUUM-SYSTEM (other): what could cause it, what would happen, and is the existing protection adequate?",
+  "valid": false,
+  "answer": null
+ },
+ {
+  "key": "case_f:m:S-VACUUM-SYSTEM:no:flow",
+  "question": "No flow in S-VACUUM-SYSTEM (other): what could cause it, what would happen, and is the existing protection adequate?",
+  "valid": false,
+  "answer": null
+ },
+ {
+  "key": "case_g:pair:ACETIC-ACID:SIH",
+  "question": "ACETIC-ACID (acetic acid (for pH adjustment)) and SIH (methylhydrogen siloxane fluid (contains Si–H groups)): could they come into contact anywhere in the plant, and what would happen if they did?",
+  "valid": true,
+  "answer": [
+   "Wrong material charged or transferred (operator error) — Heat generation and flammable gas (hydrogen) released if acetic acid contacts methylhydrogen siloxane fluid due to wrong charge/transfer.",
+   "Procedure step skipped or done out of order (operator error) — Heat generation and flammable gas (hydrogen) released if acetic acid contacts methylhydrogen siloxane fluid due to a procedure step skipped or done out of order.",
+   "External fire near the equipment — Heat from an external fire near the totes could raise temperature, causing reaction between acetic acid and SIH to generate heat and flammable gas."
+  ]
+ },
+ {
+  "key": "case_g:proc:P-G-CHARGE-1:late",
+  "question": "Step P-G-CHARGE-1 of P-G-CHARGE (charging), late: what could cause it, what would happen, and is the existing protection adequate?",
+  "valid": true,
+  "answer": [
+   "Wrong material charged or transferred (operator error) — Wrong material charged into mixing tank may cause unintended chemical reaction, overpressure, or release of hazardous vapors (e.g., IPA, acetic acid) into the building, endangering operators."
+  ]
+ },
+ {
+  "key": "case_g:proc:P-G-CHARGE-3:late",
+  "question": "Step P-G-CHARGE-3 of P-G-CHARGE (charging), late: what could cause it, what would happen, and is the existing protection adequate?",
+  "valid": true,
+  "answer": [
+   "Delayed pumping due to operator distraction leading to overfill — Delayed start of pumping may lead to unattended operation and overfill of the mixing tank, spilling charged material onto the floor, creating slip hazards and potential vapor release."
+  ]
+ },
+ {
+  "key": "case_g:proc:P-G-CHARGE-4:early",
+  "question": "Step P-G-CHARGE-4 of P-G-CHARGE (charging), early: what could cause it, what would happen, and is the existing protection adequate?",
+  "valid": true,
+  "answer": [
+   "Procedure step skipped or done out of order (operator error) — Early signing of the batch sheet may cause the operator to leave the area while the pump is still running, resulting in overfill, spill, and vapor release similar to delayed pumping."
+  ]
+ },
+ {
+  "key": "case_g:m:S-HOMOGENISER:as_well_as:composition",
+  "question": "As well as composition in S-HOMOGENISER (other): what could cause it, what would happen, and is the existing protection adequate?",
+  "valid": true,
+  "answer": [
+   "Incorrect feed material introduced into homogeniser due to operator error or misconnected supply line — Production of off-spec homogenized product, potentially resulting in quality non-conformance and possible downstream processing issues."
+  ]
+ },
+ {
+  "key": "case_g:m:S-MX-2:as_well_as:composition",
+  "question": "As well as composition in S-MX-2 (mixer): what could cause it, what would happen, and is the existing protection adequate?",
+  "valid": true,
+  "answer": [
+   "Wrong material charged or transferred (operator error) — Wrong material could cause unintended reaction, overpressure, and release of hazardous vapors via the loose lid/manway into the building, endangering personnel."
+  ]
+ },
+ {
+  "key": "case_h:m:S-BULK-LOADOUT:as_well_as:composition",
+  "question": "As well as composition in S-BULK-LOADOUT (solids handler): what could cause it, what would happen, and is the existing protection adequate?",
+  "valid": true,
+  "answer": [
+   "Material overheated in a screw conveyor — Overheated material produces burnt/charred particles that mix with grits, cornmeal, or corn-flour, altering product composition and potentially causing off-spec product."
+  ]
+ },
+ {
+  "key": "case_h:m:S-CORN-DRYER:as_well_as:composition",
+  "question": "As well as composition in S-CORN-DRYER (dryer): what could cause it, what would happen, and is the existing protection adequate?",
+  "valid": false,
+  "answer": null
+ },
+ {
+  "key": "case_h:m:S-L-DUCT-SCREW-CONVEYORS:reverse:flow",
+  "question": "Reverse flow in S-L-DUCT-SCREW-CONVEYORS (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+  "valid": true,
+  "answer": [
+   "Blockage in baghouse or duct causing backpressure that reverses flow toward screw conveyors — Dust-laden air flows backward into screw conveyors area, increasing dust exposure and potential accumulation in mill building."
+  ]
+ },
+ {
+  "key": "case_h:m:S-L-RECEIVING:less:temperature",
+  "question": "Less temperature in S-L-RECEIVING (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+  "valid": true,
+  "answer": [
+   "Exposure to low ambient temperature causing heat loss — Lower temperature of shelled corn in the receiving line may cause condensation or clumping, affecting downstream handling."
+  ]
+ },
+ {
+  "key": "case_h:m:S-PNEUMATIC-CONVEYING:no:flow",
+  "question": "No flow in S-PNEUMATIC-CONVEYING (solids handler): what could cause it, what would happen, and is the existing protection adequate?",
+  "valid": true,
+  "answer": [
+   "External fire near the equipment — Fire could damage the pneumatic conveying equipment, causing loss of solids flow and potential release of hot dust into the mill building, endangering personnel.",
+   "Material overheated in a screw conveyor — Overheated material in the screw conveyor could ignite or cause blockage, stopping solids flow and releasing hot dust or fire within the building."
+  ]
+ },
+ {
+  "key": "case_h:m:S-PURIFIERS:more:flow",
+  "question": "More flow in S-PURIFIERS (solids handler): what could cause it, what would happen, and is the existing protection adequate?",
+  "valid": true,
+  "answer": [
+   "Upstream feeder or internal gate malfunction causing excessive solids feed into the purifier. — Excess solids discharge from the purifier leading to material buildup on floors, slip/trip hazards, and potential dust explosion if ignited."
+  ]
+ },
+ {
+  "key": "case_h:m:S-ROLLER-MILLS:less:flow",
+  "question": "Less flow in S-ROLLER-MILLS (solids handler): what could cause it, what would happen, and is the existing protection adequate?",
+  "valid": true,
+  "answer": [
+   "External fire near the equipment — Backup of grits, cornmeal, or corn-flour upstream of the roller-mills, potentially causing spillage and dust release inside the mill building, exposing operators to inhalation hazards and increasing explosion risk."
+  ]
+ },
+ {
+  "key": "case_h:m:S-ROTARY-SIFTERS:as_well_as:composition",
+  "question": "As well as composition in S-ROTARY-SIFTERS (solids handler): what could cause it, what would happen, and is the existing protection adequate?",
+  "valid": true,
+  "answer": [
+   "Wear or damage to rotary sifter allowing ingress of foreign material — Foreign material (e.g., metal, plastic) mixes with grits, cornmeal, or corn flour, contaminating product and potentially damaging downstream equipment."
+  ]
+ }
+]
