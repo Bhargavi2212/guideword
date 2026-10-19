@@ -130,6 +130,8 @@ def _line(r: RankedFinding, causes: Mapping[str, str], rank: int) -> dict[str, A
         "unrated_reason": r.unrated_reason,
         "missing_fact_ids": list(r.missing_fact_ids),
         "note": r.likelihood.note,
+        # P3-4/5 assumptions (G12), shown in screening as in LOPA
+        "likelihood_flags": list(r.likelihood.flags),
         "superseded_by": r.superseded_by,
         "tier": r.finding.tier,
         "confidence": r.finding.confidence,
