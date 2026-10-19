@@ -137,8 +137,9 @@ def test_reasoning_tiers_send_no_thinking_switch(build: Build) -> None:
 
 def test_unknown_job_max_tokens_is_refused_before_sending(build: Build) -> None:
     gateway, transport = build(_ok)
-    with pytest.raises(KeyError):
-        _call(gateway, job="connector")
+    # a routed job with no max_tokens (connector had none until Phase 3 PR 2 gave it one)
+    with pytest.raises(KeyError, match="no max_tokens for job extraction"):
+        _call(gateway, job="extraction")
     assert transport.sent == []
 
 

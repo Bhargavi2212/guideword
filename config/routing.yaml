@@ -15,6 +15,8 @@ jobs:
   test5a: ultra
   # the whole-plant pass, the first step of every run (R50)
   plant_screen: ultra
+  # the severity of the connector's chains, in their own batch (Phase 3, plan Q5)
+  chain_severity: ultra
 # prompt name -> version; a change is a new prompts/<name>/<version>.md plus this entry (R19)
 prompts:
   orchestrator: v2
@@ -28,4 +30,9 @@ prompts:
   specialists/procedures: v2
   specialists/maintenance: v2
   specialists/dust: v2
+  # Phase 3 post-analysis steps (plan PR 2); drafted by Claude Code, reviewed by Bhargavi
+  connector: v1
+  lopa_argument: v1
+  recommendation: v1
+  severity_chain: v1
 fallback_order: [nano, lightning, super, ultra]

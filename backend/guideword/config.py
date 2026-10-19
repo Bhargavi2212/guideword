@@ -96,6 +96,10 @@ class RunCaps(_Strict):
     plant_screen_max_hypotheses: PositiveInt
     plant_screen_min_valid: NonNegativeInt
     specialist_max_input_tokens: PositiveInt
+    # Phase 3 (plan PR 2): the connector's chain limit and the post-analysis batch sizes
+    connector_max_chains: PositiveInt
+    lopa_batch_size: PositiveInt
+    recommendation_batch_size: PositiveInt
 
 
 class RankingCaps(_Strict):

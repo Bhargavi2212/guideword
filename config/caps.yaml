@@ -22,6 +22,12 @@ run:
     test5a: 8192
     # the whole-plant pass (R50, plan C5)
     plant_screen: 12288
+    # Phase 3 post-analysis Ultra jobs (plan PR 2): start values as severity_reason, since
+    # Ultra's reasoning shares the output budget; re-measure after the first extended run
+    connector: 12288
+    lopa_argument: 12288
+    recommendation: 12288
+    chain_severity: 12288
   # questions per specialist call, by tier
   specialist_batch_size:
     # halved after case D dev run 2: Lightning answered questions twice, answered ones not in
@@ -48,6 +54,12 @@ run:
   plant_screen_min_valid: 5
   # input size of one specialist call; steps and jobs are trimmed to fit, else the batch fails (R43)
   specialist_max_input_tokens: 24000
+  # Phase 3 (plan PR 2, Q9, Q12): chains the connector may propose (spec 3.1), and lines per
+  # LOPA-argument and recommendation call. They change what the model sees, so hashed (R18);
+  # an extended run reads them from the current config and records them (spec 3.6)
+  connector_max_chains: 10
+  lopa_batch_size: 5
+  recommendation_batch_size: 5
 
 plant:
   # the Super section-suggestion call, which runs outside any run

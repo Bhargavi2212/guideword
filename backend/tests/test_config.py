@@ -86,6 +86,11 @@ def test_phase_2_run_caps(shipped: Config) -> None:
         "section_suggestion": 6144,
         "test5a": 8192,
         "plant_screen": 12288,
+        # Phase 3 (plan PR 2): the post-analysis Ultra jobs, start values as severity_reason
+        "connector": 12288,
+        "lopa_argument": 12288,
+        "recommendation": 12288,
+        "chain_severity": 12288,
     }
     assert run.specialist_batch_size == {
         Tier.LIGHTNING: 5,
@@ -107,6 +112,21 @@ def test_phase_2_run_caps(shipped: Config) -> None:
     assert run.plant_screen_min_valid == 5
     assert run.specialist_max_input_tokens == 24000
     assert shipped.caps.ranking.outside_library_default_frequency_per_year == 0.1
+
+
+def test_phase_3_run_caps(shipped: Config) -> None:
+    """Plan PR 2 (Q9, Q12): in the hashed run block, so they move only new runs' IDs; an
+    extended run reads them from the current config (spec 3.6)."""
+    run = shipped.caps.run
+    assert run.connector_max_chains == 10
+    assert run.lopa_batch_size == 5
+    assert run.recommendation_batch_size == 5
+    caps = shipped.caps.run_input_caps()
+    for key in ("connector_max_chains", "lopa_batch_size", "recommendation_batch_size"):
+        assert key in caps, key
+    for job in ("connector", "lopa_argument", "recommendation", "chain_severity"):
+        assert caps["max_tokens"][job] == 12288, job
+    assert shipped.routing.jobs["chain_severity"] == Tier.ULTRA
 
 
 def test_gateway_caps(shipped: Config) -> None:
@@ -139,6 +159,11 @@ def test_prompt_versions_name_existing_files(shipped: Config) -> None:
         "severity": "v2",
         "test5a": "v1",
         "plant_screen": "v3",
+        # Phase 3 (plan PR 2, Q5)
+        "connector": "v1",
+        "lopa_argument": "v1",
+        "recommendation": "v1",
+        "severity_chain": "v1",
         **{
             f"specialists/{a}": "v2"
             for a in ("process", "chemistry", "piping", "procedures", "maintenance", "dust")
