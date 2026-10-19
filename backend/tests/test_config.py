@@ -155,7 +155,11 @@ def test_run_input_caps_hold_everything_that_changes_answers(shipped: Config) ->
     assert "severity_reserve_usd" not in caps
     # R43: it changes what the model sees, so it is hashed into the run ID
     assert caps["specialist_max_input_tokens"] == 24000
-    assert caps["ranking"] == {"outside_library_default_frequency_per_year": 0.1}
+    assert caps["ranking"] == {
+        "outside_library_default_frequency_per_year": 0.1,
+        # P3-4: C20 above this size uses the large-leak event; it changes ratings, so hashed
+        "pipe_leak_large_above_mm": 150,
+    }
     for left_out in ("concurrency", "gateway", "uses", "environments", "phase_caps_usd"):
         assert left_out not in caps
 
