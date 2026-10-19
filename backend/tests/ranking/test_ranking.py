@@ -148,6 +148,8 @@ def test_outside_library_gets_highest_frequency_of_its_type_flagged(
     found = likelihood(odd, _plant(), ref, config.caps)
     assert (found.frequency_per_year, found.assumed) == (0.1, True)
     assert found.likelihood_class == LikelihoodClass.L4
+    # PROJECT.md section 5 Step 6.2's wording, which screening and LOPA both show
+    assert found.note == "frequency assumed — engineer to confirm"
 
 
 def test_outside_library_type_with_no_library_cause_gets_the_default_flagged(
@@ -160,6 +162,7 @@ def test_outside_library_type_with_no_library_cause_gets_the_default_flagged(
     found = likelihood(odd, _plant(), no_loops, config.caps)
     default = config.caps.ranking.outside_library_default_frequency_per_year
     assert (found.frequency_per_year, found.assumed) == (default, True)
+    assert found.note == "frequency assumed — engineer to confirm (default frequency)"
 
 
 def test_per_opportunity_is_unrated(ref: ReferenceSet, config: Config) -> None:
