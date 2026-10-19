@@ -53,7 +53,8 @@ def _block(request: dict[str, Any], name: str) -> Any:
 def script(job: str, request: dict[str, Any]) -> Reply:
     """The orchestrator drains every open list and finishes; each specialist gives one
     outside-library finding per question on the first location of its context; severity
-    rates every finding S3; the screen names one hypothesis on a location."""
+    rates every finding S3; the screen names one hypothesis on a location; the post-analysis
+    jobs find nothing to add."""
     if job == "section_suggestion":
         return reply({"suggestions": []})
     if job == "plant_screen":
@@ -89,6 +90,25 @@ def script(job: str, request: dict[str, Any]) -> Reply:
                 ]
             }
         )
+    # the post-analysis jobs (Phase 3, plan G14): no chains, no layer applies, no action
+    if job == "connector":
+        return reply({"chains": []})
+    if job == "chain_severity":
+        return reply({"severities": []})
+    if job == "lopa_argument":
+        lines = [
+            {
+                "target_id": line["target_id"],
+                "layers": [
+                    {"layer_id": layer["layer_id"], "applies": False, "reason": "no"}
+                    for layer in line["layers"]
+                ],
+            }
+            for line in _block(request, "lines")
+        ]
+        return reply({"lines": lines})
+    if job == "recommendation":
+        return reply({"recommendations": []})
     locations = _block(request, "context").get("locations") or []
     questions = _block(request, "questions")
     if not locations:

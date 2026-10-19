@@ -2,7 +2,8 @@
 
 `export_replay` writes every response a run used to `bench/replay/<case>/<cache key>.json`,
 plus a manifest with the run's ranked list, its whole-plant hypotheses with their question
-links, the hybrid tiered lines and where the run stopped (R50, G10). `load_replay` puts them
+links, the hybrid tiered lines, where the run stopped (R50, G10) and, from Phase 3, its chains
+(ID, links), LOPA records (ID, gap) and recommendations (ID) (plan Q18). `load_replay` puts them
 back into a response cache, and `ReplayTransport` stands in for Token Factory: it lists the
 recorded models and raises `ReplayMiss` on any send, so a replay is served only from the
 fixtures and a missing one fails loudly instead of calling out. Each response keeps its
@@ -52,6 +53,10 @@ class Manifest:
     step: str = ""
     hypotheses: list[list[Any]] = field(default_factory=list)
     tiered: list[list[Any]] = field(default_factory=list)
+    # Phase 3 (Q18): [chain ID, links]; [LOPA record ID, gap]; recommendation IDs
+    chains: list[list[Any]] = field(default_factory=list)
+    lopa: list[list[Any]] = field(default_factory=list)
+    recommendations: list[str] = field(default_factory=list)
 
 
 class ReplayTransport:
@@ -132,6 +137,9 @@ def export_replay(
             ]
             for line in lines
         ],
+        "chains": [[c.id, list(c.links)] for c in runs.chains(run_id)],
+        "lopa": [[r.id, r.gap] for r in runs.lopa_records(run_id)],
+        "recommendations": [r.id for r in runs.recommendations(run_id)],
     }
     files[MANIFEST] = _dump(manifest)
     live = [s for s in secrets if s]

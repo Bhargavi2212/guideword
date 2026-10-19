@@ -41,7 +41,8 @@ from guideword.schema import ids
 from guideword.schema.enums import BudgetUse
 from guideword.settings import Settings
 
-PHASE = "2"
+# the spend counts against phase_caps_usd of the phase given by --phase (plan Q15)
+DEFAULT_PHASE = "3"
 TOP = 10
 OUT = Path(__file__).resolve().parents[1] / "bench" / "test5" / "5b"
 USES = (BudgetUse.DEVELOPMENT.value, BudgetUse.TEST_5.value)
@@ -53,6 +54,14 @@ def _arguments(argv: Sequence[str] | None) -> argparse.Namespace:
     parser.add_argument("--mode", choices=("full", "sample"), default="full")
     parser.add_argument("--use", choices=USES, default=BudgetUse.DEVELOPMENT.value)
     parser.add_argument("--cap", type=float, help="run spend cap in USD (default: caps.yaml)")
+    parser.add_argument(
+        "--post-cap",
+        type=float,
+        help="the post-analysis allowance in USD (P3-2; default: caps.yaml, Q20)",
+    )
+    parser.add_argument(
+        "--phase", default=DEFAULT_PHASE, help="the phase whose cap the spend counts against"
+    )
     return parser.parse_args(argv)
 
 
@@ -133,7 +142,9 @@ def main(
         return 1
     cap = args.cap if args.cap is not None else config.caps.run.run_spend_cap_usd
     try:
-        run = start_case(plants, runs, ref, config, record.id, cap, args.mode)
+        run = start_case(
+            plants, runs, ref, config, record.id, cap, args.mode, post_spend_cap_usd=args.post_cap
+        )
     except (ModeNotBuilt, ids.CapReachedError) as refused:
         print(f"refused: {refused}", file=sys.stderr)
         return 1
@@ -143,7 +154,7 @@ def main(
         cache=ResponseCache(sessions),
         ledger=ledger if ledger is not None else ledger_for(settings, sessions),
         use=BudgetUse(args.use),
-        phase=PHASE,
+        phase=args.phase,
         clock=clock,
     )
     drive(runs, run.id, steppers_for(gateway, config, ref, record.plant_file))

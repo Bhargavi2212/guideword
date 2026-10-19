@@ -7,16 +7,23 @@ it is typed or stored elsewhere.
 from collections.abc import Mapping, Sequence
 from typing import Any
 
+from guideword.chains.connector import ConnectorStepper
+from guideword.chains.severity import ChainSeverityStepper
 from guideword.config import CapsConfig, Config
 from guideword.gateway.client import Gateway
+from guideword.lopa.engine import CODE_ONLY_FLAG
+from guideword.lopa.lines import NONE, ShortlistLine, display_lines, lopa_plan, shortlist
+from guideword.lopa.step import LopaStepper
 from guideword.orchestrator.loop import OrchestratorStepper
 from guideword.questions.coverage import coverage
 from guideword.ranking.rank import RankedFinding, fold, rank_findings
 from guideword.ranking.severity import RankedStepper, SeverityStepper
 from guideword.ranking.tiers import UNCONFIRMED_FLAG, TieredLine, tiered
+from guideword.recommend.step import RecommendationStepper
 from guideword.reference import ReferenceSet
 from guideword.runs.machine import Stepper, advance
 from guideword.runs.plants import PlantRepository, load_plant, plant_facts
+from guideword.runs.post_budget import post_spent
 from guideword.runs.start import RunSettings, start_run
 from guideword.runs.store import RunRepository
 from guideword.schema.enums import EventType, QuestionKind, QuestionStatus, RunStatus, ShortlistTier
@@ -36,6 +43,8 @@ from guideword.screen.step import PlantScreenStepper
 from guideword.sections.rules import rule_cut
 
 DASH = " — "
+# G10: a run from before R50 has no whole-plant pass, so every line is "also found"
+PRE_R50_LABEL = "pre-R50 run"
 
 
 class InvalidPlant(ValueError):
@@ -70,7 +79,13 @@ def start_case(
     plant_record_id: str,
     spend_cap_usd: float,
     mode: str = "full",
+    *,
+    post_spend_cap_usd: float | None = None,
 ) -> Run:
+    """`post_spend_cap_usd` defaults to `run.post_spend_cap_usd` in caps.yaml (Q20)."""
+    post = (
+        post_spend_cap_usd if post_spend_cap_usd is not None else config.caps.run.post_spend_cap_usd
+    )
     return start_run(
         plants,
         runs,
@@ -79,6 +94,7 @@ def start_case(
         plant_record_id=plant_record_id,
         spend_cap_usd=spend_cap_usd,
         mode=mode,
+        post_spend_cap_usd=post,
     )
 
 
@@ -89,6 +105,11 @@ def steppers_for(
         "plant_screen": PlantScreenStepper(gateway, config=config, ref=ref, plant=plant),
         "analysis": OrchestratorStepper(gateway, config=config, ref=ref, plant=plant),
         "severity": SeverityStepper(gateway, config=config, ref=ref, plant=plant),
+        # Phase 3 (spec 3.6): the post-analysis steps, then ranked ends the run
+        "chains": ConnectorStepper(gateway, config=config, ref=ref, plant=plant),
+        "chain_severity": ChainSeverityStepper(gateway, config=config, ref=ref, plant=plant),
+        "lopa": LopaStepper(gateway, config=config, ref=ref, plant=plant),
+        "recommendations": RecommendationStepper(gateway, config=config, ref=ref, plant=plant),
         "ranked": RankedStepper(),
     }
 
@@ -272,6 +293,75 @@ def priority_summary(events: Sequence[Event], hypotheses: Sequence[Hypothesis]) 
     }
 
 
+def is_pre_r50(run: Run) -> bool:
+    """G10: a run started before R50 has no whole-plant prompt among its inputs."""
+    return "plant_screen" not in run.prompt_versions
+
+
+def _shortlist_row(item: ShortlistLine, rank: int, pre_r50: bool) -> dict[str, Any]:
+    planned, record = item.planned, item.lopa
+    kind = None
+    if record is not None:
+        kind = "code_only" if CODE_ONLY_FLAG in record.flags else "full"
+    return {
+        "rank": rank,
+        "target_id": planned.target_id,
+        "target_kind": planned.target_kind,
+        "tier": planned.tier.value,
+        "position": planned.position,
+        "severity_class": planned.severity_class.value if planned.severity_class else None,
+        "lopa_id": record.id if record else None,
+        "lopa": kind,
+        "complete": record.complete if record else None,
+        "gap": record.gap if record else None,
+        "no_lopa_reason": item.no_lopa_reason,
+        "flags": [*item.flags, *([PRE_R50_LABEL] if pre_r50 else [])],
+        "recommendation_ids": [r.id for r in item.recommendations],
+    }
+
+
+def post_report(
+    runs: RunRepository, run: Run, plant: Plant, ref: ReferenceSet, caps: CapsConfig
+) -> dict[str, Any]:
+    """The Phase 3 part of the report (plan PR 5): the shortlist, chains, LOPA records and
+    recommendations, all computed from the run's records, and what the connector left out."""
+    findings = runs.findings(run.id)
+    questions = runs.questions(run.id)
+    sections = runs.sections(run.id)
+    chains = runs.chains(run.id)
+    records = runs.lopa_records(run.id)
+    recommendations = runs.recommendations(run.id)
+    calls = runs.model_calls(run.id)
+    lines = display_lines(findings, runs.hypotheses(run.id), questions, sections, plant, ref, caps)
+    # G8: the run's own lopa_top_n
+    top_n = int(run.caps.get("lopa_top_n", caps.run.lopa_top_n))
+    plan = lopa_plan(lines, chains, findings, questions, sections, top_n=top_n)
+    items = shortlist(
+        plan, records, recommendations, calls, run_id=run.id, plant=plant, ref=ref, caps=caps
+    )
+    pre_r50 = is_pre_r50(run)
+    finished = [
+        e.payload
+        for e in runs.events(run.id)
+        if e.type == EventType.STEP_FINISHED and e.payload.get("step") == "chains"
+    ]
+    connector = finished[-1] if finished else {}
+    return {
+        "pre_r50": pre_r50,
+        "post_spend_cap_usd": run.post_spend_cap_usd,
+        "post_spent_usd": post_spent(calls),
+        "shortlist": [_shortlist_row(item, i, pre_r50) for i, item in enumerate(items, start=1)],
+        "chains": [c.model_dump(mode="json") for c in chains],
+        "chains_rejected": list(connector.get("rejected", [])),
+        "connector": connector.get("connector"),
+        "lopa": [r.model_dump(mode="json") for r in records],
+        "lopa_none": [
+            {"target_id": p.target_id, "reason": p.reason} for p in plan if p.kind == NONE
+        ],
+        "recommendations": [r.model_dump(mode="json") for r in recommendations],
+    }
+
+
 def case_report(
     runs: RunRepository, run_id: str, plant: Plant, ref: ReferenceSet, caps: CapsConfig, case: str
 ) -> dict[str, Any]:
@@ -319,4 +409,4 @@ def case_report(
         "5a-plant": plant_screen_lines(hypotheses),
         "5b-from-hybrid": folded,
         "priority": priority_summary(events, hypotheses),
-    }
+    } | post_report(runs, run, plant, ref, caps)

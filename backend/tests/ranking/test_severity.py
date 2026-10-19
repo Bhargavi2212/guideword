@@ -8,12 +8,16 @@ from typing import Any
 
 import pytest
 
+from guideword.chains.connector import ConnectorStepper
+from guideword.chains.severity import ChainSeverityStepper
 from guideword.config import Config, load_config
 from guideword.gateway.fake import fake_gateway, reply
 from guideword.gateway.transport import ToolCallRequest
+from guideword.lopa.step import LopaStepper
 from guideword.orchestrator.loop import OrchestratorStepper
 from guideword.ranking.rank import rank_findings
 from guideword.ranking.severity import RankedStepper, SeverityStepper, scenarios
+from guideword.recommend.step import RecommendationStepper
 from guideword.reference import ReferenceSet, load_reference_set
 from guideword.runs.db import make_session_factory
 from guideword.runs.machine import advance
@@ -87,6 +91,29 @@ def severity_answer(request: dict[str, Any], skip: int = 0) -> Any:
     )
 
 
+def _no_layer_applies(request: dict[str, Any]) -> Any:
+    lines = [
+        {
+            "target_id": line["target_id"],
+            "layers": [
+                {"layer_id": layer["layer_id"], "applies": False, "reason": "no"}
+                for layer in line["layers"]
+            ],
+        }
+        for line in block(request, "lines")
+    ]
+    return reply({"lines": lines})
+
+
+# the post-analysis jobs (Phase 3, plan G14): no chains, no layer applies, no action
+POST_ANSWERS: dict[str, Any] = {
+    "connector": lambda request: reply({"chains": []}),
+    "chain_severity": lambda request: reply({"severities": []}),
+    "lopa_argument": _no_layer_applies,
+    "recommendation": lambda request: reply({"recommendations": []}),
+}
+
+
 def level_for(view: dict[str, Any], agent: str) -> str:
     """Bulk while the agent has untried open questions, then hard for the tried ones (R44)."""
     retry = view["retry_at_hard"].get(agent, {"count": 0})["count"]
@@ -137,6 +164,8 @@ class World:
             plant_record_id=self.record_id,
             spend_cap_usd=cap,
             mode="full",
+            # Phase 3 (plan G14): the post-analysis steps get their default allowance
+            post_spend_cap_usd=cfg.caps.run.post_spend_cap_usd,
         )
         return past_screen(self.runs, run)
 
@@ -158,6 +187,8 @@ class World:
                 return reply(tool_calls=(call,), output_tokens=orchestrator_output_tokens)
             if job == "severity_reason":
                 return severity(request)
+            if job in POST_ANSWERS:
+                return POST_ANSWERS[job](request)
             return specialist(request)
 
         gateway, transport = fake_gateway(
@@ -171,6 +202,11 @@ class World:
         return {
             "analysis": OrchestratorStepper(gateway, **args),
             "severity": SeverityStepper(gateway, **args),
+            # Phase 3 (plan G14): the post-analysis steps, answered by POST_ANSWERS
+            "chains": ConnectorStepper(gateway, **args),
+            "chain_severity": ChainSeverityStepper(gateway, **args),
+            "lopa": LopaStepper(gateway, **args),
+            "recommendations": RecommendationStepper(gateway, **args),
             "ranked": RankedStepper(),
         }, transport
 

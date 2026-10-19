@@ -5,7 +5,8 @@ After `finish`, each `advance` sends one batch of scenarios without a severity t
 the severity of every finding in each scenario once (R10); the severity call's record lists
 the findings it rated. A finding the answer leaves out, or a batch whose answer stays
 invalid, is marked "not assessed" so the step never loops. A cap refusal stops the run and
-leaves the rest without severity (R24). The ranked step ends the run: `finished`, or
+leaves the rest without severity (R24). From Phase 3 the chains step follows severity (spec
+3.6), and after the post-analysis steps the ranked step ends the run: `finished`, or
 `stopped_cap` when the analysis ended at the severity reserve with questions still open (R38).
 """
 
@@ -42,6 +43,7 @@ from guideword.tools.reactivity import CODE_MEANINGS, reactivity_lookup
 JOB = "severity_reason"
 ASK = "Give the severity of every finding in the batch, in the required JSON schema."
 NOT_ASSESSED = "not assessed"
+NEXT = "chains"
 
 
 class _Strict(BaseModel):
@@ -113,7 +115,8 @@ class SeverityStepper:
             _copy_within(writer, members)
         todo = unrated_scenarios(findings, questions)
         if not todo:
-            return StepResult(next_step="ranked")
+            # Phase 3: the post-analysis steps come next (spec 3.6)
+            return StepResult(next_step=NEXT)
         batch = todo[: self.config.caps.run.severity_batch_size]
         # one finding per scenario is rated; its rating is copied to the whole scenario (R48)
         sent = [members[0] for members in batch]
@@ -186,6 +189,38 @@ def _copy_within(writer: StepWriter, members: list[Finding]) -> None:
             )
 
 
+def severity_classes(ref: ReferenceSet) -> list[dict[str, Any]]:
+    """The severity classes as the severity prompts show them (also `severity_chain/v1`)."""
+    return [
+        {"severity_class": c.severity_class.value, "name": c.name, "definition": c.definition}
+        for c in sorted(ref.severity_classes, key=lambda c: c.severity_class)
+    ]
+
+
+def severity_context(plant: Plant) -> dict[str, Any]:
+    """The plant facts severity depends on: locations, and chemicals with their form (also
+    `severity_chain/v1`)."""
+    return {
+        "locations": [
+            loc.model_dump(mode="json", exclude_none=True)
+            for loc in sorted(plant.locations, key=lambda x: x.id)
+        ],
+        "chemicals": [
+            {
+                k: v
+                for k, v in {
+                    "id": c.id,
+                    "name": c.name,
+                    "physical_form": c.physical_form,
+                    "flash_point_c": c.flash_point_c,
+                }.items()
+                if v is not None
+            }
+            for c in sorted(plant.chemicals, key=lambda c: c.id)
+        ],
+    }
+
+
 def severity_messages(
     prompt: Prompt,
     batch: list[Finding],
@@ -212,29 +247,8 @@ def severity_messages(
         }
         for f in batch
     ]
-    classes = [
-        {"severity_class": c.severity_class.value, "name": c.name, "definition": c.definition}
-        for c in sorted(ref.severity_classes, key=lambda c: c.severity_class)
-    ]
-    context = {
-        "locations": [
-            loc.model_dump(mode="json", exclude_none=True)
-            for loc in sorted(plant.locations, key=lambda x: x.id)
-        ],
-        "chemicals": [
-            {
-                k: v
-                for k, v in {
-                    "id": c.id,
-                    "name": c.name,
-                    "physical_form": c.physical_form,
-                    "flash_point_c": c.flash_point_c,
-                }.items()
-                if v is not None
-            }
-            for c in sorted(plant.chemicals, key=lambda c: c.id)
-        ],
-    }
+    classes = severity_classes(ref)
+    context = severity_context(plant)
     system = render(
         prompt.body,
         {

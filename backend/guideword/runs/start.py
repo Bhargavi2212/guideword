@@ -23,8 +23,11 @@ FIRST_STEP = "plant_screen"
 # statuses a new start with identical inputs picks up again
 RESUMABLE = {RunStatus.STOPPED_CAP, RunStatus.STOPPED_BUDGET}
 ANALYSIS = "analysis"
-# the steps after the analysis; a resume from one of them with questions open goes back
-AFTER_ANALYSIS = frozenset({"severity", "ranked"})
+# the steps after the analysis (Phase 3 adds the post-analysis steps, spec 3.6); a resume
+# from one of them with questions open goes back
+AFTER_ANALYSIS = frozenset(
+    {"severity", "chains", "chain_severity", "lopa", "recommendations", "ranked"}
+)
 
 
 @dataclass(frozen=True)
@@ -62,8 +65,10 @@ def start_run(
     plant_record_id: str,
     spend_cap_usd: float,
     mode: str,
+    post_spend_cap_usd: float = 0.0,
 ) -> Run:
-    """Start, resume or re-attempt the run for these inputs. Raises `ids.CapReachedError`."""
+    """Start, resume or re-attempt the run for these inputs. Raises `ids.CapReachedError`.
+    `post_spend_cap_usd` (P3-2) is stored on a new run; it is not an input of the run ID."""
     if mode != FULL:
         raise ModeNotBuilt(mode)
     stored = plants.get(plant_record_id)
@@ -117,6 +122,7 @@ def start_run(
         step=FIRST_STEP,
         mode="full",
         spend_cap_usd=spend_cap_usd,
+        post_spend_cap_usd=post_spend_cap_usd,
         reference_versions=dict(ref.versions),
         routing_config=dict(settings.routing_config),
         caps=dict(settings.caps),

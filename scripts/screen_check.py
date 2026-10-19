@@ -39,7 +39,8 @@ from guideword.screen.schema import ScreenAnswer, _all_ids, answer_problems, hyp
 from guideword.screen.step import JOB, PlantScreenStepper
 from guideword.settings import Settings
 
-PHASE = "2"
+# the spend counts against phase_caps_usd of the phase given by --phase (plan Q15)
+DEFAULT_PHASE = "3"
 USES = (BudgetUse.DEVELOPMENT.value, BudgetUse.TEST_5.value)
 DEFAULT_DB = Path(__file__).resolve().parents[1] / "screen_check.db"
 # the kinds of drop reason, by the words code's checks use (screen/schema.py, screen/step.py)
@@ -62,6 +63,9 @@ def _arguments(argv: Sequence[str] | None) -> argparse.Namespace:
     parser.add_argument("plant", type=Path, help="the plant file")
     parser.add_argument("--use", choices=USES, default=BudgetUse.DEVELOPMENT.value)
     parser.add_argument("--cap", type=float, required=True, help="run spend cap in USD")
+    parser.add_argument(
+        "--phase", default=DEFAULT_PHASE, help="the phase whose cap the spend counts against"
+    )
     parser.add_argument(
         "--prompt-file", type=Path, help="diagnostic: render the screen from this prompt file"
     )
@@ -220,7 +224,7 @@ def main(
         cache=ResponseCache(sessions),
         ledger=ledger if ledger is not None else ledger_for(settings, sessions),
         use=BudgetUse(args.use),
-        phase=PHASE,
+        phase=args.phase,
         clock=clock,
     )
     screen = PlantScreenStepper(
