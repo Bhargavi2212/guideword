@@ -78,6 +78,9 @@ phase_caps_usd:
 # "frequency assumed" (PROJECT.md section 5, Step 6; decision R12).
 ranking:
   outside_library_default_frequency_per_year: 0.1
+  # P3-4: a piping-leak cause on a line above this size uses IE-PIPE-LEAK-L, at or below it
+  # IE-PIPE-LEAK-S; a line with no size_mm uses S, flagged "size assumed"
+  pipe_leak_large_above_mm: 150
 
 # parallel calls per tier (smoke tests T9 and T13; Super and Nano untested, start at 3)
 concurrency: {ultra: 3, super: 3, lightning: 5, nano: 3}
