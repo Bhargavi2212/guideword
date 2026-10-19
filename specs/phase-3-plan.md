@@ -227,6 +227,7 @@ PRs 3 and 4 can be built while PR 2's prompts are in review. PR 7 waits only on 
   - `test_a_chain_is_never_ranked_down_for_needing_two_failures` (a chain's gap uses only its first finding link's frequency; no factor for the other links);
   - `test_a_post_step_cap_stop_is_reported_not_scored` (R38: `bench/phase3/<case>.json` carries `stopped_cap` and the scorer does not score it);
   - `test_code_only_lopa_makes_no_model_call`;
+  - `test_a_line_with_no_lopa_stays_on_the_shortlist_with_its_reason_and_s4_s5_are_flagged` (Bhargavi, 2026-10-19, on PR 4 choice 4: a `NoLopa` line — no severity, or no frequency and no missing fact — is never dropped; it stays on the shortlist with its reason, and an S4–S5 line without LOPA is flagged on its card);
   - `test_pre_r50_run_extends_with_every_line_also_found_and_labelled`;
   - `test_scripts_take_the_phase_from_the_flag`.
 
@@ -350,6 +351,20 @@ PRs 3 and 4 can be built while PR 2's prompts are in review. PR 7 waits only on 
 | G17 | Example 1 variant C is a complete code-only record with gap 10,000, so under "complete LOPA and gap > 1" (Q12) code-only lines get recommendations too; with many S4–S5 lines that is many calls under the post cap. | **(plan)** Every shortlist line with a complete LOPA and gap > 1 is eligible, full or code-only (spec 3.4, literal). Batches go in shortlist order, so a post-cap stop loses the lowest lines first and the run stops `stopped_cap` with what was done kept. Test: `test_recommendations_go_in_shortlist_order_and_include_code_only_lines`. | PR 5 |
 | G18 | The fixture is untracked on `main` and must not be lost or land in the wrong PR. | **(plan)** PR 0 commits only the spec, the plan, the decisions, `specs/phase-2.md` and the config line; the fixture stays untracked until PR 4's branch commits it. | PR 0, PR 4 |
 | G19 | Ultra can't judge whether a layer applies without the layer's own row text. | **(plan)** The LOPA argument input carries each candidate's row `layer`, `scenarios` and `conditions_text` (never `pfd`). | PR 2, PR 5 |
+
+### Answers on the PR 3 and PR 4 build choices (Bhargavi, 2026-10-19)
+
+| # | Choice (made by the build, recorded in decisions.md) | Answer |
+|---|---|---|
+| 1 | Several failing lines: each uses its own leak event; flagged when they differ | Keep |
+| 2 | A layer that is itself a failing component gets no credit | Keep |
+| 3 | An inlet valve is managed only when known open and `locked: true`; anything missing → `pfd_if_isolatable` | Keep |
+| 4 | No frequency and no missing fact → `NoLopa` with the reason | Keep, on condition (PR 5): the line stays on the shortlist with its reason, never dropped, and an S4–S5 line with no LOPA is flagged on its card; tested |
+| 5 | A chain's refusals use every finding link's failing components | Keep; the no-credit reason names the chain link whose component caused it (built in PR 4) |
+| 6 | `max_tokens` 12288 for the four new jobs | Fine |
+| 7 | The assumed-frequency wording | "frequency assumed — engineer to confirm" (PROJECT.md §5), in `likelihood.py`'s two notes and the LOPA flag (built in PR 3 and PR 4) |
+
+**Example 2** (Cowork, `backend/tests/lopa/fixtures/example_2.json`) is a test fixture only: it is never used to write or tune any prompt. Its `open_points_for_claude_code`: the closed-valve reason names the first closed valve in `inlet_valve_ids` order (the engine does); "does not apply" is decided before the inlet-valve rule (rules 2 and 6); variant D's override shape follows PR 6.
 
 ### Misalignments found against Cowork's example 1 (fixed above)
 
