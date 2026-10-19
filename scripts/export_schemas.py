@@ -22,6 +22,9 @@ API_REQUEST_MODELS: list[type[BaseModel]] = [
     api.ConfirmSectionsRequest,
     api.AddQuestionRequest,
     api.OverrideRequest,
+    api.ChangeCreditValue,
+    api.ChangeSeverityValue,
+    api.AnswerValue,
     api.ErrorBody,
 ]
 

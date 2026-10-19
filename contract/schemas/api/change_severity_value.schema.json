@@ -1,0 +1,27 @@
+{
+  "$defs": {
+    "SeverityClass": {
+      "enum": [
+        "S1",
+        "S2",
+        "S3",
+        "S4",
+        "S5"
+      ],
+      "title": "SeverityClass",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "`change_severity` on a finding or chain; the gap is recomputed on read.",
+  "properties": {
+    "severity_class": {
+      "$ref": "#/$defs/SeverityClass"
+    }
+  },
+  "required": [
+    "severity_class"
+  ],
+  "title": "ChangeSeverityValue",
+  "type": "object"
+}

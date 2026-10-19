@@ -71,6 +71,7 @@ environments:
 phase_caps_usd:
   "0": 0.65
   "2": 8.50
+  "3": 2.50
 
 # ranking enters Run.caps with the run block (R18). An outside-library cause whose
 # failing-component type has no library cause gets this frequency, flagged

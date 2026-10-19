@@ -425,6 +425,9 @@ export interface components {
             reason: string;
             /** Run Id */
             run_id: string;
+            severity_class?: components["schemas"]["SeverityClass"] | null;
+            /** Severity Reason */
+            severity_reason?: string | null;
         };
         /**
          * Confidence
@@ -519,7 +522,7 @@ export interface components {
          * EventType
          * @enum {string}
          */
-        EventType: "run_started" | "step_started" | "step_finished" | "agent_decision" | "dispatch" | "model_call" | "tool_call" | "finding_added" | "chain_added" | "lopa_done" | "evidence_added" | "coverage_updated" | "cap_hit" | "run_finished" | "run_failed" | "hypothesis_added" | "hypothesis_dropped";
+        EventType: "run_started" | "step_started" | "step_finished" | "agent_decision" | "dispatch" | "model_call" | "tool_call" | "finding_added" | "chain_added" | "lopa_done" | "evidence_added" | "coverage_updated" | "cap_hit" | "run_finished" | "run_failed" | "hypothesis_added" | "hypothesis_dropped" | "run_extended";
         /** EventsPage */
         EventsPage: {
             /** Events */
@@ -639,6 +642,10 @@ export interface components {
         };
         /** LayerCredit */
         LayerCredit: {
+            /** Applies */
+            applies?: boolean | null;
+            /** Argument */
+            argument?: string | null;
             /** Credited */
             credited: boolean;
             /** Layer Id */
@@ -654,6 +661,8 @@ export interface components {
         LopaRecord: {
             /** Complete */
             complete: boolean;
+            /** Flags */
+            flags?: string[];
             /**
              * Frequency Assumed
              * @default false
@@ -673,8 +682,12 @@ export interface components {
             missing_fact_ids?: string[];
             /** Mitigated Frequency Per Year */
             mitigated_frequency_per_year?: number | null;
+            /** Model Call Id */
+            model_call_id?: string | null;
             /** Modifiers */
             modifiers?: components["schemas"]["AppliedModifier"][];
+            /** Modifiers Not Applied */
+            modifiers_not_applied?: components["schemas"]["ModifierNotApplied"][];
             /** Run Id */
             run_id: string;
             severity_class: components["schemas"]["SeverityClass"];
@@ -738,6 +751,16 @@ export interface components {
             model: string;
             /** Spent Usd */
             spent_usd: number;
+        };
+        /**
+         * ModifierNotApplied
+         * @description A modifier kind of modifiers.csv the record did not apply, and why (P3-3).
+         */
+        ModifierNotApplied: {
+            /** Kind */
+            kind: string;
+            /** Reason */
+            reason: string;
         };
         /** Override */
         Override: {
@@ -961,6 +984,11 @@ export interface components {
             mode: "full" | "sample";
             /** Plant Record Id */
             plant_record_id: string;
+            /**
+             * Post Spend Cap Usd
+             * @default 0
+             */
+            post_spend_cap_usd: number;
             /** Prompt Versions */
             prompt_versions: {
                 [key: string]: string;

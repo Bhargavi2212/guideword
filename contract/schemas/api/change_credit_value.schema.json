@@ -1,0 +1,21 @@
+{
+  "additionalProperties": false,
+  "description": "`change_credit` on a LOPA record (`lopa:<target>`): one layer credited or not.",
+  "properties": {
+    "credited": {
+      "title": "Credited",
+      "type": "boolean"
+    },
+    "layer_id": {
+      "minLength": 1,
+      "title": "Layer Id",
+      "type": "string"
+    }
+  },
+  "required": [
+    "layer_id",
+    "credited"
+  ],
+  "title": "ChangeCreditValue",
+  "type": "object"
+}

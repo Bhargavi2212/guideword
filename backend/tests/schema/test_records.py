@@ -531,3 +531,58 @@ def test_hypothesis_is_immutable() -> None:
 def test_hypothesis_rank_starts_at_one() -> None:
     with pytest.raises(ValidationError):
         r.Hypothesis.model_validate({**_sample(r.Hypothesis), "rank": 0})
+
+
+# --- contract v1.4 (Phase 3, spec 3.8, plan PR 1, Q2) --------------------------------------------
+
+
+def test_chain_without_severity_still_validates_and_takes_one() -> None:
+    chain = r.Chain.model_validate(_sample(r.Chain))
+    assert chain.severity_class is None and chain.severity_reason is None
+    rated = r.Chain.model_validate(
+        _sample(r.Chain) | {"severity_class": "S4", "severity_reason": "two people hurt"}
+    )
+    assert rated.severity_class == "S4"
+
+
+def test_run_post_spend_cap_is_not_hashed() -> None:
+    """P3-2: the same inputs with any post cap keep the run's ID (the validator rebuilds it)."""
+    base = r.Run.model_validate(_sample(r.Run))
+    assert base.post_spend_cap_usd == 0.0  # an older record loads with 0
+    capped = r.Run.model_validate(_sample(r.Run) | {"post_spend_cap_usd": 0.30})
+    assert capped.id == base.id and capped.inputs() == base.inputs()
+    with pytest.raises(ValidationError):
+        r.Run.model_validate(_sample(r.Run) | {"post_spend_cap_usd": -0.01})
+
+
+def test_lopa_record_v14_fields_default_for_older_records() -> None:
+    old = r.LopaRecord.model_validate(_sample(r.LopaRecord))
+    assert old.model_call_id is None and old.flags == [] and old.modifiers_not_applied == []
+    new = r.LopaRecord.model_validate(
+        _sample(r.LopaRecord)
+        | {
+            "model_call_id": "mc:0123456789abcdef",
+            "flags": ["code-only LOPA: layers not argued"],
+            "modifiers_not_applied": [
+                {"kind": "ignition_probability", "reason": "no plant fact or rule"}
+            ],
+        }
+    )
+    assert new.modifiers_not_applied[0].kind == "ignition_probability"
+
+
+def test_layer_credit_carries_ultras_argument_apart_from_codes_reason() -> None:
+    layer = r.LayerCredit.model_validate(
+        {"layer_id": "PSV-1", "credited": False, "reason": "does not apply: not overpressure"}
+    )
+    assert layer.applies is None and layer.argument is None and layer.pfd is None
+    argued = r.LayerCredit.model_validate(
+        {
+            "layer_id": "PSV-1",
+            "credited": False,
+            "reason": "does not apply: temperature, not overpressure",
+            "applies": False,
+            "argument": "temperature, not overpressure",
+        }
+    )
+    assert argued.applies is False and argued.argument

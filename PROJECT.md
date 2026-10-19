@@ -411,7 +411,7 @@ Sections are proposed and confirmed on the plant before any run. A run has two p
 | Record | Holds | Points back to |
 |---|---|---|
 | Plant | Plant file, status (uploaded / sections_proposed / sections_confirmed), confirmed section set | Its uploaded file |
-| Run | Plant, section snapshot, status, step, spend cap, spent, reference versions, routing config, caps, prompt versions, mode, attempt, label (live / recorded / mock). The stored inputs rebuild the run ID exactly | Plant |
+| Run | Plant, section snapshot, status, step, spend cap, post-analysis cap (`post_spend_cap_usd`, not hashed; contract v1.4), spent, reference versions, routing config, caps, prompt versions, mode, attempt, label (live / recorded / mock). The stored inputs rebuild the run ID exactly | Plant |
 | Plant fact | One fact about the plant, ID `<object id>.<field>` | Its source or "assumed" |
 | Section | Confirmed section, type, purpose | Plant record; plant facts; rule or suggestion that drew it |
 | Question | One check; status; not-credible reason (a not-credible answer is a question status with its reason and needs no finding) | Run; section, facts needed; origin tag; the model call that marked it not credible or added it (`ai:`) |
@@ -420,8 +420,8 @@ Sections are proposed and confirmed on the plant before any run. A run has two p
 | Agent step | Which agent, its decision, the tool it chose (a §5 tool name, or `answer`), a one-line reason | Run; previous step |
 | Model call | Model, prompt version, routing job, cache hit, outcome (ok / invalid / truncated / error), finish reason, tokens, latency, cost, raw response. Stored per (run ID, call ID): a cached response reused by another run is a second record with cache hit true and cost 0 | Run; record produced |
 | Tool call | Tool, arguments, result, sources, refused reason (when code refused the call) | Finding or chain |
-| Chain | Ordered links, multi-failure label | Finding IDs and plant fact IDs |
-| LOPA record | Initiating frequency, modifiers, layers credited or not with reasons, frequency, tolerable, gap | Finding or chain; reference table rows |
+| Chain | Ordered links, multi-failure label, flags, severity class with reason (from the chain severity step; contract v1.4) | Finding IDs and plant fact IDs; the connector's model call |
+| LOPA record | Initiating frequency, modifiers applied and the modifier kinds not applied with the reason, layers credited or not with code's reason and Ultra's argument (applies yes/no, why), flags, frequency, tolerable, gap (contract v1.4) | Finding or chain; reference table rows |
 | Evidence | Calculation, precedent or simulation result; verdict | Finding; tool call; plant fact IDs it used |
 | Override | Action, new value, reason, who (display name) and when | Any record |
 | Event | Sequence number, type, payload, time | Run |
@@ -452,12 +452,12 @@ Sections are proposed and confirmed on the plant before any run. A run has two p
 - **Question status:** open, answered, not_credible, failed. `answered` and `not_credible` both count as checked. Unsure is a finding confidence, not a status.
 - **Plant status:** uploaded, sections_proposed, sections_confirmed.
 - **Run status:** draft, running, finished, stopped_cap, stopped_budget, failed, cancelled.
-- **Override action:** accept, reject, edit, change_credit, change_severity, answer (`answer` answers an engineer-added question in a finished run).
+- **Override action:** accept, reject, edit, change_credit, change_severity, answer (`answer` answers an engineer-added question in a finished run). `new_value` by action (contract v1.4): `accept`, `reject` → null; `edit` → `{field: value}`, only `recommendation.action`, `finding.consequence` or `section.purpose`; `change_credit` → `{layer_id, credited}` on `lopa:<target>`; `change_severity` → `{severity_class}` on a finding or chain; `answer` → `{text}` on an `eng:` question.
 - **Utility kind:** steam, cooling_water, nitrogen, instrument_air, power, other.
 - **Evidence kind:** calculation, precedent, simulation. **Verdict:** confirmed, contradicted, none.
 - **Protection adequacy:** adequate, inadequate, unknown.
 - **Agents:** orchestrator, process, chemistry, piping, procedures, maintenance, dust, connector.
-- **Event types:** run_started, step_started, step_finished, agent_decision, dispatch, model_call, tool_call, finding_added, chain_added, lopa_done, evidence_added, coverage_updated, cap_hit, run_finished, run_failed, hypothesis_added, hypothesis_dropped (the last two: R50, contract v1.2).
+- **Event types:** run_started, step_started, step_finished, agent_decision, dispatch, model_call, tool_call, finding_added, chain_added, lopa_done, evidence_added, coverage_updated, cap_hit, run_finished, run_failed, hypothesis_added, hypothesis_dropped (the last two: R50, contract v1.2), run_extended (contract v1.4: a finished run extended with the post-analysis steps).
 
 ### Storage schema (Postgres; SQLite in development)
 `plants` (status uploaded / sections_proposed / sections_confirmed), `plant_facts`, `runs` (status, step, section snapshot, spend_cap_usd, spent_usd, reference_versions, routing_config, caps, prompt_versions, label), `sections`, `questions` (status open / answered / not_credible / failed, not_credible_reason), `findings`, `hypotheses` (R50: rank, mechanism, component and chemical IDs, cause, consequence, reason, question links), `agent_steps`, `model_calls` (key: run_id + id), `tool_calls`, `chains`, `lopa_records`, `recommendations`, `evidence`, `overrides`, `events` (append-only: seq, run_id, type, payload), `response_cache`, `spend_ledger` (environment, phase, use, model or tool, tokens or searches, cost). Links are foreign keys; large payloads are JSON columns.

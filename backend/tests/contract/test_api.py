@@ -12,7 +12,7 @@ import export_openapi
 import openpyxl
 import pytest
 from fastapi.testclient import TestClient
-from pydantic import SecretStr
+from pydantic import SecretStr, ValidationError
 
 from guideword.api import models as api
 from guideword.api.app import NOT_BUILT_PHASE, create_app
@@ -257,7 +257,7 @@ def test_mock_override_is_echoed_not_stored() -> None:
     body = {
         "target_id": "q",
         "action": "answer",
-        "new_value": "No: the hose is removed.",
+        "new_value": {"text": "No: the hose is removed."},
         "reason": "Engineer's answer",
         "by": "Reviewer",
     }
@@ -266,7 +266,8 @@ def test_mock_override_is_echoed_not_stored() -> None:
     result = response.json()
     assert result["stored"] is False
     assert result["override"]["action"] == "answer"
-    assert result["override"]["id"] == ids.override_id("q", "answer", "No: the hose is removed.")
+    value = {"text": "No: the hose is removed."}
+    assert result["override"]["id"] == ids.override_id("q", "answer", value)
 
 
 def test_worksheet_export_is_a_workbook_with_the_section_5_columns() -> None:
@@ -545,3 +546,107 @@ def test_a_rejected_suggestion_carries_the_suggestion_and_the_reason() -> None:
 
 def test_the_mock_proposal_lists_no_rejections() -> None:
     assert _fixture("section_proposal.json")["rejected"] == []
+
+
+# --- contract v1.4: post-analysis records and override values (spec 3.8, plan PR 1) -------------
+
+
+def _override(action: str, new_value: Any, target: str = "f:x") -> api.OverrideRequest:
+    return api.OverrideRequest.model_validate(
+        {"target_id": target, "action": action, "new_value": new_value, "reason": "r", "by": "B"}
+    )
+
+
+@pytest.mark.parametrize(
+    ("action", "new_value"),
+    [
+        ("accept", None),
+        ("reject", None),
+        ("edit", {"action": "Add an independent high-temperature trip"}),
+        ("edit", {"consequence": "the batch overheats"}),
+        ("edit", {"purpose": "Mix the batch"}),
+        ("change_credit", {"layer_id": "PSV-1", "credited": True}),
+        ("change_severity", {"severity_class": "S4"}),
+        ("answer", {"text": "Checked with operations: not credible here"}),
+    ],
+)
+def test_override_values_of_each_action_validate(action: str, new_value: Any) -> None:
+    assert _override(action, new_value).action == action
+
+
+@pytest.mark.parametrize(
+    ("action", "new_value"),
+    [
+        ("accept", {"anything": 1}),
+        ("reject", "no"),
+        ("edit", {"severity_class": "S5"}),  # only action, consequence or purpose
+        ("edit", {"action": "a", "consequence": "b"}),  # one field per edit
+        ("edit", {"action": ""}),
+        ("change_credit", {"layer_id": "PSV-1"}),
+        ("change_credit", {"layer_id": "PSV-1", "credited": "yes", "pfd": 0.01}),
+        ("change_severity", {"severity_class": "S9"}),
+        ("answer", {}),
+        ("answer", {"text": ""}),
+    ],
+)
+def test_bad_override_values_are_refused(action: str, new_value: Any) -> None:
+    with pytest.raises(ValidationError):
+        _override(action, new_value)
+
+
+def _v14() -> tuple[api.Shortlist, api.RunDump]:
+    return (
+        api.Shortlist.model_validate(_fixture("shortlist.json")),
+        api.RunDump.model_validate(_fixture("run_dump.json")),
+    )
+
+
+def test_v14_fixtures_show_each_post_analysis_record_kind() -> None:
+    """A rated chain, a complete and an incomplete LOPA record, a "not argued — no credit"
+    layer, an argued layer and a recommendation."""
+    shortlist, dump = _v14()
+    chain = next(i.chain for i in shortlist.items if i.chain is not None)
+    assert chain.severity_class is not None and chain.severity_reason
+    records = dump.lopa_records
+    assert any(r.complete for r in records) and any(not r.complete for r in records)
+    incomplete = next(r for r in records if not r.complete)
+    assert incomplete.missing_fact_ids and incomplete.gap is None
+    layers = [layer for r in records for layer in r.layers]
+    assert any(layer.reason == "not argued — no credit" for layer in layers)
+    assert any(layer.applies is not None and layer.argument for layer in layers)
+    assert dump.recommendations
+
+
+def test_v14_fixtures_apply_no_modifier_and_list_every_kind_not_applied() -> None:
+    """P3-3: no conditional modifier in Phase 3; each record lists the four kinds."""
+    _, dump = _v14()
+    kinds = {"ignition_probability", "explosion_given_ignition", "vulnerability", "time_at_risk"}
+    for record in dump.lopa_records:
+        assert record.modifiers == []
+        assert {m.kind for m in record.modifiers_not_applied} == kinds
+        assert all(m.reason == "no plant fact or rule" for m in record.modifiers_not_applied)
+
+
+def test_shortlist_item_lopa_carries_severity_and_every_layer() -> None:
+    """Spec 3.8: the item's LOPA has its severity and the full layer list (a record with no
+    candidate layer, like the chain's, has an empty one)."""
+    shortlist, dump = _v14()
+    by_id = {r.id: r for r in dump.lopa_records}
+    lopas = [item.lopa for item in shortlist.items if item.lopa is not None]
+    assert lopas and all(lopa.severity_class is not None for lopa in lopas)
+    assert all(lopa.layers == by_id[lopa.id].layers for lopa in lopas)
+    assert any(lopa.layers for lopa in lopas)
+
+
+def test_shortlist_lopa_records_match_the_run_dump() -> None:
+    shortlist, dump = _v14()
+    by_id = {r.id: r for r in dump.lopa_records}
+    for item in shortlist.items:
+        if item.lopa is not None:
+            assert by_id[item.lopa.id] == item.lopa
+
+
+def test_the_mock_override_result_uses_the_v14_change_severity_shape() -> None:
+    override = api.OverrideResult.model_validate(_fixture("override_result.json")).override
+    assert api.ChangeSeverityValue.model_validate(override.new_value).severity_class == "S4"
+    assert override.id == ids.override_id(override.target_id, override.action, override.new_value)

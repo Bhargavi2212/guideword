@@ -156,6 +156,27 @@
           "run_id": {
             "title": "Run Id",
             "type": "string"
+          },
+          "severity_class": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/SeverityClass"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "severity_reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Severity Reason"
           }
         },
         "required": [
@@ -422,7 +443,8 @@
           "run_finished",
           "run_failed",
           "hypothesis_added",
-          "hypothesis_dropped"
+          "hypothesis_dropped",
+          "run_extended"
         ],
         "title": "EventType",
         "type": "string"
@@ -804,6 +826,28 @@
       "LayerCredit": {
         "additionalProperties": false,
         "properties": {
+          "applies": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Applies"
+          },
+          "argument": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Argument"
+          },
           "credited": {
             "title": "Credited",
             "type": "boolean"
@@ -855,6 +899,13 @@
           "complete": {
             "title": "Complete",
             "type": "boolean"
+          },
+          "flags": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Flags",
+            "type": "array"
           },
           "frequency_assumed": {
             "default": false,
@@ -926,11 +977,29 @@
             ],
             "title": "Mitigated Frequency Per Year"
           },
+          "model_call_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Model Call Id"
+          },
           "modifiers": {
             "items": {
               "$ref": "#/components/schemas/AppliedModifier"
             },
             "title": "Modifiers",
+            "type": "array"
+          },
+          "modifiers_not_applied": {
+            "items": {
+              "$ref": "#/components/schemas/ModifierNotApplied"
+            },
+            "title": "Modifiers Not Applied",
             "type": "array"
           },
           "run_id": {
@@ -1099,6 +1168,26 @@
           "spent_usd"
         ],
         "title": "ModelSpend",
+        "type": "object"
+      },
+      "ModifierNotApplied": {
+        "additionalProperties": false,
+        "description": "A modifier kind of modifiers.csv the record did not apply, and why (P3-3).",
+        "properties": {
+          "kind": {
+            "title": "Kind",
+            "type": "string"
+          },
+          "reason": {
+            "title": "Reason",
+            "type": "string"
+          }
+        },
+        "required": [
+          "kind",
+          "reason"
+        ],
+        "title": "ModifierNotApplied",
         "type": "object"
       },
       "Override": {
@@ -1715,6 +1804,12 @@
           "plant_record_id": {
             "title": "Plant Record Id",
             "type": "string"
+          },
+          "post_spend_cap_usd": {
+            "default": 0.0,
+            "minimum": 0.0,
+            "title": "Post Spend Cap Usd",
+            "type": "number"
           },
           "prompt_versions": {
             "additionalProperties": {

@@ -81,6 +81,29 @@
         "run_id": {
           "title": "Run Id",
           "type": "string"
+        },
+        "severity_class": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SeverityClass"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "severity_reason": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Severity Reason"
         }
       },
       "required": [
@@ -409,6 +432,30 @@
     "LayerCredit": {
       "additionalProperties": false,
       "properties": {
+        "applies": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Applies"
+        },
+        "argument": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Argument"
+        },
         "credited": {
           "title": "Credited",
           "type": "boolean"
@@ -462,6 +509,13 @@
         "complete": {
           "title": "Complete",
           "type": "boolean"
+        },
+        "flags": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Flags",
+          "type": "array"
         },
         "frequency_assumed": {
           "default": false,
@@ -537,11 +591,30 @@
           "default": null,
           "title": "Mitigated Frequency Per Year"
         },
+        "model_call_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Model Call Id"
+        },
         "modifiers": {
           "items": {
             "$ref": "#/$defs/AppliedModifier"
           },
           "title": "Modifiers",
+          "type": "array"
+        },
+        "modifiers_not_applied": {
+          "items": {
+            "$ref": "#/$defs/ModifierNotApplied"
+          },
+          "title": "Modifiers Not Applied",
           "type": "array"
         },
         "run_id": {
@@ -570,6 +643,26 @@
         "tolerable_per_year"
       ],
       "title": "LopaRecord",
+      "type": "object"
+    },
+    "ModifierNotApplied": {
+      "additionalProperties": false,
+      "description": "A modifier kind of modifiers.csv the record did not apply, and why (P3-3).",
+      "properties": {
+        "kind": {
+          "title": "Kind",
+          "type": "string"
+        },
+        "reason": {
+          "title": "Reason",
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "reason"
+      ],
+      "title": "ModifierNotApplied",
       "type": "object"
     },
     "Recommendation": {

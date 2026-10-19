@@ -5,11 +5,13 @@
     "cost_usd": 0.31
   },
   "override": {
-    "id": "ov:f:pair:KOH:SIH:lightning:C14:541f633168214c61:952129f09a0da22c",
+    "id": "ov:f:pair:KOH:SIH:lightning:C14:541f633168214c61:62a5457b855d76a7",
     "run_id": "run:8ede059837927e4a",
     "target_id": "f:pair:KOH:SIH:lightning:C14:541f633168214c61",
     "action": "change_severity",
-    "new_value": "S4",
+    "new_value": {
+      "severity_class": "S4"
+    },
     "reason": "The building is occupied on every shift.",
     "by": "Mock reviewer",
     "at": "2026-10-13T10:00:00Z",

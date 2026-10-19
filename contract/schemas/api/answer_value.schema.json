@@ -1,0 +1,16 @@
+{
+  "additionalProperties": false,
+  "description": "`answer` on an engineer's question (`eng:`), which then counts as checked on read.",
+  "properties": {
+    "text": {
+      "minLength": 1,
+      "title": "Text",
+      "type": "string"
+    }
+  },
+  "required": [
+    "text"
+  ],
+  "title": "AnswerValue",
+  "type": "object"
+}
