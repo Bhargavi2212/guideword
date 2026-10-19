@@ -16,11 +16,14 @@ from sqlalchemy.orm import Session, sessionmaker
 
 from guideword.runs.db import (
     AgentStepRow,
+    ChainRow,
     EventRow,
     FindingRow,
     HypothesisRow,
+    LopaRecordRow,
     ModelCallRow,
     QuestionRow,
+    RecommendationRow,
     RunRecordRow,
     RunRow,
     ToolCallRow,
@@ -29,11 +32,14 @@ from guideword.schema import ids
 from guideword.schema.enums import EventType, RunStatus
 from guideword.schema.records import (
     AgentStep,
+    Chain,
     Event,
     Finding,
     Hypothesis,
+    LopaRecord,
     ModelCall,
     Question,
+    Recommendation,
     Run,
     Section,
     ToolCall,
@@ -41,8 +47,8 @@ from guideword.schema.records import (
 
 Clock = Callable[[], datetime]
 
-# The event types this store emits. Phase 3 and 4 add chain_added, lopa_done and
-# evidence_added with their tools (decision R32).
+# The event types this store emits (decision R32). Phase 3 adds chain_added, lopa_done and
+# run_extended with the post-analysis steps (plan G11); Phase 4 adds evidence_added.
 EMITTED_EVENT_TYPES = frozenset(
     {
         EventType.RUN_STARTED,
@@ -59,6 +65,9 @@ EMITTED_EVENT_TYPES = frozenset(
         EventType.RUN_FAILED,
         EventType.HYPOTHESIS_ADDED,
         EventType.HYPOTHESIS_DROPPED,
+        EventType.CHAIN_ADDED,
+        EventType.LOPA_DONE,
+        EventType.RUN_EXTENDED,
     }
 )
 
@@ -98,6 +107,10 @@ class StepWriter:
 
     def set_spend_cap(self, spend_cap_usd: float) -> None:
         self._update(spend_cap_usd=spend_cap_usd)
+
+    def set_post_spend_cap(self, post_spend_cap_usd: float) -> None:
+        """P3-2: the post-analysis allowance; not hashed, so the run ID does not change."""
+        self._update(post_spend_cap_usd=post_spend_cap_usd)
 
     def add_spent(self, usd: float, *, cap_usd: float) -> None:
         """`usd` is money actually paid; `cap_usd` is what counts against the cap: the paid
@@ -165,6 +178,45 @@ class StepWriter:
             raise ValueError(f"{finding.id} already has a severity; it is never overwritten")
         self._put(FindingRow, finding)
 
+    def add_chain(self, chain: Chain) -> None:
+        """Store a validated chain of the connector, once, with its event (plan G11)."""
+        self._refuse_repeat(ChainRow, chain.id, "chain")
+        self._put(ChainRow, chain)
+        self.emit(EventType.CHAIN_ADDED, {"chain_id": chain.id, "links": len(chain.links)})
+
+    def fill_chain_severity(self, chain: Chain) -> None:
+        """The one-time chain severity fill, as `fill_severity` for findings (R10)."""
+        stored = {c.id: c for c in self.chains()}.get(chain.id)
+        if stored is None:
+            raise LookupError(f"no chain {chain.id} in this run")
+        if stored.severity_class is not None or stored.severity_reason is not None:
+            raise ValueError(f"{chain.id} already has a severity; it is never overwritten")
+        self._put(ChainRow, chain)
+
+    def add_lopa(self, record: LopaRecord, *, full: bool) -> None:
+        """Store a LOPA record, once; its event says whether Ultra argued the layers."""
+        self._refuse_repeat(LopaRecordRow, record.id, "LOPA record")
+        self._put(LopaRecordRow, record)
+        self.emit(
+            EventType.LOPA_DONE,
+            {
+                "lopa_id": record.id,
+                "complete": record.complete,
+                "kind": "full" if full else "code_only",
+            },
+        )
+
+    def add_recommendation(self, recommendation: Recommendation) -> None:
+        """Store a recommendation, once; its event is its call's `model_call` event."""
+        self._refuse_repeat(RecommendationRow, recommendation.id, "recommendation")
+        self._put(RecommendationRow, recommendation)
+
+    def _refuse_repeat(self, table: type[RunRecordRow], record_id: str, kind: str) -> None:
+        if record_id in self._new.get(table, {}) or (
+            self._session.get(table, (self.run.id, record_id)) is not None
+        ):
+            raise ValueError(f"{kind} {record_id} is already stored in run {self.run.id}")
+
     def add_step(self, step: AgentStep) -> None:
         self._put(AgentStepRow, step)
         self.emit(
@@ -216,6 +268,15 @@ class StepWriter:
 
     def model_calls(self) -> list[ModelCall]:
         return self._records(ModelCallRow, ModelCall)
+
+    def chains(self) -> list[Chain]:
+        return self._records(ChainRow, Chain)
+
+    def lopa_records(self) -> list[LopaRecord]:
+        return self._records(LopaRecordRow, LopaRecord)
+
+    def recommendations(self) -> list[Recommendation]:
+        return self._records(RecommendationRow, Recommendation)
 
     def _records[R: BaseModel](self, table: type[RunRecordRow], model: type[R]) -> list[R]:
         stored = self._session.scalars(
@@ -348,6 +409,15 @@ class RunRepository:
 
     def tool_calls(self, run_id: str) -> list[ToolCall]:
         return self._read(ToolCallRow, run_id, ToolCall)
+
+    def chains(self, run_id: str) -> list[Chain]:
+        return self._read(ChainRow, run_id, Chain)
+
+    def lopa_records(self, run_id: str) -> list[LopaRecord]:
+        return self._read(LopaRecordRow, run_id, LopaRecord)
+
+    def recommendations(self, run_id: str) -> list[Recommendation]:
+        return self._read(RecommendationRow, run_id, Recommendation)
 
     def events(self, run_id: str, after: int = 0) -> list[Event]:
         with self._sessions() as session:

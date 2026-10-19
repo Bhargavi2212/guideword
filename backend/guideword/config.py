@@ -100,6 +100,9 @@ class RunCaps(_Strict):
     connector_max_chains: PositiveInt
     lopa_batch_size: PositiveInt
     recommendation_batch_size: PositiveInt
+    # Q20: a new run's post-analysis allowance (P3-2); hashed with the run block like
+    # run_spend_cap_usd, while the Run field that holds the value used is not
+    post_spend_cap_usd: NonNegative
 
 
 class RankingCaps(_Strict):

@@ -8,8 +8,8 @@ stops, both spend figures are checked against its call records (R45).
 
 import math
 from collections.abc import Mapping
-from dataclasses import dataclass
-from typing import Protocol
+from dataclasses import dataclass, field
+from typing import Any, Protocol
 
 from guideword.gateway.client import BudgetRefused
 from guideword.logs import get_logger
@@ -26,10 +26,13 @@ log = get_logger(__name__)
 
 @dataclass(frozen=True)
 class StepResult:
-    """What a step decided: the run's next status, and the next phase if it moves on."""
+    """What a step decided: the run's next status, and the next phase if it moves on.
+    `summary` is added to the step's `step_finished` event (Phase 3: what a post-analysis
+    step left out, such as the connector's rejected chains)."""
 
     status: RunStatus = RunStatus.RUNNING
     next_step: str | None = None
+    summary: Mapping[str, Any] = field(default_factory=dict)
 
 
 class Stepper(Protocol):
@@ -53,7 +56,12 @@ def advance(runs: RunRepository, run_id: str, steppers: Mapping[str, Stepper]) -
             writer.set_status(result.status)
         writer.emit(
             EventType.STEP_FINISHED,
-            {"step": run.step, "status": writer.run.status, "next_step": writer.run.step},
+            {
+                **dict(result.summary),
+                "step": run.step,
+                "status": writer.run.status,
+                "next_step": writer.run.step,
+            },
         )
         if writer.run.status != RunStatus.RUNNING:
             spend_matches_records(writer)

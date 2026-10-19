@@ -60,6 +60,10 @@ run:
   connector_max_chains: 10
   lopa_batch_size: 5
   recommendation_batch_size: 5
+  # Q20 (plan PR 5): a new run's post-analysis allowance (P3-2), for run_case.py --post-cap
+  # and runs started through the API; hashed like run_spend_cap_usd, so only new runs' IDs
+  # move. An extended run gets its own from extend_run.py --post-cap (stored on the Run)
+  post_spend_cap_usd: 0.30
 
 plant:
   # the Super section-suggestion call, which runs outside any run
