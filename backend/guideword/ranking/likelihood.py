@@ -5,8 +5,8 @@ times the failing line's `length_m`; `per_lift` times the job's `lifts_per_year`
 fact leaves the finding unrated and names the fact. `per_opportunity` has no demand rate in
 the plant file, so it is unrated in this phase. An outside-library cause gets the highest
 frequency among library causes of the same failing-component type (converted the same way),
-or the configured default, flagged "frequency assumed". The band is the one that holds the
-frequency, including its upper edge.
+or the configured default, flagged "frequency assumed — engineer to confirm".
+The band is the one that holds the frequency, including its upper edge.
 
 Phase 3 (P3-4, P3-5): a cause on the small piping-leak event uses the large-leak event on each
 failing line whose `size_mm` is above `ranking.pipe_leak_large_above_mm`; a line with no size
@@ -43,7 +43,8 @@ class Likelihood:
     likelihood_class: LikelihoodClass | None
     initiating_event_id: str | None = None
     missing_fact_ids: tuple[str, ...] = ()
-    # an outside-library cause's frequency, or the default: "frequency assumed"
+    # an outside-library cause's frequency, or the default: "frequency assumed — engineer to
+    # confirm" (PROJECT.md section 5 Step 6.2)
     assumed: bool = False
     note: str | None = None
     # assumptions the engineer should confirm (P3-4, P3-5), shown in screening and LOPA
@@ -177,8 +178,19 @@ def likelihood(finding: Finding, plant: Plant, ref: ReferenceSet, caps: CapsConf
     if best is None:
         default = caps.ranking.outside_library_default_frequency_per_year
         return Likelihood(
-            default, band_for(default, ref), None, (), True, "frequency assumed (default)"
+            default,
+            band_for(default, ref),
+            None,
+            (),
+            True,
+            "frequency assumed — engineer to confirm (default frequency)",
         )
     return Likelihood(
-        best[0], band_for(best[0], ref), best[1], (), True, "frequency assumed", best[2]
+        best[0],
+        band_for(best[0], ref),
+        best[1],
+        (),
+        True,
+        "frequency assumed — engineer to confirm",
+        best[2],
     )
