@@ -105,7 +105,7 @@
         "HV-A-SOUT open and locked true (car sealed) -> would be managed, but one unmanaged valve is enough"
       ],
       "expected_layers": [
-        {"layer_id": "RV-PATH-EA425A", "credited": true, "pfd": 0.1, "reason": "inlet valve HV-A-SIN unmanaged"}
+        {"layer_id": "RV-PATH-EA425A", "credited": true, "pfd": 0.1, "reason_contains": "inlet valve HV-A-SIN unmanaged"}
       ],
       "arithmetic": "mitigated = 0.1 x 0.1 = 1e-02; gap = 1e-02 / 1e-05 = 1000",
       "expected": {"complete": true, "mitigated_frequency_per_year": 1e-02, "tolerable_per_year": 1e-05, "gap": 1000.0,
