@@ -32,6 +32,15 @@ class Scenario:
     object_ids: frozenset[str]
     # the cause's failing components (for a chain, every finding link's)
     failing_component_ids: frozenset[str]
+    # a chain only: each failing component with the finding links that carry it, so a refusal
+    # names the link that caused it (Bhargavi, 2026-10-19); empty for a line
+    component_links: tuple[tuple[str, tuple[str, ...]], ...] = ()
+
+    def link_note(self, *component_ids: str) -> str:
+        """` (chain link <id>, ...)` for the links carrying these components; "" on a line."""
+        carried = dict(self.component_links)
+        links = sorted({link for c in component_ids for link in carried.get(c, ())})
+        return f" (chain link {', '.join(links)})" if links else ""
 
 
 def _objects(found: Finding, section: Section | None) -> set[str]:
@@ -58,16 +67,20 @@ def chain_scenario(chain: Chain, links: Sequence[tuple[Finding, Section | None]]
         raise ValueError(f"{chain.id}: the findings given are not its finding links")
     objects: set[str] = set()
     failing: set[str] = set()
+    carried: dict[str, set[str]] = {}
     for link in finding_links:
         found, section = by_id[link]
         objects |= _objects(found, section)
         failing |= set(found.failing_component_ids)
+        for component in found.failing_component_ids:
+            carried.setdefault(component, set()).add(link)
     return Scenario(
         target_id=chain.id,
         finding=by_id[finding_links[0]][0],
         severity_class=chain.severity_class,
         object_ids=frozenset(objects),
         failing_component_ids=frozenset(failing),
+        component_links=tuple(sorted((c, tuple(sorted(links))) for c, links in carried.items())),
     )
 
 

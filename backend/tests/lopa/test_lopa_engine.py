@@ -502,7 +502,8 @@ def test_an_assumed_frequency_is_flagged(ref: ReferenceSet, config: Config) -> N
     record = _record(line_scenario(odd, section()), example_plant(), ref, config, None)
     assert record.frequency_assumed is True
     assert record.flags == [FREQUENCY_ASSUMED_FLAG, CODE_ONLY_FLAG]
-    assert FREQUENCY_ASSUMED_FLAG == "frequency assumed"
+    # PROJECT.md section 5 Step 6.2's wording, the same as screening (Bhargavi, 2026-10-19)
+    assert FREQUENCY_ASSUMED_FLAG == "frequency assumed — engineer to confirm"
 
 
 def test_engine_is_pure(ref: ReferenceSet, config: Config) -> None:
@@ -511,3 +512,75 @@ def test_engine_is_pure(ref: ReferenceSet, config: Config) -> None:
     again = _record(_loop_scenario(), plant, ref, config, {"PSV-1": YES, "SG-TRIP": YES})
     assert first == again
     assert first.model_dump_json() == again.model_dump_json()
+
+
+# --- a chain's refusal names the link that caused it (Bhargavi, 2026-10-19) ----------------------
+
+
+def _leak_and_loop_chain(*extra: Finding) -> tuple[Chain, Scenario]:
+    leak = finding(
+        question="nf:L-12", cause="C20", kind=FailingComponentType.PIPE, components=("L-12",)
+    )
+    loop = finding()
+    links = [leak, loop, *extra]
+    chain = Chain(
+        id=ids.chain_id([f.id for f in links]),
+        run_id=RUN,
+        links=[f.id for f in links],
+        description="d",
+        reason="r",
+        severity_class=SeverityClass.S4,
+    )
+    sections = {loop.id: section()}
+    return chain, chain_scenario(chain, [(f, sections.get(f.id)) for f in links])
+
+
+def test_a_chain_refusal_for_a_shared_component_names_the_link(ref: ReferenceSet) -> None:
+    chain, scenario = _leak_and_loop_chain()
+    plant = example_plant(
+        _set_guard("SG-LINE", layer_type="IPL-SIS-SIL1", protects_id="MX-1", component_ids=["L-12"])
+    )
+    layer = credit(_guard(plant, "SG-LINE"), scenario, plant, ref, YES)
+    leak_link = chain.links[0]
+    assert not layer.credited
+    assert (
+        layer.reason == f"no credit — shares component L-12 with the cause (chain link {leak_link})"
+    )
+
+
+def test_a_chain_refusal_for_a_shared_loop_part_names_the_link(ref: ReferenceSet) -> None:
+    """IPL-HUMAN on the failing loop's sensor: the loop is the second finding link."""
+    chain, scenario = _leak_and_loop_chain()
+    plant = example_plant(
+        _set_guard("SG-ALARM", layer_type="IPL-HUMAN", protects_id="MX-1", component_ids=["TT-1"])
+    )
+    layer = credit(_guard(plant, "SG-ALARM"), scenario, plant, ref, YES)
+    loop_link = chain.links[1]
+    assert layer.reason == (
+        f"no credit — shares sensor TT-1 with failing loop TIC-1 (chain link {loop_link})"
+    )
+
+
+def test_a_chain_refusal_for_a_layer_that_is_itself_failing_names_the_link(
+    ref: ReferenceSet,
+) -> None:
+    relief = finding(
+        question="relief:PSV-1",
+        cause="C11",
+        kind=FailingComponentType.RELIEF_DEVICE,
+        components=("PSV-1",),
+    )
+    chain, scenario = _leak_and_loop_chain(relief)
+    plant = example_plant()
+    layer = credit(_relief(plant), scenario, plant, ref, YES)
+    assert layer.reason == (
+        f"no credit — PSV-1 is itself a failing component (chain link {relief.id})"
+    )
+
+
+def test_a_line_refusal_names_no_link(ref: ReferenceSet) -> None:
+    plant = example_plant(
+        _set_guard("SG-ALARM", layer_type="IPL-HUMAN", protects_id="MX-1", component_ids=["TT-1"])
+    )
+    layer = credit(_guard(plant, "SG-ALARM"), _loop_scenario(), plant, ref, YES)
+    assert layer.reason == "no credit — shares sensor TT-1 with failing loop TIC-1"

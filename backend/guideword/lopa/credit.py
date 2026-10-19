@@ -7,7 +7,7 @@ The first rule that refuses gives the reason:
 2. Ultra says it does not apply: "does not apply: <Ultra's reason>";
 3. a safeguard with no `layer_type` (or a relief device with no `kind`): no row, no credit;
 4. a shared component: any of the safeguard's `component_ids`, or the layer itself, among the
-   cause's failing components;
+   cause's failing components; for a chain the reason names the finding link that carries it;
 5. independence (Q3): where the layer's `protection_layers.csv` row requires it, the failing
    control loop's `sensor_id`, `controller_id` or `final_element_id` among the safeguard's
    `component_ids` (the loop's parts are not failing components themselves, Q4);
@@ -88,12 +88,14 @@ def _row(layer: Layer, ref: ReferenceSet) -> ProtectionLayerRow | str:
 
 def _shared_component(layer: Layer, scenario: Scenario) -> str | None:
     if layer.id in scenario.failing_component_ids:
-        return f"no credit — {layer.id} is itself a failing component"
+        note = scenario.link_note(layer.id)
+        return f"no credit — {layer.id} is itself a failing component{note}"
     if isinstance(layer, ReliefDevice):
         return None
     shared = sorted(set(layer.component_ids) & scenario.failing_component_ids)
     if shared:
-        return f"no credit — shares component {', '.join(shared)} with the cause"
+        note = scenario.link_note(*shared)
+        return f"no credit — shares component {', '.join(shared)} with the cause{note}"
     return None
 
 
@@ -120,7 +122,8 @@ def _shared_loop_part(
         )
         for name, part, required in parts:
             if required and part in components:
-                return f"no credit — shares {name} {part} with failing loop {loop.id}"
+                note = scenario.link_note(loop.id)
+                return f"no credit — shares {name} {part} with failing loop {loop.id}{note}"
     return None
 
 

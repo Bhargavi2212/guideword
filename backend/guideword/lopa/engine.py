@@ -28,7 +28,7 @@ from guideword.schema.plant import Plant
 from guideword.schema.records import LopaRecord, ModifierNotApplied
 
 CODE_ONLY_FLAG = "code-only LOPA: layers not argued"
-FREQUENCY_ASSUMED_FLAG = "frequency assumed"
+FREQUENCY_ASSUMED_FLAG = "frequency assumed — engineer to confirm"
 MODIFIER_REASON = "no plant fact or rule"
 NO_SEVERITY = "no severity"
 
