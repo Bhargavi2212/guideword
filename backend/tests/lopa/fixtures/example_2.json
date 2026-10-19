@@ -1,0 +1,122 @@
+{
+  "_about": "LOPA hand-worked example 2 (spec 3.2 acceptance item 2; plan PR 7 test_example_2_matches_the_hand_worked_numbers_exactly). Written by Cowork from the reference tables and cases/demo/williams_geismar.json BEFORE the engine exists, so it is independent of the code. Every number traces to a reference row or a plant field; the arithmetic is shown. Severity is an INPUT (in a run it comes from the severity step); nothing here is a model output. This is a demo-plant fixture, not a benchmark key: it must not be used to write or tune any prompt.",
+  "plant_file": "cases/demo/williams_geismar.json",
+  "reference_rows_used": {
+    "causes.csv": "C15 Valve left in wrong position (operator or maintenance error); applies_to includes heat_exchanger; failing_component_type operator; initiating_event_id IE-HE-MONTHLY",
+    "initiating_events.csv": "IE-HE-MONTHLY Human error, task performed more than monthly but less than weekly, 0.1 per_year",
+    "likelihood_classes.csv": "L4 Likely: 0.01 < f <= 0.1",
+    "protection_layers.csv": "IPL-PRV: pfd 0.01; pfd_if_isolatable 0.1; no_credit_if_isolated 1; relief_kind prv",
+    "tolerable_frequencies.csv": "S4: 1e-05 per year"
+  },
+  "scenario": {
+    "lead_finding": {
+      "question_id": "m:S-EA-425B:more:pressure",
+      "section_id": "S-EA-425B",
+      "section_object_ids": ["EA-425B"],
+      "cause_id": "C15",
+      "failing_component_type": "operator",
+      "failing_component_ids": ["P-REB-START-2"],
+      "consequence": "Heating medium admitted to EA-425B while its shell-side block valves HV-B-SIN and HV-B-SOUT are closed; shell contents heat and pressure rises above design 2068 kPa g with no open relief path; shell rupture and hydrocarbon release",
+      "severity_class": "S4"
+    },
+    "r40_note": "C15 is an operator cause, so its failing components must hold a step or job ID (R40/R41). P-REB-START-2 names HV-QW-B-IN and HV-QW-B-OUT, which are in EA-425B's process scope through heat_sources."
+  },
+  "step_1_initiating_frequency": {
+    "rule": "C15 -> IE-HE-MONTHLY, unit per_year, used directly (P3-5)",
+    "initiating_event_id": "IE-HE-MONTHLY",
+    "initiating_frequency_per_year": 0.1,
+    "screening_likelihood_class": "L4",
+    "flags": ["task frequency assumed — engineer to confirm"]
+  },
+  "step_2_candidate_layers": {
+    "rule": "safeguards with a layer_type whose protects_id is in {section objects} ∪ {failing components} = {EA-425B, P-REB-START-2}; plus relief devices whose protects_id is in the same set; in ID order",
+    "candidates": ["RV-PATH-EA425B"],
+    "excluded": [
+      {"id": "RV-PATH-EA425A", "why": "protects_id EA-425A is not in {EA-425B, P-REB-START-2}"},
+      {"id": "SV-421QA", "why": "protects_id DA-406 is not in {EA-425B, P-REB-START-2}"},
+      {"id": "SV-421QB", "why": "protects_id DA-406 is not in {EA-425B, P-REB-START-2}"}
+    ],
+    "note": "The plant has no safeguards, so no safeguard is a candidate."
+  },
+  "step_3_credit_per_layer": {
+    "RV-PATH-EA425B": {
+      "relief_kind": "prv -> IPL-PRV",
+      "checks": [
+        "inlet_valve_ids = [HV-B-SIN, HV-B-SOUT]",
+        "HV-B-SIN normal_position closed -> no credit (IPL-PRV no_credit_if_isolated 1)",
+        "HV-B-SOUT normal_position closed (also isolating)"
+      ],
+      "credit_rule_order": "closed inlet valve is checked before 'open and not locked'; the reason names the first closed valve in inlet_valve_ids order",
+      "pfd_if_credited": null
+    }
+  },
+  "variants": [
+    {
+      "name": "A: full LOPA, Ultra says the relief path applies — the video beat",
+      "argument_input": {"RV-PATH-EA425B": {"applies": true}},
+      "expected_layers": [
+        {"layer_id": "RV-PATH-EA425B", "credited": false, "reason": "no credit — inlet valve HV-B-SIN closed"}
+      ],
+      "arithmetic": "mitigated = 0.1 (no credited layer); tolerable(S4) = 1e-05; gap = 0.1 / 1e-05 = 10000",
+      "expected": {"complete": true, "mitigated_frequency_per_year": 0.1, "tolerable_per_year": 1e-05, "gap": 10000.0, "recommendation_eligible": true,
+                   "flags_include": ["task frequency assumed — engineer to confirm"]}
+    },
+    {
+      "name": "B: full LOPA, Ultra says the relief path does not apply",
+      "argument_input": {"RV-PATH-EA425B": {"applies": false}},
+      "expected_layers": [
+        {"layer_id": "RV-PATH-EA425B", "credited": false, "reason_starts_with": "does not apply"}
+      ],
+      "arithmetic": "mitigated = 0.1; gap = 0.1 / 1e-05 = 10000",
+      "expected": {"complete": true, "mitigated_frequency_per_year": 0.1, "tolerable_per_year": 1e-05, "gap": 10000.0, "recommendation_eligible": true,
+                   "flags_include": ["task frequency assumed — engineer to confirm"]}
+    },
+    {
+      "name": "C: code-only LOPA (no argument)",
+      "argument_input": null,
+      "expected_layers": [
+        {"layer_id": "RV-PATH-EA425B", "credited": false, "reason": "not argued — no credit"}
+      ],
+      "arithmetic": "mitigated = 0.1; gap = 10000",
+      "expected": {"complete": true, "mitigated_frequency_per_year": 0.1, "tolerable_per_year": 1e-05, "gap": 10000.0,
+                   "flags_include": ["task frequency assumed — engineer to confirm", "code-only LOPA: layers not argued"]}
+    },
+    {
+      "name": "D: variant A, then the engineer overrides with change_credit on RV-PATH-EA425B (G1)",
+      "argument_input": {"RV-PATH-EA425B": {"applies": true}},
+      "override": {"kind": "change_credit", "layer_id": "RV-PATH-EA425B", "credited": true, "engineer_reason": "car seals to be fitted on HV-B-SIN and HV-B-SOUT"},
+      "expected_layers": [
+        {"layer_id": "RV-PATH-EA425B", "credited": true, "pfd": 0.01, "reason_contains": "engineer asserts inlet valve managed"}
+      ],
+      "arithmetic": "G1: a relief device credited by override uses its relief_kind row's full pfd 0.01, never pfd_if_isolatable. mitigated = 0.1 x 0.01 = 1e-03; gap = 1e-03 / 1e-05 = 100",
+      "expected": {"complete": true, "mitigated_frequency_per_year": 1e-03, "tolerable_per_year": 1e-05, "gap": 100.0,
+                   "override_record_reason": "car seals to be fitted on HV-B-SIN and HV-B-SOUT"}
+    },
+    {
+      "name": "E: rule check on the in-service reboiler: open, unlocked inlet valve -> pfd_if_isolatable",
+      "scenario_override": {"question_id": "m:S-EA-425A:more:pressure", "section_id": "S-EA-425A", "section_object_ids": ["EA-425A"],
+                            "cause_id": "C15", "failing_component_ids": ["P-REB-START-2"], "severity_class": "S4"},
+      "note": "This tests the inlet-valve rule on real plant data; it is not a claim that this scenario is a credible hazard on Reboiler A.",
+      "candidates": ["RV-PATH-EA425A"],
+      "argument_input": {"RV-PATH-EA425A": {"applies": true}},
+      "checks": [
+        "inlet_valve_ids = [HV-A-SIN, HV-A-SOUT]; none closed",
+        "HV-A-SIN open and locked false -> pfd_if_isolatable 0.1, reason names HV-A-SIN",
+        "HV-A-SOUT open and locked true (car sealed) -> would be managed, but one unmanaged valve is enough"
+      ],
+      "expected_layers": [
+        {"layer_id": "RV-PATH-EA425A", "credited": true, "pfd": 0.1, "reason": "inlet valve HV-A-SIN unmanaged"}
+      ],
+      "arithmetic": "mitigated = 0.1 x 0.1 = 1e-02; gap = 1e-02 / 1e-05 = 1000",
+      "expected": {"complete": true, "mitigated_frequency_per_year": 1e-02, "tolerable_per_year": 1e-05, "gap": 1000.0,
+                   "flags_include": ["task frequency assumed — engineer to confirm"]}
+    }
+  ],
+  "modifiers": "none applied in any variant (P3-3); every modifier kind in modifiers.csv (ignition_probability, explosion_given_ignition, vulnerability, time_at_risk) is listed as not applied, reason 'no plant fact or rule'",
+  "float_note": "compare with a relative tolerance of 1e-9; stored numbers are not rounded",
+  "open_points_for_claude_code": [
+    "Which valve the 'inlet valve <id> closed' reason names when several are closed is not fixed in the plan; this fixture assumes the first in inlet_valve_ids order. Change the fixture, not the rule, if the plan says otherwise.",
+    "Variant B assumes 'does not apply' is decided before the inlet-valve rule, as in example 1 variant B.",
+    "Variant D's exact override API shape follows PR 6; only the numbers and the two reason strings are fixed here."
+  ]
+}
