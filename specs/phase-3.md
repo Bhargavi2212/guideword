@@ -115,8 +115,8 @@ Evidence tools (`web_research`, `search_precedent`, `physics_calc`, `run_simulat
 - [ ] P3-1…P3-7 decided and recorded in `docs/decisions.md`.
 - [ ] Every acceptance test passes; CI green.
 - [ ] D, E, F, G re-run on Phase 3 code: analysis replayed at $0; shortlist with LOPA, chains and recommendations written to `bench/phase3/<case>.json`. H is skipped: it is recognised, and a full run costs ~$1.5.
-- [ ] Williams Geismar demo plant committed, validated, and run through LOPA.
-- [ ] `PROJECT.md` updated:
+- [ ] Williams Geismar demo plant committed, validated, and run through LOPA. (Committed in #69; validated, and its reboiler run through the LOPA engine as example 2, in PR 7. The demo plant's full run is Bhargavi's.)
+- [x] `PROJECT.md` updated (PR 7):
   - §5 Step 4: the tool table and the `finish` guard (P3-1);
   - §5 Step 6.1/6.2: which lines get full or code-only LOPA, and modifiers (P3-3);
   - §11: records and run steps (Chain severity, `post_spend_cap_usd`);
