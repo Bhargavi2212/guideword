@@ -1,0 +1,94 @@
+{
+  "_about": "LOPA hand-worked example 1 (spec 3.2 acceptance; plan PR 4, Q21). Written by Cowork from the reference tables and the §9 example plant BEFORE the engine exists, so it is independent of the code. Every number below traces to a reference row or a plant field; the arithmetic is shown. Severity is an INPUT here (in a run it comes from the severity step); nothing in this file is a model output.",
+  "plant_file": "backend/tests/schema/fixtures/example_mixing_unit.json",
+  "reference_rows_used": {
+    "causes.csv": "C01 Control valve fails open; failing_component_type control_loop; initiating_event_id IE-BPCS",
+    "initiating_events.csv": "IE-BPCS BPCS control loop failure, 0.1 per_year",
+    "likelihood_classes.csv": "L4 Likely: 0.01 < f <= 0.1",
+    "protection_layers.csv": [
+      "IPL-SIS-SIL1: pfd 0.1; requires_independent_sensor 1, requires_independent_logic 1, requires_independent_final_element 1",
+      "IPL-PRV: pfd 0.01; pfd_if_isolatable 0.1; relief_kind prv; scenarios overpressure"
+    ],
+    "tolerable_frequencies.csv": "S4: 1e-05 per year"
+  },
+  "scenario": {
+    "lead_finding": {
+      "question_id": "m:S-MX-1:more:temperature",
+      "section_id": "S-MX-1",
+      "section_object_ids": ["MX-1"],
+      "cause_id": "C01",
+      "failing_component_type": "control_loop",
+      "failing_component_ids": ["TIC-1"],
+      "consequence": "TV-1 fails open, full steam to MX-1 jacket; batch overheats above design_temp_c 80",
+      "severity_class": "S4"
+    },
+    "failing_loop": {"id": "TIC-1", "sensor_id": "TT-1", "controller_id": "DCS-1", "final_element_id": "TV-1"}
+  },
+  "step_1_initiating_frequency": {
+    "rule": "C01 -> IE-BPCS, unit per_year, used directly",
+    "initiating_event_id": "IE-BPCS",
+    "initiating_frequency_per_year": 0.1,
+    "screening_likelihood_class": "L4",
+    "flags": []
+  },
+  "step_2_candidate_layers": {
+    "rule": "safeguards with a layer_type whose protects_id is in {section objects} ∪ {failing components} = {MX-1, TIC-1}; plus relief devices whose protects_id is in the same set; in ID order",
+    "candidates": ["PSV-1", "SG-TRIP"],
+    "excluded": [
+      {"id": "SG-VENT", "why": "protects_id BLDG-1 is not in {MX-1, TIC-1}"}
+    ],
+    "note": "The operating alarm on MX-1 (alarm_instrument_id TT-1) is not a safeguard object, so it is not a candidate. If it were modelled as an IPL-HUMAN safeguard on TT-1, it would get no credit: TT-1 is the failing loop's sensor and IPL-HUMAN requires an independent sensor (Q3). That case belongs in a separate unit test, not this fixture."
+  },
+  "step_3_credit_per_layer": {
+    "SG-TRIP": {
+      "layer_type": "IPL-SIS-SIL1",
+      "checks": [
+        "has a layer_type: yes",
+        "shared component: SG-TRIP component_ids {TS-2, SIS-1, XV-STM} ∩ failing {TIC-1} = ∅ -> pass",
+        "independent sensor (required 1): loop sensor TT-1 not in {TS-2, SIS-1, XV-STM} -> pass",
+        "independent logic (required 1): loop controller DCS-1 not in {TS-2, SIS-1, XV-STM} -> pass",
+        "independent final element (required 1): loop final element TV-1 not in {TS-2, SIS-1, XV-STM} -> pass"
+      ],
+      "pfd_if_credited": 0.1
+    },
+    "PSV-1": {
+      "relief_kind": "prv -> IPL-PRV",
+      "checks": ["inlet_valve_ids = [] -> no inlet valve, so the full pfd applies"],
+      "pfd_if_credited": 0.01
+    }
+  },
+  "variants": [
+    {
+      "name": "A: full LOPA, Ultra says both layers apply",
+      "argument_input": {"PSV-1": {"applies": true}, "SG-TRIP": {"applies": true}},
+      "expected_layers": [
+        {"layer_id": "PSV-1", "credited": true, "pfd": 0.01},
+        {"layer_id": "SG-TRIP", "credited": true, "pfd": 0.1}
+      ],
+      "arithmetic": "mitigated = 0.1 x 0.1 x 0.01 = 1e-04 per year; tolerable(S4) = 1e-05; gap = 1e-04 / 1e-05 = 10",
+      "expected": {"complete": true, "mitigated_frequency_per_year": 1e-04, "tolerable_per_year": 1e-05, "gap": 10.0, "recommendation_eligible": true}
+    },
+    {
+      "name": "B: full LOPA, Ultra says the relief valve does not apply (temperature, not overpressure)",
+      "argument_input": {"PSV-1": {"applies": false}, "SG-TRIP": {"applies": true}},
+      "expected_layers": [
+        {"layer_id": "PSV-1", "credited": false, "reason_starts_with": "does not apply"},
+        {"layer_id": "SG-TRIP", "credited": true, "pfd": 0.1}
+      ],
+      "arithmetic": "mitigated = 0.1 x 0.1 = 1e-02; gap = 1e-02 / 1e-05 = 1000",
+      "expected": {"complete": true, "mitigated_frequency_per_year": 1e-02, "tolerable_per_year": 1e-05, "gap": 1000.0, "recommendation_eligible": true}
+    },
+    {
+      "name": "C: code-only LOPA (no argument)",
+      "argument_input": null,
+      "expected_layers": [
+        {"layer_id": "PSV-1", "credited": false, "reason": "not argued — no credit"},
+        {"layer_id": "SG-TRIP", "credited": false, "reason": "not argued — no credit"}
+      ],
+      "arithmetic": "mitigated = 0.1 (no credited layer); gap = 0.1 / 1e-05 = 10000",
+      "expected": {"complete": true, "mitigated_frequency_per_year": 0.1, "tolerable_per_year": 1e-05, "gap": 10000.0, "flags_include": "code-only LOPA: layers not argued"}
+    }
+  ],
+  "modifiers": "none applied in any variant (P3-3); every modifier kind in modifiers.csv (ignition_probability, explosion_given_ignition, vulnerability, time_at_risk) is listed as not applied, reason 'no plant fact or rule'",
+  "float_note": "compare with a relative tolerance of 1e-9; stored numbers are not rounded"
+}
