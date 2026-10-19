@@ -21,6 +21,7 @@ CODE_ONLY = {
     "unsure_reanswers_left": "an integer computed by code",
     "max_added_questions": "an integer from caps.yaml",
     "max_hypotheses": "an integer from caps.yaml",
+    "max_chains": "an integer from caps.yaml (connector_max_chains)",
     "question_kinds": "names from the QuestionKind enum, joined by code",
     # kept verbatim so test 5A on E and F sees what it saw on D and G; test5a.py refuses a
     # package holding its block's tags instead (R50 review, G22)
