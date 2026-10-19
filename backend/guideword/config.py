@@ -104,6 +104,8 @@ class RunCaps(_Strict):
 
 class RankingCaps(_Strict):
     outside_library_default_frequency_per_year: Positive
+    # P3-4: the piping-leak size above which the large-leak event applies
+    pipe_leak_large_above_mm: Positive
 
 
 class GatewayCaps(_Strict):
