@@ -110,6 +110,9 @@ class Run(_Record):
     spent_usd: Annotated[float, Field(ge=0)] = 0.0
     # counted against the cap: paid calls plus cache hits at their stored cost (R45)
     cap_spent_usd: Annotated[float, Field(ge=0)] = 0.0
+    # the post-analysis steps' own allowance (P3-2, contract v1.4); like spend_cap_usd, not
+    # hashed into the run ID, so a finished run can be extended in place
+    post_spend_cap_usd: Annotated[float, Field(ge=0)] = 0.0
     reference_versions: dict[str, str]
     routing_config: dict[str, str]
     caps: dict[str, Any]
@@ -316,6 +319,9 @@ class Chain(_Record):
     # misused terms or more than two independent failures, flagged for the engineer
     flags: list[str] = Field(default_factory=list)
     model_call_id: str | None = None
+    # from the chain severity step (contract v1.4), mirroring Finding
+    severity_class: SeverityClass | None = None
+    severity_reason: str | None = None
 
 
 class LayerCredit(_Record):
@@ -323,13 +329,25 @@ class LayerCredit(_Record):
     layer_id: str
     layer_type: str | None = None
     credited: bool
+    # set only on a credited layer
     pfd: Probability | None = None
+    # code's reason for the credit decision
     reason: str
+    # Ultra's argument (contract v1.4): applies to this scenario, and why; null when not argued
+    applies: bool | None = None
+    argument: str | None = None
 
 
 class AppliedModifier(_Record):
     modifier_id: str
     value: Probability
+
+
+class ModifierNotApplied(_Record):
+    """A modifier kind of modifiers.csv the record did not apply, and why (P3-3)."""
+
+    kind: str
+    reason: str
 
 
 class LopaRecord(_Record):
@@ -349,6 +367,12 @@ class LopaRecord(_Record):
     mitigated_frequency_per_year: Annotated[float, Field(ge=0)] | None = None
     tolerable_per_year: Annotated[float, Field(gt=0)]
     gap: Annotated[float, Field(ge=0)] | None = None
+    # contract v1.4: the call that argued the layers (null on code-only LOPA), the record's
+    # flags ("frequency assumed", "code-only LOPA: layers not argued", ...) and the modifier
+    # kinds not applied (P3-3)
+    model_call_id: str | None = None
+    flags: list[str] = Field(default_factory=list)
+    modifiers_not_applied: list[ModifierNotApplied] = Field(default_factory=list)
 
     @model_validator(mode="after")
     def _complete_or_names_missing_facts(self) -> "LopaRecord":

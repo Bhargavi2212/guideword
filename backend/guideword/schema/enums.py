@@ -343,6 +343,8 @@ class EventType(StrEnum):
     # the whole-plant pass (R50)
     HYPOTHESIS_ADDED = "hypothesis_added"
     HYPOTHESIS_DROPPED = "hypothesis_dropped"
+    # a finished run extended in place with the post-analysis steps (P3-1b, contract v1.4)
+    RUN_EXTENDED = "run_extended"
 
 
 class ShortlistTier(StrEnum):

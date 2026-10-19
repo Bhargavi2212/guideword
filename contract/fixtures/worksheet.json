@@ -79,6 +79,31 @@
         "m:S-MX-1:more:pressure"
       ],
       "override_state": "none"
+    },
+    {
+      "row_id": "f:m:S-L-12:reverse:flow:lightning:C20:2274a734f2fd0c60",
+      "section": "S-L-12",
+      "design_intent": null,
+      "guideword": "reverse",
+      "parameter": "flow",
+      "deviation": "Reverse flow in L-12",
+      "causes": "C20 Piping leak (L-12)",
+      "consequences": "Back-flow strains the corroded flange on L-12; KOH solution leaks onto the floor.",
+      "existing_safeguards": "",
+      "severity": "S4",
+      "likelihood": null,
+      "risk": null,
+      "lopa_gap": "incomplete: L-12.length_m missing",
+      "recommendation": null,
+      "action_owner": null,
+      "origin": "matrix",
+      "evidence": null,
+      "status": "answered",
+      "record_ids": [
+        "f:m:S-L-12:reverse:flow:lightning:C20:2274a734f2fd0c60",
+        "lopa:f:m:S-L-12:reverse:flow:lightning:C20:2274a734f2fd0c60"
+      ],
+      "override_state": "none"
     }
   ]
 }

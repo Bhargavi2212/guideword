@@ -38,6 +38,12 @@
           "title": "Plant Record Id",
           "type": "string"
         },
+        "post_spend_cap_usd": {
+          "default": 0.0,
+          "minimum": 0,
+          "title": "Post Spend Cap Usd",
+          "type": "number"
+        },
         "prompt_versions": {
           "additionalProperties": {
             "type": "string"

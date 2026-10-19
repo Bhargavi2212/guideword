@@ -1,4 +1,17 @@
 {
+  "$defs": {
+    "SeverityClass": {
+      "enum": [
+        "S1",
+        "S2",
+        "S3",
+        "S4",
+        "S5"
+      ],
+      "title": "SeverityClass",
+      "type": "string"
+    }
+  },
   "additionalProperties": false,
   "properties": {
     "description": {
@@ -49,6 +62,29 @@
     "run_id": {
       "title": "Run Id",
       "type": "string"
+    },
+    "severity_class": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/SeverityClass"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "severity_reason": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Severity Reason"
     }
   },
   "required": [

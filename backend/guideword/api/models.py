@@ -6,9 +6,15 @@ carries `label`. Records come from `schema/records.py`.
 
 from typing import Annotated, Any, Literal
 
-from pydantic import BaseModel, ConfigDict, Field, model_validator
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, model_validator
 
-from guideword.schema.enums import OverrideAction, PlantStatus, RunStatus, ShortlistTier
+from guideword.schema.enums import (
+    OverrideAction,
+    PlantStatus,
+    RunStatus,
+    SeverityClass,
+    ShortlistTier,
+)
 from guideword.schema.records import (
     Chain,
     Event,
@@ -280,13 +286,67 @@ class RecordDetail(_RunResponse):
     tool_calls: list[ToolCall]
 
 
+# --- override values, one shape per action (contract v1.4, plan Q17) -----------------------------
+
+Text = Annotated[str, Field(min_length=1)]
+# the only fields an `edit` may change: recommendation.action, finding.consequence,
+# section.purpose; whether the field fits the target's kind is checked by the route (422)
+EDITABLE_FIELDS = ("action", "consequence", "purpose")
+
+
+class ChangeCreditValue(_Model):
+    """`change_credit` on a LOPA record (`lopa:<target>`): one layer credited or not."""
+
+    layer_id: Text
+    credited: StrictBool
+
+
+class ChangeSeverityValue(_Model):
+    """`change_severity` on a finding or chain; the gap is recomputed on read."""
+
+    severity_class: SeverityClass
+
+
+class AnswerValue(_Model):
+    """`answer` on an engineer's question (`eng:`), which then counts as checked on read."""
+
+    text: Text
+
+
+def _edit_value(value: Any) -> None:
+    if not isinstance(value, dict) or len(value) != 1:
+        raise ValueError("an edit changes exactly one field: {field: value}")
+    [(field, text)] = value.items()
+    if field not in EDITABLE_FIELDS:
+        raise ValueError(f"an edit may change only {', '.join(EDITABLE_FIELDS)}, not {field}")
+    if not isinstance(text, str) or not text:
+        raise ValueError("an edited field needs non-empty text")
+
+
 class OverrideRequest(_Model):
     target_id: str
     action: OverrideAction
+    # null for accept and reject; else the action's shape (contract v1.4)
     new_value: Any
     reason: Annotated[str, Field(min_length=1)]
     # display name
     by: Annotated[str, Field(min_length=1)]
+
+    @model_validator(mode="after")
+    def _value_fits_the_action(self) -> "OverrideRequest":
+        action, value = self.action, self.new_value
+        if action in (OverrideAction.ACCEPT, OverrideAction.REJECT):
+            if value is not None:
+                raise ValueError(f"{action.value} takes no new_value")
+        elif action == OverrideAction.EDIT:
+            _edit_value(value)
+        elif action == OverrideAction.CHANGE_CREDIT:
+            ChangeCreditValue.model_validate(value)
+        elif action == OverrideAction.CHANGE_SEVERITY:
+            ChangeSeverityValue.model_validate(value)
+        elif action == OverrideAction.ANSWER:
+            AnswerValue.model_validate(value)
+        return self
 
 
 class OverrideResult(_RunResponse):

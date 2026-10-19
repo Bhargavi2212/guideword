@@ -10,7 +10,7 @@
       "rank": 1,
       "target_id": "ch:f:pair:KOH:SIH:lightning:C14:541f633168214c61+f:relief:PSV-1:ultra:8b8e942809f7e00a:f222cda333ff2d9b",
       "target_kind": "chain",
-      "gap": 10.0,
+      "gap": 1000.0,
       "multi_failure": true,
       "unsure": true,
       "finding": null,
@@ -25,7 +25,9 @@
         "reason": "Both findings act on MX-1 and PSV-1 discharges where W-1 works.",
         "multi_failure": true,
         "flags": [],
-        "model_call_id": null
+        "model_call_id": null,
+        "severity_class": "S3",
+        "severity_reason": "Hydrogen in the occupied mixing building: one serious injury is possible."
       },
       "lopa": {
         "id": "lopa:ch:f:pair:KOH:SIH:lightning:C14:541f633168214c61+f:relief:PSV-1:ultra:8b8e942809f7e00a:f222cda333ff2d9b",
@@ -37,24 +39,31 @@
         "initiating_event_id": "IE-HE-MONTHLY",
         "initiating_frequency_per_year": 0.1,
         "frequency_assumed": false,
-        "modifiers": [
-          {
-            "modifier_id": "MOD-IGN-GAS-S",
-            "value": 0.01
-          }
-        ],
-        "layers": [
-          {
-            "layer_id": "SG-VENT",
-            "layer_type": "IPL-VENT-CONT",
-            "credited": false,
-            "pfd": null,
-            "reason": "The release is on the roof, outside the ventilated building."
-          }
-        ],
-        "mitigated_frequency_per_year": 0.001,
+        "modifiers": [],
+        "layers": [],
+        "mitigated_frequency_per_year": 0.1,
         "tolerable_per_year": 0.0001,
-        "gap": 10.0
+        "gap": 1000.0,
+        "modifiers_not_applied": [
+          {
+            "kind": "ignition_probability",
+            "reason": "no plant fact or rule"
+          },
+          {
+            "kind": "explosion_given_ignition",
+            "reason": "no plant fact or rule"
+          },
+          {
+            "kind": "vulnerability",
+            "reason": "no plant fact or rule"
+          },
+          {
+            "kind": "time_at_risk",
+            "reason": "no plant fact or rule"
+          }
+        ],
+        "flags": [],
+        "model_call_id": null
       },
       "evidence": [
         {
@@ -153,16 +162,47 @@
         "modifiers": [],
         "layers": [
           {
+            "layer_id": "PSV-1",
+            "layer_type": "IPL-PRV",
+            "credited": false,
+            "pfd": null,
+            "reason": "not argued — no credit",
+            "applies": null,
+            "argument": null
+          },
+          {
             "layer_id": "SG-TRIP",
             "layer_type": "IPL-SIS-SIL1",
             "credited": true,
             "pfd": 0.1,
-            "reason": "TS-2, SIS-1 and XV-STM are independent of TIC-1."
+            "reason": "TS-2, SIS-1 and XV-STM are independent of TIC-1.",
+            "applies": true,
+            "argument": "SG-TRIP trips the steam on high temperature, the deviation this cause drives."
           }
         ],
         "mitigated_frequency_per_year": 0.01,
         "tolerable_per_year": 0.001,
-        "gap": 10.0
+        "gap": 10.0,
+        "modifiers_not_applied": [
+          {
+            "kind": "ignition_probability",
+            "reason": "no plant fact or rule"
+          },
+          {
+            "kind": "explosion_given_ignition",
+            "reason": "no plant fact or rule"
+          },
+          {
+            "kind": "vulnerability",
+            "reason": "no plant fact or rule"
+          },
+          {
+            "kind": "time_at_risk",
+            "reason": "no plant fact or rule"
+          }
+        ],
+        "flags": [],
+        "model_call_id": "mc:4c1d2e3f5a6b7c8d"
       },
       "evidence": [
         {
@@ -189,6 +229,81 @@
     },
     {
       "rank": 3,
+      "target_id": "f:m:S-L-12:reverse:flow:lightning:C20:2274a734f2fd0c60",
+      "target_kind": "finding",
+      "gap": null,
+      "multi_failure": false,
+      "unsure": true,
+      "finding": {
+        "id": "f:m:S-L-12:reverse:flow:lightning:C20:2274a734f2fd0c60",
+        "run_id": "run:8ede059837927e4a",
+        "question_id": "m:S-L-12:reverse:flow",
+        "tier": "lightning",
+        "cause_id": "C20",
+        "cause_text": null,
+        "failing_component_type": "pipe",
+        "failing_component_ids": [
+          "L-12"
+        ],
+        "consequence": "Back-flow strains the corroded flange on L-12; KOH solution leaks onto the floor.",
+        "safeguard_ids": [],
+        "adequacy": "unknown",
+        "severity_class": "S4",
+        "severity_reason": "Caustic splash on an operator at the charging point.",
+        "confidence": "unsure",
+        "model_call_id": "mc:776fb5ac5c8c1501"
+      },
+      "chain": null,
+      "lopa": {
+        "id": "lopa:f:m:S-L-12:reverse:flow:lightning:C20:2274a734f2fd0c60",
+        "run_id": "run:8ede059837927e4a",
+        "target_id": "f:m:S-L-12:reverse:flow:lightning:C20:2274a734f2fd0c60",
+        "severity_class": "S4",
+        "complete": false,
+        "missing_fact_ids": [
+          "L-12.length_m"
+        ],
+        "initiating_event_id": "IE-PIPE-LEAK-S",
+        "initiating_frequency_per_year": null,
+        "frequency_assumed": false,
+        "modifiers": [],
+        "layers": [],
+        "mitigated_frequency_per_year": null,
+        "tolerable_per_year": 1e-05,
+        "gap": null,
+        "model_call_id": null,
+        "flags": [
+          "code-only LOPA: layers not argued"
+        ],
+        "modifiers_not_applied": [
+          {
+            "kind": "ignition_probability",
+            "reason": "no plant fact or rule"
+          },
+          {
+            "kind": "explosion_given_ignition",
+            "reason": "no plant fact or rule"
+          },
+          {
+            "kind": "vulnerability",
+            "reason": "no plant fact or rule"
+          },
+          {
+            "kind": "time_at_risk",
+            "reason": "no plant fact or rule"
+          }
+        ]
+      },
+      "evidence": [],
+      "recommendations": [],
+      "tier": "also_found",
+      "hypothesis_id": null,
+      "hypothesis_rank": null,
+      "hypothesis": null,
+      "support_finding_ids": []
+    },
+    {
+      "rank": 4,
       "target_id": "h:2:9d68c13bfb25b1bc",
       "target_kind": "hypothesis",
       "gap": null,
