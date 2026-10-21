@@ -56,7 +56,7 @@ def _group(question_id: str) -> int:
 def script(job: str, request: dict[str, Any]) -> Reply:
     """One outside-library finding per question on the first location, its cause by group;
     severity S4 for even groups, S3 for odd; the connector chains the first two lines; every
-    layer applies; one recommendation per line."""
+    layer applies; one recommendation per line; the last group is not credible."""
     if job == "section_suggestion":
         return reply({"suggestions": []})
     if job == "plant_screen":
@@ -121,8 +121,11 @@ def script(job: str, request: dict[str, Any]) -> Reply:
             for q in questions
         ]
     else:
+        # the last group is dismissed as not credible, so the worksheet has such rows
         answers = [
-            {
+            {"question_id": q["id"], "not_credible": {"reason": "no path"}, "findings": []}
+            if _group(q["id"]) == GROUPS - 1
+            else {
                 "question_id": q["id"],
                 "not_credible": None,
                 "findings": [
@@ -366,3 +369,33 @@ def test_exports_match_the_contract(app: Api, run_id: str) -> None:
     api.Worksheet.model_validate(app.get(run_id, "/worksheet").json())
     counts = app.get(run_id, "").json()["counts"]
     assert counts["chains"] == len(dump.chains)
+
+
+def test_excel_status_shows_override_state_and_falls_back_to_not_credible(
+    app: Api, run_id: str
+) -> None:
+    """Bhargavi, 2026-10-20 (PR 6 answer 1): the Excel Status column is the review state the
+    meeting sorts by; the API row keeps `status` and `override_state` apart."""
+    findings = [i.target_id for i in app.shortlist(run_id).items if i.target_kind == "finding"]
+    accepted, edited, rejected = findings[:3]
+    assert app.override(run_id, accepted, "accept", None).status_code == 200
+    assert app.override(run_id, edited, "edit", {"consequence": "worse"}).status_code == 200
+    assert app.override(run_id, rejected, "reject", None).status_code == 200
+    rows = api.Worksheet.model_validate(app.get(run_id, "/worksheet").json()).rows
+    sheet = load_workbook(io.BytesIO(app.get(run_id, "/export.xlsx").content)).active
+    assert sheet is not None
+    table = list(sheet.iter_rows(values_only=True))
+    status = [title for title, _ in WORKSHEET_COLUMNS].index("Status")
+    shown = {row.row_id: line[status] for row, line in zip(rows, table[1:], strict=True)}
+    assert shown[accepted] == "accepted"
+    assert shown[edited] == "edited"
+    assert shown[rejected] == "rejected"
+    untouched = [r for r in rows if r.override_state == "none"]
+    dismissed = [r for r in untouched if r.status == "not credible"]
+    pending = [r for r in untouched if r.status != "not credible"]
+    assert dismissed and pending
+    assert {shown[r.row_id] for r in dismissed} == {"not credible — engineer to review"}
+    assert {shown[r.row_id] for r in pending} == {"pending review"}
+    # the API row is unchanged: the question's status and the override state, apart
+    by_id = {r.row_id: r for r in rows}
+    assert by_id[accepted].status == "answered" and by_id[accepted].override_state == "accepted"

@@ -15,6 +15,7 @@ from guideword.api import models as api
 from guideword.config import CapsConfig
 from guideword.lopa.lines import ShortlistLine, display_lines, lopa_plan, shortlist
 from guideword.reference import ReferenceSet
+from guideword.review.display import gap_text
 from guideword.review.overrides import (
     RunRecords,
     effective_chain,
@@ -145,6 +146,8 @@ def _item(line: ShortlistLine, rank: int, view: RunView) -> api.ShortlistItem:
         hypothesis=hypothesis,
         support_finding_ids=list(tiered.support_ids) if tiered is not None else [],
         flags=flags,
+        # contract v1.6: the worksheet's formatter, so the card and the export agree
+        gap_text=gap_text(line.lopa) if line.lopa is not None else None,
     )
 
 

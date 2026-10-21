@@ -363,3 +363,49 @@ def test_gap_is_shown_as_an_order_of_magnitude(case: Case) -> None:
     assert rows[case.big.id].lopa_gap == text
     # the stored numbers are not rounded
     assert record.gap != magnitude or record.gap == float(magnitude)
+
+
+def test_card_gap_text_is_the_worksheet_text_for_the_same_line(case: Case) -> None:
+    """Bhargavi, 2026-10-20 (PR 6 answer 2): one formatter writes the gap for the card
+    (`gap_text`, contract v1.6) and the worksheet, so the two can never disagree."""
+    from guideword.review.worksheet import SCENARIO_MARK  # noqa: PLC0415
+
+    items = case.items()
+    rows = {
+        r.row_id: r for r in worksheet_rows(case.view(), case.plant, case.ref, case.config.caps)
+    }
+    checked = 0
+    for item in items:
+        if item.lopa is None:
+            assert item.gap_text is None
+            continue
+        assert item.gap_text == gap_text(item.lopa)
+        if item.target_kind == "finding":
+            shown = rows[item.target_id].lopa_gap
+            assert shown is not None
+            assert shown.removesuffix(SCENARIO_MARK) == item.gap_text
+            checked += 1
+    assert checked >= 2
+    assert any(i.lopa is None and i.gap_text is None for i in items)
+
+
+@pytest.mark.parametrize(
+    ("gap", "times"),
+    [
+        (10.0, "about 10× tolerable"),
+        (1000.0, "about 1,000× tolerable"),
+        (0.01 / 1e-5, "about 1,000× tolerable"),  # 999.9999999999999 in floats
+        (1.0, "within tolerable"),
+        (1.5, "about 1× tolerable"),
+    ],
+)
+def test_the_gap_text_at_its_boundaries(case: Case, gap: float, times: str) -> None:
+    tolerable = 1e-5
+    record = case.lopa_of(case.big.id).model_copy(
+        update={
+            "gap": gap,
+            "tolerable_per_year": tolerable,
+            "mitigated_frequency_per_year": gap * tolerable,
+        }
+    )
+    assert gap_text(record).startswith(f"{times} — mitigated ")
