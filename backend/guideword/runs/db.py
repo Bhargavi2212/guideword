@@ -119,6 +119,23 @@ class OverrideRow(RunRecordRow):
     __tablename__ = "overrides"
 
 
+class SupersededRow(Base):
+    """A post-analysis record a re-run from `chains` replaced (connector/v2 plan, Q1): copied
+    here verbatim with the pass it belonged to (the `seq` of that pass's `run_extended` event)
+    and the pass that replaced it. Never changed or removed."""
+
+    __tablename__ = "superseded_records"
+
+    run_id: Mapped[str] = mapped_column(ForeignKey("runs.id"), primary_key=True)
+    kind: Mapped[str] = mapped_column(String, primary_key=True)
+    id: Mapped[str] = mapped_column(String, primary_key=True)
+    pass_seq: Mapped[int] = mapped_column(Integer, primary_key=True)
+    superseded_seq: Mapped[int] = mapped_column(Integer)
+    # the record's place in its live table, so the superseded list reads back in order
+    position: Mapped[int] = mapped_column(Integer)
+    record: Mapped[dict[str, Any]] = mapped_column(JSON)
+
+
 class EventRow(Base):
     """Append-only; an event is identified by (run ID, seq)."""
 

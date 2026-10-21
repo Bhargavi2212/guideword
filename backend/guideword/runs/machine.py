@@ -80,7 +80,8 @@ def spend_matches_records(writer: StepWriter) -> bool:
     of the analysis calls' `cap_cost_usd` (post-analysis calls count against the post cap
     only). A mismatch is logged as an error; the run's status stands."""
     calls = writer.model_calls()
-    paid = sum(c.cost_usd for c in calls)
+    # a superseded pass's calls were paid too (connector/v2 plan, Q1)
+    paid = sum(c.cost_usd for c in [*calls, *writer.superseded_model_calls()])
     counted = sum(c.cap_cost_usd for c in calls if c.job not in POST_JOBS)
     run = writer.run
     ok = math.isclose(run.spent_usd, paid, abs_tol=SPEND_TOLERANCE_USD) and math.isclose(

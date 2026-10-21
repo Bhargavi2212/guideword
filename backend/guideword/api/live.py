@@ -203,6 +203,16 @@ class LiveRuns:
             evidence=self.runs.evidence(run_id),
             overrides=self.runs.overrides(run_id),
             events=self.runs.events(run_id),
+            # contract v1.7: what re-runs from `chains` replaced, marked as superseded
+            superseded=[
+                api.SupersededRecord(
+                    kind=s.kind,  # type: ignore[arg-type]  # one of SUPERSEDED_TABLES' kinds
+                    pass_seq=s.pass_seq,
+                    superseded_seq=s.superseded_seq,
+                    record=s.record,
+                )
+                for s in self.runs.superseded(run_id)
+            ],
             label=run.label,
         )
 

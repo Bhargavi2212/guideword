@@ -150,6 +150,13 @@ Phase 3 has spent $0.42 of $2.50; development has $2.85 left.
 | Q5 | The post-step caps (`connector_max_chains`, `lopa_batch_size`, `recommendation_batch_size`, `lopa_top_n`) are also under the hashed `run:` block. Do they leave the hash too, like the prompts? | Leave them as they are in this plan, because a cap change is rarer and PR 2 of Phase 3 put them there on purpose. Raise them again if one has to move. |
 | Q6 | What counts as "their utilities"? | The rule above: a utility at an endpoint of a component line, a line ending at a component, or a component's heat-source line. |
 
+## Built
+
+- [x] PR 1 `phase-3/connector-v2-prompt` (#76): the plan and the `connector/v2` draft, reviewed by Bhargavi.
+- [x] `contract/run-dump-superseded` (contract v1.7): `RunDump.superseded`.
+- [x] PR 2 `phase-3/connector-v2`: handles, fact list, run-ID fix, `--rerun-from chains`, superseded records, routing `connector: v2`, feedback log.
+- [ ] Bhargavi re-runs D, E, F and G on v2 (development, about $0.40); then the demo plant run.
+
 ## Not doing
 - No change to `Chain.links`, chain IDs, the contract or the schema of any record.
 - No fuzzy or prefix matching of IDs. A bad handle still rejects the chain.

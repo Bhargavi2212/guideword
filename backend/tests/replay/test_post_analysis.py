@@ -30,6 +30,7 @@ from guideword.runs.plants import PlantRepository
 from guideword.runs.post_budget import POST_JOBS, POST_STEPS, post_spent
 from guideword.runs.start import RunSettings, start_run
 from guideword.runs.store import RunRepository
+from guideword.schema import ids
 from guideword.schema.enums import BudgetUse, EventType, QuestionStatus, RunStatus
 from guideword.schema.records import Run
 
@@ -100,14 +101,16 @@ def group_of(question_id: str) -> int:
 def post_script(
     *,
     severities: dict[int, str] | None = None,
-    connector: Callable[[list[dict[str, Any]]], list[dict[str, Any]]] | None = None,
+    connector: Callable[[list[dict[str, Any]], list[dict[str, Any]]], list[dict[str, Any]]]
+    | None = None,
     applies: bool = False,
     recommend: bool = True,
     fail: frozenset[str] = frozenset(),
 ) -> Script:
     """A run with one line per cause group: each question's finding names `outside <group>`
     on the first location; severity by group (S3 by default); the connector proposes what
-    `connector` returns; every LOPA layer applies or not; one recommendation per line. A job
+    `connector` returns, given the `L` scenario lines and the `P` facts (connector/v2);
+    every LOPA layer applies or not; one recommendation per line. A job
     in `fail` answers with text that is not JSON (invalid twice)."""
     grades = severities or {}
 
@@ -132,7 +135,9 @@ def post_script(
                 }
             )
         if job == "connector":
-            chains = connector(block(request, "scenarios")) if connector else []
+            chains = (
+                connector(block(request, "scenarios"), block(request, "facts")) if connector else []
+            )
             return reply({"chains": chains})
         if job == "chain_severity":
             return reply(
@@ -201,9 +206,9 @@ def specialist(request: dict[str, Any]) -> Reply:
     return reply({"answers": answers, "added_questions": []})
 
 
-def first_two(scenarios: list[dict[str, Any]]) -> list[dict[str, Any]]:
-    """One chain of the first two scenarios, plus a plant fact."""
-    links = [scenarios[0]["finding_id"], scenarios[1]["finding_id"], "MX-1.design_pressure_kpa"]
+def first_two(scenarios: list[dict[str, Any]], facts: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """One chain of the first two scenarios, plus a plant fact, linked by handle (v2)."""
+    links = [scenarios[0]["handle"], scenarios[1]["handle"], facts[0]["handle"]]
     return [{"links": links, "description": "one then the other", "reason": "shared building"}]
 
 
@@ -741,39 +746,33 @@ def test_each_post_step_failure_leaves_the_run_going_with_a_flag(
 def test_connector_input_carries_the_fact_ids_as_data(
     tmp_path: Path, ref: ReferenceSet, config: Config
 ) -> None:
+    """G7 on connector/v2: the scenario lines and the facts go in as data, each with its
+    handle; the lines show no finding ID, in display order; the facts are sorted by ID."""
     world = World(tmp_path, ref)
     run, transport = world.run(config, post_script())
     (request,) = [r for job, r in transport.sent if job == "connector"]
-    facts = block(request, "fact_ids")
-    assert "MX-1.design_pressure_kpa" in facts and facts == sorted(facts)
+    facts = block(request, "facts")
+    assert [f["handle"] for f in facts] == [f"P{i}" for i in range(1, len(facts) + 1)]
+    assert [f["fact_id"] for f in facts] == sorted(f["fact_id"] for f in facts)
     scenarios = block(request, "scenarios")
-    lines = [x for x in world.report(config, run.id)["shortlist"] if x["target_kind"] == "finding"]
-    assert [s["finding_id"] for s in scenarios] == sorted(
-        (x["target_id"] for x in lines),
-        key=lambda t: next(x["position"] for x in lines if x["target_id"] == t),
-    )
-    assert {"finding_id", "cause", "consequence", "failing_component_ids", "severity_class"} <= set(
+    assert [s["handle"] for s in scenarios] == [f"L{i}" for i in range(1, len(scenarios) + 1)]
+    assert {"handle", "cause", "consequence", "failing_component_ids", "severity_class"} <= set(
         scenarios[0]
     )
+    assert "finding_id" not in scenarios[0] and "f:" not in json.dumps(scenarios)
+    lines = [x for x in world.report(config, run.id)["shortlist"] if x["target_kind"] == "finding"]
+    assert len(scenarios) == len(lines)
     assert "plant_id" not in block(request, "plant")
 
 
 def test_a_rejected_chain_is_logged_with_its_reason_and_listed(
     tmp_path: Path, ref: ReferenceSet, config: Config
 ) -> None:
-    def bad(scenarios: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    def bad(scenarios: list[dict[str, Any]], facts: list[dict[str, Any]]) -> list[dict[str, Any]]:
         return [
-            *first_two(scenarios),
-            {
-                "links": [scenarios[0]["finding_id"], "f:invented"],
-                "description": "d",
-                "reason": "r",
-            },
-            {
-                "links": ["MX-1.design_pressure_kpa", "HV-12.normal_position"],
-                "description": "d",
-                "reason": "r",
-            },
+            *first_two(scenarios, facts),
+            {"links": [scenarios[0]["handle"], "L999"], "description": "d", "reason": "r"},
+            {"links": [facts[0]["handle"], facts[1]["handle"]], "description": "d", "reason": "r"},
         ]
 
     world = World(tmp_path, ref)
@@ -909,3 +908,321 @@ def test_extend_run_skips_a_run_whose_records_fail_to_load(
     assert report["status"] == "skipped" and report["reason"]
     stored = world.runs.get(run.id)
     assert stored is not None and stored.status == RunStatus.FINISHED and stored.step == "ranked"
+
+
+# --- connector/v2 plan (approved 2026-10-21): the run ID, run_extended, re-runs -----------------
+
+POST_HASH_FREE_CAPS = (
+    "connector_max_chains",
+    "lopa_batch_size",
+    "recommendation_batch_size",
+    "lopa_top_n",
+)
+
+
+def with_prompt(config: Config, name: str, version: str) -> Config:
+    routing = config.routing.model_copy(
+        update={"prompts": {**config.routing.prompts, name: version}}
+    )
+    return config.model_copy(update={"routing": routing})
+
+
+def test_a_post_step_prompt_version_is_not_in_the_run_id_inputs(
+    tmp_path: Path, ref: ReferenceSet, config: Config
+) -> None:
+    run = World(tmp_path, ref).start(config)
+    assert not set(PHASE_3_PROMPTS) & set(run.prompt_versions)
+    assert not set(POST_HASH_FREE_CAPS) & set(run.caps)
+
+
+def test_changing_a_post_step_prompt_version_keeps_the_run_id(
+    tmp_path: Path, ref: ReferenceSet, config: Config
+) -> None:
+    first = World(tmp_path / "a", ref).start(config)
+    for i, name in enumerate(sorted(PHASE_3_PROMPTS)):
+        other = World(tmp_path / f"b{i}", ref).start(with_prompt(config, name, "v9"))
+        assert other.id == first.id, name
+
+
+@pytest.mark.parametrize("key", POST_HASH_FREE_CAPS)
+def test_changing_lopa_top_n_keeps_a_runs_id(
+    key: str, tmp_path: Path, ref: ReferenceSet, config: Config
+) -> None:
+    """`lopa_top_n` and the other three post-step caps are recorded on `run_extended`, not
+    hashed into the run ID (Bhargavi, Q5)."""
+    first = World(tmp_path / "a", ref).start(config)
+    value = int(getattr(config.caps.run, key)) + 3
+    other = World(tmp_path / "b", ref).start(with_run_caps(config, **{key: value}))
+    assert other.id == first.id
+
+
+def test_a_new_run_records_its_post_prompt_versions_on_run_extended(
+    tmp_path: Path, ref: ReferenceSet, config: Config
+) -> None:
+    world = World(tmp_path, ref)
+    run, _ = world.run(config, post_script(connector=first_two))
+    assert run.status == RunStatus.FINISHED
+    (event,) = [e for e in world.runs.events(run.id) if e.type == EventType.RUN_EXTENDED]
+    assert event.payload["prompt_versions"] == {
+        name: config.routing.prompts[name] for name in sorted(PHASE_3_PROMPTS)
+    }
+    assert event.payload["prompt_versions"]["connector"] == "v2"
+    for key in POST_HASH_FREE_CAPS:
+        assert event.payload["settings"][key] == {
+            "value": int(getattr(config.caps.run, key)),
+            "source": "config",
+        }
+    chains_started = next(
+        e.seq
+        for e in world.runs.events(run.id)
+        if e.type == EventType.STEP_STARTED and e.payload["step"] == "chains"
+    )
+    assert event.seq > chains_started  # emitted by the chains step, before its call
+
+
+def test_connector_v2_maps_handles_on_a_run_and_rejects_an_unknown_one(
+    tmp_path: Path, ref: ReferenceSet, config: Config
+) -> None:
+    captured: dict[str, Any] = {}
+
+    def answer(
+        scenarios: list[dict[str, Any]], facts: list[dict[str, Any]]
+    ) -> list[dict[str, Any]]:
+        captured["scenarios"], captured["facts"] = scenarios, facts
+        return [
+            *first_two(scenarios, facts),
+            {"links": ["L1", "l2"], "description": "d", "reason": "r"},
+        ]
+
+    world = World(tmp_path, ref)
+    run, _ = world.run(config, post_script(connector=answer))
+    (chain,) = world.runs.chains(run.id)
+    report = world.report(config, run.id)
+    leads = {
+        x["position"]: x["target_id"] for x in report["shortlist"] if x["target_kind"] == "finding"
+    }
+    first, second = (leads[k] for k in sorted(leads)[:2])
+    assert chain.links[:2] == [first, second]
+    assert chain.links[2] == captured["facts"][0]["fact_id"]
+    (rejected,) = report["chains_rejected"]
+    assert rejected["links"] == ["L1", "l2"] and "not a handle" in rejected["reason"]
+
+
+def test_handles_are_built_after_the_input_is_cut(
+    tmp_path: Path, ref: ReferenceSet, config: Config
+) -> None:
+    world = World(tmp_path / "full", ref)
+    _, transport = world.run(config, post_script())
+    (request,) = [r for job, r in transport.sent if job == "connector"]
+    full = block(request, "scenarios")
+    assert len(full) > 2
+    from guideword.gateway.estimate import estimate_cost  # noqa: PLC0415
+    from guideword.schema.enums import Tier  # noqa: PLC0415
+
+    prices = config.models.tiers[Tier(config.routing.jobs["connector"])]
+    whole = estimate_cost(prices, request["messages"], None, 0).input_tokens
+    cut = World(tmp_path / "cut", ref)
+    tight = with_run_caps(config, connector_max_input_tokens=whole - 1)
+    _, transport = cut.run(tight, post_script())
+    (request,) = [r for job, r in transport.sent if job == "connector"]
+    sent = block(request, "scenarios")
+    assert 0 < len(sent) < len(full)
+    assert [s["handle"] for s in sent] == [f"L{i}" for i in range(1, len(sent) + 1)]
+
+
+def _rerun_world(tmp_path: Path, ref: ReferenceSet, config: Config) -> tuple[World, Run]:
+    world = World(tmp_path, ref)
+    run, _ = world.run(config, post_script(connector=first_two, severities={0: "S4", 1: "S5"}))
+    assert run.status == RunStatus.FINISHED
+    assert world.runs.chains(run.id) and world.runs.lopa_records(run.id)
+    assert world.runs.recommendations(run.id)
+    return world, run
+
+
+def changed(config: Config) -> Config:
+    """A re-run's config: a request that differs from the first pass (as a new prompt version
+    would), so the connector is asked again instead of read from the cache."""
+    return with_run_caps(config, connector_max_chains=9)
+
+
+def _second_chain(
+    scenarios: list[dict[str, Any]], facts: list[dict[str, Any]]
+) -> list[dict[str, Any]]:
+    return [
+        {
+            "links": [scenarios[1]["handle"], scenarios[2]["handle"]],
+            "description": "d",
+            "reason": "r",
+        }
+    ]
+
+
+def test_rerun_from_chains_redoes_chain_severity_lopa_and_recommendations(
+    tmp_path: Path, ref: ReferenceSet, config: Config
+) -> None:
+    world, run = _rerun_world(tmp_path, ref, config)
+    old_chain_ids = {c.id for c in world.runs.chains(run.id)}
+    before = len(world.steps_started(run.id))
+    rerun = extend(world.runs, run.id, 0.30, changed(config), rerun_from="chains")
+    assert rerun.id == run.id and rerun.status == RunStatus.RUNNING and rerun.step == "chains"
+    gateway, transport = world.gateway(changed(config), post_script(connector=_second_chain))
+    assert drive(world.runs, run.id, world.steppers(changed(config), gateway)) == RunStatus.FINISHED
+    assert {job for job, _ in transport.sent} <= POST_JOBS
+    assert list(dict.fromkeys(world.steps_started(run.id)[before:])) == [*POST_STEPS, "ranked"]
+    new_chains = {c.id for c in world.runs.chains(run.id)}
+    assert new_chains and new_chains != old_chain_ids
+    assert any(r.target_id in new_chains for r in world.runs.lopa_records(run.id))
+    done = world.runs.get(run.id)
+    assert done is not None and done.id == run.id
+
+
+def test_rerun_supersedes_old_records_through_the_event_log_and_deletes_nothing(
+    tmp_path: Path, ref: ReferenceSet, config: Config
+) -> None:
+    world, run = _rerun_world(tmp_path, ref, config)
+    analysis = snapshot(world, run.id)
+    old = {
+        "chain": [c.model_dump(mode="json") for c in world.runs.chains(run.id)],
+        "lopa": [r.model_dump(mode="json") for r in world.runs.lopa_records(run.id)],
+        "recommendation": [r.model_dump(mode="json") for r in world.runs.recommendations(run.id)],
+        "model_call": [
+            c.model_dump(mode="json") for c in world.runs.model_calls(run.id) if c.job in POST_JOBS
+        ],
+    }
+    first_pass = max(e.seq for e in world.runs.events(run.id) if e.type == EventType.RUN_EXTENDED)
+    extend(world.runs, run.id, 0.30, config, rerun_from="chains")
+    event = [e for e in world.runs.events(run.id) if e.type == EventType.RUN_EXTENDED][-1]
+    assert event.payload["rerun_from"] == "chains"
+    kept = world.runs.superseded(run.id)
+    for kind, records in old.items():
+        assert [k.record for k in kept if k.kind == kind] == records, kind
+    assert {k.pass_seq for k in kept} == {first_pass}
+    assert {k.superseded_seq for k in kept} == {event.seq}
+    assert sorted(event.payload["superseded_ids"]) == sorted(
+        r["id"] for records in old.values() for r in records
+    )
+    # cleared from the live tables, so the re-run can write the same IDs; the analysis untouched
+    assert world.runs.chains(run.id) == [] and world.runs.lopa_records(run.id) == []
+    assert not [c for c in world.runs.model_calls(run.id) if c.job in POST_JOBS]
+    after = snapshot(world, run.id)
+    for table in ("questions", "findings", "hypotheses", "agent_steps", "tool_calls"):
+        assert after[table] == analysis[table], table
+
+
+def test_the_run_dump_lists_superseded_records_marked_as_superseded(
+    tmp_path: Path, ref: ReferenceSet, config: Config
+) -> None:
+    from guideword.api.live import LiveRuns  # noqa: PLC0415
+
+    world, run = _rerun_world(tmp_path, ref, config)
+    old_chains = world.runs.chains(run.id)
+    extend(world.runs, run.id, 0.30, changed(config), rerun_from="chains")
+    gateway, _ = world.gateway(changed(config), post_script(connector=_second_chain))
+    drive(world.runs, run.id, world.steppers(changed(config), gateway))
+    live = LiveRuns(
+        world.sessions, config=config, ref=ref, gateway_factory=lambda _: gateway, clock=lambda: NOW
+    )
+    dump = live.dump(run.id)
+    superseded = [s for s in dump.superseded if s.kind == "chain"]
+    assert [s.record["id"] for s in superseded] == [c.id for c in old_chains]
+    assert all(s.superseded_seq > s.pass_seq for s in dump.superseded)
+    assert {c.id for c in dump.chains}.isdisjoint({c.id for c in old_chains})
+
+
+def test_rerun_serves_unchanged_requests_from_the_cache_at_zero_cost(
+    tmp_path: Path, ref: ReferenceSet, config: Config
+) -> None:
+    world, run = _rerun_world(tmp_path, ref, config)
+    spent = world.runs.get(run.id).spent_usd  # type: ignore[union-attr]
+    extend(world.runs, run.id, 0.30, config, rerun_from="chains")
+    gateway, transport = world.gateway(
+        config, post_script(connector=first_two, severities={0: "S4", 1: "S5"})
+    )
+    assert drive(world.runs, run.id, world.steppers(config, gateway)) == RunStatus.FINISHED
+    assert transport.sent == []  # every post request is the same as before: all cache hits
+    post = [c for c in world.runs.model_calls(run.id) if c.job in POST_JOBS]
+    assert post and all(c.cache_hit and c.cost_usd == 0 for c in post)
+    done = world.runs.get(run.id)
+    assert done is not None and done.spent_usd == pytest.approx(spent)
+
+
+def test_rerun_spend_matches_records_including_superseded_calls(
+    tmp_path: Path, ref: ReferenceSet, config: Config
+) -> None:
+    world, run = _rerun_world(tmp_path, ref, config)
+    extend(world.runs, run.id, 0.30, changed(config), rerun_from="chains")
+    gateway, _ = world.gateway(changed(config), post_script(connector=_second_chain))
+    drive(world.runs, run.id, world.steppers(changed(config), gateway))
+    with world.runs.step(run.id) as writer:
+        assert spend_matches_records(writer)
+    done = world.runs.get(run.id)
+    live = sum(c.cost_usd for c in world.runs.model_calls(run.id))
+    old = sum(k.record["cost_usd"] for k in world.runs.superseded(run.id) if k.kind == "model_call")
+    assert done is not None and done.spent_usd == pytest.approx(live + old)
+
+
+def test_rerun_is_refused_for_an_unfinished_run_or_one_never_extended(
+    tmp_path: Path, ref: ReferenceSet, config: Config
+) -> None:
+    from guideword.schema.enums import OverrideAction  # noqa: PLC0415
+    from guideword.schema.records import Override  # noqa: PLC0415
+
+    unfinished = World(tmp_path / "a", ref)
+    started = unfinished.start(config)
+    with pytest.raises(ExtendRefused, match="not finished"):
+        extend(unfinished.runs, started.id, 0.30, config, rerun_from="chains")
+    never = World(tmp_path / "b", ref)
+    old = phase_2_run(never, config, post_script())
+    with pytest.raises(ExtendRefused, match="chains step has not run"):
+        extend(never.runs, old.id, 0.30, config, rerun_from="chains")
+    # Q3: refused while an override names a post record
+    world, run = _rerun_world(tmp_path / "c", ref, config)
+    lopa = world.runs.lopa_records(run.id)[0]
+    override = Override(
+        id=ids.override_id(lopa.id, OverrideAction.ACCEPT, None),
+        run_id=run.id,
+        target_id=lopa.id,
+        action=OverrideAction.ACCEPT,
+        new_value=None,
+        reason="r",
+        by="B",
+        at=NOW,
+    )
+    with world.runs.step(run.id) as writer:
+        writer.add_override(override)
+    with pytest.raises(ExtendRefused, match="override"):
+        extend(world.runs, run.id, 0.30, config, rerun_from="chains")
+    assert world.runs.superseded(run.id) == []
+
+
+def test_copy_and_clear_happen_in_one_transaction(
+    tmp_path: Path, ref: ReferenceSet, config: Config, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    from guideword.runs.store import StepWriter  # noqa: PLC0415
+
+    world, run = _rerun_world(tmp_path, ref, config)
+    before = snapshot(world, run.id)
+    chains = world.runs.chains(run.id)
+
+    def broken(self: StepWriter, *args: Any, **kwargs: Any) -> None:
+        raise RuntimeError("the clear failed")
+
+    monkeypatch.setattr(StepWriter, "_clear_post_records", broken)
+    with pytest.raises(RuntimeError, match="the clear failed"):
+        extend(world.runs, run.id, 0.30, config, rerun_from="chains")
+    assert world.runs.superseded(run.id) == []
+    assert world.runs.chains(run.id) == chains
+    assert snapshot(world, run.id) == before
+    stored = world.runs.get(run.id)
+    assert stored is not None and stored.status == RunStatus.FINISHED
+
+
+def test_extend_run_reruns_from_chains(tmp_path: Path, ref: ReferenceSet, config: Config) -> None:
+    world, run = _rerun_world(tmp_path, ref, config)
+    script = post_script(connector=_second_chain)
+    args = (run.id, "--rerun-from", "chains", "--post-cap", "0.3", "--name", "case_x")
+    code, out = _extend_run(world, config, script, *args)
+    assert code == 0
+    report = json.loads((out / "case_x.json").read_text(encoding="utf-8"))
+    assert report["run_id"] == run.id and report["status"] == "finished"
+    assert report["chains"] and world.runs.superseded(run.id)
