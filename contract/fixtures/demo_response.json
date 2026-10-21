@@ -349,7 +349,8 @@
         },
         "support_finding_ids": [
           "f:pair:KOH:SIH:lightning:C14:541f633168214c61"
-        ]
+        ],
+        "flags": []
       },
       {
         "rank": 2,
@@ -456,7 +457,8 @@
         "hypothesis_id": null,
         "hypothesis_rank": null,
         "hypothesis": null,
-        "support_finding_ids": []
+        "support_finding_ids": [],
+        "flags": []
       },
       {
         "rank": 3,
@@ -531,7 +533,10 @@
         "hypothesis_id": null,
         "hypothesis_rank": null,
         "hypothesis": null,
-        "support_finding_ids": []
+        "support_finding_ids": [],
+        "flags": [
+          "incomplete LOPA: gap unknown"
+        ]
       },
       {
         "rank": 4,
@@ -565,7 +570,8 @@
           "question_ids": [],
           "model_call_id": "mc:b4141dda9c7f08a1"
         },
-        "support_finding_ids": []
+        "support_finding_ids": [],
+        "flags": []
       }
     ]
   }
