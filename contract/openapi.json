@@ -2424,6 +2424,13 @@
               }
             ]
           },
+          "flags": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Flags",
+            "type": "array"
+          },
           "gap": {
             "anyOf": [
               {
