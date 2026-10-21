@@ -1,8 +1,11 @@
-"""Live runs behind the run endpoints (spec 2.8; plan PR 10). Every number comes from the run
-store; nothing here calls a model except through the gateway the steppers are given."""
+"""Live runs behind the run endpoints (spec 2.8; plan PR 10; Phase 3 plan PR 6). Every number
+comes from the run store; nothing here calls a model except through the gateway the steppers
+are given. The review reads (shortlist, worksheet, coverage, counts) apply the engineer's
+overrides on read; the run dump serves the records as stored."""
 
 from collections.abc import Callable
 from dataclasses import dataclass
+from datetime import datetime
 from typing import Any
 
 from sqlalchemy.orm import Session, sessionmaker
@@ -12,14 +15,24 @@ from guideword.config import Config
 from guideword.gateway.client import Gateway
 from guideword.questions.coverage import SECTIONS, coverage
 from guideword.reference import ReferenceSet
-from guideword.runs.case import start_case, steppers_for
+from guideword.review.overrides import RunRecords, effective_question, new_override
+from guideword.review.shortlist import RunView, shortlist_items
+from guideword.review.worksheet import worksheet_rows
+from guideword.runs.case import is_pre_r50, start_case, steppers_for
 from guideword.runs.estimate import run_upper_bound
 from guideword.runs.machine import Stepper, advance
 from guideword.runs.plants import PlantRepository
 from guideword.runs.store import Clock, RunRepository
 from guideword.schema import ids
-from guideword.schema.enums import QuestionKind, QuestionOrigin, QuestionStatus, RunStatus
-from guideword.schema.records import Question, Run
+from guideword.schema.enums import (
+    OverrideAction,
+    QuestionKind,
+    QuestionOrigin,
+    QuestionStatus,
+    RunStatus,
+)
+from guideword.schema.plant import Plant
+from guideword.schema.records import Override, Question, Run
 
 GatewayFactory = Callable[[sessionmaker[Session]], Gateway]
 
@@ -69,11 +82,14 @@ class LiveRuns:
             raise RunNotFound(f"no run {run_id}")
         return run
 
-    def _steppers(self, run: Run) -> dict[str, Stepper]:
+    def plant_of(self, run: Run) -> Plant:
         stored = self.plants.get(run.plant_record_id)
         if stored is None:
             raise RunNotFound(f"no plant {run.plant_record_id} for run {run.id}")
-        return steppers_for(self.gateway(), self.config, self.ref, stored.record.plant_file)
+        return stored.record.plant_file
+
+    def _steppers(self, run: Run) -> dict[str, Stepper]:
+        return steppers_for(self.gateway(), self.config, self.ref, self.plant_of(run))
 
     # --- start, cancel, advance -------------------------------------------------------------
 
@@ -117,9 +133,82 @@ class LiveRuns:
 
     # --- reads --------------------------------------------------------------------------------
 
+    def records_of(self, run_id: str) -> RunRecords:
+        return RunRecords(
+            findings=self.runs.findings(run_id),
+            chains=self.runs.chains(run_id),
+            lopa_records=self.runs.lopa_records(run_id),
+            recommendations=self.runs.recommendations(run_id),
+            questions=self.runs.questions(run_id),
+            sections=self.runs.sections(run_id),
+            overrides=self.runs.overrides(run_id),
+        )
+
+    def questions_seen(self, run_id: str) -> list[Question]:
+        """The questions as seen: an engineer's question answered by override is checked."""
+        overrides = self.runs.overrides(run_id)
+        return [effective_question(q, overrides) for q in self.runs.questions(run_id)]
+
+    def view(self, run_id: str) -> RunView:
+        run = self.get(run_id)
+        return RunView(
+            run_id=run.id,
+            # G8: the run's own lopa_top_n
+            top_n=int(run.caps.get("lopa_top_n", self.config.caps.run.lopa_top_n)),
+            pre_r50=is_pre_r50(run),
+            records=self.records_of(run_id),
+            hypotheses=self.runs.hypotheses(run_id),
+            model_calls=self.runs.model_calls(run_id),
+        )
+
+    def shortlist(self, run_id: str) -> list[api.ShortlistItem]:
+        run = self.get(run_id)
+        return shortlist_items(self.view(run_id), self.plant_of(run), self.ref, self.config.caps)
+
+    def worksheet(self, run_id: str) -> list[api.WorksheetRow]:
+        run = self.get(run_id)
+        return worksheet_rows(self.view(run_id), self.plant_of(run), self.ref, self.config.caps)
+
+    def add_override(self, run_id: str, request: api.OverrideRequest, at: datetime) -> Override:
+        """Check and store an override (raises OverrideRefused, 404 or 422)."""
+        run = self.get(run_id)
+        override = new_override(
+            run.id,
+            request.target_id,
+            OverrideAction(request.action),
+            request.new_value,
+            request.reason,
+            request.by,
+            at,
+            self.records_of(run_id),
+            self.plant_of(run),
+            self.ref,
+        )
+        with self.runs.step(run_id) as writer:
+            writer.add_override(override)
+        return override
+
+    def dump(self, run_id: str) -> api.RunDump:
+        """Every record of the run as stored (overrides alongside, not applied)."""
+        run = self.get(run_id)
+        return api.RunDump(
+            run=run,
+            sections=self.runs.sections(run_id),
+            questions=self.runs.questions(run_id),
+            findings=self.runs.findings(run_id),
+            hypotheses=self.runs.hypotheses(run_id),
+            chains=self.runs.chains(run_id),
+            lopa_records=self.runs.lopa_records(run_id),
+            recommendations=self.runs.recommendations(run_id),
+            evidence=self.runs.evidence(run_id),
+            overrides=self.runs.overrides(run_id),
+            events=self.runs.events(run_id),
+            label=run.label,
+        )
+
     def counts(self, run_id: str) -> api.RunCounts:
         sections = self.runs.sections(run_id)
-        questions = self.runs.questions(run_id)
+        questions = self.questions_seen(run_id)
         findings = self.runs.findings(run_id)
         lines, failed = coverage(sections, questions, findings)
         # the `sections` line counts sections, not questions
@@ -132,12 +221,12 @@ class LiveRuns:
             questions_failed=len(failed),
             questions_unsure=sum(line.unsure for line in per_kind),
             findings=len(findings),
-            chains=0,
+            chains=len(self.runs.chains(run_id)),
         )
 
     def coverage(self, run_id: str) -> tuple[list[api.CoverageList], list[str]]:
         return coverage(
-            self.runs.sections(run_id), self.runs.questions(run_id), self.runs.findings(run_id)
+            self.runs.sections(run_id), self.questions_seen(run_id), self.runs.findings(run_id)
         )
 
     def add_question(self, run_id: str, section_id: str, text: str) -> Question:
@@ -184,6 +273,23 @@ class LiveRuns:
         for section in self.runs.sections(run_id):
             if section.id == record_id:
                 found = Record("section", section.model_dump(mode="json"), [], [])
+        # G5: chains, LOPA records, recommendations and overrides, with what they came from
+        for chain in self.runs.chains(run_id):
+            if chain.id == record_id:
+                made = [chain.model_call_id] if chain.model_call_id else []
+                found = Record("chain", chain.model_dump(mode="json"), list(chain.links), made)
+        for lopa in self.runs.lopa_records(run_id):
+            if lopa.id == record_id:
+                made = [lopa.model_call_id] if lopa.model_call_id else []
+                found = Record("lopa", lopa.model_dump(mode="json"), [lopa.target_id], made)
+        for rec in self.runs.recommendations(run_id):
+            if rec.id == record_id:
+                made = [rec.model_call_id] if rec.model_call_id else []
+                found = Record("recommendation", rec.model_dump(mode="json"), [rec.target_id], made)
+        for override in self.runs.overrides(run_id):
+            if override.id == record_id:
+                dumped = override.model_dump(mode="json")
+                found = Record("override", dumped, [override.target_id], [])
         if record_id in calls:
             found = Record("model_call", calls[record_id].model_dump(mode="json"), [], [record_id])
         if found is None:

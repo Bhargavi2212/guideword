@@ -18,10 +18,12 @@ from guideword.runs.db import (
     AgentStepRow,
     ChainRow,
     EventRow,
+    EvidenceRow,
     FindingRow,
     HypothesisRow,
     LopaRecordRow,
     ModelCallRow,
+    OverrideRow,
     QuestionRow,
     RecommendationRow,
     RunRecordRow,
@@ -34,10 +36,12 @@ from guideword.schema.records import (
     AgentStep,
     Chain,
     Event,
+    Evidence,
     Finding,
     Hypothesis,
     LopaRecord,
     ModelCall,
+    Override,
     Question,
     Recommendation,
     Run,
@@ -216,6 +220,11 @@ class StepWriter:
         """Store a recommendation, once; its event is its call's `model_call` event."""
         self._refuse_repeat(RecommendationRow, recommendation.id, "recommendation")
         self._put(RecommendationRow, recommendation)
+
+    def add_override(self, override: Override) -> None:
+        """Store an engineer's override (spec 3.5); records are never edited, views apply it."""
+        self._refuse_repeat(OverrideRow, override.id, "override")
+        self._put(OverrideRow, override)
 
     def _refuse_repeat(self, table: type[RunRecordRow], record_id: str, kind: str) -> None:
         if record_id in self._new.get(table, {}) or (
@@ -424,6 +433,12 @@ class RunRepository:
 
     def recommendations(self, run_id: str) -> list[Recommendation]:
         return self._read(RecommendationRow, run_id, Recommendation)
+
+    def overrides(self, run_id: str) -> list[Override]:
+        return self._read(OverrideRow, run_id, Override)
+
+    def evidence(self, run_id: str) -> list[Evidence]:
+        return self._read(EvidenceRow, run_id, Evidence)
 
     def events(self, run_id: str, after: int = 0) -> list[Event]:
         with self._sessions() as session:

@@ -27,6 +27,7 @@ from guideword.gateway.ledgers import Ledger, ledger_for
 from guideword.gateway.transport import OpenAITransport
 from guideword.logs import get_logger
 from guideword.reference import ReferenceSet, load_reference_set
+from guideword.review.overrides import OverrideRefused
 from guideword.runs.db import make_session_factory
 from guideword.runs.plants import (
     PlantRepository,
@@ -64,12 +65,6 @@ log = get_logger(__name__)
 
 # The phase that builds each endpoint for real (PROJECT.md §15); a 501 names it.
 NOT_BUILT_PHASE: dict[tuple[str, str], int] = {
-    ("GET", "/runs/{id}/shortlist"): 3,
-    ("GET", "/runs/{id}/worksheet"): 3,
-    ("POST", "/runs/{id}/overrides"): 3,
-    ("GET", "/runs/{id}/export.xlsx"): 3,
-    ("GET", "/runs/{id}/export/coverage.json"): 3,
-    ("GET", "/runs/{id}/export/run.json"): 3,
     ("GET", "/demo"): 7,
 }
 ERRORS: dict[int | str, dict[str, Any]] = {
@@ -422,22 +417,30 @@ def create_app(
 
     @app.get("/runs/{id}/shortlist", response_model=api.Shortlist, responses=ERRORS)
     def get_shortlist(id: str) -> api.Shortlist:
-        mock = need("GET", "/runs/{id}/shortlist")
-        run_of(mock, id)
-        return mock.shortlist
+        if store is not None:
+            run_of(store, id)
+            return store.shortlist
+        run = live_run(id)
+        return api.Shortlist(run_id=run.id, items=live().shortlist(id), label=run.label)
+
+    def worksheet_of(id: str) -> api.Worksheet:
+        if store is not None:
+            run_of(store, id)
+            return store.worksheet
+        run = live_run(id)
+        return api.Worksheet(run_id=run.id, rows=live().worksheet(id), label=run.label)
 
     @app.get("/runs/{id}/worksheet", response_model=api.Worksheet, responses=ERRORS)
     def get_worksheet(
         id: str, origin: str | None = None, status: str | None = None
     ) -> api.Worksheet:
-        mock = need("GET", "/runs/{id}/worksheet")
-        run_of(mock, id)
+        sheet = worksheet_of(id)
         rows = [
             row
-            for row in mock.worksheet.rows
+            for row in sheet.rows
             if (origin is None or row.origin == origin) and (status is None or row.status == status)
         ]
-        return mock.worksheet.model_copy(update={"rows": rows})
+        return sheet.model_copy(update={"rows": rows})
 
     @app.get("/runs/{id}/coverage", response_model=api.Coverage, responses=ERRORS)
     def get_coverage(id: str) -> api.Coverage:
@@ -474,8 +477,16 @@ def create_app(
 
     @app.post("/runs/{id}/overrides", response_model=api.OverrideResult, responses=ERRORS)
     def add_override(id: str, request: api.OverrideRequest) -> api.OverrideResult:
-        mock = need("POST", "/runs/{id}/overrides")
-        run = run_of(mock, id)
+        if store is None:
+            run = live_run(id)
+            if run.label.kind == RunLabelKind.RECORDED:
+                raise ApiError(403, "recorded run is read-only")
+            try:
+                stored = live().add_override(id, request, now())
+            except OverrideRefused as refused:
+                raise ApiError(refused.status, str(refused)) from refused
+            return api.OverrideResult(override=stored, stored=True, label=run.label)
+        run = run_of(store, id)
         if run.label.kind == RunLabelKind.RECORDED:
             raise ApiError(403, "recorded run is read-only")
         override = Override(
@@ -496,21 +507,21 @@ def create_app(
         responses={**ERRORS, 200: {"content": {XLSX_MEDIA_TYPE: {}}}},
     )
     def export_worksheet(id: str) -> Response:
-        mock = need("GET", "/runs/{id}/export.xlsx")
-        run_of(mock, id)
-        return Response(content=worksheet_xlsx(mock.worksheet.rows), media_type=XLSX_MEDIA_TYPE)
+        # one row per worksheet row, overrides applied (spec 3.5)
+        rows = worksheet_of(id).rows
+        return Response(content=worksheet_xlsx(rows), media_type=XLSX_MEDIA_TYPE)
 
     @app.get("/runs/{id}/export/coverage.json", response_model=api.Coverage, responses=ERRORS)
     def export_coverage(id: str) -> api.Coverage:
-        mock = need("GET", "/runs/{id}/export/coverage.json")
-        run_of(mock, id)
-        return mock.coverage
+        return get_coverage(id)
 
     @app.get("/runs/{id}/export/run.json", response_model=api.RunDump, responses=ERRORS)
     def export_run(id: str) -> api.RunDump:
-        mock = need("GET", "/runs/{id}/export/run.json")
-        run_of(mock, id)
-        return mock.run_dump
+        if store is not None:
+            run_of(store, id)
+            return store.run_dump
+        live_run(id)
+        return live().dump(id)
 
     # --- demo, budget, internal --------------------------------------------------------------
 
