@@ -325,3 +325,9 @@ def test_shortlist_is_tier_then_gap_and_incomplete_after_complete(
 def test_fact_ids_come_from_the_plant(plant: Plant) -> None:
     facts = {f.id for f in plant_facts(plant, "plant:x")}
     assert "MX-1.design_pressure_kpa" in facts
+
+
+def test_the_high_severity_no_lopa_flag_reads_as_written() -> None:
+    from guideword.lopa.lines import HIGH_SEVERITY_NO_LOPA  # noqa: PLC0415
+
+    assert HIGH_SEVERITY_NO_LOPA == "S4–S5 with no LOPA — engineer to review"

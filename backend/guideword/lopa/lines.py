@@ -51,7 +51,7 @@ TargetKind = Literal["finding", "chain", "hypothesis"]
 
 HIGH_SEVERITY = frozenset({SeverityClass.S4, SeverityClass.S5})
 TIER_ORDER = (ShortlistTier.CONFIRMED, ShortlistTier.ALSO_FOUND, ShortlistTier.UNCONFIRMED)
-HIGH_SEVERITY_NO_LOPA = "S4â€“S5 with no LOPA â€” engineer to review"
+HIGH_SEVERITY_NO_LOPA = "S4–S5 with no LOPA — engineer to review"
 INCOMPLETE_LOPA = "incomplete LOPA: gap unknown"
 UNCONFIRMED_NO_LOPA = "unconfirmed: no finding to analyse"
 SHOWN_ELSEWHERE = "its lead finding is shown under a higher line"
