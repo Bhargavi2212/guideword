@@ -426,6 +426,7 @@ Sections are proposed and confirmed on the plant before any run. A run has two p
 | Chain | Ordered links, multi-failure label, flags, severity class with reason (from the chain severity step; contract v1.4) | Finding IDs and plant fact IDs; the connector's model call |
 | LOPA record | Initiating frequency, modifiers applied and the modifier kinds not applied with the reason, layers credited or not with code's reason and Ultra's argument (applies yes/no, why), flags, frequency, tolerable, gap (contract v1.4) | Finding or chain; reference table rows |
 | Evidence | Calculation, precedent or simulation result; verdict | Finding; tool call; plant fact IDs it used |
+| Superseded record | A chain, LOPA record, recommendation or post-step model call that a re-run from `chains` replaced, kept verbatim with the pass it belonged to and the pass that replaced it (`RunDump.superseded`, contract v1.7) | The run; the `run_extended` events of both passes |
 | Override | Action, new value, reason, who (display name) and when | Any record |
 | Event | Sequence number, type, payload, time | Run |
 
