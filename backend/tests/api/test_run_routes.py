@@ -217,10 +217,16 @@ def test_start_returns_a_live_run_and_an_upper_bound_capped_at_the_cap(app: Api)
     assert 0 < result.estimated_cost_usd < 1000.0  # the real upper bound, under a huge cap
 
 
-def test_the_estimate_is_capped_at_the_spend_cap(tmp_path: Path) -> None:
+def test_the_estimate_is_the_analysis_capped_at_the_spend_cap_plus_the_post_cap(
+    tmp_path: Path,
+) -> None:
+    """Bhargavi, 2026-10-20 (point 4): the upper bound is the worst case, so it includes the
+    post-analysis cap the run may also spend."""
     app = Api(tmp_path)
     result = app.start(cap=0.01).json()
-    assert result["estimated_cost_usd"] == pytest.approx(0.01)
+    post_cap = load_config(global_budget_usd=25.0).caps.run.post_spend_cap_usd
+    assert post_cap > 0
+    assert result["estimated_cost_usd"] == pytest.approx(0.01 + post_cap)
 
 
 def test_sample_mode_is_refused_until_phase_7(app: Api) -> None:
