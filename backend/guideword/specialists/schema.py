@@ -25,6 +25,12 @@ Text200 = Annotated[str, StringConstraints(min_length=1, max_length=200)]
 OPERATOR = FailingComponentType.OPERATOR
 
 
+# The two answer problems that are about the batch's shape, not the answers themselves: a batch
+# answered so is re-asked one question at a time when the run asks for it (demo-fixes plan)
+NOT_IN_BATCH = "is not in this batch"
+ANSWERED_TWICE = "is answered more than once"
+
+
 class _Strict(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
@@ -90,9 +96,9 @@ def check_answer(
     counts = Counter(a.question_id for a in answer.answers)
     for question_id, n in counts.items():
         if question_id not in batch:
-            raise ValueError(f"{question_id} is not in this batch")
+            raise ValueError(f"{question_id} {NOT_IN_BATCH}")
         if n > 1:
-            raise ValueError(f"{question_id} is answered more than once")
+            raise ValueError(f"{question_id} {ANSWERED_TWICE}")
     cause_types = {c.id: c.failing_component_type for c in ref.causes}
     for item in answer.answers:
         question = batch[item.question_id]

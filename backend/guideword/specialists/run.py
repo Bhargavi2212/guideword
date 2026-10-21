@@ -6,6 +6,13 @@ and the orchestrator writes them in batch order with `apply_batch`. Code builds 
 The tool path (R34): a tool request never carries the answer schema. The specialist may
 call its tools; a call past `specialist_max_tool_steps` is refused and recorded, and the
 answer is then asked for in the schema, without tools.
+
+A batch of more than one question whose answer is cut off at the token limit, or invalid only
+because a question is answered twice or one is answered that was not sent, is re-asked one
+question at a time before any of its questions is marked failed (`retry_singly`; the run's
+`retry_failed_batch_singly` cap, demo-fixes plan, approved 2026-10-21). The batch and a
+question's single call together count one attempt for that question. Other invalid answers
+fail the batch as before.
 """
 
 import json
@@ -48,7 +55,14 @@ from guideword.schema.records import (
 )
 from guideword.specialists.causes import offered_cause_ids
 from guideword.specialists.context import BatchTooLarge, SpecialistContext, build_context, fit
-from guideword.specialists.schema import BatchAnswer, QuestionAnswer, check_answer, finding_id
+from guideword.specialists.schema import (
+    ANSWERED_TWICE,
+    NOT_IN_BATCH,
+    BatchAnswer,
+    QuestionAnswer,
+    check_answer,
+    finding_id,
+)
 from guideword.tools.record import TOOLS, execute_tool
 
 log = get_logger(__name__)
@@ -255,6 +269,7 @@ def run_batch(
     retry_missing: bool = True,
     made: frozenset[str] = frozenset(),
     prepared: PreparedBatch | None = None,
+    retry_singly: bool = False,
 ) -> BatchOutcome:
     """Answer one batch. `BudgetRefused` from the gateway is not caught: it stops the run,
     except a refusal by the batch's own slice (`budget.slice_id`), which fails the batch. A
@@ -398,7 +413,25 @@ def run_batch(
 
     final = call(messages=conversation, schema=BatchAnswer, validator=validator)
     if final.outcome != "ok" or not isinstance(final.value, BatchAnswer):
-        return _failed(outcome, batch, final.error or final.outcome, caps.question_max_attempts)
+        error = final.error or final.outcome
+        if retry_singly and len(batch) > 1 and _batch_shaped(final.outcome, error):
+            return _each_alone(
+                outcome,
+                error,
+                gateway,
+                plant=plant,
+                ref=ref,
+                config=config,
+                sections=sections,
+                batch=batch,
+                agent=agent,
+                budget=RunBudget(budget.run_id, spent, budget.limit_usd, budget.slice_id),
+                previous_step_id=step_id,
+                existing_question_ids=existing_question_ids,
+                level=level,
+                made=made,
+            )
+        return _failed(outcome, batch, error, caps.question_max_attempts)
 
     answer: BatchAnswer = final.value
     model_call_id = final.model_calls[-1].id if final.model_calls else None
@@ -449,6 +482,63 @@ def run_batch(
         )
         spent += alone.cap_cost_usd
         _merge(outcome, alone)
+    return outcome
+
+
+def _batch_shaped(outcome: str, error: str) -> bool:
+    """A failure about the batch, not its answers: cut off, or a question answered twice or
+    answered without being sent."""
+    if outcome == "truncated":
+        return True
+    return outcome == "invalid" and (ANSWERED_TWICE in error or NOT_IN_BATCH in error)
+
+
+def _each_alone(
+    outcome: BatchOutcome,
+    error: str,
+    gateway: Gateway,
+    *,
+    plant: Plant,
+    ref: ReferenceSet,
+    config: Config,
+    sections: Mapping[str, Section],
+    batch: Sequence[Question],
+    agent: Agent,
+    budget: RunBudget,
+    previous_step_id: str,
+    existing_question_ids: set[str],
+    level: Level,
+    made: frozenset[str],
+) -> BatchOutcome:
+    """Re-ask each of the batch's questions alone; the batch is answered if any one is."""
+    log.info(
+        "batch re-asked one question at a time",
+        extra={"context": {"run_id": budget.run_id, "error": error, "questions": len(batch)}},
+    )
+    spent = budget.cap_spent_usd
+    answered = False
+    for question in batch:
+        alone = run_batch(
+            gateway,
+            plant=plant,
+            ref=ref,
+            config=config,
+            sections=sections,
+            questions=[question],
+            agent=agent,
+            budget=RunBudget(budget.run_id, spent, budget.limit_usd, budget.slice_id),
+            previous_step_id=previous_step_id,
+            ai_remaining=0,
+            existing_question_ids=existing_question_ids,
+            level=level,
+            retry_missing=False,
+            made=made,
+        )
+        spent += alone.cap_cost_usd
+        answered = answered or alone.status == "answered"
+        _merge(outcome, alone)
+    outcome.status = "answered" if answered else "failed"
+    outcome.error = None if answered else error
     return outcome
 
 

@@ -161,7 +161,7 @@ def test_prompt_versions_name_existing_files(shipped: Config) -> None:
         "plant_screen": "v3",
         # Phase 3 (plan PR 2, Q5)
         "connector": "v2",
-        "lopa_argument": "v2",
+        "lopa_argument": "v3",
         "recommendation": "v2",
         "severity_chain": "v2",
         **{

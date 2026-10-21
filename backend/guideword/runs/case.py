@@ -41,6 +41,7 @@ from guideword.schema.records import (
 from guideword.schema.validate import Issue
 from guideword.screen.step import PlantScreenStepper
 from guideword.sections.rules import rule_cut
+from guideword.specialists.retry_step import RetryFailedStepper
 
 DASH = " — "
 # G10: a run from before R50 has no whole-plant pass, so every line is "also found"
@@ -109,6 +110,8 @@ def steppers_for(
         "plant_screen": PlantScreenStepper(gateway, config=config, ref=ref, plant=plant),
         "analysis": OrchestratorStepper(gateway, config=config, ref=ref, plant=plant),
         "severity": SeverityStepper(gateway, config=config, ref=ref, plant=plant),
+        # demo-fixes plan: a finished run's failed questions, each asked alone, then severity
+        "retry_failed": RetryFailedStepper(gateway, config=config, ref=ref, plant=plant),
         # Phase 3 (spec 3.6): the post-analysis steps, then ranked ends the run
         "chains": ConnectorStepper(gateway, config=config, ref=ref, plant=plant),
         "chain_severity": ChainSeverityStepper(gateway, config=config, ref=ref, plant=plant),

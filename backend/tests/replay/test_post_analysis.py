@@ -1238,7 +1238,8 @@ def test_extend_run_reruns_from_chains(tmp_path: Path, ref: ReferenceSet, config
 
 # --- target-handles plan (approved 2026-10-21): handles for chain and line targets ---------------
 
-V2_POST_PROMPTS = {"severity_chain": "v2", "lopa_argument": "v2", "recommendation": "v2"}
+# lopa_argument moved on to v3 (demo-fixes plan); the other two stay at v2
+V2_POST_PROMPTS = {"severity_chain": "v2", "lopa_argument": "v3", "recommendation": "v2"}
 HANDLE_TOKEN = re.compile(r"\b[LPC]\d+\b")
 # a finding ID (`f:<question kind prefix>:`) or a chain ID (`ch:`), not "part_of:" inside a
 # question ID
@@ -1262,7 +1263,7 @@ def _many_chains(
     return out
 
 
-def test_the_three_later_post_prompts_are_routed_at_v2(config: Config) -> None:
+def test_the_three_later_post_prompts_are_routed(config: Config) -> None:
     assert {k: config.routing.prompts[k] for k in V2_POST_PROMPTS} == V2_POST_PROMPTS
 
 
@@ -1460,3 +1461,142 @@ def test_a_chain_with_no_severity_is_on_the_shortlist_flagged_no_severity_no_lop
     )
     (item,) = [i for i in live.shortlist(run.id) if i.target_id == chain.id]
     assert NO_SEVERITY_NO_LOPA in item.flags and item.lopa is None
+
+
+# --- demo-fixes plan (approved 2026-10-21): retry a finished run's failed questions ---------------
+
+FAILING_SECTION = "m:S-L-12:"
+
+
+def _failing(job: str, request: dict[str, Any]) -> Reply:
+    """S-L-12's questions fail at every level (invalid twice); everything else as post_script."""
+    if job.startswith("specialist") and any(
+        q["id"].startswith(FAILING_SECTION) for q in block(request, "questions")
+    ):
+        return reply("not json")
+    return post_script(connector=first_two)(job, request)
+
+
+def _with_failed(tmp_path: Path, ref: ReferenceSet, config: Config) -> tuple[World, Run, set[str]]:
+    world = World(tmp_path, ref)
+    run, _ = world.run(config, _failing)
+    assert run.status == RunStatus.FINISHED
+    failed = {q.id for q in world.runs.questions(run.id) if q.status == QuestionStatus.FAILED}
+    assert failed and all(q.startswith(FAILING_SECTION) for q in failed)
+    return world, run, failed
+
+
+def test_retry_failed_asks_each_failed_question_alone_and_makes_no_orchestrator_call(
+    tmp_path: Path, ref: ReferenceSet, config: Config
+) -> None:
+    world, run, failed = _with_failed(tmp_path, ref, config)
+    extend(world.runs, run.id, 0.30, config, retry_failed=True, retry_cap_usd=0.30)
+    gateway, transport = world.gateway(config, post_script(connector=first_two))
+    assert drive(world.runs, run.id, world.steppers(config, gateway)) == RunStatus.FINISHED
+    jobs = [job for job, _ in transport.sent]
+    assert "orchestrator" not in jobs and "plant_screen" not in jobs
+    asked = [
+        [q["id"] for q in block(r, "questions")]
+        for j, r in transport.sent
+        if j.startswith("specialist")
+    ]
+    assert all(len(a) == 1 for a in asked)
+    assert {a[0] for a in asked} == failed
+    assert {j for j, _ in transport.sent if j.startswith("specialist")} == {"specialist_hard"}
+    after = {q.id: q for q in world.runs.questions(run.id)}
+    assert all(after[q].status == QuestionStatus.ANSWERED for q in failed)
+
+
+def test_retry_failed_keeps_the_run_id_and_every_checked_question(
+    tmp_path: Path, ref: ReferenceSet, config: Config
+) -> None:
+    world, run, failed = _with_failed(tmp_path, ref, config)
+    checked = {q.id: q for q in world.runs.questions(run.id) if q.id not in failed}
+    extended = extend(world.runs, run.id, 0.30, config, retry_failed=True, retry_cap_usd=0.30)
+    assert extended.id == run.id and extended.step == "retry_failed"
+    assert extended.spend_cap_usd == pytest.approx(run.spend_cap_usd + 0.30)
+    assert extended.caps == run.caps and extended.prompt_versions == run.prompt_versions
+    gateway, _ = world.gateway(config, post_script(connector=first_two))
+    drive(world.runs, run.id, world.steppers(config, gateway))
+    done = world.runs.get(run.id)
+    assert done is not None and done.id == run.id
+    now = {q.id: q for q in world.runs.questions(run.id)}
+    assert all(now[i] == q for i, q in checked.items())
+
+
+def test_retry_failed_rates_only_new_findings_then_reruns_from_chains(
+    tmp_path: Path, ref: ReferenceSet, config: Config
+) -> None:
+    world, run, failed = _with_failed(tmp_path, ref, config)
+    old_findings = {f.id for f in world.runs.findings(run.id)}
+    before = len(world.steps_started(run.id))
+    extend(world.runs, run.id, 0.30, config, retry_failed=True, retry_cap_usd=0.30)
+    gateway, transport = world.gateway(config, post_script(connector=first_two))
+    drive(world.runs, run.id, world.steppers(config, gateway))
+    new = {f.id for f in world.runs.findings(run.id)} - old_findings
+    assert new and all(
+        next(f for f in world.runs.findings(run.id) if f.id == i).question_id in failed for i in new
+    )
+    rated = {
+        f["finding_id"]
+        for j, r in transport.sent
+        if j == "severity_reason"
+        for f in block(r, "findings")
+    }
+    # one finding per scenario is sent, and its class copied to the rest (R48): only new
+    # findings are sent, none of the old, and every new finding ends up rated
+    assert rated and rated <= new and not rated & old_findings
+    stored = {f.id: f for f in world.runs.findings(run.id)}
+    assert all(stored[i].severity_class is not None for i in new)
+    steps = list(dict.fromkeys(world.steps_started(run.id)[before:]))
+    assert steps == ["retry_failed", "severity", *POST_STEPS, "ranked"]
+    assert world.runs.superseded(run.id)  # the old post records, kept
+    event = [e for e in world.runs.events(run.id) if e.type == EventType.RUN_EXTENDED][-1]
+    assert sorted(event.payload["retry_failed"]) == sorted(failed)
+
+
+def test_retry_failed_is_refused_for_an_unfinished_run_or_one_with_no_failed_questions(
+    tmp_path: Path, ref: ReferenceSet, config: Config
+) -> None:
+    unfinished = World(tmp_path / "a", ref)
+    started = unfinished.start(config)
+    with pytest.raises(ExtendRefused, match="not finished"):
+        extend(unfinished.runs, started.id, 0.30, config, retry_failed=True, retry_cap_usd=0.30)
+    clean = World(tmp_path / "b", ref)
+    run, _ = clean.run(config, post_script(connector=first_two))
+    with pytest.raises(ExtendRefused, match="no failed question"):
+        extend(clean.runs, run.id, 0.30, config, retry_failed=True, retry_cap_usd=0.30)
+
+
+def test_extend_run_retry_failed_writes_to_the_out_dir(
+    tmp_path: Path, ref: ReferenceSet, config: Config
+) -> None:
+    world, run, _ = _with_failed(tmp_path, ref, config)
+    out = tmp_path / "demo"
+    args = (run.id, "--retry-failed", "--post-cap", "0.3", "--name", "x", "--out-dir", str(out))
+    code, _ = _extend_run(world, config, post_script(connector=first_two), *args)
+    assert code == 0
+    report = json.loads((out / "x.json").read_text(encoding="utf-8"))
+    assert report["run_id"] == run.id and report["status"] == "finished"
+
+
+def test_a_demo_plant_report_goes_to_bench_demo() -> None:
+    import run_case  # noqa: PLC0415
+
+    assert run_case.default_out_dir(REPO / "cases" / "demo" / "williams_geismar.json") == (
+        REPO / "bench" / "demo"
+    )
+    assert run_case.default_out_dir(REPO / "cases" / "dev" / "case_d.json") == (
+        REPO / "bench" / "test5" / "5b"
+    )
+    assert run_case._arguments([str(EXAMPLE), "--out-dir", "x"]).out_dir == Path("x")
+
+
+def test_lopa_argument_v3_leaves_valve_states_to_code(config: Config) -> None:
+    from guideword.gateway.prompts import load_prompt  # noqa: PLC0415
+
+    assert config.routing.prompts["lopa_argument"] == "v3"
+    body = load_prompt("lopa_argument", config).body
+    assert "Valve positions, isolation and lock state are checked by code, never by you" in body
+    assert "never a valve's position" in body
+    assert not re.search(r"(?i)williams|geismar|reboiler|EA-425|HV-[AB]-", body)
