@@ -1192,6 +1192,8 @@ export interface components {
             flags?: string[];
             /** Gap */
             gap: number | null;
+            /** Gap Text */
+            gap_text?: string | null;
             hypothesis?: components["schemas"]["Hypothesis"] | null;
             /** Hypothesis Id */
             hypothesis_id?: string | null;

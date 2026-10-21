@@ -217,6 +217,10 @@ class ShortlistItem(_Model):
     # contract v1.5: what the card must show the engineer about the line, as code wrote it
     # (e.g. an S4-S5 line with no LOPA, an incomplete LOPA, a pre-R50 run)
     flags: list[str] = Field(default_factory=list)
+    # contract v1.6: the LOPA gap as the engineer reads it, written by the backend's one
+    # formatter (orders of magnitude, never false precision); None when the line has no LOPA.
+    # The card shows this text and formats no number itself.
+    gap_text: str | None = None
 
     @model_validator(mode="after")
     def _hypothesis_fields_agree(self) -> "ShortlistItem":
