@@ -70,7 +70,7 @@ Nemotron may **add plant-specific questions** (tagged "added by AI") and **mark 
 Before any dispatch, one Ultra call reads the confirmed plant record (as data), the cause library the plant can support (R46) and the question kinds, and proposes up to `plant_screen_max_hypotheses` ranked hypotheses: mechanism, component and chemical IDs, cause, consequence and a reason each. Code validates every ID and the failing-component mapping (R46); bad hypotheses are dropped and logged. Each hypothesis is linked by code, once, to the questions on its components, chemicals and the equipment and valves of its steps and jobs. It steers dispatch (the orchestrator may dispatch linked questions first) and the final tiers (Step 6); it never deletes or answers a question.
 
 ### Step 4 — The agent runs the analysis (agent drives, code guards)
-After the engineer confirms the sections, **an orchestrator agent (Nemotron Ultra, tool calling) runs the whole analysis** to the end. It dispatches six **specialist agents**, researches, builds chains, runs LOPA and gathers evidence, deciding at each step what to do next. Code decides what it is allowed to do and when it may stop.
+After the engineer confirms the sections, **an orchestrator agent (Nemotron Ultra, tool calling) runs the whole analysis** to the end. It dispatches six **specialist agents**, researches and gathers evidence, deciding at each step what to do next. Code decides what it is allowed to do and when it may stop. Chains, chain severity, LOPA and recommendations are not orchestrator tools: they run as fixed code steps after the analysis (P3-1; Steps 5 and 6).
 
 **Orchestrator tools**
 
@@ -82,8 +82,6 @@ After the engineer confirms the sections, **an orchestrator agent (Nemotron Ultr
 | `search_precedent` | Local precedent index (CSB, ARIA, eMARS and other national reports), then Tavily if nothing fits | Matching incidents with URLs |
 | `reactivity_lookup` | Reactive-group table for a chemical pair | Hazard type and source row |
 | `physics_calc` | Overflow time, pressure as a multiple of design limit, heat-up rate, from plant facts | Number with units and the facts used |
-| `propose_chains` | Connector: proposes chains from finding IDs (Step 5) | Validated chains, rejected chains with reasons |
-| `run_lopa` | Scenario and proposed protection layers to the LOPA engine (Step 6) | Credited layers, frequency, gap |
 | `run_simulation` | A fault on the Tennessee Eastman demo plant | Variables that moved, limits crossed |
 | `finish` | Ends the run | Accepted, or refused with the reason |
 
@@ -106,16 +104,16 @@ What the failing component IDs point to, by the cause's failing-component type: 
 
 **Code guards**
 - The question list is fixed before the agent starts. The agent chooses order and tools, never which questions exist.
-- `finish` is **refused until every question has a valid answer** (or has failed twice and is listed as failed) and the top findings have been through LOPA and evidence. An unsure answer is a valid answer.
+- `finish` is **refused until every question has a valid answer** (or has failed twice and is listed as failed) and the top findings have been through evidence. An unsure answer is a valid answer. The guard does not wait for LOPA, which runs after the analysis (P3-1).
 - A question dispatched twice is answered from the first result; duplicates cost nothing.
 - Step caps (orchestrator steps per run, specialist steps per question), token and dollar caps per run; hitting one stops the run with a message.
-- The orchestrator sees counts and short summaries, never the full findings list, so each step stays small; only `propose_chains` reads a summary of every finding plus the whole plant.
+- The orchestrator sees counts and short summaries, never the full findings list, so each step stays small; only the connector (Step 5, after the analysis) reads a summary of every finding plus the whole plant.
 - Every tool argument is validated; every model and tool call is logged before the next step.
 - During benchmark runs, Tavily and the precedent index block the case under test by name, company, location and date. The same block applies to demo plants: the Williams Geismar demo never cites its own CSB report as precedent.
 
-**Worked example (silicones plant, 10 chemicals).** `check_coverage` → 212 open questions. Orchestrator dispatches the 45 chemical-pair questions to the chemistry agent and 32 procedure-step questions to the procedures agent. The chemistry agent is unsure about KOH emulsifier + Si-H fluid, calls `reactivity_lookup`, gets "flammable gas (GF), from the EPA chart", answers. The orchestrator sees "flammable gas" and "wrong tote loaded", calls `propose_chains`, then `search_precedent`, `physics_calc` and `run_lopa` on the chain; the gap is large. It calls `finish`; code refuses because 3 questions failed validation; it re-dispatches them, then finishes.
+**Worked example (silicones plant, 10 chemicals).** `check_coverage` → 212 open questions. Orchestrator dispatches the 45 chemical-pair questions to the chemistry agent and 32 procedure-step questions to the procedures agent. The chemistry agent is unsure about KOH emulsifier + Si-H fluid, calls `reactivity_lookup`, gets "flammable gas (GF), from the EPA chart", answers. The orchestrator sees "flammable gas" and "wrong tote loaded" and calls `search_precedent` and `physics_calc`. It calls `finish`; code refuses because 3 questions failed validation; it re-dispatches them, then finishes. After the analysis, the connector proposes the chain, and LOPA on it shows a large gap.
 
-### Step 5 — Chains (connector, via `propose_chains`)
+### Step 5 — Chains (connector, a fixed code step after the analysis; P3-1)
 Ultra reads a one-line summary of every finding (ID, cause, consequence, components), never the raw answers, plus the whole plant, within `connector_max_input_tokens` (`config/caps.yaml`), and proposes **chains**: two or more findings that combine into something worse (e.g. reboiler isolated from relief + heat still reaching it → pressure with nowhere to go → rupture).
 
 - **Every link must be an existing finding ID or plant fact ID.** Any other link rejects the chain.
@@ -125,12 +123,15 @@ Ultra reads a one-line summary of every finding (ID, cause, consequence, compone
 ### Step 6 — Ranking (code, with reasons from Ultra; tier order per R50)
 1. **Screen**: every row gets a severity × likelihood risk-matrix rating from `risk_matrix.csv` (the engineer can load their company's matrix). The screening likelihood is the likelihood band (`likelihood_classes.csv`) that holds the cause's initiating frequency, chosen by code.
    The screened list is shown in three tiers (R50): **confirmed** (hypotheses with at least one supporting finding, each line showing its lead scenario), **also found** (every other scenario, in the risk-matrix order, folded as in R48) and **unconfirmed** (hypotheses no check supported, flagged for the engineer). Per R50, the whole-plant pass's hypothesis rank, a model judgment with a reason, orders only the confirmed and unconfirmed tiers; code computes tier membership, ratings, links, the fold, LOPA gap and all of "also found"; the model never sets a number. LOPA (below) runs on the top `lopa_top_n` confirmed and also-found lines; unconfirmed lines get no LOPA and are listed after.
-2. **LOPA** for every high-severity finding and every chain:
+2. **LOPA** (spec 3.2), on these lines and no others:
+   - **Full LOPA**, with Ultra's layer argument, on the top `lopa_top_n` confirmed and also-found lines, plus every chain. A line is a scenario (R48), so its LOPA target is the line's lead finding; for a chain, the chain.
+   - **Code-only LOPA** on every other S4–S5 line in the confirmed and also-found tiers: no model call, every candidate layer marked "not argued — no credit", flagged "code-only LOPA: layers not argued". The gap is conservative and labelled.
+   - Unconfirmed lines, and S1–S3 lines outside the top `lopa_top_n`, get no LOPA.
    - Initiating event frequency from the reference table (each cause-library entry maps to one initiating-event class). Classes not given per year are converted with a plant fact: `per_metre_year` × `lines.length_m`, `per_lift` × `planned_work.lifts_per_year`. **If that fact is missing, the LOPA record is marked incomplete and names the missing fact ID; code never substitutes a default frequency.** The finding stays on the list, flagged. **Outside-library causes:** code (never a model) assigns the highest frequency among library causes with the same failing-component type (converted by the same rule), or 0.1 per year if the type has none, flagged "frequency assumed — engineer to confirm".
-   - Conditional modifiers (ignition probability, occupancy) from the reference table.
+   - Conditional modifiers: **none applied in Phase 3** (P3-3). Each LOPA record lists every modifier kind in `modifiers.csv` as not applied, with the reason "no plant fact or rule".
    - Protection layers: Ultra argues which safeguards apply and why; **code decides credit**. A safeguard gets no credit if any ID in its `component_ids` is among the cause's failing component IDs, or shares a logic solver with the failing control loop (as required by its row in `protection_layers.csv`); a relief device with a closed inlet valve gets no credit, and one with an unmanaged inlet valve gets the `pfd_if_isolatable` value. A safeguard with no `layer_type` never gets credit. Each layer is shown credited or not, with the reason.
    - **Relief devices** need no safeguard row: every relief device is a candidate layer for overpressure scenarios on its `protects_id`, using the `protection_layers.csv` row whose `relief_kind` matches its `kind` (prv → IPL-PRV, rupture_disk → IPL-RD, prv_with_disk → IPL-PRV-RD, vent → IPL-CONS-VENT). Its inlet valves decide the credit: any inlet valve with `normal_position: closed` → no credit; otherwise any inlet valve that is open and not `locked` ("unmanaged") → `pfd_if_isolatable`; all inlet valves locked open, or none → `pfd`.
-   - Mitigated frequency = initiating frequency × modifiers × each credited layer's failure-on-demand probability.
+   - Mitigated frequency = initiating frequency × modifiers (none in Phase 3, P3-3) × each credited layer's failure-on-demand probability.
    - Compared to the tolerable frequency for its severity class → **gap**.
    - Shown as orders of magnitude ("about 1 in 10,000 years"), never false precision.
 3. **Shortlist** = the top findings and chains ranked by tier first (R50), then by gap within a tier; gap never lifts an also-found line above a confirmed one, and a chain takes the tier of its highest-ranked member. Counts and caps (how many get LOPA, how many get evidence, step and spend caps) live in `config/caps.yaml`; starting values: LOPA on the top 10, full evidence on the top 5.
@@ -406,6 +407,8 @@ A run records the version hash of every table it used.
 ### Run orchestration
 Sections are proposed and confirmed on the plant before any run. A run has two parts. **Setup** is a fixed sequence (validate the confirmed-section snapshot → build the question list), stored in `runs.step`. **Analysis** is the orchestrator loop: every orchestrator step, tool call and specialist result is written to the database before the next step, so a crashed run resumes from its last saved step without paying again. Specialist dispatches run in parallel up to the concurrency limit. Each orchestrator step (with the dispatches it launches) runs as its own function invocation and triggers the next, which keeps every invocation well under hosting time limits.
 
+**Run steps** (`runs.step`, spec 3.6): `plant_screen → analysis → severity → chains → chain_severity → lopa → recommendations → ranked`. The connector reads finding severities, so `chains` comes after `severity`. Each step resumes on its own and writes before returning. The post-analysis steps (`chains` to `recommendations`) spend under the run's own `post_spend_cap_usd` (P3-2); the analysis cap and its severity reserve are unchanged. A cap stop in a post-analysis step leaves the run `stopped_cap` with the analysis intact, and R38 still applies. An existing finished run is extended in place (P3-1b): same run ID, step set to `chains`, status back to `running`, one `run_extended` event; no hashed run field and no earlier record changes.
+
 ### Record types
 
 | Record | Holds | Points back to |
@@ -512,7 +515,7 @@ TypeScript types are generated from `contract/openapi.json` with `openapi-typesc
 1. **Plant input** — upload, validation results, missing facts and assumptions flagged.
 2. **Sections** — the plant as a diagram with the proposed cut, suggestions with reasons, confirm button.
 3. **Live run** — the agent timeline: each orchestrator decision with its one-line reason, each specialist dispatch, each tool call and which Nemotron tier made it, as it lands; coverage filling up; cost so far.
-4. **Shortlist** — top findings and chains as cards ranked by LOPA gap.
+4. **Shortlist** — top findings and chains as cards ranked by tier, then LOPA gap.
 5. **Finding detail** — the chain, protection layers credited or not with reasons, LOPA numbers, evidence, CSB precedent, sources, accept/reject.
 6. **Worksheet** — full table, filterable, editable, origin tags; Excel export.
 7. **Coverage** — checked versus total for every list, failed questions.
@@ -619,10 +622,10 @@ Each phase has a spec (`specs/phase-N.md`) written and approved before it starts
 | Tennessee Eastman DEXPI file | **Resolved Oct 11:** no public file found; importer moves to "next" |
 | Tavily credit balance | Cap searches per run |
 
-**Open items for the Phase 3 spec** (no change now):
-- Piping leak frequency by line size: C20 always maps to the ≤150 mm event; lines with `size_mm` > 150 may need IE-PIPE-LEAK-L.
-- Human-error frequency choice: C14–C17 always map to IE-HE-MONTHLY; no plant fact gives task frequency.
-- The code rule for conditional modifiers: release phase, release-rate band, event type and operating pattern have no plant fact or rule yet (likelihood must never come from a model).
+**Open items for the Phase 3 spec** (closed by the Phase 3 spec, 2026-10-18; see `docs/decisions.md`):
+- Piping leak frequency by line size: C20 always maps to the ≤150 mm event; lines with `size_mm` > 150 may need IE-PIPE-LEAK-L. **Closed (P3-4):** C20 on a line with `size_mm` > 150 uses `IE-PIPE-LEAK-L`, otherwise `IE-PIPE-LEAK-S`; a missing `size_mm` → `S`, flagged "size assumed ≤ 150 mm"; one rule in `ranking/likelihood.py`, so screening and LOPA agree.
+- Human-error frequency choice: C14–C17 always map to IE-HE-MONTHLY; no plant fact gives task frequency. **Closed (P3-5):** C14–C17 stay on `IE-HE-MONTHLY`, flagged "task frequency assumed — engineer to confirm".
+- The code rule for conditional modifiers: release phase, release-rate band, event type and operating pattern have no plant fact or rule yet (likelihood must never come from a model). **Closed (P3-3):** none applied in Phase 3; each LOPA record lists the modifiers it did not apply, with "no plant fact or rule". Revisit with a code rule after the hackathon.
 
 ---
 
