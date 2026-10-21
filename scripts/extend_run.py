@@ -3,6 +3,11 @@ use a fake transport.
 
   python scripts/extend_run.py <run_id> --post-cap 0.30 --phase 3 --use development --name case_e
 
+With --rerun-from chains, re-runs the four post steps of a run whose chains step has run
+(connector/v2 plan): the old chains, LOPA records, recommendations and post-step calls are
+copied to superseded_records and cleared in one transaction; unchanged requests come from the
+cache at $0; the run ID stays.
+
 Refuses a run that has not finished or whose chains step has run, unless it stopped at its
 post cap and --post-cap is higher: then it resumes from the step it stopped at, with the
 same run ID (Bhargavi, 2026-10-20). Otherwise sets the run's
@@ -55,6 +60,11 @@ def _arguments(argv: Sequence[str] | None) -> argparse.Namespace:
     )
     parser.add_argument("--use", choices=USES, default=BudgetUse.DEVELOPMENT.value)
     parser.add_argument("--name", help="the report's file name (default: the plant ID)")
+    parser.add_argument(
+        "--rerun-from",
+        choices=("chains",),
+        help="re-run the post steps from this one; the old records are superseded, not deleted",
+    )
     return parser.parse_args(argv)
 
 
@@ -118,7 +128,7 @@ def main(
         return 1
     post_cap = args.post_cap if args.post_cap is not None else config.caps.run.post_spend_cap_usd
     try:
-        extend(runs, run.id, post_cap, config)
+        extend(runs, run.id, post_cap, config, rerun_from=args.rerun_from)
     except ExtendRefused as refused:
         print(f"refused: {refused}", file=sys.stderr)
         return 1

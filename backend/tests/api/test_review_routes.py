@@ -83,7 +83,7 @@ def script(job: str, request: dict[str, Any]) -> Reply:
         return reply({"severities": rated})
     if job == "connector":
         lines = _block(request, "scenarios")
-        links = [lines[0]["finding_id"], lines[1]["finding_id"]]
+        links = [lines[0]["handle"], lines[1]["handle"]]
         return reply({"chains": [{"links": links, "description": "one then two", "reason": "r"}]})
     if job == "chain_severity":
         chains = _block(request, "chains")

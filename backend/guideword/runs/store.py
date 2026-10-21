@@ -5,8 +5,9 @@ saves all its records and events or none of them, so a crashed run resumes from 
 saved step (spec 2.1). Records are stored as validated JSON and read back unchanged.
 """
 
-from collections.abc import Callable, Iterator, Sequence
+from collections.abc import Callable, Collection, Iterator, Sequence
 from contextlib import contextmanager
+from dataclasses import dataclass
 from datetime import datetime
 from typing import Any
 
@@ -28,6 +29,7 @@ from guideword.runs.db import (
     RecommendationRow,
     RunRecordRow,
     RunRow,
+    SupersededRow,
     ToolCallRow,
 )
 from guideword.schema import ids
@@ -50,6 +52,25 @@ from guideword.schema.records import (
 )
 
 Clock = Callable[[], datetime]
+
+
+@dataclass(frozen=True)
+class Superseded:
+    """One record a re-run from `chains` replaced (connector/v2 plan, Q1)."""
+
+    kind: str
+    pass_seq: int
+    superseded_seq: int
+    record: dict[str, Any]
+
+
+# what a re-run from `chains` supersedes: kind -> live table (model calls: the post jobs only)
+SUPERSEDED_TABLES: dict[str, type[RunRecordRow]] = {
+    "chain": ChainRow,
+    "lopa": LopaRecordRow,
+    "recommendation": RecommendationRow,
+    "model_call": ModelCallRow,
+}
 
 # The event types this store emits (decision R32). Phase 3 adds chain_added, lopa_done and
 # run_extended with the post-analysis steps (plan G11); Phase 4 adds evidence_added.
@@ -225,6 +246,67 @@ class StepWriter:
         """Store an engineer's override (spec 3.5); records are never edited, views apply it."""
         self._refuse_repeat(OverrideRow, override.id, "override")
         self._put(OverrideRow, override)
+
+    def has_event(self, type: EventType) -> bool:
+        """An event of this type was written by an earlier, committed step of the run."""
+        found = self._session.scalar(
+            select(func.count())
+            .select_from(EventRow)
+            .where(EventRow.run_id == self.run.id, EventRow.type == type.value)
+        )
+        return bool(found)
+
+    def supersede_post_records(
+        self, pass_seq: int, superseded_seq: int, post_jobs: Collection[str]
+    ) -> list[str]:
+        """Copy every chain, LOPA record, recommendation and post-job model call into
+        `superseded_records`, verbatim, then clear them from the live tables, in this one
+        transaction (connector/v2 plan, Q1). Returns the superseded record IDs."""
+        rows = self._post_rows(post_jobs)
+        for kind, row in rows:
+            self._session.add(
+                SupersededRow(
+                    run_id=self.run.id,
+                    kind=kind,
+                    id=row.id,
+                    pass_seq=pass_seq,
+                    superseded_seq=superseded_seq,
+                    position=row.position,
+                    record=dict(row.record),
+                )
+            )
+        self._clear_post_records([row for _, row in rows])
+        return [row.id for _, row in rows]
+
+    def post_record_ids(self, post_jobs: Collection[str]) -> list[str]:
+        """The IDs `supersede_post_records` would copy, in the same order."""
+        return [row.id for _, row in self._post_rows(post_jobs)]
+
+    def _post_rows(self, post_jobs: Collection[str]) -> list[tuple[str, RunRecordRow]]:
+        out: list[tuple[str, RunRecordRow]] = []
+        for kind, table in SUPERSEDED_TABLES.items():
+            stored = self._session.scalars(
+                select(table).where(table.run_id == self.run.id).order_by(table.position)
+            ).all()
+            for row in stored:
+                if kind == "model_call" and row.record.get("job") not in post_jobs:
+                    continue
+                out.append((kind, row))
+        return out
+
+    def _clear_post_records(self, rows: Sequence[RunRecordRow]) -> None:
+        for row in rows:
+            self._session.delete(row)
+        self._stored_count.clear()
+
+    def superseded_model_calls(self) -> list[ModelCall]:
+        """The model calls of superseded passes: their spend still counts (R45)."""
+        rows = self._session.scalars(
+            select(SupersededRow).where(
+                SupersededRow.run_id == self.run.id, SupersededRow.kind == "model_call"
+            )
+        ).all()
+        return [ModelCall.model_validate(r.record) for r in rows]
 
     def _refuse_repeat(self, table: type[RunRecordRow], record_id: str, kind: str) -> None:
         if record_id in self._new.get(table, {}) or (
@@ -436,6 +518,16 @@ class RunRepository:
 
     def overrides(self, run_id: str) -> list[Override]:
         return self._read(OverrideRow, run_id, Override)
+
+    def superseded(self, run_id: str) -> list[Superseded]:
+        """Every record re-runs replaced, oldest pass first, in each kind's table order."""
+        order = list(SUPERSEDED_TABLES)
+        with self._sessions() as session:
+            rows = session.scalars(
+                select(SupersededRow).where(SupersededRow.run_id == run_id)
+            ).all()
+            rows = sorted(rows, key=lambda r: (r.pass_seq, order.index(r.kind), r.position))
+            return [Superseded(r.kind, r.pass_seq, r.superseded_seq, dict(r.record)) for r in rows]
 
     def evidence(self, run_id: str) -> list[Evidence]:
         return self._read(EvidenceRow, run_id, Evidence)

@@ -31,7 +31,7 @@ prompts:
   specialists/maintenance: v2
   specialists/dust: v2
   # Phase 3 post-analysis steps (plan PR 2); drafted by Claude Code, reviewed by Bhargavi
-  connector: v1
+  connector: v2
   lopa_argument: v1
   recommendation: v1
   severity_chain: v1

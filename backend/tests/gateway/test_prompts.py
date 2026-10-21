@@ -219,10 +219,15 @@ def test_plant_screen_v3_only_rewords_the_rule_lines_of_v2() -> None:
 PHASE_3_PROMPTS = ("connector", "lopa_argument", "recommendation", "severity_chain")
 
 
-def test_phase_3_prompts_are_routed_at_v1_and_chain_severity_runs_on_ultra() -> None:
+def test_phase_3_prompts_are_routed_and_chain_severity_runs_on_ultra() -> None:
+    """The connector is at v2 (handles; connector/v2 plan, approved 2026-10-21); the other
+    three post-step prompts at v1."""
     config = load_config(global_budget_usd=25.0)
     assert {name: config.routing.prompts[name] for name in PHASE_3_PROMPTS} == {
-        name: "v1" for name in PHASE_3_PROMPTS
+        "connector": "v2",
+        "lopa_argument": "v1",
+        "recommendation": "v1",
+        "severity_chain": "v1",
     }
     for job in ("connector", "lopa_argument", "recommendation", "chain_severity"):
         assert config.routing.jobs[job] == Tier.ULTRA, job
@@ -243,19 +248,22 @@ def _treats_as_data(body: str) -> None:
 
 
 def test_connector_fills_its_placeholders_and_asks_for_the_schema() -> None:
+    """connector/v2: the scenarios and facts are given with L and P handles; Ultra links only
+    by handle; Q7: the first L link starts the chain; its example uses made-up handles."""
     body = _phase_3("connector")
-    values = {"scenarios": "S", "plant": "P", "fact_ids": "F", "max_chains": "10"}
+    values = {"scenarios": "S", "plant": "P", "facts": "F", "max_chains": "10"}
     text = render(body, values)
     assert "{{" not in text
-    for block, value in (("scenarios", "S"), ("plant", "P"), ("fact_ids", "F")):
+    for block, value in (("scenarios", "S"), ("plant", "P"), ("facts", "F")):
         assert f"<{block}>\n{value}\n</{block}>" in text, block
     assert "at most 10 chains" in text
     _asks_for(text, "chains", "links", "description", "reason")
     _treats_as_data(body)
-    # G7: a fact link must be exactly one of the listed fact IDs; Q7: the first finding starts it
-    assert "must be exactly one of these" in body
-    assert "**The first finding link is the failure that starts the chain**" in body
+    assert "## Link only by handle" in body
+    assert "**The first `L` link is the failure that starts the chain**" in body
     assert "makes code reject the whole chain" in body
+    assert '"links": ["L4", "P12", "L9"]' in body
+    assert "f:" not in text  # the model sees no finding ID (the body has no header)
 
 
 def test_lopa_argument_fills_its_placeholders_and_asks_for_the_schema() -> None:
