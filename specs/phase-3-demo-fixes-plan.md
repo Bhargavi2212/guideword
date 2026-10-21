@@ -107,6 +107,13 @@ Phase 3 has $0.60 left of $2.50, and development $1.38. Two caps keep this insid
 | Q3 | `--out-dir` on both scripts, with `cases/demo/` plants defaulting to `bench/demo/`? | Yes. Nothing else writes to `bench/test5/5b/` but `run_case.py`. |
 | Q4 | The ledger snapshot: take `ledger-g3pre` now, or after the demo re-run? | After, so it covers all of Phase 3's spend; the records branch gets it last, with the final demo report. |
 
+## Built
+
+- [x] PR 0 `phase-3/records` (#81) and the approved plan (#82).
+- [x] PR 1 `phase-3/lopa-argument-v3` (#83): the v3 wording, reviewed by Bhargavi.
+- [x] PR 2 `phase-3/retry-failed`: the single-question retry (gated), `--retry-failed`, `--retry-cap`, `--out-dir`, routing `lopa_argument: v3`, decisions, feedback log.
+- [ ] Bhargavi runs `--retry-failed` on the demo run (development, about $0.20–0.30, worst case $0.64, capped); then the demo report, the ledger snapshot `budget/ledger-g3pre.jsonl`.
+
 ## Not doing
 - No change to `severity/v2` or the severity table. S3 → S4 is the engineer's override, on camera.
 - No change to `connector/v2`, `severity_chain/v2` or `recommendation/v2`.
