@@ -668,3 +668,30 @@ def test_fixture_shortlist_flags_the_incomplete_lopa_line_on_its_card() -> None:
     assert all(i.flags == [] for i in items if i not in incomplete)
     demo = api.DemoResponse.model_validate(_fixture("demo_response.json"))
     assert demo.shortlist.items == items
+
+
+# --- contract v1.6: the gap as the engineer reads it (Bhargavi, 2026-10-20) --------------------
+
+
+def test_shortlist_item_gap_text_defaults_to_none_for_older_items() -> None:
+    old = dict(_fixture("shortlist.json")["items"][0])
+    old.pop("gap_text", None)
+    assert api.ShortlistItem.model_validate(old).gap_text is None
+
+
+def test_fixture_shortlist_shows_the_gap_text_on_every_line_with_lopa() -> None:
+    """One text per line, written by the backend; the card shows it and formats no number.
+    The mock lines sit on the boundaries: a gap of exactly 1000 and of exactly 10."""
+    items = api.Shortlist.model_validate(_fixture("shortlist.json")).items
+    texts = {i.gap: i.gap_text for i in items if i.lopa is not None and i.lopa.complete}
+    assert texts == {
+        1000.0: "about 1,000× tolerable — mitigated about 1 in 10 years, "
+        "tolerable about 1 in 10,000 years",
+        10.0: "about 10× tolerable — mitigated about 1 in 100 years, "
+        "tolerable about 1 in 1,000 years",
+    }
+    incomplete = next(i for i in items if i.lopa is not None and not i.lopa.complete)
+    assert incomplete.gap_text == "incomplete: L-12.length_m missing"
+    assert all(i.gap_text is None for i in items if i.lopa is None)
+    demo = api.DemoResponse.model_validate(_fixture("demo_response.json"))
+    assert demo.shortlist.items == items
