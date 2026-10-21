@@ -366,6 +366,16 @@ PRs 3 and 4 can be built while PR 2's prompts are in review. PR 7 waits only on 
 
 **Example 2** (Cowork, `backend/tests/lopa/fixtures/example_2.json`) is a test fixture only: it is never used to write or tune any prompt. Its `open_points_for_claude_code`: the closed-valve reason names the first closed valve in `inlet_valve_ids` order (the engine does); "does not apply" is decided before the inlet-valve rule (rules 2 and 6); variant D's override shape follows PR 6.
 
+### Answers on the PR 5 open points (Bhargavi, 2026-10-20)
+
+| # | Point | Answer (built where) |
+|---|---|---|
+| 1 | The S4–S5 "no LOPA" flag has no field on the card | New branch `contract/shortlist-flags`: `ShortlistItem.flags: list[str] = []`, types and mocks regenerated; merged before PR 6 |
+| 2 | A run stopped at the post cap cannot be resumed | `extend_run.py` takes a run whose last cap stop was a post step's, with a higher `--post-cap`; same run ID; it goes on from the step it stopped at, finished steps not rerun, calls already made from cache at $0 (PR 5) |
+| 3 | Post spend also counted in `cap_spent_usd` | Post spend counts against the post cap, the phase cap and the use allowance, never the analysis cap; R45 compares `cap_spent_usd` with the analysis calls (PR 5) |
+| 4 | The `POST /runs` upper bound leaves out the post cap | Included: the analysis bound capped at the spend cap, plus `post_spend_cap_usd` (PR 5) |
+| — | The seven PR 5 choices | All kept. The rounded gap in the recommendation prompt fits "Ultra never sees a PFD". `StepResult.summary` stays internal, never in the contract. The empty `connector/` package stays; the code lives in `chains/` |
+
 ### Misalignments found against Cowork's example 1 (fixed above)
 
 | # | Plan said | Fixture says | Now |
