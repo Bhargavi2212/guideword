@@ -90,15 +90,14 @@ def script(job: str, request: dict[str, Any]) -> Reply:
         return reply(
             {
                 "severities": [
-                    {"chain_id": c["chain_id"], "severity_class": "S4", "reason": "r"}
-                    for c in chains
+                    {"chain": c["handle"], "severity_class": "S4", "reason": "r"} for c in chains
                 ]
             }
         )
     if job == "lopa_argument":
         lines = [
             {
-                "target_id": line["target_id"],
+                "target": line["handle"],
                 "layers": [
                     {"layer_id": layer["layer_id"], "applies": True, "reason": "it applies"}
                     for layer in line["layers"]
@@ -109,7 +108,7 @@ def script(job: str, request: dict[str, Any]) -> Reply:
         return reply({"lines": lines})
     if job == "recommendation":
         recs = [
-            {"target_id": line["target_id"], "action": "add an independent trip", "reason": "r"}
+            {"target": line["handle"], "action": "add an independent trip", "reason": "r"}
             for line in _block(request, "lines")
         ]
         return reply({"recommendations": recs})

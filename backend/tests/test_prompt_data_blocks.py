@@ -22,6 +22,8 @@ CODE_ONLY = {
     "max_added_questions": "an integer from caps.yaml",
     "max_hypotheses": "an integer from caps.yaml",
     "max_chains": "an integer from caps.yaml (connector_max_chains)",
+    "count": "the number of targets sent, counted by code",
+    "handles": "the handles code numbered (L1, C1, ...), joined by code",
     "question_kinds": "names from the QuestionKind enum, joined by code",
     # kept verbatim so test 5A on E and F sees what it saw on D and G; test5a.py refuses a
     # package holding its block's tags instead (R50 review, G22)

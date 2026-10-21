@@ -95,7 +95,7 @@ def severity_answer(request: dict[str, Any], skip: int = 0) -> Any:
 def _no_layer_applies(request: dict[str, Any]) -> Any:
     lines = [
         {
-            "target_id": line["target_id"],
+            "target": line["handle"],
             "layers": [
                 {"layer_id": layer["layer_id"], "applies": False, "reason": "no"}
                 for layer in line["layers"]

@@ -99,6 +99,7 @@ class RunCaps(_Strict):
     # Phase 3 (plan PR 2): the connector's chain limit and the post-analysis batch sizes
     connector_max_chains: PositiveInt
     lopa_batch_size: PositiveInt
+    chain_severity_batch_size: PositiveInt
     recommendation_batch_size: PositiveInt
     # Q20: a new run's post-analysis allowance (P3-2); hashed with the run block like
     # run_spend_cap_usd, while the Run field that holds the value used is not

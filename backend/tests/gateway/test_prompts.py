@@ -220,14 +220,11 @@ PHASE_3_PROMPTS = ("connector", "lopa_argument", "recommendation", "severity_cha
 
 
 def test_phase_3_prompts_are_routed_and_chain_severity_runs_on_ultra() -> None:
-    """The connector is at v2 (handles; connector/v2 plan, approved 2026-10-21); the other
-    three post-step prompts at v1."""
+    """All four post-step prompts at v2: handles (connector/v2 plan, then the target-handles
+    plan, both approved 2026-10-21)."""
     config = load_config(global_budget_usd=25.0)
     assert {name: config.routing.prompts[name] for name in PHASE_3_PROMPTS} == {
-        "connector": "v2",
-        "lopa_argument": "v1",
-        "recommendation": "v1",
-        "severity_chain": "v1",
+        name: "v2" for name in PHASE_3_PROMPTS
     }
     for job in ("connector", "lopa_argument", "recommendation", "chain_severity"):
         assert config.routing.jobs[job] == Tier.ULTRA, job
@@ -266,12 +263,23 @@ def test_connector_fills_its_placeholders_and_asks_for_the_schema() -> None:
     assert "f:" not in text  # the model sees no finding ID (the body has no header)
 
 
+def _states_its_count(body: str, noun: str) -> None:
+    """Target-handles plan: the exact count and handles, and never a group label."""
+    slots = set(re.findall(r"\{\{(\w+)\}\}", body))
+    values = {slot: "X" for slot in slots} | {"count": "3", "handles": "L1, C1, L2"}
+    text = render(body, values)
+    assert f"There are **3 {noun}** below, with the handles L1, C1, L2" in text
+    assert "batch" not in body.lower()
+    assert "named only by its handle" in body
+
+
 def test_lopa_argument_fills_its_placeholders_and_asks_for_the_schema() -> None:
     body = _phase_3("lopa_argument")
-    text = render(body, {"lines": "L"})
+    text = render(body, {"lines": "L", "count": "1", "handles": "L1"})
     assert "{{" not in text
     assert "<lines>\nL\n</lines>" in text
-    _asks_for(text, "lines", "target_id", "layers", "layer_id", "applies", "reason")
+    _asks_for(text, "lines", "target", "layers", "layer_id", "applies", "reason")
+    _states_its_count(body, "targets")
     _treats_as_data(body)
     # G19: the row's layer, scenarios and conditions_text go in; the pfd is never mentioned
     for column in ("`layer`", "`scenarios`", "`conditions_text`"):
@@ -282,21 +290,24 @@ def test_lopa_argument_fills_its_placeholders_and_asks_for_the_schema() -> None:
 
 def test_recommendation_fills_its_placeholders_and_asks_for_the_schema() -> None:
     body = _phase_3("recommendation")
-    text = render(body, {"lines": "L"})
+    text = render(body, {"lines": "L", "count": "1", "handles": "L1"})
     assert "{{" not in text
     assert "<lines>\nL\n</lines>" in text
-    _asks_for(text, "recommendations", "target_id", "action", "reason")
+    _asks_for(text, "recommendations", "target", "action", "reason")
+    _states_its_count(body, "targets")
     _treats_as_data(body)
     assert "Do not state a frequency" in body
 
 
 def test_severity_chain_fills_its_placeholders_and_asks_for_the_schema() -> None:
     body = _phase_3("severity_chain")
-    text = render(body, {"severity_classes": "C", "chains": "H", "context": "X"})
+    values = {"severity_classes": "C", "chains": "H", "context": "X", "count": "1", "handles": "C1"}
+    text = render(body, values)
     assert "{{" not in text
     for block, value in (("severity_classes", "C"), ("chains", "H"), ("context", "X")):
         assert f"<{block}>\n{value}\n</{block}>" in text, block
-    _asks_for(text, "severities", "chain_id", "severity_class", "reason")
+    _asks_for(text, "severities", "chain", "severity_class", "reason")
+    _states_its_count(body, "chains")
     _treats_as_data(body)
 
 

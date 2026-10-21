@@ -256,6 +256,27 @@ class StepWriter:
         )
         return bool(found)
 
+    def step_summaries(self, step: str) -> list[dict[str, Any]]:
+        """The payloads of the committed `step_finished` events for `step` in the run's current
+        post pass (after its latest `run_extended` event), in order: a re-run from `chains`
+        starts its counts afresh."""
+        since = self._session.scalar(
+            select(func.max(EventRow.seq)).where(
+                EventRow.run_id == self.run.id, EventRow.type == EventType.RUN_EXTENDED.value
+            )
+        )
+        rows = self._session.scalars(
+            select(EventRow)
+            .where(
+                EventRow.run_id == self.run.id,
+                EventRow.type == EventType.STEP_FINISHED.value,
+                EventRow.seq > int(since or 0),
+            )
+            .order_by(EventRow.seq)
+        ).all()
+        payloads = [Event.model_validate(r.record).payload for r in rows]
+        return [p for p in payloads if p.get("step") == step]
+
     def supersede_post_records(
         self, pass_seq: int, superseded_seq: int, post_jobs: Collection[str]
     ) -> list[str]:

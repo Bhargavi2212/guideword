@@ -157,7 +157,7 @@ def post_answer(job: str, request: dict[str, Any]) -> Reply | None:
         return reply(
             {
                 "severities": [
-                    {"chain_id": c["chain_id"], "severity_class": "S3", "reason": "one hurt"}
+                    {"chain": c["handle"], "severity_class": "S3", "reason": "one hurt"}
                     for c in block(request, "chains")
                 ]
             }
@@ -167,7 +167,7 @@ def post_answer(job: str, request: dict[str, Any]) -> Reply | None:
             {
                 "lines": [
                     {
-                        "target_id": line["target_id"],
+                        "target": line["handle"],
                         "layers": [
                             {"layer_id": layer["layer_id"], "applies": False, "reason": "no"}
                             for layer in line["layers"]

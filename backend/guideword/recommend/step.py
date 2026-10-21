@@ -19,12 +19,12 @@ from typing import Annotated, Any
 
 from pydantic import BaseModel, ConfigDict, StringConstraints
 
+from guideword.chains.words import chain_words, count_text, handles_for, line_words
 from guideword.config import Config
 from guideword.gateway.client import BudgetRefused, Gateway
 from guideword.gateway.prompts import Prompt, as_data, load_prompt, render
 from guideword.lopa.lines import (
     ShortlistLine,
-    cause_words,
     display_lines,
     lopa_plan,
     section_for,
@@ -32,6 +32,7 @@ from guideword.lopa.lines import (
 )
 from guideword.reference import ReferenceSet
 from guideword.runs.machine import POST_CAP, StepResult, stop_for_refusal
+from guideword.runs.plants import plant_facts
 from guideword.runs.post_budget import post_budget, post_setting
 from guideword.runs.store import StepWriter
 from guideword.schema import ids
@@ -41,7 +42,7 @@ from guideword.schema.records import Recommendation, Run
 JOB = "recommendation"
 PROMPT = "recommendation"
 NEXT = "ranked"
-ASK = "Propose one action for every line in the batch, in the required JSON schema."
+# target-handles plan (approved 2026-10-21): targets by handle, L<n> or C<n>; no ID shown
 
 Text300 = Annotated[str, StringConstraints(min_length=1, max_length=300)]
 
@@ -51,7 +52,8 @@ class _Strict(BaseModel):
 
 
 class RecommendationItem(_Strict):
-    target_id: str
+    # a handle, L<n> or C<n>, mapped back to its target by code
+    target: str
     action: Text300
     reason: Text300
 
@@ -107,16 +109,16 @@ class RecommendationStepper:
         self.plant = plant
         self.prompt = load_prompt(PROMPT, config)
 
-    def _line(self, item: ShortlistLine, writer: StepWriter) -> dict[str, Any]:
+    def _line(self, item: ShortlistLine, writer: StepWriter, handle: str) -> dict[str, Any]:
         record = item.lopa
         assert record is not None and record.gap is not None
         planned = item.planned
         layers = {g.id: g.description for g in self.plant.safeguards}
+        causes = {c.id: c.cause for c in self.ref.causes}
         if planned.chain is not None:
-            scenario: dict[str, Any] = {
-                "description": planned.chain.description,
-                "links": list(planned.chain.links),
-            }
+            findings = {f.id: f for f in writer.findings()}
+            facts = {f.id: f.value for f in plant_facts(self.plant, writer.run.plant_record_id)}
+            scenario = chain_words(planned.chain, findings, facts, causes)
         else:
             assert planned.scenario is not None
             lead = planned.scenario.finding
@@ -125,14 +127,9 @@ class RecommendationStepper:
                 {q.id: q for q in writer.questions()},
                 {s.id: s for s in writer.sections()},
             )
-            scenario = {
-                "cause": cause_words(lead, {c.id: c.cause for c in self.ref.causes}),
-                "consequence": lead.consequence,
-                "failing_component_ids": list(lead.failing_component_ids),
-                "section_id": section.id if section else None,
-            }
+            scenario = line_words(lead, causes, section.id if section else None)
         return {
-            "target_id": planned.target_id,
+            "handle": handle,
             "scenario": scenario,
             "severity_class": record.severity_class.value,
             "layers": [
@@ -160,22 +157,26 @@ class RecommendationStepper:
             return StepResult(next_step=NEXT)
         batch = todo[: post_setting(writer.run, self.config, "recommendation_batch_size")]
         wanted = [item.target_id for item in batch]
+        handles = handles_for([item.planned.chain is not None for item in batch])
+        target_of = dict(zip(handles, wanted, strict=True))
 
         def validator(value: Any) -> None:
             if not isinstance(value, RecommendationAnswer):
                 raise ValueError("not a recommendation answer")
-            for target_id, n in Counter(r.target_id for r in value.recommendations).items():
-                if target_id not in wanted:
-                    raise ValueError(f"{target_id} is not in this batch")
+            for handle, n in Counter(r.target for r in value.recommendations).items():
                 if n > 1:
-                    raise ValueError(f"{target_id} has more than one recommendation")
+                    raise ValueError(f"{handle} has more than one recommendation")
 
         try:
             result = self.gateway.call(
                 job=JOB,
                 prompt_version=self.prompt.label,
                 messages=recommendation_messages(
-                    self.prompt, [self._line(item, writer) for item in batch]
+                    self.prompt,
+                    [
+                        self._line(item, writer, handle)
+                        for handle, item in zip(handles, batch, strict=True)
+                    ],
                 ),
                 schema=RecommendationAnswer,
                 validator=validator,
@@ -192,7 +193,12 @@ class RecommendationStepper:
         writer.add_post_spent(result.cost_usd)
         call_id = result.model_calls[-1].id if result.model_calls else None
         if result.outcome == "ok" and isinstance(result.value, RecommendationAnswer):
-            by_target = {r.target_id: r for r in result.value.recommendations}
+            # an unknown handle is dropped; each known one maps back to its target exactly
+            by_target = {
+                target_of[r.target]: r
+                for r in result.value.recommendations
+                if r.target in target_of
+            }
             for target_id in wanted:
                 given = by_target.get(target_id)
                 if given is None:
@@ -210,7 +216,23 @@ class RecommendationStepper:
         return StepResult()
 
 
+def ask(handles: list[str]) -> str:
+    return (
+        f"Propose one action for each of the {len(handles)} targets ({', '.join(handles)}), "
+        "in the required JSON schema."
+    )
+
+
 def recommendation_messages(prompt: Prompt, lines: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    handles = [line["handle"] for line in lines]
     # as data: the specialists' words and code's reasons cannot close the block
-    system = render(prompt.body, {"lines": as_data(lines)})
-    return [{"role": "system", "content": system}, {"role": "user", "content": ASK}]
+    counted = count_text(handles)
+    system = render(
+        prompt.body,
+        {
+            "lines": as_data(lines, default=str),
+            "count": counted["count"],
+            "handles": counted["handles"],
+        },
+    )
+    return [{"role": "system", "content": system}, {"role": "user", "content": ask(handles)}]
