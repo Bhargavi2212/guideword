@@ -22,6 +22,7 @@ from guideword.reference import ReferenceSet, load_reference_set
 from guideword.runs.db import make_session_factory
 from guideword.runs.machine import advance
 from guideword.runs.plants import PlantRepository, load_plant, plant_facts
+from guideword.runs.post_budget import POST_JOBS
 from guideword.runs.start import RunSettings, start_run
 from guideword.runs.store import RunRepository
 from guideword.schema.enums import EventType, RunStatus, SeverityClass
@@ -299,12 +300,15 @@ def ranked(world: World, run: Run) -> list[tuple[str, Any, Any]]:
 
 
 def spend(world: World, run: Run) -> tuple[float, float]:
-    """(spent_usd, cap_spent_usd), after checking both equal the sums of the call records."""
+    """(spent_usd, cap_spent_usd), after checking both equal the sums of the call records:
+    every call's paid cost, and the analysis calls' cap cost (post-analysis calls count
+    against the post cap only; Bhargavi, 2026-10-20)."""
     stored = world.runs.get(run.id)
     assert stored is not None
     calls = world.runs.model_calls(run.id)
+    analysis = [c for c in calls if c.job not in POST_JOBS]
     assert stored.spent_usd == pytest.approx(sum(c.cost_usd for c in calls), abs=1e-12)
-    assert stored.cap_spent_usd == pytest.approx(sum(c.cap_cost_usd for c in calls), abs=1e-12)
+    assert stored.cap_spent_usd == pytest.approx(sum(c.cap_cost_usd for c in analysis), abs=1e-12)
     return stored.spent_usd, stored.cap_spent_usd
 
 
@@ -341,7 +345,9 @@ def test_ranking_identical_across_two_cache_replays(world: World) -> None:
     assert paid > 0
     assert ranked(world, first) == ranked(world, second)
     first_spent, first_cap = spend(world, first)
-    assert first_spent == pytest.approx(first_cap) and first_spent > 0
+    post_paid = sum(c.cost_usd for c in world.runs.model_calls(first.id) if c.job in POST_JOBS)
+    # nothing cached: the analysis counter is every paid call but the post-analysis ones
+    assert first_spent - post_paid == pytest.approx(first_cap) and first_cap > 0
     # a full replay pays nothing and counts against its cap what the original did
     assert spend(world, second) == (0.0, pytest.approx(first_cap))
 
@@ -397,7 +403,8 @@ def test_a_run_partly_served_from_the_cache_sums_both_figures(world: World) -> N
     assert {c.job for c in sent} == {"orchestrator"}
     spent, cap = spend(again, second)
     assert spent == pytest.approx(sum(c.cost_usd for c in sent))
-    assert cap == pytest.approx(spent + sum(c.cap_cost_usd for c in hits))
+    # post-analysis hits count against the post cap only (Bhargavi, 2026-10-20)
+    assert cap == pytest.approx(spent + sum(c.cap_cost_usd for c in hits if c.job not in POST_JOBS))
     assert 0 < spent < cap
 
 

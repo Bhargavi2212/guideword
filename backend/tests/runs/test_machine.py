@@ -306,3 +306,17 @@ def test_a_model_call_id_stored_in_an_earlier_step_is_refused(
     with pytest.raises(ValueError, match="already recorded"):
         advance(runs, run.id, {"analysis": lambda r, w: (w.add_model_call(call), StepResult())[1]})
     assert runs.model_calls(run.id) == [call]
+
+
+def test_step_result_summary_stays_out_of_the_api_contract() -> None:
+    """Bhargavi, 2026-10-20: `StepResult.summary` is internal. It only adds keys to a
+    `step_finished` event's free-form payload; no contract model or schema names it."""
+    import json  # noqa: PLC0415
+    from pathlib import Path  # noqa: PLC0415
+
+    repo = Path(__file__).resolve().parents[3]
+    openapi = json.loads((repo / "contract" / "openapi.json").read_text(encoding="utf-8"))
+    schemas = openapi["components"]["schemas"]
+    assert "StepResult" not in schemas
+    assert "summary" not in schemas["Event"]["properties"]
+    assert not any("StepResult" in p.name for p in (repo / "contract" / "schemas").iterdir())

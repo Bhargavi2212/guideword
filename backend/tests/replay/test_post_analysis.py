@@ -25,9 +25,9 @@ from guideword.reference import ReferenceSet, load_reference_set
 from guideword.runs import db
 from guideword.runs.case import case_report, drive, prepare_plant, start_case, steppers_for
 from guideword.runs.extend import ExtendRefused, extend
-from guideword.runs.machine import Stepper, StepResult
+from guideword.runs.machine import Stepper, StepResult, spend_matches_records
 from guideword.runs.plants import PlantRepository
-from guideword.runs.post_budget import POST_JOBS, POST_STEPS
+from guideword.runs.post_budget import POST_JOBS, POST_STEPS, post_spent
 from guideword.runs.start import RunSettings, start_run
 from guideword.runs.store import RunRepository
 from guideword.schema.enums import BudgetUse, EventType, QuestionStatus, RunStatus
@@ -490,6 +490,143 @@ def test_analysis_cap_behaviour_unchanged(
         assert "severity reserve" in hits
         calls[post_cap] = [c.id for c in world.runs.model_calls(run.id) if c.job not in POST_JOBS]
     assert calls[0.0] == calls[0.30]
+
+
+def test_extending_a_run_at_its_analysis_cap_is_not_refused(
+    tmp_path: Path, ref: ReferenceSet, config: Config
+) -> None:
+    """Bhargavi, 2026-10-20 (point 3): a finished run whose analysis spend is at its analysis
+    cap still extends, and the post steps spend only against the post cap."""
+    world = World(tmp_path, ref)
+    script = post_script(connector=first_two)
+    run = phase_2_run(world, config, script)
+    assert run.cap_spent_usd > 0
+    with world.runs.step(run.id) as writer:
+        writer.set_spend_cap(run.cap_spent_usd)  # no analysis room left
+    extend(world.runs, run.id, 0.30, config)
+    gateway, transport = world.gateway(config, script)
+    assert drive(world.runs, run.id, world.steppers(config, gateway)) == RunStatus.FINISHED
+    assert "connector" in {job for job, _ in transport.sent}
+    assert world.runs.chains(run.id) and world.runs.lopa_records(run.id)
+    assert not [e for e in world.runs.events(run.id) if e.type == EventType.CAP_HIT]
+
+
+def test_post_spend_never_counts_against_the_analysis_cap(
+    tmp_path: Path, ref: ReferenceSet, config: Config
+) -> None:
+    """Bhargavi, 2026-10-20 (point 3): post spend counts against the post cap (and, through
+    the ledger, the phase cap and use allowance), never the analysis cap; R45 still holds."""
+    world = World(tmp_path, ref)
+    run, _ = world.run(config, post_script(connector=first_two, severities={0: "S4"}))
+    assert run.status == RunStatus.FINISHED
+    calls = world.runs.model_calls(run.id)
+    post = [c for c in calls if c.job in POST_JOBS]
+    analysis = [c for c in calls if c.job not in POST_JOBS]
+    assert post and sum(c.cap_cost_usd for c in post) > 0
+    assert run.cap_spent_usd == pytest.approx(sum(c.cap_cost_usd for c in analysis))
+    assert run.spent_usd == pytest.approx(sum(c.cost_usd for c in calls))
+    with world.runs.step(run.id) as writer:
+        assert spend_matches_records(writer)
+
+
+def _stop_at_post_cap(world: World, config: Config, script: Script) -> Run:
+    run, _ = world.run(config, script, post_cap=0.0)
+    assert run.status == RunStatus.STOPPED_CAP and run.step == "chains"
+    return run
+
+
+def test_a_run_stopped_at_the_post_cap_resumes_with_a_higher_post_cap(
+    tmp_path: Path, ref: ReferenceSet, config: Config
+) -> None:
+    """Bhargavi, 2026-10-20 (point 2): extend takes a run that stopped at the post cap, with a
+    higher post cap; the run ID stays and the analysis is not run again."""
+    world = World(tmp_path, ref)
+    script = post_script(connector=first_two)
+    run = _stop_at_post_cap(world, config, script)
+    before = snapshot(world, run.id)
+
+    resumed = extend(world.runs, run.id, 0.30, config)
+    assert resumed.id == run.id
+    assert resumed.status == RunStatus.RUNNING and resumed.step == "chains"
+    assert resumed.post_spend_cap_usd == 0.30
+    events = [e for e in world.runs.events(run.id) if e.type == EventType.RUN_EXTENDED]
+    assert events[-1].payload["resumed_after_post_cap"] is True
+
+    gateway, transport = world.gateway(config, script)
+    assert drive(world.runs, run.id, world.steppers(config, gateway)) == RunStatus.FINISHED
+    assert {job for job, _ in transport.sent} <= POST_JOBS
+    after = snapshot(world, run.id)
+    for table, rows in before.items():
+        for key, value in rows.items():
+            assert after[table][key] == value, (table, key)
+    assert world.runs.chains(run.id) and world.runs.lopa_records(run.id)
+
+
+def test_a_resume_after_a_mid_post_stop_sends_no_finished_step_again(
+    tmp_path: Path, ref: ReferenceSet, config: Config
+) -> None:
+    """A stop after the chains step is paid for: on resume the connector call is not sent
+    again, and the spend still matches the call records (R45)."""
+    world = World(tmp_path, ref)
+    script = post_script(connector=first_two)
+    run = world.start(config, post_cap=0.30)
+    gateway, _ = world.gateway(config, script)
+    steppers = world.steppers(config, gateway)
+    real = steppers["chain_severity"]
+
+    def no_room_left(current: Run, writer: Any) -> StepResult:
+        writer.set_post_spend_cap(post_spent(writer.model_calls()))
+        return real(current, writer)
+
+    steppers["chain_severity"] = no_room_left
+    assert drive(world.runs, run.id, steppers) == RunStatus.STOPPED_CAP
+    stopped = world.runs.get(run.id)
+    assert stopped is not None and stopped.step == "chain_severity"
+    connector_calls = [c.id for c in world.runs.model_calls(run.id) if c.job == "connector"]
+    assert connector_calls
+
+    extend(world.runs, run.id, 0.30, config)
+    gateway, transport = world.gateway(config, script)
+    assert drive(world.runs, run.id, world.steppers(config, gateway)) == RunStatus.FINISHED
+    assert "connector" not in {job for job, _ in transport.sent}
+    assert [c.id for c in world.runs.model_calls(run.id) if c.job == "connector"] == (
+        connector_calls
+    )
+    with world.runs.step(run.id) as writer:
+        assert spend_matches_records(writer)
+
+
+def test_extend_refuses_an_analysis_cap_stop_and_a_post_cap_that_is_not_higher(
+    tmp_path: Path, ref: ReferenceSet, config: Config, capped_script: Any
+) -> None:
+    world = World(tmp_path / "post", ref)
+    run = _stop_at_post_cap(world, config, post_script())
+    with pytest.raises(ExtendRefused, match="higher"):
+        extend(world.runs, run.id, 0.0, config)
+    stored = world.runs.get(run.id)
+    assert stored is not None and stored.status == RunStatus.STOPPED_CAP
+
+    other = World(tmp_path / "analysis", ref)
+    stopped, _ = other.run(config, capped_script, cap=0.08)
+    assert stopped.status == RunStatus.STOPPED_CAP
+    with pytest.raises(ExtendRefused, match="analysis cap"):
+        extend(other.runs, stopped.id, 0.30, config)
+
+
+def test_extend_run_resumes_a_post_cap_stop(
+    tmp_path: Path, ref: ReferenceSet, config: Config
+) -> None:
+    world = World(tmp_path, ref)
+    script = post_script(connector=first_two)
+    run = phase_2_run(world, config, script)
+    code, out = _extend_run(world, config, script, run.id, "--post-cap", "0", "--name", "case_x")
+    assert code == 0
+    assert json.loads((out / "case_x.json").read_text(encoding="utf-8"))["status"] == "stopped_cap"
+    code, out = _extend_run(world, config, script, run.id, "--post-cap", "0.3", "--name", "case_x")
+    assert code == 0
+    report = json.loads((out / "case_x.json").read_text(encoding="utf-8"))
+    assert report["run_id"] == run.id and report["status"] == "finished"
+    assert report["chains"] and report["lopa"]
 
 
 def test_r38_stop_still_comes_at_ranked_after_the_post_steps(

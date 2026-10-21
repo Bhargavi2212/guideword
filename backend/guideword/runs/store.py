@@ -119,6 +119,12 @@ class StepWriter:
             spent_usd=self.run.spent_usd + usd, cap_spent_usd=self.run.cap_spent_usd + cap_usd
         )
 
+    def add_post_spent(self, usd: float) -> None:
+        """A post-analysis call: `usd` is money actually paid. It never counts against the
+        analysis cap (Bhargavi, 2026-10-20); the post cap reads the post jobs' call records
+        (Q19), and the phase cap and use allowance read the ledger."""
+        self._update(spent_usd=self.run.spent_usd + usd)
+
     def _update(self, **changes: Any) -> None:
         self.run = self.run.model_copy(update=changes)
         self._row.status = self.run.status.value

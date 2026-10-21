@@ -13,6 +13,7 @@ from typing import Any, Protocol
 
 from guideword.gateway.client import BudgetRefused
 from guideword.logs import get_logger
+from guideword.runs.post_budget import POST_JOBS
 from guideword.runs.store import RunRepository, StepWriter
 from guideword.schema.enums import EventType, RunStatus
 from guideword.schema.records import Run
@@ -20,6 +21,8 @@ from guideword.schema.records import Run
 ENDED = {RunStatus.FINISHED, RunStatus.FAILED, RunStatus.CANCELLED}
 # float sums in a different order differ in the last places; a real mismatch is far larger
 SPEND_TOLERANCE_USD = 1e-9
+# the `cap` a post-analysis step's cap stop records, so extension can resume it
+POST_CAP = "post"
 
 log = get_logger(__name__)
 
@@ -74,10 +77,11 @@ def advance(runs: RunRepository, run_id: str, steppers: Mapping[str, Stepper]) -
 
 def spend_matches_records(writer: StepWriter) -> bool:
     """R45: `spent_usd` is the sum of the call records' `cost_usd` and `cap_spent_usd` the sum
-    of their `cap_cost_usd`. A mismatch is logged as an error; the run's status stands."""
+    of the analysis calls' `cap_cost_usd` (post-analysis calls count against the post cap
+    only). A mismatch is logged as an error; the run's status stands."""
     calls = writer.model_calls()
     paid = sum(c.cost_usd for c in calls)
-    counted = sum(c.cap_cost_usd for c in calls)
+    counted = sum(c.cap_cost_usd for c in calls if c.job not in POST_JOBS)
     run = writer.run
     ok = math.isclose(run.spent_usd, paid, abs_tol=SPEND_TOLERANCE_USD) and math.isclose(
         run.cap_spent_usd, counted, abs_tol=SPEND_TOLERANCE_USD
@@ -98,9 +102,16 @@ def spend_matches_records(writer: StepWriter) -> bool:
     return ok
 
 
-def stop_for_refusal(writer: StepWriter, refused: BudgetRefused) -> StepResult:
-    """A gateway refusal ends the run with its status (`stopped_cap` or `stopped_budget`)."""
-    writer.emit(EventType.CAP_HIT, {"reason": str(refused), "status": refused.status})
+def stop_for_refusal(
+    writer: StepWriter, refused: BudgetRefused, *, cap: str | None = None
+) -> StepResult:
+    """A gateway refusal ends the run with its status (`stopped_cap` or `stopped_budget`).
+    A post-analysis step passes `cap=POST_CAP`: its `stopped_cap` is the post cap, and the
+    event says so, so extension can resume the run with a higher post cap."""
+    payload: dict[str, Any] = {"reason": str(refused), "status": refused.status}
+    if cap is not None and refused.status == RunStatus.STOPPED_CAP:
+        payload["cap"] = cap
+    writer.emit(EventType.CAP_HIT, payload)
     return StepResult(status=refused.status)
 
 

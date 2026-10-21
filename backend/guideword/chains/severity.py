@@ -23,7 +23,7 @@ from guideword.gateway.prompts import Prompt, as_data, load_prompt, render
 from guideword.lopa.lines import cause_words
 from guideword.ranking.severity import NOT_ASSESSED, severity_classes, severity_context
 from guideword.reference import ReferenceSet
-from guideword.runs.machine import StepResult, stop_for_refusal
+from guideword.runs.machine import POST_CAP, StepResult, stop_for_refusal
 from guideword.runs.plants import plant_facts
 from guideword.runs.post_budget import post_budget
 from guideword.runs.store import StepWriter
@@ -136,13 +136,13 @@ class ChainSeverityStepper:
                 made=frozenset(c.id for c in writer.model_calls()),
             )
         except BudgetRefused as refused:
-            return stop_for_refusal(writer, refused)
+            return stop_for_refusal(writer, refused, cap=POST_CAP)
         for call in result.model_calls:
             writer.add_model_call(
                 call.model_copy(update={"record_ids": sorted(wanted)}),
                 fell_back_from=result.fell_back_from,
             )
-        writer.add_spent(result.cost_usd, cap_usd=result.cap_cost_usd)
+        writer.add_post_spent(result.cost_usd)
         rated: dict[str, ChainSeverity] = {}
         if result.outcome == "ok" and isinstance(result.value, ChainSeverityAnswer):
             rated = {s.chain_id: s for s in result.value.severities}

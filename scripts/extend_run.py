@@ -3,7 +3,9 @@ use a fake transport.
 
   python scripts/extend_run.py <run_id> --post-cap 0.30 --phase 3 --use development --name case_e
 
-Refuses a run that has not finished or whose chains step has run. Otherwise sets the run's
+Refuses a run that has not finished or whose chains step has run, unless it stopped at its
+post cap and --post-cap is higher: then it resumes from the step it stopped at, with the
+same run ID (Bhargavi, 2026-10-20). Otherwise sets the run's
 post-analysis allowance, moves it to the chains step, drives it to a terminal status and
 writes the shortlist, chains, LOPA records and recommendations to bench/phase3/<name>.json.
 The analysis is not run again and no earlier record changes. A run whose records fail to
@@ -44,7 +46,7 @@ USES = (BudgetUse.DEVELOPMENT.value,)
 
 def _arguments(argv: Sequence[str] | None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    parser.add_argument("run_id", help="the finished run to extend")
+    parser.add_argument("run_id", help="the finished run to extend, or one stopped at its post cap")
     parser.add_argument(
         "--post-cap", type=float, help="post-analysis allowance in USD (default: caps.yaml)"
     )

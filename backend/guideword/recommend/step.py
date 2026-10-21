@@ -31,7 +31,7 @@ from guideword.lopa.lines import (
     shortlist,
 )
 from guideword.reference import ReferenceSet
-from guideword.runs.machine import StepResult, stop_for_refusal
+from guideword.runs.machine import POST_CAP, StepResult, stop_for_refusal
 from guideword.runs.post_budget import post_budget, post_setting
 from guideword.runs.store import StepWriter
 from guideword.schema import ids
@@ -183,13 +183,13 @@ class RecommendationStepper:
                 made=frozenset(c.id for c in writer.model_calls()),
             )
         except BudgetRefused as refused:
-            return stop_for_refusal(writer, refused)
+            return stop_for_refusal(writer, refused, cap=POST_CAP)
         for call in result.model_calls:
             writer.add_model_call(
                 call.model_copy(update={"record_ids": wanted}),
                 fell_back_from=result.fell_back_from,
             )
-        writer.add_spent(result.cost_usd, cap_usd=result.cap_cost_usd)
+        writer.add_post_spent(result.cost_usd)
         call_id = result.model_calls[-1].id if result.model_calls else None
         if result.outcome == "ok" and isinstance(result.value, RecommendationAnswer):
             by_target = {r.target_id: r for r in result.value.recommendations}

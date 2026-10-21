@@ -30,7 +30,7 @@ from guideword.gateway.prompts import Prompt, as_data, load_prompt, render
 from guideword.logs import get_logger
 from guideword.lopa.lines import cause_words, display_lines, section_for
 from guideword.reference import ReferenceSet
-from guideword.runs.machine import StepResult, stop_for_refusal
+from guideword.runs.machine import POST_CAP, StepResult, stop_for_refusal
 from guideword.runs.plants import plant_facts
 from guideword.runs.post_budget import post_budget, post_setting
 from guideword.runs.store import StepWriter
@@ -196,7 +196,7 @@ class ConnectorStepper:
                 made=frozenset(c.id for c in writer.model_calls()),
             )
         except BudgetRefused as refused:
-            return stop_for_refusal(writer, refused)
+            return stop_for_refusal(writer, refused, cap=POST_CAP)
         findings = {f.id: f for f in writer.findings()}
         kept: list[Chain] = []
         rejected: list[dict[str, Any]] = []
@@ -243,7 +243,7 @@ class ConnectorStepper:
                 call.model_copy(update={"record_ids": [c.id for c in kept]}),
                 fell_back_from=result.fell_back_from,
             )
-        writer.add_spent(result.cost_usd, cap_usd=result.cap_cost_usd)
+        writer.add_post_spent(result.cost_usd)
         for chain in kept:
             writer.add_chain(chain)
         summary: dict[str, Any] = {
