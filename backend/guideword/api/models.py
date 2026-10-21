@@ -362,6 +362,23 @@ class OverrideResult(_RunResponse):
     stored: bool
 
 
+class SupersededRecord(_Model):
+    """A post-analysis record a re-run from `chains` replaced (contract v1.7): copied here
+    verbatim, never changed or deleted. `pass_seq` is the `seq` of the `run_extended` event
+    that began the pass it belonged to; `superseded_seq` that of the event that replaced it."""
+
+    kind: Literal["chain", "lopa", "recommendation", "model_call"]
+    pass_seq: int
+    superseded_seq: int
+    record: dict[str, Any]
+
+    @model_validator(mode="after")
+    def _replaced_by_a_later_pass(self) -> "SupersededRecord":
+        if self.superseded_seq <= self.pass_seq:
+            raise ValueError("a record is superseded by a later pass")
+        return self
+
+
 class RunDump(_RunResponse):
     run: Run
     sections: list[Section]
@@ -375,6 +392,8 @@ class RunDump(_RunResponse):
     evidence: list[Evidence]
     overrides: list[Override]
     events: list[Event]
+    # contract v1.7: the records re-runs from `chains` replaced, oldest pass first
+    superseded: list[SupersededRecord] = Field(default_factory=list)
 
 
 class DemoResponse(_RunResponse):
