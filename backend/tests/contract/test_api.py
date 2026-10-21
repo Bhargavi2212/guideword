@@ -650,3 +650,21 @@ def test_the_mock_override_result_uses_the_v14_change_severity_shape() -> None:
     override = api.OverrideResult.model_validate(_fixture("override_result.json")).override
     assert api.ChangeSeverityValue.model_validate(override.new_value).severity_class == "S4"
     assert override.id == ids.override_id(override.target_id, override.action, override.new_value)
+
+
+# --- contract v1.5: shortlist card flags (Bhargavi, 2026-10-20) ---------------------------------
+
+
+def test_shortlist_item_flags_default_to_empty_for_older_items() -> None:
+    old = dict(_fixture("shortlist.json")["items"][0])
+    old.pop("flags", None)
+    assert api.ShortlistItem.model_validate(old).flags == []
+
+
+def test_fixture_shortlist_flags_the_incomplete_lopa_line_on_its_card() -> None:
+    items = api.Shortlist.model_validate(_fixture("shortlist.json")).items
+    incomplete = [i for i in items if i.lopa is not None and not i.lopa.complete]
+    assert incomplete and all(i.flags == ["incomplete LOPA: gap unknown"] for i in incomplete)
+    assert all(i.flags == [] for i in items if i not in incomplete)
+    demo = api.DemoResponse.model_validate(_fixture("demo_response.json"))
+    assert demo.shortlist.items == items

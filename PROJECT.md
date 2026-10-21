@@ -484,7 +484,7 @@ Every run-related response carries a `label`: `{kind: live | recorded | mock, re
 | `GET /runs/{id}/sections` | — | The run's section snapshot |
 | `GET /runs/{id}/questions` | filters | Questions with status |
 | `POST /runs/{id}/questions` | section_id, text | Add an engineer question (origin `engineer`, ID `eng:<section>:<h(text)>`, status open) |
-| `GET /runs/{id}/shortlist` | — | Ranked findings and chains with LOPA, evidence, sources; from contract v1.2 each item carries its `tier` (confirmed / also_found / unconfirmed), its hypothesis where it has one, and the supporting finding IDs (computed); an unconfirmed hypothesis is an item of kind `hypothesis` (R50) |
+| `GET /runs/{id}/shortlist` | — | Ranked findings and chains with LOPA, evidence, sources; from contract v1.2 each item carries its `tier` (confirmed / also_found / unconfirmed), its hypothesis where it has one, and the supporting finding IDs (computed); an unconfirmed hypothesis is an item of kind `hypothesis` (R50); from contract v1.5 each item carries `flags`, what its card must show the engineer as code wrote it (e.g. an S4–S5 line with no LOPA, an incomplete LOPA), default empty |
 | `GET /runs/{id}/worksheet` | filters | All rows with origin and override state |
 | `GET /runs/{id}/coverage` | — | Checked versus total per list; failed questions |
 | `GET /runs/{id}/records/{record_id}` | — | Any record with parents, model calls, tool calls |

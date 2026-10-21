@@ -1188,6 +1188,8 @@ export interface components {
             /** Evidence */
             evidence?: components["schemas"]["Evidence"][];
             finding?: components["schemas"]["Finding"] | null;
+            /** Flags */
+            flags?: string[];
             /** Gap */
             gap: number | null;
             hypothesis?: components["schemas"]["Hypothesis"] | null;
