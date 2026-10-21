@@ -129,6 +129,12 @@ Phase 3 has spent $0.87 of $2.50; development has $2.40 left.
 | Q3 | How is the substitution "recorded as code's"? | A chain flag, "handles in text replaced by code", whenever a token was replaced, plus the untouched raw answer in the model call. No new record field and no contract change. |
 | Q4 | Should `L<n>` become the lead finding's **question ID** or its **finding ID**? You wrote question ID. | Question ID, as you wrote. It is short and readable, and the finding is one click away through the chain's links. |
 
+## Built
+
+- [x] PR 1 `phase-3/target-handles-prompts` (#79): the plan and the three v2 drafts, reviewed by Bhargavi.
+- [x] PR 2 `phase-3/target-handles`: target handles, chain-text cleaning and its flags, "no severity — no LOPA", chain severity in batches of 5 with one re-ask, routing at v2, decisions, feedback log.
+- [ ] Bhargavi re-runs F with `--rerun-from chains` (development, about $0.10); D, E and G wait for the second grant; then the demo plant run.
+
 ## Not doing
 - No change to chain IDs, finding IDs, `Chain.links` or the contract.
 - No fuzzy matching. An unknown handle drops the item.

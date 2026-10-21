@@ -11,6 +11,7 @@ from typing import Any
 import pytest
 from sqlalchemy import select
 
+from guideword.chains.connector import HANDLES_REPLACED_FLAG
 from guideword.config import Config, load_config
 from guideword.gateway.cache import ResponseCache
 from guideword.gateway.client import Gateway
@@ -20,7 +21,8 @@ from guideword.gateway.replay import MANIFEST, ReplayTransport, export_replay, l
 from guideword.gateway.transport import Reply, ToolCallRequest
 from guideword.lopa.credit import NOT_ARGUED
 from guideword.lopa.engine import CODE_ONLY_FLAG
-from guideword.lopa.step import ARGUMENT_FAILED_FLAG
+from guideword.lopa.lines import NO_SEVERITY_NO_LOPA
+from guideword.lopa.step import ARGUMENT_FAILED_FLAG, LEFT_OUT_FLAG
 from guideword.reference import ReferenceSet, load_reference_set
 from guideword.runs import db
 from guideword.runs.case import case_report, drive, prepare_plant, start_case, steppers_for
@@ -105,6 +107,7 @@ def post_script(
     | None = None,
     applies: bool = False,
     recommend: bool = True,
+    rate: Callable[[list[dict[str, Any]]], list[dict[str, Any]]] | None = None,
     fail: frozenset[str] = frozenset(),
 ) -> Script:
     """A run with one line per cause group: each question's finding names `outside <group>`
@@ -140,11 +143,14 @@ def post_script(
             )
             return reply({"chains": chains})
         if job == "chain_severity":
+            # severity_chain/v2: each chain by its handle; `rate` picks which are answered
+            chains = block(request, "chains")
+            shown = rate(chains) if rate else chains
             return reply(
                 {
                     "severities": [
-                        {"chain_id": c["chain_id"], "severity_class": "S4", "reason": "two hurt"}
-                        for c in block(request, "chains")
+                        {"chain": c["handle"], "severity_class": "S4", "reason": "two hurt"}
+                        for c in shown
                     ]
                 }
             )
@@ -153,7 +159,7 @@ def post_script(
                 {
                     "lines": [
                         {
-                            "target_id": line["target_id"],
+                            "target": line["handle"],
                             "layers": [
                                 {"layer_id": layer["layer_id"], "applies": applies, "reason": "r"}
                                 for layer in line["layers"]
@@ -165,7 +171,7 @@ def post_script(
             )
         if job == "recommendation":
             items = [
-                {"target_id": line["target_id"], "action": "add an independent trip", "reason": "r"}
+                {"target": line["handle"], "action": "add an independent trip", "reason": "r"}
                 for line in block(request, "lines")
             ]
             return reply({"recommendations": items if recommend else []})
@@ -662,11 +668,12 @@ def test_code_only_lopa_makes_no_model_call(
     lines = [x for x in world.report(small, run.id)["shortlist"] if x["target_kind"] == "finding"]
     assert len(lines) > 3
     assert len(full) == 2 and len(code_only) == len(lines) - 2
+    # v2 requests carry handles only: the targets sent are each call's record IDs
     argued = {
-        line["target_id"]
-        for job, request in transport.sent
-        if job == "lopa_argument"
-        for line in block(request, "lines")
+        target
+        for call in world.runs.model_calls(run.id)
+        if call.job == "lopa_argument"
+        for target in call.record_ids
     }
     assert argued == {r.target_id for r in full}
     for record in code_only:
@@ -693,11 +700,12 @@ def test_recommendations_go_in_shortlist_order_and_include_code_only_lines(
         for line in report["shortlist"]
         if line["complete"] and line["gap"] is not None and line["gap"] > 1
     ]
+    # v2 requests carry handles only: the targets sent are each call's record IDs, in order
     sent = [
-        line["target_id"]
-        for job, request in transport.sent
-        if job == "recommendation"
-        for line in block(request, "lines")
+        target
+        for call in world.runs.model_calls(run.id)
+        if call.job == "recommendation"
+        for target in call.record_ids
     ]
     assert sent == eligible
     assert any(
@@ -1226,3 +1234,229 @@ def test_extend_run_reruns_from_chains(tmp_path: Path, ref: ReferenceSet, config
     report = json.loads((out / "case_x.json").read_text(encoding="utf-8"))
     assert report["run_id"] == run.id and report["status"] == "finished"
     assert report["chains"] and world.runs.superseded(run.id)
+
+
+# --- target-handles plan (approved 2026-10-21): handles for chain and line targets ---------------
+
+V2_POST_PROMPTS = {"severity_chain": "v2", "lopa_argument": "v2", "recommendation": "v2"}
+HANDLE_TOKEN = re.compile(r"\b[LPC]\d+\b")
+# a finding ID (`f:<question kind prefix>:`) or a chain ID (`ch:`), not "part_of:" inside a
+# question ID
+FINDING_OR_CHAIN_ID = re.compile(
+    r"(?<![\w-])(?:f:(?:m|pair|env|nf|proc|work|dust|relief|ai|eng):|ch:)"
+)
+
+
+def _sent(transport: FakeTransport, job: str) -> list[dict[str, Any]]:
+    return [r for j, r in transport.sent if j == job]
+
+
+def _many_chains(
+    scenarios: list[dict[str, Any]], facts: list[dict[str, Any]]
+) -> list[dict[str, Any]]:
+    """Seven chains of consecutive lines, each text naming its links by connector handle."""
+    out = []
+    for i in range(7):
+        a, b = scenarios[i]["handle"], scenarios[i + 1]["handle"]
+        out.append({"links": [a, b], "description": f"{a} then {b}", "reason": f"{a} sets up {b}"})
+    return out
+
+
+def test_the_three_later_post_prompts_are_routed_at_v2(config: Config) -> None:
+    assert {k: config.routing.prompts[k] for k in V2_POST_PROMPTS} == V2_POST_PROMPTS
+
+
+def test_chain_severity_goes_in_batches_and_re_asks_left_out_chains_once(
+    tmp_path: Path, ref: ReferenceSet, config: Config
+) -> None:
+    """Q1: batches of `chain_severity_batch_size` (5); the handles a batch's answer leaves out
+    are asked once more, alone."""
+    asked: list[list[str]] = []
+
+    def rate(chains: list[dict[str, Any]]) -> list[dict[str, Any]]:
+        asked.append([c["handle"] for c in chains])
+        return chains if len(asked) > 1 else chains[:3]  # the first answer leaves out two
+
+    world = World(tmp_path, ref)
+    run, transport = world.run(config, post_script(connector=_many_chains, rate=rate))
+    assert run.status == RunStatus.FINISHED
+    assert config.caps.run.chain_severity_batch_size == 5
+    assert asked[0] == ["C1", "C2", "C3", "C4", "C5"]
+    assert asked[1] == ["C1", "C2"]  # exactly the two left out, renumbered from C1
+    assert asked[2] == ["C1", "C2"]  # the other two chains of the seven
+    assert all(c.severity_class is not None for c in world.runs.chains(run.id))
+
+
+def test_the_re_ask_names_exactly_the_missing_handles_and_the_answer_count_is_checked(
+    tmp_path: Path, ref: ReferenceSet, config: Config
+) -> None:
+    def rate(chains: list[dict[str, Any]]) -> list[dict[str, Any]]:
+        return chains if len(chains) < 5 else [chains[0], chains[3]]
+
+    world = World(tmp_path, ref)
+    run, transport = world.run(config, post_script(connector=_many_chains, rate=rate))
+    first, again = _sent(transport, "chain_severity")[:2]
+    sent_first = [c["description"] for c in block(first, "chains")]
+    sent_again = [c["description"] for c in block(again, "chains")]
+    assert sent_again == [sent_first[1], sent_first[2], sent_first[4]]
+    summary = [
+        e.payload
+        for e in world.runs.events(run.id)
+        if e.type == EventType.STEP_FINISHED and e.payload.get("step") == "chain_severity"
+    ][0]
+    assert summary["sent"] == 5 and summary["answered"] == 2
+    assert summary["missing"] == ["C2", "C3", "C5"]
+
+
+def test_a_chain_left_out_twice_is_not_assessed(
+    tmp_path: Path, ref: ReferenceSet, config: Config
+) -> None:
+    first: dict[str, str] = {}
+
+    def rate(chains: list[dict[str, Any]]) -> list[dict[str, Any]]:
+        """Never answers the first chain it is shown (its text is code's, without handles)."""
+        first.setdefault("description", chains[0]["description"])
+        return [c for c in chains if c["description"] != first["description"]]
+
+    world = World(tmp_path, ref)
+    run, _ = world.run(config, post_script(connector=_many_chains, rate=rate))
+    chains = world.runs.chains(run.id)
+    left = [c for c in chains if c.severity_class is None]
+    assert len(left) == 1
+    assert left[0].severity_reason is not None and "not assessed" in left[0].severity_reason
+    assert len([c for c in chains if c.severity_class is not None]) == len(chains) - 1
+
+
+def test_chain_severity_v2_maps_chain_handles_back_and_drops_an_unknown_one(
+    tmp_path: Path, ref: ReferenceSet, config: Config
+) -> None:
+    def rate(chains: list[dict[str, Any]]) -> list[dict[str, Any]]:
+        extra = {**chains[0], "handle": "C99"}
+        return [*chains, extra]
+
+    world = World(tmp_path, ref)
+    run, _ = world.run(config, post_script(connector=_many_chains, rate=rate))
+    assert run.status == RunStatus.FINISHED
+    assert all(c.severity_class is not None for c in world.runs.chains(run.id))
+
+
+def test_lopa_argument_v2_maps_line_and_chain_targets_back_and_drops_an_unknown_one(
+    tmp_path: Path, ref: ReferenceSet, config: Config
+) -> None:
+    world = World(tmp_path, ref)
+    run, transport = world.run(config, post_script(connector=first_two, applies=True))
+    requests = _sent(transport, "lopa_argument")
+    assert requests
+    handles = [line["handle"] for r in requests for line in block(r, "lines")]
+    assert any(h.startswith("L") for h in handles) and any(h.startswith("C") for h in handles)
+    argued = [r for r in world.runs.lopa_records(run.id) if r.model_call_id]
+    assert argued and all(any(layer.applies for layer in r.layers) for r in argued)
+    # an unknown target handle drops that item: it is left out, not a failed call
+    other = World(tmp_path / "unknown", ref)
+
+    def wrong(job: str, request: dict[str, Any]) -> Reply:
+        if job == "lopa_argument":
+            return reply({"lines": [{"target": "L99", "layers": []}]})
+        return post_script(connector=first_two)(job, request)
+
+    run2, _ = other.run(config, wrong)
+    records = [r for r in other.runs.lopa_records(run2.id) if r.layers]
+    assert records and all(LEFT_OUT_FLAG in r.flags for r in records if r.model_call_id)
+
+
+def test_recommendation_v2_maps_line_and_chain_targets_back_and_drops_an_unknown_one(
+    tmp_path: Path, ref: ReferenceSet, config: Config
+) -> None:
+    world = World(tmp_path, ref)
+    run, transport = world.run(config, post_script(connector=first_two, severities={0: "S5"}))
+    recs = world.runs.recommendations(run.id)
+    targets = {r.target_id for r in recs}
+    assert recs and targets <= {r.target_id for r in world.runs.lopa_records(run.id)}
+    other = World(tmp_path / "unknown", ref)
+
+    def wrong(job: str, request: dict[str, Any]) -> Reply:
+        if job == "recommendation":
+            return reply({"recommendations": [{"target": "C99", "action": "a", "reason": "r"}]})
+        return post_script(connector=first_two, severities={0: "S5"})(job, request)
+
+    run2, _ = other.run(config, wrong)
+    assert other.runs.recommendations(run2.id) == []
+    assert run2.status == RunStatus.FINISHED
+
+
+def test_no_v2_prompt_input_shows_a_finding_or_chain_id(
+    tmp_path: Path, ref: ReferenceSet, config: Config
+) -> None:
+    world = World(tmp_path, ref)
+    _, transport = world.run(config, post_script(connector=first_two, severities={0: "S5"}))
+    for job in ("chain_severity", "lopa_argument", "recommendation"):
+        requests = _sent(transport, job)
+        assert requests, job
+        for request in requests:
+            text = request["messages"][0]["content"] + request["messages"][1]["content"]
+            assert not FINDING_OR_CHAIN_ID.search(text), (job, FINDING_OR_CHAIN_ID.search(text))
+
+
+def test_no_v2_prompt_or_user_message_says_batch_and_each_states_its_count(
+    tmp_path: Path, ref: ReferenceSet, config: Config
+) -> None:
+    world = World(tmp_path, ref)
+    _, transport = world.run(config, post_script(connector=first_two, severities={0: "S5"}))
+    for job, block_name in (
+        ("chain_severity", "chains"),
+        ("lopa_argument", "lines"),
+        ("recommendation", "lines"),
+    ):
+        for request in _sent(transport, job):
+            system, user = (m["content"] for m in request["messages"])
+            assert "batch" not in (system + user).lower(), job
+            items = block(request, block_name)
+            handles = ", ".join(i["handle"] for i in items)
+            assert f"There are **{len(items)} " in system and handles in system, job
+            assert str(len(items)) in user and handles in user, job
+
+
+def test_no_chain_text_sent_to_a_v2_prompt_contains_a_connector_handle(
+    tmp_path: Path, ref: ReferenceSet, config: Config
+) -> None:
+    world = World(tmp_path, ref)
+    run, transport = world.run(config, post_script(connector=_many_chains, severities={0: "S5"}))
+    chains = world.runs.chains(run.id)
+    assert chains
+    for chain in chains:
+        assert not HANDLE_TOKEN.search(chain.description) and not HANDLE_TOKEN.search(chain.reason)
+        assert HANDLES_REPLACED_FLAG in chain.flags
+    for job in ("chain_severity", "lopa_argument", "recommendation"):
+        for request in _sent(transport, job):
+            for item in block(request, "chains" if job == "chain_severity" else "lines"):
+                words = item.get("description", "") + json.dumps(item.get("scenario", {}))
+                assert not re.search(r"\bL\d+\b|\bP\d+\b", words), (job, words)
+
+
+def test_the_connectors_raw_answer_is_unchanged_in_its_model_call(
+    tmp_path: Path, ref: ReferenceSet, config: Config
+) -> None:
+    world = World(tmp_path, ref)
+    run, _ = world.run(config, post_script(connector=_many_chains))
+    (call,) = [c for c in world.runs.model_calls(run.id) if c.job == "connector"]
+    assert "L1 then L2" in call.raw_response
+    assert all("L1 then" not in c.description for c in world.runs.chains(run.id))
+
+
+def test_a_chain_with_no_severity_is_on_the_shortlist_flagged_no_severity_no_lopa(
+    tmp_path: Path, ref: ReferenceSet, config: Config
+) -> None:
+    from guideword.api.live import LiveRuns  # noqa: PLC0415
+
+    world = World(tmp_path, ref)
+    run, _ = world.run(config, post_script(connector=first_two, rate=lambda chains: []))
+    (chain,) = world.runs.chains(run.id)
+    assert chain.severity_class is None
+    rows = [x for x in world.report(config, run.id)["shortlist"] if x["target_id"] == chain.id]
+    assert len(rows) == 1 and NO_SEVERITY_NO_LOPA in rows[0]["flags"]
+    gateway, _ = world.gateway(config, post_script())
+    live = LiveRuns(
+        world.sessions, config=config, ref=ref, gateway_factory=lambda _: gateway, clock=lambda: NOW
+    )
+    (item,) = [i for i in live.shortlist(run.id) if i.target_id == chain.id]
+    assert NO_SEVERITY_NO_LOPA in item.flags and item.lopa is None

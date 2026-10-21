@@ -29,6 +29,7 @@ POST_SETTINGS = (
     "connector_max_chains",
     "lopa_batch_size",
     "recommendation_batch_size",
+    "chain_severity_batch_size",
 )
 # connector/v2 plan, Q5: post-step caps a new run does not hash into its ID; recorded on its
 # run_extended event with the post-step prompt versions (POST_PROMPTS) instead
@@ -37,6 +38,7 @@ POST_HASH_FREE_CAPS = (
     "lopa_batch_size",
     "recommendation_batch_size",
     "lopa_top_n",
+    "chain_severity_batch_size",
 )
 FROM_RUN = "run.caps"
 FROM_CONFIG = "config"

@@ -25,10 +25,20 @@ overlap) is flagged, never filtered (Q6). Misused terms are not checked by code;
 reads the description. The links keep the model's order: the first finding link is the cause
 (Q7); the ID sorts them.
 
+**Chain text (target-handles plan, approved 2026-10-21).** Ultra writes its own handles into a
+chain's description and reason ("(L20)"). After mapping, code replaces each whole `L<n>` token
+with the mapped line's question ID ("<question ID> (<cause ID>)" where two lines sent share a
+question ID, or the lead finding ID where they also share the cause) and each `P<n>` with the
+fact ID, so no later prompt reads another prompt's handle. A chain where a token was replaced
+is flagged "handles in text replaced by code"; a handle that was not sent is left as it is and
+the chain is flagged "unresolved handle in text". The raw answer stays unchanged in the
+model-call record.
+
 A call that fails (invalid twice, cut off, an error) leaves the run going with no chains,
 logged (G3); only a cap refusal stops the run.
 """
 
+import re
 from collections.abc import Collection, Mapping, Sequence
 from typing import Annotated, Any
 
@@ -57,6 +67,10 @@ PROMPT = "connector"
 NEXT = "chain_severity"
 ASK = "Name the chains, in the required JSON schema."
 MORE_THAN_TWO_FLAG = "possibly more than two independent failures"
+HANDLES_REPLACED_FLAG = "handles in text replaced by code"
+UNRESOLVED_HANDLE_FLAG = "unresolved handle in text"
+# a whole connector handle in the model's text: L or P and a number, nothing joined to it
+HANDLE_IN_TEXT = re.compile(r"\b[LP]\d+\b")
 
 log = get_logger(__name__)
 
@@ -105,9 +119,48 @@ def map_links(
     return [line_handles.get(link) or fact_handles[link] for link in links], None
 
 
+def line_labels(scenarios: Sequence[Mapping[str, Any]]) -> dict[str, str]:
+    """What each `L` handle becomes in chain text: the lead finding's question ID; "<question
+    ID> (<cause ID>)" where two lines sent share the question ID (Bhargavi, Q4); the lead
+    finding ID where they also share the cause, so each label names one line."""
+    questions = [line["question_id"] for line in scenarios]
+    pairs = [(line["question_id"], line["cause_id"]) for line in scenarios]
+    labels: dict[str, str] = {}
+    for i, line in enumerate(scenarios, start=1):
+        question, cause = line["question_id"], line["cause_id"]
+        if questions.count(question) == 1:
+            labels[f"L{i}"] = question
+        elif pairs.count((question, cause)) == 1:
+            labels[f"L{i}"] = f"{question} ({cause})"
+        else:
+            labels[f"L{i}"] = line["finding_id"]
+    return labels
+
+
+def clean_chain_text(
+    text: str, labels: Mapping[str, str], fact_handles: Mapping[str, str]
+) -> tuple[str, list[str]]:
+    """The chain text with each sent handle replaced (exact tokens only), and its flags."""
+    replaced = unresolved = False
+
+    def swap(match: re.Match[str]) -> str:
+        nonlocal replaced, unresolved
+        token = match.group(0)
+        found = labels.get(token) or fact_handles.get(token)
+        if found is None:
+            unresolved = True
+            return token
+        replaced = True
+        return found
+
+    cleaned = HANDLE_IN_TEXT.sub(swap, text)
+    flags = [HANDLES_REPLACED_FLAG] if replaced else []
+    return cleaned, flags + ([UNRESOLVED_HANDLE_FLAG] if unresolved else [])
+
+
 def scenario_prompt_lines(scenarios: Sequence[Mapping[str, Any]]) -> list[dict[str, Any]]:
     """The lines as the prompt shows them: a handle each, no finding ID."""
-    hidden = ("finding_id", "object_ids")
+    hidden = ("finding_id", "object_ids", "question_id", "cause_id")
     return [
         {"handle": f"L{i}", **{k: v for k, v in line.items() if k not in hidden}}
         for i, line in enumerate(scenarios, start=1)
@@ -204,6 +257,9 @@ def scenario_lines(
                 "failing_component_ids": list(lead.failing_component_ids),
                 "section_id": section.id if section else None,
                 "severity_class": lead.severity_class.value if lead.severity_class else None,
+                # for the chain-text labels (not shown in the prompt)
+                "question_id": lead.question_id,
+                "cause_id": lead.cause_id,
                 # what the fact list hangs off (not shown in the prompt)
                 "object_ids": sorted(
                     set(lead.failing_component_ids) | set(section.object_ids if section else ())
@@ -271,6 +327,7 @@ class ConnectorStepper:
             messages = connector_messages(self.prompt, scenarios, self.plant, facts, max_chains)
         # handles are numbered after the cut: each names a line or fact that was sent
         line_handles = {f"L{i}": line["finding_id"] for i, line in enumerate(scenarios, start=1)}
+        labels = line_labels(scenarios)
         fact_handles = {f"P{i}": fact.id for i, fact in enumerate(facts, start=1)}
         fact_ids = set(fact_handles.values())
         left_out = total - len(scenarios)
@@ -324,14 +381,21 @@ class ConnectorStepper:
                         },
                     )
                     continue
+                description, text_flags = clean_chain_text(
+                    proposed.description, labels, fact_handles
+                )
+                reason, reason_flags = clean_chain_text(proposed.reason, labels, fact_handles)
                 kept.append(
                     Chain(
                         id=chain_id,
                         run_id=run.id,
                         links=links,
-                        description=proposed.description,
-                        reason=proposed.reason,
-                        flags=chain_flags(links, findings),
+                        description=description,
+                        reason=reason,
+                        flags=[
+                            *chain_flags(links, findings),
+                            *dict.fromkeys([*text_flags, *reason_flags]),
+                        ],
                         model_call_id=call_id,
                     )
                 )

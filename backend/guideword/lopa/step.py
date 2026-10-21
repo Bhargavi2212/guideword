@@ -17,10 +17,12 @@ Every record is written once, with a `lopa_done` event. A cap refusal stops the 
 """
 
 from collections import Counter
+from collections.abc import Mapping
 from typing import Annotated, Any
 
 from pydantic import BaseModel, ConfigDict, StringConstraints
 
+from guideword.chains.words import chain_words, count_text, handles_for, line_words
 from guideword.config import Config
 from guideword.gateway.client import BudgetRefused, Gateway
 from guideword.gateway.prompts import Prompt, as_data, load_prompt, render
@@ -31,22 +33,22 @@ from guideword.lopa.lines import (
     CODE_ONLY,
     FULL,
     Planned,
-    cause_words,
     display_lines,
     lopa_plan,
     section_for,
 )
 from guideword.reference import ReferenceSet
 from guideword.runs.machine import POST_CAP, StepResult, stop_for_refusal
+from guideword.runs.plants import plant_facts
 from guideword.runs.post_budget import post_budget, post_setting
 from guideword.runs.store import StepWriter
 from guideword.schema.plant import Plant, ReliefDevice
-from guideword.schema.records import LopaRecord, Run
+from guideword.schema.records import Finding, LopaRecord, Run
 
 JOB = "lopa_argument"
 PROMPT = "lopa_argument"
 NEXT = "recommendations"
-ASK = "Judge every listed layer of every line, in the required JSON schema."
+# target-handles plan (approved 2026-10-21): targets by handle, L<n> or C<n>; no ID shown
 ARGUMENT_FAILED_FLAG = "argument call failed"
 LEFT_OUT_FLAG = "left out of the argument answer: layers not argued"
 
@@ -62,7 +64,8 @@ class LayerJudgment(_Strict):
 
 
 class LineJudgment(_Strict):
-    target_id: str
+    # a handle, L<n> or C<n>, mapped back to its target by code
+    target: str
     layers: list[LayerJudgment]
 
 
@@ -100,23 +103,42 @@ def layer_view(layer: Layer, ref: ReferenceSet) -> dict[str, Any]:
     return view
 
 
-def scenario_words(planned: Planned, ref: ReferenceSet, section_id: str | None) -> dict[str, Any]:
+def scenario_words(
+    planned: Planned,
+    ref: ReferenceSet,
+    section_id: str | None,
+    findings: Mapping[str, Finding],
+    facts: Mapping[str, Any],
+) -> dict[str, Any]:
+    """A target in words: a chain's description and links, or a line's question ID, cause,
+    consequence, components and section; no finding or chain ID (target-handles plan)."""
+    causes = {c.id: c.cause for c in ref.causes}
     if planned.chain is not None:
-        return {"description": planned.chain.description, "links": list(planned.chain.links)}
+        return chain_words(planned.chain, findings, facts, causes)
     assert planned.scenario is not None
-    lead = planned.scenario.finding
-    return {
-        "cause": cause_words(lead, {c.id: c.cause for c in ref.causes}),
-        "consequence": lead.consequence,
-        "failing_component_ids": list(lead.failing_component_ids),
-        "section_id": section_id,
-    }
+    return line_words(planned.scenario.finding, causes, section_id)
+
+
+def ask(handles: list[str]) -> str:
+    return (
+        f"Judge every listed layer of each of the {len(handles)} targets "
+        f"({', '.join(handles)}), in the required JSON schema."
+    )
 
 
 def lopa_messages(prompt: Prompt, lines: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    handles = [line["handle"] for line in lines]
     # as data: plant text, the specialists' words and table text cannot close the block
-    system = render(prompt.body, {"lines": as_data(lines)})
-    return [{"role": "system", "content": system}, {"role": "user", "content": ASK}]
+    counted = count_text(handles)
+    system = render(
+        prompt.body,
+        {
+            "lines": as_data(lines, default=str),
+            "count": counted["count"],
+            "handles": counted["handles"],
+        },
+    )
+    return [{"role": "system", "content": system}, {"role": "user", "content": ask(handles)}]
 
 
 class LopaStepper:
@@ -207,21 +229,30 @@ class LopaStepper:
     ) -> StepResult:
         by_question = {q.id: q for q in questions}
         by_section = {s.id: s for s in sections}
+        findings = {f.id: f for f in writer.findings()}
+        facts = {f.id: f.value for f in plant_facts(self.plant, run.plant_record_id)}
+        handles = handles_for([planned.chain is not None for planned in batch])
+        target_of = {
+            handle: planned.target_id for handle, planned in zip(handles, batch, strict=True)
+        }
         listed: dict[str, set[str]] = {}
         payload: list[dict[str, Any]] = []
-        for planned in batch:
+        for handle, planned in zip(handles, batch, strict=True):
             assert planned.scenario is not None
             layers = candidates(planned.scenario, self.plant)
-            listed[planned.target_id] = {layer.id for layer in layers}
+            listed[handle] = {layer.id for layer in layers}
             section = (
                 section_for(planned.scenario.finding, by_question, by_section)
                 if planned.chain is None
                 else None
             )
+            words = scenario_words(
+                planned, self.ref, section.id if section else None, findings, facts
+            )
             payload.append(
                 {
-                    "target_id": planned.target_id,
-                    "scenario": scenario_words(planned, self.ref, section.id if section else None),
+                    "handle": handle,
+                    "scenario": words,
                     "layers": [layer_view(layer, self.ref) for layer in layers],
                 }
             )
@@ -229,17 +260,16 @@ class LopaStepper:
         def validator(value: Any) -> None:
             if not isinstance(value, LopaArgumentAnswer):
                 raise ValueError("not a LOPA argument answer")
-            targets = Counter(line.target_id for line in value.lines)
-            for target_id, n in targets.items():
-                if target_id not in listed:
-                    raise ValueError(f"{target_id} is not in this batch")
+            for handle, n in Counter(line.target for line in value.lines).items():
                 if n > 1:
-                    raise ValueError(f"{target_id} appears more than once")
+                    raise ValueError(f"{handle} appears more than once")
             for line in value.lines:
+                if line.target not in listed:
+                    continue  # an unknown handle is dropped; that target is left out
                 layers = Counter(j.layer_id for j in line.layers)
                 for layer_id, n in layers.items():
-                    if layer_id not in listed[line.target_id]:
-                        raise ValueError(f"{layer_id} is not listed for {line.target_id}")
+                    if layer_id not in listed[line.target]:
+                        raise ValueError(f"{layer_id} is not listed for {line.target}")
                     if n > 1:
                         raise ValueError(f"{layer_id} is judged more than once")
 
@@ -265,7 +295,11 @@ class LopaStepper:
         call_id = result.model_calls[-1].id if result.model_calls else None
         answered: dict[str, LineJudgment] | None = None
         if result.outcome == "ok" and isinstance(result.value, LopaArgumentAnswer):
-            answered = {line.target_id: line for line in result.value.lines}
+            answered = {
+                target_of[line.target]: line
+                for line in result.value.lines
+                if line.target in target_of
+            }
         for planned in batch:
             assert planned.scenario is not None
             if answered is None:

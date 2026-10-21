@@ -98,7 +98,7 @@ def script(job: str, request: dict[str, Any]) -> Reply:
     if job == "lopa_argument":
         lines = [
             {
-                "target_id": line["target_id"],
+                "target": line["handle"],
                 "layers": [
                     {"layer_id": layer["layer_id"], "applies": False, "reason": "no"}
                     for layer in line["layers"]

@@ -59,6 +59,9 @@ run:
   # an extended run reads them from the current config and records them (spec 3.6)
   connector_max_chains: 10
   lopa_batch_size: 5
+  # target-handles plan, Q1: chains per chain-severity call; a call's left-out chains are
+  # asked once more, alone (recorded on run_extended, not hashed)
+  chain_severity_batch_size: 5
   recommendation_batch_size: 5
   # Q20 (plan PR 5): a new run's post-analysis allowance (P3-2), for run_case.py --post-cap
   # and runs started through the API; hashed like run_spend_cap_usd, so only new runs' IDs

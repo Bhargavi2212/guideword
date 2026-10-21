@@ -53,6 +53,8 @@ HIGH_SEVERITY = frozenset({SeverityClass.S4, SeverityClass.S5})
 TIER_ORDER = (ShortlistTier.CONFIRMED, ShortlistTier.ALSO_FOUND, ShortlistTier.UNCONFIRMED)
 HIGH_SEVERITY_NO_LOPA = "S4–S5 with no LOPA — engineer to review"
 INCOMPLETE_LOPA = "incomplete LOPA: gap unknown"
+# target-handles plan (Bhargavi, 2026-10-21): an unrated chain is never just missing
+NO_SEVERITY_NO_LOPA = "no severity — no LOPA"
 UNCONFIRMED_NO_LOPA = "unconfirmed: no finding to analyse"
 SHOWN_ELSEWHERE = "its lead finding is shown under a higher line"
 NOT_REACHED = "LOPA not done: the run stopped before it"
@@ -289,6 +291,8 @@ def shortlist(
             flags.append(HIGH_SEVERITY_NO_LOPA)
         if record is not None and not record.complete:
             flags.append(INCOMPLETE_LOPA)
+        if planned.target_kind == "chain" and planned.severity_class is None:
+            flags.append(NO_SEVERITY_NO_LOPA)
         mine = tuple(recs.get(planned.target_id, ()))
         item = ShortlistLine(planned, record, reason, tuple(flags), mine)
         if item.eligible and not mine:

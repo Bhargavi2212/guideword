@@ -13,7 +13,13 @@ from dataclasses import dataclass
 
 from guideword.api import models as api
 from guideword.config import CapsConfig
-from guideword.lopa.lines import ShortlistLine, display_lines, lopa_plan, shortlist
+from guideword.lopa.lines import (
+    NO_SEVERITY_NO_LOPA,
+    ShortlistLine,
+    display_lines,
+    lopa_plan,
+    shortlist,
+)
 from guideword.reference import ReferenceSet
 from guideword.review.display import gap_text
 from guideword.review.overrides import (
@@ -111,7 +117,7 @@ def _item(line: ShortlistLine, rank: int, view: RunView) -> api.ShortlistItem:
     finding = effective_finding(lead, overrides) if lead is not None else None
     chain = effective_chain(planned.chain, overrides) if planned.chain is not None else None
     flags = list(line.flags)
-    if line.no_lopa_reason is not None:
+    if line.no_lopa_reason is not None and NO_SEVERITY_NO_LOPA not in flags:
         flags.append(f"no LOPA: {line.no_lopa_reason}")
     if view.pre_r50:
         flags.append(PRE_R50_LABEL)
