@@ -2019,6 +2019,13 @@
             },
             "title": "Sections",
             "type": "array"
+          },
+          "superseded": {
+            "items": {
+              "$ref": "#/components/schemas/SupersededRecord"
+            },
+            "title": "Superseded",
+            "type": "array"
           }
         },
         "required": [
@@ -2610,6 +2617,43 @@
           "estimated_cost_usd"
         ],
         "title": "StartRunResult",
+        "type": "object"
+      },
+      "SupersededRecord": {
+        "additionalProperties": false,
+        "description": "A post-analysis record a re-run from `chains` replaced (contract v1.7): copied here\nverbatim, never changed or deleted. `pass_seq` is the `seq` of the `run_extended` event\nthat began the pass it belonged to; `superseded_seq` that of the event that replaced it.",
+        "properties": {
+          "kind": {
+            "enum": [
+              "chain",
+              "lopa",
+              "recommendation",
+              "model_call"
+            ],
+            "title": "Kind",
+            "type": "string"
+          },
+          "pass_seq": {
+            "title": "Pass Seq",
+            "type": "integer"
+          },
+          "record": {
+            "additionalProperties": true,
+            "title": "Record",
+            "type": "object"
+          },
+          "superseded_seq": {
+            "title": "Superseded Seq",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "kind",
+          "pass_seq",
+          "superseded_seq",
+          "record"
+        ],
+        "title": "SupersededRecord",
         "type": "object"
       },
       "Tier": {

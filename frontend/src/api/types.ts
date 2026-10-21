@@ -1061,6 +1061,8 @@ export interface components {
             run: components["schemas"]["Run"];
             /** Sections */
             sections: components["schemas"]["Section"][];
+            /** Superseded */
+            superseded?: components["schemas"]["SupersededRecord"][];
         };
         /** RunLabel */
         RunLabel: {
@@ -1246,6 +1248,27 @@ export interface components {
             label: components["schemas"]["RunLabel"];
             /** Run Id */
             run_id: string;
+        };
+        /**
+         * SupersededRecord
+         * @description A post-analysis record a re-run from `chains` replaced (contract v1.7): copied here
+         *     verbatim, never changed or deleted. `pass_seq` is the `seq` of the `run_extended` event
+         *     that began the pass it belonged to; `superseded_seq` that of the event that replaced it.
+         */
+        SupersededRecord: {
+            /**
+             * Kind
+             * @enum {string}
+             */
+            kind: "chain" | "lopa" | "recommendation" | "model_call";
+            /** Pass Seq */
+            pass_seq: number;
+            /** Record */
+            record: {
+                [key: string]: unknown;
+            };
+            /** Superseded Seq */
+            superseded_seq: number;
         };
         /**
          * Tier

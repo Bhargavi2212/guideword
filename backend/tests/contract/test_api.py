@@ -695,3 +695,29 @@ def test_fixture_shortlist_shows_the_gap_text_on_every_line_with_lopa() -> None:
     assert all(i.gap_text is None for i in items if i.lopa is None)
     demo = api.DemoResponse.model_validate(_fixture("demo_response.json"))
     assert demo.shortlist.items == items
+
+
+# --- contract v1.7: superseded post-analysis records (Bhargavi, 2026-10-21) ---------------------
+
+
+def test_run_dump_superseded_defaults_to_empty_for_older_dumps() -> None:
+    old = dict(_fixture("run_dump.json"))
+    old.pop("superseded", None)
+    assert api.RunDump.model_validate(old).superseded == []
+    assert api.RunDump.model_validate(_fixture("run_dump.json")).superseded == []
+
+
+def test_a_superseded_record_is_kept_verbatim_with_its_kind_and_passes() -> None:
+    """A re-run from `chains` copies each old chain, LOPA record, recommendation and post-step
+    model call here, never changed; `pass_seq` is the `run_extended` event that began its
+    pass and `superseded_seq` the one that replaced it."""
+    dump = _fixture("run_dump.json")
+    chain = dump["chains"][0]
+    item = api.SupersededRecord(kind="chain", pass_seq=3, superseded_seq=9, record=chain)
+    assert item.record == chain
+    for kind in ("chain", "lopa", "recommendation", "model_call"):
+        api.SupersededRecord(kind=kind, pass_seq=1, superseded_seq=2, record={})
+    with pytest.raises(ValidationError):
+        api.SupersededRecord(kind="finding", pass_seq=1, superseded_seq=2, record={})
+    with pytest.raises(ValidationError):
+        api.SupersededRecord(kind="chain", pass_seq=2, superseded_seq=2, record={})
