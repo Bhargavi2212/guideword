@@ -350,7 +350,8 @@
         "support_finding_ids": [
           "f:pair:KOH:SIH:lightning:C14:541f633168214c61"
         ],
-        "flags": []
+        "flags": [],
+        "gap_text": "about 1,000× tolerable — mitigated about 1 in 10 years, tolerable about 1 in 10,000 years"
       },
       {
         "rank": 2,
@@ -458,7 +459,8 @@
         "hypothesis_rank": null,
         "hypothesis": null,
         "support_finding_ids": [],
-        "flags": []
+        "flags": [],
+        "gap_text": "about 10× tolerable — mitigated about 1 in 100 years, tolerable about 1 in 1,000 years"
       },
       {
         "rank": 3,
@@ -536,7 +538,8 @@
         "support_finding_ids": [],
         "flags": [
           "incomplete LOPA: gap unknown"
-        ]
+        ],
+        "gap_text": "incomplete: L-12.length_m missing"
       },
       {
         "rank": 4,
@@ -571,7 +574,8 @@
           "model_call_id": "mc:b4141dda9c7f08a1"
         },
         "support_finding_ids": [],
-        "flags": []
+        "flags": [],
+        "gap_text": null
       }
     ]
   }

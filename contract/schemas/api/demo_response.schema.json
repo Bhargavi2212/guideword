@@ -1266,6 +1266,18 @@
           ],
           "title": "Gap"
         },
+        "gap_text": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Gap Text"
+        },
         "hypothesis": {
           "anyOf": [
             {

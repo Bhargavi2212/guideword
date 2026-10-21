@@ -2442,6 +2442,17 @@
             ],
             "title": "Gap"
           },
+          "gap_text": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Gap Text"
+          },
           "hypothesis": {
             "anyOf": [
               {
