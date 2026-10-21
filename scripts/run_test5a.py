@@ -26,10 +26,21 @@ from guideword.schema.enums import BudgetUse
 from guideword.settings import Settings
 
 REPO = Path(__file__).resolve().parents[1]
-PHASE = "2"
+# the spend counts against phase_caps_usd of the phase given by --phase (plan Q15)
+DEFAULT_PHASE = "3"
 SOURCE = REPO / "cases" / "dev" / "source"
 OUT = REPO / "bench" / "test5"
 USES = (BudgetUse.DEVELOPMENT.value, BudgetUse.TEST_5.value)
+
+
+def _arguments(argv: Sequence[str] | None) -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    parser.add_argument("--case", action="append", required=True, help="a case letter, e.g. d")
+    parser.add_argument("--use", choices=USES, required=True)
+    parser.add_argument(
+        "--phase", default=DEFAULT_PHASE, help="the phase whose cap the spend counts against"
+    )
+    return parser.parse_args(argv)
 
 
 def main(
@@ -43,10 +54,7 @@ def main(
     source_dir: Path = SOURCE,
     out_root: Path = OUT,
 ) -> int:
-    parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    parser.add_argument("--case", action="append", required=True, help="a case letter, e.g. d")
-    parser.add_argument("--use", choices=USES, required=True)
-    args = parser.parse_args(argv)
+    args = _arguments(argv)
     configure()
     settings = settings if settings is not None else Settings()
     config = (
@@ -59,7 +67,7 @@ def main(
         cache=ResponseCache(sessions),
         ledger=ledger if ledger is not None else ledger_for(settings, sessions),
         use=BudgetUse(args.use),
-        phase=PHASE,
+        phase=args.phase,
         clock=clock if clock is not None else (lambda: datetime.now(UTC)),
     )
     for letter in args.case:

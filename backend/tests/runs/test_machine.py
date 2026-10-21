@@ -26,7 +26,9 @@ from guideword.schema.enums import (
 from guideword.schema.records import AgentStep, Finding, ModelCall, Run, ToolCall
 
 Upload = Callable[..., str]
-LATER_PHASE_EVENTS = {EventType.CHAIN_ADDED, EventType.LOPA_DONE, EventType.EVIDENCE_ADDED}
+# Phase 3 emits chain_added, lopa_done and run_extended with its post-analysis steps (plan
+# G11); evidence_added comes with the Phase 4 tools
+LATER_PHASE_EVENTS = {EventType.EVIDENCE_ADDED}
 
 
 def past_screen(runs: RunRepository, run: Run) -> Run:
@@ -272,8 +274,12 @@ def test_spend_not_matching_its_records_is_logged_when_the_run_stops(
 
 
 def test_phase_2_event_types() -> None:
-    """R32: the store emits only Phase 2 types; later ones come with their tools."""
+    """R32: the store emits only the types of the phases built; later ones come with their
+    tools. Phase 3 (plan G11) adds the post-analysis steps' events."""
     assert set(EventType) - LATER_PHASE_EVENTS >= EMITTED_EVENT_TYPES
+    assert {EventType.CHAIN_ADDED, EventType.LOPA_DONE, EventType.RUN_EXTENDED} <= (
+        EMITTED_EVENT_TYPES
+    )
 
 
 def test_a_second_record_with_the_same_model_call_id_is_refused(
@@ -300,3 +306,17 @@ def test_a_model_call_id_stored_in_an_earlier_step_is_refused(
     with pytest.raises(ValueError, match="already recorded"):
         advance(runs, run.id, {"analysis": lambda r, w: (w.add_model_call(call), StepResult())[1]})
     assert runs.model_calls(run.id) == [call]
+
+
+def test_step_result_summary_stays_out_of_the_api_contract() -> None:
+    """Bhargavi, 2026-10-20: `StepResult.summary` is internal. It only adds keys to a
+    `step_finished` event's free-form payload; no contract model or schema names it."""
+    import json  # noqa: PLC0415
+    from pathlib import Path  # noqa: PLC0415
+
+    repo = Path(__file__).resolve().parents[3]
+    openapi = json.loads((repo / "contract" / "openapi.json").read_text(encoding="utf-8"))
+    schemas = openapi["components"]["schemas"]
+    assert "StepResult" not in schemas
+    assert "summary" not in schemas["Event"]["properties"]
+    assert not any("StepResult" in p.name for p in (repo / "contract" / "schemas").iterdir())

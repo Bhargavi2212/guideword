@@ -58,7 +58,8 @@ Clock = Callable[[], datetime]
 # live runs started through the API on the laptop spend `development` (R25; Phase 7 sets
 # the hosted uses); the phase their calls are booked to
 API_RUN_USE = BudgetUse.DEVELOPMENT
-API_RUN_PHASE = "2"
+# runs started through the API spend under Phase 3 (plan Q15)
+API_RUN_PHASE = "3"
 log = get_logger(__name__)
 
 # The phase that builds each endpoint for real (PROJECT.md §15); a 501 names it.

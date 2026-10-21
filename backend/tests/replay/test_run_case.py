@@ -91,7 +91,9 @@ def test_the_report_carries_both_spend_figures_and_the_dropped_count(
     out = capsys.readouterr().out
     result = case.written()
     assert result["spent_usd"] > 0
-    assert result["cap_spent_usd"] == pytest.approx(result["spent_usd"])
+    # nothing cached: the analysis counter is every paid call but the post-analysis ones
+    assert result["post_spent_usd"] > 0
+    assert result["cap_spent_usd"] == pytest.approx(result["spent_usd"] - result["post_spent_usd"])
     assert result["dropped"] == {"total": 0, "distinct": 0}
     # the run's duration, from its first and last event (the fake clock stands still)
     assert result["seconds"] == 0.0

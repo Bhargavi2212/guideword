@@ -8,16 +8,21 @@ from typing import Any
 
 import pytest
 
+from guideword.chains.connector import ConnectorStepper
+from guideword.chains.severity import ChainSeverityStepper
 from guideword.config import Config, load_config
 from guideword.gateway.fake import fake_gateway, reply
 from guideword.gateway.transport import ToolCallRequest
+from guideword.lopa.step import LopaStepper
 from guideword.orchestrator.loop import OrchestratorStepper
 from guideword.ranking.rank import rank_findings
 from guideword.ranking.severity import RankedStepper, SeverityStepper, scenarios
+from guideword.recommend.step import RecommendationStepper
 from guideword.reference import ReferenceSet, load_reference_set
 from guideword.runs.db import make_session_factory
 from guideword.runs.machine import advance
 from guideword.runs.plants import PlantRepository, load_plant, plant_facts
+from guideword.runs.post_budget import POST_JOBS
 from guideword.runs.start import RunSettings, start_run
 from guideword.runs.store import RunRepository
 from guideword.schema.enums import EventType, RunStatus, SeverityClass
@@ -87,6 +92,29 @@ def severity_answer(request: dict[str, Any], skip: int = 0) -> Any:
     )
 
 
+def _no_layer_applies(request: dict[str, Any]) -> Any:
+    lines = [
+        {
+            "target_id": line["target_id"],
+            "layers": [
+                {"layer_id": layer["layer_id"], "applies": False, "reason": "no"}
+                for layer in line["layers"]
+            ],
+        }
+        for line in block(request, "lines")
+    ]
+    return reply({"lines": lines})
+
+
+# the post-analysis jobs (Phase 3, plan G14): no chains, no layer applies, no action
+POST_ANSWERS: dict[str, Any] = {
+    "connector": lambda request: reply({"chains": []}),
+    "chain_severity": lambda request: reply({"severities": []}),
+    "lopa_argument": _no_layer_applies,
+    "recommendation": lambda request: reply({"recommendations": []}),
+}
+
+
 def level_for(view: dict[str, Any], agent: str) -> str:
     """Bulk while the agent has untried open questions, then hard for the tried ones (R44)."""
     retry = view["retry_at_hard"].get(agent, {"count": 0})["count"]
@@ -137,6 +165,8 @@ class World:
             plant_record_id=self.record_id,
             spend_cap_usd=cap,
             mode="full",
+            # Phase 3 (plan G14): the post-analysis steps get their default allowance
+            post_spend_cap_usd=cfg.caps.run.post_spend_cap_usd,
         )
         return past_screen(self.runs, run)
 
@@ -158,6 +188,8 @@ class World:
                 return reply(tool_calls=(call,), output_tokens=orchestrator_output_tokens)
             if job == "severity_reason":
                 return severity(request)
+            if job in POST_ANSWERS:
+                return POST_ANSWERS[job](request)
             return specialist(request)
 
         gateway, transport = fake_gateway(
@@ -171,6 +203,11 @@ class World:
         return {
             "analysis": OrchestratorStepper(gateway, **args),
             "severity": SeverityStepper(gateway, **args),
+            # Phase 3 (plan G14): the post-analysis steps, answered by POST_ANSWERS
+            "chains": ConnectorStepper(gateway, **args),
+            "chain_severity": ChainSeverityStepper(gateway, **args),
+            "lopa": LopaStepper(gateway, **args),
+            "recommendations": RecommendationStepper(gateway, **args),
             "ranked": RankedStepper(),
         }, transport
 
@@ -263,12 +300,15 @@ def ranked(world: World, run: Run) -> list[tuple[str, Any, Any]]:
 
 
 def spend(world: World, run: Run) -> tuple[float, float]:
-    """(spent_usd, cap_spent_usd), after checking both equal the sums of the call records."""
+    """(spent_usd, cap_spent_usd), after checking both equal the sums of the call records:
+    every call's paid cost, and the analysis calls' cap cost (post-analysis calls count
+    against the post cap only; Bhargavi, 2026-10-20)."""
     stored = world.runs.get(run.id)
     assert stored is not None
     calls = world.runs.model_calls(run.id)
+    analysis = [c for c in calls if c.job not in POST_JOBS]
     assert stored.spent_usd == pytest.approx(sum(c.cost_usd for c in calls), abs=1e-12)
-    assert stored.cap_spent_usd == pytest.approx(sum(c.cap_cost_usd for c in calls), abs=1e-12)
+    assert stored.cap_spent_usd == pytest.approx(sum(c.cap_cost_usd for c in analysis), abs=1e-12)
     return stored.spent_usd, stored.cap_spent_usd
 
 
@@ -305,7 +345,9 @@ def test_ranking_identical_across_two_cache_replays(world: World) -> None:
     assert paid > 0
     assert ranked(world, first) == ranked(world, second)
     first_spent, first_cap = spend(world, first)
-    assert first_spent == pytest.approx(first_cap) and first_spent > 0
+    post_paid = sum(c.cost_usd for c in world.runs.model_calls(first.id) if c.job in POST_JOBS)
+    # nothing cached: the analysis counter is every paid call but the post-analysis ones
+    assert first_spent - post_paid == pytest.approx(first_cap) and first_cap > 0
     # a full replay pays nothing and counts against its cap what the original did
     assert spend(world, second) == (0.0, pytest.approx(first_cap))
 
@@ -361,7 +403,8 @@ def test_a_run_partly_served_from_the_cache_sums_both_figures(world: World) -> N
     assert {c.job for c in sent} == {"orchestrator"}
     spent, cap = spend(again, second)
     assert spent == pytest.approx(sum(c.cost_usd for c in sent))
-    assert cap == pytest.approx(spent + sum(c.cap_cost_usd for c in hits))
+    # post-analysis hits count against the post cap only (Bhargavi, 2026-10-20)
+    assert cap == pytest.approx(spent + sum(c.cap_cost_usd for c in hits if c.job not in POST_JOBS))
     assert 0 < spent < cap
 
 

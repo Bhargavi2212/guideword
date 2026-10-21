@@ -53,7 +53,8 @@ def _block(request: dict[str, Any], name: str) -> Any:
 def script(job: str, request: dict[str, Any]) -> Reply:
     """The orchestrator drains every open list and finishes; each specialist gives one
     outside-library finding per question on the first location of its context; severity
-    rates every finding S3; the screen names one hypothesis on a location."""
+    rates every finding S3; the screen names one hypothesis on a location; the post-analysis
+    jobs find nothing to add."""
     if job == "section_suggestion":
         return reply({"suggestions": []})
     if job == "plant_screen":
@@ -89,6 +90,25 @@ def script(job: str, request: dict[str, Any]) -> Reply:
                 ]
             }
         )
+    # the post-analysis jobs (Phase 3, plan G14): no chains, no layer applies, no action
+    if job == "connector":
+        return reply({"chains": []})
+    if job == "chain_severity":
+        return reply({"severities": []})
+    if job == "lopa_argument":
+        lines = [
+            {
+                "target_id": line["target_id"],
+                "layers": [
+                    {"layer_id": layer["layer_id"], "applies": False, "reason": "no"}
+                    for layer in line["layers"]
+                ],
+            }
+            for line in _block(request, "lines")
+        ]
+        return reply({"lines": lines})
+    if job == "recommendation":
+        return reply({"recommendations": []})
     locations = _block(request, "context").get("locations") or []
     questions = _block(request, "questions")
     if not locations:
@@ -197,10 +217,16 @@ def test_start_returns_a_live_run_and_an_upper_bound_capped_at_the_cap(app: Api)
     assert 0 < result.estimated_cost_usd < 1000.0  # the real upper bound, under a huge cap
 
 
-def test_the_estimate_is_capped_at_the_spend_cap(tmp_path: Path) -> None:
+def test_the_estimate_is_the_analysis_capped_at_the_spend_cap_plus_the_post_cap(
+    tmp_path: Path,
+) -> None:
+    """Bhargavi, 2026-10-20 (point 4): the upper bound is the worst case, so it includes the
+    post-analysis cap the run may also spend."""
     app = Api(tmp_path)
     result = app.start(cap=0.01).json()
-    assert result["estimated_cost_usd"] == pytest.approx(0.01)
+    post_cap = load_config(global_budget_usd=25.0).caps.run.post_spend_cap_usd
+    assert post_cap > 0
+    assert result["estimated_cost_usd"] == pytest.approx(0.01 + post_cap)
 
 
 def test_sample_mode_is_refused_until_phase_7(app: Api) -> None:

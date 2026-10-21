@@ -1,6 +1,8 @@
 """A scripted fake model for whole runs: the orchestrator drains every open list at bulk and
 then finishes, each specialist answers every question with one outside-library finding on
-the first location in its context, and severity rates every finding S3."""
+the first location in its context, and severity rates every finding S3. The post-analysis
+jobs (Phase 3, plan G14) answer by default with no chains, every layer "does not apply" and
+no recommendation."""
 
 import json
 import re
@@ -139,9 +141,45 @@ def make_script(
                     ]
                 }
             )
+        post = post_answer(job, request)
+        if post is not None:
+            return post
         return _specialist(request, not_credible_every, specialist_tokens)
 
     return script
+
+
+def post_answer(job: str, request: dict[str, Any]) -> Reply | None:
+    """The default answers of the four post-analysis jobs (plan G14), or None for another job."""
+    if job == "connector":
+        return reply({"chains": []})
+    if job == "chain_severity":
+        return reply(
+            {
+                "severities": [
+                    {"chain_id": c["chain_id"], "severity_class": "S3", "reason": "one hurt"}
+                    for c in block(request, "chains")
+                ]
+            }
+        )
+    if job == "lopa_argument":
+        return reply(
+            {
+                "lines": [
+                    {
+                        "target_id": line["target_id"],
+                        "layers": [
+                            {"layer_id": layer["layer_id"], "applies": False, "reason": "no"}
+                            for layer in line["layers"]
+                        ],
+                    }
+                    for line in block(request, "lines")
+                ]
+            }
+        )
+    if job == "recommendation":
+        return reply({"recommendations": []})
+    return None
 
 
 @pytest.fixture

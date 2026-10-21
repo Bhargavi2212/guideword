@@ -148,4 +148,6 @@ def run_upper_bound(
         call = estimate_cost(prices, batch, None, caps.max_tokens[SEVERITY_JOB])
         total += math.ceil(count / size) * call.cost_usd
 
-    return round(min(total, run.spend_cap_usd), 6)
+    # the analysis can spend at most its cap; the post-analysis steps may then spend up to
+    # their own cap (Bhargavi, 2026-10-20: the bound is the worst case)
+    return round(min(total, run.spend_cap_usd) + run.post_spend_cap_usd, 6)
