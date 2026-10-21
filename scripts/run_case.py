@@ -44,7 +44,18 @@ from guideword.settings import Settings
 # the spend counts against phase_caps_usd of the phase given by --phase (plan Q15)
 DEFAULT_PHASE = "3"
 TOP = 10
-OUT = Path(__file__).resolve().parents[1] / "bench" / "test5" / "5b"
+REPO = Path(__file__).resolve().parents[1]
+OUT = REPO / "bench" / "test5" / "5b"
+# demo-fixes plan: a demo plant's report never lands among test #5's results
+DEMO_PLANTS = REPO / "cases" / "demo"
+DEMO_OUT = REPO / "bench" / "demo"
+
+
+def default_out_dir(plant: Path) -> Path:
+    """`bench/demo/` for a plant under `cases/demo/`, else test #5's `bench/test5/5b/`."""
+    return DEMO_OUT if plant.resolve().is_relative_to(DEMO_PLANTS.resolve()) else OUT
+
+
 USES = (BudgetUse.DEVELOPMENT.value, BudgetUse.TEST_5.value)
 
 
@@ -61,6 +72,11 @@ def _arguments(argv: Sequence[str] | None) -> argparse.Namespace:
     )
     parser.add_argument(
         "--phase", default=DEFAULT_PHASE, help="the phase whose cap the spend counts against"
+    )
+    parser.add_argument(
+        "--out-dir",
+        type=Path,
+        help="where the report goes (default: bench/demo/ for cases/demo/, else bench/test5/5b/)",
     )
     return parser.parse_args(argv)
 
@@ -121,7 +137,7 @@ def main(
     settings: Settings | None = None,
     ledger: Ledger | None = None,
     clock: Callable[[], datetime] | None = None,
-    out_dir: Path = OUT,
+    out_dir: Path | None = None,
 ) -> int:
     args = _arguments(argv)
     configure()
@@ -160,8 +176,9 @@ def main(
     drive(runs, run.id, steppers_for(gateway, config, ref, record.plant_file))
     case = args.plant.stem
     report = case_report(runs, run.id, record.plant_file, ref, config.caps, case)
-    out_dir.mkdir(parents=True, exist_ok=True)
-    path = out_dir / f"{case}.json"
+    target = args.out_dir or out_dir or default_out_dir(args.plant)
+    target.mkdir(parents=True, exist_ok=True)
+    path = target / f"{case}.json"
     path.write_text(
         json.dumps(report, indent=1, ensure_ascii=False) + "\n", encoding="utf-8", newline="\n"
     )

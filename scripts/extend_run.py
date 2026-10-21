@@ -8,6 +8,10 @@ With --rerun-from chains, re-runs the four post steps of a run whose chains step
 copied to superseded_records and cleared in one transaction; unchanged requests come from the
 cache at $0; the run ID stays.
 
+With --retry-failed (demo-fixes plan), asks each failed question of a finished run alone,
+then rates only the new findings and runs the post steps from chains; the analysis cap is
+raised by --retry-cap and no orchestrator call is made. --out-dir sets where the report goes.
+
 Refuses a run that has not finished or whose chains step has run, unless it stopped at its
 post cap and --post-cap is higher: then it resumes from the step it stopped at, with the
 same run ID (Bhargavi, 2026-10-20). Otherwise sets the run's
@@ -58,6 +62,20 @@ def _arguments(argv: Sequence[str] | None) -> argparse.Namespace:
     parser.add_argument(
         "--phase", default=DEFAULT_PHASE, help="the phase whose cap the spend counts against"
     )
+    parser.add_argument(
+        "--retry-failed",
+        action="store_true",
+        help="ask each failed question alone, then severity and the post steps from chains",
+    )
+    parser.add_argument(
+        "--retry-cap",
+        type=float,
+        default=0.30,
+        help="USD added to the analysis cap for --retry-failed (default 0.30)",
+    )
+    parser.add_argument(
+        "--out-dir", type=Path, help="where the report goes (default: bench/phase3/)"
+    )
     parser.add_argument("--use", choices=USES, default=BudgetUse.DEVELOPMENT.value)
     parser.add_argument("--name", help="the report's file name (default: the plant ID)")
     parser.add_argument(
@@ -100,6 +118,7 @@ def main(
     out_dir: Path = OUT,
 ) -> int:
     args = _arguments(argv)
+    out_dir = args.out_dir or out_dir
     configure()
     settings = settings if settings is not None else Settings()
     config = (
@@ -128,7 +147,15 @@ def main(
         return 1
     post_cap = args.post_cap if args.post_cap is not None else config.caps.run.post_spend_cap_usd
     try:
-        extend(runs, run.id, post_cap, config, rerun_from=args.rerun_from)
+        extend(
+            runs,
+            run.id,
+            post_cap,
+            config,
+            rerun_from=args.rerun_from,
+            retry_failed=args.retry_failed,
+            retry_cap_usd=args.retry_cap,
+        )
     except ExtendRefused as refused:
         print(f"refused: {refused}", file=sys.stderr)
         return 1

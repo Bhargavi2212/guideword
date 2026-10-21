@@ -220,11 +220,14 @@ PHASE_3_PROMPTS = ("connector", "lopa_argument", "recommendation", "severity_cha
 
 
 def test_phase_3_prompts_are_routed_and_chain_severity_runs_on_ultra() -> None:
-    """All four post-step prompts at v2: handles (connector/v2 plan, then the target-handles
-    plan, both approved 2026-10-21)."""
+    """The post-step prompts: handles at v2 (connector/v2 and target-handles plans), and
+    `lopa_argument` at v3, leaving valve states to code (demo-fixes plan), all 2026-10-21."""
     config = load_config(global_budget_usd=25.0)
     assert {name: config.routing.prompts[name] for name in PHASE_3_PROMPTS} == {
-        name: "v2" for name in PHASE_3_PROMPTS
+        "connector": "v2",
+        "lopa_argument": "v3",
+        "recommendation": "v2",
+        "severity_chain": "v2",
     }
     for job in ("connector", "lopa_argument", "recommendation", "chain_severity"):
         assert config.routing.jobs[job] == Tier.ULTRA, job

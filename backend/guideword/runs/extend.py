@@ -21,6 +21,12 @@ chain, LOPA record, recommendation and post-job model call is copied verbatim in
 `superseded_records` and cleared from the live tables, and the `run_extended` event lists
 their IDs. Nothing is deleted from the record. It is refused while an override names a post
 record (Q3). The re-run's post cap counts the new pass only (Q2).
+
+`retry_failed=True` (demo-fixes plan, approved 2026-10-21) takes a finished run with failed
+questions: in one transaction, its analysis cap is raised by `retry_cap_usd` (not hashed, so
+the run ID stays), its post records are superseded as for a re-run, and it moves to the
+`retry_failed` step, which asks each failed question alone; then severity rates only the new
+findings and the post steps run from `chains`. No orchestrator call is made.
 """
 
 from typing import Any
@@ -29,10 +35,11 @@ from guideword.config import Config
 from guideword.runs.machine import POST_CAP
 from guideword.runs.post_budget import POST_JOBS, POST_PROMPTS, post_settings
 from guideword.runs.store import RunRepository
-from guideword.schema.enums import EventType, RunStatus
+from guideword.schema.enums import EventType, QuestionStatus, RunStatus
 from guideword.schema.records import Run
 
 FIRST_POST_STEP = "chains"
+RETRY_STEP = "retry_failed"
 RERUN_FROM = ("chains",)
 # record ID prefixes of the post-analysis records an override can name
 POST_RECORD_PREFIXES = ("ch:", "lopa:", "rec:")
@@ -99,6 +106,22 @@ def _check_rerun(runs: RunRepository, run: Run, rerun_from: str) -> None:
         )
 
 
+def _check_retry(runs: RunRepository, run: Run) -> list[str]:
+    if run.status != RunStatus.FINISHED:
+        raise ExtendRefused(f"run {run.id} is {run.status}, not finished")
+    failed = [q.id for q in runs.questions(run.id) if q.status == QuestionStatus.FAILED]
+    if not failed:
+        raise ExtendRefused(f"run {run.id} has no failed question to retry")
+    named = sorted(
+        o.id for o in runs.overrides(run.id) if o.target_id.startswith(POST_RECORD_PREFIXES)
+    )
+    if named:
+        raise ExtendRefused(
+            f"run {run.id}: an override names a post-analysis record ({', '.join(named)})"
+        )
+    return failed
+
+
 def extend(
     runs: RunRepository,
     run_id: str,
@@ -106,10 +129,14 @@ def extend(
     config: Config,
     *,
     rerun_from: str | None = None,
+    retry_failed: bool = False,
+    retry_cap_usd: float = 0.0,
 ) -> Run:
     run = runs.get(run_id)
     if run is None:
         raise LookupError(f"no run {run_id}")
+    if retry_failed:
+        return _retry(runs, run, post_cap_usd, retry_cap_usd, config)
     resume = False
     if rerun_from is not None:
         _check_rerun(runs, run, rerun_from)
@@ -160,4 +187,39 @@ def extend(
     extended = runs.get(run_id)
     if extended is None:
         raise LookupError(f"run {run_id} disappeared while extending")
+    return extended
+
+
+def _retry(
+    runs: RunRepository, run: Run, post_cap_usd: float, retry_cap_usd: float, config: Config
+) -> Run:
+    failed = _check_retry(runs, run)
+    had_post_pass = already_extended(runs, run.id)
+    pass_seq = current_pass_seq(runs, run.id) if had_post_pass else None
+    with runs.step(run.id) as writer:
+        writer.set_spend_cap(run.spend_cap_usd + retry_cap_usd)
+        writer.set_post_spend_cap(post_cap_usd)
+        writer.set_step(RETRY_STEP)
+        writer.set_status(RunStatus.RUNNING)
+        superseded = writer.post_record_ids(POST_JOBS)
+        event = writer.emit(
+            EventType.RUN_EXTENDED,
+            {
+                **post_pass(run, config, post_cap_usd),
+                "resumed_after_post_cap": False,
+                "step": RETRY_STEP,
+                "rerun_from": RETRY_STEP,
+                "retry_failed": failed,
+                "retry_cap_usd": retry_cap_usd,
+                "superseded_pass_seq": pass_seq,
+                "superseded_ids": superseded,
+            },
+        )
+        if pass_seq is not None:
+            copied = writer.supersede_post_records(pass_seq, event.seq, POST_JOBS)
+            if copied != superseded:  # one transaction: nothing can change in between
+                raise RuntimeError(f"run {run.id}: the superseded records changed while copying")
+    extended = runs.get(run.id)
+    if extended is None:
+        raise LookupError(f"run {run.id} disappeared while extending")
     return extended

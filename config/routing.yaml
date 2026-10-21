@@ -32,7 +32,7 @@ prompts:
   specialists/dust: v2
   # Phase 3 post-analysis steps (plan PR 2); drafted by Claude Code, reviewed by Bhargavi
   connector: v2
-  lopa_argument: v2
+  lopa_argument: v3
   recommendation: v2
   severity_chain: v2
 fallback_order: [nano, lightning, super, ultra]
