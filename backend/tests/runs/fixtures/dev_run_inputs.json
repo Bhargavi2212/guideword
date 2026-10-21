@@ -1,0 +1,460 @@
+{
+ "_about": "The stored run-ID inputs of the Phase 2 dev-case runs D-G, as in guideword.db on 2026-10-21 (Run fields only: no model text, no keys). Their IDs must rebuild from these, unchanged.",
+ "runs": {
+  "D": {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "spend_cap_usd": 1.2,
+   "inputs": {
+    "plant_id": "plant:case_d:88c2cdaec62b7ce0",
+    "section_snapshot": [
+     "S-C-101",
+     "S-C-102",
+     "S-C-103",
+     "S-C-104",
+     "S-E-104",
+     "S-E-105",
+     "S-E-106",
+     "S-FLARE-HEADER",
+     "S-L-E106-BYPASS",
+     "S-L-FEED",
+     "S-L-HEAVIES",
+     "S-L-OFFSPEC",
+     "S-L-P104B-DIS",
+     "S-L-P104B-SUC",
+     "S-L-RAFFINATE",
+     "S-L-RUNDOWN",
+     "S-L-RUNDOWN~E-106",
+     "S-L-STARTUP-RECYCLE",
+     "S-P-104A",
+     "S-P-104B",
+     "S-TK-201",
+     "S-TK-202",
+     "S-TK-OFFSPEC",
+     "S-V-101",
+     "S-V-104"
+    ],
+    "reference_versions": {
+     "applicability.csv": "d725cd824798c98e398362369d0e8c277caf8e49d720809aa9537705eaa899f6",
+     "causes.csv": "984049c70047943e47cefb79866a4de8f50e418be6b80ed70357956a0cc3da7b",
+     "initiating_events.csv": "caa2f790c999b599e41e3bc055aa9a852a420f84d2cd18ac2e9b1e9d4ab35f16",
+     "protection_layers.csv": "4646978f09898a34b8ac0972f79df2e7bf13568ab65a06af397036de9056b9d0",
+     "modifiers.csv": "31660806e522d9ec12785c63a0afbef306558b1051ded4a1a4112a2f6b11a8d4",
+     "severity_classes.csv": "50dc1ca83409d5aceeeb5f2ed97299791155707ee06862c66350b45e1a264e9b",
+     "tolerable_frequencies.csv": "47631a499bd103f2256b188bc9f00f9e91c692c56223bd1f057f2560a572382b",
+     "likelihood_classes.csv": "95eb9e55eb0d97f09e0a3b0e96b5c53dd2d73716bf8eec96774027c1d3aaa0dd",
+     "risk_matrix.csv": "57c893659d2d3c26966e3220b7038b00e4d0713bd943064b38f9172481d37592",
+     "cameo_groups.csv": "792f87ec1e82b9d74ce72323c10c1ce5ed830775aeb6ca4ccdf9ffed16324d44",
+     "reactive_groups.csv": "b1c526f81f750c5b13b2fa21ebd2b59b031290a293fa2e73d900f27121bc9fe9",
+     "reactive_pairs.csv": "d0319326a040d4e907f7f697e67de14c2f2455943124f07742d9533519916013"
+    },
+    "routing_config": {
+     "orchestrator": "ultra",
+     "connector": "ultra",
+     "lopa_argument": "ultra",
+     "severity_reason": "ultra",
+     "recommendation": "ultra",
+     "unsure_answer": "ultra",
+     "section_suggestion": "super",
+     "specialist_hard": "super",
+     "specialist_bulk": "lightning",
+     "not_credible": "lightning",
+     "extraction": "lightning",
+     "test5a": "ultra"
+    },
+    "caps": {
+     "run_spend_cap_usd": 1.0,
+     "orchestrator_max_steps": 60,
+     "specialist_max_tool_steps": 2,
+     "lopa_top_n": 10,
+     "evidence_top_n": 5,
+     "question_max_attempts": 2,
+     "connector_max_input_tokens": 80000,
+     "max_tokens": {
+      "orchestrator": 4096,
+      "specialist_bulk": 12288,
+      "specialist_hard": 12288,
+      "unsure_answer": 6144,
+      "severity_reason": 12288,
+      "section_suggestion": 6144,
+      "test5a": 8192
+     },
+     "specialist_batch_size": {
+      "lightning": 5,
+      "nano": 10,
+      "super": 5,
+      "ultra": 5
+     },
+     "ai_questions_per_batch": 2,
+     "ai_questions_per_run": 20,
+     "unsure_reanswers_per_run": 10,
+     "orchestrator_view": {
+      "id_list_max": 20,
+      "recent_steps": 5,
+      "dispatch_max_question_ids": 60
+     },
+     "severity_batch_size": 10,
+     "severity_output_tokens_estimate": 4700,
+     "specialist_max_input_tokens": 24000,
+     "ranking": {
+      "outside_library_default_frequency_per_year": 0.1
+     }
+    },
+    "prompt_versions": {
+     "orchestrator": "v1",
+     "section_suggestion": "v1",
+     "severity": "v2",
+     "test5a": "v1",
+     "specialists/process": "v2",
+     "specialists/chemistry": "v2",
+     "specialists/piping": "v2",
+     "specialists/procedures": "v2",
+     "specialists/maintenance": "v2",
+     "specialists/dust": "v2"
+    },
+    "mode": "full"
+   }
+  },
+  "E": {
+   "run_id": "run:94f9624a118995e5",
+   "spend_cap_usd": 2.0,
+   "inputs": {
+    "plant_id": "plant:case_e:5ff77c65764f23f7",
+    "section_snapshot": [
+     "S-ABSORBER",
+     "S-CO-BOILER",
+     "S-DEBUTANISER",
+     "S-EXPANDER",
+     "S-L-AIR",
+     "S-L-CATALYST-WITHDRAWAL",
+     "S-L-FEED",
+     "S-L-FLUE-1",
+     "S-L-FLUE-2",
+     "S-L-FLUE-3",
+     "S-L-GAS-PLANT",
+     "S-L-REGEN-STANDPIPE",
+     "S-L-REGEN-STANDPIPE~SV-REGEN",
+     "S-L-SPENT-STANDPIPE",
+     "S-L-SPENT-STANDPIPE~SV-SPENT",
+     "S-L-VAPOURS",
+     "S-L-WET-GAS",
+     "S-MAIN-AIR-BLOWER",
+     "S-MAIN-FRACTIONATOR",
+     "S-P-E-SHUTDOWN",
+     "S-REGENERATOR",
+     "S-RISER",
+     "S-SPENT-CATALYST-HOPPER",
+     "S-STRIPPER",
+     "S-TK-ASPHALT-1",
+     "S-TK-ASPHALT-2",
+     "S-WET-GAS-COMPRESSOR"
+    ],
+    "reference_versions": {
+     "applicability.csv": "d725cd824798c98e398362369d0e8c277caf8e49d720809aa9537705eaa899f6",
+     "causes.csv": "984049c70047943e47cefb79866a4de8f50e418be6b80ed70357956a0cc3da7b",
+     "initiating_events.csv": "caa2f790c999b599e41e3bc055aa9a852a420f84d2cd18ac2e9b1e9d4ab35f16",
+     "protection_layers.csv": "4646978f09898a34b8ac0972f79df2e7bf13568ab65a06af397036de9056b9d0",
+     "modifiers.csv": "31660806e522d9ec12785c63a0afbef306558b1051ded4a1a4112a2f6b11a8d4",
+     "severity_classes.csv": "50dc1ca83409d5aceeeb5f2ed97299791155707ee06862c66350b45e1a264e9b",
+     "tolerable_frequencies.csv": "47631a499bd103f2256b188bc9f00f9e91c692c56223bd1f057f2560a572382b",
+     "likelihood_classes.csv": "95eb9e55eb0d97f09e0a3b0e96b5c53dd2d73716bf8eec96774027c1d3aaa0dd",
+     "risk_matrix.csv": "57c893659d2d3c26966e3220b7038b00e4d0713bd943064b38f9172481d37592",
+     "cameo_groups.csv": "792f87ec1e82b9d74ce72323c10c1ce5ed830775aeb6ca4ccdf9ffed16324d44",
+     "reactive_groups.csv": "b1c526f81f750c5b13b2fa21ebd2b59b031290a293fa2e73d900f27121bc9fe9",
+     "reactive_pairs.csv": "d0319326a040d4e907f7f697e67de14c2f2455943124f07742d9533519916013"
+    },
+    "routing_config": {
+     "orchestrator": "ultra",
+     "connector": "ultra",
+     "lopa_argument": "ultra",
+     "severity_reason": "ultra",
+     "recommendation": "ultra",
+     "unsure_answer": "ultra",
+     "section_suggestion": "super",
+     "specialist_hard": "super",
+     "specialist_bulk": "lightning",
+     "not_credible": "lightning",
+     "extraction": "lightning",
+     "test5a": "ultra",
+     "plant_screen": "ultra"
+    },
+    "caps": {
+     "run_spend_cap_usd": 1.0,
+     "orchestrator_max_steps": 60,
+     "specialist_max_tool_steps": 2,
+     "lopa_top_n": 10,
+     "evidence_top_n": 5,
+     "question_max_attempts": 2,
+     "connector_max_input_tokens": 80000,
+     "max_tokens": {
+      "orchestrator": 4096,
+      "specialist_bulk": 12288,
+      "specialist_hard": 12288,
+      "unsure_answer": 6144,
+      "severity_reason": 12288,
+      "section_suggestion": 6144,
+      "test5a": 8192,
+      "plant_screen": 12288
+     },
+     "specialist_batch_size": {
+      "lightning": 5,
+      "nano": 10,
+      "super": 5,
+      "ultra": 5
+     },
+     "ai_questions_per_batch": 2,
+     "ai_questions_per_run": 20,
+     "unsure_reanswers_per_run": 10,
+     "orchestrator_view": {
+      "id_list_max": 20,
+      "recent_steps": 5,
+      "dispatch_max_question_ids": 60
+     },
+     "severity_batch_size": 10,
+     "severity_output_tokens_estimate": 4700,
+     "plant_screen_max_hypotheses": 12,
+     "plant_screen_min_valid": 5,
+     "specialist_max_input_tokens": 24000,
+     "ranking": {
+      "outside_library_default_frequency_per_year": 0.1
+     }
+    },
+    "prompt_versions": {
+     "orchestrator": "v2",
+     "section_suggestion": "v1",
+     "severity": "v2",
+     "test5a": "v1",
+     "plant_screen": "v3",
+     "specialists/process": "v2",
+     "specialists/chemistry": "v2",
+     "specialists/piping": "v2",
+     "specialists/procedures": "v2",
+     "specialists/maintenance": "v2",
+     "specialists/dust": "v2"
+    },
+    "mode": "full"
+   }
+  },
+  "F": {
+   "run_id": "run:14aa6477a666ff65",
+   "spend_cap_usd": 2.0,
+   "inputs": {
+    "plant_id": "plant:case_f:eb145ec858704a84",
+    "section_snapshot": [
+     "S-EVAPORATORS",
+     "S-L-CONDENSATE-8IN",
+     "S-L-STRIPPER-FEED",
+     "S-L-T31-OVERFLOW",
+     "S-L-T31-VENT",
+     "S-L-T32-OVERFLOW",
+     "S-L-T32-VENT",
+     "S-L-T33-OVERFLOW",
+     "S-L-T33-VENT",
+     "S-L-VENT-DISCHARGE",
+     "S-L-WHITE-LIQUOR",
+     "S-OVERFLOW-HEADER",
+     "S-STRIPPER-FEED-PUMP",
+     "S-SURFACE-CONDENSER",
+     "S-T-31",
+     "S-T-32",
+     "S-T-33",
+     "S-TK-WEAK-BLACK-LIQUOR",
+     "S-VACUUM-SYSTEM",
+     "S-VENT-HEADER",
+     "S-W-1",
+     "S-W-2",
+     "S-W-3",
+     "S-W-4"
+    ],
+    "reference_versions": {
+     "applicability.csv": "d725cd824798c98e398362369d0e8c277caf8e49d720809aa9537705eaa899f6",
+     "causes.csv": "984049c70047943e47cefb79866a4de8f50e418be6b80ed70357956a0cc3da7b",
+     "initiating_events.csv": "caa2f790c999b599e41e3bc055aa9a852a420f84d2cd18ac2e9b1e9d4ab35f16",
+     "protection_layers.csv": "4646978f09898a34b8ac0972f79df2e7bf13568ab65a06af397036de9056b9d0",
+     "modifiers.csv": "31660806e522d9ec12785c63a0afbef306558b1051ded4a1a4112a2f6b11a8d4",
+     "severity_classes.csv": "50dc1ca83409d5aceeeb5f2ed97299791155707ee06862c66350b45e1a264e9b",
+     "tolerable_frequencies.csv": "47631a499bd103f2256b188bc9f00f9e91c692c56223bd1f057f2560a572382b",
+     "likelihood_classes.csv": "95eb9e55eb0d97f09e0a3b0e96b5c53dd2d73716bf8eec96774027c1d3aaa0dd",
+     "risk_matrix.csv": "57c893659d2d3c26966e3220b7038b00e4d0713bd943064b38f9172481d37592",
+     "cameo_groups.csv": "792f87ec1e82b9d74ce72323c10c1ce5ed830775aeb6ca4ccdf9ffed16324d44",
+     "reactive_groups.csv": "b1c526f81f750c5b13b2fa21ebd2b59b031290a293fa2e73d900f27121bc9fe9",
+     "reactive_pairs.csv": "d0319326a040d4e907f7f697e67de14c2f2455943124f07742d9533519916013"
+    },
+    "routing_config": {
+     "orchestrator": "ultra",
+     "connector": "ultra",
+     "lopa_argument": "ultra",
+     "severity_reason": "ultra",
+     "recommendation": "ultra",
+     "unsure_answer": "ultra",
+     "section_suggestion": "super",
+     "specialist_hard": "super",
+     "specialist_bulk": "lightning",
+     "not_credible": "lightning",
+     "extraction": "lightning",
+     "test5a": "ultra",
+     "plant_screen": "ultra"
+    },
+    "caps": {
+     "run_spend_cap_usd": 1.0,
+     "orchestrator_max_steps": 60,
+     "specialist_max_tool_steps": 2,
+     "lopa_top_n": 10,
+     "evidence_top_n": 5,
+     "question_max_attempts": 2,
+     "connector_max_input_tokens": 80000,
+     "max_tokens": {
+      "orchestrator": 4096,
+      "specialist_bulk": 12288,
+      "specialist_hard": 12288,
+      "unsure_answer": 6144,
+      "severity_reason": 12288,
+      "section_suggestion": 6144,
+      "test5a": 8192,
+      "plant_screen": 12288
+     },
+     "specialist_batch_size": {
+      "lightning": 5,
+      "nano": 10,
+      "super": 5,
+      "ultra": 5
+     },
+     "ai_questions_per_batch": 2,
+     "ai_questions_per_run": 20,
+     "unsure_reanswers_per_run": 10,
+     "orchestrator_view": {
+      "id_list_max": 20,
+      "recent_steps": 5,
+      "dispatch_max_question_ids": 60
+     },
+     "severity_batch_size": 10,
+     "severity_output_tokens_estimate": 4700,
+     "plant_screen_max_hypotheses": 12,
+     "plant_screen_min_valid": 5,
+     "specialist_max_input_tokens": 24000,
+     "ranking": {
+      "outside_library_default_frequency_per_year": 0.1
+     }
+    },
+    "prompt_versions": {
+     "orchestrator": "v2",
+     "section_suggestion": "v1",
+     "severity": "v2",
+     "test5a": "v1",
+     "plant_screen": "v3",
+     "specialists/process": "v2",
+     "specialists/chemistry": "v2",
+     "specialists/piping": "v2",
+     "specialists/procedures": "v2",
+     "specialists/maintenance": "v2",
+     "specialists/dust": "v2"
+    },
+    "mode": "full"
+   }
+  },
+  "G": {
+   "run_id": "run:dbaab5578fbff8f3",
+   "spend_cap_usd": 1.4,
+   "inputs": {
+    "plant_id": "plant:case_g:456398a194e2ec0a",
+    "section_snapshot": [
+     "S-FILLING-LINE",
+     "S-HOMOGENISER",
+     "S-L-HOSE-MX-1",
+     "S-L-HOSE-MX-1~PORTABLE-PUMP",
+     "S-L-HOSE-MX-2",
+     "S-L-HOSE-MX-2~PORTABLE-PUMP",
+     "S-L-HOSE-MX-3",
+     "S-L-HOSE-MX-3~PORTABLE-PUMP",
+     "S-L-HOSE-MX-4",
+     "S-L-HOSE-MX-4~PORTABLE-PUMP",
+     "S-MX-1",
+     "S-MX-2",
+     "S-MX-3",
+     "S-MX-4",
+     "S-P-G-CHARGE",
+     "S-PORTABLE-PUMP",
+     "S-TOTES"
+    ],
+    "reference_versions": {
+     "applicability.csv": "d725cd824798c98e398362369d0e8c277caf8e49d720809aa9537705eaa899f6",
+     "causes.csv": "984049c70047943e47cefb79866a4de8f50e418be6b80ed70357956a0cc3da7b",
+     "initiating_events.csv": "caa2f790c999b599e41e3bc055aa9a852a420f84d2cd18ac2e9b1e9d4ab35f16",
+     "protection_layers.csv": "4646978f09898a34b8ac0972f79df2e7bf13568ab65a06af397036de9056b9d0",
+     "modifiers.csv": "31660806e522d9ec12785c63a0afbef306558b1051ded4a1a4112a2f6b11a8d4",
+     "severity_classes.csv": "50dc1ca83409d5aceeeb5f2ed97299791155707ee06862c66350b45e1a264e9b",
+     "tolerable_frequencies.csv": "47631a499bd103f2256b188bc9f00f9e91c692c56223bd1f057f2560a572382b",
+     "likelihood_classes.csv": "95eb9e55eb0d97f09e0a3b0e96b5c53dd2d73716bf8eec96774027c1d3aaa0dd",
+     "risk_matrix.csv": "57c893659d2d3c26966e3220b7038b00e4d0713bd943064b38f9172481d37592",
+     "cameo_groups.csv": "792f87ec1e82b9d74ce72323c10c1ce5ed830775aeb6ca4ccdf9ffed16324d44",
+     "reactive_groups.csv": "b1c526f81f750c5b13b2fa21ebd2b59b031290a293fa2e73d900f27121bc9fe9",
+     "reactive_pairs.csv": "d0319326a040d4e907f7f697e67de14c2f2455943124f07742d9533519916013"
+    },
+    "routing_config": {
+     "orchestrator": "ultra",
+     "connector": "ultra",
+     "lopa_argument": "ultra",
+     "severity_reason": "ultra",
+     "recommendation": "ultra",
+     "unsure_answer": "ultra",
+     "section_suggestion": "super",
+     "specialist_hard": "super",
+     "specialist_bulk": "lightning",
+     "not_credible": "lightning",
+     "extraction": "lightning",
+     "test5a": "ultra"
+    },
+    "caps": {
+     "run_spend_cap_usd": 1.0,
+     "orchestrator_max_steps": 60,
+     "specialist_max_tool_steps": 2,
+     "lopa_top_n": 10,
+     "evidence_top_n": 5,
+     "question_max_attempts": 2,
+     "connector_max_input_tokens": 80000,
+     "max_tokens": {
+      "orchestrator": 4096,
+      "specialist_bulk": 12288,
+      "specialist_hard": 12288,
+      "unsure_answer": 6144,
+      "severity_reason": 12288,
+      "section_suggestion": 6144,
+      "test5a": 8192
+     },
+     "specialist_batch_size": {
+      "lightning": 5,
+      "nano": 10,
+      "super": 5,
+      "ultra": 5
+     },
+     "ai_questions_per_batch": 2,
+     "ai_questions_per_run": 20,
+     "unsure_reanswers_per_run": 10,
+     "orchestrator_view": {
+      "id_list_max": 20,
+      "recent_steps": 5,
+      "dispatch_max_question_ids": 60
+     },
+     "severity_batch_size": 10,
+     "severity_output_tokens_estimate": 4700,
+     "specialist_max_input_tokens": 24000,
+     "ranking": {
+      "outside_library_default_frequency_per_year": 0.1
+     }
+    },
+    "prompt_versions": {
+     "orchestrator": "v1",
+     "section_suggestion": "v1",
+     "severity": "v1",
+     "test5a": "v1",
+     "specialists/process": "v2",
+     "specialists/chemistry": "v2",
+     "specialists/piping": "v2",
+     "specialists/procedures": "v2",
+     "specialists/maintenance": "v2",
+     "specialists/dust": "v2"
+    },
+    "mode": "full"
+   }
+  }
+ }
+}

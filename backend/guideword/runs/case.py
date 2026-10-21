@@ -23,7 +23,7 @@ from guideword.recommend.step import RecommendationStepper
 from guideword.reference import ReferenceSet
 from guideword.runs.machine import Stepper, advance
 from guideword.runs.plants import PlantRepository, load_plant, plant_facts
-from guideword.runs.post_budget import post_spent
+from guideword.runs.post_budget import POST_HASH_FREE_CAPS, POST_PROMPTS, post_spent
 from guideword.runs.start import RunSettings, start_run
 from guideword.runs.store import RunRepository
 from guideword.schema.enums import EventType, QuestionKind, QuestionStatus, RunStatus, ShortlistTier
@@ -66,9 +66,13 @@ def prepare_plant(
 
 
 def run_settings(config: Config) -> RunSettings:
-    return RunSettings(
-        dict(config.routing.jobs), config.caps.run_input_caps(), dict(config.routing.prompts)
-    )
+    """A new run's hashed inputs. The post-step prompts and caps are left out (connector/v2
+    plan, Q5): they are recorded on the run's `run_extended` event, so changing one never
+    moves a run ID. The hash covers what a run stores, so older runs (D–G store `lopa_top_n`)
+    keep their IDs."""
+    caps = {k: v for k, v in config.caps.run_input_caps().items() if k not in POST_HASH_FREE_CAPS}
+    prompts = {k: v for k, v in config.routing.prompts.items() if k not in POST_PROMPTS}
+    return RunSettings(dict(config.routing.jobs), caps, prompts)
 
 
 def start_case(
