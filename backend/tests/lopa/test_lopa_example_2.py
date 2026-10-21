@@ -7,8 +7,8 @@ tolerance of 1e-9; the fixture is read, never edited. Its open points are follow
 closed-valve reason names the first closed valve in `inlet_valve_ids` order, and "does not
 apply" is decided before the inlet-valve rule.
 
-Variant D (an engineer's `change_credit` override, G1) is applied by PR 6's override views,
-so it is not tested here; it is left for PR 6.
+Variant D (an engineer's `change_credit` override, G1) is variant A's record with the
+override applied on read by `review/overrides.py` (PR 6).
 """
 
 import json
@@ -40,7 +40,7 @@ REPO = Path(__file__).resolve().parents[3]
 FIXTURE = Path(__file__).resolve().parent / "fixtures" / "example_2.json"
 RUN = "run:test"
 TOLERANCE = 1e-9
-# the variants the engine alone decides; D needs PR 6's override views
+# the variants the engine alone decides; D adds an engineer override (PR 6)
 ENGINE_VARIANTS = ["A", "B", "C", "E"]
 MODIFIER_KINDS = [
     "ignition_probability",
@@ -119,10 +119,63 @@ def _arguments(variant: dict[str, Any]) -> dict[str, LayerArgument] | None:
     }
 
 
-def test_example_2_variant_d_is_the_only_one_left_for_pr_6(example: dict[str, Any]) -> None:
+def test_every_variant_is_tested(example: dict[str, Any]) -> None:
     letters = [v["name"].split(":", 1)[0] for v in example["variants"]]
-    assert sorted(set(letters) - set(ENGINE_VARIANTS)) == ["D"]
-    assert "override" in _variant(example, "D")
+    assert sorted(set(letters)) == sorted([*ENGINE_VARIANTS, "D"])
+
+
+def test_example_2_variant_d_engineer_credit_matches_the_hand_worked_numbers(
+    example: dict[str, Any], plant: Plant, ref: ReferenceSet, config: Config
+) -> None:
+    """G1: the engineer credits RV-PATH-EA425B, refused for its closed inlet valve in variant
+    A: the full pfd of its relief_kind row, the assertion in the reason, the gap recomputed."""
+    from datetime import UTC, datetime  # noqa: PLC0415
+
+    from guideword.review.overrides import effective_lopa  # noqa: PLC0415
+    from guideword.schema.enums import OverrideAction  # noqa: PLC0415
+    from guideword.schema.records import Override  # noqa: PLC0415
+
+    variant = _variant(example, "D")
+    given = _scenario_given(example, variant)
+    lead = _lead(given)
+    record = lopa_record(
+        line_scenario(lead, _section(given)),
+        run_id=RUN,
+        plant=plant,
+        ref=ref,
+        caps=config.caps,
+        arguments=_arguments(variant),
+        model_call_id="mc:example",
+    )
+    assert isinstance(record, LopaRecord)
+    asked = variant["override"]
+    value = {"layer_id": asked["layer_id"], "credited": asked["credited"]}
+    override = Override(
+        id=ids.override_id(record.id, OverrideAction.CHANGE_CREDIT, value),
+        run_id=RUN,
+        target_id=record.id,
+        action=OverrideAction.CHANGE_CREDIT,
+        new_value=value,
+        reason=asked["engineer_reason"],
+        by="engineer",
+        at=datetime(2026, 10, 20, tzinfo=UTC),
+    )
+    view = effective_lopa(record, [override], record.severity_class, plant, ref)
+    for expected in variant["expected_layers"]:
+        layer = next(layer for layer in view.layers if layer.layer_id == expected["layer_id"])
+        assert layer.credited is expected["credited"]
+        assert layer.pfd == pytest.approx(expected["pfd"], rel=TOLERANCE)
+        assert expected["reason_contains"] in layer.reason and override.id in layer.reason
+    numbers = variant["expected"]
+    assert view.complete is numbers["complete"]
+    assert view.mitigated_frequency_per_year == pytest.approx(
+        numbers["mitigated_frequency_per_year"], rel=TOLERANCE
+    )
+    assert view.tolerable_per_year == pytest.approx(numbers["tolerable_per_year"], rel=TOLERANCE)
+    assert view.gap == pytest.approx(numbers["gap"], rel=TOLERANCE)
+    # the override keeps only the engineer's own reason; the stored record is unchanged
+    assert override.reason == numbers["override_record_reason"]
+    assert record.gap != view.gap
 
 
 @pytest.mark.parametrize("letter", ENGINE_VARIANTS)
