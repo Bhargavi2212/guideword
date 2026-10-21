@@ -214,6 +214,9 @@ class ShortlistItem(_Model):
     hypothesis: Hypothesis | None = None
     # computed when the list is read: the findings supporting the hypothesis
     support_finding_ids: list[str] = Field(default_factory=list)
+    # contract v1.5: what the card must show the engineer about the line, as code wrote it
+    # (e.g. an S4-S5 line with no LOPA, an incomplete LOPA, a pre-R50 run)
+    flags: list[str] = Field(default_factory=list)
 
     @model_validator(mode="after")
     def _hypothesis_fields_agree(self) -> "ShortlistItem":
