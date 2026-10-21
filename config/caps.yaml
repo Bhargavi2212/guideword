@@ -8,6 +8,10 @@ run:
   lopa_top_n: 10
   evidence_top_n: 5
   question_max_attempts: 2
+  # demo-fixes plan (approved 2026-10-21): a batch cut off at the token limit, or answered with a
+  # duplicate or unsent question, is re-asked one question at a time; hashed, so runs stored
+  # without it (D-G) replay unchanged
+  retry_failed_batch_singly: true
   connector_max_input_tokens: 80000
   # per routing job; a batch of 10 bulk questions needs room for several findings each (R18)
   max_tokens:

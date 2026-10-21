@@ -84,6 +84,8 @@ class RunCaps(_Strict):
     lopa_top_n: PositiveInt
     evidence_top_n: PositiveInt
     question_max_attempts: PositiveInt
+    # demo-fixes plan: re-ask a cut-off or mis-shaped batch one question at a time (hashed)
+    retry_failed_batch_singly: bool
     connector_max_input_tokens: PositiveInt
     max_tokens: dict[str, PositiveInt]
     specialist_batch_size: dict[Tier, PositiveInt]

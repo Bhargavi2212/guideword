@@ -538,3 +538,87 @@ def test_a_tool_agents_slice_is_the_two_tool_path_calls_and_one_retry(
         for k in range(3)
     )
     assert batch_slice_usd(prepared, config) == pytest.approx(total)
+
+
+# --- demo-fixes plan (approved 2026-10-21): a failed batch re-asked one question at a time -------
+
+MX3 = ["m:S-MX-1:more:pressure", "m:S-MX-1:less:pressure", "m:S-MX-1:more:temperature"]
+
+
+def test_a_cut_off_batch_is_re_asked_one_question_at_a_time(
+    build: Any, world: Any, ref: ReferenceSet, config: Config
+) -> None:
+    def script(job: str, request: dict[str, Any]) -> Any:
+        asked = batch_ids(request)
+        if len(asked) > 1:
+            return reply('{"answers": [', finish_reason="length")
+        return answers(asked)
+
+    gateway, transport = build(script)
+    out = _run(gateway, world, ref, config, Agent.PROCESS, MX3, retry_singly=True)
+    assert out.status == "answered"
+    assert [batch_ids(r) for _, r in transport.sent] == [MX3, *([q] for q in MX3)]
+    assert sorted(f.question_id for f in out.findings) == sorted(MX3)
+    assert all(q.status == QuestionStatus.ANSWERED for q in out.questions)
+    # the batch and its single call together count one attempt for each question
+    assert {q.attempts for q in out.questions} == {1}
+
+
+@pytest.mark.parametrize("bad", ["twice", "not_sent"])
+def test_a_batch_answering_a_question_twice_or_one_not_sent_is_re_asked_singly(
+    bad: str, build: Any, world: Any, ref: ReferenceSet, config: Config
+) -> None:
+    def script(job: str, request: dict[str, Any]) -> Any:
+        asked = batch_ids(request)
+        if len(asked) == 1:
+            return answers(asked)
+        extra = [asked[0]] if bad == "twice" else ["m:S-MX-1:no:mixing"]
+        return answers([*asked, *extra])
+
+    gateway, transport = build(script)
+    out = _run(gateway, world, ref, config, Agent.PROCESS, MX3, retry_singly=True)
+    assert out.status == "answered"
+    singles = [batch_ids(r) for _, r in transport.sent if len(batch_ids(r)) == 1]
+    assert singles == [[q] for q in MX3]
+    assert all(q.status == QuestionStatus.ANSWERED for q in out.questions)
+
+
+def test_other_invalid_answers_still_fail_the_batch_as_before(
+    build: Any, world: Any, ref: ReferenceSet, config: Config
+) -> None:
+    gateway, transport = build(lambda job, r: reply("not json"))
+    out = _run(gateway, world, ref, config, Agent.PROCESS, MX3, retry_singly=True)
+    assert out.status == "failed"
+    assert all(len(batch_ids(r)) == 3 for _, r in transport.sent)  # no single-question call
+
+
+def test_the_single_retry_is_off_unless_asked_for(
+    build: Any, world: Any, ref: ReferenceSet, config: Config
+) -> None:
+    """Runs whose stored caps lack `retry_failed_batch_singly` keep today's behaviour."""
+    gateway, transport = build(lambda job, r: reply("{", finish_reason="length"))
+    out = _run(gateway, world, ref, config, Agent.PROCESS, MX3)
+    assert out.status == "failed" and "cut off" in (out.error or "")
+    assert len(transport.sent) == 1
+
+
+def test_a_question_whose_single_call_also_fails_counts_one_attempt(
+    build: Any, world: Any, ref: ReferenceSet, config: Config
+) -> None:
+    gateway, transport = build(lambda job, r: reply("{", finish_reason="length"))
+    out = _run(gateway, world, ref, config, Agent.PROCESS, MX3, retry_singly=True)
+    assert out.status == "failed"
+    assert len(transport.sent) == 1 + len(MX3)
+    assert {(q.status, q.attempts) for q in out.questions} == {(QuestionStatus.OPEN, 1)}
+
+
+def test_new_runs_store_the_single_retry_cap_and_d_to_g_do_not(config: Config) -> None:
+    from guideword.runs.case import run_settings  # noqa: PLC0415
+
+    assert run_settings(config).caps["retry_failed_batch_singly"] is True
+    stored = json.loads(
+        (REPO / "backend" / "tests" / "runs" / "fixtures" / "dev_run_inputs.json").read_text(
+            encoding="utf-8"
+        )
+    )["runs"]
+    assert all("retry_failed_batch_singly" not in r["inputs"]["caps"] for r in stored.values())

@@ -454,6 +454,8 @@ class OrchestratorStepper:
                         level=args.level,
                         made=made,
                         prepared=ready,
+                        # the run's own cap: runs stored without it keep the old behaviour
+                        retry_singly=bool(run.caps.get("retry_failed_batch_singly", False)),
                     )
                 )
             for item in pending:
