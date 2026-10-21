@@ -99,6 +99,19 @@ class MockStore:
         return page, page[-1].seq if page else after
 
 
+PENDING_REVIEW = "pending review"
+NOT_CREDIBLE_TO_REVIEW = "not credible — engineer to review"
+
+
+def excel_status(row: api.WorksheetRow) -> str:
+    """The Excel Status column: the review state the meeting sorts by (Bhargavi, 2026-10-20,
+    Q14). With no override, "not credible — engineer to review" for a not-credible question,
+    else "pending review". The API row keeps `status` and `override_state` apart."""
+    if row.override_state != "none":
+        return row.override_state
+    return NOT_CREDIBLE_TO_REVIEW if row.status == "not credible" else PENDING_REVIEW
+
+
 def worksheet_xlsx(rows: list[api.WorksheetRow]) -> bytes:
     workbook = Workbook()
     sheet = workbook.active
@@ -106,7 +119,7 @@ def worksheet_xlsx(rows: list[api.WorksheetRow]) -> bytes:
     sheet.title = "Worksheet"
     sheet.append([title for title, _ in WORKSHEET_COLUMNS])
     for row in rows:
-        values: dict[str, Any] = row.model_dump()
+        values: dict[str, Any] = row.model_dump() | {"status": excel_status(row)}
         sheet.append([values[field] for _, field in WORKSHEET_COLUMNS])
     buffer = io.BytesIO()
     workbook.save(buffer)
