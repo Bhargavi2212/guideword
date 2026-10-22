@@ -113,6 +113,9 @@ def make_script(
     def script(job: str, request: dict[str, Any]) -> Reply:
         if job == "plant_screen":
             return reply({"hypotheses": screen_hypotheses or []})
+        if job == "precedent_judge":
+            # Phase 4: the evidence step's judge accepts nothing in these runs
+            return reply({"judgements": []})
         if job == "orchestrator":
             view = block(request, "view")
             agents = sorted(view["open"])

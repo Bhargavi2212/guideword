@@ -6,7 +6,6 @@ run:
   orchestrator_max_steps: 60
   specialist_max_tool_steps: 2
   lopa_top_n: 10
-  evidence_top_n: 5
   question_max_attempts: 2
   # demo-fixes plan (approved 2026-10-21): a batch cut off at the token limit, or answered with a
   # duplicate or unsent question, is re-asked one question at a time; hashed, so runs stored
@@ -32,6 +31,9 @@ run:
     lopa_argument: 12288
     recommendation: 12288
     chain_severity: 12288
+    # Phase 4: Super judges a line's precedent candidates (plan PR 5b); at most 300
+    # characters of reason per candidate
+    precedent_judge: 6144
   # questions per specialist call, by tier
   specialist_batch_size:
     # halved after case D dev run 2: Lightning answered questions twice, answered ones not in
@@ -96,6 +98,17 @@ phase_caps_usd:
   "2": 8.50
   "3": 2.50
   "4": 1.50
+
+# Phase 4 (spec 4.4, P4-9): the evidence step's settings. Outside the run block, so no
+# value here is hashed into a run ID; the values used are recorded on the step's events.
+evidence:
+  evidence_top_n: 5
+  precedent_candidates: 5
+  tavily_searches_per_run: 5
+  tavily_max_results: 5
+  overflow_confirm_minutes: 60
+  heat_up_confirm_minutes: 60
+  te_hours: 4
 
 # ranking enters Run.caps with the run block (R18). An outside-library cause whose
 # failing-component type has no library cause gets this frequency, flagged

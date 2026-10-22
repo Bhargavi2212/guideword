@@ -1,0 +1,4 @@
+# Block terms for dev case D (Phase 4 plan Q6): from the public CSB report title only.
+# Any precedent index row or Tavily result containing one of these as a whole word or phrase (case-insensitive, any field or URL) is dropped.
+TPC Group
+Port Neches

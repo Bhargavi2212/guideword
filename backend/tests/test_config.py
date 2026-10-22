@@ -65,7 +65,9 @@ def test_caps(shipped: Config) -> None:
     assert run.run_spend_cap_usd == 1.00
     assert run.orchestrator_max_steps == 60
     assert run.specialist_max_tool_steps == 2
-    assert (run.lopa_top_n, run.evidence_top_n) == (10, 5)
+    assert run.lopa_top_n == 10
+    # Phase 4 (P4-9): evidence_top_n moves to the unhashed evidence block
+    assert shipped.caps.evidence.evidence_top_n == 5
     assert run.question_max_attempts == 2
     assert run.connector_max_input_tokens == 80000
     assert shipped.caps.plant.section_suggest_cap_usd == 0.05
@@ -91,6 +93,8 @@ def test_phase_2_run_caps(shipped: Config) -> None:
         "lopa_argument": 12288,
         "recommendation": 12288,
         "chain_severity": 12288,
+        # Phase 4 (plan PR 5b): the precedent judge on Super
+        "precedent_judge": 6144,
     }
     assert run.specialist_batch_size == {
         Tier.LIGHTNING: 5,
@@ -164,6 +168,8 @@ def test_prompt_versions_name_existing_files(shipped: Config) -> None:
         "lopa_argument": "v3",
         "recommendation": "v2",
         "severity_chain": "v2",
+        # Phase 4 (plan PR 4)
+        "precedent_judge": "v1",
         **{
             f"specialists/{a}": "v2"
             for a in ("process", "chemistry", "piping", "procedures", "maintenance", "dust")

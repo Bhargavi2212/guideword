@@ -82,7 +82,6 @@ class RunCaps(_Strict):
     orchestrator_max_steps: PositiveInt
     specialist_max_tool_steps: PositiveInt
     lopa_top_n: PositiveInt
-    evidence_top_n: PositiveInt
     question_max_attempts: PositiveInt
     # demo-fixes plan: re-ask a cut-off or mis-shaped batch one question at a time (hashed)
     retry_failed_batch_singly: bool
@@ -116,6 +115,19 @@ class RankingCaps(_Strict):
     lead_prefers_own_section: bool
 
 
+class EvidenceCaps(_Strict):
+    """The evidence step's settings (Phase 4 spec 4.4, P4-9): outside the `run:` block, so none
+    is hashed into a run ID; the values used are recorded on the step's events."""
+
+    evidence_top_n: PositiveInt
+    precedent_candidates: PositiveInt
+    tavily_searches_per_run: NonNegativeInt
+    tavily_max_results: PositiveInt
+    overflow_confirm_minutes: Positive
+    heat_up_confirm_minutes: Positive
+    te_hours: Positive
+
+
 class GatewayCaps(_Strict):
     max_attempts: PositiveInt
     # the wait before each retry, so one fewer than max_attempts
@@ -142,6 +154,7 @@ class CapsConfig(_Strict):
     environments: dict[Environment, EnvironmentAllowance]
     phase_caps_usd: dict[str, Positive]
     ranking: RankingCaps
+    evidence: EvidenceCaps
     concurrency: dict[Tier, PositiveInt]
     gateway: GatewayCaps
 

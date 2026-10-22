@@ -42,7 +42,8 @@ from guideword.schema.records import Recommendation, Run
 
 JOB = "recommendation"
 PROMPT = "recommendation"
-NEXT = "ranked"
+# Phase 4: the evidence step comes after the recommendations
+NEXT = "evidence"
 # target-handles plan (approved 2026-10-21): targets by handle, L<n> or C<n>; no ID shown
 
 Text300 = Annotated[str, StringConstraints(min_length=1, max_length=300)]

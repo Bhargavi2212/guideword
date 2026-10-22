@@ -26,7 +26,7 @@ ANALYSIS = "analysis"
 # the steps after the analysis (Phase 3 adds the post-analysis steps, spec 3.6); a resume
 # from one of them with questions open goes back
 AFTER_ANALYSIS = frozenset(
-    {"severity", "chains", "chain_severity", "lopa", "recommendations", "ranked"}
+    {"severity", "chains", "chain_severity", "lopa", "recommendations", "evidence", "ranked"}
 )
 
 

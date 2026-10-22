@@ -21,6 +21,7 @@ from guideword.api.live import GatewayFactory, LiveRuns, RunEnded, RunNotFound
 from guideword.api.mock import DEFAULT_FIXTURES, XLSX_MEDIA_TYPE, MockStore, worksheet_xlsx
 from guideword.api.suggester import GatewaySuggester
 from guideword.config import Config, load_config
+from guideword.evidence.step import EvidenceTools
 from guideword.gateway.cache import ResponseCache
 from guideword.gateway.client import Gateway
 from guideword.gateway.ledgers import Ledger, ledger_for
@@ -28,6 +29,7 @@ from guideword.gateway.transport import OpenAITransport
 from guideword.logs import get_logger
 from guideword.reference import ReferenceSet, load_reference_set
 from guideword.review.overrides import OverrideRefused
+from guideword.runs.case import evidence_tools
 from guideword.runs.db import make_session_factory
 from guideword.runs.plants import (
     PlantRepository,
@@ -54,13 +56,15 @@ from guideword.sections.confirm import check_confirmed
 from guideword.sections.rules import rule_cut
 from guideword.sections.suggest import NullSuggester, Suggester, check_suggestions
 from guideword.settings import Settings
+from guideword.tools.web import SearchClient, live_search
 
 Clock = Callable[[], datetime]
 # live runs started through the API on the laptop spend `development` (R25; Phase 7 sets
 # the hosted uses); the phase their calls are booked to
 API_RUN_USE = BudgetUse.DEVELOPMENT
-# runs started through the API spend under Phase 3 (plan Q15)
-API_RUN_PHASE = "3"
+# runs started through the API spend under Phase 4 (Phase 4 plan Q16): they now make the
+# evidence step's judge calls and web searches too
+API_RUN_PHASE = "4"
 log = get_logger(__name__)
 
 # The phase that builds each endpoint for real (PROJECT.md §15); a 501 names it.
@@ -91,9 +95,12 @@ def create_app(
     suggester: Suggester | None = None,
     gateway_factory: GatewayFactory | None = None,
     ledger: Ledger | None = None,
+    search: SearchClient | None = None,
 ) -> FastAPI:
-    """`gateway_factory` and `ledger` are injected by tests (fake gateway, temporary ledger);
-    by default live runs go through Token Factory and this environment's ledger."""
+    """`gateway_factory`, `ledger` and `search` are injected by tests (fake gateway, temporary
+    ledger, fake web search); by default live runs go through Token Factory, Tavily and this
+    environment's ledger. With a fake gateway and no search, evidence is off (Q4 holds for
+    the real app: an uploaded plant on use development gets evidence)."""
     settings = settings if settings is not None else Settings()
     now: Clock = clock if clock is not None else (lambda: datetime.now(UTC))
     store = MockStore(fixtures_dir or DEFAULT_FIXTURES) if settings.guideword_mock else None
@@ -157,14 +164,32 @@ def create_app(
             clock=now,
         )
 
+    def evidence_factory(session_factory: Any) -> EvidenceTools:
+        client = (
+            search
+            if search is not None
+            else live_search(settings.tavily_api_key.get_secret_value())
+        )
+        return evidence_tools(
+            config=config(),
+            cache=ResponseCache(session_factory),
+            ledger=the_ledger(),
+            use=API_RUN_USE,
+            phase=API_RUN_PHASE,
+            clock=now,
+            search=client,
+        )
+
     @cache
     def live() -> LiveRuns:
+        evidence_on = gateway_factory is None or search is not None
         return LiveRuns(
             sessions(),
             config=config(),
             ref=reference(),
             gateway_factory=gateway_factory if gateway_factory is not None else token_factory,
             clock=now,
+            evidence_factory=evidence_factory if evidence_on else None,
         )
 
     @cache

@@ -4,13 +4,17 @@ and report what it found. The report is computed from the run's records (R11); n
 it is typed or stored elsewhere.
 """
 
-from collections.abc import Mapping, Sequence
+from collections.abc import Callable, Mapping, Sequence
+from datetime import datetime
 from typing import Any
 
 from guideword.chains.connector import ConnectorStepper
 from guideword.chains.severity import ChainSeverityStepper
 from guideword.config import CapsConfig, Config
+from guideword.evidence.step import EvidenceStepper, EvidenceTools
+from guideword.gateway.cache import ResponseCache
 from guideword.gateway.client import Gateway
+from guideword.gateway.ledgers import Ledger
 from guideword.lopa.engine import CODE_ONLY_FLAG
 from guideword.lopa.lines import NONE, ShortlistLine, display_lines, lopa_plan, shortlist
 from guideword.lopa.step import LopaStepper
@@ -26,12 +30,25 @@ from guideword.ranking.tiers import (
 )
 from guideword.recommend.step import RecommendationStepper
 from guideword.reference import ReferenceSet
+from guideword.reference.precedents import load_precedent_index
 from guideword.runs.machine import Stepper, advance
 from guideword.runs.plants import PlantRepository, load_plant, plant_facts
-from guideword.runs.post_budget import POST_HASH_FREE_CAPS, POST_PROMPTS, post_spent
+from guideword.runs.post_budget import (
+    POST_HASH_FREE_CAPS,
+    POST_JOBS,
+    POST_PROMPTS,
+    post_spent,
+)
 from guideword.runs.start import RunSettings, start_run
 from guideword.runs.store import RunRepository
-from guideword.schema.enums import EventType, QuestionKind, QuestionStatus, RunStatus, ShortlistTier
+from guideword.schema.enums import (
+    BudgetUse,
+    EventType,
+    QuestionKind,
+    QuestionStatus,
+    RunStatus,
+    ShortlistTier,
+)
 from guideword.schema.plant import Plant
 from guideword.schema.records import (
     OUTSIDE_LIBRARY,
@@ -47,6 +64,7 @@ from guideword.schema.validate import Issue
 from guideword.screen.step import PlantScreenStepper
 from guideword.sections.rules import rule_cut
 from guideword.specialists.retry_step import RetryFailedStepper
+from guideword.tools.web import SearchClient, WebSearch
 
 DASH = " — "
 # G10: a run from before R50 has no whole-plant pass, so every line is "also found"
@@ -73,12 +91,15 @@ def prepare_plant(
 
 def run_settings(config: Config) -> RunSettings:
     """A new run's hashed inputs. The post-step prompts and caps are left out (connector/v2
-    plan, Q5): they are recorded on the run's `run_extended` event, so changing one never
-    moves a run ID. The hash covers what a run stores, so older runs (D–G store `lopa_top_n`)
-    keep their IDs."""
+    plan, Q5), and so are the post-step jobs' routing and `max_tokens` (Phase 4 plan, Q3):
+    they are recorded on the run's `run_extended` event, so changing one never moves a run ID.
+    The evidence settings are outside the hashed caps altogether (P4-9). The hash covers what a
+    run stores, so older runs (D–G store `lopa_top_n` and the post jobs) keep their IDs."""
     caps = {k: v for k, v in config.caps.run_input_caps().items() if k not in POST_HASH_FREE_CAPS}
+    caps["max_tokens"] = {k: v for k, v in caps["max_tokens"].items() if k not in POST_JOBS}
     prompts = {k: v for k, v in config.routing.prompts.items() if k not in POST_PROMPTS}
-    return RunSettings(dict(config.routing.jobs), caps, prompts)
+    jobs: dict[str, str] = {k: v for k, v in config.routing.jobs.items() if k not in POST_JOBS}
+    return RunSettings(jobs, caps, prompts)
 
 
 def start_case(
@@ -108,9 +129,41 @@ def start_case(
     )
 
 
+def evidence_tools(
+    *,
+    config: Config,
+    cache: ResponseCache,
+    ledger: Ledger,
+    use: BudgetUse,
+    phase: str,
+    clock: Callable[[], datetime],
+    search: SearchClient,
+    enabled: bool = True,
+) -> EvidenceTools:
+    """The evidence step's tools for a run: a web search on the run's own cache and ledger (the
+    gateway's), and the precedent index (Phase 4 plan PR 5b)."""
+    web = WebSearch(
+        client=search,
+        cache=cache,
+        ledger=ledger,
+        config=config,
+        use=use,
+        phase=phase,
+        clock=clock,
+    )
+    return EvidenceTools(web=web, index=load_precedent_index(), enabled=enabled)
+
+
 def steppers_for(
-    gateway: Gateway, config: Config, ref: ReferenceSet, plant: Plant
+    gateway: Gateway,
+    config: Config,
+    ref: ReferenceSet,
+    plant: Plant,
+    *,
+    evidence: EvidenceTools | None = None,
 ) -> dict[str, Stepper]:
+    """`evidence`: the web search and precedent index the evidence step uses. Without them the
+    step records "evidence off" and moves on (a test or a replay that doesn't ask for it)."""
     return {
         "plant_screen": PlantScreenStepper(gateway, config=config, ref=ref, plant=plant),
         "analysis": OrchestratorStepper(gateway, config=config, ref=ref, plant=plant),
@@ -122,6 +175,8 @@ def steppers_for(
         "chain_severity": ChainSeverityStepper(gateway, config=config, ref=ref, plant=plant),
         "lopa": LopaStepper(gateway, config=config, ref=ref, plant=plant),
         "recommendations": RecommendationStepper(gateway, config=config, ref=ref, plant=plant),
+        # Phase 4 (spec 4.4): evidence on the top lines, then ranked ends the run
+        "evidence": EvidenceStepper(gateway, config=config, ref=ref, plant=plant, tools=evidence),
         "ranked": RankedStepper(),
     }
 

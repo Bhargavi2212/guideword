@@ -64,13 +64,19 @@ class Superseded:
     record: dict[str, Any]
 
 
-# what a re-run from `chains` supersedes: kind -> live table (model calls: the post jobs only)
+# what a re-run supersedes: kind -> live table (model calls: the post jobs only; agent steps
+# and tool calls: the evidence agent's only, Phase 4 plan G16)
 SUPERSEDED_TABLES: dict[str, type[RunRecordRow]] = {
     "chain": ChainRow,
     "lopa": LopaRecordRow,
     "recommendation": RecommendationRow,
     "model_call": ModelCallRow,
+    "evidence": EvidenceRow,
+    "agent_step": AgentStepRow,
+    "tool_call": ToolCallRow,
 }
+# the agent whose steps and tool calls a re-run supersedes; every other agent's are the analysis
+POST_AGENT = "evidence"
 
 # The event types this store emits (decision R32). Phase 3 adds chain_added, lopa_done and
 # run_extended with the post-analysis steps (plan G11); Phase 4 adds evidence_added.
@@ -93,6 +99,7 @@ EMITTED_EVENT_TYPES = frozenset(
         EventType.CHAIN_ADDED,
         EventType.LOPA_DONE,
         EventType.RUN_EXTENDED,
+        EventType.EVIDENCE_ADDED,
     }
 )
 
@@ -322,6 +329,13 @@ class StepWriter:
         self, post_jobs: Collection[str], kinds: Collection[str]
     ) -> list[tuple[str, RunRecordRow]]:
         out: list[tuple[str, RunRecordRow]] = []
+        post_steps = {
+            row.id
+            for row in self._session.scalars(
+                select(AgentStepRow).where(AgentStepRow.run_id == self.run.id)
+            ).all()
+            if row.record.get("agent") == POST_AGENT
+        }
         for kind, table in SUPERSEDED_TABLES.items():
             if kind not in kinds:
                 continue
@@ -330,6 +344,10 @@ class StepWriter:
             ).all()
             for row in stored:
                 if kind == "model_call" and row.record.get("job") not in post_jobs:
+                    continue
+                if kind == "agent_step" and row.id not in post_steps:
+                    continue
+                if kind == "tool_call" and row.record.get("agent_step_id") not in post_steps:
                     continue
                 out.append((kind, row))
         return out
@@ -415,6 +433,9 @@ class StepWriter:
     def recommendations(self) -> list[Recommendation]:
         return self._records(RecommendationRow, Recommendation)
 
+    def evidence(self) -> list[Evidence]:
+        return self._records(EvidenceRow, Evidence)
+
     def _records[R: BaseModel](self, table: type[RunRecordRow], model: type[R]) -> list[R]:
         stored = self._session.scalars(
             select(table).where(table.run_id == self.run.id).order_by(table.position)
@@ -448,6 +469,19 @@ class StepWriter:
         )
         new[record_id] = row
         self._session.add(row)
+
+    def add_evidence(self, evidence: Evidence) -> None:
+        """Phase 4 (contract v1.8): one evidence record, and its `evidence_added` event."""
+        self._put(EvidenceRow, evidence)
+        self.emit(
+            EventType.EVIDENCE_ADDED,
+            {
+                "evidence_id": evidence.id,
+                "target_id": evidence.target_id,
+                "kind": evidence.kind,
+                "verdict": evidence.verdict,
+            },
+        )
 
     def add_tool_call(self, call: ToolCall) -> None:
         self._put(ToolCallRow, call)

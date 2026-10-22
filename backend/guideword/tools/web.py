@@ -163,6 +163,18 @@ class TavilySearch:
         return response
 
 
+class NoKeySearch:
+    """No Tavily key is set: every search fails with that reason (flagged on the line), so a run
+    without the key still finishes with its other evidence."""
+
+    def search(self, query: str, max_results: int) -> dict[str, Any]:
+        raise SearchFailed("TAVILY_API_KEY is not set")
+
+
+def live_search(api_key: str) -> SearchClient:
+    return TavilySearch(api_key) if api_key else NoKeySearch()
+
+
 class ReplaySearch:
     """A replay: every search must come from the fixtures in the cache."""
 

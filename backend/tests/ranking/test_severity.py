@@ -11,6 +11,7 @@ import pytest
 from guideword.chains.connector import ConnectorStepper
 from guideword.chains.severity import ChainSeverityStepper
 from guideword.config import Config, load_config
+from guideword.evidence.step import EvidenceStepper
 from guideword.gateway.fake import fake_gateway, reply
 from guideword.gateway.transport import ToolCallRequest
 from guideword.lopa.step import LopaStepper
@@ -208,6 +209,8 @@ class World:
             "chain_severity": ChainSeverityStepper(gateway, **args),
             "lopa": LopaStepper(gateway, **args),
             "recommendations": RecommendationStepper(gateway, **args),
+            # Phase 4: no evidence tools given, so the step records "off" and moves on
+            "evidence": EvidenceStepper(gateway, **args),
             "ranked": RankedStepper(),
         }, transport
 
