@@ -27,9 +27,15 @@ from guideword.config import CapsConfig
 from guideword.lopa.candidates import Scenario, chain_scenario, line_scenario
 from guideword.lopa.engine import NO_SEVERITY, NoLopa, lopa_record
 from guideword.ranking.rank import rank_findings
-from guideword.ranking.tiers import UNCONFIRMED_FLAG, TieredLine, tiered
+from guideword.ranking.tiers import (
+    UNCONFIRMED_FLAG,
+    TieredLine,
+    lead_prefers_own_section,
+    tiered,
+)
 from guideword.reference import ReferenceSet
-from guideword.schema.enums import SeverityClass, ShortlistTier
+from guideword.runs.store import StepWriter
+from guideword.schema.enums import EventType, SeverityClass, ShortlistTier
 from guideword.schema.plant import Plant
 from guideword.schema.records import (
     OUTSIDE_LIBRARY,
@@ -79,10 +85,27 @@ def display_lines(
     plant: Plant,
     ref: ReferenceSet,
     caps: CapsConfig,
+    *,
+    prefer_own_section: bool = False,
 ) -> list[TieredLine]:
-    """The R50 tiered list, as the run shows it."""
+    """The R50 tiered list, as the run shows it; `prefer_own_section` is the run's lead
+    tie-break (`ranking.tiers.lead_prefers_own_section`)."""
     ranked = rank_findings(findings, plant, ref, caps)
-    return tiered(ranked, hypotheses, findings, questions, sections=sections)
+    return tiered(
+        ranked,
+        hypotheses,
+        findings,
+        questions,
+        sections=sections,
+        prefer_own_section=prefer_own_section,
+    )
+
+
+def writer_lead_rule(writer: StepWriter) -> bool:
+    """The lead tie-break for the run a step is writing."""
+    return lead_prefers_own_section(
+        writer.run.caps, writer.committed_events(EventType.RUN_EXTENDED)
+    )
 
 
 def section_for(

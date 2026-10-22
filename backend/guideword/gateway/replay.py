@@ -22,7 +22,7 @@ from guideword.config import CapsConfig
 from guideword.gateway.cache import ResponseCache
 from guideword.gateway.transport import Reply
 from guideword.ranking.rank import rank_findings
-from guideword.ranking.tiers import tiered
+from guideword.ranking.tiers import lead_prefers_own_section, tiered
 from guideword.reference import ReferenceSet
 from guideword.runs.store import RunRepository
 from guideword.schema.plant import Plant
@@ -112,7 +112,12 @@ def export_replay(
     hypotheses = runs.hypotheses(run_id)
     ranked = rank_findings(findings, plant, ref, caps)
     lines = tiered(
-        ranked, hypotheses, findings, runs.questions(run_id), sections=runs.sections(run_id)
+        ranked,
+        hypotheses,
+        findings,
+        runs.questions(run_id),
+        sections=runs.sections(run_id),
+        prefer_own_section=lead_prefers_own_section(run.caps, runs.events(run_id)),
     )
     manifest = {
         "run_id": run.id,

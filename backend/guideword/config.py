@@ -112,6 +112,8 @@ class RankingCaps(_Strict):
     outside_library_default_frequency_per_year: Positive
     # P3-4: the piping-leak size above which the large-leak event applies
     pipe_leak_large_above_mm: Positive
+    # lead tie-break plan: a confirmed line's tie prefers its hypothesis's own section (hashed)
+    lead_prefers_own_section: bool
 
 
 class GatewayCaps(_Strict):

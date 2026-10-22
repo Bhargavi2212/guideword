@@ -36,6 +36,7 @@ from guideword.lopa.lines import (
     display_lines,
     lopa_plan,
     section_for,
+    writer_lead_rule,
 )
 from guideword.reference import ReferenceSet
 from guideword.runs.machine import POST_CAP, StepResult, stop_for_refusal
@@ -180,6 +181,7 @@ class LopaStepper:
             self.plant,
             self.ref,
             self.config.caps,
+            prefer_own_section=writer_lead_rule(writer),
         )
         plan = lopa_plan(
             lines,

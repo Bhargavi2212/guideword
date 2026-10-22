@@ -49,6 +49,8 @@ class RunView:
     records: RunRecords
     hypotheses: Sequence[Hypothesis]
     model_calls: Sequence[ModelCall]
+    # the run's lead tie-break (lead tie-break plan); off for runs stored without it
+    prefer_own_section: bool = False
 
 
 def _state_flag(what: str, chain: Sequence[Override]) -> str | None:
@@ -75,7 +77,14 @@ def shortlist_lines(
 ) -> list[ShortlistLine]:
     records = view.records
     lines = display_lines(
-        records.findings, view.hypotheses, records.questions, records.sections, plant, ref, caps
+        records.findings,
+        view.hypotheses,
+        records.questions,
+        records.sections,
+        plant,
+        ref,
+        caps,
+        prefer_own_section=view.prefer_own_section,
     )
     plan = lopa_plan(
         lines,

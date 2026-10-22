@@ -29,6 +29,7 @@ from guideword.lopa.lines import (
     lopa_plan,
     section_for,
     shortlist,
+    writer_lead_rule,
 )
 from guideword.reference import ReferenceSet
 from guideword.runs.machine import POST_CAP, StepResult, stop_for_refusal
@@ -77,7 +78,14 @@ def current_shortlist(
     questions = writer.questions()
     sections = writer.sections()
     lines = display_lines(
-        findings, writer.hypotheses(), questions, sections, plant, ref, config.caps
+        findings,
+        writer.hypotheses(),
+        questions,
+        sections,
+        plant,
+        ref,
+        config.caps,
+        prefer_own_section=writer_lead_rule(writer),
     )
     plan = lopa_plan(
         lines,
