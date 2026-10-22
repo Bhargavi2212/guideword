@@ -168,8 +168,8 @@ def test_prompt_versions_name_existing_files(shipped: Config) -> None:
         "lopa_argument": "v3",
         "recommendation": "v2",
         "severity_chain": "v2",
-        # Phase 4 (plan PR 4)
-        "precedent_judge": "v1",
+        # Phase 4 (plan PR 4); v2 on 2026-10-22: an incident and the same mechanism
+        "precedent_judge": "v2",
         **{
             f"specialists/{a}": "v2"
             for a in ("process", "chemistry", "piping", "procedures", "maintenance", "dust")

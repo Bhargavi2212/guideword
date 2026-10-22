@@ -37,6 +37,7 @@ prompts:
   lopa_argument: v3
   recommendation: v2
   severity_chain: v2
-  # Phase 4 (plan PR 4); drafted by Claude Code, reviewed by Bhargavi
-  precedent_judge: v1
+  # Phase 4 (plan PR 4); drafted by Claude Code, reviewed by Bhargavi. v2 (2026-10-22): an
+  # incident and the same mechanism, each with its reason
+  precedent_judge: v2
 fallback_order: [nano, lightning, super, ultra]
