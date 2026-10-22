@@ -37,20 +37,22 @@ from guideword.gateway.ledgers import Ledger, ledger_for
 from guideword.gateway.transport import OpenAITransport, Transport
 from guideword.logs import configure
 from guideword.reference import load_reference_set
-from guideword.runs.case import case_report, drive, steppers_for
+from guideword.runs.case import case_report, drive, evidence_tools, steppers_for
 from guideword.runs.db import make_session_factory
-from guideword.runs.extend import ExtendRefused, extend
+from guideword.runs.extend import RERUN_FROM, ExtendRefused, extend
 from guideword.runs.plants import PlantRepository
 from guideword.runs.store import RunRepository
 from guideword.schema.enums import BudgetUse
 from guideword.settings import Settings
+from guideword.tools.web import NoKeySearch, SearchClient, live_search
 from pydantic import ValidationError
 
 # the spend counts against phase_caps_usd of the phase given by --phase (plan Q15)
 DEFAULT_PHASE = "3"
 OUT = Path(__file__).resolve().parents[1] / "bench" / "phase3"
-# plan Q16: extensions spend on use development
-USES = (BudgetUse.DEVELOPMENT.value,)
+# plan Q16: extensions spend on use development; Phase 4 plan Q7, G7: or video, to add or
+# re-run evidence on the final demo run
+USES = (BudgetUse.DEVELOPMENT.value, BudgetUse.VIDEO.value)
 
 
 def _arguments(argv: Sequence[str] | None) -> argparse.Namespace:
@@ -80,8 +82,16 @@ def _arguments(argv: Sequence[str] | None) -> argparse.Namespace:
     parser.add_argument("--name", help="the report's file name (default: the plant ID)")
     parser.add_argument(
         "--rerun-from",
-        choices=("chains", "lopa"),
+        choices=RERUN_FROM,
         help="re-run the post steps from this one; the old records are superseded, not deleted",
+    )
+    parser.add_argument(
+        "--evidence",
+        action="store_true",
+        help="add the evidence step to a finished, extended run whose pass had none (same ID)",
+    )
+    parser.add_argument(
+        "--no-evidence", action="store_true", help="skip the evidence step in this pass"
     )
     return parser.parse_args(argv)
 
@@ -107,6 +117,18 @@ def _check_records_load(runs: RunRepository, run_id: str) -> None:
     runs.sections(run_id)
 
 
+def _search(
+    search: SearchClient | None, transport: Transport | None, settings: Settings
+) -> SearchClient:
+    """The web search: the one given; with an injected (fake) transport and none given, one
+    that fails without sending, so a test never pairs with the live Tavily client; else live."""
+    if search is not None:
+        return search
+    if transport is not None:
+        return NoKeySearch()
+    return live_search(settings.tavily_api_key.get_secret_value())
+
+
 def main(
     argv: Sequence[str] | None = None,
     *,
@@ -116,6 +138,7 @@ def main(
     ledger: Ledger | None = None,
     clock: Callable[[], datetime] | None = None,
     out_dir: Path = OUT,
+    search: SearchClient | None = None,
 ) -> int:
     args = _arguments(argv)
     out_dir = args.out_dir or out_dir
@@ -155,21 +178,35 @@ def main(
             rerun_from=args.rerun_from,
             retry_failed=args.retry_failed,
             retry_cap_usd=args.retry_cap,
+            evidence_only=args.evidence,
         )
     except ExtendRefused as refused:
         print(f"refused: {refused}", file=sys.stderr)
         return 1
+    ledger = ledger if ledger is not None else ledger_for(settings, sessions)
+    cache = ResponseCache(sessions)
+    use = BudgetUse(args.use)
     gateway = Gateway(
         config=config,
         transport=transport if transport is not None else OpenAITransport(settings),
-        cache=ResponseCache(sessions),
-        ledger=ledger if ledger is not None else ledger_for(settings, sessions),
-        use=BudgetUse(args.use),
+        cache=cache,
+        ledger=ledger,
+        use=use,
         phase=args.phase,
         clock=clock,
     )
+    tools = evidence_tools(
+        config=config,
+        cache=cache,
+        ledger=ledger,
+        use=use,
+        phase=args.phase,
+        clock=clock,
+        search=_search(search, transport, settings),
+        enabled=not args.no_evidence,
+    )
     plant = stored.record.plant_file
-    drive(runs, run.id, steppers_for(gateway, config, ref, plant))
+    drive(runs, run.id, steppers_for(gateway, config, ref, plant, evidence=tools))
     name = args.name or plant.plant_id
     report = case_report(runs, run.id, plant, ref, config.caps, name)
     path = out_dir / f"{name}.json"

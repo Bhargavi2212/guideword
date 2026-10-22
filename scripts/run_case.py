@@ -29,6 +29,7 @@ from guideword.runs.case import (
     InvalidPlant,
     case_report,
     drive,
+    evidence_tools,
     prepare_plant,
     start_case,
     steppers_for,
@@ -40,6 +41,7 @@ from guideword.runs.store import RunRepository
 from guideword.schema import ids
 from guideword.schema.enums import BudgetUse
 from guideword.settings import Settings
+from guideword.tools.web import NoKeySearch, SearchClient, live_search
 
 # the spend counts against phase_caps_usd of the phase given by --phase (plan Q15)
 DEFAULT_PHASE = "3"
@@ -56,7 +58,8 @@ def default_out_dir(plant: Path) -> Path:
     return DEMO_OUT if plant.resolve().is_relative_to(DEMO_PLANTS.resolve()) else OUT
 
 
-USES = (BudgetUse.DEVELOPMENT.value, BudgetUse.TEST_5.value)
+# Phase 4 plan Q7, G7: the final demo run uses video (laptop)
+USES = (BudgetUse.DEVELOPMENT.value, BudgetUse.TEST_5.value, BudgetUse.VIDEO.value)
 
 
 def _arguments(argv: Sequence[str] | None) -> argparse.Namespace:
@@ -77,6 +80,11 @@ def _arguments(argv: Sequence[str] | None) -> argparse.Namespace:
         "--out-dir",
         type=Path,
         help="where the report goes (default: bench/demo/ for cases/demo/, else bench/test5/5b/)",
+    )
+    parser.add_argument(
+        "--no-evidence",
+        action="store_true",
+        help="skip the evidence step (it is always off for use test_5 or benchmark)",
     )
     return parser.parse_args(argv)
 
@@ -129,6 +137,18 @@ def _print_report(report: dict[str, Any]) -> None:
         )
 
 
+def _search(
+    search: SearchClient | None, transport: Transport | None, settings: Settings
+) -> SearchClient:
+    """The web search: the one given; with an injected (fake) transport and none given, one
+    that fails without sending, so a test never pairs with the live Tavily client; else live."""
+    if search is not None:
+        return search
+    if transport is not None:
+        return NoKeySearch()
+    return live_search(settings.tavily_api_key.get_secret_value())
+
+
 def main(
     argv: Sequence[str] | None = None,
     *,
@@ -138,6 +158,7 @@ def main(
     ledger: Ledger | None = None,
     clock: Callable[[], datetime] | None = None,
     out_dir: Path | None = None,
+    search: SearchClient | None = None,
 ) -> int:
     args = _arguments(argv)
     configure()
@@ -164,16 +185,29 @@ def main(
     except (ModeNotBuilt, ids.CapReachedError) as refused:
         print(f"refused: {refused}", file=sys.stderr)
         return 1
+    ledger = ledger if ledger is not None else ledger_for(settings, sessions)
+    cache = ResponseCache(sessions)
+    use = BudgetUse(args.use)
     gateway = Gateway(
         config=config,
         transport=transport if transport is not None else OpenAITransport(settings),
-        cache=ResponseCache(sessions),
-        ledger=ledger if ledger is not None else ledger_for(settings, sessions),
-        use=BudgetUse(args.use),
+        cache=cache,
+        ledger=ledger,
+        use=use,
         phase=args.phase,
         clock=clock,
     )
-    drive(runs, run.id, steppers_for(gateway, config, ref, record.plant_file))
+    tools = evidence_tools(
+        config=config,
+        cache=cache,
+        ledger=ledger,
+        use=use,
+        phase=args.phase,
+        clock=clock,
+        search=_search(search, transport, settings),
+        enabled=not args.no_evidence,
+    )
+    drive(runs, run.id, steppers_for(gateway, config, ref, record.plant_file, evidence=tools))
     case = args.plant.stem
     report = case_report(runs, run.id, record.plant_file, ref, config.caps, case)
     target = args.out_dir or out_dir or default_out_dir(args.plant)

@@ -12,6 +12,7 @@ from sqlalchemy.orm import Session, sessionmaker
 
 from guideword.api import models as api
 from guideword.config import Config
+from guideword.evidence.step import EvidenceTools
 from guideword.gateway.client import Gateway
 from guideword.questions.coverage import SECTIONS, coverage
 from guideword.ranking.tiers import lead_prefers_own_section
@@ -36,6 +37,8 @@ from guideword.schema.plant import Plant
 from guideword.schema.records import Override, Question, Run
 
 GatewayFactory = Callable[[sessionmaker[Session]], Gateway]
+# Phase 4: the evidence step's tools for the API's runs (None: evidence off)
+EvidenceFactory = Callable[[sessionmaker[Session]], EvidenceTools]
 
 
 class RunNotFound(LookupError):
@@ -63,6 +66,7 @@ class LiveRuns:
         ref: ReferenceSet,
         gateway_factory: GatewayFactory,
         clock: Clock,
+        evidence_factory: EvidenceFactory | None = None,
     ) -> None:
         self.sessions = sessions
         self.config = config
@@ -71,6 +75,8 @@ class LiveRuns:
         self.runs = RunRepository(sessions, clock)
         self._factory = gateway_factory
         self._gateway: Gateway | None = None
+        self._evidence_factory = evidence_factory
+        self._evidence: EvidenceTools | None = None
 
     def gateway(self) -> Gateway:
         if self._gateway is None:
@@ -89,8 +95,15 @@ class LiveRuns:
             raise RunNotFound(f"no plant {run.plant_record_id} for run {run.id}")
         return stored.record.plant_file
 
+    def evidence(self) -> EvidenceTools | None:
+        if self._evidence is None and self._evidence_factory is not None:
+            self._evidence = self._evidence_factory(self.sessions)
+        return self._evidence
+
     def _steppers(self, run: Run) -> dict[str, Stepper]:
-        return steppers_for(self.gateway(), self.config, self.ref, self.plant_of(run))
+        return steppers_for(
+            self.gateway(), self.config, self.ref, self.plant_of(run), evidence=self.evidence()
+        )
 
     # --- start, cancel, advance -------------------------------------------------------------
 
