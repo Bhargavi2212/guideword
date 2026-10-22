@@ -138,7 +138,7 @@ With the spec's rule (4.1: applicability by the question ID `m:<section>:more:pr
 | G6 | **"Refused and recorded in the ledger"** (spec acceptance). A refused search costs nothing, and ledger lines record spend. | A search past `tavily_searches_per_run` is **refused before sending** and recorded as a `ToolCall` with `refused_reason` and an event, **not** as a ledger line. A sent search writes its ledger line (`kind: tavily`, `searches: 1`). The acceptance test checks both. | 5 |
 | G7 | **`run_case.py` rejects `--use video`.** Its `USES` are `development` and `test_5` only. | Add `video` to `run_case.py`'s `USES` (and `extend_run.py`'s, for re-running evidence on the final demo run). It is a laptop use, so the gateway's environment check stays the guard. | 5 |
 | G8 | **The demo plant file is read by Phase 3 tests.** Example 2 (`backend/tests/lopa/fixtures/example_2.json`) and `test_demo_plant.py` load `cases/demo/williams_geismar.json`. Cowork's 4.5 additions (vapour-pressure points; operating rows on `L-QW-A-IN` and `L-QW-B-IN`) must keep them passing. | Cowork's plant change lands in its own PR (2b, below), with the full suite run. Example 2's candidates and credits don't read those fields, so they should be unchanged; the PR proves it. Bhargavi ticks each new fact's source, as `CLAUDE.md` §10 asks. | 2b |
-| G9 | **No test for the cross-environment refusal** (Q7). | `test_a_laptop_run_under_a_hosted_use_is_refused` (gateway, fake transport, zero sends). | 5 |
+| G9 | **No test for the cross-environment refusal** (Q7). *Correction (2026-10-22): one exists, `backend/tests/gateway/test_gateway.py::test_use_of_the_other_environment_is_refused`; PR 5a adds the same check for web searches.* | `test_a_laptop_run_under_a_hosted_use_is_refused` (gateway, fake transport, zero sends). | 5 |
 | G10 | **The judge prompt's count wording.** precedent_judge/v1 needs the target-handles lessons: no "batch", the count and handles stated, made-up examples. | Stated in PR 4 (already listed), plus a guard test: no prompt body or user message says "batch". The existing test covers the three Phase 3 prompts, and it is extended to `precedent_judge`. | 4, 5 |
 | G11 | **The frontend worktree reads `types.ts`.** Contract v1.8 changes `Evidence` and `Agent`. | PR 1 regenerates `frontend/src/api/types.ts` and runs the frontend's lint, typecheck and tests, as v1.5–v1.7 did. Phase 5 renders the cards. | 1 |
 | G12 | **The `evidence_added` payload and the worksheet text** need one source of wording. | The card's text and the worksheet's Evidence column both come from `review/display.py` (`calc_text`, and the judge reason as stored), like `gap_text`. One test checks they're equal for the same record. | 5 |
@@ -330,6 +330,11 @@ Copied **unchanged** to the target path in the PR its README names. `reference/p
 - **Check:** the draft's examples use made-up handles, with no real incident, ID or plant name. No "batch" or group label anywhere (G10).
 
 ### PR 5 — `phase-4/evidence-step`
+
+**Split into three PRs, landed in order (2026-10-22; nothing in their content changes):**
+- **5a `phase-4/tavily`:** `tools/web.py` (`WebSearch`, cache by exact query, one ledger line per sent search through the environment's ledger, the environment and phase refusals, `TavilySearch`, `ReplaySearch`, `FakeSearch`), `ResponseCache.put_tool` and `get_tool`, the replay export of the run's searches, and the allow-list.
+- **5b `phase-4/evidence-step`:** the `evidence:` caps block, the step and its wiring, the hash exclusions (Q3), supersession (G16), `--evidence` (G17), `--no-evidence`, the scripts (G7), `API_RUN_PHASE` (Q16), and the D–H block lists.
+- **5c `phase-4/evidence-reads`:** the shortlist, worksheet, record detail, run dump, xlsx and replay manifest.
 
 - **Tavily (`tools/web.py`):**
   - It is the only importer of `tavily` outside `scripts/live_call.py`, so `test_http_allowlist.py` gains `tavily: backend/guideword/tools/**`. That's a stop-and-ask change, approved by the spec.
