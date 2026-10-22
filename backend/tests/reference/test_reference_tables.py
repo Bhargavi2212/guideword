@@ -70,8 +70,11 @@ def test_no_carriage_returns(path: Path) -> None:
     assert b"\r" not in path.read_bytes()
 
 
-def test_no_precedent_index_yet() -> None:
-    assert not (REPO_REFERENCE / "precedent_index.csv").exists()
+def test_the_precedent_index_is_not_a_reference_set_table() -> None:
+    """Phase 4 adds it outside the ReferenceSet (P4-9); its own tests are in
+    test_precedent_index.py (it replaces test_no_precedent_index_yet, plan PR 3)."""
+    assert (REPO_REFERENCE / "precedent_index.csv").exists()
+    assert "precedent_index.csv" not in SPEC_HEADERS
 
 
 def test_set_loads(ref: ReferenceSet) -> None:

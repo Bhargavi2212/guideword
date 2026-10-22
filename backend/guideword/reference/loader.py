@@ -166,8 +166,10 @@ class ReferenceSet:
 
 
 def _read[Row: BaseModel](
-    directory: Path, name: str, model: type[Row]
+    directory: Path, name: str, model: type[Row], header: tuple[str, ...] | None = None
 ) -> tuple[tuple[Row, ...], str]:
+    """One table: LF, UTF-8, its frozen header (FROZEN_HEADERS, or `header` for a table
+    loaded outside the ReferenceSet), each row validated; with its SHA-256."""
     path = directory / name
     if not path.is_file():
         raise ReferenceTableError(name, "file is missing")
@@ -179,8 +181,9 @@ def _read[Row: BaseModel](
     except UnicodeDecodeError as error:
         raise ReferenceTableError(name, f"not UTF-8: {error}") from error
     reader = csv.reader(io.StringIO(text, newline=""))
+    frozen = header if header is not None else FROZEN_HEADERS[name]
     header = tuple(next(reader, ()))
-    if header != FROZEN_HEADERS[name]:
+    if header != frozen:
         raise ReferenceTableError(name, f"header {header} is not the frozen header")
     rows = []
     for line, values in enumerate(reader, start=2):
