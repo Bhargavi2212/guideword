@@ -68,3 +68,29 @@ def test_demo_plant_has_the_reboiler_its_heat_source_and_a_relief_device_with_a_
     assert isolated, "no relief device on a reboiler with a closed inlet valve"
     for device in isolated:
         assert equipment[device.protects_id].heat_sources
+
+
+def test_the_demo_plant_has_bracketing_vapour_pressure_points_for_the_quench_temperature(
+    data: dict[str, Any],
+) -> None:
+    """Phase 4 plan PR 2b: each reboiler's heat-source line has a temperature, and every
+    content chemical with points brackets it, so blocked_in_heating never extrapolates."""
+    plant = Plant.model_validate(data)
+    chemicals = {c.id: c for c in plant.chemicals}
+    temperatures = {
+        row.target_id: row.normal for row in plant.operating if row.parameter == "temperature"
+    }
+    reboilers = [e for e in plant.equipment if e.heat_sources]
+    assert reboilers
+    for reboiler in reboilers:
+        with_points = [
+            chemicals[c] for c in reboiler.contents if chemicals[c].vapor_pressure_points
+        ]
+        assert with_points, f"{reboiler.id}: no content chemical has vapour-pressure points"
+        for source in reboiler.heat_sources:
+            assert source.via_line_id is not None
+            temp_c = temperatures.get(source.via_line_id)
+            assert temp_c is not None, f"{source.via_line_id}: no temperature row"
+            for chemical in with_points:
+                points = [p.temp_c for p in chemical.vapor_pressure_points]
+                assert min(points) <= temp_c <= max(points), (chemical.id, temp_c)
