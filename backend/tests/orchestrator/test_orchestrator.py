@@ -1003,5 +1003,12 @@ def test_the_report_counts_linked_answered_before_the_first_unlinked_dispatch(
     steppers = world.steppers(gateway)
     for _ in range(3):
         advance(world.runs, run.id, steppers)
-    summary = priority_summary(world.runs.events(run.id), world.runs.hypotheses(run.id))
-    assert summary == {"linked_questions": 3, "linked_answered_before_first_unlinked": 3}
+    summary = priority_summary(
+        world.runs.events(run.id), world.runs.hypotheses(run.id), world.runs.questions(run.id)
+    )
+    assert summary == {
+        "linked_questions": 3,
+        "linked_answered_before_first_unlinked": 3,
+        # the first dispatch named one linked question and sent nothing else
+        "linked_answered_in_linked_only_dispatches": 1,
+    }

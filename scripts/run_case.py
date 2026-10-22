@@ -117,10 +117,14 @@ def _print_report(report: dict[str, Any]) -> None:
         f"of {checked} questions checked: answered {checked - dismissed}, not credible {dismissed}"
     )
     priority = report["priority"]
+    linked = priority["linked_questions"]
     print(
-        f"{priority['linked_answered_before_first_unlinked']} of "
-        f"{priority['linked_questions']} questions linked to the whole-plant hazards answered "
-        "before the first unlinked dispatch"
+        "linked questions answered before the first dispatch that sent any unlinked question: "
+        f"{priority['linked_answered_before_first_unlinked']} of {linked}"
+    )
+    print(
+        "linked questions answered in dispatches that sent no unlinked question: "
+        f"{priority['linked_answered_in_linked_only_dispatches']} of {linked}"
     )
     print(f"top {TOP}: confirmed, also found, unconfirmed (R50); one line per cause (R48)")
     for line in report["hybrid"][:TOP]:

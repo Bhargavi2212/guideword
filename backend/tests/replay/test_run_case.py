@@ -391,4 +391,9 @@ def test_case_d_end_to_end_on_the_fake_gateway_with_a_scripted_screen(
     assert first["priority"] is True and first["selected_by_code"] is True
     assert first["question_ids"][: len(linked)] == sorted(linked)
     assert first["linked_answered"] == len(linked)
-    assert "before the first unlinked dispatch" in out and "[confirmed #1]" in out
+    assert (
+        "linked questions answered before the first dispatch that sent any unlinked question: "
+        f"{len(linked)} of {len(linked)}"
+    ) in out
+    assert "linked questions answered in dispatches that sent no unlinked question: " in out
+    assert "[confirmed #1]" in out
