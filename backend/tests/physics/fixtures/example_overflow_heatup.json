@@ -1,0 +1,67 @@
+{
+  "_about": "Hand-worked examples for overflow_time and heat_up_rate (Phase 4 plan Q10). Base plant: backend/tests/schema/fixtures/example_mixing_unit.json. The facts below are SYNTHETIC, added only for this fixture (allowed for the example plant), and are applied to a copy of it in the test.",
+  "synthetic_facts": {
+    "MX-1.operating.level.normal": "variant value",
+    "SIH.density_kg_m3": 1000.0,
+    "KOH.density_kg_m3": 1500.0,
+    "SIH.heat_capacity_kj_kg_k": 1.5,
+    "KOH.heat_capacity_kj_kg_k": 3.0,
+    "MX-1.heat_duty_kw": "variant value"
+  },
+  "plant_facts_used": {
+    "MX-1.volume_m3": 10,
+    "L-12.normal_flow_kg_h": 2000,
+    "L-12.to_id": "MX-1 (the only line into MX-1 with a flow; L-STM carries steam and has none)",
+    "MX-1.operating.temperature.normal": 25,
+    "MX-1.operating.temperature.design_max": 80
+  },
+  "overflow_time": {
+    "rule": "minutes = (1 - normal/100) x volume x density / flow x 60; density = the lowest of the contents (SIH 1000 < KOH 1500), named; confirmed if < 60 min, else none; threshold comparison: within relative 1e-9 counts as equal (not below)",
+    "variants": [
+      {
+        "name": "level 80 %: exactly 60 min, boundary -> none",
+        "normal": 80,
+        "arithmetic": "(1-0.80) x 10 x 1000 / 2000 x 60 = 60 exactly",
+        "minutes": 60.0,
+        "verdict": "none",
+        "float_note": "Evaluated in this order in floating point it gives 59.999999999999986, which a plain '< 60' would wrongly confirm. Threshold comparisons treat a value within a relative 1e-9 of the threshold as equal to it, so this is NOT below 60: verdict none."
+      },
+      {
+        "name": "level 90 %: 30 min -> confirmed",
+        "normal": 90,
+        "arithmetic": "(1-0.90) x 10 x 1000 / 2000 x 60 = 30 exactly",
+        "minutes": 30.0,
+        "verdict": "confirmed"
+      },
+      {
+        "name": "no level row -> skipped",
+        "normal": null,
+        "verdict": "none",
+        "missing_fact_ids": [
+          "MX-1.operating.level.normal"
+        ]
+      }
+    ]
+  },
+  "heat_up_rate": {
+    "rule": "C/min = duty_kW x 60 / (volume x lowest density x lowest heat capacity); minutes to limit = (design_max - normal) / rate; confirmed if < 60 min",
+    "variants": [
+      {
+        "name": "duty 50 kW",
+        "heat_duty_kw": 50.0,
+        "arithmetic": "50 x 60 / (10 x 1000 x 1.5) = 0.2 C/min; (80 - 25) / rate = 275.0 min",
+        "c_per_min": 0.2,
+        "minutes_to_limit": 275.0,
+        "verdict": "none"
+      },
+      {
+        "name": "duty 500 kW",
+        "heat_duty_kw": 500.0,
+        "arithmetic": "500 x 60 / (10 x 1000 x 1.5) = 2.0 C/min; (80 - 25) / rate = 27.5 min",
+        "c_per_min": 2.0,
+        "minutes_to_limit": 27.5,
+        "verdict": "confirmed"
+      }
+    ]
+  }
+}

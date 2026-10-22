@@ -1,0 +1,167 @@
+{
+  "_about": "Hand-worked example for blocked_in_heating (Phase 4 spec 4.1 as amended by plan Q1, Q11, Q12, Q13). Written by Cowork from the plant file and NIST data BEFORE the code exists, so it is independent of the code. Every number is shown; nothing here is a model output.",
+  "plant_file": "cases/demo/williams_geismar.json (with the Phase 4 facts, PR 2b)",
+  "constants": {
+    "standard_atmosphere_kpa": 101.325,
+    "source_atm": "ISO 2533 / CODATA standard atmosphere, 101.325 kPa",
+    "celsius_to_kelvin": 273.15,
+    "source_k": "SI definition, T(K) = t(C) + 273.15"
+  },
+  "interpolation_rule": "ln P linear in 1/T between the two bracketing points (T in K); a temperature equal to a point uses that point; outside the points: skipped, never extrapolated",
+  "cases": [
+    {
+      "name": "A: EA-425B, confirmed (the opening card)",
+      "equipment": "EA-425B",
+      "condition_1_blocked_in": {
+        "process_side_lines": [
+          {
+            "line": "L-B-SIN",
+            "closed_valve": "HV-B-SIN",
+            "fact": "HV-B-SIN.normal_position = closed"
+          },
+          {
+            "line": "L-B-SOUT",
+            "closed_valve": "HV-B-SOUT",
+            "fact": "HV-B-SOUT.normal_position = closed"
+          }
+        ],
+        "excluded_heat_source_lines": [
+          {
+            "line": "L-QW-B-IN",
+            "why": "carries HV-QW-B-IN, an isolating valve of EA-425B's heat source"
+          },
+          {
+            "line": "L-QW-B-OUT",
+            "why": "carries HV-QW-B-OUT, an isolating valve of EA-425B's heat source"
+          }
+        ],
+        "result": true
+      },
+      "condition_2_heat_can_reach": {
+        "heat_source": "hot quench water via L-QW-B-IN",
+        "isolating_valves": [
+          "HV-QW-B-IN",
+          "HV-QW-B-OUT"
+        ],
+        "facts": [
+          "HV-QW-B-IN.locked = false",
+          "HV-QW-B-OUT.locked = false"
+        ],
+        "result": "True: not all locked"
+      },
+      "temperature": {
+        "fact": "L-QW-B-IN.operating.temperature.normal = 85 C",
+        "design_max": "not set",
+        "used_c": 85.0,
+        "flag": "heating-medium temperature from normal (no design_max)"
+      },
+      "design_pressure": {
+        "fact": "EA-425B.design_pressure_kpa = 2068 (gauge)"
+      },
+      "per_chemical": [
+        {
+          "chemical": "PROPANE",
+          "points_used": "85 C = 3436.1 kPa abs (a point, no interpolation)",
+          "pressure_kpaa": 3436.1,
+          "gauge_kpa": 3334.775,
+          "arithmetic": "3436.1 - 101.325 = 3334.775; 3334.775 / 2068 = 1.6125604448742747",
+          "multiple": 1.6125604448742747
+        },
+        {
+          "chemical": "PROPYLENE",
+          "points_used": "85 C = 4078.8 kPa abs (a point)",
+          "pressure_kpaa": 4078.8,
+          "gauge_kpa": 3977.4750000000004,
+          "arithmetic": "4078.8 - 101.325 = 3977.475; 3977.475 / 2068 = 1.9233438104448743",
+          "multiple": 1.9233438104448743
+        },
+        {
+          "chemical": "C4-HEAVIES",
+          "points_used": "none",
+          "multiple": null,
+          "note": "no vapour-pressure data"
+        }
+      ],
+      "reported": {
+        "chemical": "PROPANE",
+        "multiple": 1.6125604448742747,
+        "rule": "lowest multiple among chemicals with points (Q12): a lower bound on the mixture's bubble pressure",
+        "display": "at least 1.6x design",
+        "no_data": [
+          "C4-HEAVIES"
+        ]
+      },
+      "condition_3_at_or_above_design": true,
+      "expected": {
+        "verdict": "confirmed",
+        "fact_ids_include": [
+          "HV-B-SIN.normal_position",
+          "HV-B-SOUT.normal_position",
+          "HV-QW-B-IN.locked",
+          "HV-QW-B-OUT.locked",
+          "L-QW-B-IN.operating.temperature.normal",
+          "EA-425B.design_pressure_kpa",
+          "PROPANE.vapor_pressure_points",
+          "PROPYLENE.vapor_pressure_points"
+        ],
+        "flags_include": [
+          "pure-component vapour pressure; liquid-full thermal expansion not modelled; real pressure can be higher",
+          "no data: C4-HEAVIES; bound covers listed chemicals only",
+          "heating-medium temperature from normal (no design_max)"
+        ]
+      }
+    },
+    {
+      "name": "B: EA-425A in service, none (not blocked in)",
+      "equipment": "EA-425A",
+      "condition_1_blocked_in": {
+        "process_side_lines": [
+          {
+            "line": "L-A-SIN",
+            "valve": "HV-A-SIN",
+            "fact": "HV-A-SIN.normal_position = open"
+          },
+          {
+            "line": "L-A-SOUT",
+            "valve": "HV-A-SOUT",
+            "fact": "HV-A-SOUT.normal_position = open"
+          }
+        ],
+        "result": false
+      },
+      "expected": {
+        "verdict": "none",
+        "summary_contains": "not blocked in",
+        "fact_ids_include": [
+          "HV-A-SIN.normal_position",
+          "HV-A-SOUT.normal_position"
+        ]
+      }
+    }
+  ],
+  "unit_interpolation_example": {
+    "chemical": "PROPANE",
+    "t_c": 87.0,
+    "bracket": [
+      85.0,
+      90.0
+    ],
+    "points_kpaa": [
+      3436.1,
+      3764.1
+    ],
+    "T_K": [
+      358.15,
+      363.15,
+      360.15
+    ],
+    "fraction": "f = (1/T - 1/T1) / (1/T2 - 1/T1) = 0.40333194502291403",
+    "ln_p": "ln 3436.1 + f x (ln 3764.1 - ln 3436.1) = 8.178864837937752",
+    "pressure_kpaa": 3564.8057309369387,
+    "out_of_range": {
+      "t_c": 96.0,
+      "expected": "skipped: outside PROPANE.vapor_pressure_points (30-95 C)"
+    }
+  },
+  "tolerance": "relative 1e-9; stored numbers are not rounded"
+}
