@@ -18,7 +18,7 @@ from guideword.gateway.ledgers import Ledger
 from guideword.lopa.engine import CODE_ONLY_FLAG
 from guideword.lopa.lines import NONE, ShortlistLine, display_lines, lopa_plan, shortlist
 from guideword.lopa.step import LopaStepper
-from guideword.orchestrator.loop import OrchestratorStepper
+from guideword.orchestrator.loop import LINKED_COUNT, LINKED_COUNT_KEY, OrchestratorStepper
 from guideword.questions.coverage import coverage
 from guideword.ranking.rank import RankedFinding, fold, rank_findings
 from guideword.ranking.severity import RankedStepper, SeverityStepper
@@ -398,6 +398,10 @@ def priority_summary(
         "linked_questions": len(linked),
         "linked_answered_before_first_unlinked": before,
         "linked_answered_in_linked_only_dispatches": linked_only,
+        # bug fix (2026-10-22): true when every dispatch counted checked questions only, so
+        # the first number above uses the corrected count; stored runs read false
+        "linked_answered_corrected": bool(dispatches)
+        and all(e.payload.get(LINKED_COUNT_KEY) == LINKED_COUNT for e in dispatches),
     }
 
 
