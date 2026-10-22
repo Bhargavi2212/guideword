@@ -34,25 +34,37 @@ from typing import Any
 from guideword.config import Config
 from guideword.ranking.tiers import LEAD_SETTING
 from guideword.runs.machine import POST_CAP
-from guideword.runs.post_budget import POST_JOBS, POST_PROMPTS, post_settings
+from guideword.runs.post_budget import (
+    POST_JOBS,
+    POST_PROMPTS,
+    evidence_settings,
+    post_settings,
+)
 from guideword.runs.store import RunRepository
 from guideword.schema.enums import EventType, QuestionStatus, RunStatus
 from guideword.schema.records import Run
 
 FIRST_POST_STEP = "chains"
 RETRY_STEP = "retry_failed"
-RERUN_FROM = ("chains", "lopa")
+EVIDENCE_STEP = "evidence"
+RERUN_FROM = ("chains", "lopa", EVIDENCE_STEP)
+# the evidence pass (Phase 4 plan G16): its records, and the evidence agent's steps and tool
+# calls (the store filters those two to the evidence agent)
+EVIDENCE_PASS = ("evidence", "agent_step", "tool_call")
+EVIDENCE_JOBS = frozenset({"precedent_judge"})
 # what a re-run from each step supersedes: the record kinds, and the jobs whose calls go too.
-# From lopa (lead tie-break plan) the chains, their severities and their calls are kept.
+# From lopa (lead tie-break plan) the chains, their severities and their calls are kept. Every
+# re-run also runs the evidence step again, so each supersedes the evidence pass.
 RERUN_SUPERSEDES: dict[str, tuple[tuple[str, ...], frozenset[str]]] = {
-    "chains": (("chain", "lopa", "recommendation", "model_call"), POST_JOBS),
+    "chains": (("chain", "lopa", "recommendation", "model_call", *EVIDENCE_PASS), POST_JOBS),
     "lopa": (
-        ("lopa", "recommendation", "model_call"),
-        frozenset({"lopa_argument", "recommendation"}),
+        ("lopa", "recommendation", "model_call", *EVIDENCE_PASS),
+        frozenset({"lopa_argument", "recommendation"}) | EVIDENCE_JOBS,
     ),
+    EVIDENCE_STEP: (("model_call", *EVIDENCE_PASS), EVIDENCE_JOBS),
 }
 # record ID prefixes of the post-analysis records an override can name
-POST_RECORD_PREFIXES = ("ch:", "lopa:", "rec:")
+POST_RECORD_PREFIXES = ("ch:", "lopa:", "rec:", "ev:")
 
 
 class ExtendRefused(ValueError):
@@ -70,6 +82,8 @@ def post_pass(run: Run, config: Config, post_cap_usd: float) -> dict[str, Any]:
         "prompt_versions": {name: config.routing.prompts[name] for name in sorted(POST_PROMPTS)},
         # lead tie-break plan, Q1: a pass reads the current lead rule from here
         "ranking": {LEAD_SETTING: config.caps.ranking.lead_prefers_own_section},
+        # Phase 4 (P4-9, G4): the evidence settings, with where each value came from
+        "evidence_settings": evidence_settings(run, config),
     }
 
 
@@ -118,6 +132,30 @@ def _check_rerun(runs: RunRepository, run: Run, rerun_from: str) -> None:
         )
 
 
+def evidence_in_pass(runs: RunRepository, run_id: str) -> bool:
+    """The run's current post pass has run its evidence step (with evidence on)."""
+    start = current_pass_seq(runs, run_id)
+    return any(
+        e.type == EventType.STEP_FINISHED
+        and e.payload.get("step") == EVIDENCE_STEP
+        and e.payload.get("evidence") == "on"
+        and e.seq > start
+        for e in runs.events(run_id)
+    )
+
+
+def _check_evidence(runs: RunRepository, run: Run) -> None:
+    """G17: `--evidence` adds the step to a finished, extended run whose pass had none."""
+    if run.status != RunStatus.FINISHED:
+        raise ExtendRefused(f"run {run.id} is {run.status}, not finished")
+    if not already_extended(runs, run.id):
+        raise ExtendRefused(f"run {run.id}: its chains step has not run; extend it first")
+    if evidence_in_pass(runs, run.id):
+        raise ExtendRefused(
+            f"run {run.id} already has evidence in this pass; re-run it with --rerun-from evidence"
+        )
+
+
 def _check_retry(runs: RunRepository, run: Run) -> list[str]:
     if run.status != RunStatus.FINISHED:
         raise ExtendRefused(f"run {run.id} is {run.status}, not finished")
@@ -143,12 +181,17 @@ def extend(
     rerun_from: str | None = None,
     retry_failed: bool = False,
     retry_cap_usd: float = 0.0,
+    evidence_only: bool = False,
 ) -> Run:
     run = runs.get(run_id)
     if run is None:
         raise LookupError(f"no run {run_id}")
+    if sum([retry_failed, evidence_only, rerun_from is not None]) > 1:
+        raise ExtendRefused("give one of --rerun-from, --retry-failed or --evidence")
     if retry_failed:
         return _retry(runs, run, post_cap_usd, retry_cap_usd, config)
+    if evidence_only:
+        return _evidence(runs, run, post_cap_usd, config)
     resume = False
     if rerun_from is not None:
         _check_rerun(runs, run, rerun_from)
@@ -202,6 +245,30 @@ def extend(
     extended = runs.get(run_id)
     if extended is None:
         raise LookupError(f"run {run_id} disappeared while extending")
+    return extended
+
+
+def _evidence(runs: RunRepository, run: Run, post_cap_usd: float, config: Config) -> Run:
+    """G17: step `evidence`, status `running`, one `run_extended` event; same run ID, and no
+    earlier record touched. The judge's calls count against the post cap given, which covers
+    the run's earlier post calls too."""
+    _check_evidence(runs, run)
+    with runs.step(run.id) as writer:
+        writer.set_post_spend_cap(post_cap_usd)
+        writer.set_step(EVIDENCE_STEP)
+        writer.set_status(RunStatus.RUNNING)
+        writer.emit(
+            EventType.RUN_EXTENDED,
+            {
+                **post_pass(run, config, post_cap_usd),
+                "resumed_after_post_cap": False,
+                "step": EVIDENCE_STEP,
+                "evidence_only": True,
+            },
+        )
+    extended = runs.get(run.id)
+    if extended is None:
+        raise LookupError(f"run {run.id} disappeared while extending")
     return extended
 
 

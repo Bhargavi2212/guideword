@@ -28,7 +28,8 @@ from guideword.schema.records import AgentStep, Finding, ModelCall, Run, ToolCal
 Upload = Callable[..., str]
 # Phase 3 emits chain_added, lopa_done and run_extended with its post-analysis steps (plan
 # G11); evidence_added comes with the Phase 4 tools
-LATER_PHASE_EVENTS = {EventType.EVIDENCE_ADDED}
+# Phase 4 emits evidence_added (plan PR 5b); no event type is left for a later phase
+LATER_PHASE_EVENTS: set[EventType] = set()
 
 
 def past_screen(runs: RunRepository, run: Run) -> Run:
@@ -277,9 +278,12 @@ def test_phase_2_event_types() -> None:
     """R32: the store emits only the types of the phases built; later ones come with their
     tools. Phase 3 (plan G11) adds the post-analysis steps' events."""
     assert set(EventType) - LATER_PHASE_EVENTS >= EMITTED_EVENT_TYPES
-    assert {EventType.CHAIN_ADDED, EventType.LOPA_DONE, EventType.RUN_EXTENDED} <= (
-        EMITTED_EVENT_TYPES
-    )
+    assert {
+        EventType.CHAIN_ADDED,
+        EventType.LOPA_DONE,
+        EventType.RUN_EXTENDED,
+        EventType.EVIDENCE_ADDED,
+    } <= (EMITTED_EVENT_TYPES)
 
 
 def test_a_second_record_with_the_same_model_call_id_is_refused(
