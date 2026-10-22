@@ -62,7 +62,8 @@ def test_the_evidence_block_holds_the_spec_values(config: Config) -> None:
 
 def test_the_precedent_judge_is_routed_to_super_with_its_prompt(config: Config) -> None:
     assert config.routing.jobs["precedent_judge"] == Tier.SUPER
-    assert config.routing.prompts["precedent_judge"] == "v1"
+    # v2 since 2026-10-22: an incident and the same mechanism
+    assert config.routing.prompts["precedent_judge"] == "v2"
     assert config.caps.run.max_tokens["precedent_judge"] > 0
 
 

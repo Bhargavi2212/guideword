@@ -84,25 +84,42 @@ def config() -> Config:
     return load_config(global_budget_usd=25.0)
 
 
-def accept_mixers(candidates: list[dict[str, Any]]) -> Any:
+def _judged(handle: str, *, incident: bool, same: bool, reason: str) -> dict[str, Any]:
+    """One precedent_judge/v2 judgement: is it an incident, and is it the same mechanism."""
     return {
-        "judgements": [
-            {
-                "candidate": c["handle"],
-                "same_mechanism": "mixer" in c["title"].lower(),
-                "reason": "same heating of a closed mixer"
-                if "mixer" in c["title"].lower()
-                else "another mechanism",
-            }
-            for c in candidates
-        ]
+        "candidate": handle,
+        "is_incident": incident,
+        "incident_reason": "an event at a site" if incident else "guidance, not an event",
+        "same_mechanism": same,
+        "reason": reason,
     }
+
+
+def accept_mixers(candidates: list[dict[str, Any]]) -> Any:
+    """Mixer candidates are incidents with the same mechanism; the rest are neither."""
+    judgements = []
+    for c in candidates:
+        mixer = "mixer" in c["title"].lower()
+        reason = "same heating of a closed mixer" if mixer else "another mechanism"
+        judgements.append(_judged(c["handle"], incident=mixer, same=mixer, reason=reason))
+    return {"judgements": judgements}
 
 
 def reject_all(candidates: list[dict[str, Any]]) -> Any:
     return {
         "judgements": [
-            {"candidate": c["handle"], "same_mechanism": False, "reason": "no"} for c in candidates
+            _judged(c["handle"], incident=True, same=False, reason="no") for c in candidates
+        ]
+    }
+
+
+def same_mechanism_but_no_incident(candidates: list[dict[str, Any]]) -> Any:
+    """Every candidate shows the mechanism, and none is marked an incident: a web
+    troubleshooting guide, say. Only CSB index rows can then be accepted."""
+    return {
+        "judgements": [
+            _judged(c["handle"], incident=False, same=True, reason="the same physics")
+            for c in candidates
         ]
     }
 
@@ -838,3 +855,61 @@ def test_the_replay_manifest_lists_the_evidence(
     manifest = json.loads((out / "manifest.json").read_text(encoding="utf-8"))
     assert manifest["evidence"] == [[e.id, e.verdict.value] for e in ev.world.runs.evidence(run.id)]
     assert load_replay(out, Evidence(tmp_path / "again", ref).world.sessions).evidence
+
+
+# --- precedent_judge/v2: an incident, and the same mechanism (Bhargavi, 2026-10-22) -------------
+
+
+def test_accepts_needs_the_same_mechanism_and_an_incident_or_a_csb_row() -> None:
+    from guideword.evidence.step import Candidate, Judgement, accepts
+
+    def judgement(*, incident: bool, same: bool) -> Judgement:
+        return Judgement.model_validate(_judged("K1", incident=incident, same=same, reason="r"))
+
+    guide = Candidate("web", "https://w.mock.invalid/guide", "Troubleshooting guide", "u", {})
+    report = Candidate("web", "https://w.mock.invalid/news", "Plant explosion", "u", {})
+    row = Candidate("index", "P-1001", "Mock mixer overpressure", "u", {})
+    # a web troubleshooting guide with the same mechanism is not an incident: none
+    assert not accepts(guide, judgement(incident=False, same=True))
+    # a web report of an actual event with the same mechanism: accepted
+    assert accepts(report, judgement(incident=True, same=True))
+    # an index row is a CSB investigation: the same mechanism is enough
+    assert accepts(row, judgement(incident=False, same=True))
+    # never without the same mechanism
+    assert not accepts(row, judgement(incident=True, same=False))
+    assert not accepts(report, judgement(incident=True, same=False))
+
+
+def test_a_web_guide_with_the_same_mechanism_is_none_and_an_index_row_is_confirmed(
+    tmp_path: Path, ref: ReferenceSet, config: Config
+) -> None:
+    ev = Evidence(tmp_path, ref)
+    run, _ = ev.run(config, with_judge(same_mechanism_but_no_incident))
+    confirmed = [
+        e
+        for e in ev.world.runs.evidence(run.id)
+        if e.kind == EvidenceKind.PRECEDENT and e.verdict == Verdict.CONFIRMED
+    ]
+    assert confirmed
+    # every accepted precedent is a CSB index row; no web result got through
+    assert all(e.summary.startswith("CSB investigation: ") for e in confirmed)
+    assert all("p.mock.invalid" in e.sources[1] for e in confirmed)
+
+
+def test_each_precedent_names_its_source_type_verbatim(
+    tmp_path: Path, ref: ReferenceSet, config: Config
+) -> None:
+    """The card shows the summary as stored: it starts with "CSB investigation" or "web
+    result"."""
+    ev = Evidence(tmp_path, ref)
+    run, _ = ev.run(config, with_judge())
+    confirmed = [
+        e
+        for e in ev.world.runs.evidence(run.id)
+        if e.kind == EvidenceKind.PRECEDENT and e.verdict == Verdict.CONFIRMED
+    ]
+    kinds = {e.summary.split(": ", 1)[0] for e in confirmed}
+    assert kinds == {"CSB investigation", "web result"}
+    for record in confirmed:
+        source = "web result" if "w.mock.invalid" in record.sources[1] else "CSB investigation"
+        assert record.summary.startswith(f"{source}: {record.sources[0]}: ")

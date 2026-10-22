@@ -75,6 +75,8 @@ NEXT = "ranked"
 OFF_USES = frozenset({BudgetUse.BENCHMARK, BudgetUse.TEST_5})
 LINE_TIERS = frozenset({ShortlistTier.CONFIRMED, ShortlistTier.ALSO_FOUND})
 NO_PRECEDENT_TEXT = "no matching precedent found"
+# shown verbatim at the start of a precedent's summary, so the card says where it came from
+SOURCE_TYPE = {"index": "CSB investigation", "web": "web result"}
 JUDGE_FAILED = "precedent judge failed ({call})"
 SEARCH_FAILED = "web search failed: {reason}"
 CAP_REACHED = "per-run web search cap of {cap} reached"
@@ -88,8 +90,13 @@ class _Strict(BaseModel):
 
 
 class Judgement(_Strict):
+    """precedent_judge/v2: two questions, each with its reason (Bhargavi, 2026-10-22)."""
+
     # a handle, K<n>, mapped back to its candidate by code
     candidate: str
+    # an actual event at a site, not guidance, troubleshooting, a data sheet or a video
+    is_incident: bool
+    incident_reason: Text300
     same_mechanism: bool
     reason: Text300
 
@@ -348,7 +355,9 @@ class EvidenceStepper:
                     target_id=target,
                     kind=EvidenceKind.PRECEDENT,
                     verdict=Verdict.CONFIRMED,
-                    summary=f"{candidate.title}: {judgement.reason}",
+                    summary=(
+                        f"{SOURCE_TYPE[candidate.source]}: {candidate.title}: {judgement.reason}"
+                    ),
                     tool_call_id=sources.get(candidate.key),
                     sources=[candidate.title, candidate.url],
                     model_call_id=call_id,
@@ -476,7 +485,9 @@ class EvidenceStepper:
         accepted = [
             (by_handle[j.candidate], j)
             for j in result.value.judgements
-            if j.same_mechanism and j.candidate in by_handle and counts[j.candidate] == 1
+            if j.candidate in by_handle
+            and counts[j.candidate] == 1
+            and accepts(by_handle[j.candidate], j)
         ]
         return accepted, call_id, False
 
@@ -542,6 +553,12 @@ class _Pending:
             self._writer.add_tool_call(call)
         for evidence in self.evidence:
             self._writer.add_evidence(evidence)
+
+
+def accepts(candidate: Candidate, judgement: Judgement) -> bool:
+    """The same mechanism, and either a CSB investigation from the index or an actual
+    incident: a web guide or troubleshooting page with the same physics is not a precedent."""
+    return judgement.same_mechanism and (candidate.source == "index" or judgement.is_incident)
 
 
 def _index_candidate(row: PrecedentRow) -> Candidate:
