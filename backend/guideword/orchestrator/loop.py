@@ -58,6 +58,20 @@ NEXT = "severity"
 MALFORMED = "bad arguments"
 
 
+# A dispatch's `linked_answered` counts the questions its batches checked (answered or not
+# credible). Events written before this fix (2026-10-22) counted every question of a batch
+# marked answered, which over-counts after a one-at-a-time re-ask; new events say which count
+# they hold, so a report can tell the two apart.
+LINKED_COUNT_KEY = "linked_answered_count"
+LINKED_COUNT = "checked_questions"
+CHECKED = frozenset({QuestionStatus.ANSWERED, QuestionStatus.NOT_CREDIBLE})
+
+
+def checked_ids(outcome: BatchOutcome) -> list[str]:
+    """The questions a batch checked: their new status is answered or not credible."""
+    return [q.id for q in outcome.questions if q.status in CHECKED]
+
+
 class OrchestratorStepper:
     def __init__(
         self, gateway: Gateway, *, config: Config, ref: ReferenceSet, plant: Plant
@@ -489,9 +503,11 @@ class OrchestratorStepper:
             apply_batch(writer, outcome)
             dropped += list(outcome.dropped_ids)
             found += len(outcome.findings)
+            # bug fix (2026-10-22): the questions this batch checked, not every question of a
+            # batch re-asked one at a time that is "answered" when any one of them is
+            answered_ids += checked_ids(outcome)
             if outcome.status == "answered":
                 answered += len(outcome.question_ids)
-                answered_ids += list(outcome.question_ids)
             else:
                 failed += len(outcome.question_ids)
                 failed_batches.append(
@@ -507,6 +523,7 @@ class OrchestratorStepper:
         sent = [q.id for index in admitted for q in groups[index]]
         payload |= {
             "linked_answered": sum(1 for q in answered_ids if q in linked) if first_answers else 0,
+            LINKED_COUNT_KEY: LINKED_COUNT,
             "unlinked_sent": sum(1 for q in sent if q not in linked) if first_answers else 0,
             "batches": len(groups),
             "dropped_ids": dropped,

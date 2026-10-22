@@ -66,6 +66,8 @@ def test_a_priority_dispatch_that_sends_linked_then_unlinked_questions() -> None
         "linked_answered_before_first_unlinked": 2,
         # L1 and L2 were answered in the mixed dispatch; L3-L5 in the linked-only one
         "linked_answered_in_linked_only_dispatches": 3,
+        # these events carry no marker: they were counted the old way
+        "linked_answered_corrected": False,
     }
 
 
@@ -113,3 +115,47 @@ def test_non_dispatch_events_are_ignored_and_seq_order_is_used() -> None:
     summary = priority_summary(events, [_hypothesis(["L1", "L2"])], _questions(statuses))
     assert summary["linked_answered_before_first_unlinked"] == 1
     assert summary["linked_answered_in_linked_only_dispatches"] == 1
+
+
+# --- the corrected per-dispatch count (bug fix, 2026-10-22) -------------------------------------
+
+
+def test_a_batch_re_asked_singly_counts_only_its_checked_questions() -> None:
+    """The bug: `_each_alone` marks a batch answered when any one question is, and the loop
+    counted every question of the batch. Now only the questions whose new status is answered
+    or not credible count."""
+    from guideword.orchestrator.loop import checked_ids
+    from guideword.schema.enums import Agent
+    from guideword.specialists.run import BatchOutcome
+
+    outcome = BatchOutcome(
+        agent=Agent.PROCESS,
+        question_ids=["L1", "L2", "L3"],
+        status="answered",
+        questions=_questions(
+            {"L1": ANSWERED, "L2": QuestionStatus.OPEN, "L3": QuestionStatus.NOT_CREDIBLE}
+        ),
+    )
+    assert checked_ids(outcome) == ["L1", "L3"]
+    failed = BatchOutcome(agent=Agent.PROCESS, question_ids=["L4"], status="failed")
+    assert checked_ids(failed) == []
+
+
+def test_new_reports_say_they_use_the_corrected_count() -> None:
+    from guideword.orchestrator.loop import LINKED_COUNT, LINKED_COUNT_KEY
+
+    old = [_dispatch(1, ["L1"], linked_answered=1, unlinked=0)]
+    new = [
+        Event(
+            run_id=RUN,
+            seq=1,
+            type=EventType.DISPATCH,
+            payload={**old[0].payload, LINKED_COUNT_KEY: LINKED_COUNT},
+            time=T,
+        )
+    ]
+    hypotheses = [_hypothesis(["L1"])]
+    questions = _questions({"L1": ANSWERED})
+    assert priority_summary(old, hypotheses, questions)["linked_answered_corrected"] is False
+    assert priority_summary(new, hypotheses, questions)["linked_answered_corrected"] is True
+    assert priority_summary([], hypotheses, questions)["linked_answered_corrected"] is False

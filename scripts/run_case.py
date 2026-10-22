@@ -118,9 +118,10 @@ def _print_report(report: dict[str, Any]) -> None:
     )
     priority = report["priority"]
     linked = priority["linked_questions"]
+    counted = "" if priority["linked_answered_corrected"] else " (pre-fix count)"
     print(
         "linked questions answered before the first dispatch that sent any unlinked question: "
-        f"{priority['linked_answered_before_first_unlinked']} of {linked}"
+        f"{priority['linked_answered_before_first_unlinked']} of {linked}{counted}"
     )
     print(
         "linked questions answered in dispatches that sent no unlinked question: "

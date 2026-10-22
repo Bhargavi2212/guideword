@@ -1011,4 +1011,6 @@ def test_the_report_counts_linked_answered_before_the_first_unlinked_dispatch(
         "linked_answered_before_first_unlinked": 3,
         # the first dispatch named one linked question and sent nothing else
         "linked_answered_in_linked_only_dispatches": 1,
+        # a new run's dispatches count checked questions only
+        "linked_answered_corrected": True,
     }
