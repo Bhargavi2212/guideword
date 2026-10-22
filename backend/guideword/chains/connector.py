@@ -49,7 +49,7 @@ from guideword.gateway.client import BudgetRefused, Gateway
 from guideword.gateway.estimate import estimate_cost
 from guideword.gateway.prompts import Prompt, as_data, load_prompt, render
 from guideword.logs import get_logger
-from guideword.lopa.lines import cause_words, display_lines, section_for
+from guideword.lopa.lines import cause_words, display_lines, section_for, writer_lead_rule
 from guideword.reference import ReferenceSet
 from guideword.runs.extend import post_pass
 from guideword.runs.machine import POST_CAP, StepResult, stop_for_refusal
@@ -236,7 +236,14 @@ def scenario_lines(
     questions = writer.questions()
     sections = writer.sections()
     lines = display_lines(
-        findings, writer.hypotheses(), questions, sections, plant, ref, config.caps
+        findings,
+        writer.hypotheses(),
+        questions,
+        sections,
+        plant,
+        ref,
+        config.caps,
+        prefer_own_section=writer_lead_rule(writer),
     )
     causes = {c.id: c.cause for c in ref.causes}
     by_question = {q.id: q for q in questions}

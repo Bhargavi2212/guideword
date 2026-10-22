@@ -1600,3 +1600,129 @@ def test_lopa_argument_v3_leaves_valve_states_to_code(config: Config) -> None:
     assert "Valve positions, isolation and lock state are checked by code, never by you" in body
     assert "never a valve's position" in body
     assert not re.search(r"(?i)williams|geismar|reboiler|EA-425|HV-[AB]-", body)
+
+
+# --- lead tie-break plan (approved 2026-10-21): re-run from lopa; the retry summary ---------------
+
+
+def test_rerun_from_lopa_keeps_chains_and_supersedes_lopa_and_recommendations(
+    tmp_path: Path, ref: ReferenceSet, config: Config
+) -> None:
+    world, run = _rerun_world(tmp_path, ref, config)
+    chains = [c.model_dump(mode="json") for c in world.runs.chains(run.id)]
+    old_lopa = {r.id for r in world.runs.lopa_records(run.id)}
+    old_recs = {r.id for r in world.runs.recommendations(run.id)}
+    kept_calls = {
+        c.id for c in world.runs.model_calls(run.id) if c.job in ("connector", "chain_severity")
+    }
+    before = len(world.steps_started(run.id))
+    rerun = extend(world.runs, run.id, 0.30, config, rerun_from="lopa")
+    assert rerun.id == run.id and rerun.step == "lopa"
+    superseded = world.runs.superseded(run.id)
+    assert {k.kind for k in superseded} == {"lopa", "recommendation", "model_call"}
+    assert {k.record["id"] for k in superseded if k.kind == "lopa"} == old_lopa
+    assert {k.record["id"] for k in superseded if k.kind == "recommendation"} == old_recs
+    assert all(
+        k.record["job"] in ("lopa_argument", "recommendation")
+        for k in superseded
+        if k.kind == "model_call"
+    )
+    gateway, transport = world.gateway(
+        config, post_script(connector=first_two, severities={0: "S4", 1: "S5"})
+    )
+    assert drive(world.runs, run.id, world.steppers(config, gateway)) == RunStatus.FINISHED
+    assert {job for job, _ in transport.sent} <= {"lopa_argument", "recommendation"}
+    assert [c.model_dump(mode="json") for c in world.runs.chains(run.id)] == chains
+    assert kept_calls <= {c.id for c in world.runs.model_calls(run.id)}
+    steps = list(dict.fromkeys(world.steps_started(run.id)[before:]))
+    assert steps == ["lopa", "recommendations", "ranked"]
+    assert world.runs.lopa_records(run.id) and world.runs.recommendations(run.id)
+    event = [e for e in world.runs.events(run.id) if e.type == EventType.RUN_EXTENDED][-1]
+    assert event.payload["rerun_from"] == "lopa"
+    assert event.payload["ranking"] == {"lead_prefers_own_section": True}
+
+
+def test_after_the_change_the_new_leads_get_lopa_and_recommendations(
+    tmp_path: Path, ref: ReferenceSet, config: Config
+) -> None:
+    """A run started with the rule off, re-run from lopa with it on: every confirmed line's
+    lead under the rule has a LOPA record, and a recommendation where its gap is above 1."""
+    from guideword.lopa.lines import display_lines  # noqa: PLC0415
+    from guideword.schema.enums import ShortlistTier  # noqa: PLC0415
+
+    off = config.model_copy(
+        update={
+            "caps": config.caps.model_copy(
+                update={
+                    "ranking": config.caps.ranking.model_copy(
+                        update={"lead_prefers_own_section": False}
+                    )
+                }
+            )
+        }
+    )
+    world = World(tmp_path, ref)
+
+    def screen(job: str, request: dict[str, Any]) -> Reply:
+        if job == "plant_screen":
+            location = block(request, "plant")["locations"][0]["id"]
+            hypothesis = {
+                "rank": 1,
+                "mechanism": "something outside hits the building",
+                "component_ids": [location],
+                "chemical_ids": [],
+                "failing_component_type": "external",
+                "cause_id": "outside_library",
+                "cause_text": "outside 0",
+                "consequence": "a release",
+                "reason": "test",
+            }
+            return reply({"hypotheses": [hypothesis]})
+        return post_script(connector=first_two, severities={g: "S4" for g in range(GROUPS)})(
+            job, request
+        )
+
+    run, _ = world.run(off, screen)
+    assert run.status == RunStatus.FINISHED and world.runs.hypotheses(run.id)
+    extend(world.runs, run.id, 0.30, config, rerun_from="lopa")
+    gateway, _ = world.gateway(config, screen)
+    drive(world.runs, run.id, world.steppers(config, gateway))
+    lines = display_lines(
+        world.runs.findings(run.id),
+        world.runs.hypotheses(run.id),
+        world.runs.questions(run.id),
+        world.runs.sections(run.id),
+        world.plant,
+        ref,
+        config.caps,
+        prefer_own_section=True,
+    )
+    leads = [
+        line.lead.finding.id for line in lines if line.tier == ShortlistTier.CONFIRMED and line.lead
+    ]
+    assert leads
+    lopa = {r.target_id: r for r in world.runs.lopa_records(run.id)}
+    recs = {r.target_id for r in world.runs.recommendations(run.id)}
+    for lead in leads:
+        assert lead in lopa, lead
+        record = lopa[lead]
+        if record.complete and record.gap is not None and record.gap > 1:
+            assert lead in recs, lead
+
+
+def test_the_retry_summary_records_the_questions_outcome(
+    tmp_path: Path, ref: ReferenceSet, config: Config
+) -> None:
+    world, run, failed = _with_failed(tmp_path, ref, config)
+    extend(world.runs, run.id, 0.30, config, retry_failed=True, retry_cap_usd=0.30)
+    gateway, _ = world.gateway(config, post_script(connector=first_two))
+    drive(world.runs, run.id, world.steppers(config, gateway))
+    rows = [
+        e.payload
+        for e in world.runs.events(run.id)
+        if e.type == EventType.STEP_FINISHED
+        and e.payload.get("step") == "retry_failed"
+        and "question_id" in e.payload
+    ]
+    assert {r["question_id"] for r in rows} == failed
+    assert {r["outcome"] for r in rows} == {"answered"}

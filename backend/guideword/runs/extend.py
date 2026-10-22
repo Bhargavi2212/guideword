@@ -32,6 +32,7 @@ findings and the post steps run from `chains`. No orchestrator call is made.
 from typing import Any
 
 from guideword.config import Config
+from guideword.ranking.tiers import LEAD_SETTING
 from guideword.runs.machine import POST_CAP
 from guideword.runs.post_budget import POST_JOBS, POST_PROMPTS, post_settings
 from guideword.runs.store import RunRepository
@@ -40,7 +41,16 @@ from guideword.schema.records import Run
 
 FIRST_POST_STEP = "chains"
 RETRY_STEP = "retry_failed"
-RERUN_FROM = ("chains",)
+RERUN_FROM = ("chains", "lopa")
+# what a re-run from each step supersedes: the record kinds, and the jobs whose calls go too.
+# From lopa (lead tie-break plan) the chains, their severities and their calls are kept.
+RERUN_SUPERSEDES: dict[str, tuple[tuple[str, ...], frozenset[str]]] = {
+    "chains": (("chain", "lopa", "recommendation", "model_call"), POST_JOBS),
+    "lopa": (
+        ("lopa", "recommendation", "model_call"),
+        frozenset({"lopa_argument", "recommendation"}),
+    ),
+}
 # record ID prefixes of the post-analysis records an override can name
 POST_RECORD_PREFIXES = ("ch:", "lopa:", "rec:")
 
@@ -58,6 +68,8 @@ def post_pass(run: Run, config: Config, post_cap_usd: float) -> dict[str, Any]:
         "jobs": {job: str(config.routing.jobs[job]) for job in sorted(POST_JOBS)},
         "max_tokens": {job: config.caps.run.max_tokens[job] for job in sorted(POST_JOBS)},
         "prompt_versions": {name: config.routing.prompts[name] for name in sorted(POST_PROMPTS)},
+        # lead tie-break plan, Q1: a pass reads the current lead rule from here
+        "ranking": {LEAD_SETTING: config.caps.ranking.lead_prefers_own_section},
     }
 
 
@@ -159,7 +171,9 @@ def extend(
             raise ExtendRefused(f"run {run_id} already has its chains step done")
     with runs.step(run_id) as writer:
         writer.set_post_spend_cap(post_cap_usd)
-        if not resume:
+        if rerun_from is not None:
+            writer.set_step(rerun_from)
+        elif not resume:
             writer.set_step(FIRST_POST_STEP)
         writer.set_status(RunStatus.RUNNING)
         payload = {
@@ -171,7 +185,8 @@ def extend(
             writer.emit(EventType.RUN_EXTENDED, payload)
         else:
             # the event lists every record it supersedes; the copy names the event's seq
-            superseded = writer.post_record_ids(POST_JOBS)
+            kinds, jobs = RERUN_SUPERSEDES[rerun_from]
+            superseded = writer.post_record_ids(jobs, kinds)
             event = writer.emit(
                 EventType.RUN_EXTENDED,
                 {
@@ -181,7 +196,7 @@ def extend(
                     "superseded_ids": superseded,
                 },
             )
-            copied = writer.supersede_post_records(pass_seq, event.seq, POST_JOBS)
+            copied = writer.supersede_post_records(pass_seq, event.seq, jobs, kinds)
             if copied != superseded:  # one transaction: nothing can change in between
                 raise RuntimeError(f"run {run_id}: the superseded records changed while copying")
     extended = runs.get(run_id)

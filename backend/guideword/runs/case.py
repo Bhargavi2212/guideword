@@ -18,7 +18,12 @@ from guideword.orchestrator.loop import OrchestratorStepper
 from guideword.questions.coverage import coverage
 from guideword.ranking.rank import RankedFinding, fold, rank_findings
 from guideword.ranking.severity import RankedStepper, SeverityStepper
-from guideword.ranking.tiers import UNCONFIRMED_FLAG, TieredLine, tiered
+from guideword.ranking.tiers import (
+    UNCONFIRMED_FLAG,
+    TieredLine,
+    lead_prefers_own_section,
+    tiered,
+)
 from guideword.recommend.step import RecommendationStepper
 from guideword.reference import ReferenceSet
 from guideword.runs.machine import Stepper, advance
@@ -233,11 +238,18 @@ def tiered_lines(
     *,
     sections: Sequence[Section],
     code_order: bool = False,
+    prefer_own_section: bool = False,
 ) -> list[dict[str, Any]]:
     causes = {c.id: c.cause for c in ref.causes}
     ranked = rank_findings(findings, plant, ref, caps)
     lines = tiered(
-        ranked, hypotheses, findings, questions, sections=sections, code_order=code_order
+        ranked,
+        hypotheses,
+        findings,
+        questions,
+        sections=sections,
+        code_order=code_order,
+        prefer_own_section=prefer_own_section,
     )
     return [_tiered_line(line, rank, causes) for rank, line in enumerate(lines, start=1)]
 
@@ -339,7 +351,17 @@ def post_report(
     records = runs.lopa_records(run.id)
     recommendations = runs.recommendations(run.id)
     calls = runs.model_calls(run.id)
-    lines = display_lines(findings, runs.hypotheses(run.id), questions, sections, plant, ref, caps)
+    lead_rule = lead_prefers_own_section(run.caps, runs.events(run.id))
+    lines = display_lines(
+        findings,
+        runs.hypotheses(run.id),
+        questions,
+        sections,
+        plant,
+        ref,
+        caps,
+        prefer_own_section=lead_rule,
+    )
     # G8: the run's own lopa_top_n
     top_n = int(run.caps.get("lopa_top_n", caps.run.lopa_top_n))
     plan = lopa_plan(lines, chains, findings, questions, sections, top_n=top_n)
@@ -386,6 +408,8 @@ def case_report(
     ]
     ranked = ranked_lines(findings, plant, ref, caps)
     folded = folded_lines(findings, plant, ref, caps)
+    # the run's lead tie-break (lead tie-break plan): off for runs stored without it
+    lead_rule = lead_prefers_own_section(run.caps, events)
     return {
         "case": case,
         "run_id": run.id,
@@ -408,10 +432,25 @@ def case_report(
         # R50: the displayed tiered list (scored), and three views of the same run at $0
         "hypotheses": [h.model_dump(mode="json") for h in hypotheses],
         "hybrid": tiered_lines(
-            findings, hypotheses, questions, plant, ref, caps, sections=sections
+            findings,
+            hypotheses,
+            questions,
+            plant,
+            ref,
+            caps,
+            sections=sections,
+            prefer_own_section=lead_rule,
         ),
         "hybrid-codeorder": tiered_lines(
-            findings, hypotheses, questions, plant, ref, caps, sections=sections, code_order=True
+            findings,
+            hypotheses,
+            questions,
+            plant,
+            ref,
+            caps,
+            sections=sections,
+            code_order=True,
+            prefer_own_section=lead_rule,
         ),
         "5a-plant": plant_screen_lines(hypotheses),
         "5b-from-hybrid": folded,

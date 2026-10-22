@@ -104,6 +104,10 @@ ranking:
   # P3-4: a piping-leak cause on a line above this size uses IE-PIPE-LEAK-L, at or below it
   # IE-PIPE-LEAK-S; a line with no size_mm uses S, flagged "size assumed"
   pipe_leak_large_above_mm: 150
+  # lead tie-break plan (approved 2026-10-21): among supporting findings that tie on rating,
+  # severity, frequency and protection, a confirmed line's lead is one from the hypothesis's
+  # own section; read per run, so runs stored without it read as before
+  lead_prefers_own_section: true
 
 # parallel calls per tier (smoke tests T9 and T13; Super and Nano untested, start at 3)
 concurrency: {ultra: 3, super: 3, lightning: 5, nano: 3}

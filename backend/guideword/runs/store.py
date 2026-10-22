@@ -256,6 +256,15 @@ class StepWriter:
         )
         return bool(found)
 
+    def committed_events(self, type: EventType) -> list[Event]:
+        """This run's committed events of one type, in order."""
+        rows = self._session.scalars(
+            select(EventRow)
+            .where(EventRow.run_id == self.run.id, EventRow.type == type.value)
+            .order_by(EventRow.seq)
+        ).all()
+        return [Event.model_validate(r.record) for r in rows]
+
     def step_summaries(self, step: str) -> list[dict[str, Any]]:
         """The payloads of the committed `step_finished` events for `step` in the run's current
         post pass (after its latest `run_extended` event), in order: a re-run from `chains`
@@ -278,12 +287,16 @@ class StepWriter:
         return [p for p in payloads if p.get("step") == step]
 
     def supersede_post_records(
-        self, pass_seq: int, superseded_seq: int, post_jobs: Collection[str]
+        self,
+        pass_seq: int,
+        superseded_seq: int,
+        post_jobs: Collection[str],
+        kinds: Collection[str] = tuple(SUPERSEDED_TABLES),
     ) -> list[str]:
         """Copy every chain, LOPA record, recommendation and post-job model call into
         `superseded_records`, verbatim, then clear them from the live tables, in this one
         transaction (connector/v2 plan, Q1). Returns the superseded record IDs."""
-        rows = self._post_rows(post_jobs)
+        rows = self._post_rows(post_jobs, kinds)
         for kind, row in rows:
             self._session.add(
                 SupersededRow(
@@ -299,13 +312,19 @@ class StepWriter:
         self._clear_post_records([row for _, row in rows])
         return [row.id for _, row in rows]
 
-    def post_record_ids(self, post_jobs: Collection[str]) -> list[str]:
+    def post_record_ids(
+        self, post_jobs: Collection[str], kinds: Collection[str] = tuple(SUPERSEDED_TABLES)
+    ) -> list[str]:
         """The IDs `supersede_post_records` would copy, in the same order."""
-        return [row.id for _, row in self._post_rows(post_jobs)]
+        return [row.id for _, row in self._post_rows(post_jobs, kinds)]
 
-    def _post_rows(self, post_jobs: Collection[str]) -> list[tuple[str, RunRecordRow]]:
+    def _post_rows(
+        self, post_jobs: Collection[str], kinds: Collection[str]
+    ) -> list[tuple[str, RunRecordRow]]:
         out: list[tuple[str, RunRecordRow]] = []
         for kind, table in SUPERSEDED_TABLES.items():
+            if kind not in kinds:
+                continue
             stored = self._session.scalars(
                 select(table).where(table.run_id == self.run.id).order_by(table.position)
             ).all()

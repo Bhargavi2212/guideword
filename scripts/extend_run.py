@@ -80,7 +80,7 @@ def _arguments(argv: Sequence[str] | None) -> argparse.Namespace:
     parser.add_argument("--name", help="the report's file name (default: the plant ID)")
     parser.add_argument(
         "--rerun-from",
-        choices=("chains",),
+        choices=("chains", "lopa"),
         help="re-run the post steps from this one; the old records are superseded, not deleted",
     )
     return parser.parse_args(argv)

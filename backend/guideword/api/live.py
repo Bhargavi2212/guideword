@@ -14,6 +14,7 @@ from guideword.api import models as api
 from guideword.config import Config
 from guideword.gateway.client import Gateway
 from guideword.questions.coverage import SECTIONS, coverage
+from guideword.ranking.tiers import lead_prefers_own_section
 from guideword.reference import ReferenceSet
 from guideword.review.overrides import RunRecords, effective_question, new_override
 from guideword.review.shortlist import RunView, shortlist_items
@@ -159,6 +160,7 @@ class LiveRuns:
             records=self.records_of(run_id),
             hypotheses=self.runs.hypotheses(run_id),
             model_calls=self.runs.model_calls(run_id),
+            prefer_own_section=lead_prefers_own_section(run.caps, self.runs.events(run_id)),
         )
 
     def shortlist(self, run_id: str) -> list[api.ShortlistItem]:

@@ -184,6 +184,8 @@ def test_run_input_caps_hold_everything_that_changes_answers(shipped: Config) ->
         "outside_library_default_frequency_per_year": 0.1,
         # P3-4: C20 above this size uses the large-leak event; it changes ratings, so hashed
         "pipe_leak_large_above_mm": 150,
+        # lead tie-break plan: it changes which finding leads a confirmed line, so hashed
+        "lead_prefers_own_section": True,
     }
     for left_out in ("concurrency", "gateway", "uses", "environments", "phase_caps_usd"):
         assert left_out not in caps

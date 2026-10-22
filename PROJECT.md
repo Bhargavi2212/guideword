@@ -748,6 +748,8 @@ guideword-heldout/        folder outside this repo, owned by Bhargavi and pushed
 - The benchmark is small (x of n with a wide interval); it shows the method works on unseen accidents, not a certified accuracy.
 - Tennessee Eastman valve fail positions and other missing facts are labelled assumptions.
 - Decision support only; the engineer and review team decide.
+- A confirmed line's lead can come from a cross-list finding (e.g. chemical with air) when the hypothesis's own section rated lower.
+- No override to say a layer applies and let code re-check its credit.
 
 ---
 

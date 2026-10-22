@@ -83,6 +83,12 @@ def _key(
     return (rating_pos, severity_pos, -frequency, protection, finding.id)
 
 
+def rank_prefix(row: RankedFinding) -> tuple[int, int, float, int]:
+    """The ranking key without its last tie-break, the finding ID."""
+    prefix = _key(row.finding, row.likelihood, row.rating)
+    return prefix[0], prefix[1], prefix[2], prefix[3]
+
+
 def rank_findings(
     findings: Sequence[Finding], plant: Plant, ref: ReferenceSet, caps: CapsConfig
 ) -> list[RankedFinding]:
