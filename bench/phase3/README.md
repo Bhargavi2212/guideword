@@ -31,15 +31,23 @@ D, E and G stay on the v1 post prompts for chain severity, LOPA and recommendati
 
 ## The demo plant (Williams Geismar, `run:4e6842d31fbdee3b`)
 
-Report: `bench/demo/williams_geismar.json`. A full new run, with the analysis and all eight steps: $0.98 paid, the analysis counted at $0.849 of its $1.00 cap, and $0.128 of the $0.30 post cap.
+Report: `bench/demo/williams_geismar.json`. The run ID is the same through all three passes; each earlier pass's post records are kept as superseded.
 
-- **The whole-plant pass** found the incident's story in its confirmed lines: tube rupture with the relief path blocked, reboiler B's shell-side block valves closed, HV-A-SIN left closed, and the generic start-up procedure written for the wrong side.
-- **Phase 3:** 8 chains, all rated, with the text cleaned. 19 LOPA records (18 complete) and 18 recommendations.
-- **Open, planned in `specs/phase-3-demo-fixes-plan.md`:**
-  1. **No "no credit — inlet valve … closed" on the reboilers' relief paths.** Ultra judged valve states itself, against `PROJECT.md`'s rule that code decides credit, and invented one: it called HV-A-SOUT closed when it is locked open. It also called the relief path not applicable to a tube rupture. The fix is `lopa_argument/v3`.
-  2. **15 matrix questions failed as whole batches,** on S-EA-425B, S-L-A-SOUT and S-L-QW-B-OUT. The causes were cut-offs at the token limit and duplicate or out-of-batch answers. So reboiler B's own section has no findings, and its top lines are led by a C4-heavies-and-air finding. The fix is a single-question retry, applied to this run as a targeted extension (no full re-run).
-  3. **Every top-10 line is S3.** The severity prompt stays frozen. On camera, the engineer applies `change_severity` S3 → S4 with a reason.
+| Pass | What | Paid |
+|---|---|---|
+| 1 | A full new run: the analysis and all eight steps | $0.98 |
+| 2 | `--retry-failed`: the 15 failed questions asked alone (13 answered, including all 5 of S-EA-425B's), then severity for the new findings and the post steps from `chains`, with `lopa_argument/v3` | $0.24 |
+| 3 | `--rerun-from lopa` with the lead tie-break on | $0.10 |
+
+The final pass:
+- **10 chains, 22 LOPA records and 17 recommendations.** Every confirmed line has a LOPA record, and each one with a complete gap above 1 has a recommendation.
+- **The opening card is shortlist rank 1 of 64,** in the confirmed tier. It is a chain rated S4, its LOPA shows **"no credit — inlet valve HV-B-SIN closed"**, and its gap reads "about 1,000× tolerable — mitigated about 1 in 100 years, tolerable about 1 in 100,000 years". Its recommendation is to manage inlet valves HV-A-SIN and HV-B-SIN.
+- **Leads:** with the tie-break, reboiler A's line (#1) is led by its own section's finding (`m:S-EA-425A:less:flow`), whose gap reads within tolerable. Reboiler B's line (#2) keeps its C4-heavies-and-air lead, because S-EA-425B's own C12 findings were rated S2, not tied. That is a known limit, in `PROJECT.md` §23.
+- **Still open:**
+  - Two S-L-A-SOUT questions failed again on the model's answers.
+  - One record still has Ultra call reboiler B's relief path "not applicable" to a tube rupture. No override is used on it, because the valve is closed and crediting it would be false. That is the other new limit in §23.
+  - Every top-10 line was rated S3 by the frozen severity prompt. On camera, the engineer applies `change_severity` S3 → S4 with a reason.
 
 ## Spend, Phase 3
 
-$1.90 of $2.50 at the time of writing (`scripts/budget_status.py`, 2026-10-21): $0.42 + $0.45 + $0.05 on D–G, and $0.98 on the demo run. The ledger snapshot `budget/ledger-g3pre.jsonl` is added once the demo re-run is done.
+$2.24 of $2.50 (`budget/ledger-g3pre.jsonl`, 2026-10-21; `scripts/budget_status.py`). That is $0.92 on D–G ($0.42 + $0.45 + $0.05) and $1.32 on the demo run ($0.98 + $0.24 + $0.10). Development has $1.03 left. D, E and G wait for the second grant for their re-run on the v2 and v3 post prompts.
