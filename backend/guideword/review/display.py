@@ -3,6 +3,7 @@ never false precision. Only the shown text is rounded; stored numbers never are.
 
 import math
 
+from guideword.schema.enums import Calculation
 from guideword.schema.records import LopaRecord
 
 
@@ -29,3 +30,20 @@ def gap_text(record: LopaRecord) -> str:
         f"{times} — mitigated {frequency_text(record.mitigated_frequency_per_year)}, "
         f"tolerable {frequency_text(record.tolerable_per_year)}"
     )
+
+
+def _two_significant(value: float) -> str:
+    """2 significant figures, written without an exponent or a trailing `.0`."""
+    if value == 0:
+        return "0"
+    digits = 1 - math.floor(math.log10(abs(value)))
+    rounded = round(value, digits)
+    return f"{rounded:.{max(digits, 0)}f}"
+
+
+def calc_text(calculation: Calculation, value: float) -> str:
+    """A physics_calc number as the card and worksheet show it (Phase 4 spec 4.1): 2 significant
+    figures; the stored value is never rounded."""
+    if calculation == Calculation.BLOCKED_IN_HEATING:
+        return f"at least {_two_significant(value)}× design"
+    return f"about {_two_significant(value)} minutes"
