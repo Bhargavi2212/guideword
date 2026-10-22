@@ -8,7 +8,7 @@
 
 Each top line of the shortlist carries **evidence** that is not the model's opinion: a calculation from plant facts, a real past incident, and, on the Tennessee Eastman plant, a simulator run. Each item is marked **confirmed**, **contradicted** or **no evidence available** (§5 Step 7), with its sources.
 
-Video beat, after the "no credit — inlet valve HV-B-SIN closed" layer: *"Heating the blocked-in reboiler to the quench water's 85 °C takes the propane's vapour pressure to about N× the shell's design pressure, before any liquid expansion."* N comes from the hand-worked fixture (4.5). Then one precedent card with its link.
+Video beat, after the "no credit — inlet valve HV-B-SIN closed" layer: *"Heating the blocked-in reboiler to the quench water's 85 °C takes the vapour pressure to at least N× the shell's design pressure, before any liquid expansion."* N and the chemical come from the record, which the hand-worked fixture (4.5) checks (plan Q12). Then one precedent card with its link.
 
 ## What the code has today (checked on `main` at "Merge pull request #86", 2026-10-21)
 
@@ -46,11 +46,11 @@ Video beat, after the "no credit — inlet valve HV-B-SIN closed" layer: *"Heati
 | P4-2 | **Evidence never changes** rank, tier, lead, severity, likelihood, LOPA or recommendations. It is shown beside them. | Yes | It can't feed anything back into the score (P4-7), and it keeps "code ranks, evidence informs" simple to explain. |
 | P4-3 | Which lines: the top `evidence_top_n` (5) **confirmed and also-found** lines in display order (chains included), chosen from the stored records exactly as the shortlist is built (same lead rule as the run's pass), **without** overrides, so an engineer's edit never re-selects lines. | Yes | §5 Step 6: "full evidence on the top 5". Line choice must be reproducible on replay. |
 | P4-4 | `physics_calc` is **pure code**: three calculations with fixed inputs (4.1). Which apply is decided by the question's guideword and parameter, never by a model. A missing fact gives a `none` record naming the missing fact IDs; **never a default value**. | Yes | CLAUDE.md: code owns arithmetic; never invent plant facts. |
-| P4-5 | Precedent: a **local index** (`reference/precedents.csv`, written by Cowork from CSB investigation-page metadata, a source on every row) searched by code; **Tavily** only when the index gives nothing the judge accepts. One Super call per line judges the candidates (`precedent_judge/v1`): same mechanism yes/no with a reason, citing only candidates and URLs it was sent. | Yes | §5 Step 4: "local index, then Tavily if nothing fits". Retrieval, blocking and the URL check stay code. |
+| P4-5 | Precedent: a **local index** (`reference/precedent_index.csv`, plan Q5, written by Cowork from CSB investigation-page metadata, a source on every row) searched by code; **Tavily** only when the index gives nothing the judge accepts. One Super call per line judges the candidates (`precedent_judge/v1`): same mechanism yes/no with a reason, citing only candidates and URLs it was sent. **Amended (plan Q15):** the top line always gets one Tavily search too, its results judged alongside the index candidates under the same block list. | Yes | §5 Step 4: "local index, then Tavily if nothing fits". Retrieval, blocking and the URL check stay code. |
 | P4-6 | How a code step's tool calls are recorded: **(a)** `ToolCall.agent_step_id` becomes optional and `ToolCall` gains `step: str` (the run step that made it), with `ids.tool_call_id` taking either; or **(b)** one `AgentStep` per evidence line with a new `Agent` value `evidence`. | Claude Code proposes in the plan; Bhargavi decides | Every tool call must be logged and traceable (§5 code guards). Today's record can't hold one with no agent step. Either way it's a contract change. |
-| P4-7 | **Benchmark runs (Phase 6) skip the evidence step** (`run_case.py --no-evidence`, recorded on the pass event). For demo plants, a committed **block list** filters every precedent row and Tavily result: `cases/demo/<plant>.block.txt`; WG: `Williams`, `Geismar`, `EA-425`, `propylene fractionator`. | Yes | Evidence can't change the score (P4-2), so skipping it in the benchmark loses nothing, saves money and removes any path from the precedent index or the web to a held-out answer. The block list keeps the demo from citing its own CSB report (§5 code guards). |
+| P4-7 | **Benchmark runs (Phase 6) skip the evidence step.** **Amended (plan Q4):** evidence is off when the run's use is `benchmark` or `test_5`, on otherwise (API runs included), recorded in the step summary; `--no-evidence` still forces it off. For demo plants, a committed **block list** filters every precedent row and Tavily result: `cases/demo/<plant>.block.txt`; WG: `Williams`, `Geismar`, `EA-425`, `propylene fractionator`. | Yes | Evidence can't change the score (P4-2), so skipping it in the benchmark loses nothing, saves money and removes any path from the precedent index or the web to a held-out answer. The block list keeps the demo from citing its own CSB report (§5 code guards). |
 | P4-8 | `web_research` and `search_precedent` are **one evidence routine** producing `kind: precedent` records (the enum has no research kind). | Yes | No contract change for a second kind with the same shape. |
-| P4-9 | **Evidence settings are not hashed.** A new top-level caps.yaml block `evidence:` (outside `run:`) holds `evidence_top_n`, `precedent_candidates`, `tavily_searches_per_run`, `tavily_max_results`, `overflow_confirm_minutes`, `heat_up_confirm_minutes`, `te_hours`. `run.evidence_top_n` moves there and joins the hash-free list (stored runs keep their stored value, so D–G keep their IDs). The `precedents.csv` and `te_faults.csv` tables are loaded **outside** `ReferenceSet.versions`, and their hashes are recorded on the evidence pass event. | Yes | Same rule as the Phase 3 post-step settings (connector/v2 plan Q5): a later step's settings must not move run IDs. Adding a table to `ReferenceSet` would change every new run's ID and break the replay of stored fixtures. |
+| P4-9 | **Evidence settings are not hashed.** A new top-level caps.yaml block `evidence:` (outside `run:`) holds `evidence_top_n`, `precedent_candidates`, `tavily_searches_per_run`, `tavily_max_results`, `overflow_confirm_minutes`, `heat_up_confirm_minutes`, `te_hours`. `run.evidence_top_n` moves there and joins the hash-free list (stored runs keep their stored value, so D–G keep their IDs). The `precedent_index.csv` (plan Q5) and `te_faults.csv` tables are loaded **outside** `ReferenceSet.versions`, and their hashes are recorded on the evidence pass event. | Yes | Same rule as the Phase 3 post-step settings (connector/v2 plan Q5): a later step's settings must not move run IDs. Adding a table to `ReferenceSet` would change every new run's ID and break the replay of stored fixtures. |
 | P4-10 | Simulator: Tennessee Eastman **only**. It needs a TE plant file, a fault map and one full TE run, so it is the **last** PR, gated: the package must install and reproduce kill test #1 by Oct 23, or it goes in the pitch as "next" (§15 rule). New dependency: stop-and-ask, approved here only if the gate passes and the licence is confirmed. | Yes | The WG demo can't use it; it's the highest-risk item. |
 
 ## In scope
@@ -61,14 +61,14 @@ Each calculation takes plant facts only and returns a number with units plus the
 
 | Calculation | Applies to findings on | Inputs (fact IDs) | Result | Verdict |
 |---|---|---|---|---|
-| `pressure_multiple` | `m:<section>:more:pressure` where the section holds an equipment item | equipment `design_pressure_kpa`; each content chemical's `vapor_pressure_points`; the heating-medium temperature: for each `heat_sources[]` with a `via_line_id`, that **line's** `operating` temperature row, `design_max` if set, else `normal` (flagged which); the highest across heat sources | for each content chemical with points: vapour pressure at that temperature by Clausius–Clapeyron interpolation **between the two bracketing points** (`ln P` linear in `1/T`, T in K), **never extrapolated**; minus 101.325 to gauge; ÷ design pressure. The highest is reported, naming the chemical. | `confirmed` if ≥ 1.0. If < 1.0 or skipped: `none`, **never `contradicted`**, because the calculation is a lower bound. Always flagged "pure-component vapour pressure; liquid-full thermal expansion not modelled; real pressure can be higher". |
+| `blocked_in_heating` (amended, plan Q1, Q11–Q13; replaces `pressure_multiple`) | the equipment of a `m:<section>:more:pressure` finding's section, **and** each scenario-object equipment item (section objects ∪ failing components) with `design_pressure_kpa` and a `heat_sources` entry; one card per equipment per line | equipment `design_pressure_kpa`; each content chemical's `vapor_pressure_points`; the heating-medium temperature: for each `heat_sources[]` not locked out with a `via_line_id`, that **line's** `operating` temperature row, `design_max` if set, else `normal` (flagged which); the highest of those; the valve facts of the three conditions | for each content chemical with points: vapour pressure at that temperature by Clausius–Clapeyron interpolation **between the two bracketing points** (`ln P` linear in `1/T`, T in K), **never extrapolated**; minus 101.325 to gauge; ÷ design pressure. The **lowest** is reported, naming the chemical: "at least N× design (lowest of the listed chemicals)"; chemicals with no points are named ("no data: <ids>; bound covers listed chemicals only"). | `confirmed` only when (1) every process-side line to or from the equipment (excluding lines carrying its heat sources' isolating valves) has a valve `normal_position: closed`, (2) at least one heat source's isolating valves are not all locked closed, and (3) the multiple ≥ 1.0, citing every fact used. Otherwise `none` naming each failed condition ("not blocked in", "heat source locked out", "below design"), **never `contradicted`**, because the calculation is a lower bound. Always flagged "pure-component vapour pressure; liquid-full thermal expansion not modelled; real pressure can be higher". |
 | `overflow_time` | `m:<section>:more:level` | equipment `volume_m3`; `operating` level `normal` (% of range); the largest `normal_flow_kg_h` among lines whose `to_id` is the equipment (flagged if several); content chemicals' `density_kg_m3`, using the **lowest** (shortest time), named | minutes to 100 % = (1 − normal/100) × volume × density ÷ flow × 60 | `confirmed` if < `overflow_confirm_minutes` (60), else `none`; never `contradicted` |
 | `heat_up_rate` | `m:<section>:more:temperature` | equipment `heat_duty_kw`; `volume_m3`; content chemicals' `density_kg_m3` and `heat_capacity_kj_kg_k` (the lowest of each, fastest heat-up, named); `operating` temperature `normal`; the limit is `design_max`, else `design_temp_c` | °C per minute, and minutes from normal to the limit | `confirmed` if the limit is reached in < `heat_up_confirm_minutes` (60), else `none` |
 
 - For a chain: each calculation runs on each finding link whose question qualifies; all results are listed.
 - Display: the stored number is never rounded. The text the card and worksheet show ("about 1.6× design") comes from the backend's one formatter (`review/display.py`, alongside `gap_text`), 2 significant figures.
 
-### 4.2 Precedent index (`reference/precedents.csv`): data by Cowork, loader by Claude Code
+### 4.2 Precedent index (`reference/precedent_index.csv`, plan Q5): data by Cowork, loader by Claude Code
 
 - **Headers (new table; PROJECT.md §10 gains it):** `id, title, date, country, company, location, chemicals, equipment_types, mechanism_keywords, summary, url, source`.
 - **Rows:** CSB completed investigations, from CSB's own investigation pages: title, date, location, and the summary CSB publishes. `chemicals`, `equipment_types` and `mechanism_keywords` are `;`-separated words taken from that summary, never inferred. Every row has `url` and `source`.
@@ -81,12 +81,12 @@ Each calculation takes plant facts only and returns a number with units plus the
 2. **Block:** rows and results containing any block term (case-insensitive, in any field or URL) are dropped first.
 3. **Local search:** BM25 over `title + summary + chemicals + equipment_types + mechanism_keywords`, implemented in the module (about 50 lines, no new dependency). Top `precedent_candidates` (5).
 4. **Judge (Super):** job `precedent_judge`, prompt `prompts/precedent_judge/v1.md`, drafted by Claude Code and reviewed by Bhargavi. It sees the line's cause and consequence and the candidates by **handle** (`K1…`, as in connector/v2: no long IDs to copy), all as data. Per candidate: `same_mechanism` yes/no and a reason. Code maps handles back exactly; an unknown handle or an unsent URL drops that item and logs it.
-5. **Tavily fallback:** if no local candidate is judged `yes`, one Tavily search with the same code-built query (`tavily_max_results`, 5), block-filtered, then the same judge.
-6. **Result:** one `precedent` record per line. Either `confirmed`, with the accepted incidents' titles and URLs in `sources` and the judge's reason in `summary`, or `none` ("no matching precedent found"). Never `contradicted`.
+5. **Tavily:** on the **top line, always** one Tavily search with the same code-built query (`tavily_max_results`, 5), block-filtered, its results judged with the local candidates in one call (plan Q15). On other lines, the fallback: if no local candidate is judged `yes`, one search, block-filtered, then the same judge.
+6. **Result** (amended, plan Q2): one `precedent` record per **accepted incident**, `confirmed`, with its title and URL in `sources` and the judge's reason in `summary`; or one `none` record (`ev:<target>:precedent:none`, "no matching precedent found"). Never `contradicted`.
 
 **Rules that apply throughout:**
 - **Call boundary:** only `guideword/tools` calls Tavily (§11). `test_http_allowlist.py` gains `tavily: backend/guideword/tools/**`. That's a stop-and-ask change, **approved by this spec**.
-- **Spend:** every search is checked and written through the run environment's ledger (`kind: tavily`, cost 0 against the $25), capped by `tavily_searches_per_run` (5). The hosted `spend_ledger` path is Phase 7's.
+- **Spend:** every search is checked and written through the run environment's ledger (`kind: tavily`, cost 0 against the $25), capped by `tavily_searches_per_run` (5). Written through `ledger_for`, laptop or hosted (plan Q14).
 - **Cache and replay:** Tavily responses are cached by exact query, as model responses are. `export_replay` writes them with the model responses, and a replay serves them from the fixtures; a missing one fails loudly, like `ReplayMiss`.
 
 ### 4.4 The evidence step (`evidence/step.py`) and its wiring
@@ -125,7 +125,7 @@ Each produces `Evidence` records (`ev:<target>:<kind>:<h>`), an `evidence_added`
 
 Cowork also writes:
 - the block list `cases/demo/williams_geismar.block.txt`;
-- the hand-worked fixture `backend/tests/physics/fixtures/example_wg_pressure.json`, with every interpolation step shown, written **before** the code, like the LOPA examples. N in the video line comes from it.
+- the hand-worked fixture `backend/tests/physics/fixtures/example_wg_blocked_in.json` (delivered 2026-10-21), with every interpolation step shown, written **before** the code, like the LOPA examples. N in the video line comes from it.
 
 **Fork (Bhargavi decides before any code):** changing the plant file gives a new plant record ID, and a run reads facts only from its own stored plant record. The current demo run (`run:4e6842d31fbdee3b`) would therefore show `pressure_multiple` honestly "skipped: missing PROPANE.vapor_pressure_points".
 - **Recommended:** add the facts, then make **one final demo run** on the new plant record (≈ $1.1 with post steps and evidence, after the grant). It runs every Phase 3 fix (lopa_argument v3, single retry, lead tie-break) from the start, and it becomes the recorded run Phase 7 serves in demo mode, which needs a clean final run anyway.
@@ -158,11 +158,12 @@ Cowork also writes:
 ## Acceptance tests (all $0, written first)
 
 **Calculations**
-- `pressure_multiple` matches the WG hand-worked fixture exactly (relative tolerance 1e-9 before formatting).
+- `blocked_in_heating` matches the WG hand-worked fixture exactly (relative tolerance 1e-9 before formatting), reporting the lowest multiple and its chemical.
 - No extrapolation: a temperature outside a chemical's points → skipped, naming its `vapor_pressure_points`.
 - One test per input of each calculation: that fact missing → `none` with `missing_fact_ids` naming it; no default anywhere.
-- `pressure_multiple` below 1.0 → `none`, never `contradicted`.
-- Applicability is by question ID only: `more:pressure` gets `pressure_multiple`; `less:flow` gets nothing.
+- Below 1.0 → `none` ("below design"), never `contradicted`.
+- Reboiler B → `confirmed`, citing `HV-B-SIN.normal_position`, `HV-B-SOUT.normal_position`, `HV-QW-B-IN.locked` and the vapour-pressure points; reboiler A → one card, `none` ("not blocked in"); every isolating valve locked closed → `none` ("heat source locked out").
+- Applicability: `more:pressure` and a heated scenario-object equipment get `blocked_in_heating`; `less:flow` with no heated equipment gets nothing.
 
 **Precedent**
 - A block term removes a matching index row and a matching Tavily result before the judge sees them.
@@ -190,10 +191,10 @@ Cowork also writes:
 
 | # | Branch | What | Depends on |
 |---|---|---|---|
-| 0 | `phase-4/docs` | P4-1…P4-10 in `docs/decisions.md`; PROJECT.md §5 Step 4 tool table and Step 7, §8, §10 (`precedents.csv`, `te_faults.csv`), §11 modules (`evidence`), §23 ("evidence can't be accepted or rejected"); caps.yaml `evidence:` block and `phase_caps_usd."4"`; this spec and the plan | — |
+| 0 | `phase-4/docs` | P4-1…P4-10 in `docs/decisions.md`; PROJECT.md §5 Step 4 tool table and Step 7, §8, §10 (`precedent_index.csv`, `te_faults.csv`), §11 modules (`evidence`), §23 ("evidence can't be accepted or rejected"); caps.yaml `phase_caps_usd."4"` (the `evidence:` block lands in PR 5 with its config model); this spec and the plan | — |
 | 1 | `contract/evidence-v1.8` | §4.7 | 0 |
 | 2 | `phase-4/physics` | §4.1, with Cowork's fixture | 1 |
-| 3 | `phase-4/precedent-index` | loader, BM25, block terms; Cowork's `precedents.csv` | 0 |
+| 3 | `phase-4/precedent-index` | loader, BM25, block terms; Cowork's `precedent_index.csv` | 0 |
 | 4 | `phase-4/precedent-judge-prompt` | `precedent_judge/v1`, for Bhargavi's review | 0 |
 | 5 | `phase-4/evidence-step` | Tavily in tools with cache and replay; the step; `--evidence`, `--rerun-from evidence`, `--no-evidence`; reads; export | 1–4 |
 | 6 | `phase-4/simulator` | §4.6, only after the Oct 23 gate passes | 5 |
@@ -202,8 +203,8 @@ PRs 2, 3 and 4 can run in parallel (cloud agent) while the frontend proceeds in 
 
 ## Live calls and spend (Bhargavi starts each one)
 
-- caps.yaml: `phase_caps_usd."4": 1.50` (use `development`). The final demo run and the TE run need the second grant.
-- **WG final demo run** (4.5): ≈ $1.1 (analysis ≈ $0.85, post ≈ $0.15, evidence ≈ $0.03).
+- caps.yaml: `phase_caps_usd."4": 1.50`. The TE run needs the second grant.
+- **WG final demo run** (4.5, use `video`, plan Q7): ≈ $1.1 (analysis ≈ $0.85, post ≈ $0.15, evidence ≈ $0.03).
 - **D–G `--evidence`:** ≈ $0.02–0.05 each, after the grant. Their plants have few vapour-pressure points, so most calculations will honestly be skipped.
 - **TE full run** (PR 6 only): ≈ $0.6–1.0, after the grant.
 - **Tavily:** at most 5 searches per run, on the existing key or the Builder Program's Tavily credit.
@@ -212,7 +213,7 @@ PRs 2, 3 and 4 can run in parallel (cloud agent) while the frontend proceeds in 
 
 - [ ] P4-1…P4-10 and the 4.5 fork decided and recorded; PROJECT.md updated.
 - [ ] Every acceptance test passes; CI green.
-- [ ] The WG final demo run has evidence on its top 5 lines, including a `pressure_multiple` on reboiler B's pressure line, and a runtime Tavily search in its records (§25).
+- [ ] The WG final demo run has evidence on its top 5 lines, including a `blocked_in_heating` on reboiler B (EA-425B), and a runtime Tavily search in its records (§25).
 - [ ] D–G have evidence on their top 5 lines (after the grant), or the README says they don't.
 - [ ] Simulator: running on TE with one confirmed result, **or** recorded as "next" on Oct 24 with the reason.
 - [ ] Phase 4 spend within its cap; `budget/ledger-g4pre.jsonl` snapshot.
@@ -221,7 +222,7 @@ PRs 2, 3 and 4 can run in parallel (cloud agent) while the frontend proceeds in 
 
 - **Claude Code:** plan, code, tests, the `precedent_judge/v1` prompt.
 - **Bhargavi:** P4-1…P4-10, the 4.5 fork, the prompt review, live runs, the Oct 23 simulator gate, merges.
-- **Cowork:** this spec; `reference/precedents.csv`; WG vapour-pressure points, the quench-water temperature rows and the block list; the hand-worked pressure fixture; the TE plant file and `te_faults.csv`, only if the gate passes. Cowork does not write or review prompts.
+- **Cowork:** this spec; `reference/precedent_index.csv`; block lists for WG and D–G (plan Q6); WG vapour-pressure points, the quench-water temperature rows and the block list; the hand-worked pressure fixture; the TE plant file and `te_faults.csv`, only if the gate passes. Cowork does not write or review prompts.
 
 ## Feature dates (PROJECT.md §15 rule: not working by its date → "next" in the pitch)
 

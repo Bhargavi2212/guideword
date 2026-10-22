@@ -99,6 +99,7 @@ With the spec's rule (4.1: applicability by the question ID `m:<section>:more:pr
 | Q14 | **G19: Tavily spend on a hosted deploy.** | Write through `ledger_for`, in both environments, now. |
 | Q15 | **G21: guarantee the runtime Tavily call.** | One `web_research` per evidence-on run on the top line, as well as the fallback. This changes P4-5. |
 | Q16 | **G22: API runs' phase.** | `API_RUN_PHASE = "4"`. |
+| Q17 | **Block terms: substring or whole word?** (Cowork's files) | Whole words, so `PCA` doesn't drop "upcast". |
 | Q10 | **More hand-worked fixtures?** The spec has Cowork's fixture for the pressure calculation only. | Cowork also hand-works one small `overflow_time` and one `heat_up_rate` example on the §9 example plant (synthetic facts allowed there). Every number is then checked against a hand calculation, like LOPA examples 1 and 2. |
 
 ### Answers (Bhargavi, 2026-10-21)
@@ -158,6 +159,30 @@ With the spec's rule (4.1: applicability by the question ID `m:<section>:more:pr
 | G23 | **Evidence IDs.** `ids.evidence_id(target, kind, key)` already exists, and `_part` forbids `:` in the key. | `calculation_evidence_id` is a thin wrapper over it (key `<calculation>-<equipment id>`), and the `none` precedent is `evidence_id(target, "precedent", "none")`. The index loader rejects a row whose `id` is `none`. `target_id` is the line's `ShortlistItem.target_id`: the lead finding, or the chain. | 1, 3 |
 | G24 | **Stale text from before the answers.** Q4 changes P4-7 ("benchmark runs skip evidence") and C7's guard text. The acceptance map still names `test_evidence_off_for_non_demo_plants_records_it_and_makes_no_call`. | PR 0 writes P4-7 and the §5 Step 4 guard as Q4 states it (off for use `benchmark` or `test_5`). The map uses the new test names. | 0 |
 
+### Cowork's Phase 4 files (delivered 2026-10-21, `D:\Hackathon\guideword\cowork-phase4\`)
+
+Copied **unchanged** to the target path in the PR its README names. `reference/precedent_index.csv` follows separately (PR 3).
+
+| File | Target | PR |
+|---|---|---|
+| `williams_geismar.json` (PROPANE points 30–95 °C, PROPYLENE 30–90 °C, both NIST; C4-HEAVIES no points, stated in provenance; `normal: 85` on `L-QW-A-IN` and `L-QW-B-IN`) | `cases/demo/williams_geismar.json` (replaces it) | 2b |
+| `williams_geismar.block.txt` | `cases/demo/` | 2b |
+| `example_wg_blocked_in.json` | `backend/tests/physics/fixtures/` | 2 |
+| `example_overflow_heatup.json` (both Q10 examples in one file) | `backend/tests/physics/fixtures/` | 2 |
+| `case_d.block.txt` … `case_h.block.txt` | `cases/dev/` | 5 |
+
+**What they pin (the code follows the fixtures):**
+- **The threshold rule** (`example_overflow_heatup.json`): a value within a relative 1e-9 of a threshold **counts as equal** to it. The level-80 % overflow variant evaluates to 59.999999999999986 minutes in floating point, which is **not** below 60, so it's `none`. One helper, `physics.compare(value, threshold)`, does every threshold comparison: `< 60` minutes for both time checks, and `≥ 1.0` for the multiple (so a multiple within 1e-9 of 1.0 is at design and `confirmed`). Recorded in decisions. Tests: `test_a_value_within_1e_9_of_a_threshold_counts_as_equal`, and the fixture's boundary variant.
+- **Citations** (`example_wg_blocked_in.json`, which amends G13):
+  - Condition (2) cites the `.locked` fact of **every** isolating valve of the heat source it checked, e.g. `HV-QW-B-IN.locked` and `HV-QW-B-OUT.locked`.
+  - Condition (1)'s `none` cites **every** open valve on the failing lines, e.g. `HV-A-SIN.normal_position` and `HV-A-SOUT.normal_position`.
+  - `fact_ids` also include the `vapor_pressure_points` of every chemical that had points (PROPANE and PROPYLENE), not only the lowest.
+- **Flags** (`example_wg_blocked_in.json`): the temperature source is **always** flagged ("heating-medium temperature from normal (no design_max)", or the `design_max` form), as spec 4.1 says ("flagged which"). The plan's "flagged only when design max used" is corrected. The lower-bound flag and "no data: C4-HEAVIES; bound covers listed chemicals only" also appear.
+- **The numbers:** PROPANE gives 1.6125604448742747× and PROPYLENE 1.9233438104448743× at 85 °C, so the record reports **PROPANE, "at least 1.6× design"**, and the video's N is 1.6.
+- **Order:** the WG fixture reads the plant file with the Phase 4 facts, so **PR 2b lands before PR 2**.
+
+**For Bhargavi (Q17):** block terms match as case-insensitive substrings (spec 4.3). Case F's `PCA` would also drop any text containing "pca", for example "upcast". I recommend matching **whole words** (a term bounded by non-letters or digits). That keeps every intended match, including "EA-425" inside "EA-425B", and drops nothing by accident. The test is `test_a_short_block_term_matches_whole_words_only`.
+
 ---
 
 ## 5. Per item
@@ -211,7 +236,7 @@ With the spec's rule (4.1: applicability by the question ID `m:<section>:more:pr
 
 ### PR 2 — `phase-4/physics` (`backend/guideword/tools/physics.py`)
 
-- **Order:** Cowork's fixture `backend/tests/physics/fixtures/example_wg_pressure.json` lands first, committed as delivered. It hand-works `blocked_in_heating` for EA-425B: each chemical's interpolation, the **lowest** multiple, and the three conditions with their fact IDs (Q11–Q13). So do Q10's two fixtures.
+- **Order:** after PR 2b. Cowork's fixtures `backend/tests/physics/fixtures/example_wg_blocked_in.json` and `example_overflow_heatup.json` land first, committed as delivered. It hand-works `blocked_in_heating` for EA-425B: each chemical's interpolation, the **lowest** multiple, and the three conditions with their fact IDs (Q11–Q13). So do Q10's two fixtures.
 - **Functions (pure; no I/O):**
   - `blocked_in_heating(equipment, plant)`, `overflow_time(equipment, plant, caps)` and `heat_up_rate(equipment, plant, caps)`, each returning `CalcResult{name, value, unit, fact_ids, missing_fact_ids, flags, detail}`. There is no `pressure_multiple` (Q13).
   - `applicable(line, …)`: `blocked_in_heating` on (a) the equipment of a `m:<section>:more:pressure` finding's section, and (b) each scenario-object equipment item (section objects ∪ failing components of the line's findings) that has `design_pressure_kpa` and a `heat_sources` entry (Q1). Each equipment item gets **one** card per line, whichever rule reached it. On (a), equipment lacking either fact gets `none` naming the missing fact; (b) never reaches it. `overflow_time` on `more:level`, `heat_up_rate` on `more:temperature`.
@@ -224,7 +249,7 @@ With the spec's rule (4.1: applicability by the question ID `m:<section>:more:pr
   - Physical constants as named module constants with a source comment (G3).
   - Evidence IDs carry the equipment: `<calculation>-<equipment id>` (G2).
 - **Clausius–Clapeyron:** `ln P` linear in `1/T`, with T in K = °C + 273.15, between the two bracketing points (sorted by temperature). At a point exactly it returns that point; outside the range it skips, naming `<chemical>.vapor_pressure_points`; with fewer than 2 points it skips. Gauge = kPaa − 101.325.
-- **The heating-medium temperature:** for each heat source with a `via_line_id` that isn't locked out (Q11 (2)), that line's operating temperature row, `design_max` if set (flagged "design max used") else `normal`; the highest of those is used, naming its heat source in the label.
+- **The heating-medium temperature:** for each heat source with a `via_line_id` that isn't locked out (Q11 (2)), that line's operating temperature row, `design_max` if set, else `normal`, always flagged which (Cowork's fixture); the highest of those is used, naming its heat source in the label.
 - **Verdict:**
   - `blocked_in_heating`: Q11's three conditions → `confirmed`, else `none`. Always flagged "pure-component vapour pressure; liquid-full thermal expansion not modelled; real pressure can be higher".
   - `overflow_time` and `heat_up_rate`: below `evidence.overflow_confirm_minutes` and `heat_up_confirm_minutes` respectively → `confirmed`, else `none`.
@@ -395,7 +420,7 @@ With the spec's rule (4.1: applicability by the question ID `m:<section>:more:pr
 ## 6. Order
 
 1. **PR 0** (docs and config) and **PR 1** (contract v1.8). PR 1 right after PR 0, so the frontend worktree can regenerate its types.
-2. **PRs 2, 2b, 3 and 4 in parallel:** physics (needs Cowork's fixtures), the demo plant facts (Cowork's data, G8), the index (needs Cowork's CSV and block lists), and the judge prompt (Bhargavi's review).
+2. **PRs 2b, 3 and 4 in parallel, then PR 2:** the demo plant facts (Cowork's data, G8), the index (needs Cowork's CSV), and the judge prompt (Bhargavi's review); physics after 2b, because its WG fixture reads the new plant file.
 3. **PR 5** after PRs 1–4 and 2b.
 4. **The live runs:** the WG final demo run (Q7), then D–G `--evidence`, after the grant.
 5. **PR 6** only after the Oct 23 gate.
@@ -476,5 +501,5 @@ The phase cap is `"4": 1.50`: the WG run (≈ $1.1, `video`) plus D–G (≈ $0.
   - `precedent_index.csv`;
   - WG vapour-pressure points and the quench-water temperature rows;
   - the block lists (WG and D–G, Q6);
-  - the WG pressure fixture and Q10's two;
+  - the WG blocked-in fixture and the overflow and heat-up fixture (delivered 2026-10-21);
   - the TE plant file and `te_faults.csv`, only if the gate passes.
