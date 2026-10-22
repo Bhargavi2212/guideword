@@ -8,7 +8,7 @@
 
 Each top line of the shortlist carries **evidence** that is not the model's opinion: a calculation from plant facts, a real past incident, and, on the Tennessee Eastman plant, a simulator run. Each item is marked **confirmed**, **contradicted** or **no evidence available** (§5 Step 7), with its sources.
 
-Video beat, after the "no credit — inlet valve HV-B-SIN closed" layer: *"Heating the blocked-in reboiler to the quench water's 85 °C takes the vapour pressure to at least N× the shell's design pressure, before any liquid expansion."* N and the chemical come from the record, which the hand-worked fixture (4.5) checks (plan Q12). Then one precedent card with its link.
+Video beat, after the "no credit — inlet valve HV-B-SIN closed" layer: *"Heating the blocked-in reboiler to the quench water's 85 °C takes the vapour pressure to at least N× the shell's design pressure, before any liquid expansion."* N and the chemical come from the record, which the hand-worked fixture (4.5) checks (plan Q12). (The precedent beat was dropped on 2026-10-22: the final run's precedents are honestly `none`; see `docs/decisions.md`.)
 
 ## What the code has today (checked on `main` at "Merge pull request #86", 2026-10-21)
 
