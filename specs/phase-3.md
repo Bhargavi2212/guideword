@@ -113,16 +113,16 @@ Evidence tools (`web_research`, `search_precedent`, `physics_calc`, `run_simulat
 
 ## Done when
 - [x] P3-1…P3-7 decided and recorded in `docs/decisions.md` (PR 0).
-- [ ] Every acceptance test passes; CI green.
-- [ ] D, E, F, G re-run on Phase 3 code: analysis replayed at $0; shortlist with LOPA, chains and recommendations written to `bench/phase3/<case>.json`. H is skipped: it is recognised, and a full run costs ~$1.5.
-- [ ] Williams Geismar demo plant committed, validated, and run through LOPA. (Committed in #69; validated, and its reboiler run through the LOPA engine as example 2, in PR 7. The demo plant's full run is Bhargavi's.)
+- [x] Every acceptance test passes; CI green. (1649 tests locally; CI green on `main` after #86, confirmed by Bhargavi 2026-10-21.)
+- [x] D, E, F, G re-run on Phase 3 code: analysis replayed at $0; shortlist with LOPA, chains and recommendations written to `bench/phase3/<case>.json`. H is skipped: it is recognised, and a full run costs ~$1.5. (Extended in place, analysis untouched; reports and results note in `bench/phase3/`. F is on all v2 post prompts; D, E and G stay on v1 for the three later steps until the second grant, `docs/decisions.md` 2026-10-21.)
+- [x] Williams Geismar demo plant committed, validated, and run through LOPA. (Committed in #69; validated, and its reboiler run through the LOPA engine as example 2, in PR 7. Full run `run:4e6842d31fbdee3b`, with `--retry-failed` and `--rerun-from lopa`; report `bench/demo/williams_geismar.json`. Its top card is the chain with "no credit — inlet valve HV-B-SIN closed".)
 - [x] `PROJECT.md` updated (PR 7):
   - §5 Step 4: the tool table and the `finish` guard (P3-1);
   - §5 Step 6.1/6.2: which lines get full or code-only LOPA, and modifiers (P3-3);
   - §11: records and run steps (Chain severity, `post_spend_cap_usd`);
   - §12 screen 4: "ranked by tier, then LOPA gap", not "by LOPA gap";
   - §16: open items closed.
-- [ ] Phase 3 spend within its cap; `budget/ledger-g3pre.jsonl` snapshot.
+- [x] Phase 3 spend within its cap; `budget/ledger-g3pre.jsonl` snapshot. ($2.24 of $2.50.)
 
 ## Live calls and spend
 - Add `phase_caps_usd."3": 2.50` (use `development`, $3.27 left).
