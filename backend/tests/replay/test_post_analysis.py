@@ -29,7 +29,7 @@ from guideword.runs.case import case_report, drive, prepare_plant, start_case, s
 from guideword.runs.extend import ExtendRefused, extend
 from guideword.runs.machine import Stepper, StepResult, spend_matches_records
 from guideword.runs.plants import PlantRepository
-from guideword.runs.post_budget import POST_JOBS, POST_STEPS, post_spent
+from guideword.runs.post_budget import POST_JOBS, POST_PROMPTS, POST_STEPS, post_spent
 from guideword.runs.start import RunSettings, start_run
 from guideword.runs.store import RunRepository
 from guideword.schema import ids
@@ -48,7 +48,8 @@ PHASE_3_CAPS = {
     "post_spend_cap_usd",
 }
 PHASE_3_PROMPTS = {"connector", "lopa_argument", "recommendation", "severity_chain"}
-EIGHT_STEPS = [
+# Phase 4 adds the evidence step before ranked (plan PR 5b)
+RUN_STEPS = [
     "plant_screen",
     "analysis",
     "severity",
@@ -56,6 +57,7 @@ EIGHT_STEPS = [
     "chain_severity",
     "lopa",
     "recommendations",
+    "evidence",
     "ranked",
 ]
 Script = Callable[[str, dict[str, Any]], Reply]
@@ -122,6 +124,9 @@ def post_script(
             return reply("not json")
         if job == "plant_screen":
             return reply({"hypotheses": []})
+        if job == "precedent_judge":
+            # Phase 4: the evidence step's judge accepts nothing in these runs
+            return reply({"judgements": []})
         if job == "orchestrator":
             return orchestrator(request)
         if job == "severity_reason":
@@ -376,7 +381,9 @@ def test_extension_makes_no_analysis_calls_and_keeps_every_earlier_record_byte_i
     assert settings["lopa_top_n"] == {"value": 10, "source": "run.caps"}
     assert event.payload["post_spend_cap_usd"] == 0.30
     assert event.payload["prompt_versions"] == {
-        name: config.routing.prompts[name] for name in sorted(PHASE_3_PROMPTS)
+        # the post-step prompts, Phase 4's precedent judge included
+        name: config.routing.prompts[name]
+        for name in sorted(POST_PROMPTS)
     }
 
 
@@ -423,14 +430,14 @@ def test_pre_r50_run_extends_with_every_line_also_found_and_labelled(
 # --- the eight steps, replayed (R45) ----------------------------------------------------------
 
 
-def test_full_eight_step_fake_run_replays_identically(
+def test_full_nine_step_fake_run_replays_identically(
     tmp_path: Path, ref: ReferenceSet, config: Config
 ) -> None:
     world = World(tmp_path / "original", ref)
     run, _ = world.run(config, post_script(connector=first_two, severities={0: "S4", 1: "S5"}))
     assert run.status == RunStatus.FINISHED
     assert world.steps_started(run.id)[0] == "plant_screen"
-    assert sorted(set(world.steps_started(run.id))) == sorted(EIGHT_STEPS)
+    assert sorted(set(world.steps_started(run.id))) == sorted(RUN_STEPS)
     out = export_replay(
         world.runs,
         ResponseCache(world.sessions),
@@ -647,7 +654,7 @@ def test_r38_stop_still_comes_at_ranked_after_the_post_steps(
     run, _ = world.run(config, capped_script, cap=0.08)
     assert run.status == RunStatus.STOPPED_CAP and run.step == "ranked"
     started = world.steps_started(run.id)
-    assert list(dict.fromkeys(started))[-5:] == [*POST_STEPS, "ranked"]
+    assert list(dict.fromkeys(started))[-len(POST_STEPS) - 1 :] == [*POST_STEPS, "ranked"]
     hits = [e.payload for e in world.runs.events(run.id) if e.type == EventType.CAP_HIT]
     assert hits[-1]["reason"] == "questions left open"
 
@@ -972,7 +979,9 @@ def test_a_new_run_records_its_post_prompt_versions_on_run_extended(
     assert run.status == RunStatus.FINISHED
     (event,) = [e for e in world.runs.events(run.id) if e.type == EventType.RUN_EXTENDED]
     assert event.payload["prompt_versions"] == {
-        name: config.routing.prompts[name] for name in sorted(PHASE_3_PROMPTS)
+        # the post-step prompts, Phase 4's precedent judge included
+        name: config.routing.prompts[name]
+        for name in sorted(POST_PROMPTS)
     }
     assert event.payload["prompt_versions"]["connector"] == "v2"
     for key in POST_HASH_FREE_CAPS:
@@ -1635,7 +1644,7 @@ def test_rerun_from_lopa_keeps_chains_and_supersedes_lopa_and_recommendations(
     assert [c.model_dump(mode="json") for c in world.runs.chains(run.id)] == chains
     assert kept_calls <= {c.id for c in world.runs.model_calls(run.id)}
     steps = list(dict.fromkeys(world.steps_started(run.id)[before:]))
-    assert steps == ["lopa", "recommendations", "ranked"]
+    assert steps == ["lopa", "recommendations", "evidence", "ranked"]
     assert world.runs.lopa_records(run.id) and world.runs.recommendations(run.id)
     event = [e for e in world.runs.events(run.id) if e.type == EventType.RUN_EXTENDED][-1]
     assert event.payload["rerun_from"] == "lopa"
