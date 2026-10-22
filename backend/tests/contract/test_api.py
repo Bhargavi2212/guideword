@@ -17,6 +17,7 @@ from pydantic import SecretStr, ValidationError
 from guideword.api import models as api
 from guideword.api.app import NOT_BUILT_PHASE, create_app
 from guideword.schema import ids
+from guideword.schema.records import Evidence
 from guideword.settings import Settings
 
 FIXTURES = Path(__file__).resolve().parents[3] / "contract" / "fixtures"
@@ -721,3 +722,48 @@ def test_a_superseded_record_is_kept_verbatim_with_its_kind_and_passes() -> None
         api.SupersededRecord(kind="finding", pass_seq=1, superseded_seq=2, record={})
     with pytest.raises(ValidationError):
         api.SupersededRecord(kind="chain", pass_seq=2, superseded_seq=2, record={})
+
+
+# --- contract v1.8: evidence (Phase 4 plan PR 1) ----------------------------------------------
+
+
+def test_superseded_kinds_include_evidence_tool_call_and_agent_step() -> None:
+    """A re-run supersedes the evidence pass: its records, tool calls and agent steps."""
+    for kind in ("evidence", "tool_call", "agent_step"):
+        api.SupersededRecord(kind=kind, pass_seq=1, superseded_seq=2, record={})
+
+
+def _mock_evidence() -> list[dict[str, Any]]:
+    items = _fixture("shortlist.json")["items"]
+    return [ev for item in items for ev in item["evidence"]]
+
+
+def test_mock_evidence_shows_each_kind_and_verdict() -> None:
+    """The mocks show a confirmed calculation with its facts, a skipped calculation naming
+    its missing facts, a confirmed precedent with a URL and its judge call, and the
+    no-precedent record; no placeholder URL is left."""
+    evidence = [Evidence.model_validate(ev) for ev in _mock_evidence()]
+    calcs = [e for e in evidence if e.kind == "calculation"]
+    precedents = [e for e in evidence if e.kind == "precedent"]
+    confirmed_calc = [e for e in calcs if e.verdict == "confirmed"]
+    assert confirmed_calc and all(e.fact_ids for e in confirmed_calc)
+    skipped = [e for e in calcs if e.verdict == "none" and e.missing_fact_ids]
+    assert skipped and all(e.flags for e in skipped)
+    found = [e for e in precedents if e.verdict == "confirmed"]
+    assert found and all(e.sources and e.model_call_id for e in found)
+    assert [e for e in precedents if e.id == ids.no_precedent_evidence_id(e.target_id)]
+    for e in calcs:
+        key = e.id.rsplit(":", 1)[1]
+        calculation, equipment = key.split("-", 1)
+        assert e.id == ids.calculation_evidence_id(e.target_id, calculation, equipment)
+    for name in ("shortlist.json", "run_dump.json", "demo_response.json"):
+        assert "example.org" not in (FIXTURES / name).read_text(encoding="utf-8")
+
+
+def test_mock_evidence_agrees_across_fixtures() -> None:
+    """The run dump and the demo response carry the same evidence records as the shortlist."""
+    shortlist = {ev["id"]: ev for ev in _mock_evidence()}
+    dump = {ev["id"]: ev for ev in _fixture("run_dump.json")["evidence"]}
+    assert dump == shortlist
+    demo = _fixture("demo_response.json")["shortlist"]["items"]
+    assert {ev["id"]: ev for item in demo for ev in item["evidence"]} == shortlist

@@ -134,12 +134,38 @@
           "title": "Fact Ids",
           "type": "array"
         },
+        "flags": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Flags",
+          "type": "array"
+        },
         "id": {
           "title": "Id",
           "type": "string"
         },
         "kind": {
           "$ref": "#/$defs/EvidenceKind"
+        },
+        "missing_fact_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Missing Fact Ids",
+          "type": "array"
+        },
+        "model_call_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Model Call Id"
         },
         "run_id": {
           "title": "Run Id",

@@ -172,7 +172,10 @@
       "seq": 18,
       "type": "evidence_added",
       "payload": {
-        "evidence_id": "ev:f:m:S-MX-1:more:temperature:lightning:C01:a92ada9e786e565d:calculation:heat_up_rate"
+        "evidence_id": "ev:f:m:S-MX-1:more:temperature:lightning:C01:a92ada9e786e565d:calculation:heat_up_rate-MX-1",
+        "target_id": "f:m:S-MX-1:more:temperature:lightning:C01:a92ada9e786e565d",
+        "kind": "calculation",
+        "verdict": "confirmed"
       },
       "time": "2026-10-13T09:12:00Z"
     },

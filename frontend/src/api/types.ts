@@ -537,9 +537,15 @@ export interface components {
         Evidence: {
             /** Fact Ids */
             fact_ids?: string[];
+            /** Flags */
+            flags?: string[];
             /** Id */
             id: string;
             kind: components["schemas"]["EvidenceKind"];
+            /** Missing Fact Ids */
+            missing_fact_ids?: string[];
+            /** Model Call Id */
+            model_call_id?: string | null;
             /** Run Id */
             run_id: string;
             /** Sources */
@@ -1251,16 +1257,17 @@ export interface components {
         };
         /**
          * SupersededRecord
-         * @description A post-analysis record a re-run from `chains` replaced (contract v1.7): copied here
-         *     verbatim, never changed or deleted. `pass_seq` is the `seq` of the `run_extended` event
-         *     that began the pass it belonged to; `superseded_seq` that of the event that replaced it.
+         * @description A post-analysis record a re-run replaced (contract v1.7): copied here verbatim, never
+         *     changed or deleted. `pass_seq` is the `seq` of the `run_extended` event that began the
+         *     pass it belonged to; `superseded_seq` that of the event that replaced it. Contract v1.8
+         *     adds the evidence pass: its records, agent steps and their tool calls.
          */
         SupersededRecord: {
             /**
              * Kind
              * @enum {string}
              */
-            kind: "chain" | "lopa" | "recommendation" | "model_call";
+            kind: "chain" | "lopa" | "recommendation" | "model_call" | "evidence" | "tool_call" | "agent_step";
             /** Pass Seq */
             pass_seq: number;
             /** Record */

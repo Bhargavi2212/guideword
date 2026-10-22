@@ -23,7 +23,7 @@
       "recommendation": null,
       "action_owner": null,
       "origin": "matrix",
-      "evidence": "calculation: confirmed",
+      "evidence": "calculation: confirmed — With TV-1 open, MX-1 reaches its design temperature in about 20 minutes.; precedent: confirmed — Same mechanism (mock): a steam control valve stuck open overheated a batch mixer.",
       "status": "answered",
       "record_ids": [
         "f:m:S-MX-1:more:temperature:lightning:C01:a92ada9e786e565d",
@@ -48,7 +48,7 @@
       "recommendation": "Check the tote label against the batch sheet before charging",
       "action_owner": null,
       "origin": "cross_list",
-      "evidence": "precedent: none",
+      "evidence": "calculation: none — Blocked-in heating check skipped: no vapour-pressure points for the contents.; precedent: none — No matching precedent found (mock).",
       "status": "answered (unsure)",
       "record_ids": [
         "f:pair:KOH:SIH:lightning:C14:541f633168214c61",

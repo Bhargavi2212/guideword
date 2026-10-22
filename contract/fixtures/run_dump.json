@@ -579,21 +579,60 @@
   ],
   "evidence": [
     {
-      "id": "ev:f:m:S-MX-1:more:temperature:lightning:C01:a92ada9e786e565d:calculation:heat_up_rate",
+      "id": "ev:f:m:S-MX-1:more:temperature:lightning:C01:a92ada9e786e565d:calculation:heat_up_rate-MX-1",
       "run_id": "run:8ede059837927e4a",
       "target_id": "f:m:S-MX-1:more:temperature:lightning:C01:a92ada9e786e565d",
       "kind": "calculation",
       "verdict": "confirmed",
       "summary": "With TV-1 open, MX-1 reaches its design temperature in about 20 minutes.",
-      "tool_call_id": "tc:step:a47ec56c6dd3d542:check_coverage:44136fa355b3678a",
+      "tool_call_id": "tc:step:ba25dbe2c1766194:physics_calc:78d37907b9ecfbad",
       "fact_ids": [
         "MX-1.volume_m3",
-        "MX-1.design_temp_c"
+        "MX-1.operating.temperature.normal",
+        "MX-1.operating.temperature.design_max"
       ],
-      "sources": []
+      "sources": [],
+      "model_call_id": null,
+      "missing_fact_ids": [],
+      "flags": []
     },
     {
-      "id": "ev:ch:f:pair:KOH:SIH:lightning:C14:541f633168214c61+f:relief:PSV-1:ultra:8b8e942809f7e00a:f222cda333ff2d9b:precedent:ab23aa63d81bb3fe",
+      "id": "ev:f:m:S-MX-1:more:temperature:lightning:C01:a92ada9e786e565d:precedent:MP-0001",
+      "run_id": "run:8ede059837927e4a",
+      "target_id": "f:m:S-MX-1:more:temperature:lightning:C01:a92ada9e786e565d",
+      "kind": "precedent",
+      "verdict": "confirmed",
+      "summary": "Same mechanism (mock): a steam control valve stuck open overheated a batch mixer.",
+      "tool_call_id": null,
+      "fact_ids": [],
+      "sources": [
+        "https://precedents.mock.invalid/MP-0001"
+      ],
+      "model_call_id": "mc:0456de872a44e8ec",
+      "missing_fact_ids": [],
+      "flags": []
+    },
+    {
+      "id": "ev:ch:f:pair:KOH:SIH:lightning:C14:541f633168214c61+f:relief:PSV-1:ultra:8b8e942809f7e00a:f222cda333ff2d9b:calculation:blocked_in_heating-MX-1",
+      "run_id": "run:8ede059837927e4a",
+      "target_id": "ch:f:pair:KOH:SIH:lightning:C14:541f633168214c61+f:relief:PSV-1:ultra:8b8e942809f7e00a:f222cda333ff2d9b",
+      "kind": "calculation",
+      "verdict": "none",
+      "summary": "Blocked-in heating check skipped: no vapour-pressure points for the contents.",
+      "tool_call_id": "tc:step:de512e48a152791b:physics_calc:ed75cad20da58b17",
+      "fact_ids": [],
+      "sources": [],
+      "model_call_id": null,
+      "missing_fact_ids": [
+        "KOH.vapor_pressure_points",
+        "SIH.vapor_pressure_points"
+      ],
+      "flags": [
+        "evidence skipped: missing KOH.vapor_pressure_points, SIH.vapor_pressure_points"
+      ]
+    },
+    {
+      "id": "ev:ch:f:pair:KOH:SIH:lightning:C14:541f633168214c61+f:relief:PSV-1:ultra:8b8e942809f7e00a:f222cda333ff2d9b:precedent:none",
       "run_id": "run:8ede059837927e4a",
       "target_id": "ch:f:pair:KOH:SIH:lightning:C14:541f633168214c61+f:relief:PSV-1:ultra:8b8e942809f7e00a:f222cda333ff2d9b",
       "kind": "precedent",
@@ -601,9 +640,10 @@
       "summary": "No matching precedent found (mock).",
       "tool_call_id": null,
       "fact_ids": [],
-      "sources": [
-        "https://example.org/mock-precedent"
-      ]
+      "sources": [],
+      "model_call_id": null,
+      "missing_fact_ids": [],
+      "flags": []
     }
   ],
   "overrides": [],
@@ -726,7 +766,10 @@
       "seq": 13,
       "type": "evidence_added",
       "payload": {
-        "evidence_id": "ev:f:m:S-MX-1:more:temperature:lightning:C01:a92ada9e786e565d:calculation:heat_up_rate"
+        "evidence_id": "ev:f:m:S-MX-1:more:temperature:lightning:C01:a92ada9e786e565d:calculation:heat_up_rate-MX-1",
+        "target_id": "f:m:S-MX-1:more:temperature:lightning:C01:a92ada9e786e565d",
+        "kind": "calculation",
+        "verdict": "confirmed"
       },
       "time": "2026-10-13T09:12:00Z"
     },

@@ -363,11 +363,14 @@ class OverrideResult(_RunResponse):
 
 
 class SupersededRecord(_Model):
-    """A post-analysis record a re-run from `chains` replaced (contract v1.7): copied here
-    verbatim, never changed or deleted. `pass_seq` is the `seq` of the `run_extended` event
-    that began the pass it belonged to; `superseded_seq` that of the event that replaced it."""
+    """A post-analysis record a re-run replaced (contract v1.7): copied here verbatim, never
+    changed or deleted. `pass_seq` is the `seq` of the `run_extended` event that began the
+    pass it belonged to; `superseded_seq` that of the event that replaced it. Contract v1.8
+    adds the evidence pass: its records, agent steps and their tool calls."""
 
-    kind: Literal["chain", "lopa", "recommendation", "model_call"]
+    kind: Literal[
+        "chain", "lopa", "recommendation", "model_call", "evidence", "tool_call", "agent_step"
+    ]
     pass_seq: int
     superseded_seq: int
     record: dict[str, Any]
