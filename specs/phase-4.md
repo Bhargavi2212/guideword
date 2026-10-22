@@ -78,7 +78,7 @@ Each calculation takes plant facts only and returns a number with units plus the
 ### 4.3 Precedent search and web research (`tools/precedent.py`, `tools/web.py`)
 
 1. **Query, built by code** from the line: its lead finding's cause text (each finding link's for a chain), the content chemicals' names, the section's equipment type, and the question's guideword and parameter. No model writes the query.
-2. **Block:** rows and results containing any block term (case-insensitive, in any field or URL) are dropped first.
+2. **Block:** rows and results containing any block term as a whole word or phrase (word boundaries at both ends, case-insensitive, in any field or URL; plan Q17) are dropped first.
 3. **Local search:** BM25 over `title + summary + chemicals + equipment_types + mechanism_keywords`, implemented in the module (about 50 lines, no new dependency). Top `precedent_candidates` (5).
 4. **Judge (Super):** job `precedent_judge`, prompt `prompts/precedent_judge/v1.md`, drafted by Claude Code and reviewed by Bhargavi. It sees the line's cause and consequence and the candidates by **handle** (`K1…`, as in connector/v2: no long IDs to copy), all as data. Per candidate: `same_mechanism` yes/no and a reason. Code maps handles back exactly; an unknown handle or an unsent URL drops that item and logs it.
 5. **Tavily:** on the **top line, always** one Tavily search with the same code-built query (`tavily_max_results`, 5), block-filtered, its results judged with the local candidates in one call (plan Q15). On other lines, the fallback: if no local candidate is judged `yes`, one search, block-filtered, then the same judge.

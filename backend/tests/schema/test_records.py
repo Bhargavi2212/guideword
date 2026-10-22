@@ -586,3 +586,40 @@ def test_layer_credit_carries_ultras_argument_apart_from_codes_reason() -> None:
         }
     )
     assert argued.applies is False and argued.argument
+
+
+# --- contract v1.8: evidence (Phase 4 plan PR 1) ----------------------------------------------
+
+
+def test_evidence_new_fields_default_for_older_records() -> None:
+    old = r.Evidence.model_validate(_sample(r.Evidence))
+    assert old.model_call_id is None
+    assert old.missing_fact_ids == []
+    assert old.flags == []
+
+
+def test_evidence_holds_its_judge_call_missing_facts_and_flags() -> None:
+    record = r.Evidence.model_validate(
+        {
+            **_sample(r.Evidence),
+            "verdict": "none",
+            "model_call_id": "mc:0123456789abcdef",
+            "missing_fact_ids": ["MX-1.heat_duty_kw"],
+            "flags": ["evidence skipped: missing MX-1.heat_duty_kw"],
+        }
+    )
+    assert record.missing_fact_ids == ["MX-1.heat_duty_kw"]
+    with pytest.raises(ValidationError):
+        r.Evidence.model_validate({**_sample(r.Evidence), "missing_fact_ids": ["MX-1"]})
+
+
+def test_evidence_id_must_be_an_ev_id() -> None:
+    with pytest.raises(ValidationError):
+        r.Evidence.model_validate({**_sample(r.Evidence), "id": "calc:heat_up_rate"})
+
+
+def test_agent_evidence_is_an_agent() -> None:
+    step = r.AgentStep.model_validate(
+        {**_sample(r.AgentStep), "agent": "evidence", "tool": "physics_calc"}
+    )
+    assert step.agent == "evidence"

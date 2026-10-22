@@ -13,6 +13,7 @@ import pytest
 
 from guideword.schema import ids
 from guideword.schema.enums import (
+    Calculation,
     EvidenceKind,
     Guideword,
     HazopParameter,
@@ -414,6 +415,37 @@ def test_evidence_ids() -> None:
     assert ids.precedent_evidence_id(t, url=url) == f"ev:{t}:precedent:{ids.h(url)}"
     with pytest.raises(ValueError):
         ids.precedent_evidence_id(t)
+
+
+def test_calculation_evidence_ids_carry_the_equipment_and_round_trip() -> None:
+    """Phase 4 plan G2: two equipment items on one line get two IDs; the key splits back."""
+    t = "ch:f:a+f:b"
+    a = ids.calculation_evidence_id(t, Calculation.BLOCKED_IN_HEATING, "EA-425A")
+    b = ids.calculation_evidence_id(t, Calculation.BLOCKED_IN_HEATING, "EA-425B")
+    assert a == f"ev:{t}:calculation:blocked_in_heating-EA-425A"
+    assert a != b
+    target, kind, key = b.removeprefix("ev:").rsplit(":", 2)
+    assert (target, kind) == (t, "calculation")
+    calculation, equipment = key.split("-", 1)
+    assert (calculation, equipment) == ("blocked_in_heating", "EA-425B")
+    assert ids.calculation_evidence_id(t, "overflow_time", "MX-1") == (
+        f"ev:{t}:calculation:overflow_time-MX-1"
+    )
+
+
+def test_calculation_evidence_ids_refuse_an_unknown_calculation_or_object_id() -> None:
+    with pytest.raises(ValueError):
+        ids.calculation_evidence_id("f:x", "pressure_multiple", "MX-1")
+    with pytest.raises(ValueError):
+        ids.calculation_evidence_id("f:x", "heat_up_rate", "MX:1")
+
+
+def test_the_no_precedent_evidence_id() -> None:
+    """Phase 4 plan Q2: a line with no accepted incident gets one `none` record."""
+    t = "f:x"
+    assert ids.no_precedent_evidence_id(t) == f"ev:{t}:precedent:none"
+    with pytest.raises(ValueError):
+        ids.precedent_evidence_id(t, precedent_id="none")
 
 
 # --- model calls, tool calls, agent steps, overrides -------------------------------------

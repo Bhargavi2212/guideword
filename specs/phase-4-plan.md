@@ -99,7 +99,7 @@ With the spec's rule (4.1: applicability by the question ID `m:<section>:more:pr
 | Q14 | **G19: Tavily spend on a hosted deploy.** | Write through `ledger_for`, in both environments, now. |
 | Q15 | **G21: guarantee the runtime Tavily call.** | One `web_research` per evidence-on run on the top line, as well as the fallback. This changes P4-5. |
 | Q16 | **G22: API runs' phase.** | `API_RUN_PHASE = "4"`. |
-| Q17 | **Block terms: substring or whole word?** (Cowork's files) | Whole words, so `PCA` doesn't drop "upcast". |
+| Q17 | **Block terms: substring or whole word?** (Cowork's files) | Whole words, so `PCA` doesn't drop "upcast". *(Answered: see Answers.)* |
 | Q10 | **More hand-worked fixtures?** The spec has Cowork's fixture for the pressure calculation only. | Cowork also hand-works one small `overflow_time` and one `heat_up_rate` example on the §9 example plant (synthetic facts allowed there). Every number is then checked against a hand calculation, like LOPA examples 1 and 2. |
 
 ### Answers (Bhargavi, 2026-10-21)
@@ -124,6 +124,7 @@ With the spec's rule (4.1: applicability by the question ID `m:<section>:more:pr
 | Q14 | As recommended: Tavily spend goes through `ledger_for`, laptop or hosted. |
 | Q15 | As recommended, and it changes P4-5: **one Tavily search on the top line always, judged alongside the index candidates** (one judge call), under the same block list. Other lines keep the spec's fallback. |
 | Q16 | As recommended: `API_RUN_PHASE = "4"`. |
+| Q17 | **Whole-word matching**, case-insensitive: a term matches as a phrase on word boundaries at both ends (`\b<term>\b`). My EA-425 example was wrong: `\bEA-425\b` doesn't match "EA-425B". Cowork fixed the data instead, so the WG list now names `EA-425A` and `EA-425B`, and every block file's header says "whole word or phrase". The WG list is re-copied into PR 2b and the D–H lists go into PR 5, byte for byte. Tests: "EA-425B" is blocked by its own term; "upcast" is not blocked by `PCA`; "PCA mill" is. |
 
 ### Gaps found on the reread (each with a recommendation)
 
@@ -181,7 +182,7 @@ Copied **unchanged** to the target path in the PR its README names. `reference/p
 - **The numbers:** PROPANE gives 1.6125604448742747× and PROPYLENE 1.9233438104448743× at 85 °C, so the record reports **PROPANE, "at least 1.6× design"**, and the video's N is 1.6.
 - **Order:** the WG fixture reads the plant file with the Phase 4 facts, so **PR 2b lands before PR 2**.
 
-**For Bhargavi (Q17):** block terms match as case-insensitive substrings (spec 4.3). Case F's `PCA` would also drop any text containing "pca", for example "upcast". I recommend matching **whole words** (a term bounded by non-letters or digits). That keeps every intended match, including "EA-425" inside "EA-425B", and drops nothing by accident. The test is `test_a_short_block_term_matches_whole_words_only`.
+**Q17 (answered):** block terms match as whole words or phrases, case-insensitive (`\b<term>\b`, the term escaped), on every field and the URL.
 
 ---
 
@@ -301,7 +302,7 @@ Copied **unchanged** to the target path in the PR its README names. `reference/p
   - `chemicals`, `equipment_types` and `mechanism_keywords` are `;`-separated.
 - **Search:** `tools/precedent.py`:
   - `query_for(line, plant)` builds the query by code (the lead finding's cause words, or each finding link's for a chain; the content chemicals' names; the section's equipment type; guideword and parameter);
-  - `blocked(text, terms)` is case-insensitive on every field and the URL;
+  - `blocked(text, terms)`: each term, escaped, matches as a whole word or phrase on word boundaries at both ends (`\b<term>\b`), case-insensitive, on every field and the URL (Q17);
   - `bm25(rows, query, k)` is about 50 lines, with no dependency, deterministic, ties broken by row ID.
 - **Block lists:** `cases/demo/williams_geismar.block.txt` and `cases/dev/case_<x>.block.txt` (Cowork). A loader reads one term per line, with `#` comments.
 - **Tests first** (synthetic index rows in `tests/reference/fixtures/`):
@@ -311,6 +312,9 @@ Copied **unchanged** to the target path in the PR its README names. `reference/p
   - `test_the_index_is_outside_reference_versions` (loading it leaves `ReferenceSet.versions` unchanged);
   - `test_bm25_ranks_by_terms_and_breaks_ties_by_id`;
   - `test_a_block_term_removes_a_row_by_any_field_or_url`;
+  - `test_ea_425b_is_blocked_by_its_own_term` (Q17);
+  - `test_upcast_is_not_blocked_by_pca` and `test_pca_mill_is_blocked_by_pca` (Q17);
+  - `test_a_phrase_term_matches_across_its_words_only_whole` (e.g. `propylene fractionator`);
   - `test_the_query_is_built_from_the_line_only` (no model);
   - `test_no_precedent_index_yet` becomes `test_precedent_index_loads_when_present`.
 

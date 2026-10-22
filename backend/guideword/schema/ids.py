@@ -16,6 +16,7 @@ from enum import Enum
 
 from guideword.schema.enums import (
     OPERATING_LIMITS,
+    Calculation,
     EvidenceKind,
     Guideword,
     HazopParameter,
@@ -358,14 +359,33 @@ def evidence_id(target_id: str, kind: EvidenceKind | str, source_key: str) -> st
     return f"ev:{_part(target_id, forbidden='')}:{EvidenceKind(kind)}:{_part(source_key)}"
 
 
+def calculation_evidence_id(
+    target_id: str, calculation: Calculation | str, equipment_id: str
+) -> str:
+    """`ev:<target>:calculation:<calculation>-<equipment id>` (Phase 4 plan G2): one line
+    can hold the same calculation on two equipment items."""
+    key = f"{Calculation(calculation)}-{_object_id(equipment_id)}"
+    return evidence_id(target_id, EvidenceKind.CALCULATION, key)
+
+
+NO_PRECEDENT = "none"
+
+
 def precedent_evidence_id(
     target_id: str, *, precedent_id: str | None = None, url: str | None = None
 ) -> str:
     """Keyed by the precedent index ID, or h(url) for a web result."""
     if (precedent_id is None) == (url is None):
         raise ValueError("give exactly one of precedent_id or url")
+    if precedent_id == NO_PRECEDENT:
+        raise ValueError(f"{NO_PRECEDENT!r} is the no-precedent key, not an index ID")
     key = precedent_id if precedent_id is not None else h(url)
     return evidence_id(target_id, EvidenceKind.PRECEDENT, key)
+
+
+def no_precedent_evidence_id(target_id: str) -> str:
+    """The one record of a line with no accepted incident (Phase 4 plan Q2)."""
+    return evidence_id(target_id, EvidenceKind.PRECEDENT, NO_PRECEDENT)
 
 
 # --- model calls, tool calls, agent steps, overrides ------------------------------------

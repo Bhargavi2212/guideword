@@ -161,6 +161,8 @@ EXPECTED: list[tuple[type[StrEnum], set[str]]] = [
     ),
     (e.EvidenceKind, {"calculation", "precedent", "simulation"}),
     (e.Verdict, {"confirmed", "contradicted", "none"}),
+    # contract v1.8 (Phase 4 plan Q13): the three physics calculations
+    (e.Calculation, {"blocked_in_heating", "overflow_time", "heat_up_rate"}),
     (
         e.Agent,
         {
@@ -172,6 +174,8 @@ EXPECTED: list[tuple[type[StrEnum], set[str]]] = [
             "maintenance",
             "dust",
             "connector",
+            # contract v1.8 (Phase 4 plan P4-6b): one agent step per evidence line
+            "evidence",
         },
     ),
     (
