@@ -9,10 +9,10 @@ from pathlib import Path
 REPO = Path(__file__).resolve().parents[2]
 
 # Phase 2 adds openai in backend/guideword/gateway/** (specs/phase-2.md 2.2, approved there).
-# backend/guideword/tools/** (tavily) is added with the Phase 4 tools that call Tavily.
+# Phase 4 adds tavily in backend/guideword/tools/** (specs/phase-4.md 4.3, approved there).
 ALLOWED: dict[str, tuple[str, ...]] = {
     "openai": ("scripts/live_call.py", "backend/guideword/gateway/**"),
-    "tavily": ("scripts/live_call.py",),
+    "tavily": ("scripts/live_call.py", "backend/guideword/tools/**"),
     "httpx": ("scripts/live_call.py", "backend/tests/**"),
 }
 SKIP_PARTS = {".venv", "node_modules", "__pycache__", ".mypy_cache", ".ruff_cache"}
@@ -88,3 +88,14 @@ def test_openai_is_allowed_only_in_the_gateway(tmp_path: Path) -> None:
 
 def test_the_gateway_is_where_openai_is_imported() -> None:
     assert "openai" in _imports(REPO / "backend" / "guideword" / "gateway" / "transport.py")
+
+
+def test_tavily_is_imported_only_under_tools() -> None:
+    """Phase 4 plan PR 5a: inside the package, only guideword/tools imports Tavily."""
+    package = REPO / "backend" / "guideword"
+    importers = [
+        p.relative_to(REPO).as_posix()
+        for p in sorted(package.rglob("*.py"))
+        if not SKIP_PARTS & set(p.parts) and "tavily" in _imports(p)
+    ]
+    assert importers == ["backend/guideword/tools/web.py"]
