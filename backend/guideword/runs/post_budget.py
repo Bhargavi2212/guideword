@@ -19,10 +19,19 @@ from guideword.gateway.client import RunBudget
 from guideword.runs.store import StepWriter
 from guideword.schema.records import ModelCall, Run
 
-POST_JOBS = frozenset({"connector", "chain_severity", "lopa_argument", "recommendation"})
-POST_STEPS = ("chains", "chain_severity", "lopa", "recommendations")
+# Phase 4 adds the evidence step and its precedent judge (plan PR 5b)
+POST_JOBS = frozenset(
+    {"connector", "chain_severity", "lopa_argument", "recommendation", "precedent_judge"}
+)
+POST_STEPS = ("chains", "chain_severity", "lopa", "recommendations", "evidence")
 # the prompts the post-analysis steps load (recorded on extension)
-POST_PROMPTS = ("connector", "lopa_argument", "recommendation", "severity_chain")
+POST_PROMPTS = (
+    "connector",
+    "lopa_argument",
+    "recommendation",
+    "severity_chain",
+    "precedent_judge",
+)
 POST_SETTINGS = (
     "lopa_top_n",
     "connector_max_input_tokens",
@@ -59,6 +68,34 @@ def post_budget(writer: StepWriter) -> RunBudget:
 def post_setting(run: Run, config: Config, key: str) -> int:
     stored = run.caps.get(key)
     return int(stored) if stored is not None else int(getattr(config.caps.run, key))
+
+
+# Phase 4 (P4-9): the evidence step's settings, read like the post settings (plan G4)
+EVIDENCE_SETTINGS = (
+    "evidence_top_n",
+    "precedent_candidates",
+    "tavily_searches_per_run",
+    "tavily_max_results",
+    "overflow_confirm_minutes",
+    "heat_up_confirm_minutes",
+)
+
+
+def evidence_setting(run: Run, config: Config, key: str) -> Any:
+    """A value the run's stored caps hold (D–G and the Phase 3 demo run hold
+    `evidence_top_n`), else the current `evidence:` block."""
+    stored = run.caps.get(key)
+    return stored if stored is not None else getattr(config.caps.evidence, key)
+
+
+def evidence_settings(run: Run, config: Config) -> dict[str, dict[str, Any]]:
+    return {
+        key: {
+            "value": evidence_setting(run, config, key),
+            "source": FROM_RUN if run.caps.get(key) is not None else FROM_CONFIG,
+        }
+        for key in EVIDENCE_SETTINGS
+    }
 
 
 def post_settings(run: Run, config: Config) -> dict[str, dict[str, Any]]:
