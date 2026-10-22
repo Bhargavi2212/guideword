@@ -322,6 +322,16 @@
       "target_id": "EA-425B",
       "parameter": "pressure",
       "design_max": 2068
+    },
+    {
+      "target_id": "L-QW-A-IN",
+      "parameter": "temperature",
+      "normal": 85
+    },
+    {
+      "target_id": "L-QW-B-IN",
+      "parameter": "temperature",
+      "normal": 85
     }
   ],
   "safeguards": [],
@@ -381,7 +391,65 @@
       ],
       "physical_form": "liquid",
       "boiling_point_c": -42.1,
-      "source": "CSB case study p. 10, p. 15 fn. 22"
+      "source": "CSB case study p. 10, p. 15 fn. 22",
+      "vapor_pressure_points": [
+        {
+          "temp_c": 30.0,
+          "pressure_kpaa": 1079.0
+        },
+        {
+          "temp_c": 35.0,
+          "pressure_kpaa": 1217.9
+        },
+        {
+          "temp_c": 40.0,
+          "pressure_kpaa": 1369.4
+        },
+        {
+          "temp_c": 45.0,
+          "pressure_kpaa": 1534.3
+        },
+        {
+          "temp_c": 50.0,
+          "pressure_kpaa": 1713.3
+        },
+        {
+          "temp_c": 55.0,
+          "pressure_kpaa": 1907.2
+        },
+        {
+          "temp_c": 60.0,
+          "pressure_kpaa": 2116.7
+        },
+        {
+          "temp_c": 65.0,
+          "pressure_kpaa": 2342.9
+        },
+        {
+          "temp_c": 70.0,
+          "pressure_kpaa": 2586.8
+        },
+        {
+          "temp_c": 75.0,
+          "pressure_kpaa": 2849.3
+        },
+        {
+          "temp_c": 80.0,
+          "pressure_kpaa": 3131.9
+        },
+        {
+          "temp_c": 85.0,
+          "pressure_kpaa": 3436.1
+        },
+        {
+          "temp_c": 90.0,
+          "pressure_kpaa": 3764.1
+        },
+        {
+          "temp_c": 95.0,
+          "pressure_kpaa": 4119.5
+        }
+      ]
     },
     {
       "id": "PROPYLENE",
@@ -394,7 +462,61 @@
       ],
       "physical_form": "liquid",
       "boiling_point_c": -47.6,
-      "source": "CSB case study p. 10"
+      "source": "CSB case study p. 10",
+      "vapor_pressure_points": [
+        {
+          "temp_c": 30.0,
+          "pressure_kpaa": 1305.0
+        },
+        {
+          "temp_c": 35.0,
+          "pressure_kpaa": 1469.4
+        },
+        {
+          "temp_c": 40.0,
+          "pressure_kpaa": 1648.4
+        },
+        {
+          "temp_c": 45.0,
+          "pressure_kpaa": 1843.0
+        },
+        {
+          "temp_c": 50.0,
+          "pressure_kpaa": 2053.8
+        },
+        {
+          "temp_c": 55.0,
+          "pressure_kpaa": 2281.9
+        },
+        {
+          "temp_c": 60.0,
+          "pressure_kpaa": 2528.3
+        },
+        {
+          "temp_c": 65.0,
+          "pressure_kpaa": 2794.0
+        },
+        {
+          "temp_c": 70.0,
+          "pressure_kpaa": 3080.2
+        },
+        {
+          "temp_c": 75.0,
+          "pressure_kpaa": 3388.5
+        },
+        {
+          "temp_c": 80.0,
+          "pressure_kpaa": 3720.5
+        },
+        {
+          "temp_c": 85.0,
+          "pressure_kpaa": 4078.8
+        },
+        {
+          "temp_c": 90.0,
+          "pressure_kpaa": 4467.5
+        }
+      ]
     },
     {
       "id": "C4-HEAVIES",
@@ -506,6 +628,11 @@
     "HV-QW-B-OUT.fail_position": "assumed: 'last' (manual or block valve)",
     "PROPANE.physical_form": "assumed: liquid under pressure on the shell side",
     "PROPYLENE.physical_form": "assumed: liquid under pressure on the shell side",
-    "C4-HEAVIES.physical_form": "assumed: liquid under pressure on the shell side"
+    "C4-HEAVIES.physical_form": "assumed: liquid under pressure on the shell side",
+    "PROPANE.vapor_pressure_points": "NIST Chemistry WebBook, SRD 69, Saturation Properties for Propane (EOS: Lemmon, McLinden & Wagner, J. Chem. Eng. Data 54 (2009) 3141), https://webbook.nist.gov/cgi/fluid.cgi?ID=C74986&Type=SatP&TUnit=C&PUnit=kPa, read 2026-10-21 (saturated liquid pressure, 30-95 C in 5 C steps; critical point 96.74 C)",
+    "PROPYLENE.vapor_pressure_points": "NIST Chemistry WebBook, SRD 69, Saturation Properties for Propene, https://webbook.nist.gov/cgi/fluid.cgi?ID=C115071&Type=SatP&TUnit=C&PUnit=kPa, read 2026-10-21 (saturated liquid pressure, 30-90 C in 5 C steps; points stop below the critical point, about 91.6 C)",
+    "C4-HEAVIES.vapor_pressure_points": "not given: composition unknown (CSB p. 10 says only 'heavier hydrocarbons'); left empty",
+    "L-QW-A-IN.operating.temperature.normal": "CSB case study p. 10 (quench water enters at about 185 F = 85 C); assumed the same for Reboiler A's supply",
+    "L-QW-B-IN.operating.temperature.normal": "CSB case study p. 10 (quench water enters at about 185 F = 85 C)"
   }
 }
