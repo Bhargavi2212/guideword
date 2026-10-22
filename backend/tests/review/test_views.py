@@ -409,3 +409,28 @@ def test_the_gap_text_at_its_boundaries(case: Case, gap: float, times: str) -> N
         }
     )
     assert gap_text(record).startswith(f"{times} — mitigated ")
+
+
+# --- unexpected characters in model text (Bhargavi, 2026-10-22) --------------------------------
+
+
+def test_a_chain_with_an_unexpected_character_is_flagged_and_kept_as_written(case: Case) -> None:
+    case.chain = case.chain.model_copy(update={"description": case.chain.description + "互"})
+    item = next(i for i in case.items() if i.target_kind == "chain")
+    assert "unexpected character in model text: U+4E92 (chain description)" in item.flags
+    assert item.chain is not None and item.chain.description.endswith("互")
+
+
+def test_a_finding_with_an_unexpected_character_is_flagged(case: Case) -> None:
+    lead = next(i for i in case.items() if i.target_kind == "finding" and i.finding is not None)
+    assert lead.finding is not None
+    case.findings = [
+        f.model_copy(update={"consequence": f.consequence + "水。"})
+        if f.id == lead.target_id
+        else f
+        for f in case.findings
+    ]
+    item = next(i for i in case.items() if i.target_id == lead.target_id)
+    assert "unexpected character in model text: U+6C34 (finding consequence)" in item.flags
+    assert "unexpected character in model text: U+3002 (finding consequence)" in item.flags
+    assert item.finding is not None and item.finding.consequence.endswith("水。")
