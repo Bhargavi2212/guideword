@@ -31,6 +31,7 @@ from guideword.review.overrides import (
     on_target,
     override_state,
 )
+from guideword.review.text_check import unexpected_flags
 from guideword.schema.enums import Confidence, Verdict
 from guideword.schema.plant import Plant
 from guideword.schema.records import (
@@ -135,6 +136,41 @@ def shortlist_lines(
     )
 
 
+def model_text(line: ShortlistLine, lead: Finding | None) -> list[tuple[str, str | None]]:
+    """The model's own text on a card, as stored (never the override-applied view): the lead
+    finding, the chain, the hypothesis, the LOPA arguments and the recommendations."""
+    fields: list[tuple[str, str | None]] = []
+    if lead is not None:
+        fields += [
+            ("finding cause", lead.cause_text),
+            ("finding consequence", lead.consequence),
+            ("finding severity reason", lead.severity_reason),
+        ]
+    chain = line.planned.chain
+    if chain is not None:
+        fields += [
+            ("chain description", chain.description),
+            ("chain reason", chain.reason),
+            ("chain severity reason", chain.severity_reason),
+        ]
+    tiered = line.planned.line
+    hypothesis = tiered.hypothesis if tiered is not None else None
+    if hypothesis is not None:
+        fields += [
+            ("hypothesis mechanism", hypothesis.mechanism),
+            ("hypothesis cause", hypothesis.cause_text),
+            ("hypothesis consequence", hypothesis.consequence),
+            ("hypothesis reason", hypothesis.reason),
+        ]
+    if line.lopa is not None:
+        fields += [
+            (f"LOPA argument {layer.layer_id}", layer.argument) for layer in line.lopa.layers
+        ]
+    for rec in line.recommendations:
+        fields += [("recommendation action", rec.action), ("recommendation reason", rec.reason)]
+    return fields
+
+
 def _unsure(finding: Finding | None, chain: Chain | None, findings: dict[str, Finding]) -> bool:
     if chain is not None:
         # G9: a chain is unsure when any of its finding links is
@@ -165,6 +201,7 @@ def _item(line: ShortlistLine, rank: int, view: RunView) -> api.ShortlistItem:
         else []
     )
     flags += evidence_flags(evidence)
+    flags += unexpected_flags(model_text(line, lead))
     target = "chain" if chain is not None else "finding"
     if planned.target_kind != "hypothesis":
         flag = _state_flag(target, on_target(overrides, planned.target_id))
