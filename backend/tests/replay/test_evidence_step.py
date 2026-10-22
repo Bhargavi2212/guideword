@@ -691,3 +691,150 @@ def test_api_runs_charge_phase_4() -> None:
     from guideword.api.app import API_RUN_PHASE
 
     assert API_RUN_PHASE == "4"
+
+
+# --- the reads (plan PR 5c): shortlist, flags, worksheet, record, dump, xlsx, manifest -----------
+
+
+def _live(ev: Evidence, config: Config) -> Any:
+    from guideword.api.live import LiveRuns
+
+    def no_gateway(sessions: Any) -> Any:
+        raise AssertionError("reads make no call")
+
+    return LiveRuns(
+        ev.world.sessions,
+        config=config,
+        ref=ev.world.ref,
+        gateway_factory=no_gateway,
+        clock=lambda: pa.NOW,
+    )
+
+
+@pytest.fixture
+def read_world(tmp_path: Path, ref: ReferenceSet, config: Config) -> tuple[Evidence, Run, Any]:
+    """Every line gets evidence, MX-1's lines included (their contents have no vapour-pressure
+    points, so their blocked-in heating check is skipped and names the missing facts)."""
+    ev = Evidence(tmp_path, ref)
+    wide = _with_evidence(config, evidence_top_n=100)
+    run, _ = ev.run(wide, mixer_lines(with_judge()))
+    return ev, run, _live(ev, wide)
+
+
+def test_the_shortlist_shows_each_lines_evidence(
+    read_world: tuple[Evidence, Run, Any],
+) -> None:
+    ev, run, live = read_world
+    items = live.shortlist(run.id)
+    shown = [i for i in items if i.evidence]
+    assert shown
+    for item in shown:
+        assert {e.target_id for e in item.evidence} == {item.target_id}
+    stored = {e.id for e in ev.world.runs.evidence(run.id)}
+    assert {e.id for i in items for e in i.evidence} == stored
+
+
+def test_line_flags_name_skipped_facts(read_world: tuple[Evidence, Run, Any]) -> None:
+    _, run, live = read_world
+    flags = [f for i in live.shortlist(run.id) for f in i.flags]
+    skipped = [f for f in flags if f.startswith("evidence skipped: missing ")]
+    assert skipped
+    assert any("vapor_pressure_points" in f for f in skipped)
+
+
+def test_the_card_and_worksheet_evidence_text_are_the_same(
+    read_world: tuple[Evidence, Run, Any],
+) -> None:
+    """G12: the worksheet's Evidence column is the card's records in one formatter's words."""
+    from guideword.review.display import evidence_text
+
+    _, run, live = read_world
+    cards = {i.target_id: i for i in live.shortlist(run.id) if i.evidence}
+    rows = {r.row_id: r for r in live.worksheet(run.id)}
+    compared = 0
+    for target, item in cards.items():
+        if target not in rows:
+            continue  # a chain's card has no row of its own
+        shown = rows[target].evidence
+        assert shown is not None
+        assert shown.removesuffix(" (scenario)") == evidence_text(item.evidence)
+        assert all(e.id in rows[target].record_ids for e in item.evidence)
+        compared += 1
+    assert compared
+
+
+def test_record_detail_returns_evidence_with_its_tool_call_and_judge_call(
+    read_world: tuple[Evidence, Run, Any],
+) -> None:
+    ev, run, live = read_world
+    judged_record = next(
+        e for e in ev.world.runs.evidence(run.id) if e.model_call_id and e.tool_call_id
+    )
+    found, model_calls, tool_calls = live.record(run.id, judged_record.id)
+    assert found.kind == "evidence"
+    assert judged_record.target_id in found.parent_ids
+    assert [c.id for c in model_calls] == [judged_record.model_call_id]
+    assert judged_record.tool_call_id in [t.id for t in tool_calls]
+
+
+def test_record_detail_returns_an_agent_step_with_its_tool_calls(
+    read_world: tuple[Evidence, Run, Any],
+) -> None:
+    ev, run, live = read_world
+    step = next(s for s in ev.world.runs.steps(run.id) if s.agent == "evidence")
+    found, _, tool_calls = live.record(run.id, step.id)
+    assert found.kind == "agent_step"
+    assert tool_calls and all(t.agent_step_id == step.id for t in tool_calls)
+
+
+def test_the_run_dump_and_xlsx_show_evidence(read_world: tuple[Evidence, Run, Any]) -> None:
+    import io
+
+    import openpyxl  # type: ignore[import-untyped]
+
+    from guideword.api.mock import worksheet_xlsx
+
+    ev, run, live = read_world
+    dump = live.dump(run.id)
+    assert {e.id for e in dump.evidence} == {e.id for e in ev.world.runs.evidence(run.id)}
+    sheet = openpyxl.load_workbook(io.BytesIO(worksheet_xlsx(live.worksheet(run.id)))).active
+    header = [c.value for c in sheet[1]]
+    column = header.index("Evidence")
+    values = [row[column].value for row in sheet.iter_rows(min_row=2)]
+    assert any(v and "precedent:" in v for v in values)
+
+
+def test_no_overrides_on_evidence_records(read_world: tuple[Evidence, Run, Any]) -> None:
+    from guideword.api import models as api
+    from guideword.review.overrides import OverrideRefused
+
+    ev, run, live = read_world
+    target = ev.world.runs.evidence(run.id)[0].id
+    request = api.OverrideRequest(
+        target_id=target, action="reject", new_value=None, reason="no", by="engineer"
+    )
+    with pytest.raises(OverrideRefused) as refused:
+        live.add_override(run.id, request, pa.NOW)
+    assert refused.value.status == 422
+    assert ev.world.runs.overrides(run.id) == []
+
+
+def test_the_replay_manifest_lists_the_evidence(
+    tmp_path: Path, ref: ReferenceSet, config: Config
+) -> None:
+    ev = Evidence(tmp_path, ref)
+    run, _ = ev.run(config, with_judge())
+    out = export_replay(
+        ev.world.runs,
+        ResponseCache(ev.world.sessions),
+        run.id,
+        tmp_path / "fixtures",
+        plant=ev.world.plant,
+        plant_file=pa.EXAMPLE.relative_to(REPO).as_posix(),
+        ref=ref,
+        caps=config.caps,
+        secrets=[],
+    )
+    manifest = json.loads((out / "manifest.json").read_text(encoding="utf-8"))
+    assert manifest["evidence"] == [[e.id, e.verdict.value] for e in ev.world.runs.evidence(run.id)]
+    assert load_replay(out, Evidence(tmp_path / "again", ref).world.sessions).evidence
