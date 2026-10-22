@@ -1,0 +1,6 @@
+# Block terms for the Williams Geismar demo plant (Phase 4, P4-7): any precedent index row or
+# Tavily result containing one of these (case-insensitive, any field or URL) is dropped.
+Williams
+Geismar
+EA-425
+propylene fractionator
