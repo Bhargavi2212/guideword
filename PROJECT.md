@@ -62,7 +62,7 @@ Code builds a numbered list of every question. Nothing on it can be deleted.
 4. **Every procedure step × Skipped / Wrong / Too early / Too late / Out of order** (guidewords `skipped`, `wrong`, `early`, `late`, `out_of_order`; `out_of_order` covers sequence). The `procedure` rows of the applicability table supply only this guideword list.
 5. **Every planned job × what is within reach** (flammables, live lines, overlapping jobs, isolation). "Within reach" of a job means: its listed `equipment_ids`; its listed `line_ids`; every equipment item in its location; every line whose `from_id` or `to_id` is in its location (an endpoint in the location, or the location itself); every relief device whose `discharge.location_id` is its location (the target is the relief device); and every other planned job at the same location whose time window overlaps. Windows overlap when they touch or cross; a missing `start` or `end`, or a time-zone mismatch between the two jobs, counts as overlapping. A job without a location shares a location with no other job. A job with nothing within reach gets one question `work:<job>:<job>`. Planned-work sections get only these `work:` questions.
 6. **Dust and ignition** questions for every equipment item of type `solids_handler` or `dryer`, plus any equipment whose `contents` include a chemical with `combustible_dust: true`.
-7. **Every relief device × where it discharges** (people, ignition sources, other equipment). Overpressure is the other common PHA oversight (AIChE CEP, July 2025); it has no separate question. Instead, every `m:<section>:more:pressure` finding in the top N gets a `physics_calc` multiple-of-design-pressure in its evidence when the plant facts allow it.
+7. **Every relief device × where it discharges** (people, ignition sources, other equipment). Overpressure is the other common PHA oversight (AIChE CEP, July 2025); it has no separate question. Instead, every top-N line with an `m:<section>:more:pressure` finding, or whose scenario objects include equipment with a design pressure and a heat source, gets a **blocked-in heating check** in its evidence (Phase 4, Q1 and Q13): the lowest multiple of design pressure the listed chemicals' vapour pressure reaches at the heat source's temperature, `confirmed` only when the plant facts show the equipment blocked in, a heat source not locked out, and a multiple of at least 1.0.
 
 Nemotron may **add plant-specific questions** (tagged "added by AI") and **mark questions not credible with a reason** (the question stays; the engineer can disagree). The engineer may **add questions** to a run (`POST /runs/{id}/questions`, origin `engineer`, status open): in a running run the orchestrator treats them like any open question; in a finished run they stay open until the engineer answers them with the override action `answer`. The question list is what the coverage report counts.
 
@@ -70,7 +70,7 @@ Nemotron may **add plant-specific questions** (tagged "added by AI") and **mark 
 Before any dispatch, one Ultra call reads the confirmed plant record (as data), the cause library the plant can support (R46) and the question kinds, and proposes up to `plant_screen_max_hypotheses` ranked hypotheses: mechanism, component and chemical IDs, cause, consequence and a reason each. Code validates every ID and the failing-component mapping (R46); bad hypotheses are dropped and logged. Each hypothesis is linked by code, once, to the questions on its components, chemicals and the equipment and valves of its steps and jobs. It steers dispatch (the orchestrator may dispatch linked questions first) and the final tiers (Step 6); it never deletes or answers a question.
 
 ### Step 4 — The agent runs the analysis (agent drives, code guards)
-After the engineer confirms the sections, **an orchestrator agent (Nemotron Ultra, tool calling) runs the whole analysis** to the end. It dispatches six **specialist agents**, researches and gathers evidence, deciding at each step what to do next. Code decides what it is allowed to do and when it may stop. Chains, chain severity, LOPA and recommendations are not orchestrator tools: they run as fixed code steps after the analysis (P3-1; Steps 5 and 6).
+After the engineer confirms the sections, **an orchestrator agent (Nemotron Ultra, tool calling) runs the whole analysis** to the end. It dispatches six **specialist agents**, deciding at each step what to do next. Code decides what it is allowed to do and when it may stop. Chains, chain severity, LOPA, recommendations and evidence are not orchestrator tools: they run as fixed code steps after the analysis (P3-1; P4-1; Steps 5 to 7).
 
 **Orchestrator tools**
 
@@ -78,14 +78,12 @@ After the engineer confirms the sections, **an orchestrator agent (Nemotron Ultr
 |---|---|---|
 | `check_coverage` | Code reports open, answered, failed and unsure questions by type and section | Counts and question IDs |
 | `dispatch_specialist` | Sends a batch of question IDs to one specialist agent | Findings, or failures |
-| `web_research` | Tavily search on a specific question or cause | Snippets with URLs |
-| `search_precedent` | Local precedent index (CSB, ARIA, eMARS and other national reports), then Tavily if nothing fits | Matching incidents with URLs |
 | `reactivity_lookup` | Reactive-group table for a chemical pair | Hazard type and source row |
-| `physics_calc` | Overflow time, pressure as a multiple of design limit, heat-up rate, from plant facts | Number with units and the facts used |
-| `run_simulation` | A fault on the Tennessee Eastman demo plant | Variables that moved, limits crossed |
 | `finish` | Ends the run | Accepted, or refused with the reason |
 
-**Specialist agents.** Each gets only its own questions and the data they need, works independently of the others, may take **at most 2 tool steps per batch** (`reactivity_lookup`, `web_research`), then must answer in the fixed schema. The data includes the `notes` of the plant objects in its scope (the source's exact words, passed as data, never parsed by code), and safeguards with no `layer_type` as existing protection, with their description.
+The evidence tools (`physics_calc`, `search_precedent`, `web_research`, `run_simulation`) are not orchestrator tools: the evidence step calls them (Step 7, P4-1).
+
+**Specialist agents.** Each gets only its own questions and the data they need, works independently of the others, may take **at most 2 tool steps per batch** (the chemistry agent's `reactivity_lookup`; no specialist has `web_research`), then must answer in the fixed schema. The data includes the `notes` of the plant objects in its scope (the source's exact words, passed as data, never parsed by code), and safeguards with no `layer_type` as existing protection, with their description.
 
 | Specialist agent | Gets only | Answers |
 |---|---|---|
@@ -109,9 +107,9 @@ What the failing component IDs point to, by the cause's failing-component type: 
 - Step caps (orchestrator steps per run, specialist steps per question), token and dollar caps per run; hitting one stops the run with a message.
 - The orchestrator sees counts and short summaries, never the full findings list, so each step stays small; only the connector (Step 5, after the analysis) reads a summary of every finding plus the whole plant.
 - Every tool argument is validated; every model and tool call is logged before the next step.
-- During benchmark runs, Tavily and the precedent index block the case under test by name, company, location and date. The same block applies to demo plants: the Williams Geismar demo never cites its own CSB report as precedent.
+- Benchmark runs (use `benchmark` or `test_5`) skip the evidence step, so they never reach the precedent index or Tavily (P4-7, Phase 4 Q4). Other runs filter every precedent row and Tavily result through the plant's block list (`cases/demo/<plant_id>.block.txt`, `cases/dev/<plant_id>.block.txt`): the Williams Geismar demo never cites its own CSB report as precedent, and D–G never cite their own.
 
-**Worked example (silicones plant, 10 chemicals).** `check_coverage` → 212 open questions. Orchestrator dispatches the 45 chemical-pair questions to the chemistry agent and 32 procedure-step questions to the procedures agent. The chemistry agent is unsure about KOH emulsifier + Si-H fluid, calls `reactivity_lookup`, gets "flammable gas (GF), from the EPA chart", answers. The orchestrator sees "flammable gas" and "wrong tote loaded" and calls `search_precedent` and `physics_calc`. It calls `finish`; code refuses because 3 questions failed validation; it re-dispatches them, then finishes. After the analysis, the connector proposes the chain, and LOPA on it shows a large gap.
+**Worked example (silicones plant, 10 chemicals).** `check_coverage` → 212 open questions. Orchestrator dispatches the 45 chemical-pair questions to the chemistry agent and 32 procedure-step questions to the procedures agent. The chemistry agent is unsure about KOH emulsifier + Si-H fluid, calls `reactivity_lookup`, gets "flammable gas (GF), from the EPA chart", answers. It calls `finish`; code refuses because 3 questions failed validation; it re-dispatches them, then finishes. After the analysis, the connector proposes the chain, LOPA on it shows a large gap, and the evidence step adds a precedent and a calculation.
 
 ### Step 5 — Chains (connector, a fixed code step after the analysis; P3-1)
 Ultra reads a one-line summary of every finding (ID, cause, consequence, components), never the raw answers, plus the whole plant, within `connector_max_input_tokens` (`config/caps.yaml`), and proposes **chains**: two or more findings that combine into something worse (e.g. reboiler isolated from relief + heat still reaching it → pressure with nowhere to go → rupture).
@@ -139,10 +137,10 @@ Ultra reads a one-line summary of every finding (ID, cause, consequence, compone
 
 Severity: Ultra picks a severity class and must give a reason; code looks up the tolerable frequency and the risk rating. Likelihood never comes from the model.
 
-### Step 7 — Evidence (gathered by the orchestrator)
-For each top finding and chain:
-- **Physics calculation** (e.g. "overflows in 18 minutes", "pressure reaches 3.5× design"). Vapour pressure is interpolated between the chemical's `vapor_pressure_points` (Clausius–Clapeyron) and never extrapolated beyond them; if the facts are missing, the calculation is skipped and flagged.
-- **CSB precedent** with link.
+### Step 7 — Evidence (a fixed code step after recommendations; P4-1)
+For each of the top `evidence_top_n` confirmed and also-found lines (findings and chains), chosen from the stored records without overrides. Evidence never changes rank, tier, lead, severity, LOPA or recommendations (P4-2):
+- **Physics calculation** (e.g. "overflows in 18 minutes", "blocked-in heating: at least 1.6× design"). Vapour pressure is interpolated between the chemical's `vapor_pressure_points` (Clausius–Clapeyron) and never extrapolated beyond them; if the facts are missing, the calculation is skipped and flagged.
+- **CSB precedent** with link: the local index searched by code, plus one Tavily search on the top line and as the fallback elsewhere, judged by Super (same mechanism yes/no with a reason).
 - **Simulator run** on Tennessee Eastman where applicable. Known result from kill test #1: with cooling lost, the plant tripped on high pressure at 1.05 h while reactor temperature *fell* (122.6 → 84.6 °C), a counter-intuitive outcome the simulator catches and a model would likely get wrong.
 
 Each finding is marked **confirmed**, **contradicted** or **no evidence available**.
@@ -208,7 +206,7 @@ To raise the ceiling: the promo form (code NEBIUS-DEVPOST-GLOBAL26) and the Nebi
 | Source | Feeds |
 |---|---|
 | CSB investigation reports (US) | Dev cases, held-out cases, precedent index |
-| Other national investigation sources: ARIA (France, 46,000+ events, English summaries), eMARS (EU major accidents), Dutch Safety Board, UK HSE, national committee reports (e.g. India) | Held-out cases, precedent index |
+| Other national investigation sources: ARIA (France, 46,000+ events, English summaries), eMARS (EU major accidents), Dutch Safety Board, UK HSE, national committee reports (e.g. India) | Held-out cases (the precedent index is CSB only for now; ARIA and eMARS are next) |
 | NOAA CAMEO Chemicals reactive groups; US EPA chemical compatibility chart (EPA-600/2-80-076, 1980) | Chemical classification; group-pair reactivity hazards |
 | EGPC-PSM-GL-015 (2022), tabulating CCPS typical values | Initiating event frequencies, protection layer failure probabilities, conditional modifiers, default tolerable frequencies per severity class |
 | Downs & Vogel (1993) Tennessee Eastman paper; open-licence Python implementation `tennessee-eastman-profbraatz` (University of Illinois licence) | Demo plant description and simulator |
@@ -345,7 +343,8 @@ Files are UTF-8 CSV with LF line endings (enforced by `.gitattributes`), so vers
 | `reactive_groups.csv` | epa_group_id, name, do_not_mix, source (41 EPA 1980 chart groups; `do_not_mix` = 1 only for 107, water-reactive substances, which the chart says not to mix with anything) | Plant validation, chemistry |
 | `reactive_pairs.csv` | group_a, group_b, codes (H, F, G, GT, GF, E, P, S, U), source | `reactivity_lookup` |
 | `cameo_groups.csv` | cameo_group_id, name, source | Chemical classification aid |
-| `precedent_index.csv` | id, title, date, location, hazard_type, summary, url, source (built in Phase 4) | `search_precedent` |
+| `precedent_index.csv` | id, title, date, country, company, location, chemicals, equipment_types, mechanism_keywords, summary, url, source (Phase 4; built by Cowork from CSB's public investigation list; loaded outside the run's reference versions) | `search_precedent` |
+| `te_faults.csv` | cause_id, component_id, idv, description, source (Phase 4, only if the simulator gate passes; loaded outside the run's reference versions) | `run_simulation` |
 | `sources.md` | Every source cited, with URL and access date | Trail |
 
 A run records the version hash of every table it used.
@@ -372,7 +371,8 @@ A run records the version hash of every table it used.
 | `gateway` | Token Factory client, live model list, routing, cache, budget guard, retries, concurrency limit, call log |
 | `orchestrator` | The Ultra agent loop: state, step caps, summaries it sees, the `finish` guard |
 | `specialists` | The six specialist agents: versioned prompts, output schemas, 2-step tool limit, tier routing |
-| `tools` | Every tool the agents can call, with argument schemas and caps |
+| `tools` | Every tool the agents and the evidence step call, with argument schemas and caps; the only caller of Tavily |
+| `evidence` | The evidence step: line choice, calculations, precedent search and judging (Phase 4) |
 | `lopa` | LOPA calculation, independence check, gap |
 | `connector` | Chain proposal and ID validation |
 | `ranking` | Risk-matrix screen, shortlist, recommendations |
@@ -407,7 +407,7 @@ A run records the version hash of every table it used.
 ### Run orchestration
 Sections are proposed and confirmed on the plant before any run. A run has two parts. **Setup** is a fixed sequence (validate the confirmed-section snapshot → build the question list), stored in `runs.step`. **Analysis** is the orchestrator loop: every orchestrator step, tool call and specialist result is written to the database before the next step, so a crashed run resumes from its last saved step without paying again. Specialist dispatches run in parallel up to the concurrency limit. Each orchestrator step (with the dispatches it launches) runs as its own function invocation and triggers the next, which keeps every invocation well under hosting time limits.
 
-**Run steps** (`runs.step`, spec 3.6): `plant_screen → analysis → severity → chains → chain_severity → lopa → recommendations → ranked`. The connector reads finding severities, so `chains` comes after `severity`. Each step resumes on its own and writes before returning. The post-analysis steps (`chains` to `recommendations`) spend under the run's own `post_spend_cap_usd` (P3-2); the analysis cap and its severity reserve are unchanged. A cap stop in a post-analysis step leaves the run `stopped_cap` with the analysis intact, and R38 still applies. An existing finished run is extended in place (P3-1b): same run ID, step set to `chains`, status back to `running`, one `run_extended` event; no hashed run field and no earlier record changes.
+**Run steps** (`runs.step`, spec 3.6): `plant_screen → analysis → severity → chains → chain_severity → lopa → recommendations → evidence → ranked` (`evidence` from Phase 4). The connector reads finding severities, so `chains` comes after `severity`. Each step resumes on its own and writes before returning. The post-analysis steps (`chains` to `recommendations`) spend under the run's own `post_spend_cap_usd` (P3-2); the analysis cap and its severity reserve are unchanged. A cap stop in a post-analysis step leaves the run `stopped_cap` with the analysis intact, and R38 still applies. An existing finished run is extended in place (P3-1b): same run ID, step set to `chains`, status back to `running`, one `run_extended` event; no hashed run field and no earlier record changes.
 
 ### Record types
 
@@ -425,7 +425,7 @@ Sections are proposed and confirmed on the plant before any run. A run has two p
 | Tool call | Tool, arguments, result, sources, refused reason (when code refused the call) | Finding or chain |
 | Chain | Ordered links, multi-failure label, flags, severity class with reason (from the chain severity step; contract v1.4) | Finding IDs and plant fact IDs; the connector's model call |
 | LOPA record | Initiating frequency, modifiers applied and the modifier kinds not applied with the reason, layers credited or not with code's reason and Ultra's argument (applies yes/no, why), flags, frequency, tolerable, gap (contract v1.4) | Finding or chain; reference table rows |
-| Evidence | Calculation, precedent or simulation result; verdict | Finding; tool call; plant fact IDs it used |
+| Evidence | Calculation, precedent or simulation result; verdict; summary; sources; from contract v1.8 the judge's model call, missing fact IDs and flags | Finding or chain; tool call; model call; plant fact IDs it used |
 | Superseded record | A chain, LOPA record, recommendation or post-step model call that a re-run from `chains` replaced, kept verbatim with the pass it belonged to and the pass that replaced it (`RunDump.superseded`, contract v1.7) | The run; the `run_extended` events of both passes |
 | Override | Action, new value, reason, who (display name) and when | Any record |
 | Event | Sequence number, type, payload, time | Run |
@@ -447,7 +447,7 @@ Sections are proposed and confirmed on the plant before any run. A run has two p
   | Chain | `ch:<link IDs sorted and joined with +>`; the same set of links is the same chain |
   | LOPA record | `lopa:<finding or chain id>` |
   | Recommendation | `rec:<finding or chain id>:<h(normalised action text)>` |
-  | Evidence | `ev:<finding or chain id>:calculation:<calculation name>`, `ev:<…>:precedent:<precedent index id, or h(url) for a web result>`, `ev:<…>:simulation:<fault id>` |
+  | Evidence | `ev:<finding or chain id>:calculation:<calculation name>-<equipment id>` (Phase 4, G2), `ev:<…>:precedent:<precedent index id, or h(url) for a web result, or none>`, `ev:<…>:simulation:<fault id>` |
   | Model call | `mc:<cache key>` (cache key = h(model ID, prompt version, exact input)); retries of the same input are attempts inside one record |
   | Tool call | `tc:<agent step id>:<tool>:<h(canonical arguments)>` (the same tool with the same arguments at a later step, e.g. `check_coverage`, is a different call) |
   | Agent step | `step:<h(previous step ID, or the run ID for the first step; agent; tool; canonical arguments)>` |
@@ -460,7 +460,7 @@ Sections are proposed and confirmed on the plant before any run. A run has two p
 - **Utility kind:** steam, cooling_water, nitrogen, instrument_air, power, other.
 - **Evidence kind:** calculation, precedent, simulation. **Verdict:** confirmed, contradicted, none.
 - **Protection adequacy:** adequate, inadequate, unknown.
-- **Agents:** orchestrator, process, chemistry, piping, procedures, maintenance, dust, connector.
+- **Agents:** orchestrator, process, chemistry, piping, procedures, maintenance, dust, connector, evidence (contract v1.8: one agent step per evidence line).
 - **Event types:** run_started, step_started, step_finished, agent_decision, dispatch, model_call, tool_call, finding_added, chain_added, lopa_done, evidence_added, coverage_updated, cap_hit, run_finished, run_failed, hypothesis_added, hypothesis_dropped (the last two: R50, contract v1.2), run_extended (contract v1.4: a finished run extended with the post-analysis steps).
 
 ### Storage schema (Postgres; SQLite in development)
@@ -588,7 +588,7 @@ Each phase has a spec (`specs/phase-N.md`) written and approved before it starts
 | 1. Plant and questions | Oct 14–15 | Plant loading and validation; sections (rules, suggestion logic with a stand-in suggester, confirm; the live Super call is wired in Phase 2); question builder; coverage counts | Exact question counts on D–H |
 | 2. Gateway and agents | Oct 15–17 | Gateway with JSON rules; six specialist agents; orchestrator core (`check_coverage`, `dispatch_specialist`, `finish` guard); `reactivity_lookup` (the chemistry agent has it at G2); risk-matrix ranking; test #5 harness and run | **G2** |
 | 3. Reasoning | Oct 18–20 | Chains (connector, ID validation), chain severity, LOPA engine (independence check), recommendations, as run steps after the analysis; shortlist. (Planned as orchestrator tools; moved to run steps, P3-1.) | Shortlist per dev case |
-| 4. Tools and evidence | Oct 19–22 | Remaining tools: `web_research`, `search_precedent`, `physics_calc`, `run_simulation`; precedent index; simulator wrapper around the open-licence Tennessee Eastman package | Evidence on top findings |
+| 4. Tools and evidence | Oct 22–24 | The evidence step after recommendations (P4-1): `physics_calc`, `search_precedent`, `web_research`, `run_simulation`; precedent index; simulator wrapper around the open-licence Tennessee Eastman package (gated) | Evidence on top findings |
 | 5. Frontend | Oct 14–25 (parallel, from `contract-v1`) | Seven screens on mocks, then real API; rough video cut Oct 20 | Demo moment works on screen |
 | 6. Benchmark | Oct 22–24 | Memorisation probe, held-out runs, baselines, scoring, results table | **G3** |
 | 7. Ship | Oct 24–28 | Vercel deploy, demo mode, live-run button, README, feedback write-up, final video | **G4**; submit Oct 29 |
@@ -604,7 +604,8 @@ Each phase has a spec (`specs/phase-N.md`) written and approved before it starts
 | G4 Dry run | Oct 28 | Devpost draft saved; repo public with licence; demo works logged out; video under 3 min; feedback written | Cut the last unfinished feature, never the video |
 
 ### Feature dates (if a feature is not working by its date, it appears in the pitch as "next" and its time goes to the video)
-- Simulator running Tennessee Eastman faults: Oct 22.
+- `physics_calc` and precedent search with Tavily, on the WG demo: Oct 23.
+- Simulator: gate Oct 23 (install and reproduce kill test #1), running Tennessee Eastman faults Oct 24.
 - Maintenance and dust specialists: Oct 20.
 - Live-run button within the 5-minute step limit: Oct 24.
 
@@ -750,6 +751,8 @@ guideword-heldout/        folder outside this repo, owned by Bhargavi and pushed
 - Decision support only; the engineer and review team decide.
 - A confirmed line's lead can come from a cross-list finding (e.g. chemical with air) when the hypothesis's own section rated lower.
 - No override to say a layer applies and let code re-check its credit.
+- Evidence can't be accepted or rejected; the engineer reads it.
+- The precedent index is CSB only; ARIA and eMARS are next.
 
 ---
 
