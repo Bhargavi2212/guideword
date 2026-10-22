@@ -68,7 +68,8 @@ class RetryFailedStepper:
         return StepResult(
             summary={
                 "question_id": question.id,
-                "status": outcome.status,
+                # not "status": the machine's own step_finished field would overwrite it
+                "outcome": outcome.status,
                 "error": outcome.error,
                 "findings": len(outcome.findings),
             }
