@@ -113,7 +113,7 @@ Evidence tools (`web_research`, `search_precedent`, `physics_calc`, `run_simulat
 
 ## Done when
 - [x] P3-1…P3-7 decided and recorded in `docs/decisions.md` (PR 0).
-- [ ] Every acceptance test passes; CI green.
+- [x] Every acceptance test passes; CI green. (1649 tests locally; CI green on `main` after #86, confirmed by Bhargavi 2026-10-21.)
 - [x] D, E, F, G re-run on Phase 3 code: analysis replayed at $0; shortlist with LOPA, chains and recommendations written to `bench/phase3/<case>.json`. H is skipped: it is recognised, and a full run costs ~$1.5. (Extended in place, analysis untouched; reports and results note in `bench/phase3/`. F is on all v2 post prompts; D, E and G stay on v1 for the three later steps until the second grant, `docs/decisions.md` 2026-10-21.)
 - [x] Williams Geismar demo plant committed, validated, and run through LOPA. (Committed in #69; validated, and its reboiler run through the LOPA engine as example 2, in PR 7. Full run `run:4e6842d31fbdee3b`, with `--retry-failed` and `--rerun-from lopa`; report `bench/demo/williams_geismar.json`. Its top card is the chain with "no credit — inlet valve HV-B-SIN closed".)
 - [x] `PROJECT.md` updated (PR 7):
