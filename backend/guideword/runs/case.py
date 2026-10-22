@@ -350,20 +350,54 @@ def not_credible_counts(questions: Sequence[Question]) -> list[dict[str, Any]]:
     return rows
 
 
-def priority_summary(events: Sequence[Event], hypotheses: Sequence[Hypothesis]) -> dict[str, int]:
-    """The run summary line of spec 2b.3 (G15): how many linked questions were answered
-    before the first dispatch that sent an unlinked one. Code does not force the order; it
-    reports it. A dispatch's batches run together, so that dispatch's linked answers count."""
-    answered = 0
-    for event in sorted(events, key=lambda e: e.seq):
-        if event.type != EventType.DISPATCH:
-            continue
-        answered += int(event.payload.get("linked_answered", 0))
+def priority_summary(
+    events: Sequence[Event], hypotheses: Sequence[Hypothesis], questions: Sequence[Question]
+) -> dict[str, int]:
+    """The run summary lines of spec 2b.3 (G15). Code does not force the order; it reports it.
+
+    - `linked_answered_before_first_unlinked`: the dispatches' `linked_answered` counts, summed
+      up to and including the first dispatch that sent any unlinked question. Its definition is
+      unchanged, since earlier reports carry it.
+    - `linked_answered_in_linked_only_dispatches` (2026-10-22): checked linked questions whose
+      answering dispatch sent no unlinked question. A question is sent again only while it is
+      open, so the dispatch that answered it is the last first-answer dispatch that sent it
+      (batches deferred at admission were not sent). The per-dispatch `linked_answered` is not
+      summed here: a batch re-asked one question at a time counts all its questions when any
+      one is answered, so its failed questions are counted again at hard."""
+    dispatches = [e for e in sorted(events, key=lambda e: e.seq) if e.type == EventType.DISPATCH]
+    before = 0
+    for event in dispatches:
+        before += int(event.payload.get("linked_answered", 0))
         if event.payload.get("unlinked_sent", 0):
             break
+    linked = {q for h in hypotheses for q in h.question_ids}
+    checked = {
+        q.id
+        for q in questions
+        if q.status in (QuestionStatus.ANSWERED, QuestionStatus.NOT_CREDIBLE)
+    }
+    answering: dict[str, Event] = {}
+    for event in dispatches:
+        payload = event.payload
+        # first answers only: unsure re-answers and dispatches of already-answered questions
+        # (no `linked_answered`) answer nothing for the first time
+        if payload.get("level") == "unsure" or "linked_answered" not in payload:
+            continue
+        deferred = {
+            q for batch in payload.get("deferred_at_admission", []) for q in batch["question_ids"]
+        }
+        for question_id in payload.get("question_ids", []):
+            if question_id not in deferred:
+                answering[question_id] = event
+    linked_only = sum(
+        1
+        for q in linked & checked
+        if q in answering and not answering[q].payload.get("unlinked_sent", 0)
+    )
     return {
-        "linked_questions": len({q for h in hypotheses for q in h.question_ids}),
-        "linked_answered_before_first_unlinked": answered,
+        "linked_questions": len(linked),
+        "linked_answered_before_first_unlinked": before,
+        "linked_answered_in_linked_only_dispatches": linked_only,
     }
 
 
@@ -509,5 +543,5 @@ def case_report(
         ),
         "5a-plant": plant_screen_lines(hypotheses),
         "5b-from-hybrid": folded,
-        "priority": priority_summary(events, hypotheses),
+        "priority": priority_summary(events, hypotheses, questions),
     } | post_report(runs, run, plant, ref, caps)
