@@ -8,8 +8,8 @@ fixtures show it; the engineer's override state is in `override_state`.
 
 Origin is the question's origin (G15: matrix; cross-list for pair, environment, no-flow,
 procedure, planned-work, dust and relief questions; added by AI; engineer). Existing
-safeguards are the finding's `safeguard_ids`, each with its description. Evidence is empty
-until Phase 4.
+safeguards are the finding's `safeguard_ids`, each with its description. Evidence is the
+line's evidence in the shortlist card's words (Phase 4, plan G12), marked like the gap.
 """
 
 from collections.abc import Mapping, Sequence
@@ -19,7 +19,7 @@ from guideword.config import CapsConfig
 from guideword.lopa.lines import ShortlistLine, cause_words
 from guideword.ranking.rank import RankedFinding, rank_findings
 from guideword.reference import ReferenceSet
-from guideword.review.display import gap_text
+from guideword.review.display import evidence_text, gap_text
 from guideword.review.overrides import (
     effective_finding,
     effective_question,
@@ -28,7 +28,7 @@ from guideword.review.overrides import (
     on_target,
     override_state,
 )
-from guideword.review.shortlist import RunView, shortlist_lines
+from guideword.review.shortlist import RunView, evidence_for, shortlist_lines
 from guideword.schema import ids
 from guideword.schema.enums import Confidence, OverrideAction, QuestionKind, QuestionStatus
 from guideword.schema.plant import Plant
@@ -111,7 +111,7 @@ def _finding_row(
     found = ranked.get(finding.id)
     chain = on_target(overrides, finding.id)
     record_ids = [finding.id]
-    lopa_gap = recommendation = None
+    lopa_gap = recommendation = evidence = None
     if finding.id in lines:
         line, folded = lines[finding.id]
         mark = SCENARIO_MARK if folded else ""
@@ -123,6 +123,10 @@ def _finding_row(
         text = _recommendation_text(line, overrides)
         recommendation = text + mark if text is not None else None
         record_ids += [r.id for r in line.recommendations]
+        mine = evidence_for(view.records.evidence, line.target_id)
+        shown_evidence = evidence_text(mine)
+        evidence = shown_evidence + mark if shown_evidence is not None else None
+        record_ids += [e.id for e in mine]
     record_ids += [o.id for o in chain]
     return api.WorksheetRow(
         row_id=finding.id,
@@ -145,7 +149,7 @@ def _finding_row(
         recommendation=recommendation,
         action_owner=None,
         origin=question.origin.value if question else "",
-        evidence=None,
+        evidence=evidence,
         status=_status(question, finding.confidence == Confidence.UNSURE),
         record_ids=record_ids,
         override_state=override_state(chain),

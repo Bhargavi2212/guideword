@@ -25,7 +25,7 @@ from collections.abc import Sequence
 from datetime import datetime
 from typing import Any, Literal
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 
 from guideword.reference import ReferenceSet
 from guideword.reference.tables import ProtectionLayerRow
@@ -34,6 +34,7 @@ from guideword.schema.enums import OverrideAction, QuestionKind, QuestionStatus,
 from guideword.schema.plant import Plant
 from guideword.schema.records import (
     Chain,
+    Evidence,
     Finding,
     LayerCredit,
     LopaRecord,
@@ -68,6 +69,8 @@ class RunRecords(BaseModel):
     questions: list[Question]
     sections: list[Section]
     overrides: list[Override]
+    # Phase 4: read beside the line; never a target of an override
+    evidence: list[Evidence] = Field(default_factory=list)
 
     def kind_of(self, target_id: str) -> str | None:
         for kind, records in (
@@ -146,6 +149,9 @@ def check_override(
 ) -> None:
     """Raises OverrideRefused unless the override fits its target. The value's shape is
     already checked by the request model (contract v1.4)."""
+    if any(e.id == target_id for e in records.evidence):
+        # Phase 4 spec 4.4: the engineer reads evidence; it is never accepted or rejected
+        raise OverrideRefused(422, "evidence can't be accepted or rejected")
     kind = records.kind_of(target_id)
     if kind is None:
         raise OverrideRefused(404, f"no record {target_id} in this run")
