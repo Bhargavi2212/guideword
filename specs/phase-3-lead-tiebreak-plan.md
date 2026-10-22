@@ -81,6 +81,11 @@ Written 2026-10-21, after the demo run's `--retry-failed` extension and Bhargavi
 | Q2 | Reboiler B's line keeps the env lead, because its own findings were rated S2, not tied. Accept that for the demo? | Accept it, and say so in the known limits. The alternative is letting an engineer's `change_severity` move leads on read, which changes which line gets LOPA without a re-run, so I would not do it now. |
 | Q3 | `--rerun-from lopa` instead of `chains`? | Yes: chains stay valid, and it is the cheaper re-run. |
 
+## Built
+
+- [x] PR 1 `phase-3/lead-tiebreak`: the gated tie-break, `--rerun-from lopa`, the summary-key fix, the two `PROJECT.md` §23 limits, decisions.
+- [ ] Bhargavi re-runs the demo from `lopa` (about $0.04–0.07); then the records PR with `budget/ledger-g3pre.jsonl`.
+
 ## Not doing
 - No change to severity, likelihood, the risk matrix or protection order.
 - No change to any prompt.
