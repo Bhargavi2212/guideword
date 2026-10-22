@@ -7,7 +7,8 @@ links, the hybrid tiered lines, where the run stopped (R50, G10) and, from Phase
 back into a response cache, and `ReplayTransport` stands in for Token Factory: it lists the
 recorded models and raises `ReplayMiss` on any send, so a replay is served only from the
 fixtures and a missing one fails loudly instead of calling out. Each response keeps its
-stored cost, so a replay counts against its cap what the original did.
+stored cost, so a replay counts against its cap what the original did. From Phase 4 the run's
+web searches travel with them, keyed from its `web_research` tool calls (`ReplaySearch`).
 """
 
 import json
@@ -25,10 +26,25 @@ from guideword.ranking.rank import rank_findings
 from guideword.ranking.tiers import lead_prefers_own_section, tiered
 from guideword.reference import ReferenceSet
 from guideword.runs.store import RunRepository
+from guideword.schema.enums import AgentTool
 from guideword.schema.plant import Plant
+from guideword.schema.records import ToolCall
 
 MANIFEST = "manifest.json"
 CALL_PREFIX = "mc:"
+
+
+def search_keys(tool_calls: Sequence[ToolCall]) -> set[str]:
+    """The cache keys of a run's sent web searches (Phase 4 plan G18): each `web_research`
+    tool call records its key, so the export writes the Tavily response with the models'."""
+    return {
+        call.result["cache_key"]
+        for call in tool_calls
+        if call.tool == AgentTool.WEB_RESEARCH
+        and call.refused_reason is None
+        and isinstance(call.result, dict)
+        and isinstance(call.result.get("cache_key"), str)
+    }
 
 
 class ReplayMiss(RuntimeError):
@@ -93,7 +109,9 @@ def export_replay(
     if run is None:
         raise LookupError(f"no run {run_id}")
     calls = runs.model_calls(run_id)
-    keys = sorted({c.id.removeprefix(CALL_PREFIX) for c in calls})
+    keys = sorted(
+        {c.id.removeprefix(CALL_PREFIX) for c in calls} | search_keys(runs.tool_calls(run_id))
+    )
     files: dict[str, str] = {}
     for key in keys:
         entry = cache.entry(key)

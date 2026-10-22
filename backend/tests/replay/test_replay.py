@@ -27,7 +27,10 @@ from guideword.runs.case import drive, prepare_plant, ranked_lines, start_case, 
 from guideword.runs.db import make_session_factory
 from guideword.runs.plants import PlantRepository
 from guideword.runs.store import RunRepository
+from guideword.schema import ids
 from guideword.schema.enums import BudgetUse, RunStatus
+from guideword.schema.records import ToolCall
+from guideword.tools.web import FakeSearch, ReplaySearch, WebSearch
 
 REPO = Path(__file__).resolve().parents[3]
 EXAMPLE = REPO / "backend" / "tests" / "schema" / "fixtures" / "example_mixing_unit.json"
@@ -254,3 +257,49 @@ def test_replay_reproduces_hypotheses_links_tiers_and_stop_point(
         ]
         for line in lines
     ] == manifest["tiered"]
+
+
+def test_export_carries_the_runs_web_searches_and_a_replay_serves_them(
+    tmp_path: Path, ref: ReferenceSet, config: Config, script: Any
+) -> None:
+    """Phase 4 plan G18: a `web_research` tool call names its cache key, the export writes
+    the search with the model responses, and a replay serves it from the fixtures."""
+    store, run_id = original_run(tmp_path, ref, config, script)
+    web = WebSearch(
+        client=FakeSearch(lambda q, n: {"results": [{"title": "t", "url": "https://m.invalid/1"}]}),
+        cache=ResponseCache(store.sessions),
+        ledger=LaptopLedger(store.dir / "l.jsonl"),
+        config=config,
+        use=BudgetUse.DEVELOPMENT,
+        phase="4",
+        clock=lambda: NOW,
+    )
+    found = web.search("mock query", 5)
+    step = ids.agent_step_id(run_id, "evidence", "web_research", {"query": "mock query"})
+    with store.runs.step(run_id) as writer:
+        writer.add_tool_call(
+            ToolCall(
+                id=ids.tool_call_id(step, "web_research", {"query": "mock query"}),
+                run_id=run_id,
+                agent_step_id=step,
+                tool="web_research",
+                arguments={"query": "mock query", "max_results": 5},
+                result={"cache_key": found.cache_key},
+            )
+        )
+    fixtures = export(store, run_id, tmp_path / "out", ref, config)
+    manifest = json.loads((fixtures / MANIFEST).read_text(encoding="utf-8"))
+    assert found.cache_key in manifest["keys"]
+    assert (fixtures / f"{found.cache_key}.json").exists()
+    replayed = Store(tmp_path / "replayed")
+    load_replay(fixtures, replayed.sessions)
+    served = WebSearch(
+        client=ReplaySearch(),
+        cache=ResponseCache(replayed.sessions),
+        ledger=LaptopLedger(replayed.dir / "l.jsonl"),
+        config=config,
+        use=BudgetUse.DEVELOPMENT,
+        phase="4",
+        clock=lambda: NOW,
+    ).search("mock query", 5)
+    assert served.cache_hit and served.hits == found.hits

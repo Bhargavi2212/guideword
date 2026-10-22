@@ -81,6 +81,17 @@ class ResponseCache:
                 )
             )
 
+    def get_tool(self, key: str) -> dict[str, Any] | None:
+        """A tool response stored under its key (a web search, plan G18); None if absent."""
+        entry = self.entry(key)
+        return None if entry is None else entry[2]
+
+    def put_tool(
+        self, key: str, model_id: str, prompt_version: str, response: dict[str, Any]
+    ) -> None:
+        """A tool response, stored as returned; the same table as model responses."""
+        self.put_entry(key, model_id, prompt_version, response)
+
     def keys(self) -> list[str]:
         with self._sessions() as session:
             return sorted(r.key for r in session.query(ResponseCacheRow).all())
