@@ -73,6 +73,8 @@ class Manifest:
     chains: list[list[Any]] = field(default_factory=list)
     lopa: list[list[Any]] = field(default_factory=list)
     recommendations: list[str] = field(default_factory=list)
+    # Phase 4 (spec 4.4): [evidence ID, verdict]
+    evidence: list[list[Any]] = field(default_factory=list)
 
 
 class ReplayTransport:
@@ -163,6 +165,7 @@ def export_replay(
         "chains": [[c.id, list(c.links)] for c in runs.chains(run_id)],
         "lopa": [[r.id, r.gap] for r in runs.lopa_records(run_id)],
         "recommendations": [r.id for r in runs.recommendations(run_id)],
+        "evidence": [[e.id, e.verdict.value] for e in runs.evidence(run_id)],
     }
     files[MANIFEST] = _dump(manifest)
     live = [s for s in secrets if s]

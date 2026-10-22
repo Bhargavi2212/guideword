@@ -31,11 +31,40 @@ from guideword.review.overrides import (
     on_target,
     override_state,
 )
-from guideword.schema.enums import Confidence
+from guideword.schema.enums import Confidence, Verdict
 from guideword.schema.plant import Plant
-from guideword.schema.records import Chain, Finding, Hypothesis, LopaRecord, ModelCall, Override
+from guideword.schema.records import (
+    Chain,
+    Evidence,
+    Finding,
+    Hypothesis,
+    LopaRecord,
+    ModelCall,
+    Override,
+)
 
 PRE_R50_LABEL = "pre-R50 run"
+# Phase 4 spec 4.4: what a line's evidence adds to its card
+EVIDENCE_SKIPPED = "evidence skipped: missing {facts}"
+EVIDENCE_CONTRADICTS = "evidence contradicts this line: {summary}"
+
+
+def evidence_for(records: Sequence[Evidence], target_id: str) -> list[Evidence]:
+    return [e for e in records if e.target_id == target_id]
+
+
+def evidence_flags(records: Sequence[Evidence]) -> list[str]:
+    flags = [
+        EVIDENCE_SKIPPED.format(facts=", ".join(e.missing_fact_ids))
+        for e in records
+        if e.missing_fact_ids
+    ]
+    flags += [
+        EVIDENCE_CONTRADICTS.format(summary=e.summary)
+        for e in records
+        if e.verdict == Verdict.CONTRADICTED
+    ]
+    return flags
 
 
 @dataclass(frozen=True)
@@ -130,6 +159,12 @@ def _item(line: ShortlistLine, rank: int, view: RunView) -> api.ShortlistItem:
         flags.append(f"no LOPA: {line.no_lopa_reason}")
     if view.pre_r50:
         flags.append(PRE_R50_LABEL)
+    evidence = (
+        evidence_for(view.records.evidence, planned.target_id)
+        if planned.target_kind != "hypothesis"
+        else []
+    )
+    flags += evidence_flags(evidence)
     target = "chain" if chain is not None else "finding"
     if planned.target_kind != "hypothesis":
         flag = _state_flag(target, on_target(overrides, planned.target_id))
@@ -153,7 +188,7 @@ def _item(line: ShortlistLine, rank: int, view: RunView) -> api.ShortlistItem:
         finding=finding if chain is None else None,
         chain=chain,
         lopa=line.lopa,
-        evidence=[],
+        evidence=evidence,
         recommendations=[effective_recommendation(r, overrides) for r in line.recommendations],
         tier=planned.tier,
         hypothesis_id=hypothesis.id if hypothesis is not None else None,

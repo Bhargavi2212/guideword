@@ -2,9 +2,10 @@
 never false precision. Only the shown text is rounded; stored numbers never are."""
 
 import math
+from collections.abc import Sequence
 
 from guideword.schema.enums import Calculation
-from guideword.schema.records import LopaRecord
+from guideword.schema.records import Evidence, LopaRecord
 
 
 def _power(value: float) -> int:
@@ -47,3 +48,11 @@ def calc_text(calculation: Calculation, value: float) -> str:
     if calculation == Calculation.BLOCKED_IN_HEATING:
         return f"at least {_two_significant(value)}× design"
     return f"about {_two_significant(value)} minutes"
+
+
+def evidence_text(records: Sequence[Evidence]) -> str | None:
+    """A line's evidence as the worksheet's Evidence column shows it, from the same summaries
+    the shortlist card shows (plan G12): `<kind>: <verdict> — <summary>`, joined."""
+    if not records:
+        return None
+    return "; ".join(f"{e.kind}: {e.verdict} — {e.summary}" for e in records)

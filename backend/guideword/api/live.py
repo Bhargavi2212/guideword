@@ -156,6 +156,7 @@ class LiveRuns:
             questions=self.runs.questions(run_id),
             sections=self.runs.sections(run_id),
             overrides=self.runs.overrides(run_id),
+            evidence=self.runs.evidence(run_id),
         )
 
     def questions_seen(self, run_id: str) -> list[Question]:
@@ -315,12 +316,28 @@ class LiveRuns:
             if override.id == record_id:
                 dumped = override.model_dump(mode="json")
                 found = Record("override", dumped, [override.target_id], [])
+        # Phase 4: evidence with its target and tool call, and the evidence agent's steps
+        for evidence in self.runs.evidence(run_id):
+            if evidence.id == record_id:
+                parents = [evidence.target_id]
+                if evidence.tool_call_id:
+                    parents.append(evidence.tool_call_id)
+                made = [evidence.model_call_id] if evidence.model_call_id else []
+                found = Record("evidence", evidence.model_dump(mode="json"), parents, made)
+        for step in self.runs.steps(run_id):
+            if step.id == record_id:
+                made = [step.model_call_id] if step.model_call_id else []
+                found = Record("agent_step", step.model_dump(mode="json"), [step.previous_id], made)
         if record_id in calls:
             found = Record("model_call", calls[record_id].model_dump(mode="json"), [], [record_id])
         if found is None:
             raise RunNotFound(f"no record {record_id} in run {run_id}")
         model_calls = [calls[i] for i in found.model_call_ids if i in calls]
+        # an agent step's own tool calls; else a parent step's, or a tool call named as a parent
+        steps = {record_id} if found.kind == "agent_step" else set(found.parent_ids)
         tool_calls = [
-            t for t in self.runs.tool_calls(run_id) if t.agent_step_id in set(found.parent_ids)
+            t
+            for t in self.runs.tool_calls(run_id)
+            if t.agent_step_id in steps or t.id in found.parent_ids
         ]
         return found, model_calls, tool_calls
