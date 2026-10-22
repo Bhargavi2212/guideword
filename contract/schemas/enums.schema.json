@@ -18,7 +18,8 @@
         "procedures",
         "maintenance",
         "dust",
-        "connector"
+        "connector",
+        "evidence"
       ],
       "title": "Agent",
       "type": "string"
@@ -51,6 +52,15 @@
         "buffer"
       ],
       "title": "BudgetUse",
+      "type": "string"
+    },
+    "Calculation": {
+      "enum": [
+        "blocked_in_heating",
+        "overflow_time",
+        "heat_up_rate"
+      ],
+      "title": "Calculation",
       "type": "string"
     },
     "Confidence": {

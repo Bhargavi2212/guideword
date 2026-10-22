@@ -405,6 +405,11 @@ class Evidence(_Record):
     # plant facts a calculation used
     fact_ids: list[FactId] = Field(default_factory=list)
     sources: list[str] = Field(default_factory=list)
+    # contract v1.8: the call that judged a precedent; the facts a skipped calculation lacked;
+    # what the card must show the engineer, as code wrote it
+    model_call_id: str | None = None
+    missing_fact_ids: list[FactId] = Field(default_factory=list)
+    flags: list[str] = Field(default_factory=list)
 
 
 class Override(_Record):

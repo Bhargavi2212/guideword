@@ -9,7 +9,8 @@
         "procedures",
         "maintenance",
         "dust",
-        "connector"
+        "connector",
+        "evidence"
       ],
       "title": "Agent",
       "type": "string"

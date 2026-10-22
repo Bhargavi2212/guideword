@@ -313,6 +313,14 @@ class Verdict(StrEnum):
     NONE = "none"
 
 
+class Calculation(StrEnum):
+    """The `physics_calc` calculations (contract v1.8; Phase 4 plan Q13)."""
+
+    BLOCKED_IN_HEATING = "blocked_in_heating"
+    OVERFLOW_TIME = "overflow_time"
+    HEAT_UP_RATE = "heat_up_rate"
+
+
 class Agent(StrEnum):
     ORCHESTRATOR = "orchestrator"
     PROCESS = "process"
@@ -322,6 +330,8 @@ class Agent(StrEnum):
     MAINTENANCE = "maintenance"
     DUST = "dust"
     CONNECTOR = "connector"
+    # contract v1.8 (Phase 4 plan P4-6b): one agent step per evidence line
+    EVIDENCE = "evidence"
 
 
 class EventType(StrEnum):
