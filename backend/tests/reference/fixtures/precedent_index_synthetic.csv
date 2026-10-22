@@ -1,0 +1,5 @@
+id,title,date,country,company,location,chemicals,equipment_types,mechanism_keywords,summary,url,source
+P-0001,Mock Chemicals Reboiler Rupture,2001-03-04,XX,,Mocktown,propane;butane,heat exchanger;reboiler,isolated;overpressure;heating,A standby reboiler isolated by closed block valves was heated by its utility; the liquid inside overpressured the shell and it ruptured.,https://precedents.mock.invalid/P-0001,synthetic test row
+P-0002,Sample Foods Dust Explosion,2002-05-06,XX,,Sampleville,flour,silo;conveyor,dust;ignition,Combustible dust in a conveyor ignited and the flame spread to a silo.,https://precedents.mock.invalid/P-0002,synthetic test row
+P-0003,Example Polymers Tank Overflow,2003-07-08,XX,,Exampleton,styrene,tank,overflow;level,A tank overfilled when its level transmitter failed and the feed pump kept running.,https://precedents.mock.invalid/P-0003,synthetic test row
+P-0004,"Placeholder Plant, Title Only",2004-09-10,XX,,Nowhere,,,,,https://precedents.mock.invalid/P-0004,title and location only (synthetic)
