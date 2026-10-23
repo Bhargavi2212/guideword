@@ -1,0 +1,55 @@
+{
+ "key": "679a9884c3e0e0ba",
+ "model_id": "tavily",
+ "prompt_version": "search/v1",
+ "response": {
+  "answer": null,
+  "follow_up_questions": null,
+  "images": [],
+  "query": "procedure step skipped or done out of order operator error heat exchanger tube ruptures as well composition propane propylene heavier hydrocarbons c4 and above",
+  "request_id": "2e62991e-082c-4cbc-bab3-e5c6b5b05648",
+  "response_time": 1.9,
+  "results": [
+   {
+    "content": "Heat exchanger rupture caused by overpressure and operator error ... This accident happened as a result of very simple mistakes made in sequence.",
+    "id": "59e276-00",
+    "raw_content": null,
+    "score": 0.37305376,
+    "title": "Process Safety Scenario: Heat Exchanger Tube Rupture ...",
+    "url": "https://www.facebook.com/ismail.saad.18/posts/process-safety-scenario-heat-exchanger-tube-ruptureheat-exchangers-are-often-see/25644733988562671"
+   },
+   {
+    "content": "When a tube rupture occurs within a heat exchanger, high pressure fluid expands into the low pressure side through the ruptured tube bore and creates a pressure surge on the low pressure side. Depending on the nature of the fluids on both sides, the pressure surge on the low pressure side can be instantaneous. When both tube and shell sides are in liquid service, the pressure surge is faster than the response time for a PSV to open so that a rupture disk has to be installed.3 From an operation [...] (API Std 521 – 5.19.3). [...] The following tube rupture assumptions are programmed into the event scheduler:   \n a) One tube ruptures at one second integration time.   \n b) All flow control valves for diverting segmental flow stay in position when the tube rupture happens (assume the steam passing across the shell side with the same flow pattern as normal).",
+    "id": "2dde1d-01",
+    "raw_content": null,
+    "score": 0.2789393,
+    "title": "Tube rupture in a natural gas heater",
+    "url": "https://www.digitalrefining.com/article/1001215/tube-rupture-in-a-natural-gas-heater"
+   },
+   {
+    "content": "The exchanger operates with chilled water on the shellside and compressor discharge on the tubeside.  The chilled water enters the shellside at 45˚F and 60 psig with a flowrate of 237,000 lb/hr.  The compressor discharge enters the tubeside at 100˚F and 1650 psig and exits the exchanger at 55˚F.  The compressor discharge stream on the tubeside is composed primarily of hydrogen with small amounts of methane, ethane, and propane.  The tubes are 0.75-inch outer diameter with a 0.109-inch wall [...] Equity’s tube rupture credibility assessment (TRCA) methodology involves a series of analysis steps to review the heat exchanger design and operation, aiming to conclude that tube rupture is unlikely.  The TRCA procedure aligns with API STD 521 and serves as a basis for determining whether the pressure relief system (PRS) on the low-pressure side needs to account for the full-bore tube rupture scenario.  E2G has a high success rate in eliminating the need for expensive modifications to the [...] After a comprehensive review of the compressor discharge cooler’s design and operating conditions, it was determined that the heat exchanger satisfied the criteria outlined in API STD 521.  Consequently, the tube rupture scenario was deemed non-credible.  However, for this conclusion to hold, the Owner-User must implement an appropriate inspection program, adhere to the recommended additional mitigation measures, and ensure that any future mechanical or process changes relating to the exchanger",
+    "id": "fd1633-02",
+    "raw_content": null,
+    "score": 0.2109942,
+    "title": "Managing Tube Rupture Failure Risks in Pressure Relief Systems - Equity",
+    "url": "https://e2g.com/industry-insights-ar/managing-tube-rupture-failure-risks-in-pressure-relief-systems"
+   },
+   {
+    "content": "The U.S. Chemical Safety Board has released a computer animation recreating the explosion and fire that killed seven workers at the Tesoro Refinery in Anacortes, Washington on April 2, 2010. The five-minute animation illustrates the process of \"high temperature hydrogen attack,\" which over the years damaged and weakened a nearly forty-year-old carbon steel heat exchanger, leading to a catastrophic rupture on the night of the accident. [...] Subscribe\n Advertising Info\n Author Index\n Publish an Article\n Tyler Alvarado Foundation\n\nSign up for our weekly newsletter. \n\nJoin the Inspectioneering LinkedIn group   Follow Inspectioneering on Twitter   Follow Inspectioneering on Facebook\n\nCopyright © 2026 Inspectioneering, LLC. All rights reserved.\n\n#### Share this page\n\nFacebook\n\nLinkedIn\n\n#### Explore\n\n Inspectioneering Journal\n Videos & Webinars\n Industry News\n Industry Events\n Blog\n Case Studies\n Interviews\n\n#### Sections [...] Heat Exchangers are pieces of process equipment built and designed for maximum efficiency of heat transfer between two different machines or mediums. In most industrial processes, the loss of heat is very...\n High Temperature Hydrogen Attack (HTHA)\n\n  High Temperature Hydrogen Attack (HTHA) is an insidious condition that can occur in process equipment exposed to hydrogen at elevated temperatures (at least 400F or 204C), under dry conditions, when...\n Process Safety Management (PSM)",
+    "id": "b2de21-03",
+    "raw_content": null,
+    "score": 0.074885115,
+    "title": "Video: Fatal Heat Exchanger Explosion at Tesoro Anacortes Refinery",
+    "url": "https://inspectioneering.com/videos/2014-10-28/4926/csb-safety-video-behind-the-cu"
+   },
+   {
+    "content": "This analysis and re-enactment is about an event that occurred at a plant in Louisiana. Analysis of Heat Exchanger Explosion",
+    "id": "0817ec-04",
+    "raw_content": null,
+    "score": 0.051201314,
+    "title": "CSB Re-enactment and Analysis of Heat Exchanger ...",
+    "url": "https://www.youtube.com/watch?v=sQzN_fBzFmc"
+   }
+  ]
+ }
+}

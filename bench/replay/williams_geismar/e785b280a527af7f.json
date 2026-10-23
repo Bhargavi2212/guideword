@@ -1,0 +1,55 @@
+{
+ "key": "e785b280a527af7f",
+ "model_id": "tavily",
+ "prompt_version": "search/v1",
+ "response": {
+  "answer": null,
+  "follow_up_questions": null,
+  "images": [],
+  "query": "external fire near the equipment more temperature heat exchanger propane propylene heavier hydrocarbons c4 and above",
+  "request_id": "8042b52c-6baa-4f42-9edf-5aba9293e0ad",
+  "response_time": 1.87,
+  "results": [
+   {
+    "content": "2-hour cellulosic rating: Protected steel reaches ~350°C at most\n 2-hour hydrocarbon rating: Protected steel stays below 538°C while external temperature hits 1100°C\n\nThis distinction has life-or-death implications. Specifying the wrong fire rating can mean the difference between structural integrity and catastrophic collapse.\n\n## IEC Standards for International Projects [...] Hydrocarbon fires reach 1100°C within minutes. To put this in perspective:\n\n Standard building fires (cellulosic): 750°C maximum temperature\n Hydrocarbon pool fires: 1100°C sustained temperature\n Jet fires (pressurized release): 1200°C+ localized temperatures\n\nAt these temperatures, unprotected structural steel loses 90% of its load-bearing capacity within 10-15 minutes. This rapid deterioration is why catastrophic structural collapse happens so quickly in refinery and petrochemical fires. [...] For projects outside North America, International Electrotechnical Commission (IEC) standards govern fire protection requirements:\n\nIEC 60331-11 and 60331-21: Circuit integrity standards for cables in fire conditions\n\n 60331-11: Cellulosic fire scenarios (750°C)\n 60331-21: Hydrocarbon fire scenarios (1100°C)\n\nThese standards are particularly relevant when protecting electrical infrastructure, control systems, and instrumentation in refineries and petrochemical plants.",
+    "id": "8e3b5a-00",
+    "raw_content": null,
+    "score": 0.459586,
+    "title": "Hydrocarbon Fire Protection Guide 2026 | Oil & Gas Safety",
+    "url": "https://www.charcoat.com/blogs/hydrocarbon-fire-protection-oil-gas-2026"
+   },
+   {
+    "content": "Propane’s autoignition temperature is 450°C (842°F), the point at which vapor in the flammable range ignites on a hot surface with no spark or flame present. That number sets the surface temperature limit for electrical equipment in classified areas, and it puts some exhaust manifolds and heating elements in range.\n\n## Why Does Propane Vapor Collect at Floor Level? [...] Fire codes prohibit propane containers in basements, pits, or similar below-grade locations where heavier-than-air gas can collect, unless the space has approved ventilation. [...] Propane boils at -42°C (-44°F), so at any temperature you would encounter in a kitchen, a warehouse, or a Southern California parking lot, the liquid is actively boiling into vapor inside the container. NIOSH puts that vapor pressure at roughly 8.4 atmospheres at 21°C (70°F), or about 110 psi.",
+    "id": "5a33da-01",
+    "raw_content": null,
+    "score": 0.19351324,
+    "title": "Is Propane Flammable? - WestAir",
+    "url": "https://westairgases.com/blog/is-propane-flammable"
+   },
+   {
+    "content": "The 10,000 pound criterion in the Valero standard applies to either the mass of a single Class 4 material or to the Class 4 components of a mixture. 43 Based on control system data and field measurements of the vessel diameters. Valero - Sunray July 2008 36 dissipate without igniting, activation of safety protective and shutdown systems, and process conditions that exceed predefined control limits (CCPS, 1992). In this incident, two near-misses resulted from the exposure of nearby equipment to [...] Construction of LPG Installations, and 2510A, Fire-Protection Considerations for the Design and Operation of Liquefied Petroleum Gas (LPG) Storage Facilities, provide additional information on fireproofing in LPG34 storage facilities.35 These publications recommend fireproofing pipe rack support steel that is 20 to 40 feet from fuel sources for general refinery service, and up to 50 feet from LPG vessels. 34 LPG includes the following light hydrocarbons and mixtures: propane, propylene, normal [...] propylene, normal and iso-butane, and butylenes (API Standard 2510, 2001). These materials are all commonly handled as liquefied gases under pressure. 35 LPG storage facilities are commonly found in refineries, including the McKee Refinery, which had four storage spheres northwest of the PDA unit. Valero - Sunray July 2008 31 Valero Energy Corporation’s SP-00-04, Fire Proofing Specifications, calls for fireproofing pipe racks within 30 feet of equipment with the potential to cause a serious",
+    "id": "b3ad9a-02",
+    "raw_content": null,
+    "score": 0.16644524,
+    "title": "LPG FIRE AT VALERO – MCKEE REFINERY",
+    "url": "https://www.csb.gov/assets/1/20/csbfinalreportvalerosunray.pdf?13739="
+   },
+   {
+    "content": "Excerpt from ERG Guide 115 [Gases - Flammable (Including Refrigerated Liquids)]:  \n   \n DO NOT EXTINGUISH A LEAKING GAS FIRE UNLESS LEAK CAN BE STOPPED. CAUTION: Hydrogen (UN1049), Deuterium (UN1957), Hydrogen, refrigerated liquid (UN1966) and Hydrogen and Methane mixture, compressed (UN2034) will burn with an invisible flame. Use an alternate method of detection (thermal camera, broom handle, etc.).  \n   \n SMALL FIRE: Dry chemical or CO2. [...] Belongs to the Following Reactive Group(s)\n\n Hydrocarbons, Aliphatic Saturated\n\nPotentially Incompatible Absorbents\n\nNo information available.\n\n## Response Recommendations\n\nWhat is this information?   \n\nThe Response Recommendation fields include isolation and evacuation distances, as well as recommendations for firefighting, non-fire response, protective clothing, and first aid. The information in CAMEO Chemicals comes from a variety of data sources.\n\nIsolation and Evacuation [...] FIRE: If tank, rail tank car or highway tank is involved in a fire, ISOLATE for 1600 meters (1 mile) in all directions; also, consider initial evacuation for 1600 meters (1 mile) in all directions. In fires involving Liquefied Petroleum Gases (LPG) (UN1075), Butane (UN1011), Butylene (UN1012), Isobutylene (UN1055), Propylene (UN1077), Isobutane (UN1969), and Propane (UN1978), also refer to the \"BLEVE - Safety Precautions\" section. (ERG, 2024)",
+    "id": "09dd45-03",
+    "raw_content": null,
+    "score": 0.12356666,
+    "title": "PROPANE | CAMEO Chemicals | NOAA",
+    "url": "https://cameochemicals.noaa.gov/chemical/9018"
+   },
+   {
+    "content": "Multiple NIOSH investigations concluded that, to prevent similar incidents, fire departments should:\n\n### Other Consideration:\n\nEducate fire fighters to the many dangers associated with a propane tank explosion, which is also known as a Boiling Liquid Expanding Vapor Explosion (BLEVE) Additionally, owners and users of propane.\n\nFor further information on responding to flammable gas incidents please watch the IAFC/ PERC Using Detection Meter Video. [...] Subscribe\n\nInternational Association of Fire Chiefs\n\n8251 Greensboro Drive, Suite 650, McLean, VA 22102 | Tel: 703-273-0911   \n© 1999 - 2026 International Association of Fire Chiefs. All Rights Reserved. [...] ### Purpose:\n\nThe information contained within this bulletin does not supersede your agency’s policies, procedures, or guidelines and are only recommendations for consideration:\n\n### Objectives:\n\nOverall, this bulletin serves as a valuable resource to help fire service professionals respond to flammable gas leaks in structures in a safe, efficient, and coordinated manner, thereby enhancing public safety and minimizing potential damage and harm.",
+    "id": "e4d8b5-04",
+    "raw_content": null,
+    "score": 0.08633136,
+    "title": "Responding to Propane / Flammable Gas Incidents Bulletin",
+    "url": "https://www.iafc.org/topics-and-tools/resources/resource/responding-to-propane-flammable-gas-incidents-bulletin"
+   }
+  ]
+ }
+}

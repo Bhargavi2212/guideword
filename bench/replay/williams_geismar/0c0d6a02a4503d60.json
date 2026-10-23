@@ -1,0 +1,63 @@
+{
+ "key": "0c0d6a02a4503d60",
+ "model_id": "nvidia/Nemotron-3_5-Lightning",
+ "prompt_version": "specialists/chemistry/v2",
+ "response": {
+  "content": "{\"answers\": [{\"question_id\": \"env:C4-HEAVIES:heat\", \"not_credible\": null, \"findings\": [{\"cause_id\": \"C22\", \"cause_text\": null, \"failing_component_type\": \"external\", \"failing_component_ids\": [\"LOC-OLEFINS-UNIT\"], \"consequence\": \"External heat fire on or near the olefins unit could vaporize C4-HEAVIES, leading to a pool fire or jet fire depending on release path, and potentially trigger a runaway reaction if the hydrocarbons reach their auto-ignition temperature in confined equipment.\", \"safeguard_ids\": [], \"adequacy\": \"inadequate\", \"confidence\": \"sure\", \"reason\": \"The olefins unit area is outdoors (LOC-OLEFINS-UNIT) with no listed fire protection safeguards. External fire (cause C22) is a credible initiating event for this location.\"}, {\"cause_id\": \"C26\", \"cause_text\": null, \"failing_component_type\": \"external\", \"failing_component_ids\": [\"LOC-OLEFINS-UNIT\"], \"consequence\": \"Lightning strike on the outdoor olefins unit could ignite C4-HEAVIES vapour, causing a fire or explosion if vapour cloud forms and finds an ignition source.\", \"safeguard_ids\": [], \"adequacy\": \"inadequate\", \"confidence\": \"unsure\", \"reason\": \"The plant context lists no lightning protection systems for LOC-OLEFINS-UNIT. Credibility depends on whether the unit has such protection, which is not stated.\"}]}], \"added_questions\": []}",
+  "cost_usd": 0.00028044,
+  "finish_reason": "stop",
+  "input_tokens": 3234,
+  "output_tokens": 360,
+  "raw": {
+   "choices": [
+    {
+     "finish_reason": "stop",
+     "index": 0,
+     "logprobs": null,
+     "message": {
+      "annotations": null,
+      "audio": null,
+      "content": "{\"answers\": [{\"question_id\": \"env:C4-HEAVIES:heat\", \"not_credible\": null, \"findings\": [{\"cause_id\": \"C22\", \"cause_text\": null, \"failing_component_type\": \"external\", \"failing_component_ids\": [\"LOC-OLEFINS-UNIT\"], \"consequence\": \"External heat fire on or near the olefins unit could vaporize C4-HEAVIES, leading to a pool fire or jet fire depending on release path, and potentially trigger a runaway reaction if the hydrocarbons reach their auto-ignition temperature in confined equipment.\", \"safeguard_ids\": [], \"adequacy\": \"inadequate\", \"confidence\": \"sure\", \"reason\": \"The olefins unit area is outdoors (LOC-OLEFINS-UNIT) with no listed fire protection safeguards. External fire (cause C22) is a credible initiating event for this location.\"}, {\"cause_id\": \"C26\", \"cause_text\": null, \"failing_component_type\": \"external\", \"failing_component_ids\": [\"LOC-OLEFINS-UNIT\"], \"consequence\": \"Lightning strike on the outdoor olefins unit could ignite C4-HEAVIES vapour, causing a fire or explosion if vapour cloud forms and finds an ignition source.\", \"safeguard_ids\": [], \"adequacy\": \"inadequate\", \"confidence\": \"unsure\", \"reason\": \"The plant context lists no lightning protection systems for LOC-OLEFINS-UNIT. Credibility depends on whether the unit has such protection, which is not stated.\"}]}], \"added_questions\": []}",
+      "function_call": null,
+      "reasoning": null,
+      "reasoning_content": null,
+      "refusal": null,
+      "role": "assistant",
+      "tool_calls": null
+     },
+     "stop_reason": null,
+     "token_ids": null
+    }
+   ],
+   "created": 1792666399,
+   "ec_transfer_params": null,
+   "id": "chatcmpl-725bbeb35a6d512f1ce2fd1aa3071818",
+   "kv_transfer_params": null,
+   "metadata": null,
+   "model": "nvidia/Nemotron-3_5-Lightning",
+   "moderation": null,
+   "object": "chat.completion",
+   "prompt_logprobs": null,
+   "prompt_token_ids": null,
+   "service_tier": null,
+   "system_fingerprint": null,
+   "usage": {
+    "completion_tokens": 360,
+    "completion_tokens_details": {
+     "accepted_prediction_tokens": null,
+     "audio_tokens": null,
+     "reasoning_tokens": 0,
+     "rejected_prediction_tokens": null,
+     "text_tokens": null
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 3234,
+    "prompt_tokens": 3234,
+    "prompt_tokens_details": null,
+    "total_tokens": 3594
+   }
+  },
+  "reasoning": null,
+  "tool_calls": []
+ }
+}

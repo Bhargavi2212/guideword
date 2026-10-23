@@ -1,0 +1,63 @@
+{
+ "key": "1b376d306dfbd79c",
+ "model_id": "nvidia/Nemotron-3_5-Lightning",
+ "prompt_version": "specialists/process/v2",
+ "response": {
+  "content": "{\"answers\": [{\"question_id\": \"m:S-DA-406:no:level\", \"not_credible\": null, \"findings\": [{\"cause_id\": \"C17\", \"cause_text\": null, \"failing_component_type\": \"operator\", \"failing_component_ids\": [\"HV-B-SIN\", \"HV-B-SOUT\"], \"consequence\": \"No level develops in the column because propane, propylene and C4-heavies cannot flow into it; the column remains empty while other equipment continues to operate.\", \"safeguard_ids\": [\"HV-A-SIN\", \"HV-A-SOUT\", \"RV-PATH-EA425A\", \"RV-PATH-EA425B\", \"SV-421QA\", \"SV-421QB\"], \"adequacy\": \"inadequate\", \"confidence\": \"sure\", \"reason\": \"Operator left both block valves on line L-B-SIN and L-B-SOUT closed (normal position), isolating reboiler B and its inlet/outlet from the column. No liquid can enter DA-406 through that path, so level stays at zero while the column continues under its normal operating level condition.\"}]}], \"added_questions\": []}",
+  "cost_usd": 0.00032424,
+  "finish_reason": "stop",
+  "input_tokens": 4316,
+  "output_tokens": 272,
+  "raw": {
+   "choices": [
+    {
+     "finish_reason": "stop",
+     "index": 0,
+     "logprobs": null,
+     "message": {
+      "annotations": null,
+      "audio": null,
+      "content": "{\"answers\": [{\"question_id\": \"m:S-DA-406:no:level\", \"not_credible\": null, \"findings\": [{\"cause_id\": \"C17\", \"cause_text\": null, \"failing_component_type\": \"operator\", \"failing_component_ids\": [\"HV-B-SIN\", \"HV-B-SOUT\"], \"consequence\": \"No level develops in the column because propane, propylene and C4-heavies cannot flow into it; the column remains empty while other equipment continues to operate.\", \"safeguard_ids\": [\"HV-A-SIN\", \"HV-A-SOUT\", \"RV-PATH-EA425A\", \"RV-PATH-EA425B\", \"SV-421QA\", \"SV-421QB\"], \"adequacy\": \"inadequate\", \"confidence\": \"sure\", \"reason\": \"Operator left both block valves on line L-B-SIN and L-B-SOUT closed (normal position), isolating reboiler B and its inlet/outlet from the column. No liquid can enter DA-406 through that path, so level stays at zero while the column continues under its normal operating level condition.\"}]}], \"added_questions\": []}",
+      "function_call": null,
+      "reasoning": null,
+      "reasoning_content": null,
+      "refusal": null,
+      "role": "assistant",
+      "tool_calls": null
+     },
+     "stop_reason": null,
+     "token_ids": null
+    }
+   ],
+   "created": 1792666651,
+   "ec_transfer_params": null,
+   "id": "chatcmpl-00445d5a68d9066ddd44db947f5c0f16",
+   "kv_transfer_params": null,
+   "metadata": null,
+   "model": "nvidia/Nemotron-3_5-Lightning",
+   "moderation": null,
+   "object": "chat.completion",
+   "prompt_logprobs": null,
+   "prompt_token_ids": null,
+   "service_tier": null,
+   "system_fingerprint": null,
+   "usage": {
+    "completion_tokens": 272,
+    "completion_tokens_details": {
+     "accepted_prediction_tokens": null,
+     "audio_tokens": null,
+     "reasoning_tokens": 0,
+     "rejected_prediction_tokens": null,
+     "text_tokens": null
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 4316,
+    "prompt_tokens": 4316,
+    "prompt_tokens_details": null,
+    "total_tokens": 4588
+   }
+  },
+  "reasoning": null,
+  "tool_calls": []
+ }
+}

@@ -1,0 +1,55 @@
+{
+ "key": "1bf4f79ee984fa00",
+ "model_id": "tavily",
+ "prompt_version": "search/v1",
+ "response": {
+  "answer": null,
+  "follow_up_questions": null,
+  "images": [],
+  "query": "external fire near the equipment more flow heat exchanger propane propylene heavier hydrocarbons c4 and above",
+  "request_id": "38126724-4fc3-424b-b368-343254f19420",
+  "response_time": 1.62,
+  "results": [
+   {
+    "content": "nearby equipment to radiant heating by the fire. While no injuries or serious damage resulted, under slightly different circumstances the consequences could have been much more serious, even catastrophic. 5.1 Chlorine Release 5.1.1 Damage to Chlorine Containers Three one-ton containers of highly toxic44 liquid chlorine, used in cooling tower water treatment, were located in a shed approximately 100 feet from the PDA unit (Figure 4). The fire exposed the containers to radiant heating, rupturing [...] The 10,000 pound criterion in the Valero standard applies to either the mass of a single Class 4 material or to the Class 4 components of a mixture. 43 Based on control system data and field measurements of the vessel diameters. Valero - Sunray July 2008 36 dissipate without igniting, activation of safety protective and shutdown systems, and process conditions that exceed predefined control limits (CCPS, 1992). In this incident, two near-misses resulted from the exposure of nearby equipment to [...] Construction of LPG Installations, and 2510A, Fire-Protection Considerations for the Design and Operation of Liquefied Petroleum Gas (LPG) Storage Facilities, provide additional information on fireproofing in LPG34 storage facilities.35 These publications recommend fireproofing pipe rack support steel that is 20 to 40 feet from fuel sources for general refinery service, and up to 50 feet from LPG vessels. 34 LPG includes the following light hydrocarbons and mixtures: propane, propylene, normal",
+    "id": "85cbc5-00",
+    "raw_content": null,
+    "score": 0.2462935,
+    "title": "LPG FIRE AT VALERO – MCKEE REFINERY",
+    "url": "https://www.csb.gov/assets/1/20/csbfinalreportvalerosunray.pdf?13739="
+   },
+   {
+    "content": "Belongs to the Following Reactive Group(s)\n\n Hydrocarbons, Aliphatic Saturated\n\nPotentially Incompatible Absorbents\n\nNo information available.\n\n## Response Recommendations\n\nWhat is this information?   \n\nThe Response Recommendation fields include isolation and evacuation distances, as well as recommendations for firefighting, non-fire response, protective clothing, and first aid. The information in CAMEO Chemicals comes from a variety of data sources.\n\nIsolation and Evacuation [...] Excerpt from ERG Guide 115 [Gases - Flammable (Including Refrigerated Liquids)]:  \n   \n DO NOT EXTINGUISH A LEAKING GAS FIRE UNLESS LEAK CAN BE STOPPED. CAUTION: Hydrogen (UN1049), Deuterium (UN1957), Hydrogen, refrigerated liquid (UN1966) and Hydrogen and Methane mixture, compressed (UN2034) will burn with an invisible flame. Use an alternate method of detection (thermal camera, broom handle, etc.).  \n   \n SMALL FIRE: Dry chemical or CO2. [...] FIRE: If tank, rail tank car or highway tank is involved in a fire, ISOLATE for 1600 meters (1 mile) in all directions; also, consider initial evacuation for 1600 meters (1 mile) in all directions. In fires involving Liquefied Petroleum Gases (LPG) (UN1075), Butane (UN1011), Butylene (UN1012), Isobutylene (UN1055), Propylene (UN1077), Isobutane (UN1969), and Propane (UN1978), also refer to the \"BLEVE - Safety Precautions\" section. (ERG, 2024)",
+    "id": "eebb79-01",
+    "raw_content": null,
+    "score": 0.10963924,
+    "title": "PROPANE | CAMEO Chemicals | NOAA",
+    "url": "https://cameochemicals.noaa.gov/chemical/9018"
+   },
+   {
+    "content": "Multiple NIOSH investigations concluded that, to prevent similar incidents, fire departments should:\n\n### Other Consideration:\n\nEducate fire fighters to the many dangers associated with a propane tank explosion, which is also known as a Boiling Liquid Expanding Vapor Explosion (BLEVE) Additionally, owners and users of propane.\n\nFor further information on responding to flammable gas incidents please watch the IAFC/ PERC Using Detection Meter Video. [...] Subscribe\n\nInternational Association of Fire Chiefs\n\n8251 Greensboro Drive, Suite 650, McLean, VA 22102 | Tel: 703-273-0911   \n© 1999 - 2026 International Association of Fire Chiefs. All Rights Reserved. [...] ### Purpose:\n\nThe information contained within this bulletin does not supersede your agency’s policies, procedures, or guidelines and are only recommendations for consideration:\n\n### Objectives:\n\nOverall, this bulletin serves as a valuable resource to help fire service professionals respond to flammable gas leaks in structures in a safe, efficient, and coordinated manner, thereby enhancing public safety and minimizing potential damage and harm.",
+    "id": "5b646c-02",
+    "raw_content": null,
+    "score": 0.09048623,
+    "title": "Responding to Propane / Flammable Gas Incidents Bulletin",
+    "url": "https://www.iafc.org/topics-and-tools/resources/resource/responding-to-propane-flammable-gas-incidents-bulletin"
+   },
+   {
+    "content": "Analysis of the South Haven plastics plant fire highlights outdoor combustible storage hazards, propane risks, and FM protection standards.",
+    "id": "85f7f7-03",
+    "raw_content": null,
+    "score": 0.07023382,
+    "title": "South Haven Plastics Plant Fire: Outdoor Storage Risks",
+    "url": "https://risklogic.com/industry_news/south-haven-plastics-plant-fire-outdoor-storage-risks"
+   },
+   {
+    "content": "into the open fire plumes to measure CO, CO2, fine particulate matter (PM2.5), polycyclic aromatic hydrocarbons (PAHs), volatile organic compounds (VOCs), and elemental/organic/total carbon (EC/OC/TC). The results showed that all emissions except CO2 were significantly higher from JP-5 burns than from propane. The major portion of the PM mass from fires of both fuels was less than 1 μm in diameter and differed in carbon content. The PM2.5 emission factor from JP-5 burns (129 ± 23 g/kg Fuelc) [...] # Characterization of Emissions from Liquid Fuel and Propane Open Burns\n\nJohanna Aurell, David Hubble, Brian K. Gullett, Amara Holder, Ephraim Washburn, Dennis Tabor\n\nFire technology · 2017-11-07 · 53(6):2023-2038 · DOI: 10.1007/s10694-017-0670-2 · PMID: 29398716 · PMCID: PMC5792075\n\n## Abstract [...] ± 23 g/kg Fuelc) was approximately 150 times higher than the PM2.5 emission factor from propane burns (0.89 ± 0.21 g/kg Fuelc). The PAH emissions as well as some VOCs were more than one hundred times higher for the JP-5 burns than the propane burns. Using the propane test method to study flammability responses, the environmental impact of PM2.5, PAHs, and VOCs would be reduced by 2300, 700, and 100 times per test, respectively.",
+    "id": "c6b78f-04",
+    "raw_content": null,
+    "score": 0.05018624,
+    "title": "Characterization of Emissions from Liquid Fuel and Propane Open Burns",
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5792075"
+   }
+  ]
+ }
+}

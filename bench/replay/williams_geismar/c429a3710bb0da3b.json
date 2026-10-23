@@ -1,0 +1,78 @@
+{
+ "key": "c429a3710bb0da3b",
+ "model_id": "nvidia/Nemotron-3_5-Lightning",
+ "prompt_version": "specialists/chemistry/v2",
+ "response": {
+  "content": null,
+  "cost_usd": 0.00024972,
+  "finish_reason": "tool_calls",
+  "input_tokens": 3998,
+  "output_tokens": 41,
+  "raw": {
+   "choices": [
+    {
+     "finish_reason": "tool_calls",
+     "index": 0,
+     "logprobs": null,
+     "message": {
+      "annotations": null,
+      "audio": null,
+      "content": null,
+      "function_call": null,
+      "reasoning": null,
+      "reasoning_content": null,
+      "refusal": null,
+      "role": "assistant",
+      "tool_calls": [
+       {
+        "function": {
+         "arguments": "{\"chemical_a\":\"PROPANE\",\"chemical_b\":\"air\"}",
+         "name": "reactivity_lookup"
+        },
+        "id": "call_895abcaff4f44b0daa759ce7",
+        "type": "function"
+       }
+      ]
+     },
+     "stop_reason": null,
+     "token_ids": null
+    }
+   ],
+   "created": 1792666423,
+   "ec_transfer_params": null,
+   "id": "chatcmpl-65630f48470d744936f8fe542e74ed81",
+   "kv_transfer_params": null,
+   "metadata": null,
+   "model": "nvidia/Nemotron-3_5-Lightning",
+   "moderation": null,
+   "object": "chat.completion",
+   "prompt_logprobs": null,
+   "prompt_token_ids": null,
+   "service_tier": null,
+   "system_fingerprint": null,
+   "usage": {
+    "completion_tokens": 41,
+    "completion_tokens_details": {
+     "accepted_prediction_tokens": null,
+     "audio_tokens": null,
+     "reasoning_tokens": 0,
+     "rejected_prediction_tokens": null,
+     "text_tokens": null
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 3998,
+    "prompt_tokens": 3998,
+    "prompt_tokens_details": null,
+    "total_tokens": 4039
+   }
+  },
+  "reasoning": null,
+  "tool_calls": [
+   {
+    "arguments": "{\"chemical_a\":\"PROPANE\",\"chemical_b\":\"air\"}",
+    "call_id": "call_895abcaff4f44b0daa759ce7",
+    "name": "reactivity_lookup"
+   }
+  ]
+ }
+}

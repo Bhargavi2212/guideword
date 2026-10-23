@@ -1,0 +1,63 @@
+{
+ "key": "45b79afafc64b98d",
+ "model_id": "nvidia/Nemotron-3_5-Lightning",
+ "prompt_version": "specialists/process/v2",
+ "response": {
+  "content": "{\"answers\": [{\"question_id\": \"m:S-L-A-SOUT:less:pressure\", \"not_credible\": null, \"findings\": [{\"cause_id\": \"C17\", \"cause_text\": null, \"failing_component_type\": \"pipe\", \"failing_component_ids\": [\"L-A-SOUT\"], \"consequence\": \"Propane, propylene and C4-heavies accumulate in L-A-SOUT; if downstream equipment (DA-406) remains at higher pressure, flow reverses into the pipe, potentially overpressurizing it or causing a liquid hammer event when service resumes.\", \"safeguard_ids\": [\"RV-PATH-EA425A\"], \"adequacy\": \"inadequate\", \"confidence\": \"sure\", \"reason\": \"The line L-A-SOUT is normally open to DA-406 and receives flow from EA-425A. A less pressure deviation means downstream pressure exceeds line pressure, causing reverse flow. The existing relief path RV-PATH-EA425A protects EA-425A but does not protect L-A-SOUT itself, which has no dedicated relief.\"}]}], \"added_questions\": []}",
+  "cost_usd": 0.00026964,
+  "finish_reason": "stop",
+  "input_tokens": 3462,
+  "output_tokens": 258,
+  "raw": {
+   "choices": [
+    {
+     "finish_reason": "stop",
+     "index": 0,
+     "logprobs": null,
+     "message": {
+      "annotations": null,
+      "audio": null,
+      "content": "{\"answers\": [{\"question_id\": \"m:S-L-A-SOUT:less:pressure\", \"not_credible\": null, \"findings\": [{\"cause_id\": \"C17\", \"cause_text\": null, \"failing_component_type\": \"pipe\", \"failing_component_ids\": [\"L-A-SOUT\"], \"consequence\": \"Propane, propylene and C4-heavies accumulate in L-A-SOUT; if downstream equipment (DA-406) remains at higher pressure, flow reverses into the pipe, potentially overpressurizing it or causing a liquid hammer event when service resumes.\", \"safeguard_ids\": [\"RV-PATH-EA425A\"], \"adequacy\": \"inadequate\", \"confidence\": \"sure\", \"reason\": \"The line L-A-SOUT is normally open to DA-406 and receives flow from EA-425A. A less pressure deviation means downstream pressure exceeds line pressure, causing reverse flow. The existing relief path RV-PATH-EA425A protects EA-425A but does not protect L-A-SOUT itself, which has no dedicated relief.\"}]}], \"added_questions\": []}",
+      "function_call": null,
+      "reasoning": null,
+      "reasoning_content": null,
+      "refusal": null,
+      "role": "assistant",
+      "tool_calls": null
+     },
+     "stop_reason": null,
+     "token_ids": null
+    }
+   ],
+   "created": 1792667319,
+   "ec_transfer_params": null,
+   "id": "chatcmpl-b00d5ffcd37d9872f096f04da785b821",
+   "kv_transfer_params": null,
+   "metadata": null,
+   "model": "nvidia/Nemotron-3_5-Lightning",
+   "moderation": null,
+   "object": "chat.completion",
+   "prompt_logprobs": null,
+   "prompt_token_ids": null,
+   "service_tier": null,
+   "system_fingerprint": null,
+   "usage": {
+    "completion_tokens": 258,
+    "completion_tokens_details": {
+     "accepted_prediction_tokens": null,
+     "audio_tokens": null,
+     "reasoning_tokens": 0,
+     "rejected_prediction_tokens": null,
+     "text_tokens": null
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 3462,
+    "prompt_tokens": 3462,
+    "prompt_tokens_details": null,
+    "total_tokens": 3720
+   }
+  },
+  "reasoning": null,
+  "tool_calls": []
+ }
+}

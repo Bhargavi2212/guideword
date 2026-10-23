@@ -31,6 +31,8 @@ from guideword.schema.plant import Plant
 from guideword.schema.records import ToolCall
 
 MANIFEST = "manifest.json"
+# fixture files use LF line endings (CLAUDE.md §10)
+LF = "\n"
 CALL_PREFIX = "mc:"
 
 
@@ -75,6 +77,9 @@ class Manifest:
     recommendations: list[str] = field(default_factory=list)
     # Phase 4 (spec 4.4): [evidence ID, verdict]
     evidence: list[list[Any]] = field(default_factory=list)
+    # unrecorded attempts (pre-fix): cache entries a replay needs that the run's records
+    # missed, from before the refused-retry fix (2026-10-22); loaded like `keys`
+    unrecorded_attempts: list[str] = field(default_factory=list)
 
 
 class ReplayTransport:
@@ -185,7 +190,7 @@ def load_replay(fixtures: Path, sessions: sessionmaker[Session]) -> Manifest:
     data = json.loads((fixtures / MANIFEST).read_text(encoding="utf-8"))
     manifest = Manifest(**data)
     cache = ResponseCache(sessions)
-    for key in manifest.keys:
+    for key in [*manifest.keys, *manifest.unrecorded_attempts]:
         path = fixtures / f"{key}.json"
         if not path.exists():
             continue  # its request then misses, and the replay fails on it
@@ -194,3 +199,41 @@ def load_replay(fixtures: Path, sessions: sessionmaker[Session]) -> Manifest:
             raise ValueError(f"{path.name} holds entry {entry['key']}")
         cache.put_entry(key, entry["model_id"], entry["prompt_version"], entry["response"])
     return manifest
+
+
+def add_unrecorded_attempts(
+    out_dir: Path, cache: ResponseCache, keys: Sequence[str], *, secrets: Sequence[str]
+) -> list[str]:
+    """Add cache entries a run used but did not record to its fixtures, unchanged, and list
+    them in the manifest as `unrecorded_attempts` (runs stored before the refused-retry fix,
+    2026-10-22). A key not in the cache, or already in the fixtures, is refused; nothing is
+    written if an entry holds one of `secrets`."""
+    manifest_path = out_dir / MANIFEST
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    known = {*manifest["keys"], *manifest.get("unrecorded_attempts", [])}
+    files: dict[str, str] = {}
+    for key in keys:
+        if key in known:
+            raise ValueError(f"cache entry {key} is already in the fixtures")
+        entry = cache.entry(key)
+        if entry is None:
+            raise LookupError(f"cache entry {key} is not in the cache")
+        model_id, prompt_version, response = entry
+        files[f"{key}.json"] = _dump(
+            {
+                "key": key,
+                "model_id": model_id,
+                "prompt_version": prompt_version,
+                "response": response,
+            }
+        )
+    live = [s for s in secrets if s]
+    for name, text in files.items():
+        if any(secret in text for secret in live):
+            raise ValueError(f"{name} holds a configured API key; nothing was written")
+    for name, text in files.items():
+        (out_dir / name).write_text(text, encoding="utf-8", newline=LF)
+    added = sorted(keys)
+    manifest["unrecorded_attempts"] = sorted({*manifest.get("unrecorded_attempts", []), *added})
+    manifest_path.write_text(_dump(manifest), encoding="utf-8", newline=LF)
+    return added

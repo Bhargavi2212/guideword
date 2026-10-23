@@ -13,7 +13,7 @@ import pytest
 from guideword.config import Config, load_config
 from guideword.gateway.cache import ResponseCache
 from guideword.gateway.client import Gateway
-from guideword.gateway.fake import fake_gateway
+from guideword.gateway.fake import fake_gateway, reply
 from guideword.gateway.ledgers import LaptopLedger
 from guideword.gateway.replay import (
     MANIFEST,
@@ -303,3 +303,110 @@ def test_export_carries_the_runs_web_searches_and_a_replay_serves_them(
         clock=lambda: NOW,
     ).search("mock query", 5)
     assert served.cache_hit and served.hits == found.hits
+
+
+def test_unrecorded_attempts_are_added_to_the_fixtures_and_loaded(
+    tmp_path: Path, ref: ReferenceSet, config: Config, script: Any
+) -> None:
+    """Runs stored before the refused-retry fix lack some attempts' records (bug fix,
+    2026-10-22); their responses are in the cache. `add_unrecorded_attempts` copies them into
+    the fixtures unchanged, the manifest lists them, and `load_replay` loads them."""
+    from guideword.gateway.replay import add_unrecorded_attempts  # noqa: PLC0415
+
+    store, run_id = original_run(tmp_path, ref, config, script)
+    fixtures = export(store, run_id, tmp_path / "out", ref, config)
+    cache = ResponseCache(store.sessions)
+    cache.put_entry("feedfacefeedface", "m", "p/v1", {"content": "an unrecorded attempt"})
+    added = add_unrecorded_attempts(fixtures, cache, ["feedfacefeedface"], secrets=[])
+    assert added == ["feedfacefeedface"]
+    manifest = json.loads((fixtures / MANIFEST).read_text(encoding="utf-8"))
+    assert manifest["unrecorded_attempts"] == ["feedfacefeedface"]
+    assert "feedfacefeedface" not in manifest["keys"]
+    loaded_store = Store(tmp_path / "loaded")
+    loaded = load_replay(fixtures, loaded_store.sessions)
+    assert loaded.unrecorded_attempts == ["feedfacefeedface"]
+    entry = ResponseCache(loaded_store.sessions).entry("feedfacefeedface")
+    assert entry is not None and entry[2] == {"content": "an unrecorded attempt"}
+    # a key the cache doesn't hold, or one already in the fixtures, is refused
+    with pytest.raises(LookupError):
+        add_unrecorded_attempts(fixtures, cache, ["0000000000000000"], secrets=[])
+    with pytest.raises(ValueError):
+        add_unrecorded_attempts(fixtures, cache, [manifest["keys"][0]], secrets=[])
+
+
+WG_FIXTURES = REPO / "bench" / "replay" / "williams_geismar"
+
+
+WG_REPORT = REPO / "bench" / "phase4" / "williams_geismar.json"
+
+
+@pytest.mark.skipif(not WG_FIXTURES.exists(), reason="the WG demo fixtures are not committed")
+def test_the_committed_wg_fixtures_are_complete_and_match_the_stored_records(
+    tmp_path: Path,
+) -> None:
+    """The final WG demo run (Phase 4): every recorded key and every unrecorded attempt
+    (pre-fix) has its fixture and loads into a cache unchanged, and the manifest matches the
+    run's stored records as its committed report gives them. A fixture-only replay of this run
+    reproduced every manifest field on pre-fix main (decisions, 2026-10-22); on fixed code an
+    exact replay of a pre-fix run isn't expected, since the orchestrator's view includes
+    `cap_spent_usd`, which now counts the attempts the run left unrecorded."""
+    manifest = json.loads((WG_FIXTURES / MANIFEST).read_text(encoding="utf-8"))
+    keys = [*manifest["keys"], *manifest["unrecorded_attempts"]]
+    assert manifest["unrecorded_attempts"] and not set(manifest["keys"]) & set(
+        manifest["unrecorded_attempts"]
+    )
+    store = Store(tmp_path / "loaded")
+    loaded = load_replay(WG_FIXTURES, store.sessions)
+    cache = ResponseCache(store.sessions)
+    for key in keys:
+        entry = json.loads((WG_FIXTURES / f"{key}.json").read_text(encoding="utf-8"))
+        assert entry["key"] == key
+        assert cache.entry(key) == (entry["model_id"], entry["prompt_version"], entry["response"])
+    assert sorted(cache.keys()) == sorted(keys)
+    assert loaded.run_id == manifest["run_id"]
+    report = json.loads(WG_REPORT.read_text(encoding="utf-8"))
+    assert (manifest["run_id"], manifest["status"]) == (report["run_id"], report["status"])
+    assert (manifest["spent_usd"], manifest["cap_spent_usd"]) == (
+        report["spent_usd"],
+        report["cap_spent_usd"],
+    )
+    assert [[c["id"], c["links"]] for c in report["chains"]] == manifest["chains"]
+    assert [r["id"] for r in report["lopa"]] == [r[0] for r in manifest["lopa"]]
+    assert [r["id"] for r in report["recommendations"]] == manifest["recommendations"]
+    assert [r["finding_id"] for r in report["ranked"]] == [r[0] for r in manifest["ranked"]]
+
+
+def test_a_run_with_a_refused_retry_replays_exactly_on_current_code(
+    tmp_path: Path, ref: ReferenceSet, config: Config, script: Any
+) -> None:
+    """Bug fix (2026-10-22): a $0 fake run in which severity's first attempt is invalid and
+    costly, so the run cap refuses its validation retry. The first attempt is recorded, so the
+    export holds it, and a fixture-only replay reproduces every manifest field but the money
+    paid. Before the fix the record was dropped and this replay missed it."""
+    calls = {"severity_reason": 0}
+
+    def costly_invalid_severity(job: str, request: dict[str, Any]) -> Any:
+        if job == "severity_reason":
+            calls[job] += 1
+            if calls[job] == 1:
+                return reply("not json", output_tokens=10_000_000)
+        return script(job, request)
+
+    store, run_id = original_run(tmp_path, ref, config, costly_invalid_severity)
+    run = store.runs.get(run_id)
+    assert run is not None and run.status == RunStatus.STOPPED_CAP
+    severity = [c for c in store.runs.model_calls(run_id) if c.job == "severity_reason"]
+    assert [c.outcome for c in severity] == ["invalid"]
+    paid = sum(c.cost_usd for c in store.runs.model_calls(run_id))
+    assert run.spent_usd == pytest.approx(paid)
+    ledger = LaptopLedger(store.dir / "l.jsonl").entries()
+    assert run.spent_usd == pytest.approx(sum(e.cost_usd for e in ledger))
+    fixtures = export(store, run_id, tmp_path / "out", ref, config)
+    replayed, replayed_id, status = replay(fixtures, tmp_path, ref, config)
+    assert (replayed_id, status) == (run_id, RunStatus.STOPPED_CAP)
+    again = export(replayed, replayed_id, tmp_path / "again", ref, config)
+    original = json.loads((fixtures / MANIFEST).read_text(encoding="utf-8"))
+    repeated = json.loads((again / MANIFEST).read_text(encoding="utf-8"))
+    assert repeated.pop("spent_usd") == 0.0  # a replay pays nothing
+    original.pop("spent_usd")
+    assert repeated == original

@@ -1,0 +1,63 @@
+{
+ "key": "513e51c6140851a3",
+ "model_id": "nvidia/Nemotron-3_5-Lightning",
+ "prompt_version": "specialists/process/v2",
+ "response": {
+  "content": "{\"answers\": [{\"question_id\": \"m:S-L-QW-A-IN:less:temperature\", \"not_credible\": null, \"findings\": [{\"cause_id\": \"C17\", \"cause_text\": null, \"failing_component_type\": \"pipe\", \"failing_component_ids\": [\"L-QW-A-IN\"], \"consequence\": \"Loss of the normal 85 °C hot‑quench‑water temperature in line L‑QW‑A‑IN; the reboiler may stop boiling and the process fluid inside EA‑425A could cool below design temperature.\", \"safeguard_ids\": [], \"adequacy\": \"unknown\", \"confidence\": \"unsure\", \"reason\": \"No alarm or trip on temperature for L‑QW‑A‑IN is listed; the line has no flow monitor, and the only protection (relief RV‑PATH‑EA425A) is on the reboiler shell, not this pipe.\"}]}], \"added_questions\": []}",
+  "cost_usd": 0.00025392000000000004,
+  "finish_reason": "stop",
+  "input_tokens": 3352,
+  "output_tokens": 220,
+  "raw": {
+   "choices": [
+    {
+     "finish_reason": "stop",
+     "index": 0,
+     "logprobs": null,
+     "message": {
+      "annotations": null,
+      "audio": null,
+      "content": "{\"answers\": [{\"question_id\": \"m:S-L-QW-A-IN:less:temperature\", \"not_credible\": null, \"findings\": [{\"cause_id\": \"C17\", \"cause_text\": null, \"failing_component_type\": \"pipe\", \"failing_component_ids\": [\"L-QW-A-IN\"], \"consequence\": \"Loss of the normal 85 °C hot‑quench‑water temperature in line L‑QW‑A‑IN; the reboiler may stop boiling and the process fluid inside EA‑425A could cool below design temperature.\", \"safeguard_ids\": [], \"adequacy\": \"unknown\", \"confidence\": \"unsure\", \"reason\": \"No alarm or trip on temperature for L‑QW‑A‑IN is listed; the line has no flow monitor, and the only protection (relief RV‑PATH‑EA425A) is on the reboiler shell, not this pipe.\"}]}], \"added_questions\": []}",
+      "function_call": null,
+      "reasoning": null,
+      "reasoning_content": null,
+      "refusal": null,
+      "role": "assistant",
+      "tool_calls": null
+     },
+     "stop_reason": null,
+     "token_ids": null
+    }
+   ],
+   "created": 1792667326,
+   "ec_transfer_params": null,
+   "id": "chatcmpl-087ccaf3ebba338f8edb799a4b7ef580",
+   "kv_transfer_params": null,
+   "metadata": null,
+   "model": "nvidia/Nemotron-3_5-Lightning",
+   "moderation": null,
+   "object": "chat.completion",
+   "prompt_logprobs": null,
+   "prompt_token_ids": null,
+   "service_tier": null,
+   "system_fingerprint": null,
+   "usage": {
+    "completion_tokens": 220,
+    "completion_tokens_details": {
+     "accepted_prediction_tokens": null,
+     "audio_tokens": null,
+     "reasoning_tokens": 0,
+     "rejected_prediction_tokens": null,
+     "text_tokens": null
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 3352,
+    "prompt_tokens": 3352,
+    "prompt_tokens_details": null,
+    "total_tokens": 3572
+   }
+  },
+  "reasoning": null,
+  "tool_calls": []
+ }
+}

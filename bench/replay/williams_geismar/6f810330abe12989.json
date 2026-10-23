@@ -1,0 +1,63 @@
+{
+ "key": "6f810330abe12989",
+ "model_id": "nvidia/Nemotron-3_5-Lightning",
+ "prompt_version": "specialists/process/v2",
+ "response": {
+  "content": "{\"answers\": [{\"question_id\": \"m:S-L-A-SOUT:as_well_as:composition\", \"not_credible\": null, \"findings\": [{\"cause_id\": \"C15\", \"cause_text\": null, \"failing_component_type\": \"operator\", \"failing_component_ids\": [\"P-REB-START-1\"], \"consequence\": \"As well as normal composition, the line could carry reverse flow of propylene, propane, or C4-heavies from DA-406 back into L-A-SOUT if SV-421QA/QB lift and inlet valves are open.\", \"safeguard_ids\": [\"RV-PATH-EA425A\", \"SV-421QA\", \"SV-421QB\"], \"adequacy\": \"inadequate\", \"confidence\": \"sure\", \"reason\": \"L-A-SOUT is an outlet line from EA-425A to DA-406; reverse flow is credible if the fractionator pressure exceeds reboiler pressure and SV-421 valves lift. The relief path RV-PATH-EA425A includes inlet valves HV-A-SIN and HV-A-SOUT, both of which can be open, so the relief device may not isolate the流\"}]}], \"added_questions\": []}",
+  "cost_usd": 0.00027738,
+  "finish_reason": "stop",
+  "input_tokens": 3467,
+  "output_tokens": 289,
+  "raw": {
+   "choices": [
+    {
+     "finish_reason": "stop",
+     "index": 0,
+     "logprobs": null,
+     "message": {
+      "annotations": null,
+      "audio": null,
+      "content": "{\"answers\": [{\"question_id\": \"m:S-L-A-SOUT:as_well_as:composition\", \"not_credible\": null, \"findings\": [{\"cause_id\": \"C15\", \"cause_text\": null, \"failing_component_type\": \"operator\", \"failing_component_ids\": [\"P-REB-START-1\"], \"consequence\": \"As well as normal composition, the line could carry reverse flow of propylene, propane, or C4-heavies from DA-406 back into L-A-SOUT if SV-421QA/QB lift and inlet valves are open.\", \"safeguard_ids\": [\"RV-PATH-EA425A\", \"SV-421QA\", \"SV-421QB\"], \"adequacy\": \"inadequate\", \"confidence\": \"sure\", \"reason\": \"L-A-SOUT is an outlet line from EA-425A to DA-406; reverse flow is credible if the fractionator pressure exceeds reboiler pressure and SV-421 valves lift. The relief path RV-PATH-EA425A includes inlet valves HV-A-SIN and HV-A-SOUT, both of which can be open, so the relief device may not isolate the流\"}]}], \"added_questions\": []}",
+      "function_call": null,
+      "reasoning": null,
+      "reasoning_content": null,
+      "refusal": null,
+      "role": "assistant",
+      "tool_calls": null
+     },
+     "stop_reason": null,
+     "token_ids": null
+    }
+   ],
+   "created": 1792667303,
+   "ec_transfer_params": null,
+   "id": "chatcmpl-2f58e0b9025f8072d8cb1cc359022c59",
+   "kv_transfer_params": null,
+   "metadata": null,
+   "model": "nvidia/Nemotron-3_5-Lightning",
+   "moderation": null,
+   "object": "chat.completion",
+   "prompt_logprobs": null,
+   "prompt_token_ids": null,
+   "service_tier": null,
+   "system_fingerprint": null,
+   "usage": {
+    "completion_tokens": 289,
+    "completion_tokens_details": {
+     "accepted_prediction_tokens": null,
+     "audio_tokens": null,
+     "reasoning_tokens": 0,
+     "rejected_prediction_tokens": null,
+     "text_tokens": null
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 3467,
+    "prompt_tokens": 3467,
+    "prompt_tokens_details": null,
+    "total_tokens": 3756
+   }
+  },
+  "reasoning": null,
+  "tool_calls": []
+ }
+}

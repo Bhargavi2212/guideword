@@ -1,0 +1,55 @@
+{
+ "key": "c2abb4f68125dd57",
+ "model_id": "tavily",
+ "prompt_version": "search/v1",
+ "response": {
+  "answer": null,
+  "follow_up_questions": null,
+  "images": [],
+  "query": "procedure step skipped or done out of order operator error",
+  "request_id": "e82203bc-febf-43f8-abd8-1e2eb5354db2",
+  "response_time": 1.88,
+  "results": [
+   {
+    "content": "### Skipped Steps\n\nThe most common action error in procedure following is skipped steps. There are many reasons why steps are skipped. Operators do not always follow procedures step by step. If the operator is not actively referring to the written procedure, then he/she may simply forget some steps.\n\ngkp2012-08-fig2.png [...] Steps that start with the word ‘confirm’ are perhaps the most likely to be skipped. And since these steps are included to verify plant status, this tendency contributes to situation assessment error.\n\nSteps are most likely to be followed correctly if there are only a few steps, if each step is relatively simple, and if the steps follow in a logical order. [...] ### Latent Errors\n\nA skipped step will be effectively self-correcting if the next step cannot be accomplished as a result of the skip. A dangerous situation may exist if the skipped step has no immediate effect, but could have detrimental effects later.\n\n### Task-based vs. Action-based Procedures",
+    "id": "01f8aa-00",
+    "raw_content": null,
+    "score": 0.72768575,
+    "title": "Human Error in Procedure Following — GATE Energy",
+    "url": "https://www.gate.energy/viking/insights/gat2004-gkp-2012-08/human-error-in-procedure-following"
+   },
+   {
+    "content": "## Issues that return process errors\n\nThe following section describes some possible process errors and ways to resolve them. This is not an exhaustive list, but it covers some of the most common errors that you may encounter.\n\nTo quickly see all process errors that have occurred in your application, go to the Monitor view in your application and select Process Activity. Here you can see a list of all unresolved process errors, and choose to review resolved process issues as well. [...] However, there are also some errors that can occur in your production environment. In these instances, it may be necessary to modify the process in-flight and restart or resume any affected nodes. This allows the process to continue and doesn’t require restarting the entire process from scratch.\n\nSee the Issues that return process errors section below for more information on the different types of issues and their possible solutions.\n\n### Unexpected issues [...] These errors will trigger an email alert so specific users (like your system administrator or administrators of the process model) are notified about the problem in your process. The email will contain a link to the process instance’s error in the Monitor view so you can view where the problem occurred, why it happened, and when.\n\nimages:viewing_process_error.png\n\nimages:viewing_process_error.png",
+    "id": "32c8ac-01",
+    "raw_content": null,
+    "score": 0.13367537,
+    "title": "Troubleshooting Process Models [Process Modeling]",
+    "url": "https://docs.appian.com/suite/help/26.9/Testing_and_Debugging_Problems_with_Process_Models.html"
+   },
+   {
+    "content": "Body immediately to the matter; • the onus will be on the operator to investigate the matter further; • keep his Control Body informed of progress with investigations; • answer any questions/ follow any instructions from his Control Body on the matter; • where the operator uses laboratory testing, the testing must be done to a standard that is acceptable to the Control Body e.g. an accredited laboratory and/ or an accredited test. If the testing is not done to the satisfaction of the Control [...] outlined in Section D of this Guidance. Guidance Note for operators on the EU organic testing procedure within the UK: consultation version – September 2012 7 Guidance Note for operators on the EU organic testing procedure within the UK: consultation version – September 2012 8 Although the onus is on the operator to provide evidence on the organic integrity of the product, the Control Body may assist the operator with investigations. D. Action to be taken where an irregularity or infringement [...] for the levels of prohibited substance. 15. In tandem with the levels of prohibited substance involved, the process should consider the seriousness of the incident. For example, if the contamination (even if Guidance Note for operators on the EU organic testing procedure within the UK: consultation version – September 2012 5 unavoidable) resulted from an operator’s negligence or such incidents happened regularly due to a lack of care or precaution on the part of the operator, this might have a",
+    "id": "a42927-02",
+    "raw_content": null,
+    "score": 0.123693645,
+    "title": "[PDF] Guidance Note for operators on the EU organic testing procedure ...",
+    "url": "https://assets.publishing.service.gov.uk/media/5a79dd42ed915d6b1deb3e69/consult-organic-products-guidnote-operators-20120928.pdf"
+   },
+   {
+    "content": "When a process step has been identified where human error can cause mistakes or defects to occur, especially in processes that rely on the worker’s attention, skill, or experience\n   In a service process, where the customer can make an error which affects the output\n   At a hand-off step in a process, when output (or for service processes, the customer) is transferred to another worker\n   When a minor error early in the process causes major problems later in the process [...] 1.   Obtain or create a flowchartof the process. Review each step, thinking about where and when human errors are likely to occur. \n2.   For each potential error, work back through the process to find its source. \n3.   For each error, think of potential ways to make it impossible for the error to occur. Consider: \n       Elimination: eliminating the step that causes the error. \n       Replacement: replacing the step with an error-proof one. [...] Self-inspection means workers check their own work immediately after doing it. \n       Source inspection checks, before the process step takes place, that conditions are correct. Often it’s automatic and keeps the process from proceeding until conditions are right.",
+    "id": "201441-03",
+    "raw_content": null,
+    "score": 0.10209881,
+    "title": "What is Poka-Yoke? Mistake & Error Proofing",
+    "url": "https://asq.org/quality-resources/mistake-proofing"
+   },
+   {
+    "content": "President Donald Trump skipped anesthesia for a previously unreported 2019 colonoscopy at Walter Reed National Military Medical Center so he wouldn't have to temporarily relinquish his presidential powers, a new book says, according to The New York Times.\n\nTrump puzzled reporters with a mysterious, unscheduled November 2019 visit to Walter Reed and added to the confusion by saying the appointment was the first part of his routine annual physical, which is normally done in just one appointment. [...] Grisham, without naming the cause of the visit, describes it as being for \"a very common procedure\" for which \"a patient is sometimes put under\" — and says former President George W. Bush had one while in office.\n\nBush, who underwent a colonoscopy in 2007, temporarily signed over the powers of the presidency to then-Vice President Dick Cheney. [...] But Trump, Grisham writes, was so reluctant to hand over those presidential powers to Vice President Mike Pence that he underwent the procedure without anesthesia, the book says, with Grisham adding that Trump didn't want to be \"the butt of a joke\" of TV comedians.\n\nGrisham writes that Trump could have used the procedure to spread awareness and educate Americans about the importance of routine colonoscopies.",
+    "id": "cf4cea-04",
+    "raw_content": null,
+    "score": 0.08323991,
+    "title": "Trump Skipped Anesthesia to Not Give Pence Temporary Power: Book - Business Insider",
+    "url": "https://www.businessinsider.com/trump-skipped-anesthesia-to-not-give-pence-temporary-power-book-2021-9"
+   }
+  ]
+ }
+}
