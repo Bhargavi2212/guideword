@@ -303,3 +303,95 @@ def test_export_carries_the_runs_web_searches_and_a_replay_serves_them(
         clock=lambda: NOW,
     ).search("mock query", 5)
     assert served.cache_hit and served.hits == found.hits
+
+
+def test_unrecorded_attempts_are_added_to_the_fixtures_and_loaded(
+    tmp_path: Path, ref: ReferenceSet, config: Config, script: Any
+) -> None:
+    """Runs stored before the refused-retry fix lack some attempts' records (bug fix,
+    2026-10-22); their responses are in the cache. `add_unrecorded_attempts` copies them into
+    the fixtures unchanged, the manifest lists them, and `load_replay` loads them."""
+    from guideword.gateway.replay import add_unrecorded_attempts  # noqa: PLC0415
+
+    store, run_id = original_run(tmp_path, ref, config, script)
+    fixtures = export(store, run_id, tmp_path / "out", ref, config)
+    cache = ResponseCache(store.sessions)
+    cache.put_entry("feedfacefeedface", "m", "p/v1", {"content": "an unrecorded attempt"})
+    added = add_unrecorded_attempts(fixtures, cache, ["feedfacefeedface"], secrets=[])
+    assert added == ["feedfacefeedface"]
+    manifest = json.loads((fixtures / MANIFEST).read_text(encoding="utf-8"))
+    assert manifest["unrecorded_attempts"] == ["feedfacefeedface"]
+    assert "feedfacefeedface" not in manifest["keys"]
+    loaded_store = Store(tmp_path / "loaded")
+    loaded = load_replay(fixtures, loaded_store.sessions)
+    assert loaded.unrecorded_attempts == ["feedfacefeedface"]
+    entry = ResponseCache(loaded_store.sessions).entry("feedfacefeedface")
+    assert entry is not None and entry[2] == {"content": "an unrecorded attempt"}
+    # a key the cache doesn't hold, or one already in the fixtures, is refused
+    with pytest.raises(LookupError):
+        add_unrecorded_attempts(fixtures, cache, ["0000000000000000"], secrets=[])
+    with pytest.raises(ValueError):
+        add_unrecorded_attempts(fixtures, cache, [manifest["keys"][0]], secrets=[])
+
+
+WG_FIXTURES = REPO / "bench" / "replay" / "williams_geismar"
+
+
+@pytest.mark.skipif(not WG_FIXTURES.exists(), reason="the WG demo fixtures are not committed")
+def test_the_committed_wg_fixtures_replay_the_run_exactly(
+    tmp_path: Path, ref: ReferenceSet, config: Config
+) -> None:
+    """The final WG demo run (Phase 4), from its committed fixtures alone: no call is made
+    (a miss fails), and every manifest field but the money paid comes out the same. The
+    manifest's `unrecorded_attempts (pre-fix)` are loaded with its keys."""
+    from guideword.runs.case import evidence_tools  # noqa: PLC0415
+    from guideword.tools.web import ReplaySearch  # noqa: PLC0415
+
+    store = Store(tmp_path / "replayed")
+    manifest = load_replay(WG_FIXTURES, store.sessions)
+    assert manifest.unrecorded_attempts
+    cache = ResponseCache(store.sessions)
+    ledger = LaptopLedger(store.dir / "l.jsonl")
+    gateway = Gateway(
+        config=config,
+        transport=ReplayTransport(manifest),
+        cache=cache,
+        ledger=ledger,
+        use=BudgetUse.VIDEO,
+        phase="4",
+        clock=lambda: NOW,
+    )
+    tools = evidence_tools(
+        config=config,
+        cache=cache,
+        ledger=ledger,
+        use=BudgetUse.VIDEO,
+        phase="4",
+        clock=lambda: NOW,
+        search=ReplaySearch(),
+    )
+    raw = json.loads((REPO / manifest.plant_file).read_text(encoding="utf-8"))
+    record = prepare_plant(store.plants, raw, ref)
+    run = start_case(store.plants, store.runs, ref, config, record.id, 1.0, post_spend_cap_usd=0.30)
+    assert run.id == manifest.run_id
+    steppers = steppers_for(gateway, config, ref, record.plant_file, evidence=tools)
+    assert drive(store.runs, run.id, steppers) == RunStatus.FINISHED
+    again = export_replay(
+        store.runs,
+        cache,
+        run.id,
+        tmp_path / "again",
+        plant=record.plant_file,
+        plant_file=manifest.plant_file,
+        ref=ref,
+        caps=config.caps,
+        secrets=[],
+    )
+    original = json.loads((WG_FIXTURES / MANIFEST).read_text(encoding="utf-8"))
+    replayed = json.loads((again / MANIFEST).read_text(encoding="utf-8"))
+    for name in (original, replayed):
+        name.pop("unrecorded_attempts", None)
+    # a replay pays nothing; everything else, cap spend included, is the run's own
+    assert replayed.pop("spent_usd") == 0.0
+    original.pop("spent_usd")
+    assert replayed == original
