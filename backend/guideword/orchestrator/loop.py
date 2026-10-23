@@ -31,7 +31,7 @@ from guideword.orchestrator.view import (
 from guideword.questions.coverage import coverage
 from guideword.ranking.severity import SeverityReserve, severity_reserve
 from guideword.reference import ReferenceSet
-from guideword.runs.machine import StepResult, stop_for_refusal
+from guideword.runs.machine import StepResult, record_attempts, stop_for_refusal
 from guideword.runs.store import StepWriter
 from guideword.schema import ids
 from guideword.schema.enums import Agent, AgentTool, EventType, QuestionStatus, RunStatus, Tier
@@ -490,6 +490,8 @@ class OrchestratorStepper:
         answered_ids: list[str] = []
         for outcome in outcomes:
             if isinstance(outcome, BudgetRefused):
+                # the batch's calls made before it was refused were paid: record them
+                record_attempts(writer, outcome)
                 refusal = refusal or outcome
                 continue
             if isinstance(outcome, BaseException):
@@ -646,6 +648,7 @@ class OrchestratorStepper:
         self, writer: StepWriter, refused: BudgetRefused, reserve: SeverityReserve
     ) -> StepResult:
         if refused.status == RunStatus.STOPPED_CAP:
+            record_attempts(writer, refused)
             # R38: the analysis phase stops at the run cap minus the reserve; severity runs next
             writer.emit(
                 EventType.CAP_HIT,

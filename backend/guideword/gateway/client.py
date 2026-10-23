@@ -46,11 +46,24 @@ class RepeatedRequest(RuntimeError):
 
 
 class BudgetRefused(RuntimeError):
-    """A call was refused before sending; nothing was spent."""
+    """A request was refused before sending. `attempts` are the call's earlier attempts that
+    were sent (or served from the cache) before it, with what they cost: a validation retry
+    refused after a paid first attempt (bug fix, 2026-10-22). The caller records them, so the
+    run's spend matches the ledger. Callers that pass a refusal on add their own earlier
+    records to it the same way."""
 
     def __init__(self, message: str, status: RunStatus) -> None:
         super().__init__(message)
         self.status = status
+        self.attempts: list[ModelCall] = []
+        self.cost_usd = 0.0
+        self.cap_cost_usd = 0.0
+
+    def carry(self, calls: Sequence[ModelCall], cost_usd: float, cap_cost_usd: float) -> None:
+        """Put records made before this refusal ahead of the ones it already carries."""
+        self.attempts = [*calls, *self.attempts]
+        self.cost_usd += cost_usd
+        self.cap_cost_usd += cap_cost_usd
 
 
 @dataclass(frozen=True)
@@ -175,9 +188,14 @@ class Gateway:
             call_id = ids.model_call_id(resolved.model_id, prompt_version, _exact_input(request))
             if call_id in made:
                 raise RepeatedRequest(f"{call_id} was already made in this run")
-            sent = self._send_once(
-                job, prompt_version, resolved.tier, resolved.model_id, request, tools, budget
-            )
+            try:
+                sent = self._send_once(
+                    job, prompt_version, resolved.tier, resolved.model_id, request, tools, budget
+                )
+            except BudgetRefused as refused:
+                # the attempts already made were paid (or counted): they travel with it
+                refused.carry(result.model_calls, result.cost_usd, result.cap_cost_usd)
+                raise
             spent_so_far += sent.cap_cost_usd
             result.cost_usd += sent.cost_usd
             result.cap_cost_usd += sent.cap_cost_usd

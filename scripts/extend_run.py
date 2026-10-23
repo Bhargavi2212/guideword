@@ -40,6 +40,7 @@ from guideword.reference import load_reference_set
 from guideword.runs.case import case_report, drive, evidence_tools, steppers_for
 from guideword.runs.db import make_session_factory
 from guideword.runs.extend import RERUN_FROM, ExtendRefused, extend
+from guideword.runs.machine import spend_check
 from guideword.runs.plants import PlantRepository
 from guideword.runs.store import RunRepository
 from guideword.schema.enums import BudgetUse
@@ -209,6 +210,10 @@ def main(
     drive(runs, run.id, steppers_for(gateway, config, ref, plant, evidence=tools))
     name = args.name or plant.plant_id
     report = case_report(runs, run.id, plant, ref, config.caps, name)
+    # beside R45 (bug fix, 2026-10-22): the run's spend against its own ledger lines
+    finished = runs.get(run.id)
+    if finished is not None:
+        report["spend_check"] = spend_check(finished, ledger.entries())
     path = out_dir / f"{name}.json"
     _write(path, report)
     print(f"run {report['run_id']}: {report['status']}")
@@ -220,6 +225,13 @@ def main(
     )
     for hit in report["cap_hits"]:
         print(f"cap reached: {hit.get('reason')}")
+    check = report.get("spend_check")
+    if check is not None and check["ledger_usd"] is not None:
+        verdict = "matches" if check["matches"] else "DOES NOT MATCH"
+        print(
+            f"spend check: records ${check['spent_usd']:.4f}, ledger ${check['ledger_usd']:.4f}"
+            f" ({verdict})"
+        )
     print(f"wrote {path}")
     return 0
 

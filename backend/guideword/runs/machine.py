@@ -7,7 +7,7 @@ stops, both spend figures are checked against its call records (R45).
 """
 
 import math
-from collections.abc import Mapping
+from collections.abc import Mapping, Sequence
 from dataclasses import dataclass, field
 from typing import Any, Protocol
 
@@ -16,7 +16,7 @@ from guideword.logs import get_logger
 from guideword.runs.post_budget import POST_JOBS
 from guideword.runs.store import RunRepository, StepWriter
 from guideword.schema.enums import EventType, RunStatus
-from guideword.schema.records import Run
+from guideword.schema.records import Run, SpendEntry
 
 ENDED = {RunStatus.FINISHED, RunStatus.FAILED, RunStatus.CANCELLED}
 # float sums in a different order differ in the last places; a real mismatch is far larger
@@ -103,12 +103,54 @@ def spend_matches_records(writer: StepWriter) -> bool:
     return ok
 
 
+def record_attempts(writer: StepWriter, refused: BudgetRefused, *, post: bool = False) -> None:
+    """Write the calls a refusal carries, and their spend (bug fix, 2026-10-22): they were
+    sent or served before the refusal. A post-analysis call never counts against the analysis
+    cap."""
+    for call in refused.attempts:
+        writer.add_model_call(call)
+    if post:
+        writer.add_post_spent(refused.cost_usd)
+    else:
+        writer.add_spent(refused.cost_usd, cap_usd=refused.cap_cost_usd)
+    refused.attempts, refused.cost_usd, refused.cap_cost_usd = [], 0.0, 0.0
+
+
+def ledger_spent(entries: Sequence[SpendEntry], run_id: str) -> float | None:
+    """What the ledger says a run paid: its model lines (purpose `<job> <run ID>`); None when
+    the ledger has none for it."""
+    mine = [
+        e.cost_usd
+        for e in entries
+        if e.kind == "model" and e.purpose.split() and e.purpose.split()[-1] == run_id
+    ]
+    return sum(mine) if mine else None
+
+
+def spend_check(run: Run, entries: Sequence[SpendEntry]) -> dict[str, Any]:
+    """Beside R45 (bug fix, 2026-10-22): the run's spend against its ledger lines, where the
+    ledger has them. Runs stored before the fix can fall short of their ledger: for them the
+    ledger is the authority for spend. A mismatch is logged as an error."""
+    ledgered = ledger_spent(entries, run.id)
+    matches = ledgered is None or math.isclose(run.spent_usd, ledgered, abs_tol=SPEND_TOLERANCE_USD)
+    if not matches:
+        log.error(
+            "run spend does not match its ledger lines",
+            extra={
+                "context": {"run_id": run.id, "spent_usd": run.spent_usd, "ledger_usd": ledgered}
+            },
+        )
+    return {"spent_usd": run.spent_usd, "ledger_usd": ledgered, "matches": matches}
+
+
 def stop_for_refusal(
     writer: StepWriter, refused: BudgetRefused, *, cap: str | None = None
 ) -> StepResult:
     """A gateway refusal ends the run with its status (`stopped_cap` or `stopped_budget`).
     A post-analysis step passes `cap=POST_CAP`: its `stopped_cap` is the post cap, and the
-    event says so, so extension can resume the run with a higher post cap."""
+    event says so, so extension can resume the run with a higher post cap. The calls the
+    refusal carries are recorded first."""
+    record_attempts(writer, refused, post=cap == POST_CAP)
     payload: dict[str, Any] = {"reason": str(refused), "status": refused.status}
     if cap is not None and refused.status == RunStatus.STOPPED_CAP:
         payload["cap"] = cap
