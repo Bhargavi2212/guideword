@@ -166,6 +166,7 @@ def run_four_tier(
                         prepared=prepared,
                     )
                 except BudgetRefused as refused:
+                    tier_result.cost_usd += refused.cost_usd
                     tier_result.questions -= len(batch)
                     result.stopped = f"stopped at the cap (${cap_usd:.2f}): {refused}"
                     return result
