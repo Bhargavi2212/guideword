@@ -211,12 +211,12 @@ PRs 2, 3 and 4 can run in parallel (cloud agent) while the frontend proceeds in 
 
 ## Done when
 
-- [ ] P4-1…P4-10 and the 4.5 fork decided and recorded; PROJECT.md updated.
-- [ ] Every acceptance test passes; CI green.
-- [ ] The WG final demo run has evidence on its top 5 lines, including a `blocked_in_heating` on reboiler B (EA-425B), and a runtime Tavily search in its records (§25).
-- [ ] D–G have evidence on their top 5 lines (after the grant), or the README says they don't.
+- [x] P4-1…P4-10 and the 4.5 fork decided and recorded; PROJECT.md updated.
+- [x] Every acceptance test passes; CI green (local suite green; CI on this PR).
+- [x] The WG final demo run has evidence on its top 5 lines, including a `blocked_in_heating` on reboiler B (EA-425B), and a runtime Tavily search in its records (§25). `run:76f8ee0b5d1f078e`: EA-425B `confirmed`, at least 1.6× design (PROPANE); 5 Tavily searches; precedents honestly `none` (decisions, 2026-10-22).
+- [x] D–G have evidence on their top 5 lines (after the grant), or the README says they don't. One precedent accepted (G, a CSB investigation); F and G re-judged with `precedent_judge/v2`.
 - [ ] Simulator: running on TE with one confirmed result, **or** recorded as "next" on Oct 24 with the reason.
-- [ ] Phase 4 spend within its cap; `budget/ledger-g4pre.jsonl` snapshot.
+- [x] Phase 4 spend within its cap; `budget/ledger-g4pre.jsonl` snapshot. $1.0033 of $1.50 (video $0.8965, development $0.1068), 23 Tavily searches.
 
 ## Who writes what
 
