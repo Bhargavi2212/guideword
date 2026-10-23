@@ -1,0 +1,63 @@
+{
+ "key": "42a41e9a9c642139",
+ "model_id": "nvidia/Nemotron-3_5-Lightning",
+ "prompt_version": "specialists/process/v2",
+ "response": {
+  "content": "{\"answers\": [{\"question_id\": \"m:S-DA-406:more:flow\", \"not_credible\": null, \"findings\": [{\"cause_id\": \"C15\", \"cause_text\": null, \"failing_component_type\": \"operator\", \"failing_component_ids\": [\"P-REB-START-1\"], \"consequence\": \"Propylene and heavier hydrocarbons flood column overhead and overpressure the column shell\", \"safeguard_ids\": [\"RV-PATH-EA425A\", \"RV-PATH-EA425B\", \"SV-421QA\", \"SV-421QB\"], \"adequacy\": \"inadequate\", \"confidence\": \"sure\", \"reason\": \"Operator or maintenance can leave block valves open; inlet valves HV-A-SIN or HV-B-SIN open while others closed routes fluid into the column beyond design rate. Relief devices protect the column only if their inlet valves are open; the listed relief paths include the reboiler inlet valves which can,\"}, {\"cause_id\": \"C22\", \"cause_text\": null, \"failing_component_type\": \"external\", \"failing_component_ids\": [\"LOC-OLEFINS-UNIT\"], \"consequence\": \"Column overpressure and potential release from relief devices\", \"safeguard_ids\": [\"SV-421QA\", \"SV-421QB\"], \"adequacy\": \"inadequate\", \"confidence\": \"unsure\", \"reason\": \"External fire can block relief outlets or heat the column beyond design; relief set pressures assume clear discharge but fire conditions may prevent proper operation.\"}]}], \"added_questions\": []}",
+  "cost_usd": 0.00036288,
+  "finish_reason": "stop",
+  "input_tokens": 4592,
+  "output_tokens": 364,
+  "raw": {
+   "choices": [
+    {
+     "finish_reason": "stop",
+     "index": 0,
+     "logprobs": null,
+     "message": {
+      "annotations": null,
+      "audio": null,
+      "content": "{\"answers\": [{\"question_id\": \"m:S-DA-406:more:flow\", \"not_credible\": null, \"findings\": [{\"cause_id\": \"C15\", \"cause_text\": null, \"failing_component_type\": \"operator\", \"failing_component_ids\": [\"P-REB-START-1\"], \"consequence\": \"Propylene and heavier hydrocarbons flood column overhead and overpressure the column shell\", \"safeguard_ids\": [\"RV-PATH-EA425A\", \"RV-PATH-EA425B\", \"SV-421QA\", \"SV-421QB\"], \"adequacy\": \"inadequate\", \"confidence\": \"sure\", \"reason\": \"Operator or maintenance can leave block valves open; inlet valves HV-A-SIN or HV-B-SIN open while others closed routes fluid into the column beyond design rate. Relief devices protect the column only if their inlet valves are open; the listed relief paths include the reboiler inlet valves which can,\"}, {\"cause_id\": \"C22\", \"cause_text\": null, \"failing_component_type\": \"external\", \"failing_component_ids\": [\"LOC-OLEFINS-UNIT\"], \"consequence\": \"Column overpressure and potential release from relief devices\", \"safeguard_ids\": [\"SV-421QA\", \"SV-421QB\"], \"adequacy\": \"inadequate\", \"confidence\": \"unsure\", \"reason\": \"External fire can block relief outlets or heat the column beyond design; relief set pressures assume clear discharge but fire conditions may prevent proper operation.\"}]}], \"added_questions\": []}",
+      "function_call": null,
+      "reasoning": null,
+      "reasoning_content": null,
+      "refusal": null,
+      "role": "assistant",
+      "tool_calls": null
+     },
+     "stop_reason": null,
+     "token_ids": null
+    }
+   ],
+   "created": 1792666543,
+   "ec_transfer_params": null,
+   "id": "chatcmpl-c3b54a5f60ea10feeeb97547e431d9b0",
+   "kv_transfer_params": null,
+   "metadata": null,
+   "model": "nvidia/Nemotron-3_5-Lightning",
+   "moderation": null,
+   "object": "chat.completion",
+   "prompt_logprobs": null,
+   "prompt_token_ids": null,
+   "service_tier": null,
+   "system_fingerprint": null,
+   "usage": {
+    "completion_tokens": 364,
+    "completion_tokens_details": {
+     "accepted_prediction_tokens": null,
+     "audio_tokens": null,
+     "reasoning_tokens": 0,
+     "rejected_prediction_tokens": null,
+     "text_tokens": null
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 4592,
+    "prompt_tokens": 4592,
+    "prompt_tokens_details": null,
+    "total_tokens": 4956
+   }
+  },
+  "reasoning": null,
+  "tool_calls": []
+ }
+}

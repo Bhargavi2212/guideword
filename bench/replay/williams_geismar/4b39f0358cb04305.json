@@ -1,0 +1,84 @@
+{
+ "key": "4b39f0358cb04305",
+ "model_id": "nvidia/Nemotron-3_5-Lightning",
+ "prompt_version": "specialists/chemistry/v2",
+ "response": {
+  "content": null,
+  "cost_usd": 0.00035916,
+  "finish_reason": "tool_calls",
+  "input_tokens": 5802,
+  "output_tokens": 46,
+  "raw": {
+   "choices": [
+    {
+     "finish_reason": "tool_calls",
+     "index": 0,
+     "logprobs": null,
+     "message": {
+      "annotations": null,
+      "audio": null,
+      "content": null,
+      "function_call": null,
+      "reasoning": null,
+      "reasoning_content": null,
+      "refusal": null,
+      "role": "assistant",
+      "tool_calls": [
+       {
+        "function": {
+         "arguments": "{\"chemical_a\":\"C4-HEAVIES\",\"chemical_b\":\"PROPYLENE\"}",
+         "name": "reactivity_lookup"
+        },
+        "id": "call_79d07423b26541e396d8b419",
+        "type": "function"
+       }
+      ]
+     },
+     "stop_reason": null,
+     "token_ids": null
+    }
+   ],
+   "created": 1792666395,
+   "ec_transfer_params": null,
+   "id": "chatcmpl-2d1b2a5a5ef791320ad9d83cc780e0b7",
+   "kv_transfer_params": null,
+   "metadata": null,
+   "model": "nvidia/Nemotron-3_5-Lightning",
+   "moderation": null,
+   "object": "chat.completion",
+   "prompt_logprobs": null,
+   "prompt_token_ids": null,
+   "service_tier": null,
+   "system_fingerprint": null,
+   "usage": {
+    "completion_tokens": 46,
+    "completion_tokens_details": {
+     "accepted_prediction_tokens": null,
+     "audio_tokens": null,
+     "reasoning_tokens": 0,
+     "rejected_prediction_tokens": null,
+     "text_tokens": null
+    },
+    "prompt_cache_hit_tokens": 2096,
+    "prompt_cache_miss_tokens": 3706,
+    "prompt_tokens": 5802,
+    "prompt_tokens_details": {
+     "audio_tokens": null,
+     "cache_write_tokens": null,
+     "cached_tokens": 2096,
+     "image_tokens": null,
+     "text_tokens": null
+    },
+    "total_tokens": 5848
+   }
+  },
+  "reasoning": null,
+  "tool_calls": [
+   {
+    "arguments": "{\"chemical_a\":\"C4-HEAVIES\",\"chemical_b\":\"PROPYLENE\"}",
+    "call_id": "call_79d07423b26541e396d8b419",
+    "name": "reactivity_lookup"
+   }
+  ]
+ }
+}

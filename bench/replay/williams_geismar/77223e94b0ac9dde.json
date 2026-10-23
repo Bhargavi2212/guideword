@@ -1,0 +1,63 @@
+{
+ "key": "77223e94b0ac9dde",
+ "model_id": "nvidia/Nemotron-3_5-Lightning",
+ "prompt_version": "specialists/procedures/v2",
+ "response": {
+  "content": "{\"answers\": [{\"question_id\": \"proc:P-REB-START-2:early\", \"not_credible\": null, \"findings\": [{\"cause_id\": \"C16\", \"cause_text\": null, \"failing_component_type\": \"operator\", \"failing_component_ids\": [\"P-REB-START-2\"], \"consequence\": \"Heating medium flows to the reboiler before the process side is properly lined up; if the process valves are not correctly set, process fluid could escape or mixing could occur in the reboiler.\", \"safeguard_ids\": [], \"adequacy\": \"inadequate\", \"confidence\": \"sure\", \"reason\": \"The step describes opening heating-medium valves; doing this before line-up (P-REB-START-1) means the reboiler may not be correctly configured for the process stream, and no safeguard is listed to prevent flow before proper configuration.\"}]}, {\"question_id\": \"proc:P-REB-START-2:late\", \"not_credible\": null, \"findings\": [{\"cause_id\": \"C16\", \"cause_text\": null, \"failing_component_type\": \"operator\", \"failing_component_ids\": [\"P-REB-START-2\"], \"consequence\": \"Heating medium is delayed; if the process side is already lined up, late opening allows process fluid to remain in the reboiler while heat is applied, potentially causing over-pressure or thermal stress when the heating medium eventually opens.\", \"safeguard_ids\": [], \"adequacy\": \"inadequate\", \"confidence\": \"sure\", \"reason\": \"The step describes opening heating-medium valves; doing it late after line-up means the process side is already configured, and applying heat late can cause operational upsets with no listed safeguard.\"}]}], \"added_questions\": []}",
+  "cost_usd": 0.0002844,
+  "finish_reason": "stop",
+  "input_tokens": 3132,
+  "output_tokens": 402,
+  "raw": {
+   "choices": [
+    {
+     "finish_reason": "stop",
+     "index": 0,
+     "logprobs": null,
+     "message": {
+      "annotations": null,
+      "audio": null,
+      "content": "{\"answers\": [{\"question_id\": \"proc:P-REB-START-2:early\", \"not_credible\": null, \"findings\": [{\"cause_id\": \"C16\", \"cause_text\": null, \"failing_component_type\": \"operator\", \"failing_component_ids\": [\"P-REB-START-2\"], \"consequence\": \"Heating medium flows to the reboiler before the process side is properly lined up; if the process valves are not correctly set, process fluid could escape or mixing could occur in the reboiler.\", \"safeguard_ids\": [], \"adequacy\": \"inadequate\", \"confidence\": \"sure\", \"reason\": \"The step describes opening heating-medium valves; doing this before line-up (P-REB-START-1) means the reboiler may not be correctly configured for the process stream, and no safeguard is listed to prevent flow before proper configuration.\"}]}, {\"question_id\": \"proc:P-REB-START-2:late\", \"not_credible\": null, \"findings\": [{\"cause_id\": \"C16\", \"cause_text\": null, \"failing_component_type\": \"operator\", \"failing_component_ids\": [\"P-REB-START-2\"], \"consequence\": \"Heating medium is delayed; if the process side is already lined up, late opening allows process fluid to remain in the reboiler while heat is applied, potentially causing over-pressure or thermal stress when the heating medium eventually opens.\", \"safeguard_ids\": [], \"adequacy\": \"inadequate\", \"confidence\": \"sure\", \"reason\": \"The step describes opening heating-medium valves; doing it late after line-up means the process side is already configured, and applying heat late can cause operational upsets with no listed safeguard.\"}]}], \"added_questions\": []}",
+      "function_call": null,
+      "reasoning": null,
+      "reasoning_content": null,
+      "refusal": null,
+      "role": "assistant",
+      "tool_calls": null
+     },
+     "stop_reason": null,
+     "token_ids": null
+    }
+   ],
+   "created": 1792667537,
+   "ec_transfer_params": null,
+   "id": "chatcmpl-de8ca399efd5f80076b5169e872262aa",
+   "kv_transfer_params": null,
+   "metadata": null,
+   "model": "nvidia/Nemotron-3_5-Lightning",
+   "moderation": null,
+   "object": "chat.completion",
+   "prompt_logprobs": null,
+   "prompt_token_ids": null,
+   "service_tier": null,
+   "system_fingerprint": null,
+   "usage": {
+    "completion_tokens": 402,
+    "completion_tokens_details": {
+     "accepted_prediction_tokens": null,
+     "audio_tokens": null,
+     "reasoning_tokens": 0,
+     "rejected_prediction_tokens": null,
+     "text_tokens": null
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 3132,
+    "prompt_tokens": 3132,
+    "prompt_tokens_details": null,
+    "total_tokens": 3534
+   }
+  },
+  "reasoning": null,
+  "tool_calls": []
+ }
+}

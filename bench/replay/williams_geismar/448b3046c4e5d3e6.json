@@ -1,0 +1,63 @@
+{
+ "key": "448b3046c4e5d3e6",
+ "model_id": "nvidia/Nemotron-3_5-Lightning",
+ "prompt_version": "specialists/process/v2",
+ "response": {
+  "content": "{\"answers\": [{\"question_id\": \"m:S-L-B-SIN:more:pressure\", \"not_credible\": null, \"findings\": [{\"cause_id\": \"C15\", \"cause_text\": null, \"failing_component_type\": \"operator\", \"failing_component_ids\": [\"P-REB-START-1\"], \"consequence\": \"Back pressure builds in L-B-SIN and downstream EA-425B because the line block valve HV-B-SIN closes, trapping material and any pressure from the reboiler heat input.\", \"safeguard_ids\": [], \"adequacy\": \"inadequate\", \"confidence\": \"sure\", \"reason\": \"Operator error closing HV-B-SIN (C15) can trap flow in L-B-SIN. The relief device RV-PATH-EA425B is connected through that valve and would not open to relieve the line if HV-B-SIN is closed. No pressure alarm or trip is listed for L-B-SIN.}}], \"}]}], \"added_questions\": []}",
+  "cost_usd": 0.00028368,
+  "finish_reason": "stop",
+  "input_tokens": 3812,
+  "output_tokens": 229,
+  "raw": {
+   "choices": [
+    {
+     "finish_reason": "stop",
+     "index": 0,
+     "logprobs": null,
+     "message": {
+      "annotations": null,
+      "audio": null,
+      "content": "{\"answers\": [{\"question_id\": \"m:S-L-B-SIN:more:pressure\", \"not_credible\": null, \"findings\": [{\"cause_id\": \"C15\", \"cause_text\": null, \"failing_component_type\": \"operator\", \"failing_component_ids\": [\"P-REB-START-1\"], \"consequence\": \"Back pressure builds in L-B-SIN and downstream EA-425B because the line block valve HV-B-SIN closes, trapping material and any pressure from the reboiler heat input.\", \"safeguard_ids\": [], \"adequacy\": \"inadequate\", \"confidence\": \"sure\", \"reason\": \"Operator error closing HV-B-SIN (C15) can trap flow in L-B-SIN. The relief device RV-PATH-EA425B is connected through that valve and would not open to relieve the line if HV-B-SIN is closed. No pressure alarm or trip is listed for L-B-SIN.}}], \"}]}], \"added_questions\": []}",
+      "function_call": null,
+      "reasoning": null,
+      "reasoning_content": null,
+      "refusal": null,
+      "role": "assistant",
+      "tool_calls": null
+     },
+     "stop_reason": null,
+     "token_ids": null
+    }
+   ],
+   "created": 1792666695,
+   "ec_transfer_params": null,
+   "id": "chatcmpl-bb60109281a4718c9f1424b633876e60",
+   "kv_transfer_params": null,
+   "metadata": null,
+   "model": "nvidia/Nemotron-3_5-Lightning",
+   "moderation": null,
+   "object": "chat.completion",
+   "prompt_logprobs": null,
+   "prompt_token_ids": null,
+   "service_tier": null,
+   "system_fingerprint": null,
+   "usage": {
+    "completion_tokens": 229,
+    "completion_tokens_details": {
+     "accepted_prediction_tokens": null,
+     "audio_tokens": null,
+     "reasoning_tokens": 0,
+     "rejected_prediction_tokens": null,
+     "text_tokens": null
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 3812,
+    "prompt_tokens": 3812,
+    "prompt_tokens_details": null,
+    "total_tokens": 4041
+   }
+  },
+  "reasoning": null,
+  "tool_calls": []
+ }
+}

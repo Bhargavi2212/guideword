@@ -1,0 +1,63 @@
+{
+ "key": "35f47625bfcaa6e3",
+ "model_id": "nvidia/Nemotron-3_5-Lightning",
+ "prompt_version": "specialists/process/v2",
+ "response": {
+  "content": "{\"answers\": [{\"question_id\": \"m:S-L-A-SIN:reverse:flow\", \"not_credible\": {\"reason\": \"Reverse flow in L-A-SIN is not credible because the line runs from the propylene fractionator (DA-406) to the reboiler (EA-425A); there is no downstream equipment at higher pressure to push flow backwards, and the control logic and pump status do not support a reversal mechanism.\"}, \"findings\": []}], \"added_questions\": []}",
+  "cost_usd": 0.00023484,
+  "finish_reason": "stop",
+  "input_tokens": 3462,
+  "output_tokens": 113,
+  "raw": {
+   "choices": [
+    {
+     "finish_reason": "stop",
+     "index": 0,
+     "logprobs": null,
+     "message": {
+      "annotations": null,
+      "audio": null,
+      "content": "{\"answers\": [{\"question_id\": \"m:S-L-A-SIN:reverse:flow\", \"not_credible\": {\"reason\": \"Reverse flow in L-A-SIN is not credible because the line runs from the propylene fractionator (DA-406) to the reboiler (EA-425A); there is no downstream equipment at higher pressure to push flow backwards, and the control logic and pump status do not support a reversal mechanism.\"}, \"findings\": []}], \"added_questions\": []}",
+      "function_call": null,
+      "reasoning": null,
+      "reasoning_content": null,
+      "refusal": null,
+      "role": "assistant",
+      "tool_calls": null
+     },
+     "stop_reason": null,
+     "token_ids": null
+    }
+   ],
+   "created": 1792667303,
+   "ec_transfer_params": null,
+   "id": "chatcmpl-cd1ffb4674a19338f40cc91450cba4fc",
+   "kv_transfer_params": null,
+   "metadata": null,
+   "model": "nvidia/Nemotron-3_5-Lightning",
+   "moderation": null,
+   "object": "chat.completion",
+   "prompt_logprobs": null,
+   "prompt_token_ids": null,
+   "service_tier": null,
+   "system_fingerprint": null,
+   "usage": {
+    "completion_tokens": 113,
+    "completion_tokens_details": {
+     "accepted_prediction_tokens": null,
+     "audio_tokens": null,
+     "reasoning_tokens": 0,
+     "rejected_prediction_tokens": null,
+     "text_tokens": null
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 3462,
+    "prompt_tokens": 3462,
+    "prompt_tokens_details": null,
+    "total_tokens": 3575
+   }
+  },
+  "reasoning": null,
+  "tool_calls": []
+ }
+}

@@ -1,0 +1,63 @@
+{
+ "key": "7e690cad9ce9f1ed",
+ "model_id": "nvidia/Nemotron-3_5-Lightning",
+ "prompt_version": "specialists/process/v2",
+ "response": {
+  "content": "{\"answers\": [{\"question_id\": \"m:S-L-B-SOUT:as_well_as:composition\", \"not_credible\": null, \"findings\": [{\"cause_id\": \"C15\", \"cause_text\": null, \"failing_component_type\": \"operator\", \"failing_component_ids\": [\"P-REB-START-1\"], \"consequence\": \"Propylene, propane and C4-heavies remain in the isolated reboiler and line when heating-medium flow is not established, and the relief device RV-PATH-EA425B may lift if pressure builds from retained heat.\", \"safeguard_ids\": [\"RV-PATH-EA425B\"], \"adequacy\": \"inadequate\", \"confidence\": \"sure\", \"reason\": \"The line L-B-SOUT carries propylene, propane and C4-heavies. A valve left open after isolation (cause C15) allows retained material to stay in the reboiler EA-425B. The reboiler's heat-source line L-QW-B-IN has its inlet valve HV-QW-B-IN and outlet valve HV-QW-B-OUT listed in procedure P-REB-START-2\"}]}], \"added_questions\": []}",
+  "cost_usd": 0.00030924,
+  "finish_reason": "stop",
+  "input_tokens": 4070,
+  "output_tokens": 271,
+  "raw": {
+   "choices": [
+    {
+     "finish_reason": "stop",
+     "index": 0,
+     "logprobs": null,
+     "message": {
+      "annotations": null,
+      "audio": null,
+      "content": "{\"answers\": [{\"question_id\": \"m:S-L-B-SOUT:as_well_as:composition\", \"not_credible\": null, \"findings\": [{\"cause_id\": \"C15\", \"cause_text\": null, \"failing_component_type\": \"operator\", \"failing_component_ids\": [\"P-REB-START-1\"], \"consequence\": \"Propylene, propane and C4-heavies remain in the isolated reboiler and line when heating-medium flow is not established, and the relief device RV-PATH-EA425B may lift if pressure builds from retained heat.\", \"safeguard_ids\": [\"RV-PATH-EA425B\"], \"adequacy\": \"inadequate\", \"confidence\": \"sure\", \"reason\": \"The line L-B-SOUT carries propylene, propane and C4-heavies. A valve left open after isolation (cause C15) allows retained material to stay in the reboiler EA-425B. The reboiler's heat-source line L-QW-B-IN has its inlet valve HV-QW-B-IN and outlet valve HV-QW-B-OUT listed in procedure P-REB-START-2\"}]}], \"added_questions\": []}",
+      "function_call": null,
+      "reasoning": null,
+      "reasoning_content": null,
+      "refusal": null,
+      "role": "assistant",
+      "tool_calls": null
+     },
+     "stop_reason": null,
+     "token_ids": null
+    }
+   ],
+   "created": 1792666758,
+   "ec_transfer_params": null,
+   "id": "chatcmpl-00dc82d4617a814a4123b808beee6f3b",
+   "kv_transfer_params": null,
+   "metadata": null,
+   "model": "nvidia/Nemotron-3_5-Lightning",
+   "moderation": null,
+   "object": "chat.completion",
+   "prompt_logprobs": null,
+   "prompt_token_ids": null,
+   "service_tier": null,
+   "system_fingerprint": null,
+   "usage": {
+    "completion_tokens": 271,
+    "completion_tokens_details": {
+     "accepted_prediction_tokens": null,
+     "audio_tokens": null,
+     "reasoning_tokens": 0,
+     "rejected_prediction_tokens": null,
+     "text_tokens": null
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 4070,
+    "prompt_tokens": 4070,
+    "prompt_tokens_details": null,
+    "total_tokens": 4341
+   }
+  },
+  "reasoning": null,
+  "tool_calls": []
+ }
+}

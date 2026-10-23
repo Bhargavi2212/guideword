@@ -1,0 +1,63 @@
+{
+ "key": "dc92fd4038826973",
+ "model_id": "nvidia/Nemotron-3_5-Lightning",
+ "prompt_version": "specialists/process/v2",
+ "response": {
+  "content": "{\"answers\": [{\"question_id\": \"m:S-L-B-SOUT:more:flow\", \"not_credible\": {\"reason\": \"No flow in this line is expected; the line is flagged no_flow and is designated standby, so more flow is not credible without a change in status or procedure execution.\"}, \"findings\": []}], \"added_questions\": []}",
+  "cost_usd": 0.00022998,
+  "finish_reason": "stop",
+  "input_tokens": 3505,
+  "output_tokens": 82,
+  "raw": {
+   "choices": [
+    {
+     "finish_reason": "stop",
+     "index": 0,
+     "logprobs": null,
+     "message": {
+      "annotations": null,
+      "audio": null,
+      "content": "{\"answers\": [{\"question_id\": \"m:S-L-B-SOUT:more:flow\", \"not_credible\": {\"reason\": \"No flow in this line is expected; the line is flagged no_flow and is designated standby, so more flow is not credible without a change in status or procedure execution.\"}, \"findings\": []}], \"added_questions\": []}",
+      "function_call": null,
+      "reasoning": null,
+      "reasoning_content": null,
+      "refusal": null,
+      "role": "assistant",
+      "tool_calls": null
+     },
+     "stop_reason": null,
+     "token_ids": null
+    }
+   ],
+   "created": 1792666790,
+   "ec_transfer_params": null,
+   "id": "chatcmpl-e88af5b3e1c8852c34fe3c831334bf75",
+   "kv_transfer_params": null,
+   "metadata": null,
+   "model": "nvidia/Nemotron-3_5-Lightning",
+   "moderation": null,
+   "object": "chat.completion",
+   "prompt_logprobs": null,
+   "prompt_token_ids": null,
+   "service_tier": null,
+   "system_fingerprint": null,
+   "usage": {
+    "completion_tokens": 82,
+    "completion_tokens_details": {
+     "accepted_prediction_tokens": null,
+     "audio_tokens": null,
+     "reasoning_tokens": 0,
+     "rejected_prediction_tokens": null,
+     "text_tokens": null
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 3505,
+    "prompt_tokens": 3505,
+    "prompt_tokens_details": null,
+    "total_tokens": 3587
+   }
+  },
+  "reasoning": null,
+  "tool_calls": []
+ }
+}

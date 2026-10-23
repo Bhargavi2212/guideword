@@ -1,0 +1,63 @@
+{
+ "key": "6812314ecad55e3e",
+ "model_id": "nvidia/Nemotron-3_5-Lightning",
+ "prompt_version": "specialists/process/v2",
+ "response": {
+  "content": "{\"answers\": [{\"question_id\": \"m:S-L-QW-B-IN:reverse:flow\", \"not_credible\": {\"reason\": \"The line L-QW-B-IN is a single no-flow line with no downstream section at higher pressure to drive reverse flow. Flow is blocked at the outlet valve and isolated at the reboiler shell.\"}, \"findings\": []}], \"added_questions\": []}",
+  "cost_usd": 0.00022506,
+  "finish_reason": "stop",
+  "input_tokens": 3395,
+  "output_tokens": 89,
+  "raw": {
+   "choices": [
+    {
+     "finish_reason": "stop",
+     "index": 0,
+     "logprobs": null,
+     "message": {
+      "annotations": null,
+      "audio": null,
+      "content": "{\"answers\": [{\"question_id\": \"m:S-L-QW-B-IN:reverse:flow\", \"not_credible\": {\"reason\": \"The line L-QW-B-IN is a single no-flow line with no downstream section at higher pressure to drive reverse flow. Flow is blocked at the outlet valve and isolated at the reboiler shell.\"}, \"findings\": []}], \"added_questions\": []}",
+      "function_call": null,
+      "reasoning": null,
+      "reasoning_content": null,
+      "refusal": null,
+      "role": "assistant",
+      "tool_calls": null
+     },
+     "stop_reason": null,
+     "token_ids": null
+    }
+   ],
+   "created": 1792667638,
+   "ec_transfer_params": null,
+   "id": "chatcmpl-8004e32af6d35d39fe17f91982956b3f",
+   "kv_transfer_params": null,
+   "metadata": null,
+   "model": "nvidia/Nemotron-3_5-Lightning",
+   "moderation": null,
+   "object": "chat.completion",
+   "prompt_logprobs": null,
+   "prompt_token_ids": null,
+   "service_tier": null,
+   "system_fingerprint": null,
+   "usage": {
+    "completion_tokens": 89,
+    "completion_tokens_details": {
+     "accepted_prediction_tokens": null,
+     "audio_tokens": null,
+     "reasoning_tokens": 0,
+     "rejected_prediction_tokens": null,
+     "text_tokens": null
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 3395,
+    "prompt_tokens": 3395,
+    "prompt_tokens_details": null,
+    "total_tokens": 3484
+   }
+  },
+  "reasoning": null,
+  "tool_calls": []
+ }
+}

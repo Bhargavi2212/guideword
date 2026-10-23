@@ -1,0 +1,63 @@
+{
+ "key": "2f9dd2f096496609",
+ "model_id": "nvidia/Nemotron-3_5-Lightning",
+ "prompt_version": "specialists/process/v2",
+ "response": {
+  "content": "{\"answers\": [{\"question_id\": \"m:S-L-A-SIN:more:pressure\", \"not_credible\": null, \"findings\": [{\"cause_id\": \"C15\", \"cause_text\": null, \"failing_component_type\": \"operator\", \"failing_component_ids\": [\"P-REB-START-1\"], \"consequence\": \"Pipe section S-L-A-SIN overpressurized beyond design limit of 2068 kPa, risking relief device lift or pipe rupture.\", \"safeguard_ids\": [\"RV-PATH-EA425A\", \"SV-421QA\", \"SV-421QB\"], \"adequacy\": \"inadequate\", \"confidence\": \"sure\", \"reason\": \"Operators starting the reboiler may leave HV-A-SIN or HV-A-SOUT partially or fully closed, restricting flow and causing pressure to build in the pipe section; relief devices are listed as safeguards but their inlet valves include HV-A-SIN which can isolate the reboiler relief path if closed.\"}, {\"cause_id\": \"C17\", \"cause_text\": null, \"failing_component_type\": \"operator\", \"failing_component_ids\": [\"P-REB-START-1\"], \"consequence\": \"Pipe section S-L-A-SIN overpressurized due to blocked outlet from a closed manual block valve on the reboiler outlet line.\", \"safeguard_ids\": [\"RV-PATH-EA425A\", \"SV-421QA\", \"SV-421QB\"], \"adequacy\": \"inadequate\", \"confidence\": \"sure\", \"reason\": \"Closing HV-A-SOUT on the reboiler outlet during startup blocks the normal outlet path, causing pressure to accumulate in the pipe section; relief devices may not discharge if inlet valves isolate the equipment.\"}]}], \"added_questions\": []}",
+  "cost_usd": 0.00032256,
+  "finish_reason": "stop",
+  "input_tokens": 3720,
+  "output_tokens": 414,
+  "raw": {
+   "choices": [
+    {
+     "finish_reason": "stop",
+     "index": 0,
+     "logprobs": null,
+     "message": {
+      "annotations": null,
+      "audio": null,
+      "content": "{\"answers\": [{\"question_id\": \"m:S-L-A-SIN:more:pressure\", \"not_credible\": null, \"findings\": [{\"cause_id\": \"C15\", \"cause_text\": null, \"failing_component_type\": \"operator\", \"failing_component_ids\": [\"P-REB-START-1\"], \"consequence\": \"Pipe section S-L-A-SIN overpressurized beyond design limit of 2068 kPa, risking relief device lift or pipe rupture.\", \"safeguard_ids\": [\"RV-PATH-EA425A\", \"SV-421QA\", \"SV-421QB\"], \"adequacy\": \"inadequate\", \"confidence\": \"sure\", \"reason\": \"Operators starting the reboiler may leave HV-A-SIN or HV-A-SOUT partially or fully closed, restricting flow and causing pressure to build in the pipe section; relief devices are listed as safeguards but their inlet valves include HV-A-SIN which can isolate the reboiler relief path if closed.\"}, {\"cause_id\": \"C17\", \"cause_text\": null, \"failing_component_type\": \"operator\", \"failing_component_ids\": [\"P-REB-START-1\"], \"consequence\": \"Pipe section S-L-A-SIN overpressurized due to blocked outlet from a closed manual block valve on the reboiler outlet line.\", \"safeguard_ids\": [\"RV-PATH-EA425A\", \"SV-421QA\", \"SV-421QB\"], \"adequacy\": \"inadequate\", \"confidence\": \"sure\", \"reason\": \"Closing HV-A-SOUT on the reboiler outlet during startup blocks the normal outlet path, causing pressure to accumulate in the pipe section; relief devices may not discharge if inlet valves isolate the equipment.\"}]}], \"added_questions\": []}",
+      "function_call": null,
+      "reasoning": null,
+      "reasoning_content": null,
+      "refusal": null,
+      "role": "assistant",
+      "tool_calls": null
+     },
+     "stop_reason": null,
+     "token_ids": null
+    }
+   ],
+   "created": 1792667281,
+   "ec_transfer_params": null,
+   "id": "chatcmpl-18949ec5261bb18cf66e16d5a838e761",
+   "kv_transfer_params": null,
+   "metadata": null,
+   "model": "nvidia/Nemotron-3_5-Lightning",
+   "moderation": null,
+   "object": "chat.completion",
+   "prompt_logprobs": null,
+   "prompt_token_ids": null,
+   "service_tier": null,
+   "system_fingerprint": null,
+   "usage": {
+    "completion_tokens": 414,
+    "completion_tokens_details": {
+     "accepted_prediction_tokens": null,
+     "audio_tokens": null,
+     "reasoning_tokens": 0,
+     "rejected_prediction_tokens": null,
+     "text_tokens": null
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 3720,
+    "prompt_tokens": 3720,
+    "prompt_tokens_details": null,
+    "total_tokens": 4134
+   }
+  },
+  "reasoning": null,
+  "tool_calls": []
+ }
+}

@@ -1,0 +1,74 @@
+{
+ "key": "dd5514ac03871306",
+ "model_id": "nvidia/nemotron-3-super-120b-a12b",
+ "prompt_version": "specialists/chemistry/v2",
+ "response": {
+  "content": "\n{\n  \"answers\": [\n    {\n      \"question_id\": \"env:C4-HEAVIES:water\",\n      \"not_credible\": {\n        \"reason\": \"No water or moisture sources are listed in the plant context; heavier hydrocarbons are present only in olefins unit equipment and lines, with no indication of water ingress paths.\"\n      },\n      \"findings\": []\n    }\n  ],\n  \"added_questions\": []\n}",
+  "cost_usd": 0.0012015,
+  "finish_reason": "stop",
+  "input_tokens": 3456,
+  "output_tokens": 183,
+  "raw": {
+   "choices": [
+    {
+     "finish_reason": "stop",
+     "index": 0,
+     "logprobs": null,
+     "message": {
+      "annotations": null,
+      "audio": null,
+      "content": "\n{\n  \"answers\": [\n    {\n      \"question_id\": \"env:C4-HEAVIES:water\",\n      \"not_credible\": {\n        \"reason\": \"No water or moisture sources are listed in the plant context; heavier hydrocarbons are present only in olefins unit equipment and lines, with no indication of water ingress paths.\"\n      },\n      \"findings\": []\n    }\n  ],\n  \"added_questions\": []\n}",
+      "function_call": null,
+      "reasoning": "We need to answer env:C4-HEAVIES:water. Check presence: heavier hydrocarbons liquids in various equipment/lines. Water could be from leaks? No water sources given. Could be via external fire causing steam? Not given. We need to determine credibility: could water contact occur? Possibly via leak into neighbor containing water? No water mentioned. So not credible due to no water present. Provide not_credible with reason.",
+      "reasoning_content": "We need to answer env:C4-HEAVIES:water. Check presence: heavier hydrocarbons liquids in various equipment/lines. Water could be from leaks? No water sources given. Could be via external fire causing steam? Not given. We need to determine credibility: could water contact occur? Possibly via leak into neighbor containing water? No water mentioned. So not credible due to no water present. Provide not_credible with reason.",
+      "refusal": null,
+      "role": "assistant",
+      "tool_calls": null
+     },
+     "routed_experts": null,
+     "stop_reason": null,
+     "token_ids": null
+    }
+   ],
+   "created": 1792666518,
+   "ec_transfer_params": null,
+   "id": "chatcmpl-7f28b1a2f6f14973c125c60696af0a12",
+   "kv_transfer_params": null,
+   "metadata": null,
+   "metrics": null,
+   "model": "nvidia/nemotron-3-super-120b-a12b",
+   "moderation": null,
+   "object": "chat.completion",
+   "prompt_logprobs": null,
+   "prompt_text": null,
+   "prompt_token_ids": null,
+   "service_tier": null,
+   "system_fingerprint": "vllm-0.1.dev1+g5001743e3-tp2-05adddbc",
+   "usage": {
+    "completion_tokens": 183,
+    "completion_tokens_details": {
+     "accepted_prediction_tokens": null,
+     "audio_tokens": null,
+     "reasoning_tokens": 89,
+     "rejected_prediction_tokens": null,
+     "text_tokens": null
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 3456,
+    "prompt_tokens": 3456,
+    "prompt_tokens_details": {
+     "audio_tokens": null,
+     "cache_write_tokens": null,
+     "cached_tokens": 0,
+     "created_cache_tokens": 0,
+     "image_tokens": null,
+     "multimodal_tokens": null,
+     "text_tokens": null
+    },
+    "total_tokens": 3639
+   }
+  },
+  "reasoning": "We need to answer env:C4-HEAVIES:water. Check presence: heavier hydrocarbons liquids in various equipment/lines. Water could be from leaks? No water sources given. Could be via external fire causing steam? Not given. We need to determine credibility: could water contact occur? Possibly via leak into neighbor containing water? No water mentioned. So not credible due to no water present. Provide not_credible with reason.",
+  "tool_calls": []
+ }
+}

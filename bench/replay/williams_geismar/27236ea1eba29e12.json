@@ -1,0 +1,63 @@
+{
+ "key": "27236ea1eba29e12",
+ "model_id": "nvidia/Nemotron-3_5-Lightning",
+ "prompt_version": "specialists/process/v2",
+ "response": {
+  "content": "{\"answers\": [{\"question_id\": \"m:S-L-A-SIN:part_of:composition\", \"not_credible\": null, \"findings\": [{\"cause_id\": \"C20\", \"cause_text\": null, \"failing_component_type\": \"pipe\", \"failing_component_ids\": [\"L-A-SIN\"], \"consequence\": \"C4-HEAVIES, PROPANE, PROPYLENE leak into S-L-A-SIN line from piping leak\", \"safeguard_ids\": [], \"adequacy\": \"inadequate\", \"confidence\": \"sure\", \"reason\": \"L-A-SIN is a pipe; C20 (piping leak) causes loss of composition. No safeguards listed.\"}, {\"cause_id\": \"C15\", \"cause_text\": null, \"failing_component_type\": \"operator\", \"failing_component_ids\": [\"P-REB-START-1\"], \"consequence\": \"C4-HEAVIES, PROPANE, PROPYLENE composition change due to valve left in wrong position during start-up\", \"safeguard_ids\": [], \"adequacy\": \"inadequate\", \"confidence\": \"sure\", \"reason\": \"C15 (valve left in wrong position) is operator error. P-REB-START-1 lists HV-A-SIN and HV-A-SOUT as valves to line up. No safeguards listed.\"}]}], \"added_questions\": []}",
+  "cost_usd": 0.00029958,
+  "finish_reason": "stop",
+  "input_tokens": 3721,
+  "output_tokens": 318,
+  "raw": {
+   "choices": [
+    {
+     "finish_reason": "stop",
+     "index": 0,
+     "logprobs": null,
+     "message": {
+      "annotations": null,
+      "audio": null,
+      "content": "{\"answers\": [{\"question_id\": \"m:S-L-A-SIN:part_of:composition\", \"not_credible\": null, \"findings\": [{\"cause_id\": \"C20\", \"cause_text\": null, \"failing_component_type\": \"pipe\", \"failing_component_ids\": [\"L-A-SIN\"], \"consequence\": \"C4-HEAVIES, PROPANE, PROPYLENE leak into S-L-A-SIN line from piping leak\", \"safeguard_ids\": [], \"adequacy\": \"inadequate\", \"confidence\": \"sure\", \"reason\": \"L-A-SIN is a pipe; C20 (piping leak) causes loss of composition. No safeguards listed.\"}, {\"cause_id\": \"C15\", \"cause_text\": null, \"failing_component_type\": \"operator\", \"failing_component_ids\": [\"P-REB-START-1\"], \"consequence\": \"C4-HEAVIES, PROPANE, PROPYLENE composition change due to valve left in wrong position during start-up\", \"safeguard_ids\": [], \"adequacy\": \"inadequate\", \"confidence\": \"sure\", \"reason\": \"C15 (valve left in wrong position) is operator error. P-REB-START-1 lists HV-A-SIN and HV-A-SOUT as valves to line up. No safeguards listed.\"}]}], \"added_questions\": []}",
+      "function_call": null,
+      "reasoning": null,
+      "reasoning_content": null,
+      "refusal": null,
+      "role": "assistant",
+      "tool_calls": null
+     },
+     "stop_reason": null,
+     "token_ids": null
+    }
+   ],
+   "created": 1792667299,
+   "ec_transfer_params": null,
+   "id": "chatcmpl-4bc9feb05d5db01daa820136ee3b2677",
+   "kv_transfer_params": null,
+   "metadata": null,
+   "model": "nvidia/Nemotron-3_5-Lightning",
+   "moderation": null,
+   "object": "chat.completion",
+   "prompt_logprobs": null,
+   "prompt_token_ids": null,
+   "service_tier": null,
+   "system_fingerprint": null,
+   "usage": {
+    "completion_tokens": 318,
+    "completion_tokens_details": {
+     "accepted_prediction_tokens": null,
+     "audio_tokens": null,
+     "reasoning_tokens": 0,
+     "rejected_prediction_tokens": null,
+     "text_tokens": null
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 3721,
+    "prompt_tokens": 3721,
+    "prompt_tokens_details": null,
+    "total_tokens": 4039
+   }
+  },
+  "reasoning": null,
+  "tool_calls": []
+ }
+}

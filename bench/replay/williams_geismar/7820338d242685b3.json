@@ -1,0 +1,69 @@
+{
+ "key": "7820338d242685b3",
+ "model_id": "nvidia/Nemotron-3_5-Lightning",
+ "prompt_version": "specialists/process/v2",
+ "response": {
+  "content": "{\"answers\": [{\"question_id\": \"m:S-DA-406:more:level\", \"not_credible\": null, \"findings\": [{\"cause_id\": \"outside_library\", \"cause_text\": \"Overfill due to control system failure\", \"failing_component_type\": \"control_loop\", \"failing_component_ids\": [\"L-QW-A-IN\", \"HV-QW-A-OUT\"], \"consequence\": \"Liquid level rises in the column as feed and outlet flows continue unchecked; pressure builds until relief device activates\", \"safeguard_ids\": [\"RV-PATH-EA425A\", \"SV-421QA\", \"SV-421QB\"], \"adequacy\": \"inadequate\", \"confidence\": \"sure\", \"reason\": \"No high-level alarm or trip listed for the column; relief valves protect the column but only if inlet valves HV-A-SIN or HV-A-SOUT are open to allow flow into the relief path\"}]}], \"added_questions\": []}",
+  "cost_usd": 0.00032982,
+  "finish_reason": "stop",
+  "input_tokens": 4601,
+  "output_tokens": 224,
+  "raw": {
+   "choices": [
+    {
+     "finish_reason": "stop",
+     "index": 0,
+     "logprobs": null,
+     "message": {
+      "annotations": null,
+      "audio": null,
+      "content": "{\"answers\": [{\"question_id\": \"m:S-DA-406:more:level\", \"not_credible\": null, \"findings\": [{\"cause_id\": \"outside_library\", \"cause_text\": \"Overfill due to control system failure\", \"failing_component_type\": \"control_loop\", \"failing_component_ids\": [\"L-QW-A-IN\", \"HV-QW-A-OUT\"], \"consequence\": \"Liquid level rises in the column as feed and outlet flows continue unchecked; pressure builds until relief device activates\", \"safeguard_ids\": [\"RV-PATH-EA425A\", \"SV-421QA\", \"SV-421QB\"], \"adequacy\": \"inadequate\", \"confidence\": \"sure\", \"reason\": \"No high-level alarm or trip listed for the column; relief valves protect the column but only if inlet valves HV-A-SIN or HV-A-SOUT are open to allow flow into the relief path\"}]}], \"added_questions\": []}",
+      "function_call": null,
+      "reasoning": null,
+      "reasoning_content": null,
+      "refusal": null,
+      "role": "assistant",
+      "tool_calls": null
+     },
+     "stop_reason": null,
+     "token_ids": null
+    }
+   ],
+   "created": 1792666552,
+   "ec_transfer_params": null,
+   "id": "chatcmpl-5c5be71f50f2665532a262e24d69dbcc",
+   "kv_transfer_params": null,
+   "metadata": null,
+   "model": "nvidia/Nemotron-3_5-Lightning",
+   "moderation": null,
+   "object": "chat.completion",
+   "prompt_logprobs": null,
+   "prompt_token_ids": null,
+   "service_tier": null,
+   "system_fingerprint": null,
+   "usage": {
+    "completion_tokens": 224,
+    "completion_tokens_details": {
+     "accepted_prediction_tokens": null,
+     "audio_tokens": null,
+     "reasoning_tokens": 0,
+     "rejected_prediction_tokens": null,
+     "text_tokens": null
+    },
+    "prompt_cache_hit_tokens": 2096,
+    "prompt_cache_miss_tokens": 2505,
+    "prompt_tokens": 4601,
+    "prompt_tokens_details": {
+     "audio_tokens": null,
+     "cache_write_tokens": null,
+     "cached_tokens": 2096,
+     "image_tokens": null,
+     "text_tokens": null
+    },
+    "total_tokens": 4825
+   }
+  },
+  "reasoning": null,
+  "tool_calls": []
+ }
+}

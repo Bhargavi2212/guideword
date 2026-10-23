@@ -1,0 +1,63 @@
+{
+ "key": "eab811438bdef29a",
+ "model_id": "nvidia/Nemotron-3_5-Lightning",
+ "prompt_version": "specialists/procedures/v2",
+ "response": {
+  "content": "{\"answers\": [{\"question_id\": \"proc:P-REB-START-1:early\", \"not_credible\": null, \"findings\": [{\"cause_id\": \"C16\", \"cause_text\": null, \"failing_component_type\": \"operator\", \"failing_component_ids\": [\"P-REB-START-1\"], \"consequence\": \"Reboiler shell side remains empty; heating medium does not flow to the reboiler tube side. Process fluid in the reboiler shell may stagnate with no heat added. The reboiler cannot fulfill its thermal duty.\", \"safeguard_ids\": [], \"adequacy\": \"inadequate\", \"confidence\": \"sure\", \"reason\": \"Step P-REB-START-1 is the line-up step. If done early, the reboiler is not yet aligned to the process, so heating medium cannot reach the tubes. No listed safeguard forces valve positioning after start-up alignment; the procedure itself enforces sequence, but a safeguard to prevent operation with an\"}]}], \"added_questions\": []}",
+  "cost_usd": 0.0005619599999999999,
+  "finish_reason": "stop",
+  "input_tokens": 8430,
+  "output_tokens": 234,
+  "raw": {
+   "choices": [
+    {
+     "finish_reason": "stop",
+     "index": 0,
+     "logprobs": null,
+     "message": {
+      "annotations": null,
+      "audio": null,
+      "content": "{\"answers\": [{\"question_id\": \"proc:P-REB-START-1:early\", \"not_credible\": null, \"findings\": [{\"cause_id\": \"C16\", \"cause_text\": null, \"failing_component_type\": \"operator\", \"failing_component_ids\": [\"P-REB-START-1\"], \"consequence\": \"Reboiler shell side remains empty; heating medium does not flow to the reboiler tube side. Process fluid in the reboiler shell may stagnate with no heat added. The reboiler cannot fulfill its thermal duty.\", \"safeguard_ids\": [], \"adequacy\": \"inadequate\", \"confidence\": \"sure\", \"reason\": \"Step P-REB-START-1 is the line-up step. If done early, the reboiler is not yet aligned to the process, so heating medium cannot reach the tubes. No listed safeguard forces valve positioning after start-up alignment; the procedure itself enforces sequence, but a safeguard to prevent operation with an\"}]}], \"added_questions\": []}",
+      "function_call": null,
+      "reasoning": null,
+      "reasoning_content": null,
+      "refusal": null,
+      "role": "assistant",
+      "tool_calls": null
+     },
+     "stop_reason": null,
+     "token_ids": null
+    }
+   ],
+   "created": 1792557754,
+   "ec_transfer_params": null,
+   "id": "chatcmpl-d17df3e280d879f6be967b60afd6e641",
+   "kv_transfer_params": null,
+   "metadata": null,
+   "model": "nvidia/Nemotron-3_5-Lightning",
+   "moderation": null,
+   "object": "chat.completion",
+   "prompt_logprobs": null,
+   "prompt_token_ids": null,
+   "service_tier": null,
+   "system_fingerprint": null,
+   "usage": {
+    "completion_tokens": 234,
+    "completion_tokens_details": {
+     "accepted_prediction_tokens": null,
+     "audio_tokens": null,
+     "reasoning_tokens": 0,
+     "rejected_prediction_tokens": null,
+     "text_tokens": null
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 8430,
+    "prompt_tokens": 8430,
+    "prompt_tokens_details": null,
+    "total_tokens": 8664
+   }
+  },
+  "reasoning": null,
+  "tool_calls": []
+ }
+}
