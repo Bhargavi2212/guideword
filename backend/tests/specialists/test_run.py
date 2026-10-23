@@ -622,3 +622,46 @@ def test_new_runs_store_the_single_retry_cap_and_d_to_g_do_not(config: Config) -
         )
     )["runs"]
     assert all("retry_failed_batch_singly" not in r["inputs"]["caps"] for r in stored.values())
+
+
+def test_a_refused_retry_keeps_the_first_attempts_record_and_cost(
+    build: Any, world: Any, ref: ReferenceSet, config: Config
+) -> None:
+    """Bug fix (2026-10-22): the first attempt was invalid and paid; the slice refused the
+    validation retry. The first attempt's record and cost stay on the outcome, so the run's
+    spend matches the ledger for that call (the WG final run lost $0.0083 this way)."""
+    from guideword.specialists.run import prepare_batch  # noqa: PLC0415
+
+    gateway, transport = build(lambda job, r: reply("not the schema"))
+    plant, sections, questions = world
+    max_tokens = config.caps.run.max_tokens["specialist_bulk"]
+    prices = config.models.tiers[Tier.LIGHTNING]
+    prepared = prepare_batch(
+        gateway,
+        plant=plant,
+        ref=ref,
+        config=config,
+        sections=sections,
+        questions=[questions[q] for q in MX],
+        agent=Agent.PROCESS,
+        ai_remaining=20,
+        level="bulk",
+    )
+    assert not isinstance(prepared, BatchOutcome)
+    limit = estimate_cost(prices, prepared.conversation, None, max_tokens).cost_usd
+    out = _run(
+        gateway,
+        world,
+        ref,
+        config,
+        Agent.PROCESS,
+        MX,
+        budget=RunBudget(RUN, 0.0, limit, slice_id="b0"),
+    )
+    assert out.status == "failed" and len(transport.sent) == 1
+    assert [c.outcome for c in out.model_calls] == ["invalid"]
+    paid = gateway._ledger.entries()  # noqa: SLF001 - the ledger line the call wrote
+    assert len(paid) == 1
+    assert paid[0].cost_usd > 0
+    assert out.cost_usd == pytest.approx(paid[0].cost_usd)
+    assert out.model_calls[0].cost_usd == pytest.approx(paid[0].cost_usd)

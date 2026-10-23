@@ -35,6 +35,7 @@ from guideword.runs.case import (
     steppers_for,
 )
 from guideword.runs.db import make_session_factory
+from guideword.runs.machine import spend_check
 from guideword.runs.plants import PlantRepository
 from guideword.runs.start import ModeNotBuilt
 from guideword.runs.store import RunRepository
@@ -215,6 +216,10 @@ def main(
     drive(runs, run.id, steppers_for(gateway, config, ref, record.plant_file, evidence=tools))
     case = args.plant.stem
     report = case_report(runs, run.id, record.plant_file, ref, config.caps, case)
+    # beside R45 (bug fix, 2026-10-22): the run's spend against its own ledger lines
+    finished = runs.get(run.id)
+    if finished is not None:
+        report["spend_check"] = spend_check(finished, ledger.entries())
     target = args.out_dir or out_dir or default_out_dir(args.plant)
     target.mkdir(parents=True, exist_ok=True)
     path = target / f"{case}.json"
@@ -222,6 +227,13 @@ def main(
         json.dumps(report, indent=1, ensure_ascii=False) + "\n", encoding="utf-8", newline="\n"
     )
     _print_report(report)
+    check = report.get("spend_check")
+    if check is not None and check["ledger_usd"] is not None:
+        verdict = "matches" if check["matches"] else "DOES NOT MATCH"
+        print(
+            f"spend check: records ${check['spent_usd']:.4f}, ledger ${check['ledger_usd']:.4f}"
+            f" ({verdict})"
+        )
     print(f"wrote {path}")
     return 0
 

@@ -320,12 +320,18 @@ def run_batch(
             return GatewayResult(outcome="error", tier=tier, model_id=model_id, error=str(repeated))
         except BudgetRefused as refused:
             if budget.slice_id is None or refused.status != RunStatus.STOPPED_CAP:
+                # the batch's records so far go with the refusal, so the run records them
+                refused.carry(outcome.model_calls, outcome.cost_usd, outcome.cap_cost_usd)
                 raise
-            return GatewayResult(
+            # the slice is used up: the batch fails, and the attempts already made stay
+            result = GatewayResult(
                 outcome="error",
                 tier=tier,
                 model_id=model_id,
                 error=f"the batch slice is used up: {refused}",
+                cost_usd=refused.cost_usd,
+                cap_cost_usd=refused.cap_cost_usd,
+                model_calls=list(refused.attempts),
             )
         spent += result.cap_cost_usd
         outcome.cost_usd += result.cost_usd
@@ -464,22 +470,26 @@ def run_batch(
         if not retry_missing:
             outcome.questions.append(_attempted(question, caps.question_max_attempts))
             continue
-        alone = run_batch(
-            gateway,
-            plant=plant,
-            ref=ref,
-            config=config,
-            sections=sections,
-            questions=[question],
-            agent=agent,
-            budget=RunBudget(budget.run_id, spent, budget.limit_usd, budget.slice_id),
-            previous_step_id=answer_step.id,
-            ai_remaining=0,
-            existing_question_ids=existing_question_ids,
-            level=level,
-            retry_missing=False,
-            made=made,
-        )
+        try:
+            alone = run_batch(
+                gateway,
+                plant=plant,
+                ref=ref,
+                config=config,
+                sections=sections,
+                questions=[question],
+                agent=agent,
+                budget=RunBudget(budget.run_id, spent, budget.limit_usd, budget.slice_id),
+                previous_step_id=answer_step.id,
+                ai_remaining=0,
+                existing_question_ids=existing_question_ids,
+                level=level,
+                retry_missing=False,
+                made=made,
+            )
+        except BudgetRefused as refused:
+            refused.carry(outcome.model_calls, outcome.cost_usd, outcome.cap_cost_usd)
+            raise
         spent += alone.cap_cost_usd
         _merge(outcome, alone)
     return outcome
@@ -518,22 +528,27 @@ def _each_alone(
     spent = budget.cap_spent_usd
     answered = False
     for question in batch:
-        alone = run_batch(
-            gateway,
-            plant=plant,
-            ref=ref,
-            config=config,
-            sections=sections,
-            questions=[question],
-            agent=agent,
-            budget=RunBudget(budget.run_id, spent, budget.limit_usd, budget.slice_id),
-            previous_step_id=previous_step_id,
-            ai_remaining=0,
-            existing_question_ids=existing_question_ids,
-            level=level,
-            retry_missing=False,
-            made=made,
-        )
+        try:
+            alone = run_batch(
+                gateway,
+                plant=plant,
+                ref=ref,
+                config=config,
+                sections=sections,
+                questions=[question],
+                agent=agent,
+                budget=RunBudget(budget.run_id, spent, budget.limit_usd, budget.slice_id),
+                previous_step_id=previous_step_id,
+                ai_remaining=0,
+                existing_question_ids=existing_question_ids,
+                level=level,
+                retry_missing=False,
+                made=made,
+            )
+        except BudgetRefused as refused:
+            # the batch's own calls, and the singles' before this one, were paid
+            refused.carry(outcome.model_calls, outcome.cost_usd, outcome.cap_cost_usd)
+            raise
         spent += alone.cap_cost_usd
         answered = answered or alone.status == "answered"
         _merge(outcome, alone)

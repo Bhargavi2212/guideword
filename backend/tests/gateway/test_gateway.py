@@ -616,3 +616,29 @@ def test_holds_of_another_slice_do_not_count(build: Build) -> None:
     result = _call(gateway, run=RunBudget("run:test", 0.0, limit, slice_id="b"), messages=other)
     thread.join(5)
     assert result.outcome == "ok" and errors == []
+
+
+def test_a_refused_retry_carries_the_attempts_already_made(build: Build) -> None:
+    """Bug fix (2026-10-22): the first attempt is sent, paid and invalid; the run's limit
+    refuses the retry. The refusal carries the first attempt's record and cost, so the
+    caller can record them."""
+    gateway, transport = build(lambda j, r: reply("not json"))
+    request_settings = gateway.config.models.tiers[Tier.LIGHTNING]
+    max_tokens = gateway.config.caps.run.max_tokens["specialist_bulk"]
+    limit = estimate_cost(request_settings, MESSAGES, None, max_tokens).cost_usd
+    with pytest.raises(BudgetRefused) as refused:
+        _call(gateway, run=RunBudget("run:test", 0.0, limit))
+    assert len(transport.sent) == 1
+    attempts = refused.value.attempts
+    assert [c.outcome for c in attempts] == ["invalid"]
+    assert attempts[0].cost_usd > 0
+    assert refused.value.cost_usd == pytest.approx(attempts[0].cost_usd)
+    assert refused.value.cap_cost_usd == pytest.approx(attempts[0].cap_cost_usd)
+
+
+def test_a_refusal_before_any_attempt_carries_nothing(build: Build) -> None:
+    gateway, transport = build(_ok)
+    with pytest.raises(BudgetRefused) as refused:
+        _call(gateway, run=RunBudget("run:test", 0.0, 0.0))
+    assert transport.sent == [] and refused.value.attempts == []
+    assert refused.value.cost_usd == 0.0

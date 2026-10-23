@@ -17,7 +17,7 @@ from guideword.gateway.client import BudgetRefused, Gateway, GatewayResult, RunB
 from guideword.gateway.prompts import Prompt, as_data, load_prompt, render
 from guideword.logs import get_logger
 from guideword.reference import ReferenceSet
-from guideword.runs.machine import StepResult, stop_for_refusal
+from guideword.runs.machine import StepResult, record_attempts, stop_for_refusal
 from guideword.runs.store import StepWriter
 from guideword.schema.enums import EventType
 from guideword.schema.plant import Plant
@@ -127,7 +127,8 @@ class PlantScreenStepper:
             self.reasked = True
             try:
                 result = self._ask(run, writer, kinds, f"{marker}:reask", call_of)
-            except BudgetRefused:
+            except BudgetRefused as refused:
+                record_attempts(writer, refused)
                 notes.append("screen degenerate: re-ask refused at cap")
         chosen = self._best_attempt()
 
