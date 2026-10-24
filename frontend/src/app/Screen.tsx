@@ -1,6 +1,7 @@
 // The screen a route names. F0 ships the shell; each screen arrives in its own PR (spec 5.1–5.7),
 // so until then a route shows its name and which PR builds it.
 
+import { Detail } from "../screens/Detail";
 import { Shortlist } from "../screens/Shortlist";
 import type { Route } from "./router";
 
@@ -26,6 +27,8 @@ export function Screen({ route }: { route: Route }) {
     );
   }
   if (route.name === "shortlist") return <Shortlist runId={route.runId} />;
+  if (route.name === "item")
+    return <Detail runId={route.runId} targetId={route.targetId} />;
   const [title, pr] = TITLES[route.name];
   return (
     <section>

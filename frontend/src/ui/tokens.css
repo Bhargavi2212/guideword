@@ -375,3 +375,113 @@ select {
   border-radius: var(--radius);
   color: var(--ink-soft);
 }
+
+/* --- the finding detail (spec 5.2) ------------------------------------------------------ */
+
+.detail {
+  display: grid;
+  gap: 18px;
+  max-width: 1100px;
+}
+
+.detail .description {
+  font-size: 17px;
+}
+
+.detail dl {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 4px 14px;
+  margin: 0;
+}
+
+.detail dt {
+  color: var(--ink-soft);
+}
+
+.detail dd {
+  margin: 0;
+}
+
+.links {
+  margin: 0;
+  padding-left: 22px;
+  font-family: var(--mono);
+  font-size: 13px;
+}
+
+.lopa table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--surface);
+}
+
+.lopa th,
+.lopa td {
+  border: 1px solid var(--line);
+  padding: 6px 10px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.lopa td p {
+  margin: 4px 0 0;
+}
+
+.lopa tr.refused td[data-column="code"] strong {
+  text-decoration: line-through;
+  color: var(--bad);
+}
+
+.layer-type,
+.note {
+  color: var(--ink-soft);
+}
+
+.evidence {
+  display: grid;
+  gap: 10px;
+}
+
+.evidence-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 10px 14px;
+}
+
+.evidence-card .kind {
+  text-transform: uppercase;
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  color: var(--ink-soft);
+}
+
+.overrides,
+.recommendations li {
+  display: grid;
+  gap: 8px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 10px 14px;
+}
+
+.recommendations {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+
+.overrides label,
+.recommendations label {
+  display: grid;
+  gap: 2px;
+  color: var(--ink-soft);
+}
+
+.blocked {
+  color: var(--warn);
+  font-weight: 600;
+}

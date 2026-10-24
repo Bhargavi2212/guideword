@@ -1,7 +1,7 @@
 // The header every screen shares (spec 5.0): plant and run selectors, the run's label banner,
 // status and step, spend against the cap (traced to the run, C12), the budget, the engineer.
 
-import { useState, type ReactNode } from "react";
+import type { ReactNode } from "react";
 
 import { useResource } from "../api/hooks";
 import type { Budget, PlantList, RunDetail, RunList } from "../api/schema";
@@ -10,7 +10,6 @@ import { LabelBanner } from "../ui/LabelBanner";
 import { RecordDrawer } from "../ui/RecordDrawer";
 import { Traced } from "../ui/Traced";
 import { useApp } from "./context";
-import { browserStorage, loadEngineer, saveEngineer } from "./engineer";
 import { buildHash, type Route } from "./router";
 
 function runOf(route: Route): string | null {
@@ -32,7 +31,7 @@ export function Shell({
   route: Route;
   children: ReactNode;
 }) {
-  const { recordId, closeRecord } = useApp();
+  const { recordId, closeRecord, engineer, setEngineer } = useApp();
   const runId = runOf(route);
   const plants = useResource<PlantList>("/plants");
   const runs = useResource<RunList>("/runs");
@@ -41,9 +40,6 @@ export function Shell({
   );
   const budget = useResource<Budget>("/budget");
   const plantId = plantOf(route) ?? run.data?.run.plant_record_id ?? null;
-  const [engineer, setEngineer] = useState(() =>
-    loadEngineer(browserStorage()),
-  );
 
   return (
     <div className="shell">
@@ -109,10 +105,7 @@ export function Shell({
           <input
             value={engineer}
             placeholder="your name, for overrides"
-            onChange={(e) => {
-              setEngineer(e.target.value);
-              saveEngineer(browserStorage(), e.target.value);
-            }}
+            onChange={(e) => setEngineer(e.target.value)}
           />
         </label>
       </header>

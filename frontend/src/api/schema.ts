@@ -21,6 +21,7 @@ export type PlantDetail = S["PlantDetail"];
 export type PlantFact = S["PlantFact"];
 export type PlantList = S["PlantList"];
 export type PlantSummary = S["PlantSummary"];
+export type Recommendation = S["Recommendation"];
 export type RecordDetail = S["RecordDetail"];
 export type Run = S["Run"];
 export type RunDetail = S["RunDetail"];
