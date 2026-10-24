@@ -3513,6 +3513,18 @@
         "kind": {
           "$ref": "#/$defs/RunLabelKind"
         },
+        "note": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Note"
+        },
         "recorded_at": {
           "anyOf": [
             {

@@ -416,6 +416,8 @@ class DemoResponse(_RunResponse):
     plant: PlantDetail
     run: RunDetail
     shortlist: Shortlist
+    # contract v1.10: the shortlist line the landing marks "start here" (deploy plan D0)
+    start_target_id: Annotated[str | None, Field(exclude_if=lambda v: v is None)] = None
 
 
 # --- budget -----------------------------------------------------------------------------------

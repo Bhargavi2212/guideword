@@ -88,6 +88,10 @@ class RunLabel(_Record):
     kind: RunLabelKind
     recorded_at: datetime | None = None
     cost_usd: float | None = None
+    # contract v1.10: what the label must say about its figures, as code wrote it (e.g. a
+    # recorded run's spend note); shown beside the run's spend. Left out when empty, so labels
+    # without one read as before
+    note: Annotated[str | None, Field(exclude_if=lambda v: v is None)] = None
 
 
 class PlantRecord(_Record):

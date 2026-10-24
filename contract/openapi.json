@@ -1300,6 +1300,17 @@
           },
           "shortlist": {
             "$ref": "#/components/schemas/Shortlist"
+          },
+          "start_target_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Start Target Id"
           }
         },
         "required": [
@@ -5693,6 +5704,17 @@
           },
           "kind": {
             "$ref": "#/components/schemas/RunLabelKind"
+          },
+          "note": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Note"
           },
           "recorded_at": {
             "anyOf": [

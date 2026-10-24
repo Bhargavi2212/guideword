@@ -1069,6 +1069,18 @@
         "kind": {
           "$ref": "#/$defs/RunLabelKind"
         },
+        "note": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Note"
+        },
         "recorded_at": {
           "anyOf": [
             {
@@ -1473,6 +1485,18 @@
     },
     "shortlist": {
       "$ref": "#/$defs/Shortlist"
+    },
+    "start_target_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Start Target Id"
     }
   },
   "required": [

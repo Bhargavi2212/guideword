@@ -928,6 +928,8 @@ export interface components {
             plant: components["schemas"]["PlantDetail"];
             run: components["schemas"]["RunDetail"];
             shortlist: components["schemas"]["Shortlist"];
+            /** Start Target Id */
+            start_target_id?: string | null;
         };
         /** DispatchEventLegacy */
         DispatchEventLegacy: {
@@ -2700,6 +2702,8 @@ export interface components {
             /** Cost Usd */
             cost_usd?: number | null;
             kind: components["schemas"]["RunLabelKind"];
+            /** Note */
+            note?: string | null;
             /** Recorded At */
             recorded_at?: string | null;
         };
