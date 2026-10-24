@@ -56,7 +56,8 @@
             "XV-STM"
           ]
         }
-      ]
+      ],
+      "heat_duty_kw": 500
     }
   ],
   "instruments": [
@@ -207,7 +208,9 @@
       ],
       "physical_form": "liquid",
       "combustible_dust": false,
-      "source": "SDS"
+      "source": "SDS",
+      "density_kg_m3": 1000,
+      "heat_capacity_kj_kg_k": 1.5
     },
     {
       "id": "KOH",
@@ -222,7 +225,9 @@
       ],
       "physical_form": "liquid",
       "combustible_dust": false,
-      "source": "SDS"
+      "source": "SDS",
+      "density_kg_m3": 1450,
+      "heat_capacity_kj_kg_k": 3.0
     }
   ],
   "procedures": [
@@ -263,6 +268,11 @@
   "provenance": {
     "MX-1.design_pressure_kpa": "assumed",
     "SIH": "SDS",
-    "KOH": "SDS"
+    "KOH": "SDS",
+    "MX-1.heat_duty_kw": "Mock Plant A: fictional value for the fixtures",
+    "SIH.density_kg_m3": "Mock Plant A: fictional value for the fixtures",
+    "SIH.heat_capacity_kj_kg_k": "Mock Plant A: fictional value for the fixtures",
+    "KOH.density_kg_m3": "Mock Plant A: fictional value for the fixtures",
+    "KOH.heat_capacity_kj_kg_k": "Mock Plant A: fictional value for the fixtures"
   }
 }

@@ -9,15 +9,16 @@ from typing import Annotated, Any, Literal
 from pydantic import BaseModel, ConfigDict, Field, StrictBool, model_validator
 
 from guideword.schema.enums import (
+    BudgetUse,
     OverrideAction,
     PlantStatus,
     RunStatus,
     SeverityClass,
     ShortlistTier,
 )
+from guideword.schema.events import ApiEvent
 from guideword.schema.records import (
     Chain,
-    Event,
     Evidence,
     Finding,
     Hypothesis,
@@ -141,6 +142,17 @@ class StartRunRequest(_Model):
     plant_id: str
     spend_cap_usd: Annotated[float, Field(gt=0)]
     mode: Literal["full", "sample"]
+    # contract v1.9: both required, never defaulted, and fixed when the run starts (Q4, Q11);
+    # a resume naming another value gets 409
+    use: BudgetUse
+    post_spend_cap_usd: Annotated[float, Field(ge=0)]
+
+
+class AdvanceRequest(_Model):
+    """Contract v1.9 (Q4): the run's use. Required for a run stored without one, which then
+    keeps it; refused with 409 when it differs from the run's."""
+
+    use: BudgetUse | None = None
 
 
 class StartRunResult(_RunResponse):
@@ -170,7 +182,8 @@ class RunDetail(_RunResponse):
 
 class EventsPage(_RunResponse):
     run_id: str
-    events: list[Event]
+    # contract v1.9: typed by event type and stamp (schema/events.py)
+    events: list[ApiEvent]
     # poll again with ?after=next_after
     next_after: int
 
@@ -394,7 +407,7 @@ class RunDump(_RunResponse):
     recommendations: list[Recommendation]
     evidence: list[Evidence]
     overrides: list[Override]
-    events: list[Event]
+    events: list[ApiEvent]
     # contract v1.7: the records re-runs from `chains` replaced, oldest pass first
     superseded: list[SupersededRecord] = Field(default_factory=list)
 

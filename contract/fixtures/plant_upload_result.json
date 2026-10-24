@@ -1,5 +1,5 @@
 {
-  "plant_record_id": "plant:mock_plant_a:437a7c5b6e544611",
+  "plant_record_id": "plant:mock_plant_a:be40872ede387491",
   "ok": true,
   "errors": [],
   "warnings": [
@@ -17,6 +17,426 @@
       "code": "line_without_contents",
       "object_id": "L-STM",
       "message": "L-STM: no contents"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "BLDG-1",
+      "message": "BLDG-1.ignition_sources: no source stated for ignition_sources"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "BLDG-1",
+      "message": "BLDG-1.indoor: no source stated for indoor"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "BLDG-1",
+      "message": "BLDG-1.occupied: no source stated for occupied"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "DCS-1",
+      "message": "DCS-1.system: no source stated for system"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "HV-12",
+      "message": "HV-12.fail_position: no source stated for fail_position"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "HV-12",
+      "message": "HV-12.kind: no source stated for kind"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "HV-12",
+      "message": "HV-12.locked: no source stated for locked"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "HV-12",
+      "message": "HV-12.normal_position: no source stated for normal_position"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "HV-12",
+      "message": "HV-12.on_line_id: no source stated for on_line_id"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "L-12",
+      "message": "L-12.components: no source stated for components"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "L-12",
+      "message": "L-12.contents: no source stated for contents"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "L-12",
+      "message": "L-12.from_id: no source stated for from_id"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "L-12",
+      "message": "L-12.normal_flow_kg_h: no source stated for normal_flow_kg_h"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "L-12",
+      "message": "L-12.size_mm: no source stated for size_mm"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "L-12",
+      "message": "L-12.to_id: no source stated for to_id"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "L-STM",
+      "message": "L-STM.components: no source stated for components"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "L-STM",
+      "message": "L-STM.from_id: no source stated for from_id"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "L-STM",
+      "message": "L-STM.size_mm: no source stated for size_mm"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "L-STM",
+      "message": "L-STM.to_id: no source stated for to_id"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "MX-1",
+      "message": "MX-1.contents: no source stated for contents"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "MX-1",
+      "message": "MX-1.design_temp_c: no source stated for design_temp_c"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "MX-1",
+      "message": "MX-1.heat_sources: no source stated for heat_sources"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "MX-1",
+      "message": "MX-1.location_id: no source stated for location_id"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "MX-1",
+      "message": "MX-1.operating.temperature.alarm_high: no source stated for operating.temperature.alarm_high"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "MX-1",
+      "message": "MX-1.operating.temperature.design_max: no source stated for operating.temperature.design_max"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "MX-1",
+      "message": "MX-1.operating.temperature.normal: no source stated for operating.temperature.normal"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "MX-1",
+      "message": "MX-1.operating.temperature.trip_high: no source stated for operating.temperature.trip_high"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "MX-1",
+      "message": "MX-1.type: no source stated for type"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "MX-1",
+      "message": "MX-1.volume_m3: no source stated for volume_m3"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "P-1",
+      "message": "P-1.location_id: no source stated for location_id"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "P-1",
+      "message": "P-1.type: no source stated for type"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "P-CHARGE-1",
+      "message": "P-CHARGE-1.equipment_ids: no source stated for equipment_ids"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "P-CHARGE-1",
+      "message": "P-CHARGE-1.text: no source stated for text"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "P-CHARGE-2",
+      "message": "P-CHARGE-2.equipment_ids: no source stated for equipment_ids"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "P-CHARGE-2",
+      "message": "P-CHARGE-2.text: no source stated for text"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "P-CHARGE-2",
+      "message": "P-CHARGE-2.valve_ids: no source stated for valve_ids"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "P-CHARGE",
+      "message": "P-CHARGE.kind: no source stated for kind"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "PSV-1",
+      "message": "PSV-1.capacity_kg_h: no source stated for capacity_kg_h"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "PSV-1",
+      "message": "PSV-1.discharge: no source stated for discharge"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "PSV-1",
+      "message": "PSV-1.kind: no source stated for kind"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "PSV-1",
+      "message": "PSV-1.protects_id: no source stated for protects_id"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "PSV-1",
+      "message": "PSV-1.set_pressure_kpa: no source stated for set_pressure_kpa"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "ROOF",
+      "message": "ROOF.ignition_sources: no source stated for ignition_sources"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "ROOF",
+      "message": "ROOF.indoor: no source stated for indoor"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "ROOF",
+      "message": "ROOF.occupied: no source stated for occupied"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "SG-TRIP",
+      "message": "SG-TRIP.component_ids: no source stated for component_ids"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "SG-TRIP",
+      "message": "SG-TRIP.layer_type: no source stated for layer_type"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "SG-TRIP",
+      "message": "SG-TRIP.protects_id: no source stated for protects_id"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "SG-VENT",
+      "message": "SG-VENT.layer_type: no source stated for layer_type"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "SG-VENT",
+      "message": "SG-VENT.protects_id: no source stated for protects_id"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "SIS-1",
+      "message": "SIS-1.system: no source stated for system"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "TIC-1",
+      "message": "TIC-1.acts_on_id: no source stated for acts_on_id"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "TIC-1",
+      "message": "TIC-1.controller_id: no source stated for controller_id"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "TIC-1",
+      "message": "TIC-1.final_element_id: no source stated for final_element_id"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "TIC-1",
+      "message": "TIC-1.sensor_id: no source stated for sensor_id"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "TIC-1",
+      "message": "TIC-1.system: no source stated for system"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "TOTE-1",
+      "message": "TOTE-1.contents: no source stated for contents"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "TOTE-1",
+      "message": "TOTE-1.location_id: no source stated for location_id"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "TOTE-1",
+      "message": "TOTE-1.type: no source stated for type"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "TOTE-1",
+      "message": "TOTE-1.volume_m3: no source stated for volume_m3"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "TS-2",
+      "message": "TS-2.kind: no source stated for kind"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "TS-2",
+      "message": "TS-2.measures: no source stated for measures"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "TS-2",
+      "message": "TS-2.on_id: no source stated for on_id"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "TS-2",
+      "message": "TS-2.system: no source stated for system"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "TT-1",
+      "message": "TT-1.kind: no source stated for kind"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "TT-1",
+      "message": "TT-1.measures: no source stated for measures"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "TT-1",
+      "message": "TT-1.on_id: no source stated for on_id"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "TT-1",
+      "message": "TT-1.system: no source stated for system"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "TV-1",
+      "message": "TV-1.fail_position: no source stated for fail_position"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "TV-1",
+      "message": "TV-1.kind: no source stated for kind"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "TV-1",
+      "message": "TV-1.locked: no source stated for locked"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "TV-1",
+      "message": "TV-1.normal_position: no source stated for normal_position"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "TV-1",
+      "message": "TV-1.on_line_id: no source stated for on_line_id"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "UT-STEAM",
+      "message": "UT-STEAM.kind: no source stated for kind"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "UT-STEAM",
+      "message": "UT-STEAM.location_id: no source stated for location_id"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "W-1",
+      "message": "W-1.end: no source stated for end"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "W-1",
+      "message": "W-1.location_id: no source stated for location_id"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "W-1",
+      "message": "W-1.start: no source stated for start"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "W-1",
+      "message": "W-1.type: no source stated for type"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "XV-STM",
+      "message": "XV-STM.fail_position: no source stated for fail_position"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "XV-STM",
+      "message": "XV-STM.kind: no source stated for kind"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "XV-STM",
+      "message": "XV-STM.locked: no source stated for locked"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "XV-STM",
+      "message": "XV-STM.normal_position: no source stated for normal_position"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "XV-STM",
+      "message": "XV-STM.on_line_id: no source stated for on_line_id"
     }
   ]
 }

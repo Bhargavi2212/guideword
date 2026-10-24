@@ -20,6 +20,9 @@ from guideword.gateway.client import Gateway
 from guideword.gateway.fake import fake_gateway, reply
 from guideword.gateway.ledgers import LaptopLedger
 from guideword.gateway.transport import Reply, ToolCallRequest
+from guideword.runs.db import EventRow, make_session_factory
+from guideword.runs.store import RunRepository
+from guideword.schema.enums import BudgetUse, EventType
 from guideword.schema.records import SpendEntry
 from guideword.settings import Settings
 
@@ -182,17 +185,35 @@ class Api:
             assert put.status_code == 200, put.text
         return str(record_id)
 
-    def start(self, cap: float = 1.0, mode: str = "full", plant: str | None = None) -> Any:
-        body = {"plant_id": plant or self.plant(), "spend_cap_usd": cap, "mode": mode}
+    def start(
+        self,
+        cap: float = 1.0,
+        mode: str = "full",
+        plant: str | None = None,
+        *,
+        use: str = "development",
+        post_cap: float = 0.3,
+    ) -> Any:
+        body = {
+            "plant_id": plant or self.plant(),
+            "spend_cap_usd": cap,
+            "mode": mode,
+            "use": use,
+            "post_spend_cap_usd": post_cap,
+        }
         return self.client.post("/runs", json=body)
 
     def run_url(self, run_id: str, rest: str = "") -> str:
         return f"/runs/{quote(run_id, safe='')}{rest}"
 
-    def advance(self, run_id: str, secret: str | None = SECRET) -> Any:
+    def advance(self, run_id: str, secret: str | None = SECRET, use: str | None = None) -> Any:
         headers = {"X-Internal-Secret": secret} if secret is not None else {}
         url = f"/internal/runs/{quote(run_id, safe='')}/advance"
-        return self.client.post(url, headers=headers)
+        body = {"use": use} if use is not None else None
+        return self.client.post(url, headers=headers, json=body)
+
+    def runs(self) -> RunRepository:
+        return RunRepository(make_session_factory(self.settings.database_url), lambda: NOW)
 
     def finished_run(self) -> str:
         run_id = str(self.start().json()["run_id"])
@@ -364,3 +385,174 @@ def test_budget_shows_this_environment_only_from_its_own_ledger(app: Api) -> Non
     assert laptop.remaining_usd == pytest.approx(18.75)
     assert [(m.model, m.spent_usd) for m in budget.by_model] == [("nvidia/x", 0.25)]
     assert budget.live_run_available is False
+
+
+# --- a run's use and post cap are fixed when it starts (contract v1.9, Q4, Q12) ---------------
+
+
+def _set_use(app: Api, run_id: str, use: str | None) -> None:
+    """As a run started by a script on another use, or stored before v1.9 (None)."""
+    with app.runs().step(run_id) as writer:
+        writer.set_use(None if use is None else BudgetUse(use))
+
+
+def test_start_needs_a_use_and_a_post_cap(app: Api) -> None:
+    body = {"plant_id": app.plant(), "spend_cap_usd": 1.0, "mode": "full"}
+    assert app.client.post("/runs", json=body).status_code == 422
+    assert app.client.post("/runs", json=body | {"use": "development"}).status_code == 422
+
+
+def test_a_run_records_the_use_it_started_with(app: Api) -> None:
+    run_id = app.start(post_cap=0.1).json()["run_id"]
+    run = app.runs().get(run_id)
+    assert run is not None
+    assert (run.use, run.post_spend_cap_usd) == ("development", 0.1)
+
+
+def test_a_resume_naming_another_use_or_post_cap_is_409(app: Api) -> None:
+    plant = app.plant()
+    run_id = app.start(plant=plant, post_cap=0.1).json()["run_id"]
+    other_cap = app.start(plant=plant, post_cap=0.3)
+    assert other_cap.status_code == 409 and "0.1" in other_cap.json()["detail"]
+    _set_use(app, run_id, "video")
+    other_use = app.start(plant=plant, post_cap=0.1)
+    assert other_use.status_code == 409 and "video" in other_use.json()["detail"]
+
+
+def test_an_advance_naming_another_use_is_409(app: Api) -> None:
+    run_id = app.start().json()["run_id"]
+    refused = app.advance(run_id, use="test_5")
+    assert refused.status_code == 409 and "development" in refused.json()["detail"]
+    assert app.advance(run_id, use="development").status_code == 202
+
+
+def test_a_run_with_no_use_names_one_on_its_first_advance_and_keeps_it(app: Api) -> None:
+    """A run stored before v1.9 has no use: no default; the first advance names it."""
+    run_id = app.start().json()["run_id"]
+    _set_use(app, run_id, None)
+    refused = app.advance(run_id)
+    assert refused.status_code == 409 and "name one" in refused.json()["detail"]
+    assert app.advance(run_id, use="development").status_code == 202
+    assert app.runs().get(run_id).use == "development"  # type: ignore[union-attr]
+
+
+# --- until B2, API runs spend development only (Bhargavi, 2026-10-23) ------------------------
+
+
+def test_until_b2_a_start_naming_another_use_is_409(app: Api) -> None:
+    refused = app.start(use="video")
+    assert refused.status_code == 409
+    assert "B2" in refused.json()["detail"] and "development" in refused.json()["detail"]
+    assert app.client.get("/runs").json()["runs"] == []
+
+
+def test_until_b2_a_run_on_another_use_is_never_advanced_through_the_api(app: Api) -> None:
+    """A run a script started on video would otherwise be billed to development here."""
+    run_id = app.start().json()["run_id"]
+    _set_use(app, run_id, "video")
+    refused = app.advance(run_id)
+    assert refused.status_code == 409 and "B2" in refused.json()["detail"]
+    assert app.runs().get(run_id).status == "running"  # type: ignore[union-attr]
+    assert app.runs().model_calls(run_id) == []
+
+
+def test_until_b2_a_run_with_no_use_cannot_name_another_on_advance(app: Api) -> None:
+    run_id = app.start().json()["run_id"]
+    _set_use(app, run_id, None)
+    refused = app.advance(run_id, use="video")
+    assert refused.status_code == 409 and "B2" in refused.json()["detail"]
+    assert app.runs().get(run_id).use is None  # type: ignore[union-attr]
+
+
+# --- events served typed; stored events get their tier on read (contract v1.9, C3, H14) -------
+
+
+def _store_legacy_event(app: Api, run_id: str, type: str, payload: dict[str, Any]) -> int:
+    """An event as stored before v1.9: no stamp. Written straight to the table."""
+    sessions = make_session_factory(app.settings.database_url)
+    with sessions.begin() as session:
+        seq = 1 + max(r.seq for r in session.query(EventRow).filter_by(run_id=run_id))
+        record = {"run_id": run_id, "seq": seq, "type": type, "payload": payload}
+        session.add(
+            EventRow(run_id=run_id, seq=seq, type=type, record=record | {"time": NOW.isoformat()})
+        )
+    return seq
+
+
+def _served(app: Api, run_id: str, seq: int) -> dict[str, Any]:
+    events = app.client.get(app.run_url(run_id, "/events")).json()["events"]
+    [event] = [e for e in events if e["seq"] == seq]
+    return dict(event)
+
+
+LEGACY_CALL = {
+    "model_call_id": "mc:aaaaaaaaaaaaaaaa",
+    "job": "specialist_bulk",
+    "cache_hit": False,
+    "outcome": "ok",
+    "cost_usd": 0.0,
+    "cap_cost_usd": 0.0,
+}
+
+
+def test_a_stored_model_call_gets_its_tier_inferred_on_read_and_never_written_back(
+    app: Api,
+) -> None:
+    config = load_config(global_budget_usd=25.0)
+    lightning = config.models.tiers["lightning"].expected_id
+    run_id = app.finished_run()
+    seq = _store_legacy_event(app, run_id, "model_call", LEGACY_CALL | {"model_id": lightning})
+    served = _served(app, run_id, seq)
+    assert served["payload_schema"] is None
+    assert (served["payload"]["tier"], served["payload"]["tier_source"]) == (
+        "lightning",
+        "inferred",
+    )
+    [stored] = [e for e in app.runs().events(run_id) if e.seq == seq]
+    assert "tier" not in stored.payload and "tier_source" not in stored.payload
+
+
+def test_a_stored_model_call_with_an_unknown_model_shows_no_tier(app: Api) -> None:
+    run_id = app.finished_run()
+    seq = _store_legacy_event(app, run_id, "model_call", LEGACY_CALL | {"model_id": "gone/model"})
+    payload = _served(app, run_id, seq)["payload"]
+    assert (payload["tier"], payload["tier_source"]) == (None, None)
+
+
+def test_a_stored_dispatch_gets_its_tier_from_its_runs_routing_config(app: Api) -> None:
+    run_id = app.finished_run()
+    dispatch = {
+        "agent": "process",
+        "level": "hard",
+        "question_ids": [],
+        "selected_by_code": True,
+        "skipped": [],
+        "batches": 0,
+    }
+    seq = _store_legacy_event(app, run_id, "dispatch", dispatch)
+    run = app.runs().get(run_id)
+    assert run is not None
+    expected = run.routing_config["specialist_hard"]
+    payload = _served(app, run_id, seq)["payload"]
+    assert (payload["tier"], payload["tier_source"]) == (expected, "inferred")
+
+
+def test_new_events_carry_their_recorded_tier(app: Api) -> None:
+    run_id = app.finished_run()
+    events = app.client.get(app.run_url(run_id, "/events")).json()["events"]
+    calls = [e for e in events if e["type"] in ("model_call", "dispatch")]
+    assert calls and all(e["payload"]["tier_source"] == "recorded" for e in calls)
+    assert all(e["payload_schema"] == "v1.9" for e in events)
+
+
+def test_an_event_written_flagged_is_served_with_its_flag(
+    app: Api, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """A live run writes an event whose payload fails its model, flagged (2026-10-23)."""
+    run_id = app.finished_run()
+    monkeypatch.setattr("guideword.runs.store.STRICT_PAYLOADS", False)
+    with app.runs().step(run_id) as writer:
+        event = writer.emit(EventType.STEP_STARTED, {"step": "ranked", "odd": 1})
+    served = _served(app, run_id, event.seq)
+    assert served["payload_invalid"] is True and served["payload_error"]
+    assert served["payload"] == {"step": "ranked", "odd": 1}

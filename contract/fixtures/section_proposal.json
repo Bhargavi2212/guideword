@@ -1,55 +1,13 @@
 {
-  "plant_record_id": "plant:mock_plant_a:437a7c5b6e544611",
+  "plant_record_id": "plant:mock_plant_a:be40872ede387491",
   "sections": [
     {
-      "id": "S-TOTE-1",
-      "plant_record_id": "plant:mock_plant_a:437a7c5b6e544611",
-      "kind": "equipment",
-      "section_type": "tank",
-      "name": "Tote TOTE-1",
-      "purpose": "Holds Si-H fluid for charging",
-      "object_ids": [
-        "TOTE-1"
-      ],
-      "flagged_no_flow": false,
-      "drawn_by": "rule",
-      "suggestion_reason": null
-    },
-    {
-      "id": "S-P-1",
-      "plant_record_id": "plant:mock_plant_a:437a7c5b6e544611",
-      "kind": "equipment",
-      "section_type": "pump",
-      "name": "Charge pump P-1",
-      "purpose": "Moves tote contents to the mixer",
-      "object_ids": [
-        "P-1"
-      ],
-      "flagged_no_flow": false,
-      "drawn_by": "rule",
-      "suggestion_reason": null
-    },
-    {
-      "id": "S-MX-1",
-      "plant_record_id": "plant:mock_plant_a:437a7c5b6e544611",
-      "kind": "equipment",
-      "section_type": "mixer",
-      "name": "Mixer MX-1",
-      "purpose": "Blends Si-H fluid and KOH solution, steam heated",
-      "object_ids": [
-        "MX-1"
-      ],
-      "flagged_no_flow": false,
-      "drawn_by": "rule",
-      "suggestion_reason": null
-    },
-    {
       "id": "S-L-12",
-      "plant_record_id": "plant:mock_plant_a:437a7c5b6e544611",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
       "kind": "line",
       "section_type": "pipe",
-      "name": "Line L-12, tote to mixer",
-      "purpose": "Charging line",
+      "name": "L-12 (pipe)",
+      "purpose": null,
       "object_ids": [
         "L-12"
       ],
@@ -58,14 +16,74 @@
       "suggestion_reason": null
     },
     {
-      "id": "S-L-STM",
-      "plant_record_id": "plant:mock_plant_a:437a7c5b6e544611",
+      "id": "S-L-12~P-1",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
       "kind": "line",
       "section_type": "pipe",
-      "name": "Steam line L-STM",
-      "purpose": "Heating steam to MX-1",
+      "name": "L-12 from P-1 (pipe)",
+      "purpose": null,
       "object_ids": [
-        "L-STM"
+        "L-12",
+        "P-1",
+        "HV-12"
+      ],
+      "flagged_no_flow": false,
+      "drawn_by": "rule",
+      "suggestion_reason": null
+    },
+    {
+      "id": "S-L-STM",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "kind": "line",
+      "section_type": "pipe",
+      "name": "L-STM (pipe)",
+      "purpose": null,
+      "object_ids": [
+        "L-STM",
+        "XV-STM"
+      ],
+      "flagged_no_flow": false,
+      "drawn_by": "rule",
+      "suggestion_reason": null
+    },
+    {
+      "id": "S-L-STM~TV-1",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "kind": "line",
+      "section_type": "pipe",
+      "name": "L-STM from TV-1 (pipe)",
+      "purpose": null,
+      "object_ids": [
+        "L-STM",
+        "TV-1"
+      ],
+      "flagged_no_flow": false,
+      "drawn_by": "rule",
+      "suggestion_reason": null
+    },
+    {
+      "id": "S-MX-1",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "kind": "equipment",
+      "section_type": "mixer",
+      "name": "MX-1 (mixer)",
+      "purpose": null,
+      "object_ids": [
+        "MX-1"
+      ],
+      "flagged_no_flow": false,
+      "drawn_by": "rule",
+      "suggestion_reason": null
+    },
+    {
+      "id": "S-P-1",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "kind": "equipment",
+      "section_type": "pump",
+      "name": "P-1 (pump)",
+      "purpose": null,
+      "object_ids": [
+        "P-1"
       ],
       "flagged_no_flow": false,
       "drawn_by": "rule",
@@ -73,11 +91,11 @@
     },
     {
       "id": "S-P-CHARGE",
-      "plant_record_id": "plant:mock_plant_a:437a7c5b6e544611",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
       "kind": "procedure",
       "section_type": "procedure",
-      "name": "Charging procedure",
-      "purpose": "Charge the mixer from a tote",
+      "name": "P-CHARGE (procedure: charging)",
+      "purpose": null,
       "object_ids": [
         "P-CHARGE"
       ],
@@ -86,12 +104,26 @@
       "suggestion_reason": null
     },
     {
+      "id": "S-TOTE-1",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "kind": "equipment",
+      "section_type": "tank",
+      "name": "TOTE-1 (tank)",
+      "purpose": null,
+      "object_ids": [
+        "TOTE-1"
+      ],
+      "flagged_no_flow": false,
+      "drawn_by": "rule",
+      "suggestion_reason": null
+    },
+    {
       "id": "S-W-1",
-      "plant_record_id": "plant:mock_plant_a:437a7c5b6e544611",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
       "kind": "planned_work",
       "section_type": null,
-      "name": "Hot work on the roof",
-      "purpose": "Planned hot work W-1",
+      "name": "W-1 (hot_work)",
+      "purpose": null,
       "object_ids": [
         "W-1"
       ],
@@ -112,10 +144,11 @@
     {
       "kind": "split",
       "section_ids": [
-        "S-L-12"
+        "S-L-12~P-1",
+        "S-L-12~HV-12"
       ],
       "purpose": null,
-      "reason": "Upstream of P-1 the line is at tote pressure; downstream it is at pump discharge pressure."
+      "reason": "Downstream of HV-12 the line is isolated from P-1 whenever HV-12 is closed."
     }
   ],
   "rejected": []

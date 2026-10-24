@@ -31,6 +31,7 @@ from guideword.runs.case import InvalidPlant, prepare_plant, start_case
 from guideword.runs.db import make_session_factory
 from guideword.runs.machine import advance
 from guideword.runs.plants import PlantRepository
+from guideword.runs.start import StartMismatch
 from guideword.runs.store import RunRepository
 from guideword.schema import ids
 from guideword.schema.enums import BudgetUse, EventType
@@ -211,8 +212,8 @@ def main(
         print(f"the plant file does not validate: {invalid}", file=sys.stderr)
         return 1
     try:
-        run = start_case(plants, runs, ref, config, record.id, args.cap)
-    except ids.CapReachedError as refused:
+        run = start_case(plants, runs, ref, config, record.id, args.cap, use=BudgetUse(args.use))
+    except (ids.CapReachedError, StartMismatch) as refused:
         print(f"refused: {refused}", file=sys.stderr)
         return 1
     if run.step != JOB:

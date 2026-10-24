@@ -114,6 +114,9 @@ class Run(_Record):
     # the post-analysis steps' own allowance (P3-2, contract v1.4); like spend_cap_usd, not
     # hashed into the run ID, so a finished run can be extended in place
     post_spend_cap_usd: Annotated[float, Field(ge=0)] = 0.0
+    # contract v1.9: the budget use the run spends, fixed when it starts; not hashed. Null on a
+    # run stored before v1.9 until a resume or advance names one (Q4)
+    use: BudgetUse | None = None
     reference_versions: dict[str, str]
     routing_config: dict[str, str]
     caps: dict[str, Any]

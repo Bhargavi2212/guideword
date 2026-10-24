@@ -18,7 +18,7 @@ from guideword.runs.db import make_session_factory
 from guideword.runs.machine import advance
 from guideword.runs.plants import PlantRepository
 from guideword.runs.store import RunRepository
-from guideword.schema.enums import EventType
+from guideword.schema.enums import BudgetUse, EventType
 
 REPO = Path(__file__).resolve().parents[3]
 EXAMPLE = REPO / "backend" / "tests" / "schema" / "fixtures" / "example_mixing_unit.json"
@@ -89,7 +89,7 @@ def screened(
         ledger_path=tmp_path / "l.jsonl",
         clock=lambda: NOW,
     )
-    run = start_case(plants, runs, ref, config, record.id, 1.0)
+    run = start_case(plants, runs, ref, config, record.id, 1.0, use=BudgetUse.DEVELOPMENT)
     advance(runs, run.id, steppers_for(gateway, config, ref, record.plant_file))
     system = next(r for j, r in transport.sent if j == "plant_screen")["messages"][0]["content"]
     outcome = {

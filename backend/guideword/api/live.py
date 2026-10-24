@@ -27,6 +27,8 @@ from guideword.runs.plants import PlantRepository
 from guideword.runs.store import Clock, RunRepository
 from guideword.schema import ids
 from guideword.schema.enums import (
+    BudgetUse,
+    EventType,
     OverrideAction,
     QuestionKind,
     QuestionOrigin,
@@ -35,6 +37,7 @@ from guideword.schema.enums import (
 )
 from guideword.schema.plant import Plant
 from guideword.schema.records import Override, Question, Run
+from guideword.specialists.run import JOB_FOR_LEVEL
 
 GatewayFactory = Callable[[sessionmaker[Session]], Gateway]
 # Phase 4: the evidence step's tools for the API's runs (None: evidence off)
@@ -47,6 +50,16 @@ class RunNotFound(LookupError):
 
 class RunEnded(ValueError):
     pass
+
+
+# contract v1.9 (C3): the stored events whose tier is added on read
+INFERRED_TIER_TYPES = frozenset({EventType.MODEL_CALL, EventType.DISPATCH})
+INFERRED = "inferred"
+
+
+class UseMismatch(ValueError):
+    """An advance names no use for a run that has none, or a use other than the run's (contract
+    v1.9, Q4). The message names the stored value."""
 
 
 @dataclass(frozen=True)
@@ -107,11 +120,27 @@ class LiveRuns:
 
     # --- start, cancel, advance -------------------------------------------------------------
 
-    def start(self, plant_record_id: str, spend_cap_usd: float, mode: str) -> tuple[Run, float]:
+    def start(
+        self,
+        plant_record_id: str,
+        spend_cap_usd: float,
+        mode: str,
+        *,
+        use: BudgetUse,
+        post_spend_cap_usd: float,
+    ) -> tuple[Run, float]:
         """Start (or resume) the run; its upper-bound cost (R20). Raises PlantNotFound,
-        SectionsNotConfirmed, ModeNotBuilt (R21) or CapReachedError."""
+        SectionsNotConfirmed, ModeNotBuilt (R21), CapReachedError or StartMismatch."""
         run = start_case(
-            self.plants, self.runs, self.ref, self.config, plant_record_id, spend_cap_usd, mode
+            self.plants,
+            self.runs,
+            self.ref,
+            self.config,
+            plant_record_id,
+            spend_cap_usd,
+            mode,
+            use=use,
+            post_spend_cap_usd=post_spend_cap_usd,
         )
         stored = self.plants.get(plant_record_id)
         assert stored is not None  # start_case found it
@@ -134,6 +163,22 @@ class LiveRuns:
             writer.set_status(RunStatus.CANCELLED)
         return self.get(run_id)
 
+    def name_use(self, run_id: str, use: BudgetUse | None) -> Run:
+        """Contract v1.9 (Q4): an advance may name the run's use. A run with no use must name
+        one, and keeps it; a use other than the run's is refused. Raises UseMismatch."""
+        run = self.get(run_id)
+        if run.use is None:
+            if use is None:
+                raise UseMismatch(f"run {run_id} has no use yet: name one on this advance")
+            with self.runs.step(run_id) as writer:
+                writer.set_use(use)
+            return self.get(run_id)
+        if use is not None and use != run.use:
+            raise UseMismatch(
+                f"run {run_id} spends use {run.use.value}; an advance naming {use.value} is refused"
+            )
+        return run
+
     def advance_once(self, run_id: str) -> RunStatus:
         run = self.get(run_id)
         return advance(self.runs, run_id, self._steppers(run))
@@ -146,6 +191,29 @@ class LiveRuns:
         return status
 
     # --- reads --------------------------------------------------------------------------------
+
+    def events(self, run_id: str, after: int = 0) -> list[dict[str, Any]]:
+        """The run's events after `after`, as served. An event stored before v1.9 (no stamp)
+        that is a `model_call` or `dispatch` gets its tier on read, labelled "inferred" and
+        never written back (C3): a call's from its model ID against models.yaml, a dispatch's
+        from its run's own routing config (plan H14); none found reads null ("unknown")."""
+        run = self.get(run_id)
+        by_model = {t.expected_id: str(tier) for tier, t in self.config.models.tiers.items()}
+        served = []
+        for event in self.runs.events(run_id, after):
+            dumped = event.model_dump(mode="json")
+            if event.payload_schema is None and event.type in INFERRED_TIER_TYPES:
+                payload = dict(event.payload)
+                if event.type == EventType.MODEL_CALL:
+                    tier = by_model.get(str(payload.get("model_id")))
+                else:
+                    job = JOB_FOR_LEVEL.get(str(payload.get("level")))
+                    tier = run.routing_config.get(job) if job is not None else None
+                payload["tier"] = tier
+                payload["tier_source"] = INFERRED if tier is not None else None
+                dumped["payload"] = payload
+            served.append(dumped)
+        return served
 
     def records_of(self, run_id: str) -> RunRecords:
         return RunRecords(
@@ -218,7 +286,8 @@ class LiveRuns:
             recommendations=self.runs.recommendations(run_id),
             evidence=self.runs.evidence(run_id),
             overrides=self.runs.overrides(run_id),
-            events=self.runs.events(run_id),
+            # dicts, validated into the typed events (contract v1.9)
+            events=self.events(run_id),  # type: ignore[arg-type]
             # contract v1.7: what re-runs from `chains` replaced, marked as superseded
             superseded=[
                 api.SupersededRecord(

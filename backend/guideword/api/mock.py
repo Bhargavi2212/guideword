@@ -15,7 +15,7 @@ from openpyxl import Workbook  # type: ignore[import-untyped]
 from pydantic import BaseModel
 
 from guideword.api import models as api
-from guideword.schema.records import Event, Run
+from guideword.schema.records import Run
 
 DEFAULT_FIXTURES = Path(__file__).resolve().parents[3] / "contract" / "fixtures"
 EVENT_RELEASE_SECONDS = 20.0
@@ -88,7 +88,7 @@ class MockStore:
         self.plants = {p.plant_record_id: p for p in self.plant_list.plants}
         self._first_poll: dict[str, datetime] = {}
 
-    def events(self, run_id: str, after: int, now: datetime) -> tuple[list[Event], int]:
+    def events(self, run_id: str, after: int, now: datetime) -> tuple[list[Any], int]:
         """Events with seq > after that have been released by `now`, and the next `after`."""
         first = self._first_poll.setdefault(run_id, now)
         events = self.events_page.events

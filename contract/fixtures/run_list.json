@@ -1,24 +1,28 @@
 {
   "runs": [
     {
-      "id": "run:8ede059837927e4a",
-      "plant_record_id": "plant:mock_plant_a:437a7c5b6e544611",
+      "id": "run:eaf6f55e4d2a4a30",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
       "attempt": 1,
       "section_snapshot": [
-        "S-TOTE-1",
-        "S-P-1",
-        "S-MX-1",
         "S-L-12",
+        "S-L-12~P-1",
         "S-L-STM",
+        "S-L-STM~TV-1",
+        "S-MX-1",
+        "S-P-1",
         "S-P-CHARGE",
+        "S-TOTE-1",
         "S-W-1"
       ],
       "status": "finished",
-      "step": "finished",
+      "step": "ranked",
       "mode": "full",
       "spend_cap_usd": 1.0,
-      "spent_usd": 0.31,
-      "cap_spent_usd": 0.31,
+      "spent_usd": 0.005547,
+      "cap_spent_usd": 0.004171999999999997,
+      "post_spend_cap_usd": 0.3,
+      "use": "development",
       "reference_versions": {
         "applicability.csv": "d725cd824798c98e398362369d0e8c277caf8e49d720809aa9537705eaa899f6",
         "causes.csv": "984049c70047943e47cefb79866a4de8f50e418be6b80ed70357956a0cc3da7b",
@@ -35,36 +39,298 @@
       },
       "routing_config": {
         "orchestrator": "ultra",
-        "connector": "ultra",
-        "lopa_argument": "ultra",
         "severity_reason": "ultra",
-        "recommendation": "ultra",
         "unsure_answer": "ultra",
         "section_suggestion": "super",
         "specialist_hard": "super",
         "specialist_bulk": "lightning",
         "not_credible": "lightning",
-        "extraction": "lightning"
+        "extraction": "lightning",
+        "test5a": "ultra",
+        "plant_screen": "ultra"
       },
       "caps": {
         "run_spend_cap_usd": 1.0,
         "orchestrator_max_steps": 60,
         "specialist_max_tool_steps": 2,
-        "lopa_top_n": 10,
-        "evidence_top_n": 5,
         "question_max_attempts": 2,
-        "connector_max_input_tokens": 80000
+        "retry_failed_batch_singly": true,
+        "connector_max_input_tokens": 80000,
+        "max_tokens": {
+          "orchestrator": 4096,
+          "specialist_bulk": 12288,
+          "specialist_hard": 12288,
+          "unsure_answer": 6144,
+          "severity_reason": 12288,
+          "section_suggestion": 6144,
+          "test5a": 8192,
+          "plant_screen": 12288
+        },
+        "specialist_batch_size": {
+          "lightning": 5,
+          "nano": 10,
+          "super": 5,
+          "ultra": 5
+        },
+        "ai_questions_per_batch": 2,
+        "ai_questions_per_run": 20,
+        "unsure_reanswers_per_run": 10,
+        "orchestrator_view": {
+          "id_list_max": 20,
+          "recent_steps": 5,
+          "dispatch_max_question_ids": 60
+        },
+        "severity_batch_size": 10,
+        "severity_output_tokens_estimate": 4700,
+        "plant_screen_max_hypotheses": 12,
+        "plant_screen_min_valid": 5,
+        "specialist_max_input_tokens": 24000,
+        "post_spend_cap_usd": 0.3,
+        "ranking": {
+          "outside_library_default_frequency_per_year": 0.1,
+          "pipe_leak_large_above_mm": 150.0,
+          "lead_prefers_own_section": true
+        }
       },
       "prompt_versions": {
-        "orchestrator": "v1",
-        "process": "v1",
-        "chemistry": "v1",
-        "connector": "v1"
+        "orchestrator": "v2",
+        "section_suggestion": "v1",
+        "severity": "v2",
+        "test5a": "v1",
+        "plant_screen": "v3",
+        "specialists/process": "v2",
+        "specialists/chemistry": "v2",
+        "specialists/piping": "v2",
+        "specialists/procedures": "v2",
+        "specialists/maintenance": "v2",
+        "specialists/dust": "v2"
       },
       "label": {
         "kind": "mock",
         "recorded_at": null,
-        "cost_usd": 0.31
+        "cost_usd": null
+      }
+    },
+    {
+      "id": "run:eaf6f55e4d2a4a30:2",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "attempt": 2,
+      "section_snapshot": [
+        "S-L-12",
+        "S-L-12~P-1",
+        "S-L-STM",
+        "S-L-STM~TV-1",
+        "S-MX-1",
+        "S-P-1",
+        "S-P-CHARGE",
+        "S-TOTE-1",
+        "S-W-1"
+      ],
+      "status": "cancelled",
+      "step": "plant_screen",
+      "mode": "full",
+      "spend_cap_usd": 1.0,
+      "spent_usd": 0.0,
+      "cap_spent_usd": 0.0,
+      "post_spend_cap_usd": 0.3,
+      "use": "development",
+      "reference_versions": {
+        "applicability.csv": "d725cd824798c98e398362369d0e8c277caf8e49d720809aa9537705eaa899f6",
+        "causes.csv": "984049c70047943e47cefb79866a4de8f50e418be6b80ed70357956a0cc3da7b",
+        "initiating_events.csv": "caa2f790c999b599e41e3bc055aa9a852a420f84d2cd18ac2e9b1e9d4ab35f16",
+        "protection_layers.csv": "4646978f09898a34b8ac0972f79df2e7bf13568ab65a06af397036de9056b9d0",
+        "modifiers.csv": "31660806e522d9ec12785c63a0afbef306558b1051ded4a1a4112a2f6b11a8d4",
+        "severity_classes.csv": "50dc1ca83409d5aceeeb5f2ed97299791155707ee06862c66350b45e1a264e9b",
+        "tolerable_frequencies.csv": "47631a499bd103f2256b188bc9f00f9e91c692c56223bd1f057f2560a572382b",
+        "likelihood_classes.csv": "95eb9e55eb0d97f09e0a3b0e96b5c53dd2d73716bf8eec96774027c1d3aaa0dd",
+        "risk_matrix.csv": "57c893659d2d3c26966e3220b7038b00e4d0713bd943064b38f9172481d37592",
+        "cameo_groups.csv": "792f87ec1e82b9d74ce72323c10c1ce5ed830775aeb6ca4ccdf9ffed16324d44",
+        "reactive_groups.csv": "b1c526f81f750c5b13b2fa21ebd2b59b031290a293fa2e73d900f27121bc9fe9",
+        "reactive_pairs.csv": "d0319326a040d4e907f7f697e67de14c2f2455943124f07742d9533519916013"
+      },
+      "routing_config": {
+        "orchestrator": "ultra",
+        "severity_reason": "ultra",
+        "unsure_answer": "ultra",
+        "section_suggestion": "super",
+        "specialist_hard": "super",
+        "specialist_bulk": "lightning",
+        "not_credible": "lightning",
+        "extraction": "lightning",
+        "test5a": "ultra",
+        "plant_screen": "ultra"
+      },
+      "caps": {
+        "run_spend_cap_usd": 1.0,
+        "orchestrator_max_steps": 60,
+        "specialist_max_tool_steps": 2,
+        "question_max_attempts": 2,
+        "retry_failed_batch_singly": true,
+        "connector_max_input_tokens": 80000,
+        "max_tokens": {
+          "orchestrator": 4096,
+          "specialist_bulk": 12288,
+          "specialist_hard": 12288,
+          "unsure_answer": 6144,
+          "severity_reason": 12288,
+          "section_suggestion": 6144,
+          "test5a": 8192,
+          "plant_screen": 12288
+        },
+        "specialist_batch_size": {
+          "lightning": 5,
+          "nano": 10,
+          "super": 5,
+          "ultra": 5
+        },
+        "ai_questions_per_batch": 2,
+        "ai_questions_per_run": 20,
+        "unsure_reanswers_per_run": 10,
+        "orchestrator_view": {
+          "id_list_max": 20,
+          "recent_steps": 5,
+          "dispatch_max_question_ids": 60
+        },
+        "severity_batch_size": 10,
+        "severity_output_tokens_estimate": 4700,
+        "plant_screen_max_hypotheses": 12,
+        "plant_screen_min_valid": 5,
+        "specialist_max_input_tokens": 24000,
+        "post_spend_cap_usd": 0.3,
+        "ranking": {
+          "outside_library_default_frequency_per_year": 0.1,
+          "pipe_leak_large_above_mm": 150.0,
+          "lead_prefers_own_section": true
+        }
+      },
+      "prompt_versions": {
+        "orchestrator": "v2",
+        "section_suggestion": "v1",
+        "severity": "v2",
+        "test5a": "v1",
+        "plant_screen": "v3",
+        "specialists/process": "v2",
+        "specialists/chemistry": "v2",
+        "specialists/piping": "v2",
+        "specialists/procedures": "v2",
+        "specialists/maintenance": "v2",
+        "specialists/dust": "v2"
+      },
+      "label": {
+        "kind": "mock",
+        "recorded_at": null,
+        "cost_usd": null
+      }
+    },
+    {
+      "id": "run:eaf6f55e4d2a4a30:3",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "attempt": 3,
+      "section_snapshot": [
+        "S-L-12",
+        "S-L-12~P-1",
+        "S-L-STM",
+        "S-L-STM~TV-1",
+        "S-MX-1",
+        "S-P-1",
+        "S-P-CHARGE",
+        "S-TOTE-1",
+        "S-W-1"
+      ],
+      "status": "failed",
+      "step": "analysis",
+      "mode": "full",
+      "spend_cap_usd": 1.0,
+      "spent_usd": 0.0015,
+      "cap_spent_usd": 0.0015,
+      "post_spend_cap_usd": 0.3,
+      "use": "development",
+      "reference_versions": {
+        "applicability.csv": "d725cd824798c98e398362369d0e8c277caf8e49d720809aa9537705eaa899f6",
+        "causes.csv": "984049c70047943e47cefb79866a4de8f50e418be6b80ed70357956a0cc3da7b",
+        "initiating_events.csv": "caa2f790c999b599e41e3bc055aa9a852a420f84d2cd18ac2e9b1e9d4ab35f16",
+        "protection_layers.csv": "4646978f09898a34b8ac0972f79df2e7bf13568ab65a06af397036de9056b9d0",
+        "modifiers.csv": "31660806e522d9ec12785c63a0afbef306558b1051ded4a1a4112a2f6b11a8d4",
+        "severity_classes.csv": "50dc1ca83409d5aceeeb5f2ed97299791155707ee06862c66350b45e1a264e9b",
+        "tolerable_frequencies.csv": "47631a499bd103f2256b188bc9f00f9e91c692c56223bd1f057f2560a572382b",
+        "likelihood_classes.csv": "95eb9e55eb0d97f09e0a3b0e96b5c53dd2d73716bf8eec96774027c1d3aaa0dd",
+        "risk_matrix.csv": "57c893659d2d3c26966e3220b7038b00e4d0713bd943064b38f9172481d37592",
+        "cameo_groups.csv": "792f87ec1e82b9d74ce72323c10c1ce5ed830775aeb6ca4ccdf9ffed16324d44",
+        "reactive_groups.csv": "b1c526f81f750c5b13b2fa21ebd2b59b031290a293fa2e73d900f27121bc9fe9",
+        "reactive_pairs.csv": "d0319326a040d4e907f7f697e67de14c2f2455943124f07742d9533519916013"
+      },
+      "routing_config": {
+        "orchestrator": "ultra",
+        "severity_reason": "ultra",
+        "unsure_answer": "ultra",
+        "section_suggestion": "super",
+        "specialist_hard": "super",
+        "specialist_bulk": "lightning",
+        "not_credible": "lightning",
+        "extraction": "lightning",
+        "test5a": "ultra",
+        "plant_screen": "ultra"
+      },
+      "caps": {
+        "run_spend_cap_usd": 1.0,
+        "orchestrator_max_steps": 60,
+        "specialist_max_tool_steps": 2,
+        "question_max_attempts": 2,
+        "retry_failed_batch_singly": true,
+        "connector_max_input_tokens": 80000,
+        "max_tokens": {
+          "orchestrator": 4096,
+          "specialist_bulk": 12288,
+          "specialist_hard": 12288,
+          "unsure_answer": 6144,
+          "severity_reason": 12288,
+          "section_suggestion": 6144,
+          "test5a": 8192,
+          "plant_screen": 12288
+        },
+        "specialist_batch_size": {
+          "lightning": 5,
+          "nano": 10,
+          "super": 5,
+          "ultra": 5
+        },
+        "ai_questions_per_batch": 2,
+        "ai_questions_per_run": 20,
+        "unsure_reanswers_per_run": 10,
+        "orchestrator_view": {
+          "id_list_max": 20,
+          "recent_steps": 5,
+          "dispatch_max_question_ids": 60
+        },
+        "severity_batch_size": 10,
+        "severity_output_tokens_estimate": 4700,
+        "plant_screen_max_hypotheses": 12,
+        "plant_screen_min_valid": 5,
+        "specialist_max_input_tokens": 24000,
+        "post_spend_cap_usd": 0.3,
+        "ranking": {
+          "outside_library_default_frequency_per_year": 0.1,
+          "pipe_leak_large_above_mm": 150.0,
+          "lead_prefers_own_section": true
+        }
+      },
+      "prompt_versions": {
+        "orchestrator": "v2",
+        "section_suggestion": "v1",
+        "severity": "v2",
+        "test5a": "v1",
+        "plant_screen": "v3",
+        "specialists/process": "v2",
+        "specialists/chemistry": "v2",
+        "specialists/piping": "v2",
+        "specialists/procedures": "v2",
+        "specialists/maintenance": "v2",
+        "specialists/dust": "v2"
+      },
+      "label": {
+        "kind": "mock",
+        "recorded_at": null,
+        "cost_usd": null
       }
     }
   ]

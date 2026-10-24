@@ -19,7 +19,7 @@ from guideword.runs.db import make_session_factory
 from guideword.runs.machine import advance
 from guideword.runs.plants import PlantRepository
 from guideword.runs.store import RunRepository
-from guideword.schema.enums import EventType, RunStatus
+from guideword.schema.enums import BudgetUse, EventType, RunStatus
 
 REPO = Path(__file__).resolve().parents[3]
 EXAMPLE = REPO / "backend" / "tests" / "schema" / "fixtures" / "example_mixing_unit.json"
@@ -74,10 +74,10 @@ class World:
             self.plants, json.loads(plant_file.read_text(encoding="utf-8")), ref
         )
 
-    def screen(self, answer: Any, cap: float = 1.0) -> tuple[str, Any]:
+    def screen(self, answer: Any, cap: float = 1.0, finish_reason: str = "stop") -> tuple[str, Any]:
         def script(job: str, request: dict[str, Any]) -> Any:
             assert job == "plant_screen", job
-            return reply(answer)
+            return reply(answer, finish_reason=finish_reason)
 
         gateway, transport = fake_gateway(
             self.config,
@@ -86,7 +86,15 @@ class World:
             ledger_path=self.tmp / "l.jsonl",
             clock=lambda: NOW,
         )
-        run = start_case(self.plants, self.runs, self.ref, self.config, self.record.id, cap)
+        run = start_case(
+            self.plants,
+            self.runs,
+            self.ref,
+            self.config,
+            self.record.id,
+            cap,
+            use=BudgetUse.DEVELOPMENT,
+        )
         advance(
             self.runs, run.id, steppers_for(gateway, self.config, self.ref, self.record.plant_file)
         )
@@ -223,6 +231,18 @@ def test_hypothesis_events_record_what_was_added_and_dropped(world: World) -> No
     assert [d["rank"] for d in world.events(run_id, EventType.HYPOTHESIS_DROPPED)] == [2]
 
 
+def test_a_screen_answer_cut_off_at_the_token_limit_is_dropped_with_its_reason(
+    world: World,
+) -> None:
+    """Emit coverage (contract v1.9): a truncated answer is never parsed; its drop names why,
+    the run keeps no hypothesis and goes on to the analysis."""
+    run_id, _ = world.screen({"hypotheses": [GOOD_1]}, finish_reason="length")
+    reasons = [d["reason"] for d in world.events(run_id, EventType.HYPOTHESIS_DROPPED)]
+    assert any(r.startswith("no usable answer: ") for r in reasons), reasons
+    assert world.runs.hypotheses(run_id) == []
+    assert world.runs.get(run_id).step == "analysis"  # type: ignore[union-attr]
+
+
 def test_a_hypothesis_is_stored_once_and_never_rewritten(world: World) -> None:
     from guideword.runs.store import EMITTED_EVENT_TYPES  # noqa: PLC0415
 
@@ -250,7 +270,15 @@ def two_attempts(world: World, first: Any, second: Any) -> tuple[str, Any]:
         ledger_path=world.tmp / "l.jsonl",
         clock=lambda: NOW,
     )
-    run = start_case(world.plants, world.runs, world.ref, world.config, world.record.id, 1.0)
+    run = start_case(
+        world.plants,
+        world.runs,
+        world.ref,
+        world.config,
+        world.record.id,
+        1.0,
+        use=BudgetUse.DEVELOPMENT,
+    )
     advance(
         world.runs,
         run.id,
@@ -350,7 +378,15 @@ def by_marker(
         ledger_path=world.tmp / "l.jsonl",
         clock=lambda: NOW,
     )
-    run = start_case(world.plants, world.runs, world.ref, world.config, world.record.id, cap)
+    run = start_case(
+        world.plants,
+        world.runs,
+        world.ref,
+        world.config,
+        world.record.id,
+        cap,
+        use=BudgetUse.DEVELOPMENT,
+    )
     advance(
         world.runs, run.id, steppers_for(gateway, world.config, world.ref, world.record.plant_file)
     )

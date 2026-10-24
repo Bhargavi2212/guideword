@@ -2,16 +2,16 @@
   "label": {
     "kind": "mock",
     "recorded_at": null,
-    "cost_usd": 0.31
+    "cost_usd": null
   },
-  "run_id": "run:8ede059837927e4a",
-  "record_id": "h:1:f01ab4b68eb8942e",
+  "run_id": "run:eaf6f55e4d2a4a30",
+  "record_id": "h:1:3816f75bc6a4f1e1",
   "record_kind": "hypothesis",
   "record": {
-    "id": "h:1:f01ab4b68eb8942e",
-    "run_id": "run:8ede059837927e4a",
+    "id": "h:1:3816f75bc6a4f1e1",
+    "run_id": "run:eaf6f55e4d2a4a30",
     "rank": 1,
-    "mechanism": "Wrong material charged at the charging step reacts with the fluid in the mixer and releases flammable gas",
+    "mechanism": "The wrong tote is charged and KOH meets the Si-H fluid in MX-1.",
     "component_ids": [
       "P-CHARGE-1"
     ],
@@ -21,36 +21,58 @@
     ],
     "failing_component_type": "operator",
     "cause_id": "C14",
-    "cause_text": null,
-    "consequence": "Flammable gas builds up inside the building and can ignite",
-    "reason": "Mock: the charging step adds KOH where SIH may be present; the chart lists the pair as gas-forming",
+    "cause_text": "wrong tote selected",
+    "consequence": "Hydrogen in an occupied building.",
+    "reason": "The charging step selects the tote by its label only.",
     "question_ids": [
+      "env:KOH:air",
+      "env:KOH:heat",
+      "env:KOH:water",
+      "env:SIH:air",
+      "env:SIH:heat",
+      "env:SIH:water",
+      "m:S-TOTE-1:as_well_as:composition",
+      "m:S-TOTE-1:less:level",
+      "m:S-TOTE-1:less:pressure",
+      "m:S-TOTE-1:less:temperature",
+      "m:S-TOTE-1:more:level",
+      "m:S-TOTE-1:more:pressure",
+      "m:S-TOTE-1:more:temperature",
+      "m:S-TOTE-1:no:level",
+      "m:S-TOTE-1:other_than:composition",
+      "m:S-TOTE-1:other_than:phase",
+      "m:S-TOTE-1:part_of:composition",
       "pair:KOH:SIH",
+      "proc:P-CHARGE-1:early",
+      "proc:P-CHARGE-1:late",
+      "proc:P-CHARGE-1:out_of_order",
+      "proc:P-CHARGE-1:skipped",
       "proc:P-CHARGE-1:wrong"
     ],
-    "model_call_id": "mc:b4141dda9c7f08a1"
+    "model_call_id": "mc:3692a0440e517c8f"
   },
   "parent_ids": [
-    "mc:b4141dda9c7f08a1"
+    "mc:3692a0440e517c8f"
   ],
   "model_calls": [
     {
-      "id": "mc:b4141dda9c7f08a1",
-      "run_id": "run:8ede059837927e4a",
-      "model_id": "nvidia/Nemotron-3_5-Lightning",
-      "prompt_version": "plant_screen/v1",
+      "id": "mc:3692a0440e517c8f",
+      "run_id": "run:eaf6f55e4d2a4a30",
+      "model_id": "nvidia/Nemotron-3-Ultra-550b-a55b",
+      "prompt_version": "plant_screen/v3",
       "job": "plant_screen",
       "cache_hit": false,
-      "outcome": "ok",
+      "outcome": "invalid",
       "finish_reason": "stop",
-      "input_tokens": 640,
-      "output_tokens": 90,
-      "latency_ms": 810.0,
-      "cost_usd": 6e-05,
-      "cap_cost_usd": 6e-05,
+      "input_tokens": 100,
+      "output_tokens": 50,
+      "latency_ms": 0.0,
+      "cost_usd": 0.00025,
+      "cap_cost_usd": 0.00025,
       "attempts": 1,
-      "raw_response": "{}",
+      "raw_response": "{\"fake\": true, \"content\": \"{\\\"hypotheses\\\": [{\\\"rank\\\": 1, \\\"mechanism\\\": \\\"The wrong tote is charged and KOH meets the Si-H fluid in MX-1.\\\", \\\"component_ids\\\": [\\\"P-CHARGE-1\\\"], \\\"chemical_ids\\\": [\\\"KOH\\\", \\\"SIH\\\"], \\\"failing_component_type\\\": \\\"operator\\\", \\\"cause_id\\\": \\\"C14\\\", \\\"cause_text\\\": \\\"wrong tote selected\\\", \\\"consequence\\\": \\\"Hydrogen in an occupied building.\\\", \\\"reason\\\": \\\"The charging step selects the tote by its label only.\\\"}, {\\\"rank\\\": 2, \\\"mechanism\\\": \\\"A fire outside the building heats the roof vent line.\\\", \\\"component_ids\\\": [\\\"BLDG-1\\\"], \\\"chemical_ids\\\": [], \\\"failing_component_type\\\": \\\"external\\\", \\\"cause_id\\\": \\\"C22\\\", \\\"cause_text\\\": \\\"external fire\\\", \\\"consequence\\\": \\\"A release at the roof.\\\", \\\"reason\\\": \\\"Hot work on the roof is planned.\\\"}, {\\\"rank\\\": 3, \\\"mechanism\\\": \\\"A tank that is not in the plant overflows.\\\", \\\"component_ids\\\": [\\\"TANK-9\\\"], \\\"chemical_ids\\\": [], \\\"failing_component_type\\\": \\\"tank\\\", \\\"cause_id\\\": \\\"C21\\\", \\\"cause_text\\\": \\\"overfill\\\", \\\"consequence\\\": \\\"A spill.\\\", \\\"reason\\\": \\\"Dropped by code: TANK-9 is not a plant object.\\\"}]}\"}",
       "reasoning_text": null,
+      "tier": "ultra",
       "record_ids": []
     }
   ],

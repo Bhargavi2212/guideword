@@ -2,22 +2,23 @@
   "label": {
     "kind": "mock",
     "recorded_at": null,
-    "cost_usd": 0.31
+    "cost_usd": null
   },
-  "run_id": "run:8ede059837927e4a",
+  "run_id": "run:eaf6f55e4d2a4a30",
   "record_id": "f:pair:KOH:SIH:lightning:C14:541f633168214c61",
   "record_kind": "finding",
   "record": {
     "id": "f:pair:KOH:SIH:lightning:C14:541f633168214c61",
-    "run_id": "run:8ede059837927e4a",
+    "run_id": "run:eaf6f55e4d2a4a30",
     "question_id": "pair:KOH:SIH",
     "tier": "lightning",
     "cause_id": "C14",
+    "cause_text": null,
     "failing_component_type": "operator",
     "failing_component_ids": [
       "P-CHARGE-1"
     ],
-    "consequence": "Wrong tote charged: KOH with Si-H fluid gives flammable gas (GF) in MX-1.",
+    "consequence": "KOH meets the Si-H fluid and hydrogen builds up in the building.",
     "safeguard_ids": [
       "SG-VENT"
     ],
@@ -25,47 +26,32 @@
     "severity_class": "S3",
     "severity_reason": "Flammable gas in an occupied building with ignition sources.",
     "confidence": "unsure",
-    "model_call_id": "mc:ab5f07020aa1cf8d"
+    "model_call_id": "mc:865f7bd7e2b77f15"
   },
   "parent_ids": [
     "pair:KOH:SIH"
   ],
   "model_calls": [
     {
-      "id": "mc:ab5f07020aa1cf8d",
-      "run_id": "run:8ede059837927e4a",
+      "id": "mc:865f7bd7e2b77f15",
+      "run_id": "run:eaf6f55e4d2a4a30",
       "model_id": "nvidia/Nemotron-3_5-Lightning",
-      "prompt_version": "chemistry/v1",
+      "prompt_version": "specialists/chemistry/v2",
       "job": "specialist_bulk",
       "cache_hit": false,
       "outcome": "ok",
       "finish_reason": "stop",
-      "input_tokens": 640,
-      "output_tokens": 90,
-      "latency_ms": 810.0,
-      "cost_usd": 0.00006,
-      "cap_cost_usd": 0.00006,
+      "input_tokens": 100,
+      "output_tokens": 50,
+      "latency_ms": 0.0,
+      "cost_usd": 1.8e-05,
+      "cap_cost_usd": 1.8e-05,
       "attempts": 1,
-      "raw_response": "{}",
+      "raw_response": "{\"fake\": true, \"content\": \"{\\\"answers\\\": [{\\\"question_id\\\": \\\"env:SIH:water\\\", \\\"not_credible\\\": {\\\"reason\\\": \\\"Scripted for Mock Plant A: not credible here.\\\"}, \\\"findings\\\": []}, {\\\"question_id\\\": \\\"pair:KOH:SIH\\\", \\\"not_credible\\\": null, \\\"findings\\\": [{\\\"cause_id\\\": \\\"C14\\\", \\\"cause_text\\\": null, \\\"failing_component_type\\\": \\\"operator\\\", \\\"failing_component_ids\\\": [\\\"P-CHARGE-1\\\"], \\\"consequence\\\": \\\"KOH meets the Si-H fluid and hydrogen builds up in the building.\\\", \\\"safeguard_ids\\\": [\\\"SG-VENT\\\"], \\\"adequacy\\\": \\\"inadequate\\\", \\\"confidence\\\": \\\"unsure\\\", \\\"reason\\\": \\\"scripted\\\"}]}], \\\"added_questions\\\": []}\"}",
       "reasoning_text": null,
-      "record_ids": [
-        "f:pair:KOH:SIH:lightning:C14:541f633168214c61"
-      ]
-    }
-  ],
-  "tool_calls": [
-    {
-      "id": "tc:step:a47ec56c6dd3d542:check_coverage:44136fa355b3678a",
-      "run_id": "run:8ede059837927e4a",
-      "agent_step_id": "step:a47ec56c6dd3d542",
-      "tool": "check_coverage",
-      "arguments": {},
-      "result": {
-        "open": 9
-      },
-      "refused_reason": null,
-      "source_urls": [],
+      "tier": "lightning",
       "record_ids": []
     }
-  ]
+  ],
+  "tool_calls": []
 }

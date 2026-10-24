@@ -13,9 +13,21 @@ fields.
 """
 
 from collections.abc import Callable, Mapping
-from typing import Annotated, Any, Literal, Union
+from datetime import datetime
+from typing import TYPE_CHECKING, Annotated, Any, Literal, Union
 
-from pydantic import BaseModel, ConfigDict, Discriminator, Tag, TypeAdapter, model_validator
+from pydantic import (
+    BaseModel,
+    ConfigDict,
+    Discriminator,
+    Field,
+    PrivateAttr,
+    Tag,
+    TypeAdapter,
+    create_model,
+    field_serializer,
+    model_validator,
+)
 
 from guideword.schema.enums import (
     Agent,
@@ -249,10 +261,10 @@ class _Dispatch(_Payload):
     selected_by_code: bool
     priority: bool
     skipped: list[str]
-    batches: int
     # the tier the dispatch's level routes to (P5-1)
     tier: Tier
     tier_source: Literal["recorded"]
+    # each variant's own fields follow, in the order the orchestrator writes them
 
 
 class Admission(_Payload):
@@ -281,6 +293,7 @@ class DispatchNothingToSend(_Dispatch):
 class DispatchNoRoom(_Dispatch):
     """Not even the first batch fits the spend left: the analysis ends."""
 
+    batches: int
     admission: Admission
     deferred_at_admission: list[DeferredBatch]
 
@@ -289,6 +302,7 @@ class DispatchSent(_Dispatch):
     linked_answered: int
     linked_answered_count: Literal["checked_questions"]
     unlinked_sent: int
+    batches: int
     dropped_ids: list[str]
     failed_batches: list[FailedBatch]
     admission: Admission
@@ -319,7 +333,8 @@ class ModelCallEvent(_Payload):
     outcome: Literal["ok", "invalid", "truncated", "error"]
     cost_usd: float
     cap_cost_usd: float
-    fell_back_from: list[Tier] | None = None
+    # absent unless a tier fell back, and left out when served if so
+    fell_back_from: Annotated[list[Tier] | None, Field(exclude_if=lambda v: v is None)] = None
     # the tier on the call's record (contract v1.9); null only when the record has none
     tier: Tier | None
     tier_source: Literal["recorded"] | None
@@ -493,6 +508,9 @@ class LegacyDispatch(_Legacy):
     selected_by_code: bool
     skipped: list[str]
     batches: int
+    # added on read, from the run's own routing config (C3, plan H14); never stored
+    tier: Tier | None = None
+    tier_source: Literal["inferred"] | None = None
 
 
 class LegacyModelCall(_Legacy):
@@ -503,6 +521,9 @@ class LegacyModelCall(_Legacy):
     outcome: str
     cost_usd: float
     cap_cost_usd: float
+    # added on read, from the model ID against models.yaml (C3); never stored; null: unknown
+    tier: Tier | None = None
+    tier_source: Literal["inferred"] | None = None
 
 
 class LegacyToolCall(_Legacy):
@@ -603,3 +624,88 @@ def validate_payload(
     except KeyError as error:
         raise ValueError(f"no {payload_schema or 'legacy'} model for event type {type}") from error
     return adapter.validate_python(dict(payload))
+
+
+# --- the API's events (contract v1.9): one typed event per type and stamp ------------------------
+
+
+class _ApiEvent(BaseModel):
+    """The fields every served event has, in the stored record's order. The payload is checked
+    against its model and then served exactly as written (its own key order, nothing added),
+    so a served event reads as stored."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    run_id: str
+    seq: int
+    _written: dict[str, Any] | None = PrivateAttr(default=None)
+
+    @model_validator(mode="wrap")
+    @classmethod
+    def _keep_written(cls, data: Any, handler: Any) -> Any:
+        event = handler(data)
+        if isinstance(data, Mapping) and isinstance(data.get("payload"), Mapping):
+            event._written = dict(data["payload"])
+        return event
+
+    @field_serializer("payload", check_fields=False)
+    def _as_written(self, payload: Any) -> Any:
+        if self._written is not None:
+            return self._written
+        return payload.model_dump(mode="json") if isinstance(payload, BaseModel) else payload
+
+
+def _event_model(type: EventType, schema: str, payload: Any) -> type[BaseModel]:
+    """An event of `type` whose payload model is chosen by its stamp (`schema`)."""
+    camel = "".join(part.title() for part in type.value.split("_"))
+    stamped = schema == SCHEMA_V1_9
+    fields: dict[str, Any] = {
+        "type": (Literal[type.value], ...),
+        "payload": (payload, ...),
+        "time": (datetime, ...),
+        "payload_schema": (PayloadSchema, ...) if stamped else (None, None),
+        "payload_invalid": (Literal[False], False),
+        "payload_error": (None, None),
+    }
+    name = f"{camel}EventV19" if stamped else f"{camel}EventLegacy"
+    return create_model(name, __base__=_ApiEvent, **fields)
+
+
+class InvalidEvent(_ApiEvent):
+    """An event a live run wrote although its payload failed its model (Bhargavi,
+    2026-10-23): shown with its flag and the error, its payload as written."""
+
+    type: EventType
+    payload: dict[str, Any]
+    time: datetime
+    payload_schema: PayloadSchema
+    payload_invalid: Literal[True]
+    payload_error: str
+
+
+def _api_event_tag(value: Any) -> str:
+    get = value.get if isinstance(value, Mapping) else lambda k, d=None: getattr(value, k, d)
+    if get("payload_invalid", False):
+        return "invalid"
+    kind = get("type")
+    kind = kind.value if isinstance(kind, EventType) else str(kind)
+    return f"{kind}:{'v1.9' if get('payload_schema') else 'legacy'}"
+
+
+_API_MEMBERS: list[Any] = [Annotated[InvalidEvent, Tag("invalid")]]
+for _type in EventType:
+    _API_MEMBERS.append(
+        Annotated[_event_model(_type, "v1.9", V1_9[_type]), Tag(f"{_type.value}:v1.9")]
+    )
+    if _type in LEGACY:
+        _API_MEMBERS.append(
+            Annotated[_event_model(_type, "legacy", LEGACY[_type]), Tag(f"{_type.value}:legacy")]
+        )
+
+# The events the API serves: the member is chosen by the event's type and stamp, or by its
+# `payload_invalid` flag; never by trying one and then another. The type checker sees the
+# members' common base; the union is built at run time.
+if TYPE_CHECKING:
+    type ApiEvent = _ApiEvent
+else:
+    ApiEvent = Annotated[Union[tuple(_API_MEMBERS)], Discriminator(_api_event_tag)]  # noqa: UP007

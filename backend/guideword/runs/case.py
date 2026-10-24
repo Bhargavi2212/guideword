@@ -30,7 +30,7 @@ from guideword.ranking.tiers import (
 )
 from guideword.recommend.step import RecommendationStepper
 from guideword.reference import ReferenceSet
-from guideword.reference.precedents import load_precedent_index
+from guideword.reference.precedents import PrecedentIndex, load_precedent_index
 from guideword.runs.machine import Stepper, advance
 from guideword.runs.plants import PlantRepository, load_plant, plant_facts
 from guideword.runs.post_budget import (
@@ -111,9 +111,12 @@ def start_case(
     spend_cap_usd: float,
     mode: str = "full",
     *,
+    use: BudgetUse,
     post_spend_cap_usd: float | None = None,
 ) -> Run:
-    """`post_spend_cap_usd` defaults to `run.post_spend_cap_usd` in caps.yaml (Q20)."""
+    """`use` is required (contract v1.9, Q13). For the scripts, `post_spend_cap_usd`
+    defaults to `run.post_spend_cap_usd` in caps.yaml (Q20); the API always passes the
+    request's (Q11)."""
     post = (
         post_spend_cap_usd if post_spend_cap_usd is not None else config.caps.run.post_spend_cap_usd
     )
@@ -125,6 +128,7 @@ def start_case(
         plant_record_id=plant_record_id,
         spend_cap_usd=spend_cap_usd,
         mode=mode,
+        use=use,
         post_spend_cap_usd=post,
     )
 
@@ -139,9 +143,11 @@ def evidence_tools(
     clock: Callable[[], datetime],
     search: SearchClient,
     enabled: bool = True,
+    index: PrecedentIndex | None = None,
 ) -> EvidenceTools:
     """The evidence step's tools for a run: a web search on the run's own cache and ledger (the
-    gateway's), and the precedent index (Phase 4 plan PR 5b)."""
+    gateway's), and the precedent index (Phase 4 plan PR 5b). A fake run passes a synthetic
+    `index`, so it never reads the real one (CLAUDE.md section 5)."""
     web = WebSearch(
         client=search,
         cache=cache,
@@ -151,7 +157,9 @@ def evidence_tools(
         phase=phase,
         clock=clock,
     )
-    return EvidenceTools(web=web, index=load_precedent_index(), enabled=enabled)
+    return EvidenceTools(
+        web=web, index=index if index is not None else load_precedent_index(), enabled=enabled
+    )
 
 
 def steppers_for(

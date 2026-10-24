@@ -180,7 +180,14 @@ class Api:
         self.client.put(f"{url}/sections", json={"sections": proposal["sections"]})
         run_id = str(
             self.client.post(
-                "/runs", json={"plant_id": plant, "spend_cap_usd": 1.0, "mode": "full"}
+                "/runs",
+                json={
+                    "plant_id": plant,
+                    "spend_cap_usd": 1.0,
+                    "mode": "full",
+                    "use": "development",
+                    "post_spend_cap_usd": 0.3,
+                },
             ).json()["run_id"]
         )
         advance = f"/internal/runs/{quote(run_id, safe='')}/advance"

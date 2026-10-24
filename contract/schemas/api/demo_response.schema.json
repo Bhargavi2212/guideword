@@ -30,6 +30,19 @@
       "title": "AppliedModifier",
       "type": "object"
     },
+    "BudgetUse": {
+      "enum": [
+        "development",
+        "test_5",
+        "benchmark",
+        "video",
+        "demo_recording",
+        "judging",
+        "buffer"
+      ],
+      "title": "BudgetUse",
+      "type": "string"
+    },
     "Chain": {
       "additionalProperties": false,
       "properties": {
@@ -942,6 +955,17 @@
         "step": {
           "title": "Step",
           "type": "string"
+        },
+        "use": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/BudgetUse"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
         }
       },
       "required": [

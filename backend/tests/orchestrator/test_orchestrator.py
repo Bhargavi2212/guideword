@@ -20,7 +20,7 @@ from guideword.runs.machine import Stepper, StepResult, advance
 from guideword.runs.plants import PlantRepository, load_plant, plant_facts
 from guideword.runs.start import RunSettings, start_run
 from guideword.runs.store import RunRepository
-from guideword.schema.enums import EventType, QuestionStatus, RunStatus
+from guideword.schema.enums import BudgetUse, EventType, QuestionStatus, RunStatus
 from guideword.schema.plant import Plant
 from guideword.schema.records import Run
 from guideword.sections.rules import rule_cut
@@ -128,6 +128,8 @@ class World:
             plant_record_id=self.record_id,
             spend_cap_usd=cap,
             mode="full",
+            use=BudgetUse.DEVELOPMENT,
+            post_spend_cap_usd=0.0,
         )
         return past_screen(self.runs, run)
 

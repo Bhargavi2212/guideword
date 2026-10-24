@@ -1,4 +1,19 @@
 {
+  "$defs": {
+    "BudgetUse": {
+      "enum": [
+        "development",
+        "test_5",
+        "benchmark",
+        "video",
+        "demo_recording",
+        "judging",
+        "buffer"
+      ],
+      "title": "BudgetUse",
+      "type": "string"
+    }
+  },
   "additionalProperties": false,
   "properties": {
     "mode": {
@@ -13,16 +28,26 @@
       "title": "Plant Id",
       "type": "string"
     },
+    "post_spend_cap_usd": {
+      "minimum": 0,
+      "title": "Post Spend Cap Usd",
+      "type": "number"
+    },
     "spend_cap_usd": {
       "exclusiveMinimum": 0,
       "title": "Spend Cap Usd",
       "type": "number"
+    },
+    "use": {
+      "$ref": "#/$defs/BudgetUse"
     }
   },
   "required": [
     "plant_id",
     "spend_cap_usd",
-    "mode"
+    "mode",
+    "use",
+    "post_spend_cap_usd"
   ],
   "title": "StartRunRequest",
   "type": "object"

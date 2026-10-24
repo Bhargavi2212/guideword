@@ -26,7 +26,7 @@ from guideword.runs.plants import PlantRepository, load_plant, plant_facts
 from guideword.runs.post_budget import POST_JOBS
 from guideword.runs.start import RunSettings, start_run
 from guideword.runs.store import RunRepository
-from guideword.schema.enums import EventType, RunStatus, SeverityClass
+from guideword.schema.enums import BudgetUse, EventType, RunStatus, SeverityClass
 from guideword.schema.records import Run
 from guideword.sections.rules import rule_cut
 
@@ -168,6 +168,7 @@ class World:
             mode="full",
             # Phase 3 (plan G14): the post-analysis steps get their default allowance
             post_spend_cap_usd=cfg.caps.run.post_spend_cap_usd,
+            use=BudgetUse.DEVELOPMENT,
         )
         return past_screen(self.runs, run)
 

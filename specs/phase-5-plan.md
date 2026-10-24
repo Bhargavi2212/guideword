@@ -266,9 +266,7 @@ Anything outside these rules still stops for a question (`CLAUDE.md` §13).
     - `events_legacy_phase4.json` from `run:76f8ee0b5d1f078e` (34);
     - `events_legacy_other_shapes.json`: the 8 remaining shapes, each event naming its run;
   - `runs/start.py` and `runs/case.py`: `start_run(use=…)` stores the use, and `start_case(use=…)` requires it; all three callers pass it (H5, J6);
-  - `runs/machine.py`:
-    - a step refuses to run when the gateway's use differs from the run's (H5);
-    - `stop_for_refusal` always writes `cap` on `cap_hit`: `analysis`, `post` or null (J4).
+  - `runs/machine.py`: `stop_for_refusal` always writes `cap` on `cap_hit`: `analysis`, `post` or null (J4). (The gateway-use check moved to B2.)
   - `scripts/check_event_payloads.py`: the 52-shape report (Q7, J7).
   - `contract/fixtures/budget.json`: `uses`;
   - regenerated `openapi.json`, schemas and `frontend/src/api/types.ts` (C9);
@@ -290,7 +288,6 @@ Anything outside these rules still stops for a question (`CLAUDE.md` §13).
   - `test_the_legacy_fixtures_validate_with_the_legacy_models_and_v1_9_events_never_do` (G1, Q3);
   - `test_each_legacy_fixture_names_its_source_and_has_each_type_of_that_run` (Q3: the type list per source run is stored in the file and checked);
   - `test_a_legacy_dispatch_gets_its_tier_from_its_runs_routing_config` (H14);
-  - `test_the_machine_refuses_a_gateway_of_another_use` (H5);
   - `test_cap_hit_names_the_analysis_cap_the_post_cap_or_none` (J4);
   - `test_check_event_payloads_reports_each_shape_and_fails_on_a_bad_one` (J7, a synthetic store);
   - `test_start_needs_a_post_cap` (J2);
@@ -309,11 +306,11 @@ Anything outside these rules still stops for a question (`CLAUDE.md` §13).
     - `POST /runs` adds `live().drive` as a background task when not mock and `guideword_env == laptop`;
     - it refuses with 409 when spend cap + post cap is more than the use's remaining amount or the phase's remaining cap, naming which (G5, G6);
     - it refuses with 409 a use not in `api_run_uses` (H7);
-    - **a resume with a use different from the run's → 409; a run with no use stores the one given** (Q4);
-    - a resume with a post cap different from the stored one → 409 (J3, Q12);
+    - *done in B1 (7c448da):* a resume with another use or post cap → 409 naming the stored value; a run with no use stores the one given; `advance` refuses another use, needs one for a run with none, and stores it (Q4, Q12, H4);
+    - **remove the interim `one_gateway_use` refusal** (B1, 2026-10-23: until per-use gateways, the API spends `development` only), in the same PR as the per-use gateways;
     - the maximum checked is the request's spend cap + its post cap (Q10);
-    - `advance`: a use different from the run's → 409; no use on a run that has none → 409 "name a use"; a use given to a run with none is stored (Q4, H4);
     - `API_RUN_PHASE` "4" → "5";
+  - `runs/machine.py`: a step refuses to run when the gateway's use differs from the run's (H5; moved here from B1, 2026-10-23);
   - `api/live.py`:
     - one gateway per use;
     - each run is driven with its own recorded use (G5);
@@ -332,10 +329,9 @@ Anything outside these rules still stops for a question (`CLAUDE.md` §13).
   - `test_a_run_is_driven_with_its_own_use` (a `video` run's ledger lines carry `video`; G5);
   - `test_start_refuses_a_maximum_above_the_uses_remaining_amount_or_the_phase_cap` (G5, G6);
   - `test_start_refuses_a_use_not_offered_to_api_runs` (H7);
-  - `test_a_resume_with_another_use_is_refused_with_409` (Q4);
-  - `test_an_old_run_names_its_use_on_first_advance_and_keeps_it` (Q4);
-  - `test_an_advance_without_a_use_on_a_run_with_none_is_refused` (Q4);
-  - `test_an_advance_with_another_use_is_refused_with_409` (Q4);
+  - *(the Q4 resume and advance tests landed in B1)*;
+  - `test_a_video_run_starts_and_advances_through_the_api_once_gateways_are_per_use` (the interim refusal's removal);
+  - `test_the_machine_refuses_a_gateway_of_another_use` (H5, moved from B1);
   - `test_extend_refuses_another_use_and_stores_one_when_the_run_has_none` (H5);
   - `test_extend_run_requires_use`, `test_run_case_requires_use` and `test_screen_check_requires_use` (Q9, J6);
   - `test_a_resume_with_another_post_cap_is_refused_with_409` (J3).

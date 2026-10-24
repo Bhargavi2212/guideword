@@ -20,6 +20,7 @@ from guideword.runs.db import make_session_factory
 from guideword.schema.enums import (
     Agent,
     AgentTool,
+    BudgetUse,
     QuestionKind,
     QuestionOrigin,
     QuestionStatus,
@@ -346,7 +347,15 @@ def test_apply_batch_writes_every_record_with_its_event(
         dict(config.routing.jobs), config.caps.run_input_caps(), dict(config.routing.prompts)
     )
     run = start_run(
-        plants, runs, ref, settings, plant_record_id=record.id, spend_cap_usd=1.0, mode="full"
+        plants,
+        runs,
+        ref,
+        settings,
+        plant_record_id=record.id,
+        spend_cap_usd=1.0,
+        mode="full",
+        use=BudgetUse.DEVELOPMENT,
+        post_spend_cap_usd=0.0,
     )
     sections = {s.id: s for s in runs.sections(run.id)}
     questions = {q.id: q for q in runs.questions(run.id)}

@@ -385,12 +385,117 @@ export interface components {
          * @enum {string}
          */
         Adequacy: "adequate" | "inadequate" | "unknown";
+        /** Admission */
+        Admission: {
+            /** Cap Spent Usd */
+            cap_spent_usd: number;
+            /** Limit Usd */
+            limit_usd: number;
+            /** Slices Usd */
+            slices_usd: number[];
+        };
+        /**
+         * AdvanceRequest
+         * @description Contract v1.9 (Q4): the run's use. Required for a run stored without one, which then
+         *     keeps it; refused with 409 when it differs from the run's.
+         */
+        AdvanceRequest: {
+            use?: components["schemas"]["BudgetUse"] | null;
+        };
+        /**
+         * Agent
+         * @enum {string}
+         */
+        Agent: "orchestrator" | "process" | "chemistry" | "piping" | "procedures" | "maintenance" | "dust" | "connector" | "evidence";
+        /** AgentDecision */
+        AgentDecision: {
+            agent: components["schemas"]["Agent"];
+            /** Reason */
+            reason: string;
+            /** Step Id */
+            step_id: string;
+            tool: components["schemas"]["AgentTool"];
+        };
+        /** AgentDecisionEventLegacy */
+        AgentDecisionEventLegacy: {
+            payload: unknown;
+            /** Payload Error */
+            payload_error?: null;
+            /**
+             * Payload Invalid
+             * @default false
+             * @constant
+             */
+            payload_invalid: false;
+            /** Payload Schema */
+            payload_schema?: null;
+            /** Run Id */
+            run_id: string;
+            /** Seq */
+            seq: number;
+            /**
+             * Time
+             * Format: date-time
+             */
+            time: string;
+            /**
+             * Type
+             * @constant
+             */
+            type: "agent_decision";
+        };
+        /** AgentDecisionEventV19 */
+        AgentDecisionEventV19: {
+            payload: unknown;
+            /** Payload Error */
+            payload_error?: null;
+            /**
+             * Payload Invalid
+             * @default false
+             * @constant
+             */
+            payload_invalid: false;
+            /**
+             * Payload Schema
+             * @constant
+             */
+            payload_schema: "v1.9";
+            /** Run Id */
+            run_id: string;
+            /** Seq */
+            seq: number;
+            /**
+             * Time
+             * Format: date-time
+             */
+            time: string;
+            /**
+             * Type
+             * @constant
+             */
+            type: "agent_decision";
+        };
+        /**
+         * AgentTool
+         * @description The orchestrator tools in PROJECT.md §5, plus `answer` for a specialist's answer step.
+         * @enum {string}
+         */
+        AgentTool: "check_coverage" | "dispatch_specialist" | "web_research" | "search_precedent" | "reactivity_lookup" | "physics_calc" | "propose_chains" | "run_lopa" | "run_simulation" | "finish" | "answer";
         /** AppliedModifier */
         AppliedModifier: {
             /** Modifier Id */
             modifier_id: string;
             /** Value */
             value: number;
+        };
+        /** BlockList */
+        BlockList: {
+            /** File */
+            file: string;
+            /** Terms */
+            terms: number;
+            /** Version */
+            version: string;
         };
         /** Budget */
         Budget: {
@@ -402,6 +507,127 @@ export interface components {
             live_run_available: boolean;
             /** Message */
             message?: string | null;
+        };
+        /**
+         * BudgetUse
+         * @enum {string}
+         */
+        BudgetUse: "development" | "test_5" | "benchmark" | "video" | "demo_recording" | "judging" | "buffer";
+        /** CapHitEventLegacy */
+        CapHitEventLegacy: {
+            payload: unknown;
+            /** Payload Error */
+            payload_error?: null;
+            /**
+             * Payload Invalid
+             * @default false
+             * @constant
+             */
+            payload_invalid: false;
+            /** Payload Schema */
+            payload_schema?: null;
+            /** Run Id */
+            run_id: string;
+            /** Seq */
+            seq: number;
+            /**
+             * Time
+             * Format: date-time
+             */
+            time: string;
+            /**
+             * Type
+             * @constant
+             */
+            type: "cap_hit";
+        };
+        /** CapHitEventV19 */
+        CapHitEventV19: {
+            /** Payload */
+            payload: unknown;
+            /** Payload Error */
+            payload_error?: null;
+            /**
+             * Payload Invalid
+             * @default false
+             * @constant
+             */
+            payload_invalid: false;
+            /**
+             * Payload Schema
+             * @constant
+             */
+            payload_schema: "v1.9";
+            /** Run Id */
+            run_id: string;
+            /** Seq */
+            seq: number;
+            /**
+             * Time
+             * Format: date-time
+             */
+            time: string;
+            /**
+             * Type
+             * @constant
+             */
+            type: "cap_hit";
+        };
+        /** CapHitOpen */
+        CapHitOpen: {
+            /** Cap */
+            cap: ("analysis" | "post") | null;
+            /** Open */
+            open: number;
+            /**
+             * Reason
+             * @constant
+             */
+            reason: "questions left open";
+        };
+        /**
+         * CapHitRefused
+         * @description The gateway refused a call: the run stops with this status.
+         */
+        CapHitRefused: {
+            /** Cap */
+            cap: ("analysis" | "post") | null;
+            /** Reason */
+            reason: string;
+            status: components["schemas"]["RunStatus"];
+        };
+        /**
+         * CapHitReserve
+         * @description The analysis stops at the severity reserve (R38); severity runs next.
+         */
+        CapHitReserve: {
+            /** Cap */
+            cap: ("analysis" | "post") | null;
+            /** Detail */
+            detail: string;
+            /**
+             * Reason
+             * @enum {string}
+             */
+            reason: "severity reserve" | "admission";
+            /** Reserve Usd */
+            reserve_usd: number;
+            /** Severity Calls */
+            severity_calls: number;
+            /** Unrated */
+            unrated: number;
+        };
+        /** CapHitSteps */
+        CapHitSteps: {
+            /** Cap */
+            cap: ("analysis" | "post") | null;
+            /** Limit */
+            limit: number;
+            /**
+             * Reason
+             * @constant
+             */
+            reason: "orchestrator_max_steps";
         };
         /** Chain */
         Chain: {
@@ -429,6 +655,136 @@ export interface components {
             /** Severity Reason */
             severity_reason?: string | null;
         };
+        /** ChainAdded */
+        ChainAdded: {
+            /** Chain Id */
+            chain_id: string;
+            /** Links */
+            links: number;
+        };
+        /** ChainAddedEventLegacy */
+        ChainAddedEventLegacy: {
+            payload: unknown;
+            /** Payload Error */
+            payload_error?: null;
+            /**
+             * Payload Invalid
+             * @default false
+             * @constant
+             */
+            payload_invalid: false;
+            /** Payload Schema */
+            payload_schema?: null;
+            /** Run Id */
+            run_id: string;
+            /** Seq */
+            seq: number;
+            /**
+             * Time
+             * Format: date-time
+             */
+            time: string;
+            /**
+             * Type
+             * @constant
+             */
+            type: "chain_added";
+        };
+        /** ChainAddedEventV19 */
+        ChainAddedEventV19: {
+            payload: unknown;
+            /** Payload Error */
+            payload_error?: null;
+            /**
+             * Payload Invalid
+             * @default false
+             * @constant
+             */
+            payload_invalid: false;
+            /**
+             * Payload Schema
+             * @constant
+             */
+            payload_schema: "v1.9";
+            /** Run Id */
+            run_id: string;
+            /** Seq */
+            seq: number;
+            /**
+             * Time
+             * Format: date-time
+             */
+            time: string;
+            /**
+             * Type
+             * @constant
+             */
+            type: "chain_added";
+        };
+        /** ChainSeverityFinished */
+        ChainSeverityFinished: {
+            /** Answered */
+            answered: number;
+            /** Missing */
+            missing: string[];
+            /** Missing Ids */
+            missing_ids: string[];
+            /** Next Step */
+            next_step: string;
+            /** Outcome */
+            outcome: string;
+            /** Re Ask */
+            re_ask: boolean;
+            /** Sent */
+            sent: number;
+            /** Sent Ids */
+            sent_ids: string[];
+            status: components["schemas"]["RunStatus"];
+            /**
+             * Step
+             * @constant
+             */
+            step: "chain_severity";
+        };
+        /** ChainsFinished */
+        ChainsFinished: {
+            connector: components["schemas"]["ConnectorOutcome"];
+            /** Left Out */
+            left_out: number;
+            /** Next Step */
+            next_step: string;
+            /** Rejected */
+            rejected: components["schemas"]["RejectedChain"][];
+            /** Scenarios */
+            scenarios: number;
+            status: components["schemas"]["RunStatus"];
+            /**
+             * Step
+             * @constant
+             */
+            step: "chains";
+        };
+        /**
+         * ChainsFinishedNoScenarios
+         * @description No scenario line fitted, so the connector was not called.
+         */
+        ChainsFinishedNoScenarios: {
+            /** Left Out */
+            left_out: number;
+            /** Next Step */
+            next_step: string;
+            /**
+             * Scenarios
+             * @constant
+             */
+            scenarios: 0;
+            status: components["schemas"]["RunStatus"];
+            /**
+             * Step
+             * @constant
+             */
+            step: "chains";
+        };
         /**
          * Confidence
          * @enum {string}
@@ -447,6 +803,13 @@ export interface components {
             section_ids: string[];
             status: components["schemas"]["PlantStatus"];
         };
+        /** ConnectorOutcome */
+        ConnectorOutcome: {
+            /** Error */
+            error: string | null;
+            /** Outcome */
+            outcome: string;
+        };
         /** Coverage */
         Coverage: {
             /** Failed Question Ids */
@@ -456,6 +819,19 @@ export interface components {
             lists: components["schemas"]["CoverageList"][];
             /** Run Id */
             run_id: string;
+        };
+        /** CoverageLine */
+        CoverageLine: {
+            /** Checked */
+            checked: number;
+            /** Failed */
+            failed: number;
+            /** List */
+            list: string;
+            /** Total */
+            total: number;
+            /** Unsure */
+            unsure: number;
         };
         /** CoverageList */
         CoverageList: {
@@ -470,12 +846,237 @@ export interface components {
             /** Unsure */
             unsure: number;
         };
+        /** CoverageUpdated */
+        CoverageUpdated: {
+            /** Lines */
+            lines: components["schemas"]["CoverageLine"][];
+        };
+        /** CoverageUpdatedEventLegacy */
+        CoverageUpdatedEventLegacy: {
+            payload: unknown;
+            /** Payload Error */
+            payload_error?: null;
+            /**
+             * Payload Invalid
+             * @default false
+             * @constant
+             */
+            payload_invalid: false;
+            /** Payload Schema */
+            payload_schema?: null;
+            /** Run Id */
+            run_id: string;
+            /** Seq */
+            seq: number;
+            /**
+             * Time
+             * Format: date-time
+             */
+            time: string;
+            /**
+             * Type
+             * @constant
+             */
+            type: "coverage_updated";
+        };
+        /** CoverageUpdatedEventV19 */
+        CoverageUpdatedEventV19: {
+            payload: unknown;
+            /** Payload Error */
+            payload_error?: null;
+            /**
+             * Payload Invalid
+             * @default false
+             * @constant
+             */
+            payload_invalid: false;
+            /**
+             * Payload Schema
+             * @constant
+             */
+            payload_schema: "v1.9";
+            /** Run Id */
+            run_id: string;
+            /** Seq */
+            seq: number;
+            /**
+             * Time
+             * Format: date-time
+             */
+            time: string;
+            /**
+             * Type
+             * @constant
+             */
+            type: "coverage_updated";
+        };
+        /** DeferredBatch */
+        DeferredBatch: {
+            /** Question Ids */
+            question_ids: string[];
+            /** Slice Usd */
+            slice_usd: number;
+        };
         /** DemoResponse */
         DemoResponse: {
             label: components["schemas"]["RunLabel"];
             plant: components["schemas"]["PlantDetail"];
             run: components["schemas"]["RunDetail"];
             shortlist: components["schemas"]["Shortlist"];
+        };
+        /** DispatchEventLegacy */
+        DispatchEventLegacy: {
+            payload: unknown;
+            /** Payload Error */
+            payload_error?: null;
+            /**
+             * Payload Invalid
+             * @default false
+             * @constant
+             */
+            payload_invalid: false;
+            /** Payload Schema */
+            payload_schema?: null;
+            /** Run Id */
+            run_id: string;
+            /** Seq */
+            seq: number;
+            /**
+             * Time
+             * Format: date-time
+             */
+            time: string;
+            /**
+             * Type
+             * @constant
+             */
+            type: "dispatch";
+        };
+        /** DispatchEventV19 */
+        DispatchEventV19: {
+            /** Payload */
+            payload: unknown;
+            /** Payload Error */
+            payload_error?: null;
+            /**
+             * Payload Invalid
+             * @default false
+             * @constant
+             */
+            payload_invalid: false;
+            /**
+             * Payload Schema
+             * @constant
+             */
+            payload_schema: "v1.9";
+            /** Run Id */
+            run_id: string;
+            /** Seq */
+            seq: number;
+            /**
+             * Time
+             * Format: date-time
+             */
+            time: string;
+            /**
+             * Type
+             * @constant
+             */
+            type: "dispatch";
+        };
+        /**
+         * DispatchNoRoom
+         * @description Not even the first batch fits the spend left: the analysis ends.
+         */
+        DispatchNoRoom: {
+            admission: components["schemas"]["Admission"];
+            agent: components["schemas"]["Agent"];
+            /** Batches */
+            batches: number;
+            /** Deferred At Admission */
+            deferred_at_admission: components["schemas"]["DeferredBatch"][];
+            /** Level */
+            level: string;
+            /** Priority */
+            priority: boolean;
+            /** Question Ids */
+            question_ids: string[];
+            /** Selected By Code */
+            selected_by_code: boolean;
+            /** Skipped */
+            skipped: string[];
+            tier: components["schemas"]["Tier"];
+            /**
+             * Tier Source
+             * @constant
+             */
+            tier_source: "recorded";
+        };
+        /**
+         * DispatchNothingToSend
+         * @description Every chosen question was already answered: stored results are used.
+         */
+        DispatchNothingToSend: {
+            agent: components["schemas"]["Agent"];
+            /**
+             * Batches
+             * @constant
+             */
+            batches: 0;
+            /** Level */
+            level: string;
+            /** Priority */
+            priority: boolean;
+            /** Question Ids */
+            question_ids: string[];
+            /** Selected By Code */
+            selected_by_code: boolean;
+            /** Skipped */
+            skipped: string[];
+            tier: components["schemas"]["Tier"];
+            /**
+             * Tier Source
+             * @constant
+             */
+            tier_source: "recorded";
+        };
+        /** DispatchSent */
+        DispatchSent: {
+            admission: components["schemas"]["Admission"];
+            agent: components["schemas"]["Agent"];
+            /** Batches */
+            batches: number;
+            /** Deferred At Admission */
+            deferred_at_admission: components["schemas"]["DeferredBatch"][];
+            /** Dropped Ids */
+            dropped_ids: string[];
+            /** Failed Batches */
+            failed_batches: components["schemas"]["FailedBatch"][];
+            /** Level */
+            level: string;
+            /** Linked Answered */
+            linked_answered: number;
+            /**
+             * Linked Answered Count
+             * @constant
+             */
+            linked_answered_count: "checked_questions";
+            /** Priority */
+            priority: boolean;
+            /** Question Ids */
+            question_ids: string[];
+            /** Selected By Code */
+            selected_by_code: boolean;
+            /** Skipped */
+            skipped: string[];
+            tier: components["schemas"]["Tier"];
+            /**
+             * Tier Source
+             * @constant
+             */
+            tier_source: "recorded";
+            /** Unlinked Sent */
+            unlinked_sent: number;
         };
         /** EnvironmentBudget */
         EnvironmentBudget: {
@@ -499,35 +1100,6 @@ export interface components {
             phase?: number | null;
         };
         /**
-         * Event
-         * @description Identified by (run_id, seq); events are a log, not part of the replay comparison.
-         */
-        Event: {
-            /** Payload */
-            payload: {
-                [key: string]: unknown;
-            };
-            /** Payload Error */
-            payload_error?: string | null;
-            /**
-             * Payload Invalid
-             * @default false
-             */
-            payload_invalid: boolean;
-            /** Payload Schema */
-            payload_schema?: "v1.9" | null;
-            /** Run Id */
-            run_id: string;
-            /** Seq */
-            seq: number;
-            /**
-             * Time
-             * Format: date-time
-             */
-            time: string;
-            type: components["schemas"]["EventType"];
-        };
-        /**
          * EventType
          * @enum {string}
          */
@@ -535,7 +1107,7 @@ export interface components {
         /** EventsPage */
         EventsPage: {
             /** Events */
-            events: components["schemas"]["Event"][];
+            events: (components["schemas"]["InvalidEvent"] | components["schemas"]["RunStartedEventV19"] | components["schemas"]["RunStartedEventLegacy"] | components["schemas"]["StepStartedEventV19"] | components["schemas"]["StepStartedEventLegacy"] | components["schemas"]["StepFinishedEventV19"] | components["schemas"]["StepFinishedEventLegacy"] | components["schemas"]["AgentDecisionEventV19"] | components["schemas"]["AgentDecisionEventLegacy"] | components["schemas"]["DispatchEventV19"] | components["schemas"]["DispatchEventLegacy"] | components["schemas"]["ModelCallEventV19"] | components["schemas"]["ModelCallEventLegacy"] | components["schemas"]["ToolCallEventV19"] | components["schemas"]["ToolCallEventLegacy"] | components["schemas"]["FindingAddedEventV19"] | components["schemas"]["FindingAddedEventLegacy"] | components["schemas"]["ChainAddedEventV19"] | components["schemas"]["ChainAddedEventLegacy"] | components["schemas"]["LopaDoneEventV19"] | components["schemas"]["LopaDoneEventLegacy"] | components["schemas"]["EvidenceAddedEventV19"] | components["schemas"]["EvidenceAddedEventLegacy"] | components["schemas"]["CoverageUpdatedEventV19"] | components["schemas"]["CoverageUpdatedEventLegacy"] | components["schemas"]["CapHitEventV19"] | components["schemas"]["CapHitEventLegacy"] | components["schemas"]["RunFinishedEventV19"] | components["schemas"]["RunFinishedEventLegacy"] | components["schemas"]["RunFailedEventV19"] | components["schemas"]["HypothesisAddedEventV19"] | components["schemas"]["HypothesisAddedEventLegacy"] | components["schemas"]["HypothesisDroppedEventV19"] | components["schemas"]["RunExtendedEventV19"] | components["schemas"]["RunExtendedEventLegacy"])[];
             label: components["schemas"]["RunLabel"];
             /** Next After */
             next_after: number;
@@ -567,11 +1139,134 @@ export interface components {
             tool_call_id?: string | null;
             verdict: components["schemas"]["Verdict"];
         };
+        /** EvidenceAdded */
+        EvidenceAdded: {
+            /** Evidence Id */
+            evidence_id: string;
+            kind: components["schemas"]["EvidenceKind"];
+            /** Target Id */
+            target_id: string;
+            verdict: components["schemas"]["Verdict"];
+        };
+        /** EvidenceAddedEventLegacy */
+        EvidenceAddedEventLegacy: {
+            payload: unknown;
+            /** Payload Error */
+            payload_error?: null;
+            /**
+             * Payload Invalid
+             * @default false
+             * @constant
+             */
+            payload_invalid: false;
+            /** Payload Schema */
+            payload_schema?: null;
+            /** Run Id */
+            run_id: string;
+            /** Seq */
+            seq: number;
+            /**
+             * Time
+             * Format: date-time
+             */
+            time: string;
+            /**
+             * Type
+             * @constant
+             */
+            type: "evidence_added";
+        };
+        /** EvidenceAddedEventV19 */
+        EvidenceAddedEventV19: {
+            payload: unknown;
+            /** Payload Error */
+            payload_error?: null;
+            /**
+             * Payload Invalid
+             * @default false
+             * @constant
+             */
+            payload_invalid: false;
+            /**
+             * Payload Schema
+             * @constant
+             */
+            payload_schema: "v1.9";
+            /** Run Id */
+            run_id: string;
+            /** Seq */
+            seq: number;
+            /**
+             * Time
+             * Format: date-time
+             */
+            time: string;
+            /**
+             * Type
+             * @constant
+             */
+            type: "evidence_added";
+        };
         /**
          * EvidenceKind
          * @enum {string}
          */
         EvidenceKind: "calculation" | "precedent" | "simulation";
+        /** EvidenceOff */
+        EvidenceOff: {
+            /**
+             * Evidence
+             * @constant
+             */
+            evidence: "off";
+            /** Next Step */
+            next_step: string;
+            /** Reason */
+            reason: string;
+            status: components["schemas"]["RunStatus"];
+            /**
+             * Step
+             * @constant
+             */
+            step: "evidence";
+        };
+        /** EvidenceOn */
+        EvidenceOn: {
+            block_list: components["schemas"]["BlockList"] | null;
+            /**
+             * Evidence
+             * @constant
+             */
+            evidence: "on";
+            /** Lines */
+            lines: string[];
+            /** Next Step */
+            next_step: string;
+            /** Precedent Index Version */
+            precedent_index_version: string;
+            /** Settings */
+            settings: {
+                [key: string]: unknown;
+            };
+            status: components["schemas"]["RunStatus"];
+            /**
+             * Step
+             * @constant
+             */
+            step: "evidence";
+        };
+        /** FailedBatch */
+        FailedBatch: {
+            /** Question Ids */
+            question_ids: string[];
+            /** Reason */
+            reason: string | null;
+            /**
+             * Status
+             * @constant
+             */
+            status: "failed";
+        };
         /**
          * FailingComponentType
          * @description The values used in reference/causes.csv.
@@ -605,6 +1300,73 @@ export interface components {
             /** Severity Reason */
             severity_reason?: string | null;
             tier: components["schemas"]["Tier"];
+        };
+        /** FindingAdded */
+        FindingAdded: {
+            /** Finding Id */
+            finding_id: string;
+            /** Question Id */
+            question_id: string;
+            tier: components["schemas"]["Tier"];
+        };
+        /** FindingAddedEventLegacy */
+        FindingAddedEventLegacy: {
+            payload: unknown;
+            /** Payload Error */
+            payload_error?: null;
+            /**
+             * Payload Invalid
+             * @default false
+             * @constant
+             */
+            payload_invalid: false;
+            /** Payload Schema */
+            payload_schema?: null;
+            /** Run Id */
+            run_id: string;
+            /** Seq */
+            seq: number;
+            /**
+             * Time
+             * Format: date-time
+             */
+            time: string;
+            /**
+             * Type
+             * @constant
+             */
+            type: "finding_added";
+        };
+        /** FindingAddedEventV19 */
+        FindingAddedEventV19: {
+            payload: unknown;
+            /** Payload Error */
+            payload_error?: null;
+            /**
+             * Payload Invalid
+             * @default false
+             * @constant
+             */
+            payload_invalid: false;
+            /**
+             * Payload Schema
+             * @constant
+             */
+            payload_schema: "v1.9";
+            /** Run Id */
+            run_id: string;
+            /** Seq */
+            seq: number;
+            /**
+             * Time
+             * Format: date-time
+             */
+            time: string;
+            /**
+             * Type
+             * @constant
+             */
+            type: "finding_added";
         };
         /** HTTPValidationError */
         HTTPValidationError: {
@@ -643,6 +1405,141 @@ export interface components {
             /** Run Id */
             run_id: string;
         };
+        /** HypothesisAdded */
+        HypothesisAdded: {
+            /** Hypothesis Id */
+            hypothesis_id: string;
+            /** Rank */
+            rank: number;
+        };
+        /** HypothesisAddedEventLegacy */
+        HypothesisAddedEventLegacy: {
+            payload: unknown;
+            /** Payload Error */
+            payload_error?: null;
+            /**
+             * Payload Invalid
+             * @default false
+             * @constant
+             */
+            payload_invalid: false;
+            /** Payload Schema */
+            payload_schema?: null;
+            /** Run Id */
+            run_id: string;
+            /** Seq */
+            seq: number;
+            /**
+             * Time
+             * Format: date-time
+             */
+            time: string;
+            /**
+             * Type
+             * @constant
+             */
+            type: "hypothesis_added";
+        };
+        /** HypothesisAddedEventV19 */
+        HypothesisAddedEventV19: {
+            payload: unknown;
+            /** Payload Error */
+            payload_error?: null;
+            /**
+             * Payload Invalid
+             * @default false
+             * @constant
+             */
+            payload_invalid: false;
+            /**
+             * Payload Schema
+             * @constant
+             */
+            payload_schema: "v1.9";
+            /** Run Id */
+            run_id: string;
+            /** Seq */
+            seq: number;
+            /**
+             * Time
+             * Format: date-time
+             */
+            time: string;
+            /**
+             * Type
+             * @constant
+             */
+            type: "hypothesis_added";
+        };
+        /** HypothesisDropped */
+        HypothesisDropped: {
+            /** Rank */
+            rank: number | null;
+            /** Reason */
+            reason: string;
+        };
+        /** HypothesisDroppedEventV19 */
+        HypothesisDroppedEventV19: {
+            payload: unknown;
+            /** Payload Error */
+            payload_error?: null;
+            /**
+             * Payload Invalid
+             * @default false
+             * @constant
+             */
+            payload_invalid: false;
+            /**
+             * Payload Schema
+             * @constant
+             */
+            payload_schema: "v1.9";
+            /** Run Id */
+            run_id: string;
+            /** Seq */
+            seq: number;
+            /**
+             * Time
+             * Format: date-time
+             */
+            time: string;
+            /**
+             * Type
+             * @constant
+             */
+            type: "hypothesis_dropped";
+        };
+        /**
+         * InvalidEvent
+         * @description An event a live run wrote although its payload failed its model (Bhargavi,
+         *     2026-10-23): shown with its flag and the error, its payload as written.
+         */
+        InvalidEvent: {
+            /** Payload */
+            payload: unknown;
+            /** Payload Error */
+            payload_error: string;
+            /**
+             * Payload Invalid
+             * @constant
+             */
+            payload_invalid: true;
+            /**
+             * Payload Schema
+             * @constant
+             */
+            payload_schema: "v1.9";
+            /** Run Id */
+            run_id: string;
+            /** Seq */
+            seq: number;
+            /**
+             * Time
+             * Format: date-time
+             */
+            time: string;
+            type: components["schemas"]["EventType"];
+        };
         /**
          * Issue
          * @description A plant validation error or warning (schema/validate.py), naming the offending ID.
@@ -671,6 +1568,275 @@ export interface components {
             pfd?: number | null;
             /** Reason */
             reason: string;
+        };
+        /** LegacyAgentDecision */
+        LegacyAgentDecision: {
+            /** Agent */
+            agent: string;
+            /** Reason */
+            reason: string;
+            /** Step Id */
+            step_id: string;
+            /** Tool */
+            tool: string;
+        } & {
+            [key: string]: unknown;
+        };
+        /** LegacyCapHit */
+        LegacyCapHit: {
+            /** Reason */
+            reason: string;
+        } & {
+            [key: string]: unknown;
+        };
+        /** LegacyChainAdded */
+        LegacyChainAdded: {
+            /** Chain Id */
+            chain_id: string;
+            /** Links */
+            links: number;
+        } & {
+            [key: string]: unknown;
+        };
+        /** LegacyCoverageUpdated */
+        LegacyCoverageUpdated: {
+            /** Lines */
+            lines: {
+                [key: string]: unknown;
+            }[];
+        } & {
+            [key: string]: unknown;
+        };
+        /** LegacyDispatch */
+        LegacyDispatch: {
+            /** Agent */
+            agent: string;
+            /** Batches */
+            batches: number;
+            /** Level */
+            level: string;
+            /** Question Ids */
+            question_ids: string[];
+            /** Selected By Code */
+            selected_by_code: boolean;
+            /** Skipped */
+            skipped: string[];
+            tier?: components["schemas"]["Tier"] | null;
+            /** Tier Source */
+            tier_source?: "inferred" | null;
+        } & {
+            [key: string]: unknown;
+        };
+        /** LegacyEvidenceAdded */
+        LegacyEvidenceAdded: {
+            /** Evidence Id */
+            evidence_id: string;
+            /** Kind */
+            kind: string;
+            /** Target Id */
+            target_id: string;
+            /** Verdict */
+            verdict: string;
+        } & {
+            [key: string]: unknown;
+        };
+        /** LegacyFindingAdded */
+        LegacyFindingAdded: {
+            /** Finding Id */
+            finding_id: string;
+            /** Question Id */
+            question_id: string;
+            /** Tier */
+            tier: string;
+        } & {
+            [key: string]: unknown;
+        };
+        /** LegacyHypothesisAdded */
+        LegacyHypothesisAdded: {
+            /** Hypothesis Id */
+            hypothesis_id: string;
+            /** Rank */
+            rank: number;
+        } & {
+            [key: string]: unknown;
+        };
+        /** LegacyLopaDone */
+        LegacyLopaDone: {
+            /** Complete */
+            complete: boolean;
+            /** Kind */
+            kind: string;
+            /** Lopa Id */
+            lopa_id: string;
+        } & {
+            [key: string]: unknown;
+        };
+        /** LegacyModelCall */
+        LegacyModelCall: {
+            /** Cache Hit */
+            cache_hit: boolean;
+            /** Cap Cost Usd */
+            cap_cost_usd: number;
+            /** Cost Usd */
+            cost_usd: number;
+            /** Job */
+            job: string;
+            /** Model Call Id */
+            model_call_id: string;
+            /** Model Id */
+            model_id: string;
+            /** Outcome */
+            outcome: string;
+            tier?: components["schemas"]["Tier"] | null;
+            /** Tier Source */
+            tier_source?: "inferred" | null;
+        } & {
+            [key: string]: unknown;
+        };
+        /** LegacyRunExtended */
+        LegacyRunExtended: {
+            /** Jobs */
+            jobs: {
+                [key: string]: string;
+            };
+            /** Max Tokens */
+            max_tokens: {
+                [key: string]: number;
+            };
+            /** Post Spend Cap Usd */
+            post_spend_cap_usd: number;
+            /** Prompt Versions */
+            prompt_versions: {
+                [key: string]: string;
+            };
+            /** Resumed After Post Cap */
+            resumed_after_post_cap: boolean;
+            /** Settings */
+            settings: {
+                [key: string]: unknown;
+            };
+            /** Step */
+            step: string;
+        } & {
+            [key: string]: unknown;
+        };
+        /** LegacyRunFinished */
+        LegacyRunFinished: {
+            /** Spent Usd */
+            spent_usd: number;
+        } & {
+            [key: string]: unknown;
+        };
+        /** LegacyRunStarted */
+        LegacyRunStarted: {
+            /** Attempt */
+            attempt: number;
+            /** Questions */
+            questions: number;
+            /** Sections */
+            sections: number;
+        } & {
+            [key: string]: unknown;
+        };
+        /** LegacyStepFinished */
+        LegacyStepFinished: {
+            /** Next Step */
+            next_step: string;
+            /** Status */
+            status: string;
+            /** Step */
+            step: string;
+        } & {
+            [key: string]: unknown;
+        };
+        /** LegacyStepStarted */
+        LegacyStepStarted: {
+            /** Step */
+            step: string;
+        } & {
+            [key: string]: unknown;
+        };
+        /** LegacyToolCall */
+        LegacyToolCall: {
+            /** Refused */
+            refused: boolean;
+            /** Tool */
+            tool: string;
+            /** Tool Call Id */
+            tool_call_id: string;
+        } & {
+            [key: string]: unknown;
+        };
+        /** LopaDone */
+        LopaDone: {
+            /** Complete */
+            complete: boolean;
+            /**
+             * Kind
+             * @enum {string}
+             */
+            kind: "full" | "code_only";
+            /** Lopa Id */
+            lopa_id: string;
+        };
+        /** LopaDoneEventLegacy */
+        LopaDoneEventLegacy: {
+            payload: unknown;
+            /** Payload Error */
+            payload_error?: null;
+            /**
+             * Payload Invalid
+             * @default false
+             * @constant
+             */
+            payload_invalid: false;
+            /** Payload Schema */
+            payload_schema?: null;
+            /** Run Id */
+            run_id: string;
+            /** Seq */
+            seq: number;
+            /**
+             * Time
+             * Format: date-time
+             */
+            time: string;
+            /**
+             * Type
+             * @constant
+             */
+            type: "lopa_done";
+        };
+        /** LopaDoneEventV19 */
+        LopaDoneEventV19: {
+            payload: unknown;
+            /** Payload Error */
+            payload_error?: null;
+            /**
+             * Payload Invalid
+             * @default false
+             * @constant
+             */
+            payload_invalid: false;
+            /**
+             * Payload Schema
+             * @constant
+             */
+            payload_schema: "v1.9";
+            /** Run Id */
+            run_id: string;
+            /** Seq */
+            seq: number;
+            /**
+             * Time
+             * Format: date-time
+             */
+            time: string;
+            /**
+             * Type
+             * @constant
+             */
+            type: "lopa_done";
         };
         /** LopaRecord */
         LopaRecord: {
@@ -760,6 +1926,90 @@ export interface components {
             /** Run Id */
             run_id: string;
             tier?: components["schemas"]["Tier"] | null;
+        };
+        /** ModelCallEvent */
+        ModelCallEvent: {
+            /** Cache Hit */
+            cache_hit: boolean;
+            /** Cap Cost Usd */
+            cap_cost_usd: number;
+            /** Cost Usd */
+            cost_usd: number;
+            /** Fell Back From */
+            fell_back_from?: components["schemas"]["Tier"][] | null;
+            /** Job */
+            job: string;
+            /** Model Call Id */
+            model_call_id: string;
+            /** Model Id */
+            model_id: string;
+            /**
+             * Outcome
+             * @enum {string}
+             */
+            outcome: "ok" | "invalid" | "truncated" | "error";
+            tier: components["schemas"]["Tier"] | null;
+            /** Tier Source */
+            tier_source: "recorded" | null;
+        };
+        /** ModelCallEventLegacy */
+        ModelCallEventLegacy: {
+            payload: unknown;
+            /** Payload Error */
+            payload_error?: null;
+            /**
+             * Payload Invalid
+             * @default false
+             * @constant
+             */
+            payload_invalid: false;
+            /** Payload Schema */
+            payload_schema?: null;
+            /** Run Id */
+            run_id: string;
+            /** Seq */
+            seq: number;
+            /**
+             * Time
+             * Format: date-time
+             */
+            time: string;
+            /**
+             * Type
+             * @constant
+             */
+            type: "model_call";
+        };
+        /** ModelCallEventV19 */
+        ModelCallEventV19: {
+            payload: unknown;
+            /** Payload Error */
+            payload_error?: null;
+            /**
+             * Payload Invalid
+             * @default false
+             * @constant
+             */
+            payload_invalid: false;
+            /**
+             * Payload Schema
+             * @constant
+             */
+            payload_schema: "v1.9";
+            /** Run Id */
+            run_id: string;
+            /** Seq */
+            seq: number;
+            /**
+             * Time
+             * Format: date-time
+             */
+            time: string;
+            /**
+             * Type
+             * @constant
+             */
+            type: "model_call";
         };
         /** ModelSpend */
         ModelSpend: {
@@ -968,6 +2218,13 @@ export interface components {
             /** Tool Calls */
             tool_calls: components["schemas"]["ToolCall"][];
         };
+        /** RejectedChain */
+        RejectedChain: {
+            /** Links */
+            links: string[];
+            /** Reason */
+            reason: string;
+        };
         /**
          * RejectedSuggestion
          * @description A Super suggestion that code refused, with code's reason (contract v1.3, R23).
@@ -976,6 +2233,25 @@ export interface components {
             /** Reason */
             reason: string;
             suggestion: components["schemas"]["SectionSuggestion"];
+        };
+        /** RetryFailedFinished */
+        RetryFailedFinished: {
+            /** Error */
+            error: string | null;
+            /** Findings */
+            findings: number;
+            /** Next Step */
+            next_step: string;
+            /** Outcome */
+            outcome: string;
+            /** Question Id */
+            question_id: string;
+            status: components["schemas"]["RunStatus"];
+            /**
+             * Step
+             * @constant
+             */
+            step: "retry_failed";
         };
         /** Run */
         Run: {
@@ -1029,6 +2305,7 @@ export interface components {
             status: components["schemas"]["RunStatus"];
             /** Step */
             step: string;
+            use?: components["schemas"]["BudgetUse"] | null;
         };
         /** RunCounts */
         RunCounts: {
@@ -1058,7 +2335,7 @@ export interface components {
             /** Chains */
             chains: components["schemas"]["Chain"][];
             /** Events */
-            events: components["schemas"]["Event"][];
+            events: (components["schemas"]["InvalidEvent"] | components["schemas"]["RunStartedEventV19"] | components["schemas"]["RunStartedEventLegacy"] | components["schemas"]["StepStartedEventV19"] | components["schemas"]["StepStartedEventLegacy"] | components["schemas"]["StepFinishedEventV19"] | components["schemas"]["StepFinishedEventLegacy"] | components["schemas"]["AgentDecisionEventV19"] | components["schemas"]["AgentDecisionEventLegacy"] | components["schemas"]["DispatchEventV19"] | components["schemas"]["DispatchEventLegacy"] | components["schemas"]["ModelCallEventV19"] | components["schemas"]["ModelCallEventLegacy"] | components["schemas"]["ToolCallEventV19"] | components["schemas"]["ToolCallEventLegacy"] | components["schemas"]["FindingAddedEventV19"] | components["schemas"]["FindingAddedEventLegacy"] | components["schemas"]["ChainAddedEventV19"] | components["schemas"]["ChainAddedEventLegacy"] | components["schemas"]["LopaDoneEventV19"] | components["schemas"]["LopaDoneEventLegacy"] | components["schemas"]["EvidenceAddedEventV19"] | components["schemas"]["EvidenceAddedEventLegacy"] | components["schemas"]["CoverageUpdatedEventV19"] | components["schemas"]["CoverageUpdatedEventLegacy"] | components["schemas"]["CapHitEventV19"] | components["schemas"]["CapHitEventLegacy"] | components["schemas"]["RunFinishedEventV19"] | components["schemas"]["RunFinishedEventLegacy"] | components["schemas"]["RunFailedEventV19"] | components["schemas"]["HypothesisAddedEventV19"] | components["schemas"]["HypothesisAddedEventLegacy"] | components["schemas"]["HypothesisDroppedEventV19"] | components["schemas"]["RunExtendedEventV19"] | components["schemas"]["RunExtendedEventLegacy"])[];
             /** Evidence */
             evidence: components["schemas"]["Evidence"][];
             /** Findings */
@@ -1079,6 +2356,325 @@ export interface components {
             sections: components["schemas"]["Section"][];
             /** Superseded */
             superseded?: components["schemas"]["SupersededRecord"][];
+        };
+        /** RunExtendedEventLegacy */
+        RunExtendedEventLegacy: {
+            payload: unknown;
+            /** Payload Error */
+            payload_error?: null;
+            /**
+             * Payload Invalid
+             * @default false
+             * @constant
+             */
+            payload_invalid: false;
+            /** Payload Schema */
+            payload_schema?: null;
+            /** Run Id */
+            run_id: string;
+            /** Seq */
+            seq: number;
+            /**
+             * Time
+             * Format: date-time
+             */
+            time: string;
+            /**
+             * Type
+             * @constant
+             */
+            type: "run_extended";
+        };
+        /** RunExtendedEventV19 */
+        RunExtendedEventV19: {
+            /** Payload */
+            payload: unknown;
+            /** Payload Error */
+            payload_error?: null;
+            /**
+             * Payload Invalid
+             * @default false
+             * @constant
+             */
+            payload_invalid: false;
+            /**
+             * Payload Schema
+             * @constant
+             */
+            payload_schema: "v1.9";
+            /** Run Id */
+            run_id: string;
+            /** Seq */
+            seq: number;
+            /**
+             * Time
+             * Format: date-time
+             */
+            time: string;
+            /**
+             * Type
+             * @constant
+             */
+            type: "run_extended";
+        };
+        /** RunExtendedEvidence */
+        RunExtendedEvidence: {
+            /**
+             * Evidence Only
+             * @constant
+             */
+            evidence_only: true;
+            /** Evidence Settings */
+            evidence_settings: {
+                [key: string]: unknown;
+            };
+            /** Jobs */
+            jobs: {
+                [key: string]: string;
+            };
+            /** Max Tokens */
+            max_tokens: {
+                [key: string]: number;
+            };
+            /** Post Spend Cap Usd */
+            post_spend_cap_usd: number;
+            /** Prompt Versions */
+            prompt_versions: {
+                [key: string]: string;
+            };
+            /** Ranking */
+            ranking: {
+                [key: string]: boolean;
+            };
+            /** Resumed After Post Cap */
+            resumed_after_post_cap: boolean;
+            /** Settings */
+            settings: {
+                [key: string]: unknown;
+            };
+            /** Step */
+            step: string;
+        };
+        /**
+         * RunExtendedPass
+         * @description A new post-analysis pass, or a resume after the post cap.
+         */
+        RunExtendedPass: {
+            /** Evidence Settings */
+            evidence_settings: {
+                [key: string]: unknown;
+            };
+            /** Jobs */
+            jobs: {
+                [key: string]: string;
+            };
+            /** Max Tokens */
+            max_tokens: {
+                [key: string]: number;
+            };
+            /** Post Spend Cap Usd */
+            post_spend_cap_usd: number;
+            /** Prompt Versions */
+            prompt_versions: {
+                [key: string]: string;
+            };
+            /** Ranking */
+            ranking: {
+                [key: string]: boolean;
+            };
+            /** Resumed After Post Cap */
+            resumed_after_post_cap: boolean;
+            /** Settings */
+            settings: {
+                [key: string]: unknown;
+            };
+            /** Step */
+            step: string;
+        };
+        /** RunExtendedRerun */
+        RunExtendedRerun: {
+            /** Evidence Settings */
+            evidence_settings: {
+                [key: string]: unknown;
+            };
+            /** Jobs */
+            jobs: {
+                [key: string]: string;
+            };
+            /** Max Tokens */
+            max_tokens: {
+                [key: string]: number;
+            };
+            /** Post Spend Cap Usd */
+            post_spend_cap_usd: number;
+            /** Prompt Versions */
+            prompt_versions: {
+                [key: string]: string;
+            };
+            /** Ranking */
+            ranking: {
+                [key: string]: boolean;
+            };
+            /** Rerun From */
+            rerun_from: string;
+            /** Resumed After Post Cap */
+            resumed_after_post_cap: boolean;
+            /** Settings */
+            settings: {
+                [key: string]: unknown;
+            };
+            /** Step */
+            step: string;
+            /** Superseded Ids */
+            superseded_ids: string[];
+            /** Superseded Pass Seq */
+            superseded_pass_seq: number | null;
+        };
+        /** RunExtendedRetry */
+        RunExtendedRetry: {
+            /** Evidence Settings */
+            evidence_settings: {
+                [key: string]: unknown;
+            };
+            /** Jobs */
+            jobs: {
+                [key: string]: string;
+            };
+            /** Max Tokens */
+            max_tokens: {
+                [key: string]: number;
+            };
+            /** Post Spend Cap Usd */
+            post_spend_cap_usd: number;
+            /** Prompt Versions */
+            prompt_versions: {
+                [key: string]: string;
+            };
+            /** Ranking */
+            ranking: {
+                [key: string]: boolean;
+            };
+            /**
+             * Rerun From
+             * @constant
+             */
+            rerun_from: "retry_failed";
+            /** Resumed After Post Cap */
+            resumed_after_post_cap: boolean;
+            /** Retry Cap Usd */
+            retry_cap_usd: number;
+            /** Retry Failed */
+            retry_failed: string[];
+            /** Settings */
+            settings: {
+                [key: string]: unknown;
+            };
+            /** Step */
+            step: string;
+            /** Superseded Ids */
+            superseded_ids: string[];
+            /** Superseded Pass Seq */
+            superseded_pass_seq: number | null;
+        };
+        /** RunFailed */
+        RunFailed: {
+            /** Step */
+            step: string;
+        };
+        /** RunFailedEventV19 */
+        RunFailedEventV19: {
+            payload: unknown;
+            /** Payload Error */
+            payload_error?: null;
+            /**
+             * Payload Invalid
+             * @default false
+             * @constant
+             */
+            payload_invalid: false;
+            /**
+             * Payload Schema
+             * @constant
+             */
+            payload_schema: "v1.9";
+            /** Run Id */
+            run_id: string;
+            /** Seq */
+            seq: number;
+            /**
+             * Time
+             * Format: date-time
+             */
+            time: string;
+            /**
+             * Type
+             * @constant
+             */
+            type: "run_failed";
+        };
+        /** RunFinished */
+        RunFinished: {
+            /** Spent Usd */
+            spent_usd: number;
+        };
+        /** RunFinishedEventLegacy */
+        RunFinishedEventLegacy: {
+            payload: unknown;
+            /** Payload Error */
+            payload_error?: null;
+            /**
+             * Payload Invalid
+             * @default false
+             * @constant
+             */
+            payload_invalid: false;
+            /** Payload Schema */
+            payload_schema?: null;
+            /** Run Id */
+            run_id: string;
+            /** Seq */
+            seq: number;
+            /**
+             * Time
+             * Format: date-time
+             */
+            time: string;
+            /**
+             * Type
+             * @constant
+             */
+            type: "run_finished";
+        };
+        /** RunFinishedEventV19 */
+        RunFinishedEventV19: {
+            payload: unknown;
+            /** Payload Error */
+            payload_error?: null;
+            /**
+             * Payload Invalid
+             * @default false
+             * @constant
+             */
+            payload_invalid: false;
+            /**
+             * Payload Schema
+             * @constant
+             */
+            payload_schema: "v1.9";
+            /** Run Id */
+            run_id: string;
+            /** Seq */
+            seq: number;
+            /**
+             * Time
+             * Format: date-time
+             */
+            time: string;
+            /**
+             * Type
+             * @constant
+             */
+            type: "run_finished";
         };
         /** RunLabel */
         RunLabel: {
@@ -1105,6 +2701,74 @@ export interface components {
             run_id: string;
             /** Sections */
             sections: components["schemas"]["Section"][];
+        };
+        /** RunStarted */
+        RunStarted: {
+            /** Attempt */
+            attempt: number;
+            /** Questions */
+            questions: number;
+            /** Sections */
+            sections: number;
+        };
+        /** RunStartedEventLegacy */
+        RunStartedEventLegacy: {
+            payload: unknown;
+            /** Payload Error */
+            payload_error?: null;
+            /**
+             * Payload Invalid
+             * @default false
+             * @constant
+             */
+            payload_invalid: false;
+            /** Payload Schema */
+            payload_schema?: null;
+            /** Run Id */
+            run_id: string;
+            /** Seq */
+            seq: number;
+            /**
+             * Time
+             * Format: date-time
+             */
+            time: string;
+            /**
+             * Type
+             * @constant
+             */
+            type: "run_started";
+        };
+        /** RunStartedEventV19 */
+        RunStartedEventV19: {
+            payload: unknown;
+            /** Payload Error */
+            payload_error?: null;
+            /**
+             * Payload Invalid
+             * @default false
+             * @constant
+             */
+            payload_invalid: false;
+            /**
+             * Payload Schema
+             * @constant
+             */
+            payload_schema: "v1.9";
+            /** Run Id */
+            run_id: string;
+            /** Seq */
+            seq: number;
+            /**
+             * Time
+             * Format: date-time
+             */
+            time: string;
+            /**
+             * Type
+             * @constant
+             */
+            type: "run_started";
         };
         /**
          * RunStatus
@@ -1254,8 +2918,11 @@ export interface components {
             mode: "full" | "sample";
             /** Plant Id */
             plant_id: string;
+            /** Post Spend Cap Usd */
+            post_spend_cap_usd: number;
             /** Spend Cap Usd */
             spend_cap_usd: number;
+            use: components["schemas"]["BudgetUse"];
         };
         /** StartRunResult */
         StartRunResult: {
@@ -1264,6 +2931,141 @@ export interface components {
             label: components["schemas"]["RunLabel"];
             /** Run Id */
             run_id: string;
+        };
+        /**
+         * StepFinishedBare
+         * @description A step with no summary: every step that only moves on, and any step stopped by a cap.
+         */
+        StepFinishedBare: {
+            /** Next Step */
+            next_step: string;
+            status: components["schemas"]["RunStatus"];
+            /** Step */
+            step: string;
+        };
+        /** StepFinishedEventLegacy */
+        StepFinishedEventLegacy: {
+            payload: unknown;
+            /** Payload Error */
+            payload_error?: null;
+            /**
+             * Payload Invalid
+             * @default false
+             * @constant
+             */
+            payload_invalid: false;
+            /** Payload Schema */
+            payload_schema?: null;
+            /** Run Id */
+            run_id: string;
+            /** Seq */
+            seq: number;
+            /**
+             * Time
+             * Format: date-time
+             */
+            time: string;
+            /**
+             * Type
+             * @constant
+             */
+            type: "step_finished";
+        };
+        /** StepFinishedEventV19 */
+        StepFinishedEventV19: {
+            /** Payload */
+            payload: unknown;
+            /** Payload Error */
+            payload_error?: null;
+            /**
+             * Payload Invalid
+             * @default false
+             * @constant
+             */
+            payload_invalid: false;
+            /**
+             * Payload Schema
+             * @constant
+             */
+            payload_schema: "v1.9";
+            /** Run Id */
+            run_id: string;
+            /** Seq */
+            seq: number;
+            /**
+             * Time
+             * Format: date-time
+             */
+            time: string;
+            /**
+             * Type
+             * @constant
+             */
+            type: "step_finished";
+        };
+        /** StepStarted */
+        StepStarted: {
+            /** Step */
+            step: string;
+        };
+        /** StepStartedEventLegacy */
+        StepStartedEventLegacy: {
+            payload: unknown;
+            /** Payload Error */
+            payload_error?: null;
+            /**
+             * Payload Invalid
+             * @default false
+             * @constant
+             */
+            payload_invalid: false;
+            /** Payload Schema */
+            payload_schema?: null;
+            /** Run Id */
+            run_id: string;
+            /** Seq */
+            seq: number;
+            /**
+             * Time
+             * Format: date-time
+             */
+            time: string;
+            /**
+             * Type
+             * @constant
+             */
+            type: "step_started";
+        };
+        /** StepStartedEventV19 */
+        StepStartedEventV19: {
+            payload: unknown;
+            /** Payload Error */
+            payload_error?: null;
+            /**
+             * Payload Invalid
+             * @default false
+             * @constant
+             */
+            payload_invalid: false;
+            /**
+             * Payload Schema
+             * @constant
+             */
+            payload_schema: "v1.9";
+            /** Run Id */
+            run_id: string;
+            /** Seq */
+            seq: number;
+            /**
+             * Time
+             * Format: date-time
+             */
+            time: string;
+            /**
+             * Type
+             * @constant
+             */
+            type: "step_started";
         };
         /**
          * SupersededRecord
@@ -1315,6 +3117,74 @@ export interface components {
             source_urls?: string[];
             /** Tool */
             tool: string;
+        };
+        /** ToolCallEvent */
+        ToolCallEvent: {
+            /** Refused */
+            refused: boolean;
+            /** Tool */
+            tool: string;
+            /** Tool Call Id */
+            tool_call_id: string;
+        };
+        /** ToolCallEventLegacy */
+        ToolCallEventLegacy: {
+            payload: unknown;
+            /** Payload Error */
+            payload_error?: null;
+            /**
+             * Payload Invalid
+             * @default false
+             * @constant
+             */
+            payload_invalid: false;
+            /** Payload Schema */
+            payload_schema?: null;
+            /** Run Id */
+            run_id: string;
+            /** Seq */
+            seq: number;
+            /**
+             * Time
+             * Format: date-time
+             */
+            time: string;
+            /**
+             * Type
+             * @constant
+             */
+            type: "tool_call";
+        };
+        /** ToolCallEventV19 */
+        ToolCallEventV19: {
+            payload: unknown;
+            /** Payload Error */
+            payload_error?: null;
+            /**
+             * Payload Invalid
+             * @default false
+             * @constant
+             */
+            payload_invalid: false;
+            /**
+             * Payload Schema
+             * @constant
+             */
+            payload_schema: "v1.9";
+            /** Run Id */
+            run_id: string;
+            /** Seq */
+            seq: number;
+            /**
+             * Time
+             * Format: date-time
+             */
+            time: string;
+            /**
+             * Type
+             * @constant
+             */
+            type: "tool_call";
         };
         /** ValidationError */
         ValidationError: {
@@ -1541,7 +3411,11 @@ export interface operations {
             };
             cookie?: never;
         };
-        requestBody?: never;
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["AdvanceRequest"] | null;
+            };
+        };
         responses: {
             /** @description Successful Response */
             202: {

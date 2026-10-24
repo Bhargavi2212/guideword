@@ -16,6 +16,7 @@ from guideword.schema.enums import (
     Adequacy,
     Agent,
     AgentTool,
+    BudgetUse,
     Confidence,
     EventType,
     FailingComponentType,
@@ -53,7 +54,15 @@ def run(
     upload: Upload,
 ) -> Run:
     run = start_run(
-        plants, runs, ref, settings, plant_record_id=upload(), spend_cap_usd=1.0, mode="full"
+        plants,
+        runs,
+        ref,
+        settings,
+        plant_record_id=upload(),
+        spend_cap_usd=1.0,
+        mode="full",
+        use=BudgetUse.DEVELOPMENT,
+        post_spend_cap_usd=0.0,
     )
     return past_screen(runs, run)
 
@@ -322,5 +331,10 @@ def test_step_result_summary_stays_out_of_the_api_contract() -> None:
     openapi = json.loads((repo / "contract" / "openapi.json").read_text(encoding="utf-8"))
     schemas = openapi["components"]["schemas"]
     assert "StepResult" not in schemas
-    assert "summary" not in schemas["Event"]["properties"]
+    # contract v1.9: one schema per event type and stamp; none names a summary field
+    events = [name for name in schemas if name.endswith(("EventV19", "EventLegacy"))]
+    events.append("InvalidEvent")
+    assert len(events) > len(EventType)
+    for name in events:
+        assert "summary" not in schemas[name]["properties"], name
     assert not any("StepResult" in p.name for p in (repo / "contract" / "schemas").iterdir())

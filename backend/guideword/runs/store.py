@@ -34,7 +34,7 @@ from guideword.runs.db import (
     ToolCallRow,
 )
 from guideword.schema import ids
-from guideword.schema.enums import EventType, RunStatus
+from guideword.schema.enums import BudgetUse, EventType, RunStatus
 from guideword.schema.events import SCHEMA_V1_9, validate_payload
 from guideword.schema.records import (
     AgentStep,
@@ -159,6 +159,10 @@ class StepWriter:
 
     def set_spend_cap(self, spend_cap_usd: float) -> None:
         self._update(spend_cap_usd=spend_cap_usd)
+
+    def set_use(self, use: BudgetUse | None) -> None:
+        """Contract v1.9: a run stored without a use takes the one its resume names (Q4)."""
+        self._update(use=use)
 
     def set_post_spend_cap(self, post_spend_cap_usd: float) -> None:
         """P3-2: the post-analysis allowance; not hashed, so the run ID does not change."""

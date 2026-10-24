@@ -2,22 +2,22 @@
   "label": {
     "kind": "mock",
     "recorded_at": null,
-    "cost_usd": 0.31
+    "cost_usd": null
   },
-  "run_id": "run:8ede059837927e4a",
+  "run_id": "run:eaf6f55e4d2a4a30",
   "lists": [
     {
       "list": "sections",
-      "total": 7,
+      "total": 9,
       "checked": 7,
-      "unsure": 0,
-      "failed": 0
+      "unsure": 2,
+      "failed": 1
     },
     {
       "list": "matrix",
-      "total": 3,
-      "checked": 3,
-      "unsure": 0,
+      "total": 79,
+      "checked": 79,
+      "unsure": 1,
       "failed": 0
     },
     {
@@ -29,8 +29,8 @@
     },
     {
       "list": "chemical_environment",
-      "total": 1,
-      "checked": 1,
+      "total": 6,
+      "checked": 6,
       "unsure": 0,
       "failed": 0
     },
@@ -43,8 +43,8 @@
     },
     {
       "list": "procedure_step",
-      "total": 1,
-      "checked": 1,
+      "total": 10,
+      "checked": 10,
       "unsure": 0,
       "failed": 0
     },
@@ -66,6 +66,13 @@
       "list": "relief_discharge",
       "total": 1,
       "checked": 1,
+      "unsure": 1,
+      "failed": 0
+    },
+    {
+      "list": "added_by_ai",
+      "total": 0,
+      "checked": 0,
       "unsure": 0,
       "failed": 0
     },
@@ -78,6 +85,6 @@
     }
   ],
   "failed_question_ids": [
-    "work:W-1:MX-1"
+    "work:W-1:PSV-1"
   ]
 }
