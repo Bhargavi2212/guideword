@@ -603,7 +603,7 @@ Each phase has a spec (`specs/phase-N.md`) written and approved before it starts
 | 2. Gateway and agents | Oct 15–17 | Gateway with JSON rules; six specialist agents; orchestrator core (`check_coverage`, `dispatch_specialist`, `finish` guard); `reactivity_lookup` (the chemistry agent has it at G2); risk-matrix ranking; test #5 harness and run | **G2** |
 | 3. Reasoning | Oct 18–20 | Chains (connector, ID validation), chain severity, LOPA engine (independence check), recommendations, as run steps after the analysis; shortlist. (Planned as orchestrator tools; moved to run steps, P3-1.) | Shortlist per dev case |
 | 4. Tools and evidence | Oct 22–24 | The evidence step after recommendations (P4-1): `physics_calc`, `search_precedent`, `web_research`, `run_simulation`; precedent index; simulator wrapper around the open-licence Tennessee Eastman package (gated) | Evidence on top findings |
-| 5. Frontend | Oct 22–26 (`specs/phase-5.md`; contract v1.9) | Seven screens on generated fixtures, then real API; UI-started laptop runs | Demo moment works on screen |
+| 5. Frontend | Oct 22–28 (`specs/phase-5.md`, re-dated Oct 24; contract v1.9) | Seven screens on generated fixtures, then real API; UI-started laptop runs | Demo moment works on screen |
 | 6. Benchmark | Oct 22–24 | Memorisation probe, held-out runs, baselines, scoring, results table | **G3** |
 | 7. Ship | Oct 24–28 | Vercel deploy, demo mode, live-run button, README, feedback write-up, final video | **G4**; submit Oct 29 |
 
@@ -622,7 +622,7 @@ Each phase has a spec (`specs/phase-N.md`) written and approved before it starts
 - Simulator: gate Oct 23 (install and reproduce kill test #1), running Tennessee Eastman faults Oct 24.
 - Maintenance and dust specialists: Oct 20.
 - Live-run button within the 5-minute step limit: Oct 24.
-- Phase 5: shortlist + finding detail with the demo moment Oct 24; live run with replay Oct 25; all seven screens Oct 26.
+- Phase 5 (re-dated Oct 24): F0 shell Oct 24; shortlist + finding detail with the demo moment Oct 25; first deploy (backend + no-key WG replay landing) and live run with replay Oct 26; coverage, worksheet, plant input and sections Oct 27; acceptance and screenshots Oct 28.
 
 ---
 

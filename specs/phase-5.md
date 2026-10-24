@@ -1,6 +1,6 @@
 # Phase 5 — Frontend: seven screens on the real API
 
-**Dates:** Oct 22–26 (feature dates at the end) · **Ends with:** the demo moment working on screen against the real backend: the Williams Geismar shortlist → the rank-2 reboiler-B startup chain (`P-REB-START-2`) → its RV-PATH-EA425B relief layer with its stored "does not apply" reason, and the `HV-B-SIN.normal_position` fact in the drawer → the gap (about 1,000×) → the blocked-in heating evidence "at least 1.6× design" → the recommendation → the engineer's S3 → S4 override, after which code recomputes the gap (about 10,000×); plus the live-run timeline, worksheet and coverage.
+**Dates:** Oct 22–28 (re-dated 2026-10-24; feature dates at the end) · **Ends with:** the demo moment working on screen against the real backend: the Williams Geismar shortlist → the rank-2 reboiler-B startup chain (`P-REB-START-2`) → its RV-PATH-EA425B relief layer with its stored "does not apply" reason, and the `HV-B-SIN.normal_position` fact in the drawer → the gap (about 1,000×) → the blocked-in heating evidence "at least 1.6× design" → the recommendation → the engineer's S3 → S4 override, after which code recomputes the gap (about 10,000×); plus the live-run timeline, worksheet and coverage.
 **Source of truth:** `PROJECT.md` (§5 Steps 1–8, §11 API contract, IDs, hosting; §12 seven screens; §14 video; §23 known limits), `CLAUDE.md` (§3 traceability, §6 frontend environment, §9 TypeScript rules), contract `contract-v1.8`. If this spec and `PROJECT.md` disagree, stop and ask.
 **Status:** approved 2026-10-23 (Bhargavi), with the plan's answers (`specs/phase-5-plan.md`: C1–C13, Q1–Q13, the gaps G, H and J, and the standing rule) written in below.
 
@@ -192,6 +192,13 @@ Bhargavi does the click-through and every paid click; Claude Code never clicks S
 - **Cowork:** this spec; the cold click-through (acceptance 6); reviewing the F6 screenshots against the video script.
 
 ## Feature dates (PROJECT.md §15: not working by its date → "next" in the pitch, its time goes to the video)
-- Shortlist + finding detail with the demo moment: Oct 24.
-- Live run with replay: Oct 25.
-- All seven screens: Oct 26.
+Re-dated 2026-10-24 (Bhargavi): the backend (B1–B3) took Oct 23–24. Scope is unchanged:
+nothing is dropped. Submission is Oct 29, so the last date is Oct 28.
+
+- F0 shell, client, router, record drawer: Oct 24.
+- F1 shortlist, and F2 finding detail with the demo moment: Oct 25.
+- Deploy after F2 (backend + the no-key replay landing on the WG run): Oct 26; each later PR
+  redeploys. Its spec item and plan come first (it reaches into Phase 7's scope).
+- F3 live run with replay: Oct 26 (a second session, in parallel from F0's merge).
+- F4 coverage and worksheet, and F5 plant input and sections: Oct 27.
+- F6 real-API click-through, acceptance 1–7 and the screenshots: Oct 28.
