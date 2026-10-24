@@ -1,8 +1,8 @@
 # Phase 5 — Frontend: seven screens on the real API
 
-**Dates:** Oct 22–26 (feature dates at the end) · **Ends with:** the demo moment working on screen against the real backend: the Williams Geismar shortlist → the reboiler-B chain card → protection layers with "no credit — inlet valve HV-B-SIN closed" → the gap → the blocked-in heating evidence → the recommendation → the engineer's S3 → S4 override moving the gap; plus the live-run timeline, worksheet and coverage.
+**Dates:** Oct 22–26 (feature dates at the end) · **Ends with:** the demo moment working on screen against the real backend: the Williams Geismar shortlist → the rank-2 reboiler-B startup chain (`P-REB-START-2`) → its RV-PATH-EA425B relief layer with its stored "does not apply" reason, and the `HV-B-SIN.normal_position` fact in the drawer → the gap (about 1,000×) → the blocked-in heating evidence "at least 1.6× design" → the recommendation → the engineer's S3 → S4 override, after which code recomputes the gap (about 10,000×); plus the live-run timeline, worksheet and coverage.
 **Source of truth:** `PROJECT.md` (§5 Steps 1–8, §11 API contract, IDs, hosting; §12 seven screens; §14 video; §23 known limits), `CLAUDE.md` (§3 traceability, §6 frontend environment, §9 TypeScript rules), contract `contract-v1.8`. If this spec and `PROJECT.md` disagree, stop and ask.
-**Status:** draft — becomes active when Bhargavi adds `Status: approved <date>`.
+**Status:** approved 2026-10-23 (Bhargavi), with the plan's answers (`specs/phase-5-plan.md`: C1–C13, Q1–Q13, the gaps G, H and J, and the standing rule) written in below.
 
 ## Goal, and what the video shows
 
@@ -22,7 +22,7 @@ The video (§14, under 3 minutes) is recorded from these screens. Two of its bea
 - Every run-related response carries `label` (`live | recorded | mock`, `recorded_at`, `cost_usd`). A recorded run returns 403 on overrides.
 - **`POST /runs` only creates (or resumes) the run; nothing drives it.** Driving is `POST /internal/runs/{id}/advance`, which needs a server secret the browser must never hold. So a run started from the UI today sits at `running` forever (see B2).
 - `GET /runs/{id}/events?after=<seq>` returns every event after `seq` with `next_after`; no page limit.
-- `GET /runs/{id}/records/{record_id}` returns finding, hypothesis, question, section, chain, LOPA, recommendation, override and model-call records with parents and calls. Evidence records arrive with PR 5c. Agent steps and tool calls are not directly addressable.
+- `GET /runs/{id}/records/{record_id}` returns finding, hypothesis, question, section, chain, LOPA, recommendation, override and model-call records with parents and calls. Evidence records and agent steps are addressable since PR 5c (#97); tool calls (`tc:`) are not (B3).
 - `GET /plants/{id}` returns `facts` (one `PlantFact` per stated field, with value and source, e.g. `L-B-SIN.from_id`, `HV-B-SIN.normal_position`, `EA-425B.design_pressure_kpa`) and `sections`. Enough to draw the plant and to resolve every fact link.
 - `GET /runs/{id}/export.xlsx` streams the worksheet; `GET /runs/{id}/export/run.json` the dump.
 
@@ -45,14 +45,14 @@ The video (§14, under 3 minutes) is recorded from these screens. Two of its bea
 
 | # | Decision | Recommendation | Why |
 |---|---|---|---|
-| P5-1 | **Event payloads become part of the contract** (v1.9): one typed payload model per `EventType` in `schema/records.py`, `Event` a discriminated union on `type`, the fixture regenerated from a $0 fake run through the real emitters, and a test that every emitted payload validates. `model_call` and `dispatch` payloads gain `tier` (the backend knows it from routing; the frontend must not). | Yes | The timeline is the most-watched screen in the video and the only one built on free-form data. Typing it is the only way TypeScript and CI catch a mismatch. |
+| P5-1 | **Event payloads become part of the contract** (v1.9), as answered (C3–C5, Q1–Q3, Q6–Q8): `emit`, and nothing else, stamps each new event `payload_schema: "v1.9"`; the payload model is chosen by that stamp alone (strict v1.9 models, `step_finished` a per-step union with no extra fields; one legacy model per type for unstamped events); every run-scoped fixture is generated from $0 fake runs of Mock Plant A through the real API, and a test checks regenerating gives the same files; four legacy event fixtures are picked by script from stored runs (Phase 2, Phase 3, Phase 4, other shapes), each naming its source; `model_call` and `dispatch` payloads gain `tier` (the backend knows it from routing; the frontend must not), and stored events get it on read, never written back, labelled "inferred", or "unknown". | Yes | The timeline is the most-watched screen in the video and the only one built on free-form data. Typing it is the only way TypeScript and CI catch a mismatch. |
 | P5-2 | **Laptop runs started from the UI are driven in-process** (backend PR B2): on `guideword_env: laptop` and not mock, `POST /runs` schedules `live().drive(run_id)` as a background task after creating or resuming the run. Hosted chaining stays Phase 7. | Yes | Without it the "Start run" button does nothing. Bhargavi still starts every paid run (it's her click), under the spend cap she enters. |
 | P5-3 | **No new runtime dependencies.** Routing: a ~60-line hash router in `src/app/router.ts` (works on any static host, no server rewrites). Data: plain `fetch` in hooks (`useResource`, `usePolling`). Diagram: hand-drawn SVG from plant facts. Styling: CSS modules with tokens. Any dependency the plan still wants is stop-and-ask (CLAUDE.md §6), with a reason. | Yes | Four days; every dependency is review, licence and lockfile risk. Nothing here needs a library. |
 | P5-4 | **Timeline replay:** the live-run screen has two modes. *Live*: polls `events?after=` every 2 s while the run is `running`. *Replay*: for a finished run, plays its stored events in order at 1×/10×/60×/max, spacing by their `time`, with a permanent banner "Replay of a finished run — recorded <date>, cost $<x>, shown at <n>×". The replay never fabricates or reorders events. | Yes | The video can't show 36 real minutes; the banner keeps it honest (§11 demo-mode rule: never look like faked output). |
 | P5-5 | **Number display:** the gap is shown only as `gap_text`; evidence only as its `summary`; everything the backend formats is shown as is. Values the backend gives only as raw numbers (initiating frequency, layer PFD, tolerable frequency, spend) go through **one** formatter, `src/format/number.ts`, tested, at most 2 significant figures for frequencies ("0.1 /yr", "1e-5 /yr"), PFDs as stored table values ("0.01"), money as "$0.98". No other component formats a number. | Yes | §5: orders of magnitude, never false precision; G12: one formatter per number kind. Raw floats like 0.010000000000000002 must never reach the screen. |
-| P5-6 | **Traceability primitive:** every number, ID and claim on screen is a `<Traced id="…">` that opens a side drawer with `GET /records/{id}` (parents, model calls, tool calls). Plant fact IDs (`OBJ.field`) resolve from `GET /plants/{id}` facts, showing value and source ("assumed" highlighted). An ID the API can't resolve shows "not addressable yet" instead of failing. | Yes | CLAUDE.md §3 and §9: every number traces to a fact, a model call or a reference row. It's also the pitch's strongest visual: click any number, see where it came from. |
+| P5-6 | **Traceability primitive:** every number, ID and claim on screen is a `<Traced id="…">` that opens a side drawer with `GET /records/{id}` (parents, model calls, tool calls). Plant fact IDs (`OBJ.field`) resolve from `GET /plants/{id}` facts, showing value and source ("assumed" highlighted). A fact ID not in the plant facts (e.g. a missing fact) reads "not stated in the plant file"; only a record ID the API returns 404 for reads "not addressable yet" (C11). The header's spend links to the run, and coverage counts to their list's questions (C12). | Yes | CLAUDE.md §3 and §9: every number traces to a fact, a model call or a reference row. It's also the pitch's strongest visual: click any number, see where it came from. |
 | P5-7 | **Engineer name for overrides:** asked once, kept in `localStorage` (try/catch), editable in the header, sent as `by`. Overrides are never sent on a `recorded` or `mock` run (UI disables them with the reason; the server's 403/echo still applies). | Yes | `by` is required; demo-mode browser-only overrides are Phase 7. |
-| P5-8 | **Paid actions are explicit:** "Propose sections" (one Super call, ≤ `section_suggest_cap_usd`) and "Start run" (spend cap entered, `estimated_cost_usd` shown after start) carry a cost line and a confirm step built into the page (no `window.confirm`). | Yes | Every live call is Bhargavi's decision (CLAUDE.md §4). |
+| P5-8 | **Paid actions are explicit:** "Propose sections" (one Super call, ≤ `section_suggest_cap_usd`) and "Start run" (the use picked from `Budget.api_run_uses`; spend cap and post cap entered, never pre-filled; the cost line shows spend cap + post cap = the maximum, refused when it exceeds the use's or the phase's remaining amount; `estimated_cost_usd` shown after start) carry a cost line and a confirm step built into the page (no `window.confirm`). | Yes | Every live call is Bhargavi's decision (CLAUDE.md §4). |
 | P5-9 | **Screen priority** (for build order and the Oct 26 cut line): 4 Shortlist → 5 Finding detail → 3 Live run (+replay) → 7 Coverage → 6 Worksheet → 2 Sections → 1 Plant input. | Yes | Order of the video and of what a judge clicks first. All seven are built; if time runs out it runs out at the end of this list (§15 rule). |
 | P5-10 | **Visual direction:** an engineering-review tool, not a dashboard. One light theme, legible on a 1920×1080 recording at 100 % (body ≥ 15 px, IDs in a monospace face), plus `prefers-color-scheme: dark` tokens. State encoded in form, not only colour: tier stripe on each card (confirmed / also found / unconfirmed), severity chip S1–S5, verdict chip (confirmed / contradicted / none), a strike-through-plus-reason style for a refused layer. No charts library; coverage bars are CSS. | Yes | It has to read in a 3-minute video and to a process engineer. |
 
@@ -84,13 +84,14 @@ Source: the shortlist item for `targetId` (from the cached shortlist) plus `GET 
 - **Evidence:** one card per record: kind, verdict chip, summary (verbatim), cited `fact_ids` (traced), sources (links open in a new tab), flags, missing facts; precedent cards show the incident title and URL; the judge's model call is traced.
 - **Recommendations:** action, reason, state; Accept / Reject / Edit action (P5-7).
 - **Overrides on this target:** accept / reject (finding or chain), edit consequence (finding), change severity (finding or chain, S1–S5 picker with required reason), change credit (per LOPA layer, with the reason "engineer asserts inlet valve managed" shown by the server for relief devices; the UI shows the §23 limit text next to the control). After an override, the item and shortlist reload; the new `gap_text` comes from the server.
-- **The demo moment must work end to end on the WG final run:** chain card → layer row "no credit — inlet valve HV-B-SIN closed" → blocked-in heating evidence "at least 1.6× design" with its cited facts → recommendation → change severity S3→S4 → gap text moves by 10×.
+- **The demo moment must work end to end on the WG final run** (C2), on the rank-2 startup chain (`ch:EA-425B.design_pressure_kpa+…+f:proc:P-REB-START-2:early…`): chain card → its description shown as stored, with its flag "unexpected character in model text: U+4E92 (chain description)" visible (no cleaning) → the RV-PATH-EA425B layer row with its stored "does not apply" reason → the `HV-B-SIN.normal_position` link opened in the drawer → blocked-in heating evidence "at least 1.6× design" with its cited facts → recommendation → change severity S3 → S4 → the server's new gap text (about 1,000× → about 10,000×) and the server's shortlist order. The override is made in `guideword-demo.db`, never in `guideword.db` (C8).
 
 ### 5.3 Screen 3 — Live run (`#/runs/:runId/live`)
 Source: `useEvents` (P5-1 typed payloads), `GET /runs/{id}`, `POST /runs/{id}/cancel`.
 - **Timeline** (newest at the bottom, auto-scroll unless the user scrolled up): step boundaries (`step_started/finished` with status and summary); the whole-plant pass (`hypothesis_added`/`dropped` with rank and reason); each orchestrator decision (`agent_decision`: agent, tool, one-line reason); each dispatch (agent, level, number of questions, selected by code or by the orchestrator, priority, batches); each model call grouped under its dispatch or step (**tier chip** Ultra / Super / Lightning, job, cache hit, cost); tool calls (tool, refused); findings added (count per dispatch, expandable); chains, LOPA records, evidence as they land; cap hits with their reason; `run_extended` passes; run finished / failed.
 - **Side panel:** coverage bars from the latest `coverage_updated.lines`, findings count, spend so far vs cap, model mix (calls and cost per tier, computed from `model_call` events by a pure function).
-- **Start a run** from `#/runs` or the plant screen: spend cap input (default from `GET /budget` hints, never above the remaining allowance), mode `full`, P5-8 confirm; then navigate to live. Cancel button while running.
+- **Start a run** from `#/runs` or the plant screen: the use (from `Budget.api_run_uses`) with its remaining amount and the phase's; spend cap and post cap inputs, **never pre-filled**; spend cap + post cap = the maximum, refused when it exceeds either remaining amount; mode `full`; P5-8 confirm; then navigate to live. A run's use and caps are fixed when it starts; a resume with a different one gets a 409 naming the stored value. Cancel button while running.
+- **End state:** finished, stopped at the analysis cap, stopped at the post cap, or stopped by the budget, each named (`cap_hit.cap`), with spend against that cap.
 - **Replay** per P5-4, chosen automatically for a finished run, with a speed control and a "jump to end".
 
 ### 5.4 Screen 7 — Coverage (`#/runs/:runId/coverage`)
@@ -122,9 +123,9 @@ Source: `GET /plants`, `POST /plants`, `GET /plants/{id}`.
 
 | # | Branch | What |
 |---|---|---|
-| B1 | `contract/event-payloads` (v1.9) | P5-1: a payload model per `EventType`; `Event` discriminated on `type`; `tier` added to `model_call` and `dispatch`; fixture `events_page.json` regenerated from a $0 fake run; test: every emitted payload validates against its model, and every fixture event matches an emitter. Regenerate `openapi.json`, schemas, `types.ts`. |
-| B2 | `phase-5/drive-laptop-runs` | P5-2: `POST /runs` drives the run in a background task on the laptop (not mock, not hosted); a second start of an already-driving run doesn't start a second driver (one driver per run, guarded); tests with the fake gateway: a started run reaches `finished` with no further request. `API_RUN_PHASE` moves from `"4"` to `"5"`, so UI-started runs book to Phase 5's cap. |
-| B3 | `phase-5/records-addressable` | `GET /records/{id}` also resolves `step:` agent steps and `tc:` tool calls (with parents), so every timeline entry is traceable (P5-6). Evidence is PR 5c's. |
+| B1 | `contract/event-payloads` (v1.9) | P5-1 as answered; `cap_hit.cap` always present; per-use budget rows, `api_run_phase` and `api_run_uses` on `Budget`; `use` and `post_spend_cap_usd` required on `StartRunRequest`; an optional `use` on the advance request; `Run.use` (null on stored runs until named); a $0 local check that parses all 52 stored payload shapes, its result in `docs/decisions.md`. Regenerate `openapi.json`, schemas, `types.ts`. Details and tests: `specs/phase-5-plan.md` B1. |
+| B2 | `phase-5/drive-laptop-runs` | P5-2: `POST /runs` drives the run in a background task on the laptop (not mock, not hosted); a second start of an already-driving run doesn't start a second driver (one driver per run, guarded); tests with the fake gateway: a started run reaches `finished` with no further request. `API_RUN_PHASE` moves from `"4"` to `"5"`, so UI-started runs book to Phase 5's cap. Each run is driven with its own use; a start, resume or advance with a different use or post cap gets a 409; `start_case`, `extend` and the scripts take a required use. Details: `specs/phase-5-plan.md` B2. |
+| B3 | `phase-5/records-addressable` | `GET /records/{id}` also resolves `tc:` tool calls (with their agent step as parent), so every timeline entry is traceable (P5-6). Evidence and agent steps are PR 5c's (C1). |
 
 B1 is a contract change: merged and tagged `contract-v1.9` before PR F3 (live run). B2 and B3 add no contract fields.
 
@@ -134,7 +135,7 @@ B1 is a contract change: merged and tagged `contract-v1.9` before PR F3 (live ru
 |---|---|---|---|
 | F0 | `phase-5/shell` | 5.0: router, client, hooks, error mapping, formatters, primitives, header with label banner, dev proxy, tokens and base styles | contract v1.8 |
 | F1 | `phase-5/shortlist` | 5.1 | F0 |
-| F2 | `phase-5/finding-detail` | 5.2, including overrides | F1, PR 5c (evidence reads) |
+| F2 | `phase-5/finding-detail` | 5.2, including overrides; the demo test on the real rank-2 item exported from the WG run | F1 |
 | F3 | `phase-5/live-run` | 5.3, live + replay, start/cancel | F0, B1, B2 |
 | F4 | `phase-5/coverage-worksheet` | 5.4, 5.5 | F0 |
 | F5 | `phase-5/plant-sections` | 5.6, 5.7 | F0 |
@@ -149,20 +150,24 @@ F1, F4 and F5 can run in parallel after F0 (cloud agent for F4/F5).
 - **Client:** each status maps to its message (501 names the phase, 403 read-only, 409 shows the server's detail); no request carries an override on a `recorded`/`mock` label (P5-7).
 - **Screens on fixtures:** each screen renders from `contract/fixtures/*.json` (served through a fake fetch) with no console error; tier order kept as served; flags shown verbatim; `gap_text` shown and no gap number formatted by the component; refused layer shows code's reason and Ultra's argument separately.
 - **Traceability:** every rendered number in the shortlist and detail fixtures sits inside a `Traced` with an ID (a DOM test walks text nodes with digits).
-- **Timeline:** a pure grouping function turns the regenerated `events_page.json` into the expected groups; model-call tier chips come from the payload's `tier`; replay plays events in `seq` order and never skips or invents one; the replay banner is always present in replay mode.
+- **Timeline:** a pure grouping function turns the generated `events_page.json`, `events_page_failed.json` and the four legacy fixtures into the expected groups; model-call tier chips come from the payload's `tier`; replay plays events in `seq` order and never skips or invents one; the replay banner is always present in replay mode.
 - **Worksheet filter** and **plant graph layout:** pure functions, tested (layout deterministic for the same facts).
 - **Overrides:** the change-severity form sends exactly `{target_id, action: "change_severity", new_value: {severity_class}, reason, by}`; after success the item reloads.
 - Backend (B1–B3): as listed in their rows.
 
 ## Acceptance (manual, on the real backend, recorded in the F6 PR)
 
-1. **The demo moment** on the WG final run, from the shortlist to the S3→S4 override and back, every number traced, in under 90 seconds of clicking.
-2. **Live run:** start a run on a dev plant from the UI with a small cap (or the WG run's replay if no budget), timeline grows, coverage fills, spend updates, cancel works.
-3. **Replay** of the WG run at 60× shows every orchestrator decision with its reason and the tier of each call, with the banner.
-4. **Worksheet** of the WG run filters, exports to Excel (opens in Excel), and an edit shows in the export.
-5. **Sections:** upload `cases/demo/williams_geismar.json` as a new plant, propose (one paid Super call ≈ $0.01–0.05), accept/reject, confirm.
-6. **Cold click-through (independent check):** Cowork opens the dev server in the built-in browser on Bhargavi's machine with no instructions beyond "find why the reboiler-B line has no relief credit" and reports where it got stuck. A judge will do the same.
-7. 1920×1080 screenshots of all seven screens, legible at 100 %.
+Stores (C8, Q5): `guideword.db` is the untouched record and is never opened writable. `guideword-demo.db` and `guideword-scratch.db` are copies made by `scripts/copy_store.py`, both git-ignored.
+
+1. **The demo moment** on the WG final run (rank 2, the startup chain), from the shortlist to the S3→S4 override and back, every number traced, in under 90 seconds of clicking. On `guideword-demo.db`.
+2. **Live run:** a UI-started run streams live and ends in finished or a cap stop; the UI shows which, with spend against the cap. Spend cap $0.15 + post cap $0.10 ($0.25 maximum); cancel works. On `guideword-scratch.db`.
+3. **Replay** of the WG run at 60× shows every orchestrator decision with its reason and the tier of each call (stored calls labelled "inferred"), with the banner. On `guideword.db` opened with `mode=ro`.
+4. **Worksheet** of the WG run filters, exports to Excel (opens in Excel), and an edit shows in the export. On `guideword-demo.db`.
+5. **Sections:** upload `cases/demo/williams_geismar.json` as a new plant, propose (one paid Super call ≈ $0.01–0.05), accept/reject, confirm. On `guideword-scratch.db`.
+6. **Cold click-through (independent check), on `guideword-scratch.db`:** Cowork opens the dev server in the built-in browser on Bhargavi's machine with no instructions beyond "find why the reboiler-B line has no relief credit" and reports where it got stuck. A judge will do the same.
+7. 1920×1080 screenshots of all seven screens, legible at 100 %. On `guideword-demo.db`.
+
+Bhargavi does the click-through and every paid click; Claude Code never clicks Start and makes the fixes and the PR; Cowork does acceptance 6.
 
 ## Not in scope
 - `GET /demo`, demo mode, the recorded-run read-only serving, browser-only overrides on a recorded run, the live-run button limits, Vercel deploy, hosted chaining (Phase 7).
@@ -170,8 +175,8 @@ F1, F4 and F5 can run in parallel after F0 (cloud agent for F4/F5).
 - Authentication, multi-user editing, mobile layout beyond "doesn't break at 400 px".
 
 ## Live calls and spend (Bhargavi starts each one)
-- caps.yaml: `phase_caps_usd."5": 0.50` (use `development`).
-- Acceptance 5: one Super section proposal (≤ $0.05). Acceptance 2: one small dev-plant run from the UI only if budget allows after the WG final run (cap $0.40), else replay only.
+- caps.yaml: `phase_caps_usd."5": 0.50` (no raise); UI runs take a use from `api_run_uses: [development, video]`.
+- Acceptance 5: one Super section proposal (≤ $0.05). Acceptance 2: one dev-plant run from the UI, spend cap $0.15 + post cap $0.10 = $0.25 maximum. Together at most $0.30 of the $0.50: a redo of 5 always fits; a redo of 2 can start only if the first run spent ≤ $0.20.
 - Everything else runs on fixtures or existing runs at $0.
 
 ## Done when
