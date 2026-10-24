@@ -10,6 +10,7 @@ import {
 } from "react";
 
 import type { ApiClient } from "../api/client";
+import { browserStorage, loadEngineer, saveEngineer } from "./engineer";
 
 type App = {
   client: ApiClient;
@@ -17,6 +18,9 @@ type App = {
   recordId: string | null;
   openRecord: (id: string) => void;
   closeRecord: () => void;
+  /** the engineer's display name, sent as an override's `by` (P5-7) */
+  engineer: string;
+  setEngineer: (name: string) => void;
 };
 
 const AppContext = createContext<App | null>(null);
@@ -29,11 +33,23 @@ export function AppProvider({
   children: ReactNode;
 }) {
   const [recordId, setRecordId] = useState<string | null>(null);
+  const [engineer, setName] = useState(() => loadEngineer(browserStorage()));
   const openRecord = useCallback((id: string) => setRecordId(id), []);
   const closeRecord = useCallback(() => setRecordId(null), []);
+  const setEngineer = useCallback((name: string) => {
+    setName(name);
+    saveEngineer(browserStorage(), name);
+  }, []);
   const value = useMemo(
-    () => ({ client, recordId, openRecord, closeRecord }),
-    [client, recordId, openRecord, closeRecord],
+    () => ({
+      client,
+      recordId,
+      openRecord,
+      closeRecord,
+      engineer,
+      setEngineer,
+    }),
+    [client, recordId, openRecord, closeRecord, engineer, setEngineer],
   );
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 }
