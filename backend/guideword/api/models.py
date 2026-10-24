@@ -433,11 +433,35 @@ class ModelSpend(_Model):
     spent_usd: float
 
 
+class UseBudget(_Model):
+    """Contract v1.9 (C6): one use of this environment, from its own ledger, read the way the
+    gateway checks it."""
+
+    use: BudgetUse
+    environment: str
+    allowance_usd: float
+    spent_usd: float
+    remaining_usd: float
+
+
+class PhaseBudget(_Model):
+    """Contract v1.9 (G6): the phase API runs book to, and what is left of its cap."""
+
+    phase: str
+    cap_usd: float
+    spent_usd: float
+    remaining_usd: float
+
+
 class Budget(_Model):
     environments: list[EnvironmentBudget]
     by_model: list[ModelSpend]
     live_run_available: bool
     message: str | None = None
+    # contract v1.9: the start form's numbers (C6, G6, H7)
+    uses: list[UseBudget]
+    api_run_phase: PhaseBudget
+    api_run_uses: list[BudgetUse]
 
 
 # Response model -> fixture file name in contract/fixtures/ (spec 0.8).

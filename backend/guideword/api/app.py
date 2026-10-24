@@ -595,6 +595,10 @@ def create_app(
                 by_model[entry.model] = by_model.get(entry.model, 0.0) + entry.cost_usd
         spent = sum(e.cost_usd for e in entries)
         allowance = config().caps.environment_allowance(environment)
+        caps, ledger_now = config().caps, the_ledger()
+        # a phase with no cap in caps.yaml may make no live call: its cap reads 0
+        phase_cap = caps.phase_caps_usd.get(API_RUN_PHASE, 0.0)
+        phase_spent = ledger_now.spent(phase=API_RUN_PHASE)
         return api.Budget(
             environments=[
                 api.EnvironmentBudget(
@@ -610,6 +614,24 @@ def create_app(
             # the live-run button is Phase 7; on the laptop it is never available (R25)
             live_run_available=False,
             message=None,
+            uses=[
+                api.UseBudget(
+                    use=use,
+                    environment=environment.value,
+                    allowance_usd=allowance_of.allowance_usd,
+                    spent_usd=round(ledger_now.spent(use=use), 6),
+                    remaining_usd=round(allowance_of.allowance_usd - ledger_now.spent(use=use), 6),
+                )
+                for use, allowance_of in caps.uses.items()
+                if allowance_of.environment == environment
+            ],
+            api_run_phase=api.PhaseBudget(
+                phase=API_RUN_PHASE,
+                cap_usd=phase_cap,
+                spent_usd=round(phase_spent, 6),
+                remaining_usd=round(phase_cap - phase_spent, 6),
+            ),
+            api_run_uses=list(caps.api_run_uses),
         )
 
     @app.post(

@@ -15,5 +15,45 @@
   ],
   "by_model": [],
   "live_run_available": false,
-  "message": "Mock mode: no live runs."
+  "message": "Mock mode: no live runs.",
+  "uses": [
+    {
+      "use": "development",
+      "environment": "laptop",
+      "allowance_usd": 5.0,
+      "spent_usd": 0.0,
+      "remaining_usd": 5.0
+    },
+    {
+      "use": "test_5",
+      "environment": "laptop",
+      "allowance_usd": 7.5,
+      "spent_usd": 0.0,
+      "remaining_usd": 7.5
+    },
+    {
+      "use": "benchmark",
+      "environment": "laptop",
+      "allowance_usd": 4.5,
+      "spent_usd": 0.0,
+      "remaining_usd": 4.5
+    },
+    {
+      "use": "video",
+      "environment": "laptop",
+      "allowance_usd": 2.0,
+      "spent_usd": 0.0,
+      "remaining_usd": 2.0
+    }
+  ],
+  "api_run_phase": {
+    "phase": "4",
+    "cap_usd": 1.5,
+    "spent_usd": 0.0,
+    "remaining_usd": 1.5
+  },
+  "api_run_uses": [
+    "development",
+    "video"
+  ]
 }

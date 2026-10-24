@@ -14,7 +14,7 @@ from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session, sessionmaker
 
 from guideword.api import models as api
-from guideword.api.app import NOT_BUILT_PHASE, create_app
+from guideword.api.app import API_RUN_PHASE, NOT_BUILT_PHASE, create_app
 from guideword.config import load_config
 from guideword.gateway.client import Gateway
 from guideword.gateway.fake import fake_gateway, reply
@@ -385,6 +385,47 @@ def test_budget_shows_this_environment_only_from_its_own_ledger(app: Api) -> Non
     assert laptop.remaining_usd == pytest.approx(18.75)
     assert [(m.model, m.spent_usd) for m in budget.by_model] == [("nvidia/x", 0.25)]
     assert budget.live_run_available is False
+
+
+def _spend(app: Api, use: str, phase: str, cost: float) -> None:
+    app.ledger.append(
+        SpendEntry(
+            ts=NOW,
+            kind="model",
+            environment="laptop",
+            phase=phase,
+            use=use,
+            model="nvidia/x",
+            input_tokens=1,
+            output_tokens=1,
+            cost_usd=cost,
+            script="test",
+            purpose="test",
+        )
+    )
+
+
+def test_budget_lists_each_use_and_the_api_run_phase_with_what_remains(app: Api) -> None:
+    """Contract v1.9 (C6, G6, H7): this environment's uses, the API runs' phase cap, and the
+    uses API runs may take, each read the way the gateway checks them."""
+    config = load_config(global_budget_usd=25.0)
+    _spend(app, "development", "2", 0.25)
+    _spend(app, "video", API_RUN_PHASE, 0.5)
+    _spend(app, "development", API_RUN_PHASE, 0.125)
+    budget = api.Budget.model_validate(app.client.get("/budget").json())
+    uses = {u.use: u for u in budget.uses}
+    assert set(uses) == {"development", "test_5", "benchmark", "video"}  # laptop's only
+    development = uses["development"]
+    assert (development.allowance_usd, development.spent_usd) == (5.0, 0.375)
+    assert development.remaining_usd == pytest.approx(4.625)
+    assert uses["video"].remaining_usd == pytest.approx(1.5)
+    assert uses["test_5"].spent_usd == 0.0
+    phase = budget.api_run_phase
+    assert phase.phase == API_RUN_PHASE
+    assert phase.cap_usd == config.caps.phase_caps_usd[API_RUN_PHASE]
+    assert phase.spent_usd == pytest.approx(0.625)
+    assert phase.remaining_usd == pytest.approx(phase.cap_usd - 0.625)
+    assert budget.api_run_uses == ["development", "video"]
 
 
 # --- a run's use and post cap are fixed when it starts (contract v1.9, Q4, Q12) ---------------
