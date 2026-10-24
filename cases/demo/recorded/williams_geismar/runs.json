@@ -1,0 +1,304 @@
+{
+ "table": "runs",
+ "rows": [
+  {
+   "id": "run:76f8ee0b5d1f078e",
+   "base_id": "run:76f8ee0b5d1f078e",
+   "attempt": 1,
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "status": "finished",
+   "record": {
+    "id": "run:76f8ee0b5d1f078e",
+    "plant_record_id": "plant:williams_geismar:440369931e305d48",
+    "attempt": 1,
+    "section_snapshot": [
+     "S-DA-406",
+     "S-EA-425A",
+     "S-EA-425B",
+     "S-L-A-SIN",
+     "S-L-A-SOUT",
+     "S-L-B-SIN",
+     "S-L-B-SOUT",
+     "S-L-QW-A-IN",
+     "S-L-QW-A-OUT",
+     "S-L-QW-B-IN",
+     "S-L-QW-B-OUT",
+     "S-P-REB-START"
+    ],
+    "status": "finished",
+    "step": "ranked",
+    "mode": "full",
+    "spend_cap_usd": 1.0,
+    "spent_usd": 0.8882379799999999,
+    "cap_spent_usd": 0.75970822,
+    "post_spend_cap_usd": 0.3,
+    "reference_versions": {
+     "applicability.csv": "d725cd824798c98e398362369d0e8c277caf8e49d720809aa9537705eaa899f6",
+     "causes.csv": "984049c70047943e47cefb79866a4de8f50e418be6b80ed70357956a0cc3da7b",
+     "initiating_events.csv": "caa2f790c999b599e41e3bc055aa9a852a420f84d2cd18ac2e9b1e9d4ab35f16",
+     "protection_layers.csv": "4646978f09898a34b8ac0972f79df2e7bf13568ab65a06af397036de9056b9d0",
+     "modifiers.csv": "31660806e522d9ec12785c63a0afbef306558b1051ded4a1a4112a2f6b11a8d4",
+     "severity_classes.csv": "50dc1ca83409d5aceeeb5f2ed97299791155707ee06862c66350b45e1a264e9b",
+     "tolerable_frequencies.csv": "47631a499bd103f2256b188bc9f00f9e91c692c56223bd1f057f2560a572382b",
+     "likelihood_classes.csv": "95eb9e55eb0d97f09e0a3b0e96b5c53dd2d73716bf8eec96774027c1d3aaa0dd",
+     "risk_matrix.csv": "57c893659d2d3c26966e3220b7038b00e4d0713bd943064b38f9172481d37592",
+     "cameo_groups.csv": "792f87ec1e82b9d74ce72323c10c1ce5ed830775aeb6ca4ccdf9ffed16324d44",
+     "reactive_groups.csv": "b1c526f81f750c5b13b2fa21ebd2b59b031290a293fa2e73d900f27121bc9fe9",
+     "reactive_pairs.csv": "d0319326a040d4e907f7f697e67de14c2f2455943124f07742d9533519916013"
+    },
+    "routing_config": {
+     "orchestrator": "ultra",
+     "severity_reason": "ultra",
+     "unsure_answer": "ultra",
+     "section_suggestion": "super",
+     "specialist_hard": "super",
+     "specialist_bulk": "lightning",
+     "not_credible": "lightning",
+     "extraction": "lightning",
+     "test5a": "ultra",
+     "plant_screen": "ultra"
+    },
+    "caps": {
+     "run_spend_cap_usd": 1.0,
+     "orchestrator_max_steps": 60,
+     "specialist_max_tool_steps": 2,
+     "question_max_attempts": 2,
+     "retry_failed_batch_singly": true,
+     "connector_max_input_tokens": 80000,
+     "max_tokens": {
+      "orchestrator": 4096,
+      "specialist_bulk": 12288,
+      "specialist_hard": 12288,
+      "unsure_answer": 6144,
+      "severity_reason": 12288,
+      "section_suggestion": 6144,
+      "test5a": 8192,
+      "plant_screen": 12288
+     },
+     "specialist_batch_size": {
+      "lightning": 5,
+      "nano": 10,
+      "super": 5,
+      "ultra": 5
+     },
+     "ai_questions_per_batch": 2,
+     "ai_questions_per_run": 20,
+     "unsure_reanswers_per_run": 10,
+     "orchestrator_view": {
+      "id_list_max": 20,
+      "recent_steps": 5,
+      "dispatch_max_question_ids": 60
+     },
+     "severity_batch_size": 10,
+     "severity_output_tokens_estimate": 4700,
+     "plant_screen_max_hypotheses": 12,
+     "plant_screen_min_valid": 5,
+     "specialist_max_input_tokens": 24000,
+     "post_spend_cap_usd": 0.3,
+     "ranking": {
+      "outside_library_default_frequency_per_year": 0.1,
+      "pipe_leak_large_above_mm": 150.0,
+      "lead_prefers_own_section": true
+     }
+    },
+    "prompt_versions": {
+     "orchestrator": "v2",
+     "section_suggestion": "v1",
+     "severity": "v2",
+     "test5a": "v1",
+     "plant_screen": "v3",
+     "specialists/process": "v2",
+     "specialists/chemistry": "v2",
+     "specialists/piping": "v2",
+     "specialists/procedures": "v2",
+     "specialists/maintenance": "v2",
+     "specialists/dust": "v2"
+    },
+    "label": {
+     "kind": "recorded",
+     "recorded_at": "2026-10-23T04:41:18.767033Z",
+     "cost_usd": 0.89652626,
+     "note": "record $0.0083 under ledger, run stored before the 2026-10-22 fix"
+    }
+   },
+   "sections": [
+    {
+     "id": "S-DA-406",
+     "plant_record_id": "plant:williams_geismar:440369931e305d48",
+     "kind": "equipment",
+     "section_type": "column",
+     "name": "DA-406 (column)",
+     "purpose": null,
+     "object_ids": [
+      "DA-406"
+     ],
+     "flagged_no_flow": false,
+     "drawn_by": "rule",
+     "suggestion_reason": null
+    },
+    {
+     "id": "S-EA-425A",
+     "plant_record_id": "plant:williams_geismar:440369931e305d48",
+     "kind": "equipment",
+     "section_type": "heat_exchanger",
+     "name": "EA-425A (heat_exchanger)",
+     "purpose": null,
+     "object_ids": [
+      "EA-425A"
+     ],
+     "flagged_no_flow": false,
+     "drawn_by": "rule",
+     "suggestion_reason": null
+    },
+    {
+     "id": "S-EA-425B",
+     "plant_record_id": "plant:williams_geismar:440369931e305d48",
+     "kind": "equipment",
+     "section_type": "heat_exchanger",
+     "name": "EA-425B (heat_exchanger)",
+     "purpose": null,
+     "object_ids": [
+      "EA-425B"
+     ],
+     "flagged_no_flow": false,
+     "drawn_by": "rule",
+     "suggestion_reason": null
+    },
+    {
+     "id": "S-L-A-SIN",
+     "plant_record_id": "plant:williams_geismar:440369931e305d48",
+     "kind": "line",
+     "section_type": "pipe",
+     "name": "L-A-SIN (pipe)",
+     "purpose": null,
+     "object_ids": [
+      "L-A-SIN",
+      "HV-A-SIN"
+     ],
+     "flagged_no_flow": false,
+     "drawn_by": "rule",
+     "suggestion_reason": null
+    },
+    {
+     "id": "S-L-A-SOUT",
+     "plant_record_id": "plant:williams_geismar:440369931e305d48",
+     "kind": "line",
+     "section_type": "pipe",
+     "name": "L-A-SOUT (pipe)",
+     "purpose": null,
+     "object_ids": [
+      "L-A-SOUT",
+      "HV-A-SOUT"
+     ],
+     "flagged_no_flow": false,
+     "drawn_by": "rule",
+     "suggestion_reason": null
+    },
+    {
+     "id": "S-L-B-SIN",
+     "plant_record_id": "plant:williams_geismar:440369931e305d48",
+     "kind": "no_flow_line",
+     "section_type": "pipe",
+     "name": "L-B-SIN (no-flow line)",
+     "purpose": null,
+     "object_ids": [
+      "L-B-SIN",
+      "HV-B-SIN"
+     ],
+     "flagged_no_flow": true,
+     "drawn_by": "rule",
+     "suggestion_reason": null
+    },
+    {
+     "id": "S-L-B-SOUT",
+     "plant_record_id": "plant:williams_geismar:440369931e305d48",
+     "kind": "no_flow_line",
+     "section_type": "pipe",
+     "name": "L-B-SOUT (no-flow line)",
+     "purpose": null,
+     "object_ids": [
+      "L-B-SOUT",
+      "HV-B-SOUT"
+     ],
+     "flagged_no_flow": true,
+     "drawn_by": "rule",
+     "suggestion_reason": null
+    },
+    {
+     "id": "S-L-QW-A-IN",
+     "plant_record_id": "plant:williams_geismar:440369931e305d48",
+     "kind": "line",
+     "section_type": "pipe",
+     "name": "L-QW-A-IN (pipe)",
+     "purpose": null,
+     "object_ids": [
+      "L-QW-A-IN",
+      "HV-QW-A-IN"
+     ],
+     "flagged_no_flow": false,
+     "drawn_by": "rule",
+     "suggestion_reason": null
+    },
+    {
+     "id": "S-L-QW-A-OUT",
+     "plant_record_id": "plant:williams_geismar:440369931e305d48",
+     "kind": "line",
+     "section_type": "pipe",
+     "name": "L-QW-A-OUT (pipe)",
+     "purpose": null,
+     "object_ids": [
+      "L-QW-A-OUT",
+      "HV-QW-A-OUT"
+     ],
+     "flagged_no_flow": false,
+     "drawn_by": "rule",
+     "suggestion_reason": null
+    },
+    {
+     "id": "S-L-QW-B-IN",
+     "plant_record_id": "plant:williams_geismar:440369931e305d48",
+     "kind": "no_flow_line",
+     "section_type": "pipe",
+     "name": "L-QW-B-IN (no-flow line)",
+     "purpose": null,
+     "object_ids": [
+      "L-QW-B-IN",
+      "HV-QW-B-IN"
+     ],
+     "flagged_no_flow": true,
+     "drawn_by": "rule",
+     "suggestion_reason": null
+    },
+    {
+     "id": "S-L-QW-B-OUT",
+     "plant_record_id": "plant:williams_geismar:440369931e305d48",
+     "kind": "no_flow_line",
+     "section_type": "pipe",
+     "name": "L-QW-B-OUT (no-flow line)",
+     "purpose": null,
+     "object_ids": [
+      "L-QW-B-OUT",
+      "HV-QW-B-OUT"
+     ],
+     "flagged_no_flow": true,
+     "drawn_by": "rule",
+     "suggestion_reason": null
+    },
+    {
+     "id": "S-P-REB-START",
+     "plant_record_id": "plant:williams_geismar:440369931e305d48",
+     "kind": "procedure",
+     "section_type": "procedure",
+     "name": "P-REB-START (procedure: start_up)",
+     "purpose": null,
+     "object_ids": [
+      "P-REB-START"
+     ],
+     "flagged_no_flow": false,
+     "drawn_by": "rule",
+     "suggestion_reason": null
+    }
+   ]
+  }
+ ]
+}

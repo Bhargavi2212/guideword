@@ -1,0 +1,1011 @@
+{
+ "table": "plant_facts",
+ "rows": [
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "C4-HEAVIES.cameo_groups",
+   "value": [
+    29
+   ],
+   "source": "CSB case study p. 10 ('heavier hydrocarbons'); composition assumed"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "C4-HEAVIES.epa_groups",
+   "value": [
+    29
+   ],
+   "source": "CSB case study p. 10 ('heavier hydrocarbons'); composition assumed"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "C4-HEAVIES.name",
+   "value": "heavier hydrocarbons (C4 and above)",
+   "source": "CSB case study p. 10 ('heavier hydrocarbons'); composition assumed"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "C4-HEAVIES.physical_form",
+   "value": "liquid",
+   "source": "assumed: liquid under pressure on the shell side"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "DA-406.contents",
+   "value": [
+    "PROPYLENE",
+    "PROPANE",
+    "C4-HEAVIES"
+   ],
+   "source": "CSB case study p. 10, p. 38; operating pressure not stated (124 psig on p. 15 is propane vapour pressure, not column pressure), left empty"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "DA-406.location_id",
+   "value": "LOC-OLEFINS-UNIT",
+   "source": "CSB case study p. 10, p. 38; operating pressure not stated (124 psig on p. 15 is propane vapour pressure, not column pressure), left empty"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "DA-406.type",
+   "value": "column",
+   "source": "CSB case study p. 10, p. 38; operating pressure not stated (124 psig on p. 15 is propane vapour pressure, not column pressure), left empty"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "EA-425A.contents",
+   "value": [
+    "PROPANE",
+    "PROPYLENE",
+    "C4-HEAVIES"
+   ],
+   "source": "CSB case study pp. 6, 10"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "EA-425A.design_pressure_kpa",
+   "value": 2068,
+   "source": "CSB case study p. 41 (MAWP 300 psig = 2068 kPa g); assumed the same rating as EA-425B"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "EA-425A.heat_sources",
+   "value": [
+    {
+     "medium": "hot quench water",
+     "via_line_id": "L-QW-A-IN",
+     "isolating_valve_ids": [
+      "HV-QW-A-IN",
+      "HV-QW-A-OUT"
+     ]
+    }
+   ],
+   "source": "CSB case study pp. 6, 10"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "EA-425A.location_id",
+   "value": "LOC-OLEFINS-UNIT",
+   "source": "CSB case study pp. 6, 10"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "EA-425A.operating.pressure.design_max",
+   "value": 2068,
+   "source": "CSB case study pp. 6, 10"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "EA-425A.type",
+   "value": "heat_exchanger",
+   "source": "CSB case study pp. 6, 10"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "EA-425B.contents",
+   "value": [
+    "PROPANE",
+    "PROPYLENE",
+    "C4-HEAVIES"
+   ],
+   "source": "CSB case study pp. 6, 10, 12"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "EA-425B.design_pressure_kpa",
+   "value": 2068,
+   "source": "CSB case study p. 41 (MAWP 300 psig = 2068 kPa g)"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "EA-425B.heat_sources",
+   "value": [
+    {
+     "medium": "hot quench water",
+     "via_line_id": "L-QW-B-IN",
+     "isolating_valve_ids": [
+      "HV-QW-B-IN",
+      "HV-QW-B-OUT"
+     ]
+    }
+   ],
+   "source": "CSB case study pp. 6, 10, 12"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "EA-425B.location_id",
+   "value": "LOC-OLEFINS-UNIT",
+   "source": "CSB case study pp. 6, 10, 12"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "EA-425B.operating.pressure.design_max",
+   "value": 2068,
+   "source": "CSB case study pp. 6, 10, 12"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "EA-425B.type",
+   "value": "heat_exchanger",
+   "source": "CSB case study pp. 6, 10, 12"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "HV-A-SIN.fail_position",
+   "value": "last",
+   "source": "assumed: 'last' (manual or block valve)"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "HV-A-SIN.kind",
+   "value": "block",
+   "source": "assumed: A has the same shell-side valves as B (CSB p. 15 fn. 21 gives B's sizes; p. 32 says the MOC added valves to both)"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "HV-A-SIN.locked",
+   "value": false,
+   "source": "assumed: A has the same shell-side valves as B (CSB p. 15 fn. 21 gives B's sizes; p. 32 says the MOC added valves to both)"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "HV-A-SIN.normal_position",
+   "value": "open",
+   "source": "assumed: A has the same shell-side valves as B (CSB p. 15 fn. 21 gives B's sizes; p. 32 says the MOC added valves to both)"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "HV-A-SIN.on_line_id",
+   "value": "L-A-SIN",
+   "source": "assumed: A has the same shell-side valves as B (CSB p. 15 fn. 21 gives B's sizes; p. 32 says the MOC added valves to both)"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "HV-A-SOUT.fail_position",
+   "value": "last",
+   "source": "assumed: 'last' (manual or block valve)"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "HV-A-SOUT.kind",
+   "value": "block",
+   "source": "not stated"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "HV-A-SOUT.locked",
+   "value": true,
+   "source": "CSB case study p. 32 (in-service outlet car sealed open)"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "HV-A-SOUT.normal_position",
+   "value": "open",
+   "source": "not stated"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "HV-A-SOUT.on_line_id",
+   "value": "L-A-SOUT",
+   "source": "not stated"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "HV-B-SIN.fail_position",
+   "value": "last",
+   "source": "assumed: 'last' (manual or block valve)"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "HV-B-SIN.kind",
+   "value": "block",
+   "source": "CSB case study p. 15 fn. 21, p. 32"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "HV-B-SIN.locked",
+   "value": false,
+   "source": "CSB case study p. 32 (standby valves not car sealed)"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "HV-B-SIN.normal_position",
+   "value": "closed",
+   "source": "CSB case study p. 15 fn. 21, p. 32"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "HV-B-SIN.on_line_id",
+   "value": "L-B-SIN",
+   "source": "CSB case study p. 15 fn. 21, p. 32"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "HV-B-SOUT.fail_position",
+   "value": "last",
+   "source": "assumed: 'last' (manual or block valve)"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "HV-B-SOUT.kind",
+   "value": "block",
+   "source": "CSB case study p. 15 fn. 21, p. 32"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "HV-B-SOUT.locked",
+   "value": false,
+   "source": "CSB case study p. 32 (standby valves not car sealed)"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "HV-B-SOUT.normal_position",
+   "value": "closed",
+   "source": "CSB case study p. 15 fn. 21, p. 32"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "HV-B-SOUT.on_line_id",
+   "value": "L-B-SOUT",
+   "source": "CSB case study p. 15 fn. 21, p. 32"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "HV-QW-A-IN.fail_position",
+   "value": "last",
+   "source": "assumed: 'last' (manual or block valve)"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "HV-QW-A-IN.kind",
+   "value": "manual",
+   "source": "assumed: tag, kind and position (in service)"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "HV-QW-A-IN.locked",
+   "value": false,
+   "source": "assumed: tag, kind and position (in service)"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "HV-QW-A-IN.normal_position",
+   "value": "open",
+   "source": "assumed: tag, kind and position (in service)"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "HV-QW-A-IN.on_line_id",
+   "value": "L-QW-A-IN",
+   "source": "assumed: tag, kind and position (in service)"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "HV-QW-A-OUT.fail_position",
+   "value": "last",
+   "source": "assumed: 'last' (manual or block valve)"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "HV-QW-A-OUT.kind",
+   "value": "manual",
+   "source": "assumed: tag, kind and position (in service)"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "HV-QW-A-OUT.locked",
+   "value": false,
+   "source": "assumed: tag, kind and position (in service)"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "HV-QW-A-OUT.normal_position",
+   "value": "open",
+   "source": "assumed: tag, kind and position (in service)"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "HV-QW-A-OUT.on_line_id",
+   "value": "L-QW-A-OUT",
+   "source": "assumed: tag, kind and position (in service)"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "HV-QW-B-IN.fail_position",
+   "value": "last",
+   "source": "assumed: 'last' (manual or block valve)"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "HV-QW-B-IN.kind",
+   "value": "manual",
+   "source": "CSB case study p. 17 fig. 10 (ball valve on the quench-water inlet)"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "HV-QW-B-IN.locked",
+   "value": false,
+   "source": "CSB case study p. 17 fig. 10 (ball valve on the quench-water inlet)"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "HV-QW-B-IN.normal_position",
+   "value": "closed",
+   "source": "CSB case study pp. 12, 35 (closed on standby)"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "HV-QW-B-IN.on_line_id",
+   "value": "L-QW-B-IN",
+   "source": "CSB case study p. 17 fig. 10 (ball valve on the quench-water inlet)"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "HV-QW-B-OUT.fail_position",
+   "value": "last",
+   "source": "assumed: 'last' (manual or block valve)"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "HV-QW-B-OUT.kind",
+   "value": "manual",
+   "source": "assumed: tag and kind; CSB p. 17 fig. 10 shows an outlet quench-water valve"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "HV-QW-B-OUT.locked",
+   "value": false,
+   "source": "assumed: tag and kind; CSB p. 17 fig. 10 shows an outlet quench-water valve"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "HV-QW-B-OUT.normal_position",
+   "value": "closed",
+   "source": "assumed closed on standby (CSB pp. 12, 35: the hot-side valves were opened)"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "HV-QW-B-OUT.on_line_id",
+   "value": "L-QW-B-OUT",
+   "source": "assumed: tag and kind; CSB p. 17 fig. 10 shows an outlet quench-water valve"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "L-A-SIN.components",
+   "value": [
+    "HV-A-SIN"
+   ],
+   "source": "not stated"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "L-A-SIN.contents",
+   "value": [
+    "PROPANE",
+    "PROPYLENE",
+    "C4-HEAVIES"
+   ],
+   "source": "not stated"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "L-A-SIN.from_id",
+   "value": "DA-406",
+   "source": "not stated"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "L-A-SIN.size_mm",
+   "value": 406,
+   "source": "assumed same as B: 16 in = 406 mm"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "L-A-SIN.to_id",
+   "value": "EA-425A",
+   "source": "not stated"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "L-A-SOUT.components",
+   "value": [
+    "HV-A-SOUT"
+   ],
+   "source": "not stated"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "L-A-SOUT.contents",
+   "value": [
+    "PROPANE",
+    "PROPYLENE",
+    "C4-HEAVIES"
+   ],
+   "source": "not stated"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "L-A-SOUT.from_id",
+   "value": "EA-425A",
+   "source": "not stated"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "L-A-SOUT.size_mm",
+   "value": 457,
+   "source": "assumed same as B: 18 in = 457 mm"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "L-A-SOUT.to_id",
+   "value": "DA-406",
+   "source": "not stated"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "L-B-SIN.components",
+   "value": [
+    "HV-B-SIN"
+   ],
+   "source": "not stated"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "L-B-SIN.contents",
+   "value": [
+    "PROPANE",
+    "PROPYLENE",
+    "C4-HEAVIES"
+   ],
+   "source": "not stated"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "L-B-SIN.from_id",
+   "value": "DA-406",
+   "source": "not stated"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "L-B-SIN.no_flow",
+   "value": [
+    "standby"
+   ],
+   "source": "not stated"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "L-B-SIN.size_mm",
+   "value": 406,
+   "source": "CSB case study p. 15 fn. 21 (16 in = 406 mm)"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "L-B-SIN.to_id",
+   "value": "EA-425B",
+   "source": "not stated"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "L-B-SOUT.components",
+   "value": [
+    "HV-B-SOUT"
+   ],
+   "source": "not stated"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "L-B-SOUT.contents",
+   "value": [
+    "PROPANE",
+    "PROPYLENE",
+    "C4-HEAVIES"
+   ],
+   "source": "not stated"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "L-B-SOUT.from_id",
+   "value": "EA-425B",
+   "source": "not stated"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "L-B-SOUT.no_flow",
+   "value": [
+    "standby"
+   ],
+   "source": "not stated"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "L-B-SOUT.size_mm",
+   "value": 457,
+   "source": "CSB case study p. 15 fn. 21 (18 in = 457 mm)"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "L-B-SOUT.to_id",
+   "value": "DA-406",
+   "source": "not stated"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "L-QW-A-IN.components",
+   "value": [
+    "HV-QW-A-IN"
+   ],
+   "source": "assumed: line routing as for B"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "L-QW-A-IN.from_id",
+   "value": "UT-QW",
+   "source": "assumed: line routing as for B"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "L-QW-A-IN.operating.temperature.normal",
+   "value": 85,
+   "source": "CSB case study p. 10 (quench water enters at about 185 F = 85 C); assumed the same for Reboiler A's supply"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "L-QW-A-IN.to_id",
+   "value": "EA-425A",
+   "source": "assumed: line routing as for B"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "L-QW-A-OUT.components",
+   "value": [
+    "HV-QW-A-OUT"
+   ],
+   "source": "assumed: line routing as for B"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "L-QW-A-OUT.from_id",
+   "value": "EA-425A",
+   "source": "assumed: line routing as for B"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "L-QW-A-OUT.to_id",
+   "value": "UT-QW",
+   "source": "assumed: line routing as for B"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "L-QW-B-IN.components",
+   "value": [
+    "HV-QW-B-IN"
+   ],
+   "source": "CSB case study p. 10, p. 17 fig. 10"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "L-QW-B-IN.from_id",
+   "value": "UT-QW",
+   "source": "CSB case study p. 10, p. 17 fig. 10"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "L-QW-B-IN.no_flow",
+   "value": [
+    "standby"
+   ],
+   "source": "CSB case study p. 10, p. 17 fig. 10"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "L-QW-B-IN.operating.temperature.normal",
+   "value": 85,
+   "source": "CSB case study p. 10 (quench water enters at about 185 F = 85 C)"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "L-QW-B-IN.to_id",
+   "value": "EA-425B",
+   "source": "CSB case study p. 10, p. 17 fig. 10"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "L-QW-B-OUT.components",
+   "value": [
+    "HV-QW-B-OUT"
+   ],
+   "source": "CSB case study p. 10, p. 17 fig. 10"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "L-QW-B-OUT.from_id",
+   "value": "EA-425B",
+   "source": "CSB case study p. 10, p. 17 fig. 10"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "L-QW-B-OUT.no_flow",
+   "value": [
+    "standby"
+   ],
+   "source": "CSB case study p. 10, p. 17 fig. 10"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "L-QW-B-OUT.to_id",
+   "value": "UT-QW",
+   "source": "CSB case study p. 10, p. 17 fig. 10"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "LOC-OLEFINS-UNIT.description",
+   "value": "Olefins unit area around the propylene fractionator, outdoors",
+   "source": "not stated"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "LOC-OLEFINS-UNIT.indoor",
+   "value": false,
+   "source": "not stated"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "LOC-OLEFINS-UNIT.occupied",
+   "value": true,
+   "source": "CSB case study p. 12 fn. 14"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "LOC-QUENCH-LOOP.description",
+   "value": "Quench tower hot-water loop, outside this study's scope",
+   "source": "not stated"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "P-REB-START-1.equipment_ids",
+   "value": [
+    "EA-425A",
+    "EA-425B"
+   ],
+   "source": "not stated"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "P-REB-START-1.text",
+   "value": "Line up the process side of the reboiler being placed in service.",
+   "source": "assumed: step wording; the CSB does not quote the generic procedure's steps"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "P-REB-START-1.valve_ids",
+   "value": [
+    "HV-A-SIN",
+    "HV-A-SOUT",
+    "HV-B-SIN",
+    "HV-B-SOUT"
+   ],
+   "source": "not stated"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "P-REB-START-2.equipment_ids",
+   "value": [
+    "EA-425A",
+    "EA-425B"
+   ],
+   "source": "not stated"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "P-REB-START-2.text",
+   "value": "Open the heating-medium inlet and outlet valves to the reboiler being placed in service.",
+   "source": "assumed: step wording; the CSB does not quote the generic procedure's steps"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "P-REB-START-2.valve_ids",
+   "value": [
+    "HV-QW-A-IN",
+    "HV-QW-A-OUT",
+    "HV-QW-B-IN",
+    "HV-QW-B-OUT"
+   ],
+   "source": "not stated"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "P-REB-START.kind",
+   "value": "start_up",
+   "source": "CSB case study p. 27"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "PROPANE.boiling_point_c",
+   "value": -42.1,
+   "source": "assumed: standard handbook value"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "PROPANE.cameo_groups",
+   "value": [
+    29
+   ],
+   "source": "assumed: same mapping as case_d butanes"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "PROPANE.epa_groups",
+   "value": [
+    29
+   ],
+   "source": "assumed: EPA group 29 (hydrocarbons, aliphatic, saturated)"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "PROPANE.name",
+   "value": "propane",
+   "source": "CSB case study p. 10, p. 15 fn. 22"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "PROPANE.physical_form",
+   "value": "liquid",
+   "source": "assumed: liquid under pressure on the shell side"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "PROPANE.vapor_pressure_points",
+   "value": [
+    {
+     "temp_c": 30.0,
+     "pressure_kpaa": 1079.0
+    },
+    {
+     "temp_c": 35.0,
+     "pressure_kpaa": 1217.9
+    },
+    {
+     "temp_c": 40.0,
+     "pressure_kpaa": 1369.4
+    },
+    {
+     "temp_c": 45.0,
+     "pressure_kpaa": 1534.3
+    },
+    {
+     "temp_c": 50.0,
+     "pressure_kpaa": 1713.3
+    },
+    {
+     "temp_c": 55.0,
+     "pressure_kpaa": 1907.2
+    },
+    {
+     "temp_c": 60.0,
+     "pressure_kpaa": 2116.7
+    },
+    {
+     "temp_c": 65.0,
+     "pressure_kpaa": 2342.9
+    },
+    {
+     "temp_c": 70.0,
+     "pressure_kpaa": 2586.8
+    },
+    {
+     "temp_c": 75.0,
+     "pressure_kpaa": 2849.3
+    },
+    {
+     "temp_c": 80.0,
+     "pressure_kpaa": 3131.9
+    },
+    {
+     "temp_c": 85.0,
+     "pressure_kpaa": 3436.1
+    },
+    {
+     "temp_c": 90.0,
+     "pressure_kpaa": 3764.1
+    },
+    {
+     "temp_c": 95.0,
+     "pressure_kpaa": 4119.5
+    }
+   ],
+   "source": "NIST Chemistry WebBook, SRD 69, Saturation Properties for Propane (EOS: Lemmon, McLinden & Wagner, J. Chem. Eng. Data 54 (2009) 3141), https://webbook.nist.gov/cgi/fluid.cgi?ID=C74986&Type=SatP&TUnit=C&PUnit=kPa, read 2026-10-21 (saturated liquid pressure, 30-95 C in 5 C steps; critical point 96.74 C)"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "PROPYLENE.boiling_point_c",
+   "value": -47.6,
+   "source": "assumed: standard handbook value"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "PROPYLENE.cameo_groups",
+   "value": [
+    28
+   ],
+   "source": "assumed: same mapping as case_d butenes"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "PROPYLENE.epa_groups",
+   "value": [
+    28
+   ],
+   "source": "assumed: EPA group 28 (hydrocarbons, aliphatic, unsaturated)"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "PROPYLENE.name",
+   "value": "propylene",
+   "source": "CSB case study p. 10"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "PROPYLENE.physical_form",
+   "value": "liquid",
+   "source": "assumed: liquid under pressure on the shell side"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "PROPYLENE.vapor_pressure_points",
+   "value": [
+    {
+     "temp_c": 30.0,
+     "pressure_kpaa": 1305.0
+    },
+    {
+     "temp_c": 35.0,
+     "pressure_kpaa": 1469.4
+    },
+    {
+     "temp_c": 40.0,
+     "pressure_kpaa": 1648.4
+    },
+    {
+     "temp_c": 45.0,
+     "pressure_kpaa": 1843.0
+    },
+    {
+     "temp_c": 50.0,
+     "pressure_kpaa": 2053.8
+    },
+    {
+     "temp_c": 55.0,
+     "pressure_kpaa": 2281.9
+    },
+    {
+     "temp_c": 60.0,
+     "pressure_kpaa": 2528.3
+    },
+    {
+     "temp_c": 65.0,
+     "pressure_kpaa": 2794.0
+    },
+    {
+     "temp_c": 70.0,
+     "pressure_kpaa": 3080.2
+    },
+    {
+     "temp_c": 75.0,
+     "pressure_kpaa": 3388.5
+    },
+    {
+     "temp_c": 80.0,
+     "pressure_kpaa": 3720.5
+    },
+    {
+     "temp_c": 85.0,
+     "pressure_kpaa": 4078.8
+    },
+    {
+     "temp_c": 90.0,
+     "pressure_kpaa": 4467.5
+    }
+   ],
+   "source": "NIST Chemistry WebBook, SRD 69, Saturation Properties for Propene, https://webbook.nist.gov/cgi/fluid.cgi?ID=C115071&Type=SatP&TUnit=C&PUnit=kPa, read 2026-10-21 (saturated liquid pressure, 30-90 C in 5 C steps; points stop below the critical point, about 91.6 C)"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "RV-PATH-EA425A.inlet_valve_ids",
+   "value": [
+    "HV-A-SIN",
+    "HV-A-SOUT"
+   ],
+   "source": "assumed: modelling record. The schema holds one protects_id per relief device, so the reboiler's protection by SV-421QA/QB through its shell-side valves is recorded as a path record (CSB p. 10, p. 34 fn. 44)"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "RV-PATH-EA425A.kind",
+   "value": "prv",
+   "source": "assumed: modelling record. The schema holds one protects_id per relief device, so the reboiler's protection by SV-421QA/QB through its shell-side valves is recorded as a path record (CSB p. 10, p. 34 fn. 44)"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "RV-PATH-EA425A.protects_id",
+   "value": "EA-425A",
+   "source": "assumed: modelling record. The schema holds one protects_id per relief device, so the reboiler's protection by SV-421QA/QB through its shell-side valves is recorded as a path record (CSB p. 10, p. 34 fn. 44)"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "RV-PATH-EA425B.inlet_valve_ids",
+   "value": [
+    "HV-B-SIN",
+    "HV-B-SOUT"
+   ],
+   "source": "assumed: modelling record. The schema holds one protects_id per relief device, so the reboiler's protection by SV-421QA/QB through its shell-side valves is recorded as a path record (CSB p. 10, p. 34 fn. 44)"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "RV-PATH-EA425B.kind",
+   "value": "prv",
+   "source": "assumed: modelling record. The schema holds one protects_id per relief device, so the reboiler's protection by SV-421QA/QB through its shell-side valves is recorded as a path record (CSB p. 10, p. 34 fn. 44)"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "RV-PATH-EA425B.protects_id",
+   "value": "EA-425B",
+   "source": "assumed: modelling record. The schema holds one protects_id per relief device, so the reboiler's protection by SV-421QA/QB through its shell-side valves is recorded as a path record (CSB p. 10, p. 34 fn. 44)"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "SV-421QA.kind",
+   "value": "prv",
+   "source": "CSB case study p. 10, p. 34 fn. 44; set pressure and discharge not stated"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "SV-421QA.protects_id",
+   "value": "DA-406",
+   "source": "CSB case study p. 10, p. 34 fn. 44; set pressure and discharge not stated"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "SV-421QB.kind",
+   "value": "prv",
+   "source": "CSB case study p. 10, p. 34 fn. 44; set pressure and discharge not stated"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "SV-421QB.protects_id",
+   "value": "DA-406",
+   "source": "CSB case study p. 10, p. 34 fn. 44; set pressure and discharge not stated"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "UT-QW.kind",
+   "value": "other",
+   "source": "CSB case study p. 10"
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "UT-QW.location_id",
+   "value": "LOC-QUENCH-LOOP",
+   "source": "CSB case study p. 10"
+  }
+ ]
+}

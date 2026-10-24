@@ -1,0 +1,1002 @@
+{
+ "table": "lopa_records",
+ "rows": [
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "lopa:ch:EA-425B.design_pressure_kpa+EA-425B.heat_sources+HV-B-SIN.normal_position+HV-B-SOUT.normal_position+HV-QW-B-IN.normal_position+HV-QW-B-OUT.normal_position+RV-PATH-EA425B.inlet_valve_ids+f:m:S-EA-425B:as_well_as:composition:super:C12:b3d32268f909ddb3+f:proc:P-REB-START-2:early:super:C16:126a45a4b13afa1b",
+   "position": 11,
+   "record": {
+    "id": "lopa:ch:EA-425B.design_pressure_kpa+EA-425B.heat_sources+HV-B-SIN.normal_position+HV-B-SOUT.normal_position+HV-QW-B-IN.normal_position+HV-QW-B-OUT.normal_position+RV-PATH-EA425B.inlet_valve_ids+f:m:S-EA-425B:as_well_as:composition:super:C12:b3d32268f909ddb3+f:proc:P-REB-START-2:early:super:C16:126a45a4b13afa1b",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "target_id": "ch:EA-425B.design_pressure_kpa+EA-425B.heat_sources+HV-B-SIN.normal_position+HV-B-SOUT.normal_position+HV-QW-B-IN.normal_position+HV-QW-B-OUT.normal_position+RV-PATH-EA425B.inlet_valve_ids+f:m:S-EA-425B:as_well_as:composition:super:C12:b3d32268f909ddb3+f:proc:P-REB-START-2:early:super:C16:126a45a4b13afa1b",
+    "severity_class": "S3",
+    "complete": true,
+    "missing_fact_ids": [],
+    "initiating_event_id": "IE-HE-MONTHLY",
+    "initiating_frequency_per_year": 0.1,
+    "frequency_assumed": false,
+    "modifiers": [],
+    "layers": [
+     {
+      "layer_id": "RV-PATH-EA425B",
+      "layer_type": "IPL-PRV",
+      "credited": false,
+      "pfd": null,
+      "reason": "does not apply: Scenario states pressure rises with no relief path because RV-PATH-EA425B requires inlet valves HV-B-SIN/HV-B-SOUT open; relief device cannot relieve overpressure when isolated from equipment.",
+      "applies": false,
+      "argument": "Scenario states pressure rises with no relief path because RV-PATH-EA425B requires inlet valves HV-B-SIN/HV-B-SOUT open; relief device cannot relieve overpressure when isolated from equipment."
+     }
+    ],
+    "mitigated_frequency_per_year": 0.1,
+    "tolerable_per_year": 0.0001,
+    "gap": 1000.0,
+    "model_call_id": "mc:f3eddff449e2b71e",
+    "flags": [
+     "task frequency assumed — engineer to confirm"
+    ],
+    "modifiers_not_applied": [
+     {
+      "kind": "ignition_probability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "explosion_given_ignition",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "vulnerability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "time_at_risk",
+      "reason": "no plant fact or rule"
+     }
+    ]
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "lopa:ch:EA-425B.heat_sources+HV-QW-B-IN.normal_position+HV-QW-B-OUT.normal_position+L-QW-B-OUT.no_flow+L-QW-B-OUT.to_id+f:m:S-EA-425B:as_well_as:composition:super:C12:b3d32268f909ddb3+f:m:S-L-QW-B-IN:other_than:composition:super:914c7bdc8d006e9c:b3d32268f909ddb3+f:m:S-L-QW-B-OUT:as_well_as:composition:super:110cc327ced3d481:b3d32268f909ddb3",
+   "position": 19,
+   "record": {
+    "id": "lopa:ch:EA-425B.heat_sources+HV-QW-B-IN.normal_position+HV-QW-B-OUT.normal_position+L-QW-B-OUT.no_flow+L-QW-B-OUT.to_id+f:m:S-EA-425B:as_well_as:composition:super:C12:b3d32268f909ddb3+f:m:S-L-QW-B-IN:other_than:composition:super:914c7bdc8d006e9c:b3d32268f909ddb3+f:m:S-L-QW-B-OUT:as_well_as:composition:super:110cc327ced3d481:b3d32268f909ddb3",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "target_id": "ch:EA-425B.heat_sources+HV-QW-B-IN.normal_position+HV-QW-B-OUT.normal_position+L-QW-B-OUT.no_flow+L-QW-B-OUT.to_id+f:m:S-EA-425B:as_well_as:composition:super:C12:b3d32268f909ddb3+f:m:S-L-QW-B-IN:other_than:composition:super:914c7bdc8d006e9c:b3d32268f909ddb3+f:m:S-L-QW-B-OUT:as_well_as:composition:super:110cc327ced3d481:b3d32268f909ddb3",
+    "severity_class": "S3",
+    "complete": true,
+    "missing_fact_ids": [],
+    "initiating_event_id": "IE-TUBE",
+    "initiating_frequency_per_year": 0.001,
+    "frequency_assumed": false,
+    "modifiers": [],
+    "layers": [
+     {
+      "layer_id": "RV-PATH-EA425B",
+      "layer_type": "IPL-PRV",
+      "credited": false,
+      "pfd": null,
+      "reason": "does not apply: The scenario is hydrocarbon ingress into the quench-water loop after a tube rupture on standby EA-425B (m:S-EA-425B:as_well_as:composition), creating a latent fire hazard; the PRV on EA-425B acts only on overpressure of EA-425B, not on composition change or fire hazard in the quench loop.",
+      "applies": false,
+      "argument": "The scenario is hydrocarbon ingress into the quench-water loop after a tube rupture on standby EA-425B (m:S-EA-425B:as_well_as:composition), creating a latent fire hazard; the PRV on EA-425B acts only on overpressure of EA-425B, not on composition change or fire hazard in the quench loop."
+     }
+    ],
+    "mitigated_frequency_per_year": 0.001,
+    "tolerable_per_year": 0.0001,
+    "gap": 10.0,
+    "model_call_id": "mc:53a4d98ca54e6d94",
+    "flags": [],
+    "modifiers_not_applied": [
+     {
+      "kind": "ignition_probability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "explosion_given_ignition",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "vulnerability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "time_at_risk",
+      "reason": "no plant fact or rule"
+     }
+    ]
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "lopa:ch:HV-A-SIN.normal_position+HV-A-SOUT.normal_position+RV-PATH-EA425A.inlet_valve_ids+SV-421QA.protects_id+SV-421QB.protects_id+f:m:S-EA-425B:more:temperature:super:C22:e53bce019995581b+f:m:S-L-A-SOUT:reverse:flow:super:d96e945a65e57280:e8d47871d4a47f89+f:m:S-L-QW-A-IN:more:pressure:lightning:C22:e53bce019995581b",
+   "position": 13,
+   "record": {
+    "id": "lopa:ch:HV-A-SIN.normal_position+HV-A-SOUT.normal_position+RV-PATH-EA425A.inlet_valve_ids+SV-421QA.protects_id+SV-421QB.protects_id+f:m:S-EA-425B:more:temperature:super:C22:e53bce019995581b+f:m:S-L-A-SOUT:reverse:flow:super:d96e945a65e57280:e8d47871d4a47f89+f:m:S-L-QW-A-IN:more:pressure:lightning:C22:e53bce019995581b",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "target_id": "ch:HV-A-SIN.normal_position+HV-A-SOUT.normal_position+RV-PATH-EA425A.inlet_valve_ids+SV-421QA.protects_id+SV-421QB.protects_id+f:m:S-EA-425B:more:temperature:super:C22:e53bce019995581b+f:m:S-L-A-SOUT:reverse:flow:super:d96e945a65e57280:e8d47871d4a47f89+f:m:S-L-QW-A-IN:more:pressure:lightning:C22:e53bce019995581b",
+    "severity_class": "S3",
+    "complete": true,
+    "missing_fact_ids": [],
+    "initiating_event_id": "IE-FIRE-S",
+    "initiating_frequency_per_year": 0.1,
+    "frequency_assumed": false,
+    "modifiers": [],
+    "layers": [
+     {
+      "layer_id": "RV-PATH-EA425B",
+      "layer_type": "IPL-PRV",
+      "credited": false,
+      "pfd": null,
+      "reason": "does not apply: Scenario concerns EA-425A and DA-406; RV-PATH-EA425B protects EA-425B, a different reboiler, and does not act on this deviation.",
+      "applies": false,
+      "argument": "Scenario concerns EA-425A and DA-406; RV-PATH-EA425B protects EA-425B, a different reboiler, and does not act on this deviation."
+     }
+    ],
+    "mitigated_frequency_per_year": 0.1,
+    "tolerable_per_year": 0.0001,
+    "gap": 1000.0,
+    "model_call_id": "mc:f3eddff449e2b71e",
+    "flags": [],
+    "modifiers_not_applied": [
+     {
+      "kind": "ignition_probability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "explosion_given_ignition",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "vulnerability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "time_at_risk",
+      "reason": "no plant fact or rule"
+     }
+    ]
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "lopa:ch:HV-B-SIN.normal_position+HV-B-SOUT.normal_position+HV-QW-B-IN.normal_position+HV-QW-B-OUT.normal_position+P-REB-START-1.equipment_ids+P-REB-START-1.valve_ids+P-REB-START-2.text+P-REB-START-2.valve_ids+f:m:S-EA-425B:as_well_as:composition:super:C12:b3d32268f909ddb3+f:m:S-EA-425B:no:flow:super:C15:2a0b544cd1cded80",
+   "position": 18,
+   "record": {
+    "id": "lopa:ch:HV-B-SIN.normal_position+HV-B-SOUT.normal_position+HV-QW-B-IN.normal_position+HV-QW-B-OUT.normal_position+P-REB-START-1.equipment_ids+P-REB-START-1.valve_ids+P-REB-START-2.text+P-REB-START-2.valve_ids+f:m:S-EA-425B:as_well_as:composition:super:C12:b3d32268f909ddb3+f:m:S-EA-425B:no:flow:super:C15:2a0b544cd1cded80",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "target_id": "ch:HV-B-SIN.normal_position+HV-B-SOUT.normal_position+HV-QW-B-IN.normal_position+HV-QW-B-OUT.normal_position+P-REB-START-1.equipment_ids+P-REB-START-1.valve_ids+P-REB-START-2.text+P-REB-START-2.valve_ids+f:m:S-EA-425B:as_well_as:composition:super:C12:b3d32268f909ddb3+f:m:S-EA-425B:no:flow:super:C15:2a0b544cd1cded80",
+    "severity_class": "S2",
+    "complete": true,
+    "missing_fact_ids": [],
+    "initiating_event_id": "IE-HE-MONTHLY",
+    "initiating_frequency_per_year": 0.1,
+    "frequency_assumed": false,
+    "modifiers": [],
+    "layers": [
+     {
+      "layer_id": "RV-PATH-EA425B",
+      "layer_type": "IPL-PRV",
+      "credited": false,
+      "pfd": null,
+      "reason": "no credit — inlet valve HV-B-SIN closed",
+      "applies": true,
+      "argument": "The scenario isolates the EA-425B shell side with heat input during startup (m:S-EA-425B:no:flow), causing pressure rise and tube rupture; the PRV on EA-425B is sized for this overpressure scenario and would relieve pressure before rupture."
+     }
+    ],
+    "mitigated_frequency_per_year": 0.1,
+    "tolerable_per_year": 0.001,
+    "gap": 100.0,
+    "model_call_id": "mc:53a4d98ca54e6d94",
+    "flags": [
+     "task frequency assumed — engineer to confirm"
+    ],
+    "modifiers_not_applied": [
+     {
+      "kind": "ignition_probability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "explosion_given_ignition",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "vulnerability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "time_at_risk",
+      "reason": "no plant fact or rule"
+     }
+    ]
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "lopa:ch:HV-B-SIN.normal_position+HV-B-SOUT.normal_position+L-B-SIN.contents+L-B-SIN.from_id+L-B-SIN.to_id+L-B-SOUT.no_flow+RV-PATH-EA425B.inlet_valve_ids+f:m:S-L-B-SOUT:reverse:flow:super:345133984edf92fd:a08f37899448f932+f:m:S-L-QW-B-IN:other_than:phase:super:7973f11d45e2283f:6f092b4dd2ec8f48",
+   "position": 4,
+   "record": {
+    "id": "lopa:ch:HV-B-SIN.normal_position+HV-B-SOUT.normal_position+L-B-SIN.contents+L-B-SIN.from_id+L-B-SIN.to_id+L-B-SOUT.no_flow+RV-PATH-EA425B.inlet_valve_ids+f:m:S-L-B-SOUT:reverse:flow:super:345133984edf92fd:a08f37899448f932+f:m:S-L-QW-B-IN:other_than:phase:super:7973f11d45e2283f:6f092b4dd2ec8f48",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "target_id": "ch:HV-B-SIN.normal_position+HV-B-SOUT.normal_position+L-B-SIN.contents+L-B-SIN.from_id+L-B-SIN.to_id+L-B-SOUT.no_flow+RV-PATH-EA425B.inlet_valve_ids+f:m:S-L-B-SOUT:reverse:flow:super:345133984edf92fd:a08f37899448f932+f:m:S-L-QW-B-IN:other_than:phase:super:7973f11d45e2283f:6f092b4dd2ec8f48",
+    "severity_class": "S3",
+    "complete": true,
+    "missing_fact_ids": [],
+    "initiating_event_id": null,
+    "initiating_frequency_per_year": 0.1,
+    "frequency_assumed": true,
+    "modifiers": [],
+    "layers": [],
+    "mitigated_frequency_per_year": 0.1,
+    "tolerable_per_year": 0.0001,
+    "gap": 1000.0,
+    "model_call_id": null,
+    "flags": [
+     "frequency assumed — engineer to confirm"
+    ],
+    "modifiers_not_applied": [
+     {
+      "kind": "ignition_probability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "explosion_given_ignition",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "vulnerability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "time_at_risk",
+      "reason": "no plant fact or rule"
+     }
+    ]
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "lopa:ch:HV-QW-A-IN.on_line_id+L-QW-A-IN.from_id+L-QW-A-IN.operating.temperature.normal+L-QW-A-IN.to_id+f:m:S-EA-425A:less:flow:lightning:C12:8415bea03d6aeff2+f:m:S-L-A-SIN:other_than:composition:super:d96ce767f3a03ba5:8415bea03d6aeff2+f:m:S-L-QW-A-IN:other_than:phase:super:3f304222f383d181:0ce1eb86d1d19ceb",
+   "position": 15,
+   "record": {
+    "id": "lopa:ch:HV-QW-A-IN.on_line_id+L-QW-A-IN.from_id+L-QW-A-IN.operating.temperature.normal+L-QW-A-IN.to_id+f:m:S-EA-425A:less:flow:lightning:C12:8415bea03d6aeff2+f:m:S-L-A-SIN:other_than:composition:super:d96ce767f3a03ba5:8415bea03d6aeff2+f:m:S-L-QW-A-IN:other_than:phase:super:3f304222f383d181:0ce1eb86d1d19ceb",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "target_id": "ch:HV-QW-A-IN.on_line_id+L-QW-A-IN.from_id+L-QW-A-IN.operating.temperature.normal+L-QW-A-IN.to_id+f:m:S-EA-425A:less:flow:lightning:C12:8415bea03d6aeff2+f:m:S-L-A-SIN:other_than:composition:super:d96ce767f3a03ba5:8415bea03d6aeff2+f:m:S-L-QW-A-IN:other_than:phase:super:3f304222f383d181:0ce1eb86d1d19ceb",
+    "severity_class": "S2",
+    "complete": true,
+    "missing_fact_ids": [],
+    "initiating_event_id": "IE-TUBE",
+    "initiating_frequency_per_year": 0.001,
+    "frequency_assumed": false,
+    "modifiers": [],
+    "layers": [
+     {
+      "layer_id": "RV-PATH-EA425A",
+      "layer_type": "IPL-PRV",
+      "credited": true,
+      "pfd": 0.1,
+      "reason": "credited at pfd_if_isolatable — inlet valve HV-A-SIN unmanaged",
+      "applies": true,
+      "argument": "The scenario includes overpressure in EA-425A from quench water flashing to steam on the shell side (m:S-L-A-SIN:other_than:composition); the spring-operated PRV on EA-425A is designed for overpressure and would relieve pressure before tube failure."
+     }
+    ],
+    "mitigated_frequency_per_year": 0.0001,
+    "tolerable_per_year": 0.001,
+    "gap": 0.1,
+    "model_call_id": "mc:53a4d98ca54e6d94",
+    "flags": [],
+    "modifiers_not_applied": [
+     {
+      "kind": "ignition_probability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "explosion_given_ignition",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "vulnerability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "time_at_risk",
+      "reason": "no plant fact or rule"
+     }
+    ]
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "lopa:ch:HV-QW-A-OUT.fail_position+HV-QW-A-OUT.kind+L-QW-A-IN.from_id+L-QW-A-IN.operating.temperature.normal+L-QW-A-OUT.components+L-QW-A-OUT.from_id+f:m:S-EA-425A:less:flow:lightning:C12:8415bea03d6aeff2+f:m:S-L-QW-A-OUT:more:pressure:super:C17:126a45a4b13afa1b",
+   "position": 16,
+   "record": {
+    "id": "lopa:ch:HV-QW-A-OUT.fail_position+HV-QW-A-OUT.kind+L-QW-A-IN.from_id+L-QW-A-IN.operating.temperature.normal+L-QW-A-OUT.components+L-QW-A-OUT.from_id+f:m:S-EA-425A:less:flow:lightning:C12:8415bea03d6aeff2+f:m:S-L-QW-A-OUT:more:pressure:super:C17:126a45a4b13afa1b",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "target_id": "ch:HV-QW-A-OUT.fail_position+HV-QW-A-OUT.kind+L-QW-A-IN.from_id+L-QW-A-IN.operating.temperature.normal+L-QW-A-OUT.components+L-QW-A-OUT.from_id+f:m:S-EA-425A:less:flow:lightning:C12:8415bea03d6aeff2+f:m:S-L-QW-A-OUT:more:pressure:super:C17:126a45a4b13afa1b",
+    "severity_class": "S2",
+    "complete": true,
+    "missing_fact_ids": [],
+    "initiating_event_id": "IE-HE-MONTHLY",
+    "initiating_frequency_per_year": 0.1,
+    "frequency_assumed": false,
+    "modifiers": [],
+    "layers": [
+     {
+      "layer_id": "RV-PATH-EA425A",
+      "layer_type": "IPL-PRV",
+      "credited": true,
+      "pfd": 0.1,
+      "reason": "credited at pfd_if_isolatable — inlet valve HV-A-SIN unmanaged",
+      "applies": true,
+      "argument": "The scenario is pressure build-up in the EA-425A tube side due to a closed outlet valve (m:S-L-QW-A-OUT:more:pressure) with continued heat input; the PRV on EA-425A is sized for this overpressure scenario and would open before tube rupture."
+     }
+    ],
+    "mitigated_frequency_per_year": 0.010000000000000002,
+    "tolerable_per_year": 0.001,
+    "gap": 10.000000000000002,
+    "model_call_id": "mc:53a4d98ca54e6d94",
+    "flags": [
+     "task frequency assumed — engineer to confirm"
+    ],
+    "modifiers_not_applied": [
+     {
+      "kind": "ignition_probability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "explosion_given_ignition",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "vulnerability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "time_at_risk",
+      "reason": "no plant fact or rule"
+     }
+    ]
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "lopa:ch:HV-QW-A-OUT.fail_position+HV-QW-A-OUT.kind+L-QW-A-OUT.components+L-QW-A-OUT.from_id+L-QW-A-OUT.to_id+f:m:S-EA-425A:less:flow:lightning:C12:8415bea03d6aeff2+f:m:S-L-QW-A-OUT:as_well_as:composition:super:8723306549fe41a9:8415bea03d6aeff2+f:m:S-L-QW-A-OUT:more:pressure:super:C17:126a45a4b13afa1b",
+   "position": 12,
+   "record": {
+    "id": "lopa:ch:HV-QW-A-OUT.fail_position+HV-QW-A-OUT.kind+L-QW-A-OUT.components+L-QW-A-OUT.from_id+L-QW-A-OUT.to_id+f:m:S-EA-425A:less:flow:lightning:C12:8415bea03d6aeff2+f:m:S-L-QW-A-OUT:as_well_as:composition:super:8723306549fe41a9:8415bea03d6aeff2+f:m:S-L-QW-A-OUT:more:pressure:super:C17:126a45a4b13afa1b",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "target_id": "ch:HV-QW-A-OUT.fail_position+HV-QW-A-OUT.kind+L-QW-A-OUT.components+L-QW-A-OUT.from_id+L-QW-A-OUT.to_id+f:m:S-EA-425A:less:flow:lightning:C12:8415bea03d6aeff2+f:m:S-L-QW-A-OUT:as_well_as:composition:super:8723306549fe41a9:8415bea03d6aeff2+f:m:S-L-QW-A-OUT:more:pressure:super:C17:126a45a4b13afa1b",
+    "severity_class": "S2",
+    "complete": true,
+    "missing_fact_ids": [],
+    "initiating_event_id": "IE-TUBE",
+    "initiating_frequency_per_year": 0.001,
+    "frequency_assumed": false,
+    "modifiers": [],
+    "layers": [
+     {
+      "layer_id": "RV-PATH-EA425A",
+      "layer_type": "IPL-PRV",
+      "credited": false,
+      "pfd": null,
+      "reason": "does not apply: Scenario involves overpressure in quench-water tube side of EA-425A; RV-PATH-EA425A is connected to shell side via HV-A-SIN/HV-A-SOUT and does not protect tube side.",
+      "applies": false,
+      "argument": "Scenario involves overpressure in quench-water tube side of EA-425A; RV-PATH-EA425A is connected to shell side via HV-A-SIN/HV-A-SOUT and does not protect tube side."
+     }
+    ],
+    "mitigated_frequency_per_year": 0.001,
+    "tolerable_per_year": 0.001,
+    "gap": 1.0,
+    "model_call_id": "mc:f3eddff449e2b71e",
+    "flags": [],
+    "modifiers_not_applied": [
+     {
+      "kind": "ignition_probability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "explosion_given_ignition",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "vulnerability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "time_at_risk",
+      "reason": "no plant fact or rule"
+     }
+    ]
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "lopa:ch:L-A-SIN.contents+LOC-OLEFINS-UNIT.description+LOC-OLEFINS-UNIT.indoor+LOC-OLEFINS-UNIT.occupied+f:env:C4-HEAVIES:air:lightning:cda259f9f53fa076:e53bce019995581b+f:m:S-EA-425B:more:temperature:super:C22:e53bce019995581b+f:m:S-L-A-SIN:less:flow:lightning:C20:53694b3a517365b4",
+   "position": 17,
+   "record": {
+    "id": "lopa:ch:L-A-SIN.contents+LOC-OLEFINS-UNIT.description+LOC-OLEFINS-UNIT.indoor+LOC-OLEFINS-UNIT.occupied+f:env:C4-HEAVIES:air:lightning:cda259f9f53fa076:e53bce019995581b+f:m:S-EA-425B:more:temperature:super:C22:e53bce019995581b+f:m:S-L-A-SIN:less:flow:lightning:C20:53694b3a517365b4",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "target_id": "ch:L-A-SIN.contents+LOC-OLEFINS-UNIT.description+LOC-OLEFINS-UNIT.indoor+LOC-OLEFINS-UNIT.occupied+f:env:C4-HEAVIES:air:lightning:cda259f9f53fa076:e53bce019995581b+f:m:S-EA-425B:more:temperature:super:C22:e53bce019995581b+f:m:S-L-A-SIN:less:flow:lightning:C20:53694b3a517365b4",
+    "severity_class": "S4",
+    "complete": false,
+    "missing_fact_ids": [
+     "L-A-SIN.length_m"
+    ],
+    "initiating_event_id": "IE-PIPE-LEAK-L",
+    "initiating_frequency_per_year": null,
+    "frequency_assumed": false,
+    "modifiers": [],
+    "layers": [
+     {
+      "layer_id": "RV-PATH-EA425B",
+      "layer_type": "IPL-PRV",
+      "credited": false,
+      "pfd": null,
+      "reason": "does not apply: The scenario is a piping leak on L-A-SIN releasing hydrocarbons to the Olefins unit (m:S-L-A-SIN:less:flow) with potential ignition; the PRV on EA-425B protects only against overpressure in EA-425B and does not detect or mitigate a piping release or external fire.",
+      "applies": false,
+      "argument": "The scenario is a piping leak on L-A-SIN releasing hydrocarbons to the Olefins unit (m:S-L-A-SIN:less:flow) with potential ignition; the PRV on EA-425B protects only against overpressure in EA-425B and does not detect or mitigate a piping release or external fire."
+     }
+    ],
+    "mitigated_frequency_per_year": null,
+    "tolerable_per_year": 1e-05,
+    "gap": null,
+    "model_call_id": "mc:53a4d98ca54e6d94",
+    "flags": [],
+    "modifiers_not_applied": [
+     {
+      "kind": "ignition_probability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "explosion_given_ignition",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "vulnerability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "time_at_risk",
+      "reason": "no plant fact or rule"
+     }
+    ]
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "lopa:ch:L-QW-B-OUT.to_id+UT-QW.kind+UT-QW.location_id+f:env:PROPYLENE:water:lightning:ff9ae8d70ab3832e:e53bce019995581b+f:m:S-L-QW-A-IN:other_than:composition:super:b94317caa5d133dc:8415bea03d6aeff2+f:m:S-L-QW-A-OUT:as_well_as:composition:super:8723306549fe41a9:8415bea03d6aeff2",
+   "position": 14,
+   "record": {
+    "id": "lopa:ch:L-QW-B-OUT.to_id+UT-QW.kind+UT-QW.location_id+f:env:PROPYLENE:water:lightning:ff9ae8d70ab3832e:e53bce019995581b+f:m:S-L-QW-A-IN:other_than:composition:super:b94317caa5d133dc:8415bea03d6aeff2+f:m:S-L-QW-A-OUT:as_well_as:composition:super:8723306549fe41a9:8415bea03d6aeff2",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "target_id": "ch:L-QW-B-OUT.to_id+UT-QW.kind+UT-QW.location_id+f:env:PROPYLENE:water:lightning:ff9ae8d70ab3832e:e53bce019995581b+f:m:S-L-QW-A-IN:other_than:composition:super:b94317caa5d133dc:8415bea03d6aeff2+f:m:S-L-QW-A-OUT:as_well_as:composition:super:8723306549fe41a9:8415bea03d6aeff2",
+    "severity_class": "S2",
+    "complete": true,
+    "missing_fact_ids": [],
+    "initiating_event_id": "IE-TUBE",
+    "initiating_frequency_per_year": 0.001,
+    "frequency_assumed": true,
+    "modifiers": [],
+    "layers": [
+     {
+      "layer_id": "RV-PATH-EA425A",
+      "layer_type": "IPL-PRV",
+      "credited": false,
+      "pfd": null,
+      "reason": "does not apply: Scenario describes composition deviation and chemical reaction in quench loop, not overpressure; RV-PATH-EA425A is a pressure relief device and does not detect or respond to composition changes.",
+      "applies": false,
+      "argument": "Scenario describes composition deviation and chemical reaction in quench loop, not overpressure; RV-PATH-EA425A is a pressure relief device and does not detect or respond to composition changes."
+     }
+    ],
+    "mitigated_frequency_per_year": 0.001,
+    "tolerable_per_year": 0.001,
+    "gap": 1.0,
+    "model_call_id": "mc:f3eddff449e2b71e",
+    "flags": [
+     "frequency assumed — engineer to confirm"
+    ],
+    "modifiers_not_applied": [
+     {
+      "kind": "ignition_probability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "explosion_given_ignition",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "vulnerability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "time_at_risk",
+      "reason": "no plant fact or rule"
+     }
+    ]
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "lopa:f:m:S-DA-406:as_well_as:composition:lightning:C11:a5eb8f17bb730a62",
+   "position": 10,
+   "record": {
+    "id": "lopa:f:m:S-DA-406:as_well_as:composition:lightning:C11:a5eb8f17bb730a62",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "target_id": "f:m:S-DA-406:as_well_as:composition:lightning:C11:a5eb8f17bb730a62",
+    "severity_class": "S3",
+    "complete": true,
+    "missing_fact_ids": [],
+    "initiating_event_id": "IE-PRV-OPEN",
+    "initiating_frequency_per_year": 0.01,
+    "frequency_assumed": false,
+    "modifiers": [],
+    "layers": [
+     {
+      "layer_id": "SV-421QA",
+      "layer_type": "IPL-PRV",
+      "credited": false,
+      "pfd": null,
+      "reason": "does not apply: The scenario describes premature opening of these relief valves as the cause; they are not a protection layer acting on the deviation.",
+      "applies": false,
+      "argument": "The scenario describes premature opening of these relief valves as the cause; they are not a protection layer acting on the deviation."
+     },
+     {
+      "layer_id": "SV-421QB",
+      "layer_type": "IPL-PRV",
+      "credited": false,
+      "pfd": null,
+      "reason": "does not apply: The scenario describes premature opening of these relief valves as the cause; they are not a protection layer acting on the deviation.",
+      "applies": false,
+      "argument": "The scenario describes premature opening of these relief valves as the cause; they are not a protection layer acting on the deviation."
+     }
+    ],
+    "mitigated_frequency_per_year": 0.01,
+    "tolerable_per_year": 0.0001,
+    "gap": 100.0,
+    "model_call_id": "mc:f3eddff449e2b71e",
+    "flags": [],
+    "modifiers_not_applied": [
+     {
+      "kind": "ignition_probability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "explosion_given_ignition",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "vulnerability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "time_at_risk",
+      "reason": "no plant fact or rule"
+     }
+    ]
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "lopa:f:m:S-EA-425A:less:flow:lightning:C12:8415bea03d6aeff2",
+   "position": 6,
+   "record": {
+    "id": "lopa:f:m:S-EA-425A:less:flow:lightning:C12:8415bea03d6aeff2",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "target_id": "f:m:S-EA-425A:less:flow:lightning:C12:8415bea03d6aeff2",
+    "severity_class": "S2",
+    "complete": true,
+    "missing_fact_ids": [],
+    "initiating_event_id": "IE-TUBE",
+    "initiating_frequency_per_year": 0.001,
+    "frequency_assumed": false,
+    "modifiers": [],
+    "layers": [
+     {
+      "layer_id": "RV-PATH-EA425A",
+      "layer_type": "IPL-PRV",
+      "credited": true,
+      "pfd": 0.1,
+      "reason": "credited at pfd_if_isolatable — inlet valve HV-A-SIN unmanaged",
+      "applies": true,
+      "argument": "The scenario explicitly states the tube rupture can cause water-side overpressure. The relief valve protects EA-425A and is designed for overpressure scenarios, so it would act if overpressure develops."
+     }
+    ],
+    "mitigated_frequency_per_year": 0.0001,
+    "tolerable_per_year": 0.001,
+    "gap": 0.1,
+    "model_call_id": "mc:1cb8a5f1d491f825",
+    "flags": [],
+    "modifiers_not_applied": [
+     {
+      "kind": "ignition_probability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "explosion_given_ignition",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "vulnerability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "time_at_risk",
+      "reason": "no plant fact or rule"
+     }
+    ]
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "lopa:f:m:S-EA-425A:less:flow:lightning:C17:2a0b544cd1cded80",
+   "position": 9,
+   "record": {
+    "id": "lopa:f:m:S-EA-425A:less:flow:lightning:C17:2a0b544cd1cded80",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "target_id": "f:m:S-EA-425A:less:flow:lightning:C17:2a0b544cd1cded80",
+    "severity_class": "S3",
+    "complete": true,
+    "missing_fact_ids": [],
+    "initiating_event_id": "IE-HE-MONTHLY",
+    "initiating_frequency_per_year": 0.1,
+    "frequency_assumed": false,
+    "modifiers": [],
+    "layers": [
+     {
+      "layer_id": "RV-PATH-EA425A",
+      "layer_type": "IPL-PRV",
+      "credited": true,
+      "pfd": 0.1,
+      "reason": "credited at pfd_if_isolatable — inlet valve HV-A-SIN unmanaged",
+      "applies": true,
+      "argument": "The scenario explicitly states pressure may rise toward the design maximum (2068 kPa) due to blocked outlet. This is an overpressure deviation, and the relief valve protects EA-425A for overpressure scenarios."
+     }
+    ],
+    "mitigated_frequency_per_year": 0.010000000000000002,
+    "tolerable_per_year": 0.0001,
+    "gap": 100.00000000000001,
+    "model_call_id": "mc:1cb8a5f1d491f825",
+    "flags": [
+     "task frequency assumed — engineer to confirm"
+    ],
+    "modifiers_not_applied": [
+     {
+      "kind": "ignition_probability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "explosion_given_ignition",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "vulnerability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "time_at_risk",
+      "reason": "no plant fact or rule"
+     }
+    ]
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "lopa:f:m:S-EA-425A:more:flow:super:C22:e53bce019995581b",
+   "position": 8,
+   "record": {
+    "id": "lopa:f:m:S-EA-425A:more:flow:super:C22:e53bce019995581b",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "target_id": "f:m:S-EA-425A:more:flow:super:C22:e53bce019995581b",
+    "severity_class": "S3",
+    "complete": true,
+    "missing_fact_ids": [],
+    "initiating_event_id": "IE-FIRE-S",
+    "initiating_frequency_per_year": 0.1,
+    "frequency_assumed": false,
+    "modifiers": [],
+    "layers": [
+     {
+      "layer_id": "RV-PATH-EA425A",
+      "layer_type": "IPL-PRV",
+      "credited": true,
+      "pfd": 0.1,
+      "reason": "credited at pfd_if_isolatable — inlet valve HV-A-SIN unmanaged",
+      "applies": true,
+      "argument": "The scenario states external fire generates additional vapor causing overpressure, with vapor flowing out through relief valves. The relief valve protects EA-425A and acts on overpressure."
+     }
+    ],
+    "mitigated_frequency_per_year": 0.010000000000000002,
+    "tolerable_per_year": 0.0001,
+    "gap": 100.00000000000001,
+    "model_call_id": "mc:1cb8a5f1d491f825",
+    "flags": [],
+    "modifiers_not_applied": [
+     {
+      "kind": "ignition_probability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "explosion_given_ignition",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "vulnerability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "time_at_risk",
+      "reason": "no plant fact or rule"
+     }
+    ]
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "lopa:f:m:S-EA-425B:as_well_as:composition:super:C12:b3d32268f909ddb3",
+   "position": 5,
+   "record": {
+    "id": "lopa:f:m:S-EA-425B:as_well_as:composition:super:C12:b3d32268f909ddb3",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "target_id": "f:m:S-EA-425B:as_well_as:composition:super:C12:b3d32268f909ddb3",
+    "severity_class": "S3",
+    "complete": true,
+    "missing_fact_ids": [],
+    "initiating_event_id": "IE-TUBE",
+    "initiating_frequency_per_year": 0.001,
+    "frequency_assumed": false,
+    "modifiers": [],
+    "layers": [
+     {
+      "layer_id": "RV-PATH-EA425B",
+      "layer_type": "IPL-PRV",
+      "credited": false,
+      "pfd": null,
+      "reason": "does not apply: The scenario is a tube rupture causing cross-contamination between process and quench water streams, not an overpressure deviation. The relief valve acts on overpressure, not on tube rupture or contamination.",
+      "applies": false,
+      "argument": "The scenario is a tube rupture causing cross-contamination between process and quench water streams, not an overpressure deviation. The relief valve acts on overpressure, not on tube rupture or contamination."
+     }
+    ],
+    "mitigated_frequency_per_year": 0.001,
+    "tolerable_per_year": 0.0001,
+    "gap": 10.0,
+    "model_call_id": "mc:1cb8a5f1d491f825",
+    "flags": [],
+    "modifiers_not_applied": [
+     {
+      "kind": "ignition_probability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "explosion_given_ignition",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "vulnerability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "time_at_risk",
+      "reason": "no plant fact or rule"
+     }
+    ]
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "lopa:f:m:S-EA-425B:more:temperature:super:C22:e53bce019995581b",
+   "position": 7,
+   "record": {
+    "id": "lopa:f:m:S-EA-425B:more:temperature:super:C22:e53bce019995581b",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "target_id": "f:m:S-EA-425B:more:temperature:super:C22:e53bce019995581b",
+    "severity_class": "S4",
+    "complete": true,
+    "missing_fact_ids": [],
+    "initiating_event_id": "IE-FIRE-S",
+    "initiating_frequency_per_year": 0.1,
+    "frequency_assumed": false,
+    "modifiers": [],
+    "layers": [
+     {
+      "layer_id": "RV-PATH-EA425B",
+      "layer_type": "IPL-PRV",
+      "credited": false,
+      "pfd": null,
+      "reason": "no credit — inlet valve HV-B-SIN closed",
+      "applies": true,
+      "argument": "The scenario describes external fire causing overpressure in EA-425B. The relief valve protects EA-425B and is designed for overpressure, directly addressing this deviation."
+     }
+    ],
+    "mitigated_frequency_per_year": 0.1,
+    "tolerable_per_year": 1e-05,
+    "gap": 10000.0,
+    "model_call_id": "mc:1cb8a5f1d491f825",
+    "flags": [],
+    "modifiers_not_applied": [
+     {
+      "kind": "ignition_probability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "explosion_given_ignition",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "vulnerability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "time_at_risk",
+      "reason": "no plant fact or rule"
+     }
+    ]
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "lopa:f:m:S-L-A-SIN:less:flow:lightning:C20:53694b3a517365b4",
+   "position": 1,
+   "record": {
+    "id": "lopa:f:m:S-L-A-SIN:less:flow:lightning:C20:53694b3a517365b4",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "target_id": "f:m:S-L-A-SIN:less:flow:lightning:C20:53694b3a517365b4",
+    "severity_class": "S3",
+    "complete": false,
+    "missing_fact_ids": [
+     "L-A-SIN.length_m"
+    ],
+    "initiating_event_id": "IE-PIPE-LEAK-L",
+    "initiating_frequency_per_year": null,
+    "frequency_assumed": false,
+    "modifiers": [],
+    "layers": [],
+    "mitigated_frequency_per_year": null,
+    "tolerable_per_year": 0.0001,
+    "gap": null,
+    "model_call_id": null,
+    "flags": [],
+    "modifiers_not_applied": [
+     {
+      "kind": "ignition_probability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "explosion_given_ignition",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "vulnerability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "time_at_risk",
+      "reason": "no plant fact or rule"
+     }
+    ]
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "lopa:f:m:S-L-A-SIN:no:flow:super:C23:e53bce019995581b",
+   "position": 3,
+   "record": {
+    "id": "lopa:f:m:S-L-A-SIN:no:flow:super:C23:e53bce019995581b",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "target_id": "f:m:S-L-A-SIN:no:flow:super:C23:e53bce019995581b",
+    "severity_class": "S4",
+    "complete": true,
+    "missing_fact_ids": [],
+    "initiating_event_id": "IE-IMPACT",
+    "initiating_frequency_per_year": 0.01,
+    "frequency_assumed": false,
+    "modifiers": [],
+    "layers": [],
+    "mitigated_frequency_per_year": 0.01,
+    "tolerable_per_year": 1e-05,
+    "gap": 999.9999999999999,
+    "model_call_id": null,
+    "flags": [],
+    "modifiers_not_applied": [
+     {
+      "kind": "ignition_probability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "explosion_given_ignition",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "vulnerability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "time_at_risk",
+      "reason": "no plant fact or rule"
+     }
+    ]
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "lopa:f:m:S-L-QW-A-IN:more:pressure:lightning:C22:e53bce019995581b",
+   "position": 2,
+   "record": {
+    "id": "lopa:f:m:S-L-QW-A-IN:more:pressure:lightning:C22:e53bce019995581b",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "target_id": "f:m:S-L-QW-A-IN:more:pressure:lightning:C22:e53bce019995581b",
+    "severity_class": "S4",
+    "complete": true,
+    "missing_fact_ids": [],
+    "initiating_event_id": "IE-FIRE-S",
+    "initiating_frequency_per_year": 0.1,
+    "frequency_assumed": false,
+    "modifiers": [],
+    "layers": [],
+    "mitigated_frequency_per_year": 0.1,
+    "tolerable_per_year": 1e-05,
+    "gap": 10000.0,
+    "model_call_id": null,
+    "flags": [],
+    "modifiers_not_applied": [
+     {
+      "kind": "ignition_probability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "explosion_given_ignition",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "vulnerability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "time_at_risk",
+      "reason": "no plant fact or rule"
+     }
+    ]
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "lopa:f:proc:P-REB-START-2:early:super:C16:126a45a4b13afa1b",
+   "position": 0,
+   "record": {
+    "id": "lopa:f:proc:P-REB-START-2:early:super:C16:126a45a4b13afa1b",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "target_id": "f:proc:P-REB-START-2:early:super:C16:126a45a4b13afa1b",
+    "severity_class": "S3",
+    "complete": true,
+    "missing_fact_ids": [],
+    "initiating_event_id": "IE-HE-MONTHLY",
+    "initiating_frequency_per_year": 0.1,
+    "frequency_assumed": false,
+    "modifiers": [],
+    "layers": [],
+    "mitigated_frequency_per_year": 0.1,
+    "tolerable_per_year": 0.0001,
+    "gap": 1000.0,
+    "model_call_id": null,
+    "flags": [
+     "task frequency assumed — engineer to confirm"
+    ],
+    "modifiers_not_applied": [
+     {
+      "kind": "ignition_probability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "explosion_given_ignition",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "vulnerability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "time_at_risk",
+      "reason": "no plant fact or rule"
+     }
+    ]
+   }
+  }
+ ]
+}

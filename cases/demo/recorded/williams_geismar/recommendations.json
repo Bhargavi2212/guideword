@@ -1,0 +1,187 @@
+{
+ "table": "recommendations",
+ "rows": [
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "rec:ch:EA-425B.design_pressure_kpa+EA-425B.heat_sources+HV-B-SIN.normal_position+HV-B-SOUT.normal_position+HV-QW-B-IN.normal_position+HV-QW-B-OUT.normal_position+RV-PATH-EA425B.inlet_valve_ids+f:m:S-EA-425B:as_well_as:composition:super:C12:b3d32268f909ddb3+f:proc:P-REB-START-2:early:super:C16:126a45a4b13afa1b:4a44f89c8f90d882",
+   "position": 1,
+   "record": {
+    "id": "rec:ch:EA-425B.design_pressure_kpa+EA-425B.heat_sources+HV-B-SIN.normal_position+HV-B-SOUT.normal_position+HV-QW-B-IN.normal_position+HV-QW-B-OUT.normal_position+RV-PATH-EA425B.inlet_valve_ids+f:m:S-EA-425B:as_well_as:composition:super:C12:b3d32268f909ddb3+f:proc:P-REB-START-2:early:super:C16:126a45a4b13afa1b:4a44f89c8f90d882",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "target_id": "ch:EA-425B.design_pressure_kpa+EA-425B.heat_sources+HV-B-SIN.normal_position+HV-B-SOUT.normal_position+HV-QW-B-IN.normal_position+HV-QW-B-OUT.normal_position+RV-PATH-EA425B.inlet_valve_ids+f:m:S-EA-425B:as_well_as:composition:super:C12:b3d32268f909ddb3+f:proc:P-REB-START-2:early:super:C16:126a45a4b13afa1b",
+    "action": "Add an interlock on HV-QW-B-IN and HV-QW-B-OUT that prevents opening unless HV-B-SIN and HV-B-SOUT are both confirmed open.",
+    "reason": "The scenario occurs when quench water valves open early per proc:P-REB-START-2 while shell-side block valves remain closed, isolating the relief path. An engineered interlock directly prevents the out-of-sequence operation that defeats RV-PATH-EA425B, preferred over procedure revision alone.",
+    "model_call_id": "mc:2939ccafc3d01b8e"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "rec:ch:EA-425B.heat_sources+HV-QW-B-IN.normal_position+HV-QW-B-OUT.normal_position+L-QW-B-OUT.no_flow+L-QW-B-OUT.to_id+f:m:S-EA-425B:as_well_as:composition:super:C12:b3d32268f909ddb3+f:m:S-L-QW-B-IN:other_than:composition:super:914c7bdc8d006e9c:b3d32268f909ddb3+f:m:S-L-QW-B-OUT:as_well_as:composition:super:110cc327ced3d481:b3d32268f909ddb3:09d1720639a60351",
+   "position": 9,
+   "record": {
+    "id": "rec:ch:EA-425B.heat_sources+HV-QW-B-IN.normal_position+HV-QW-B-OUT.normal_position+L-QW-B-OUT.no_flow+L-QW-B-OUT.to_id+f:m:S-EA-425B:as_well_as:composition:super:C12:b3d32268f909ddb3+f:m:S-L-QW-B-IN:other_than:composition:super:914c7bdc8d006e9c:b3d32268f909ddb3+f:m:S-L-QW-B-OUT:as_well_as:composition:super:110cc327ced3d481:b3d32268f909ddb3:09d1720639a60351",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "target_id": "ch:EA-425B.heat_sources+HV-QW-B-IN.normal_position+HV-QW-B-OUT.normal_position+L-QW-B-OUT.no_flow+L-QW-B-OUT.to_id+f:m:S-EA-425B:as_well_as:composition:super:C12:b3d32268f909ddb3+f:m:S-L-QW-B-IN:other_than:composition:super:914c7bdc8d006e9c:b3d32268f909ddb3+f:m:S-L-QW-B-OUT:as_well_as:composition:super:110cc327ced3d481:b3d32268f909ddb3",
+    "action": "Install a hydrocarbon detector on quench-water inlet line L-QW-B-IN with an automatic trip that closes HV-QW-B-IN and HV-QW-B-OUT and raises an alarm on detection of hydrocarbons.",
+    "reason": "The PRV RV-PATH-EA425B does not protect against composition change in the quench loop; detecting hydrocarbons and isolating the quench loop prevents accumulation of flammable mixture after a tube rupture.",
+    "model_call_id": "mc:c7433aa7c5a40c23"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "rec:ch:HV-A-SIN.normal_position+HV-A-SOUT.normal_position+RV-PATH-EA425A.inlet_valve_ids+SV-421QA.protects_id+SV-421QB.protects_id+f:m:S-EA-425B:more:temperature:super:C22:e53bce019995581b+f:m:S-L-A-SOUT:reverse:flow:super:d96e945a65e57280:e8d47871d4a47f89+f:m:S-L-QW-A-IN:more:pressure:lightning:C22:e53bce019995581b:0133b8393b6a027c",
+   "position": 2,
+   "record": {
+    "id": "rec:ch:HV-A-SIN.normal_position+HV-A-SOUT.normal_position+RV-PATH-EA425A.inlet_valve_ids+SV-421QA.protects_id+SV-421QB.protects_id+f:m:S-EA-425B:more:temperature:super:C22:e53bce019995581b+f:m:S-L-A-SOUT:reverse:flow:super:d96e945a65e57280:e8d47871d4a47f89+f:m:S-L-QW-A-IN:more:pressure:lightning:C22:e53bce019995581b:0133b8393b6a027c",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "target_id": "ch:HV-A-SIN.normal_position+HV-A-SOUT.normal_position+RV-PATH-EA425A.inlet_valve_ids+SV-421QA.protects_id+SV-421QB.protects_id+f:m:S-EA-425B:more:temperature:super:C22:e53bce019995581b+f:m:S-L-A-SOUT:reverse:flow:super:d96e945a65e57280:e8d47871d4a47f89+f:m:S-L-QW-A-IN:more:pressure:lightning:C22:e53bce019995581b",
+    "action": "Install a check valve in line L-A-SOUT to prevent reverse flow from DA-406 into EA-425A when SV-421QA/QB fail to open.",
+    "reason": "The gap arises because DA-406 overpressure pushes liquid/vapor back through L-A-SOUT into EA-425A when its relief valves fail. A check valve in L-A-SOUT directly blocks the backflow path, addressing the consequence independent of the fire cause or relief valve reliability.",
+    "model_call_id": "mc:2939ccafc3d01b8e"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "rec:ch:HV-B-SIN.normal_position+HV-B-SOUT.normal_position+HV-QW-B-IN.normal_position+HV-QW-B-OUT.normal_position+P-REB-START-1.equipment_ids+P-REB-START-1.valve_ids+P-REB-START-2.text+P-REB-START-2.valve_ids+f:m:S-EA-425B:as_well_as:composition:super:C12:b3d32268f909ddb3+f:m:S-EA-425B:no:flow:super:C15:2a0b544cd1cded80:ec3fe7fdf41b04a8",
+   "position": 6,
+   "record": {
+    "id": "rec:ch:HV-B-SIN.normal_position+HV-B-SOUT.normal_position+HV-QW-B-IN.normal_position+HV-QW-B-OUT.normal_position+P-REB-START-1.equipment_ids+P-REB-START-1.valve_ids+P-REB-START-2.text+P-REB-START-2.valve_ids+f:m:S-EA-425B:as_well_as:composition:super:C12:b3d32268f909ddb3+f:m:S-EA-425B:no:flow:super:C15:2a0b544cd1cded80:ec3fe7fdf41b04a8",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "target_id": "ch:HV-B-SIN.normal_position+HV-B-SOUT.normal_position+HV-QW-B-IN.normal_position+HV-QW-B-OUT.normal_position+P-REB-START-1.equipment_ids+P-REB-START-1.valve_ids+P-REB-START-2.text+P-REB-START-2.valve_ids+f:m:S-EA-425B:as_well_as:composition:super:C12:b3d32268f909ddb3+f:m:S-EA-425B:no:flow:super:C15:2a0b544cd1cded80",
+    "action": "Add a valve-position interlock (limit switches) that prevents opening quench-water valves HV-QW-B-IN and HV-QW-B-OUT unless process-side valves HV-B-SIN and HV-B-SOUT are confirmed open, and include this interlock in P-REB-START-2.",
+    "reason": "The relief valve RV-PATH-EA425B is not credited because inlet valve HV-B-SIN is closed; the interlock eliminates the operator error that leaves process valves closed while heat is applied.",
+    "model_call_id": "mc:c7433aa7c5a40c23"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "rec:ch:HV-B-SIN.normal_position+HV-B-SOUT.normal_position+L-B-SIN.contents+L-B-SIN.from_id+L-B-SIN.to_id+L-B-SOUT.no_flow+RV-PATH-EA425B.inlet_valve_ids+f:m:S-L-B-SOUT:reverse:flow:super:345133984edf92fd:a08f37899448f932+f:m:S-L-QW-B-IN:other_than:phase:super:7973f11d45e2283f:6f092b4dd2ec8f48:9f1f043b4aeab3f1",
+   "position": 12,
+   "record": {
+    "id": "rec:ch:HV-B-SIN.normal_position+HV-B-SOUT.normal_position+L-B-SIN.contents+L-B-SIN.from_id+L-B-SIN.to_id+L-B-SOUT.no_flow+RV-PATH-EA425B.inlet_valve_ids+f:m:S-L-B-SOUT:reverse:flow:super:345133984edf92fd:a08f37899448f932+f:m:S-L-QW-B-IN:other_than:phase:super:7973f11d45e2283f:6f092b4dd2ec8f48:9f1f043b4aeab3f1",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "target_id": "ch:HV-B-SIN.normal_position+HV-B-SOUT.normal_position+L-B-SIN.contents+L-B-SIN.from_id+L-B-SIN.to_id+L-B-SOUT.no_flow+RV-PATH-EA425B.inlet_valve_ids+f:m:S-L-B-SOUT:reverse:flow:super:345133984edf92fd:a08f37899448f932+f:m:S-L-QW-B-IN:other_than:phase:super:7973f11d45e2283f:6f092b4dd2ec8f48",
+    "action": "Install a check valve on line L‑B‑SIN (DA‑406 to EA‑425B) to block reverse flow into the standby reboiler shell.",
+    "reason": "Closed HV‑B‑SIN/SOUT block the relief path; a check valve directly stops the reverse flow that overfills EA‑425B.",
+    "model_call_id": "mc:07f3f1e3e3e4caaa"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "rec:ch:HV-QW-A-OUT.fail_position+HV-QW-A-OUT.kind+L-QW-A-IN.from_id+L-QW-A-IN.operating.temperature.normal+L-QW-A-OUT.components+L-QW-A-OUT.from_id+f:m:S-EA-425A:less:flow:lightning:C12:8415bea03d6aeff2+f:m:S-L-QW-A-OUT:more:pressure:super:C17:126a45a4b13afa1b:32e4fab09ebfe991",
+   "position": 8,
+   "record": {
+    "id": "rec:ch:HV-QW-A-OUT.fail_position+HV-QW-A-OUT.kind+L-QW-A-IN.from_id+L-QW-A-IN.operating.temperature.normal+L-QW-A-OUT.components+L-QW-A-OUT.from_id+f:m:S-EA-425A:less:flow:lightning:C12:8415bea03d6aeff2+f:m:S-L-QW-A-OUT:more:pressure:super:C17:126a45a4b13afa1b:32e4fab09ebfe991",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "target_id": "ch:HV-QW-A-OUT.fail_position+HV-QW-A-OUT.kind+L-QW-A-IN.from_id+L-QW-A-IN.operating.temperature.normal+L-QW-A-OUT.components+L-QW-A-OUT.from_id+f:m:S-EA-425A:less:flow:lightning:C12:8415bea03d6aeff2+f:m:S-L-QW-A-OUT:more:pressure:super:C17:126a45a4b13afa1b",
+    "action": "Fit a valve-position interlock (limit switches) on HV-QW-A-OUT and HV-QW-A-IN so that HV-QW-A-IN cannot be opened unless HV-QW-A-OUT is verified open, and add a check in P-REB-START-2 confirming HV-QW-A-OUT open.",
+    "reason": "The relief valve RV-PATH-EA425A is only credited if HV-A-SIN is managed; the root cause is closing HV-QW-A-OUT while heat continues, so preventing that closure removes the overpressure driver.",
+    "model_call_id": "mc:c7433aa7c5a40c23"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "rec:f:m:S-DA-406:as_well_as:composition:lightning:C11:a5eb8f17bb730a62:57e307b8fa3d7df4",
+   "position": 7,
+   "record": {
+    "id": "rec:f:m:S-DA-406:as_well_as:composition:lightning:C11:a5eb8f17bb730a62:57e307b8fa3d7df4",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "target_id": "f:m:S-DA-406:as_well_as:composition:lightning:C11:a5eb8f17bb730a62",
+    "action": "Install an independent high-pressure trip on column DA-406 (new pressure transmitter PT-DA-406) that automatically closes quench-water inlet valves HV-QW-A-IN and HV-QW-B-IN when column pressure exceeds a set point below the relief valve set pressure.",
+    "reason": "The scenario’s cause is premature opening of relief valves SV-421QA/QB; an independent trip stops heat input before the relief valves can open, addressing the hazard directly.",
+    "model_call_id": "mc:c7433aa7c5a40c23"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "rec:f:m:S-EA-425A:less:flow:lightning:C17:2a0b544cd1cded80:221f8e9118540ea8",
+   "position": 5,
+   "record": {
+    "id": "rec:f:m:S-EA-425A:less:flow:lightning:C17:2a0b544cd1cded80:221f8e9118540ea8",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "target_id": "f:m:S-EA-425A:less:flow:lightning:C17:2a0b544cd1cded80",
+    "action": "Install a key-lock open (car-seal) on manual block valve HV-A-SIN and add a verification step in procedure P-REB-START-1 to confirm HV-A-SIN is open before reboiler startup.",
+    "reason": "The credited relief valve RV-PATH-EA425A only works if inlet valve HV-A-SIN is open; it is currently unmanaged, so securing HV-A-SIN open removes the cause of low flow and enables the relief valve.",
+    "model_call_id": "mc:c7433aa7c5a40c23"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "rec:f:m:S-EA-425A:more:flow:super:C22:e53bce019995581b:5d8fa86c59873db9",
+   "position": 4,
+   "record": {
+    "id": "rec:f:m:S-EA-425A:more:flow:super:C22:e53bce019995581b:5d8fa86c59873db9",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "target_id": "f:m:S-EA-425A:more:flow:super:C22:e53bce019995581b",
+    "action": "Lock open HV-A-SIN (or add it to the managed valve program with position monitoring) to match HV-A-SOUT which is already locked open.",
+    "reason": "RV-PATH-EA425A is credited but only at pfd_if_isolatable because HV-A-SIN is unmanaged. Locking it open or managing its position ensures the relief path remains available during external fire, closing the gap without adding new equipment.",
+    "model_call_id": "mc:2939ccafc3d01b8e"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "rec:f:m:S-EA-425B:as_well_as:composition:super:C12:b3d32268f909ddb3:5240a9a92230bc55",
+   "position": 10,
+   "record": {
+    "id": "rec:f:m:S-EA-425B:as_well_as:composition:super:C12:b3d32268f909ddb3:5240a9a92230bc55",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "target_id": "f:m:S-EA-425B:as_well_as:composition:super:C12:b3d32268f909ddb3",
+    "action": "Install a tube‑rupture detection system (differential pressure transmitter) on heat exchanger EA‑425B with automatic closure of its process‑side and quench‑water isolation valves.",
+    "reason": "The existing relief valve RV‑PATH‑EA425B only addresses overpressure, not tube rupture; detection and isolation directly prevents cross‑contamination.",
+    "model_call_id": "mc:07f3f1e3e3e4caaa"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "rec:f:m:S-EA-425B:more:temperature:super:C22:e53bce019995581b:a2f458a625e14499",
+   "position": 0,
+   "record": {
+    "id": "rec:f:m:S-EA-425B:more:temperature:super:C22:e53bce019995581b:a2f458a625e14499",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "target_id": "f:m:S-EA-425B:more:temperature:super:C22:e53bce019995581b",
+    "action": "Install a dedicated thermal relief valve on EA-425B shell side independent of HV-B-SIN and HV-B-SOUT, or add HV-B-SIN and HV-B-SOUT to the managed valve program locked open when EA-425B is in service.",
+    "reason": "RV-PATH-EA425B is not credited because its inlet valves HV-B-SIN and HV-B-SOUT are closed, leaving the exchanger with no relief path during external fire. A local relief valve or managed open block valves removes the isolation that defeats the existing relief path.",
+    "model_call_id": "mc:2939ccafc3d01b8e"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "rec:f:m:S-L-A-SIN:no:flow:super:C23:e53bce019995581b:d6f668f85ca1982f",
+   "position": 13,
+   "record": {
+    "id": "rec:f:m:S-L-A-SIN:no:flow:super:C23:e53bce019995581b:d6f668f85ca1982f",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "target_id": "f:m:S-L-A-SIN:no:flow:super:C23:e53bce019995581b",
+    "action": "Erect vehicle‑impact barriers (bollards/guardrails) around line S‑L‑A‑SIN in LOC‑OLEFINS‑UNIT.",
+    "reason": "No layer addresses vehicle impact; a physical barrier removes the cause of line rupture.",
+    "model_call_id": "mc:07f3f1e3e3e4caaa"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "rec:f:m:S-L-QW-A-IN:more:pressure:lightning:C22:e53bce019995581b:7675fd3d5d17cc96",
+   "position": 11,
+   "record": {
+    "id": "rec:f:m:S-L-QW-A-IN:more:pressure:lightning:C22:e53bce019995581b:7675fd3d5d17cc96",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "target_id": "f:m:S-L-QW-A-IN:more:pressure:lightning:C22:e53bce019995581b",
+    "action": "Provide a dedicated, pilot‑operated relief valve on reboiler EA‑425A (RV‑PATH‑EA425A) with independent actuation and ensure its inlet valves are locked open for fire scenarios.",
+    "reason": "No protection layer exists for external fire; an independent engineered relief valve gives reliable overpressure protection.",
+    "model_call_id": "mc:07f3f1e3e3e4caaa"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "rec:f:proc:P-REB-START-2:early:super:C16:126a45a4b13afa1b:154c3f7dd9a19953",
+   "position": 3,
+   "record": {
+    "id": "rec:f:proc:P-REB-START-2:early:super:C16:126a45a4b13afa1b:154c3f7dd9a19953",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "target_id": "f:proc:P-REB-START-2:early:super:C16:126a45a4b13afa1b",
+    "action": "Revise procedure P-REB-START-2 to add a mandatory hold point with independent verification that HV-B-SIN and HV-B-SOUT are open before opening HV-QW-B-IN/HV-QW-B-OUT, and install a local shell-side pressure alarm that activates if quench water flow starts while block valves are closed.",
+    "reason": "This target has zero protection layers against the procedural error of opening quench water early. The procedure revision adds a procedural barrier with verification, and the pressure alarm provides an engineered detection layer that alerts operators to the hazardous condition before overpressure.",
+    "model_call_id": "mc:2939ccafc3d01b8e"
+   }
+  }
+ ]
+}

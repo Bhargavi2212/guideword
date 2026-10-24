@@ -1,0 +1,2170 @@
+{
+ "table": "agent_steps",
+ "rows": [
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:029cc07e52cf0d81",
+   "position": 24,
+   "record": {
+    "id": "step:029cc07e52cf0d81",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:47fc2e5e084a27a6",
+    "agent": "process",
+    "tool": "answer",
+    "arguments": {
+     "question_ids": [
+      "m:S-EA-425B:more:pressure",
+      "m:S-EA-425B:more:temperature",
+      "m:S-EA-425B:no:flow",
+      "m:S-EA-425B:other_than:composition",
+      "m:S-EA-425B:reverse:flow"
+     ],
+     "level": "bulk"
+    },
+    "reason": "answered 1 of 5 questions",
+    "model_call_id": "mc:ff5d458992498e25"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:03894ade4c4abf34",
+   "position": 84,
+   "record": {
+    "id": "step:03894ade4c4abf34",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:f8b7731bd0840db7",
+    "agent": "process",
+    "tool": "answer",
+    "arguments": {
+     "question_ids": [
+      "m:S-L-QW-B-IN:as_well_as:composition",
+      "m:S-L-QW-B-IN:less:flow",
+      "m:S-L-QW-B-IN:less:pressure",
+      "m:S-L-QW-B-IN:less:temperature",
+      "m:S-L-QW-B-IN:more:flow"
+     ],
+     "level": "hard"
+    },
+    "reason": "answered 5 of 5 questions",
+    "model_call_id": "mc:96e0c33fadf8c36b"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:05c964a4e93ff6c6",
+   "position": 50,
+   "record": {
+    "id": "step:05c964a4e93ff6c6",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:81c8f5db0868fb65",
+    "agent": "piping",
+    "tool": "answer",
+    "arguments": {
+     "question_ids": [
+      "nf:L-QW-B-OUT"
+     ],
+     "level": "hard"
+    },
+    "reason": "answered 1 of 1 questions",
+    "model_call_id": "mc:398260cb15201976"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:06b29dd40688acad",
+   "position": 0,
+   "record": {
+    "id": "step:06b29dd40688acad",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "run:76f8ee0b5d1f078e",
+    "agent": "orchestrator",
+    "tool": "dispatch_specialist",
+    "arguments": {
+     "reason": "Chemistry questions linked to all top priority hazards (ranks 1-12); address them first with priority routing",
+     "agent": "chemistry",
+     "level": "bulk",
+     "priority": true
+    },
+    "reason": "Chemistry questions linked to all top priority hazards (ranks 1-12); address them first with priority routing",
+    "model_call_id": "mc:9bdb297c8593d865"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:0900784d281a8ae5",
+   "position": 51,
+   "record": {
+    "id": "step:0900784d281a8ae5",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:81c8f5db0868fb65",
+    "agent": "orchestrator",
+    "tool": "dispatch_specialist",
+    "arguments": {
+     "reason": "74 open process questions linked to priority hazards ranks 2, 5, 6, 7, 12; dispatch process specialist with priority routing to address highest-risk deviations first",
+     "agent": "process",
+     "level": "bulk",
+     "priority": true
+    },
+    "reason": "74 open process questions linked to priority hazards ranks 2, 5, 6, 7, 12; dispatch process specialist with priority routing to address highest-risk deviations first",
+    "model_call_id": "mc:d5f1da43d78e5ed4"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:0dc6733be0b824c9",
+   "position": 4,
+   "record": {
+    "id": "step:0dc6733be0b824c9",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:109c3d3c38d967e9",
+    "agent": "chemistry",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "PROPANE",
+     "chemical_b": "water"
+    },
+    "reason": "reactivity_lookup {\"chemical_a\": \"PROPANE\", \"chemical_b\": \"water\"}",
+    "model_call_id": "mc:88179be11dee7aa7"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:0fa6bfe9327977cd",
+   "position": 33,
+   "record": {
+    "id": "step:0fa6bfe9327977cd",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:47fc2e5e084a27a6",
+    "agent": "process",
+    "tool": "answer",
+    "arguments": {
+     "question_ids": [
+      "m:S-EA-425A:as_well_as:composition",
+      "m:S-EA-425A:less:flow",
+      "m:S-EA-425A:less:pressure",
+      "m:S-EA-425A:less:temperature",
+      "m:S-EA-425A:more:flow"
+     ],
+     "level": "bulk"
+    },
+    "reason": "answered 2 of 5 questions",
+    "model_call_id": "mc:0cd3beb5fe5cfd58"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:104edc6a39185abd",
+   "position": 5,
+   "record": {
+    "id": "step:104edc6a39185abd",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:5b2b46f993da0796",
+    "agent": "chemistry",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "PROPANE",
+     "chemical_b": "PROPANE"
+    },
+    "reason": "reactivity_lookup {\"chemical_a\": \"PROPANE\", \"chemical_b\": \"PROPANE\"}",
+    "model_call_id": "mc:8eb7010c900256d9"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:109c3d3c38d967e9",
+   "position": 3,
+   "record": {
+    "id": "step:109c3d3c38d967e9",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:5b2b46f993da0796",
+    "agent": "chemistry",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "PROPANE",
+     "chemical_b": "air"
+    },
+    "reason": "reactivity_lookup {\"chemical_a\": \"PROPANE\", \"chemical_b\": \"air\"}",
+    "model_call_id": "mc:c429a3710bb0da3b"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:10d8822d645005f2",
+   "position": 71,
+   "record": {
+    "id": "step:10d8822d645005f2",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:2b648cc26de58fa9",
+    "agent": "process",
+    "tool": "answer",
+    "arguments": {
+     "question_ids": [
+      "m:S-L-QW-B-IN:part_of:composition",
+      "m:S-L-QW-B-IN:reverse:flow"
+     ],
+     "level": "bulk"
+    },
+    "reason": "answered 1 of 2 questions",
+    "model_call_id": "mc:43303f2da0a30413"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:1450fcc3fde9200f",
+   "position": 69,
+   "record": {
+    "id": "step:1450fcc3fde9200f",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:628484febe8f174a",
+    "agent": "orchestrator",
+    "tool": "dispatch_specialist",
+    "arguments": {
+     "reason": "Retry 5 failed S-DA-406 process questions at hard level; they failed at bulk and still block completion",
+     "agent": "process",
+     "level": "hard",
+     "question_ids": [
+      "m:S-DA-406:less:flow",
+      "m:S-DA-406:less:level",
+      "m:S-DA-406:less:pressure",
+      "m:S-DA-406:less:temperature",
+      "m:S-DA-406:more:level"
+     ]
+    },
+    "reason": "Retry 5 failed S-DA-406 process questions at hard level; they failed at bulk and still block completion",
+    "model_call_id": "mc:a3a9050f2e24aedf"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:165abb5605f88ad3",
+   "position": 58,
+   "record": {
+    "id": "step:165abb5605f88ad3",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:0900784d281a8ae5",
+    "agent": "process",
+    "tool": "answer",
+    "arguments": {
+     "question_ids": [
+      "m:S-L-A-SOUT:more:pressure",
+      "m:S-L-A-SOUT:more:temperature",
+      "m:S-L-A-SOUT:no:flow",
+      "m:S-L-A-SOUT:other_than:composition",
+      "m:S-L-A-SOUT:other_than:phase"
+     ],
+     "level": "bulk"
+    },
+    "reason": "answered 5 of 5 questions",
+    "model_call_id": "mc:2d76683fcaee9ce8"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:16c5ec3dbf35e980",
+   "position": 6,
+   "record": {
+    "id": "step:16c5ec3dbf35e980",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:104edc6a39185abd",
+    "agent": "chemistry",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "PROPANE",
+     "chemical_b": "PROPANE"
+    },
+    "reason": "reactivity_lookup {\"chemical_a\": \"PROPANE\", \"chemical_b\": \"PROPANE\"}",
+    "model_call_id": "mc:af3fb5652cfeed4c"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:205cd003b4f0484d",
+   "position": 103,
+   "record": {
+    "id": "step:205cd003b4f0484d",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:c0ae7d4a02af0ea6",
+    "agent": "evidence",
+    "tool": "search_precedent",
+    "arguments": {
+     "target_id": "f:m:S-EA-425A:more:flow:super:C22:e53bce019995581b"
+    },
+    "reason": "code: precedent index search",
+    "model_call_id": null
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:21e27352bfe98bbc",
+   "position": 47,
+   "record": {
+    "id": "step:21e27352bfe98bbc",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:81c8f5db0868fb65",
+    "agent": "piping",
+    "tool": "answer",
+    "arguments": {
+     "question_ids": [
+      "nf:L-B-SIN"
+     ],
+     "level": "hard"
+    },
+    "reason": "answered 1 of 1 questions",
+    "model_call_id": "mc:e849fe7d1109f8de"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:2571cc5697a2bd27",
+   "position": 18,
+   "record": {
+    "id": "step:2571cc5697a2bd27",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:f688fee35ce5765a",
+    "agent": "chemistry",
+    "tool": "answer",
+    "arguments": {
+     "question_ids": [
+      "env:PROPANE:air",
+      "env:PROPANE:heat",
+      "env:PROPANE:water",
+      "env:PROPYLENE:air",
+      "env:PROPYLENE:heat"
+     ],
+     "level": "hard"
+    },
+    "reason": "answered 5 of 5 questions",
+    "model_call_id": "mc:88305c4760dbefe6"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:26065a2a66dfbf89",
+   "position": 29,
+   "record": {
+    "id": "step:26065a2a66dfbf89",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:47fc2e5e084a27a6",
+    "agent": "process",
+    "tool": "answer",
+    "arguments": {
+     "question_ids": [
+      "m:S-L-B-SOUT:as_well_as:composition"
+     ],
+     "level": "bulk"
+    },
+    "reason": "answered 1 of 1 questions",
+    "model_call_id": "mc:7e690cad9ce9f1ed"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:26261269305d5355",
+   "position": 45,
+   "record": {
+    "id": "step:26261269305d5355",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:f6e8e2f04f65e13a",
+    "agent": "orchestrator",
+    "tool": "dispatch_specialist",
+    "arguments": {
+     "reason": "Four no-flow line questions (nf:L-B-SIN, nf:L-B-SOUT, nf:L-QW-B-IN, nf:L-QW-B-OUT) linked to top priority hazards ranks 1, 3, 4, 12; dispatch piping specialist with priority routing",
+     "agent": "piping",
+     "level": "bulk",
+     "priority": true
+    },
+    "reason": "Four no-flow line questions (nf:L-B-SIN, nf:L-B-SOUT, nf:L-QW-B-IN, nf:L-QW-B-OUT) linked to top priority hazards ranks 1, 3, 4, 12; dispatch piping specialist with priority routing",
+    "model_call_id": "mc:585145f7158b2686"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:284a04f5c07bc579",
+   "position": 28,
+   "record": {
+    "id": "step:284a04f5c07bc579",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:47fc2e5e084a27a6",
+    "agent": "process",
+    "tool": "answer",
+    "arguments": {
+     "question_ids": [
+      "m:S-L-B-SIN:part_of:composition",
+      "m:S-L-B-SIN:reverse:flow"
+     ],
+     "level": "bulk"
+    },
+    "reason": "answered 1 of 2 questions",
+    "model_call_id": "mc:22949f7338606f0d"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:286fcfdabbe11578",
+   "position": 31,
+   "record": {
+    "id": "step:286fcfdabbe11578",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:47fc2e5e084a27a6",
+    "agent": "process",
+    "tool": "answer",
+    "arguments": {
+     "question_ids": [
+      "m:S-L-B-SOUT:more:flow"
+     ],
+     "level": "bulk"
+    },
+    "reason": "answered 1 of 1 questions",
+    "model_call_id": "mc:dc92fd4038826973"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:297507aa50e45591",
+   "position": 64,
+   "record": {
+    "id": "step:297507aa50e45591",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:65ea45ebcc366f5a",
+    "agent": "procedures",
+    "tool": "answer",
+    "arguments": {
+     "question_ids": [
+      "proc:P-REB-START-1:early",
+      "proc:P-REB-START-1:late",
+      "proc:P-REB-START-1:out_of_order",
+      "proc:P-REB-START-1:skipped",
+      "proc:P-REB-START-1:wrong"
+     ],
+     "level": "bulk"
+    },
+    "reason": "answered 1 of 5 questions",
+    "model_call_id": "mc:eab811438bdef29a"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:2a7cf17e2f4f5663",
+   "position": 93,
+   "record": {
+    "id": "step:2a7cf17e2f4f5663",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:e307ba9749dc2ed9",
+    "agent": "evidence",
+    "tool": "web_research",
+    "arguments": {
+     "target_id": "f:m:S-EA-425B:more:temperature:super:C22:e53bce019995581b"
+    },
+    "reason": "code: web search",
+    "model_call_id": null
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:2b648cc26de58fa9",
+   "position": 70,
+   "record": {
+    "id": "step:2b648cc26de58fa9",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:1450fcc3fde9200f",
+    "agent": "orchestrator",
+    "tool": "dispatch_specialist",
+    "arguments": {
+     "reason": "54 open process questions linked to priority hazards ranks 2, 4, 5, 6, 7, 9, 10, 11, 12; dispatch process specialist with priority routing to address highest-risk deviations first",
+     "agent": "process",
+     "level": "bulk",
+     "priority": true
+    },
+    "reason": "54 open process questions linked to priority hazards ranks 2, 4, 5, 6, 7, 9, 10, 11, 12; dispatch process specialist with priority routing to address highest-risk deviations first",
+    "model_call_id": "mc:990f6e7d223e4c91"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:2c463b9127198404",
+   "position": 97,
+   "record": {
+    "id": "step:2c463b9127198404",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:8b373b05e88ee6b7",
+    "agent": "evidence",
+    "tool": "physics_calc",
+    "arguments": {
+     "target_id": "ch:HV-A-SIN.normal_position+HV-A-SOUT.normal_position+RV-PATH-EA425A.inlet_valve_ids+SV-421QA.protects_id+SV-421QB.protects_id+f:m:S-EA-425B:more:temperature:super:C22:e53bce019995581b+f:m:S-L-A-SOUT:reverse:flow:super:d96e945a65e57280:e8d47871d4a47f89+f:m:S-L-QW-A-IN:more:pressure:lightning:C22:e53bce019995581b"
+    },
+    "reason": "code: physics calculations for this line",
+    "model_call_id": null
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:2d87a363926b0fda",
+   "position": 53,
+   "record": {
+    "id": "step:2d87a363926b0fda",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:0900784d281a8ae5",
+    "agent": "process",
+    "tool": "answer",
+    "arguments": {
+     "question_ids": [
+      "m:S-L-A-SIN:more:pressure",
+      "m:S-L-A-SIN:more:temperature",
+      "m:S-L-A-SIN:no:flow",
+      "m:S-L-A-SIN:other_than:composition",
+      "m:S-L-A-SIN:other_than:phase"
+     ],
+     "level": "bulk"
+    },
+    "reason": "answered 1 of 5 questions",
+    "model_call_id": "mc:2f9dd2f096496609"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:2f76a24618b3ad19",
+   "position": 94,
+   "record": {
+    "id": "step:2f76a24618b3ad19",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:2a7cf17e2f4f5663",
+    "agent": "evidence",
+    "tool": "physics_calc",
+    "arguments": {
+     "target_id": "ch:EA-425B.design_pressure_kpa+EA-425B.heat_sources+HV-B-SIN.normal_position+HV-B-SOUT.normal_position+HV-QW-B-IN.normal_position+HV-QW-B-OUT.normal_position+RV-PATH-EA425B.inlet_valve_ids+f:m:S-EA-425B:as_well_as:composition:super:C12:b3d32268f909ddb3+f:proc:P-REB-START-2:early:super:C16:126a45a4b13afa1b"
+    },
+    "reason": "code: physics calculations for this line",
+    "model_call_id": null
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:34b52ab7c0a7c7b1",
+   "position": 19,
+   "record": {
+    "id": "step:34b52ab7c0a7c7b1",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:f688fee35ce5765a",
+    "agent": "chemistry",
+    "tool": "answer",
+    "arguments": {
+     "question_ids": [
+      "env:C4-HEAVIES:water"
+     ],
+     "level": "hard"
+    },
+    "reason": "answered 1 of 1 questions",
+    "model_call_id": "mc:e45f3acd19a74611"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:36337e25aca20725",
+   "position": 77,
+   "record": {
+    "id": "step:36337e25aca20725",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:f8b7731bd0840db7",
+    "agent": "process",
+    "tool": "answer",
+    "arguments": {
+     "question_ids": [
+      "m:S-L-A-SOUT:less:flow",
+      "m:S-L-A-SOUT:less:pressure",
+      "m:S-L-A-SOUT:less:temperature",
+      "m:S-L-A-SOUT:more:flow",
+      "m:S-L-A-SOUT:part_of:composition"
+     ],
+     "level": "hard"
+    },
+    "reason": "answered 5 of 5 questions",
+    "model_call_id": "mc:ad4cdbebbc49dd01"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:37547fe827a2e194",
+   "position": 75,
+   "record": {
+    "id": "step:37547fe827a2e194",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:f8b7731bd0840db7",
+    "agent": "process",
+    "tool": "answer",
+    "arguments": {
+     "question_ids": [
+      "m:S-EA-425A:reverse:flow",
+      "relief:RV-PATH-EA425A"
+     ],
+     "level": "hard"
+    },
+    "reason": "answered 2 of 2 questions",
+    "model_call_id": "mc:fe58d6fdc744e792"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:387b3f46a0fc7920",
+   "position": 8,
+   "record": {
+    "id": "step:387b3f46a0fc7920",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:fc6ae0907006bb9d",
+    "agent": "chemistry",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "C4-HEAVIES",
+     "chemical_b": "PROPYLENE"
+    },
+    "reason": "reactivity_lookup {\"chemical_a\": \"C4-HEAVIES\", \"chemical_b\": \"PROPYLENE\"}",
+    "model_call_id": "mc:4b39f0358cb04305"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:3c2a99edf3ca0f08",
+   "position": 13,
+   "record": {
+    "id": "step:3c2a99edf3ca0f08",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:e1f5692c9a1c406d",
+    "agent": "chemistry",
+    "tool": "answer",
+    "arguments": {
+     "question_ids": [
+      "env:C4-HEAVIES:heat",
+      "env:C4-HEAVIES:water"
+     ],
+     "level": "bulk"
+    },
+    "reason": "answered 1 of 2 questions",
+    "model_call_id": "mc:0c0d6a02a4503d60"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:3f73d5392bd14f5f",
+   "position": 1,
+   "record": {
+    "id": "step:3f73d5392bd14f5f",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:06b29dd40688acad",
+    "agent": "chemistry",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "PROPANE",
+     "chemical_b": "PROPYLENE"
+    },
+    "reason": "reactivity_lookup {\"chemical_a\": \"PROPANE\", \"chemical_b\": \"PROPYLENE\"}",
+    "model_call_id": "mc:120573202ba09c1f"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:45b3f1a49ceb1032",
+   "position": 72,
+   "record": {
+    "id": "step:45b3f1a49ceb1032",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:10d8822d645005f2",
+    "agent": "process",
+    "tool": "answer",
+    "arguments": {
+     "question_ids": [
+      "m:S-L-QW-B-IN:reverse:flow"
+     ],
+     "level": "bulk"
+    },
+    "reason": "answered 1 of 1 questions",
+    "model_call_id": "mc:6812314ecad55e3e"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:47fc2e5e084a27a6",
+   "position": 20,
+   "record": {
+    "id": "step:47fc2e5e084a27a6",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:f688fee35ce5765a",
+    "agent": "orchestrator",
+    "tool": "dispatch_specialist",
+    "arguments": {
+     "reason": "Process questions linked to top priority hazards (ranks 1-12) remain open; dispatch process specialist with priority routing to address highest-risk deviations first",
+     "agent": "process",
+     "level": "bulk",
+     "priority": true
+    },
+    "reason": "Process questions linked to top priority hazards (ranks 1-12) remain open; dispatch process specialist with priority routing to address highest-risk deviations first",
+    "model_call_id": "mc:8dc812233a5aabaf"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:4a4b62323e8b0f53",
+   "position": 83,
+   "record": {
+    "id": "step:4a4b62323e8b0f53",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:f8b7731bd0840db7",
+    "agent": "process",
+    "tool": "answer",
+    "arguments": {
+     "question_ids": [
+      "m:S-L-QW-A-OUT:part_of:composition",
+      "m:S-L-QW-A-OUT:reverse:flow"
+     ],
+     "level": "hard"
+    },
+    "reason": "answered 2 of 2 questions",
+    "model_call_id": "mc:1b8c8bc5365674e9"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:4d8937bc33adb2b2",
+   "position": 48,
+   "record": {
+    "id": "step:4d8937bc33adb2b2",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:81c8f5db0868fb65",
+    "agent": "piping",
+    "tool": "answer",
+    "arguments": {
+     "question_ids": [
+      "nf:L-B-SOUT"
+     ],
+     "level": "hard"
+    },
+    "reason": "answered 1 of 1 questions",
+    "model_call_id": "mc:e636f4ef461fe66e"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:5b2b46f993da0796",
+   "position": 2,
+   "record": {
+    "id": "step:5b2b46f993da0796",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:3f73d5392bd14f5f",
+    "agent": "chemistry",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "PROPANE",
+     "chemical_b": "PROPANE"
+    },
+    "reason": "reactivity_lookup {\"chemical_a\": \"PROPANE\", \"chemical_b\": \"PROPANE\"}",
+    "model_call_id": "mc:dd629903c3a7a14b"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:5b38f3a6f3a3701f",
+   "position": 76,
+   "record": {
+    "id": "step:5b38f3a6f3a3701f",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:f8b7731bd0840db7",
+    "agent": "process",
+    "tool": "answer",
+    "arguments": {
+     "question_ids": [
+      "m:S-L-A-SIN:no:flow",
+      "m:S-L-A-SIN:other_than:composition",
+      "m:S-L-A-SIN:other_than:phase"
+     ],
+     "level": "hard"
+    },
+    "reason": "answered 3 of 3 questions",
+    "model_call_id": "mc:706ac8f826cb615d"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:5b80dc9299b438c1",
+   "position": 60,
+   "record": {
+    "id": "step:5b80dc9299b438c1",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:a2e8f47844cb8fa5",
+    "agent": "process",
+    "tool": "answer",
+    "arguments": {
+     "question_ids": [
+      "m:S-L-QW-A-IN:less:pressure"
+     ],
+     "level": "bulk"
+    },
+    "reason": "answered 1 of 1 questions",
+    "model_call_id": "mc:2cc149445cc016e7"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:5bbecf1fe8fcb98b",
+   "position": 23,
+   "record": {
+    "id": "step:5bbecf1fe8fcb98b",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:f0f253c47a46038d",
+    "agent": "process",
+    "tool": "answer",
+    "arguments": {
+     "question_ids": [
+      "m:S-DA-406:more:pressure"
+     ],
+     "level": "bulk"
+    },
+    "reason": "answered 1 of 1 questions",
+    "model_call_id": "mc:dc34772a20704fdc"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:5e2b13956f5b962e",
+   "position": 61,
+   "record": {
+    "id": "step:5e2b13956f5b962e",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:a2e8f47844cb8fa5",
+    "agent": "process",
+    "tool": "answer",
+    "arguments": {
+     "question_ids": [
+      "m:S-L-QW-A-IN:less:temperature"
+     ],
+     "level": "bulk"
+    },
+    "reason": "answered 1 of 1 questions",
+    "model_call_id": "mc:bdba57b17f74ebda"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:61f79f4f26a62e74",
+   "position": 36,
+   "record": {
+    "id": "step:61f79f4f26a62e74",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:f6e8e2f04f65e13a",
+    "agent": "process",
+    "tool": "answer",
+    "arguments": {
+     "question_ids": [
+      "m:S-DA-406:more:temperature",
+      "m:S-DA-406:no:flow",
+      "m:S-DA-406:no:level",
+      "m:S-DA-406:other_than:composition",
+      "m:S-DA-406:other_than:phase"
+     ],
+     "level": "hard"
+    },
+    "reason": "answered 5 of 5 questions",
+    "model_call_id": "mc:40db4cc95a7da595"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:628484febe8f174a",
+   "position": 68,
+   "record": {
+    "id": "step:628484febe8f174a",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:7b6b48d8b4317d34",
+    "agent": "orchestrator",
+    "tool": "dispatch_specialist",
+    "arguments": {
+     "reason": "Retry 5 failed process questions for S-DA-406 at hard level; they failed once at bulk and block completion",
+     "agent": "process",
+     "level": "hard",
+     "question_ids": [
+      "m:S-DA-406:less:flow",
+      "m:S-DA-406:less:level",
+      "m:S-DA-406:less:pressure",
+      "m:S-DA-406:less:temperature",
+      "m:S-DA-406:more:level"
+     ]
+    },
+    "reason": "Retry 5 failed process questions for S-DA-406 at hard level; they failed once at bulk and block completion",
+    "model_call_id": "mc:1fe0527b76da03cd"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:644baa69a813c257",
+   "position": 66,
+   "record": {
+    "id": "step:644baa69a813c257",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:7b6b48d8b4317d34",
+    "agent": "procedures",
+    "tool": "answer",
+    "arguments": {
+     "question_ids": [
+      "proc:P-REB-START-1:late",
+      "proc:P-REB-START-1:out_of_order",
+      "proc:P-REB-START-1:skipped",
+      "proc:P-REB-START-1:wrong",
+      "proc:P-REB-START-2:early"
+     ],
+     "level": "hard"
+    },
+    "reason": "answered 5 of 5 questions",
+    "model_call_id": "mc:c7a45ef86680efc6"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:65ea45ebcc366f5a",
+   "position": 63,
+   "record": {
+    "id": "step:65ea45ebcc366f5a",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:0900784d281a8ae5",
+    "agent": "orchestrator",
+    "tool": "dispatch_specialist",
+    "arguments": {
+     "reason": "10 open procedure questions for P-REB-START-1/2 linked to priority hazard rank 5 (cause C16, unsupported); dispatch procedures agent with priority routing",
+     "agent": "procedures",
+     "level": "bulk",
+     "priority": true
+    },
+    "reason": "10 open procedure questions for P-REB-START-1/2 linked to priority hazard rank 5 (cause C16, unsupported); dispatch procedures agent with priority routing",
+    "model_call_id": "mc:997fcc92fe3e126e"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:690cc23932b50c34",
+   "position": 78,
+   "record": {
+    "id": "step:690cc23932b50c34",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:f8b7731bd0840db7",
+    "agent": "process",
+    "tool": "answer",
+    "arguments": {
+     "question_ids": [
+      "m:S-L-A-SOUT:reverse:flow"
+     ],
+     "level": "hard"
+    },
+    "reason": "answered 1 of 1 questions",
+    "model_call_id": "mc:711b7ac88bc5ae95"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:69db299e0fbc4088",
+   "position": 15,
+   "record": {
+    "id": "step:69db299e0fbc4088",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:ff4c1d4021035b7d",
+    "agent": "chemistry",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "C4-HEAVIES",
+     "chemical_b": "water"
+    },
+    "reason": "reactivity_lookup {\"chemical_a\": \"C4-HEAVIES\", \"chemical_b\": \"water\"}",
+    "model_call_id": "mc:484fbe184e80cb5d"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:732fc883cc277f61",
+   "position": 10,
+   "record": {
+    "id": "step:732fc883cc277f61",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:e4d7043e9a145587",
+    "agent": "chemistry",
+    "tool": "answer",
+    "arguments": {
+     "question_ids": [
+      "env:PROPYLENE:water",
+      "pair:C4-HEAVIES:PROPANE",
+      "pair:C4-HEAVIES:PROPYLENE",
+      "pair:PROPANE:PROPYLENE",
+      "env:C4-HEAVIES:air"
+     ],
+     "level": "bulk"
+    },
+    "reason": "answered 5 of 5 questions",
+    "model_call_id": "mc:8a741e0d443b37dc"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:7b6b48d8b4317d34",
+   "position": 65,
+   "record": {
+    "id": "step:7b6b48d8b4317d34",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:65ea45ebcc366f5a",
+    "agent": "orchestrator",
+    "tool": "dispatch_specialist",
+    "arguments": {
+     "reason": "Retry 5 failed procedure questions for P-REB-START-1/2 at hard level; they link to priority hazard rank 5 (C16, supported) with 9 total open procedure questions",
+     "agent": "procedures",
+     "level": "hard",
+     "priority": true
+    },
+    "reason": "Retry 5 failed procedure questions for P-REB-START-1/2 at hard level; they link to priority hazard rank 5 (C16, supported) with 9 total open procedure questions",
+    "model_call_id": "mc:417019e42a06410e"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:7c0fd4cb3932defa",
+   "position": 91,
+   "record": {
+    "id": "step:7c0fd4cb3932defa",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:9f9bb577c483e535",
+    "agent": "evidence",
+    "tool": "physics_calc",
+    "arguments": {
+     "target_id": "f:m:S-EA-425B:more:temperature:super:C22:e53bce019995581b"
+    },
+    "reason": "code: physics calculations for this line",
+    "model_call_id": null
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:7f56ba7a8ad4b261",
+   "position": 16,
+   "record": {
+    "id": "step:7f56ba7a8ad4b261",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:69db299e0fbc4088",
+    "agent": "chemistry",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "C4-HEAVIES",
+     "chemical_b": "water"
+    },
+    "reason": "reactivity_lookup {\"chemical_a\": \"C4-HEAVIES\", \"chemical_b\": \"water\"}",
+    "model_call_id": "mc:54d785b4329f3989"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:7fb966e14532e251",
+   "position": 55,
+   "record": {
+    "id": "step:7fb966e14532e251",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:0900784d281a8ae5",
+    "agent": "process",
+    "tool": "answer",
+    "arguments": {
+     "question_ids": [
+      "m:S-L-A-SIN:part_of:composition"
+     ],
+     "level": "bulk"
+    },
+    "reason": "answered 1 of 1 questions",
+    "model_call_id": "mc:27236ea1eba29e12"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:81c8f5db0868fb65",
+   "position": 46,
+   "record": {
+    "id": "step:81c8f5db0868fb65",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:26261269305d5355",
+    "agent": "orchestrator",
+    "tool": "dispatch_specialist",
+    "arguments": {
+     "reason": "Four no-flow line questions failed at bulk; they link to priority hazards ranks 1, 3, 5, 12. Retry at hard level.",
+     "agent": "piping",
+     "level": "hard",
+     "priority": true
+    },
+    "reason": "Four no-flow line questions failed at bulk; they link to priority hazards ranks 1, 3, 5, 12. Retry at hard level.",
+    "model_call_id": "mc:91ca89b2cb09ca8e"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:838a1746f1c47b74",
+   "position": 79,
+   "record": {
+    "id": "step:838a1746f1c47b74",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:f8b7731bd0840db7",
+    "agent": "process",
+    "tool": "answer",
+    "arguments": {
+     "question_ids": [
+      "m:S-L-QW-A-IN:more:flow",
+      "m:S-L-QW-A-IN:more:temperature",
+      "m:S-L-QW-A-IN:no:flow",
+      "m:S-L-QW-A-IN:other_than:composition",
+      "m:S-L-QW-A-IN:other_than:phase"
+     ],
+     "level": "hard"
+    },
+    "reason": "answered 5 of 5 questions",
+    "model_call_id": "mc:b8f07267c4493df7"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:8b373b05e88ee6b7",
+   "position": 96,
+   "record": {
+    "id": "step:8b373b05e88ee6b7",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:c41439a5ed53fe5d",
+    "agent": "evidence",
+    "tool": "web_research",
+    "arguments": {
+     "target_id": "ch:EA-425B.design_pressure_kpa+EA-425B.heat_sources+HV-B-SIN.normal_position+HV-B-SOUT.normal_position+HV-QW-B-IN.normal_position+HV-QW-B-OUT.normal_position+RV-PATH-EA425B.inlet_valve_ids+f:m:S-EA-425B:as_well_as:composition:super:C12:b3d32268f909ddb3+f:proc:P-REB-START-2:early:super:C16:126a45a4b13afa1b"
+    },
+    "reason": "code: web search",
+    "model_call_id": null
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:8bbd2af1a4dcdc47",
+   "position": 89,
+   "record": {
+    "id": "step:8bbd2af1a4dcdc47",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:e5770125e556c0f2",
+    "agent": "process",
+    "tool": "answer",
+    "arguments": {
+     "question_ids": [
+      "m:S-L-QW-B-OUT:part_of:composition",
+      "m:S-L-QW-B-OUT:reverse:flow"
+     ],
+     "level": "hard"
+    },
+    "reason": "answered 2 of 2 questions",
+    "model_call_id": "mc:d1922970768dc40d"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:8c9867309dc268e2",
+   "position": 62,
+   "record": {
+    "id": "step:8c9867309dc268e2",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:0900784d281a8ae5",
+    "agent": "process",
+    "tool": "answer",
+    "arguments": {
+     "question_ids": [
+      "m:S-L-QW-A-IN:more:pressure"
+     ],
+     "level": "bulk"
+    },
+    "reason": "answered 1 of 1 questions",
+    "model_call_id": "mc:64295214c2850885"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:930c0b8733a7760e",
+   "position": 25,
+   "record": {
+    "id": "step:930c0b8733a7760e",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:47fc2e5e084a27a6",
+    "agent": "process",
+    "tool": "answer",
+    "arguments": {
+     "question_ids": [
+      "m:S-L-B-SIN:as_well_as:composition"
+     ],
+     "level": "bulk"
+    },
+    "reason": "answered 1 of 1 questions",
+    "model_call_id": "mc:ee6acffc939b7027"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:97a6f870b58a2991",
+   "position": 43,
+   "record": {
+    "id": "step:97a6f870b58a2991",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:f6e8e2f04f65e13a",
+    "agent": "process",
+    "tool": "answer",
+    "arguments": {
+     "question_ids": [
+      "m:S-EA-425A:less:pressure",
+      "m:S-EA-425A:more:flow",
+      "m:S-EA-425A:more:pressure",
+      "m:S-EA-425A:more:temperature",
+      "m:S-EA-425A:no:flow"
+     ],
+     "level": "hard"
+    },
+    "reason": "answered 5 of 5 questions",
+    "model_call_id": "mc:bf5b1337a63848cf"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:9803578923855208",
+   "position": 26,
+   "record": {
+    "id": "step:9803578923855208",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:47fc2e5e084a27a6",
+    "agent": "process",
+    "tool": "answer",
+    "arguments": {
+     "question_ids": [
+      "m:S-L-B-SIN:more:pressure"
+     ],
+     "level": "bulk"
+    },
+    "reason": "answered 1 of 1 questions",
+    "model_call_id": "mc:448b3046c4e5d3e6"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:983c3e62a97b0212",
+   "position": 30,
+   "record": {
+    "id": "step:983c3e62a97b0212",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:47fc2e5e084a27a6",
+    "agent": "process",
+    "tool": "answer",
+    "arguments": {
+     "question_ids": [
+      "m:S-L-B-SOUT:less:temperature"
+     ],
+     "level": "bulk"
+    },
+    "reason": "answered 1 of 1 questions",
+    "model_call_id": "mc:d43bf72decff8874"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:9b0568f3bab50ef3",
+   "position": 73,
+   "record": {
+    "id": "step:9b0568f3bab50ef3",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:2b648cc26de58fa9",
+    "agent": "orchestrator",
+    "tool": "dispatch_specialist",
+    "arguments": {
+     "reason": "52 open process questions linked to priority hazards ranks 2, 4, 5, 6, 7, 9, 10, 11, 12; dispatch process specialist with priority routing to address highest-risk deviations first",
+     "agent": "process",
+     "level": "bulk",
+     "priority": true
+    },
+    "reason": "52 open process questions linked to priority hazards ranks 2, 4, 5, 6, 7, 9, 10, 11, 12; dispatch process specialist with priority routing to address highest-risk deviations first",
+    "model_call_id": "mc:07e8f865bcfc4fc0"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:9bdd700794dbf0fd",
+   "position": 104,
+   "record": {
+    "id": "step:9bdd700794dbf0fd",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:205cd003b4f0484d",
+    "agent": "evidence",
+    "tool": "web_research",
+    "arguments": {
+     "target_id": "f:m:S-EA-425A:more:flow:super:C22:e53bce019995581b"
+    },
+    "reason": "code: web search",
+    "model_call_id": null
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:9f834f26885d39c0",
+   "position": 27,
+   "record": {
+    "id": "step:9f834f26885d39c0",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:47fc2e5e084a27a6",
+    "agent": "process",
+    "tool": "answer",
+    "arguments": {
+     "question_ids": [
+      "m:S-L-B-SIN:other_than:composition"
+     ],
+     "level": "bulk"
+    },
+    "reason": "answered 1 of 1 questions",
+    "model_call_id": "mc:627ddf4e18bd007e"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:9f9bb577c483e535",
+   "position": 90,
+   "record": {
+    "id": "step:9f9bb577c483e535",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:e5770125e556c0f2",
+    "agent": "orchestrator",
+    "tool": "finish",
+    "arguments": {
+     "reason": "All questions resolved: open=0, failed=6 (all process questions failed at hard level - their last attempt), unsure=84 (answered but low confidence). Priority hazards 9,10,11 not supported but have no "
+    },
+    "reason": "All questions resolved: open=0, failed=6 (all process questions failed at hard level - their last attempt), unsure=84 (answered but low confidence). Priority hazards 9,10,11 not supported but have no ",
+    "model_call_id": "mc:a987b2e42ea2ffce"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:a115621f0db89a24",
+   "position": 49,
+   "record": {
+    "id": "step:a115621f0db89a24",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:81c8f5db0868fb65",
+    "agent": "piping",
+    "tool": "answer",
+    "arguments": {
+     "question_ids": [
+      "nf:L-QW-B-IN"
+     ],
+     "level": "hard"
+    },
+    "reason": "answered 1 of 1 questions",
+    "model_call_id": "mc:c9f88468b5afa6af"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:a254b7950552fe77",
+   "position": 101,
+   "record": {
+    "id": "step:a254b7950552fe77",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:c97f13619d7bd449",
+    "agent": "evidence",
+    "tool": "web_research",
+    "arguments": {
+     "target_id": "f:proc:P-REB-START-2:early:super:C16:126a45a4b13afa1b"
+    },
+    "reason": "code: web search",
+    "model_call_id": null
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:a2e8f47844cb8fa5",
+   "position": 59,
+   "record": {
+    "id": "step:a2e8f47844cb8fa5",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:0900784d281a8ae5",
+    "agent": "process",
+    "tool": "answer",
+    "arguments": {
+     "question_ids": [
+      "m:S-L-QW-A-IN:as_well_as:composition",
+      "m:S-L-QW-A-IN:less:flow",
+      "m:S-L-QW-A-IN:less:pressure",
+      "m:S-L-QW-A-IN:less:temperature",
+      "m:S-L-QW-A-IN:more:flow"
+     ],
+     "level": "bulk"
+    },
+    "reason": "answered 2 of 5 questions",
+    "model_call_id": "mc:198677e667db3663"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:a4fdfc212915e606",
+   "position": 42,
+   "record": {
+    "id": "step:a4fdfc212915e606",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:f6e8e2f04f65e13a",
+    "agent": "process",
+    "tool": "answer",
+    "arguments": {
+     "question_ids": [
+      "m:S-L-B-SOUT:less:flow",
+      "m:S-L-B-SOUT:less:pressure",
+      "m:S-L-B-SOUT:part_of:composition",
+      "m:S-L-B-SOUT:reverse:flow"
+     ],
+     "level": "hard"
+    },
+    "reason": "answered 4 of 4 questions",
+    "model_call_id": "mc:eae416ae31114a09"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:a5c3ad368546494c",
+   "position": 40,
+   "record": {
+    "id": "step:a5c3ad368546494c",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:f6e8e2f04f65e13a",
+    "agent": "process",
+    "tool": "answer",
+    "arguments": {
+     "question_ids": [
+      "m:S-L-B-SIN:less:flow",
+      "m:S-L-B-SIN:less:pressure",
+      "m:S-L-B-SIN:less:temperature",
+      "m:S-L-B-SIN:more:flow",
+      "m:S-L-B-SIN:more:temperature"
+     ],
+     "level": "hard"
+    },
+    "reason": "answered 5 of 5 questions",
+    "model_call_id": "mc:ed31fff73c87e896"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:ac39c36a1a7328fb",
+   "position": 81,
+   "record": {
+    "id": "step:ac39c36a1a7328fb",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:f8b7731bd0840db7",
+    "agent": "process",
+    "tool": "answer",
+    "arguments": {
+     "question_ids": [
+      "m:S-L-QW-A-OUT:as_well_as:composition",
+      "m:S-L-QW-A-OUT:less:flow",
+      "m:S-L-QW-A-OUT:less:pressure",
+      "m:S-L-QW-A-OUT:less:temperature",
+      "m:S-L-QW-A-OUT:more:flow"
+     ],
+     "level": "hard"
+    },
+    "reason": "answered 5 of 5 questions",
+    "model_call_id": "mc:a396ee34104d18e7"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:ae318bd62d3b1437",
+   "position": 32,
+   "record": {
+    "id": "step:ae318bd62d3b1437",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:47fc2e5e084a27a6",
+    "agent": "process",
+    "tool": "answer",
+    "arguments": {
+     "question_ids": [
+      "m:S-L-B-SOUT:more:pressure",
+      "m:S-L-B-SOUT:more:temperature",
+      "m:S-L-B-SOUT:no:flow",
+      "m:S-L-B-SOUT:other_than:composition",
+      "m:S-L-B-SOUT:other_than:phase"
+     ],
+     "level": "bulk"
+    },
+    "reason": "answered 5 of 5 questions",
+    "model_call_id": "mc:4c830c9eea1bcf50"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:af5fe3c1970f7ce9",
+   "position": 21,
+   "record": {
+    "id": "step:af5fe3c1970f7ce9",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:47fc2e5e084a27a6",
+    "agent": "process",
+    "tool": "answer",
+    "arguments": {
+     "question_ids": [
+      "m:S-DA-406:as_well_as:composition"
+     ],
+     "level": "bulk"
+    },
+    "reason": "answered 1 of 1 questions",
+    "model_call_id": "mc:75dde3eab739ec8b"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:b4c58fcb20776490",
+   "position": 85,
+   "record": {
+    "id": "step:b4c58fcb20776490",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:f8b7731bd0840db7",
+    "agent": "process",
+    "tool": "answer",
+    "arguments": {
+     "question_ids": [
+      "m:S-L-QW-B-IN:more:pressure",
+      "m:S-L-QW-B-IN:more:temperature",
+      "m:S-L-QW-B-IN:no:flow",
+      "m:S-L-QW-B-IN:other_than:composition",
+      "m:S-L-QW-B-IN:other_than:phase"
+     ],
+     "level": "hard"
+    },
+    "reason": "answered 5 of 5 questions",
+    "model_call_id": "mc:eb3a03af780cb6c2"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:b54a6d0c11c08b09",
+   "position": 98,
+   "record": {
+    "id": "step:b54a6d0c11c08b09",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:2c463b9127198404",
+    "agent": "evidence",
+    "tool": "search_precedent",
+    "arguments": {
+     "target_id": "ch:HV-A-SIN.normal_position+HV-A-SOUT.normal_position+RV-PATH-EA425A.inlet_valve_ids+SV-421QA.protects_id+SV-421QB.protects_id+f:m:S-EA-425B:more:temperature:super:C22:e53bce019995581b+f:m:S-L-A-SOUT:reverse:flow:super:d96e945a65e57280:e8d47871d4a47f89+f:m:S-L-QW-A-IN:more:pressure:lightning:C22:e53bce019995581b"
+    },
+    "reason": "code: precedent index search",
+    "model_call_id": null
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:b6de13e44748d4e5",
+   "position": 39,
+   "record": {
+    "id": "step:b6de13e44748d4e5",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:f6e8e2f04f65e13a",
+    "agent": "process",
+    "tool": "answer",
+    "arguments": {
+     "question_ids": [
+      "m:S-EA-425B:more:temperature",
+      "m:S-EA-425B:no:flow",
+      "m:S-EA-425B:other_than:composition",
+      "m:S-EA-425B:reverse:flow",
+      "relief:RV-PATH-EA425B"
+     ],
+     "level": "hard"
+    },
+    "reason": "answered 5 of 5 questions",
+    "model_call_id": "mc:0b6fb3b4611ee01f"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:b91e0641e14a0d9b",
+   "position": 52,
+   "record": {
+    "id": "step:b91e0641e14a0d9b",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:0900784d281a8ae5",
+    "agent": "process",
+    "tool": "answer",
+    "arguments": {
+     "question_ids": [
+      "m:S-L-A-SIN:as_well_as:composition",
+      "m:S-L-A-SIN:less:flow",
+      "m:S-L-A-SIN:less:pressure",
+      "m:S-L-A-SIN:less:temperature",
+      "m:S-L-A-SIN:more:flow"
+     ],
+     "level": "bulk"
+    },
+    "reason": "answered 5 of 5 questions",
+    "model_call_id": "mc:4190e1a86b512f69"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:ba41d61109f634a1",
+   "position": 54,
+   "record": {
+    "id": "step:ba41d61109f634a1",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:2d87a363926b0fda",
+    "agent": "process",
+    "tool": "answer",
+    "arguments": {
+     "question_ids": [
+      "m:S-L-A-SIN:more:temperature"
+     ],
+     "level": "bulk"
+    },
+    "reason": "answered 1 of 1 questions",
+    "model_call_id": "mc:7eca7a375672892e"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:bc871c1ba897546b",
+   "position": 99,
+   "record": {
+    "id": "step:bc871c1ba897546b",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:b54a6d0c11c08b09",
+    "agent": "evidence",
+    "tool": "web_research",
+    "arguments": {
+     "target_id": "ch:HV-A-SIN.normal_position+HV-A-SOUT.normal_position+RV-PATH-EA425A.inlet_valve_ids+SV-421QA.protects_id+SV-421QB.protects_id+f:m:S-EA-425B:more:temperature:super:C22:e53bce019995581b+f:m:S-L-A-SOUT:reverse:flow:super:d96e945a65e57280:e8d47871d4a47f89+f:m:S-L-QW-A-IN:more:pressure:lightning:C22:e53bce019995581b"
+    },
+    "reason": "code: web search",
+    "model_call_id": null
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:c0ae7d4a02af0ea6",
+   "position": 102,
+   "record": {
+    "id": "step:c0ae7d4a02af0ea6",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:a254b7950552fe77",
+    "agent": "evidence",
+    "tool": "physics_calc",
+    "arguments": {
+     "target_id": "f:m:S-EA-425A:more:flow:super:C22:e53bce019995581b"
+    },
+    "reason": "code: physics calculations for this line",
+    "model_call_id": null
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:c0d1bf841058c36d",
+   "position": 34,
+   "record": {
+    "id": "step:c0d1bf841058c36d",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:0fa6bfe9327977cd",
+    "agent": "process",
+    "tool": "answer",
+    "arguments": {
+     "question_ids": [
+      "m:S-EA-425A:less:temperature"
+     ],
+     "level": "bulk"
+    },
+    "reason": "answered 1 of 1 questions",
+    "model_call_id": "mc:dc84cbcc142632ab"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:c41439a5ed53fe5d",
+   "position": 95,
+   "record": {
+    "id": "step:c41439a5ed53fe5d",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:2f76a24618b3ad19",
+    "agent": "evidence",
+    "tool": "search_precedent",
+    "arguments": {
+     "target_id": "ch:EA-425B.design_pressure_kpa+EA-425B.heat_sources+HV-B-SIN.normal_position+HV-B-SOUT.normal_position+HV-QW-B-IN.normal_position+HV-QW-B-OUT.normal_position+RV-PATH-EA425B.inlet_valve_ids+f:m:S-EA-425B:as_well_as:composition:super:C12:b3d32268f909ddb3+f:proc:P-REB-START-2:early:super:C16:126a45a4b13afa1b"
+    },
+    "reason": "code: precedent index search",
+    "model_call_id": null
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:c610218d9f879a26",
+   "position": 38,
+   "record": {
+    "id": "step:c610218d9f879a26",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:f6e8e2f04f65e13a",
+    "agent": "process",
+    "tool": "answer",
+    "arguments": {
+     "question_ids": [
+      "m:S-EA-425B:as_well_as:composition",
+      "m:S-EA-425B:less:flow",
+      "m:S-EA-425B:less:pressure",
+      "m:S-EA-425B:less:temperature",
+      "m:S-EA-425B:more:flow"
+     ],
+     "level": "hard"
+    },
+    "reason": "answered 5 of 5 questions",
+    "model_call_id": "mc:c0d5c484bddc09b6"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:c892bafa1a1e8189",
+   "position": 80,
+   "record": {
+    "id": "step:c892bafa1a1e8189",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:f8b7731bd0840db7",
+    "agent": "process",
+    "tool": "answer",
+    "arguments": {
+     "question_ids": [
+      "m:S-L-QW-A-IN:part_of:composition"
+     ],
+     "level": "hard"
+    },
+    "reason": "answered 1 of 1 questions",
+    "model_call_id": "mc:a7849a503be0291e"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:c97f13619d7bd449",
+   "position": 100,
+   "record": {
+    "id": "step:c97f13619d7bd449",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:bc871c1ba897546b",
+    "agent": "evidence",
+    "tool": "search_precedent",
+    "arguments": {
+     "target_id": "f:proc:P-REB-START-2:early:super:C16:126a45a4b13afa1b"
+    },
+    "reason": "code: precedent index search",
+    "model_call_id": null
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:cc12ace38379d354",
+   "position": 37,
+   "record": {
+    "id": "step:cc12ace38379d354",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:f6e8e2f04f65e13a",
+    "agent": "process",
+    "tool": "answer",
+    "arguments": {
+     "question_ids": [
+      "m:S-DA-406:part_of:composition",
+      "relief:SV-421QA",
+      "relief:SV-421QB"
+     ],
+     "level": "hard"
+    },
+    "reason": "answered 3 of 3 questions",
+    "model_call_id": "mc:af8f1b91f5990b9c"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:ccb63ce7cd0c9a64",
+   "position": 67,
+   "record": {
+    "id": "step:ccb63ce7cd0c9a64",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:7b6b48d8b4317d34",
+    "agent": "procedures",
+    "tool": "answer",
+    "arguments": {
+     "question_ids": [
+      "proc:P-REB-START-2:late",
+      "proc:P-REB-START-2:out_of_order",
+      "proc:P-REB-START-2:skipped",
+      "proc:P-REB-START-2:wrong"
+     ],
+     "level": "hard"
+    },
+    "reason": "answered 4 of 4 questions",
+    "model_call_id": "mc:95bc59a150a8d30e"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:cf5664ed98ba4980",
+   "position": 57,
+   "record": {
+    "id": "step:cf5664ed98ba4980",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:0900784d281a8ae5",
+    "agent": "process",
+    "tool": "answer",
+    "arguments": {
+     "question_ids": [
+      "m:S-L-A-SOUT:as_well_as:composition"
+     ],
+     "level": "bulk"
+    },
+    "reason": "answered 1 of 1 questions",
+    "model_call_id": "mc:6f810330abe12989"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:d00c4f76506c94ad",
+   "position": 11,
+   "record": {
+    "id": "step:d00c4f76506c94ad",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:06b29dd40688acad",
+    "agent": "chemistry",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "C4-HEAVIES",
+     "chemical_b": "water"
+    },
+    "reason": "reactivity_lookup {\"chemical_a\": \"C4-HEAVIES\", \"chemical_b\": \"water\"}",
+    "model_call_id": "mc:05f46ad5141a8446"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:dc1a83d8737492ce",
+   "position": 41,
+   "record": {
+    "id": "step:dc1a83d8737492ce",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:f6e8e2f04f65e13a",
+    "agent": "process",
+    "tool": "answer",
+    "arguments": {
+     "question_ids": [
+      "m:S-L-B-SIN:no:flow",
+      "m:S-L-B-SIN:other_than:phase",
+      "m:S-L-B-SIN:reverse:flow"
+     ],
+     "level": "hard"
+    },
+    "reason": "answered 3 of 3 questions",
+    "model_call_id": "mc:e3284cda6e81dad2"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:e1f5692c9a1c406d",
+   "position": 12,
+   "record": {
+    "id": "step:e1f5692c9a1c406d",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:d00c4f76506c94ad",
+    "agent": "chemistry",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "C4-HEAVIES",
+     "chemical_b": "air"
+    },
+    "reason": "reactivity_lookup {\"chemical_a\": \"C4-HEAVIES\", \"chemical_b\": \"air\"}",
+    "model_call_id": "mc:2ff93033b3239193"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:e307ba9749dc2ed9",
+   "position": 92,
+   "record": {
+    "id": "step:e307ba9749dc2ed9",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:7c0fd4cb3932defa",
+    "agent": "evidence",
+    "tool": "search_precedent",
+    "arguments": {
+     "target_id": "f:m:S-EA-425B:more:temperature:super:C22:e53bce019995581b"
+    },
+    "reason": "code: precedent index search",
+    "model_call_id": null
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:e4d7043e9a145587",
+   "position": 9,
+   "record": {
+    "id": "step:e4d7043e9a145587",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:387b3f46a0fc7920",
+    "agent": "chemistry",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "PROPANE",
+     "chemical_b": "PROPYLENE"
+    },
+    "reason": "reactivity_lookup {\"chemical_a\": \"PROPANE\", \"chemical_b\": \"PROPYLENE\"}",
+    "model_call_id": "mc:39b8d3f245784d89"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:e5770125e556c0f2",
+   "position": 87,
+   "record": {
+    "id": "step:e5770125e556c0f2",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:f8b7731bd0840db7",
+    "agent": "orchestrator",
+    "tool": "dispatch_specialist",
+    "arguments": {
+     "reason": "Target the 7 open process questions for S-L-QW-B-OUT (linked to priority hazard rank 5, cause C16) at hard level; they were deferred for spend on last hard dispatch",
+     "agent": "process",
+     "level": "hard",
+     "question_ids": [
+      "m:S-L-QW-B-OUT:more:pressure",
+      "m:S-L-QW-B-OUT:more:temperature",
+      "m:S-L-QW-B-OUT:no:flow",
+      "m:S-L-QW-B-OUT:other_than:composition",
+      "m:S-L-QW-B-OUT:other_than:phase",
+      "m:S-L-QW-B-OUT:part_of:composition",
+      "m:S-L-QW-B-OUT:reverse:flow"
+     ]
+    },
+    "reason": "Target the 7 open process questions for S-L-QW-B-OUT (linked to priority hazard rank 5, cause C16) at hard level; they were deferred for spend on last hard dispatch",
+    "model_call_id": "mc:b55b0a70dd604235"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:e96f0712bb1edf76",
+   "position": 88,
+   "record": {
+    "id": "step:e96f0712bb1edf76",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:e5770125e556c0f2",
+    "agent": "process",
+    "tool": "answer",
+    "arguments": {
+     "question_ids": [
+      "m:S-L-QW-B-OUT:more:pressure",
+      "m:S-L-QW-B-OUT:more:temperature",
+      "m:S-L-QW-B-OUT:no:flow",
+      "m:S-L-QW-B-OUT:other_than:composition",
+      "m:S-L-QW-B-OUT:other_than:phase"
+     ],
+     "level": "hard"
+    },
+    "reason": "answered 5 of 5 questions",
+    "model_call_id": "mc:61ea6ce321207c16"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:f0f253c47a46038d",
+   "position": 22,
+   "record": {
+    "id": "step:f0f253c47a46038d",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:47fc2e5e084a27a6",
+    "agent": "process",
+    "tool": "answer",
+    "arguments": {
+     "question_ids": [
+      "m:S-DA-406:more:flow",
+      "m:S-DA-406:more:level",
+      "m:S-DA-406:more:pressure",
+      "m:S-DA-406:more:temperature",
+      "m:S-DA-406:no:flow"
+     ],
+     "level": "bulk"
+    },
+    "reason": "answered 1 of 5 questions",
+    "model_call_id": "mc:42a41e9a9c642139"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:f267dd77045aee45",
+   "position": 86,
+   "record": {
+    "id": "step:f267dd77045aee45",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:f8b7731bd0840db7",
+    "agent": "process",
+    "tool": "answer",
+    "arguments": {
+     "question_ids": [
+      "m:S-L-QW-B-OUT:as_well_as:composition",
+      "m:S-L-QW-B-OUT:less:flow",
+      "m:S-L-QW-B-OUT:less:pressure",
+      "m:S-L-QW-B-OUT:less:temperature",
+      "m:S-L-QW-B-OUT:more:flow"
+     ],
+     "level": "hard"
+    },
+    "reason": "answered 5 of 5 questions",
+    "model_call_id": "mc:ecc71b680607d2a2"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:f33ccf3b08d290cf",
+   "position": 56,
+   "record": {
+    "id": "step:f33ccf3b08d290cf",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:0900784d281a8ae5",
+    "agent": "process",
+    "tool": "answer",
+    "arguments": {
+     "question_ids": [
+      "m:S-L-A-SIN:reverse:flow"
+     ],
+     "level": "bulk"
+    },
+    "reason": "answered 1 of 1 questions",
+    "model_call_id": "mc:35f47625bfcaa6e3"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:f5bc46ca4cf5c1a7",
+   "position": 82,
+   "record": {
+    "id": "step:f5bc46ca4cf5c1a7",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:f8b7731bd0840db7",
+    "agent": "process",
+    "tool": "answer",
+    "arguments": {
+     "question_ids": [
+      "m:S-L-QW-A-OUT:more:pressure",
+      "m:S-L-QW-A-OUT:more:temperature",
+      "m:S-L-QW-A-OUT:no:flow",
+      "m:S-L-QW-A-OUT:other_than:composition",
+      "m:S-L-QW-A-OUT:other_than:phase"
+     ],
+     "level": "hard"
+    },
+    "reason": "answered 5 of 5 questions",
+    "model_call_id": "mc:9b9c1e633bf2d83c"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:f688fee35ce5765a",
+   "position": 17,
+   "record": {
+    "id": "step:f688fee35ce5765a",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:06b29dd40688acad",
+    "agent": "orchestrator",
+    "tool": "dispatch_specialist",
+    "arguments": {
+     "reason": "Chemistry questions linked to all top priority hazards (ranks 1-12) are in retry_at_hard; dispatch at hard level to resolve them",
+     "agent": "chemistry",
+     "level": "hard",
+     "priority": true
+    },
+    "reason": "Chemistry questions linked to all top priority hazards (ranks 1-12) are in retry_at_hard; dispatch at hard level to resolve them",
+    "model_call_id": "mc:3eb3fe447e3f80dd"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:f6e8e2f04f65e13a",
+   "position": 35,
+   "record": {
+    "id": "step:f6e8e2f04f65e13a",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:47fc2e5e084a27a6",
+    "agent": "orchestrator",
+    "tool": "dispatch_specialist",
+    "arguments": {
+     "reason": "Process questions in retry_at_hard (41 questions) linked to top priority hazards (ranks 1-4, 9, 12); dispatch process specialist at hard level to resolve failed/retried deviations",
+     "agent": "process",
+     "level": "hard",
+     "priority": true
+    },
+    "reason": "Process questions in retry_at_hard (41 questions) linked to top priority hazards (ranks 1-4, 9, 12); dispatch process specialist at hard level to resolve failed/retried deviations",
+    "model_call_id": "mc:ecb65297ea3535dc"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:f8b7731bd0840db7",
+   "position": 74,
+   "record": {
+    "id": "step:f8b7731bd0840db7",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:9b0568f3bab50ef3",
+    "agent": "orchestrator",
+    "tool": "dispatch_specialist",
+    "arguments": {
+     "reason": "Process bulk refused; send priority-linked process questions at hard level to resolve unsure/failed answers for top hazards ranks 2,4,5,6,7,9,10,11,12",
+     "agent": "process",
+     "level": "hard",
+     "priority": true
+    },
+    "reason": "Process bulk refused; send priority-linked process questions at hard level to resolve unsure/failed answers for top hazards ranks 2,4,5,6,7,9,10,11,12",
+    "model_call_id": "mc:86a2de75385aff77"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:fc6ae0907006bb9d",
+   "position": 7,
+   "record": {
+    "id": "step:fc6ae0907006bb9d",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:06b29dd40688acad",
+    "agent": "chemistry",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "C4-HEAVIES",
+     "chemical_b": "PROPANE"
+    },
+    "reason": "reactivity_lookup {\"chemical_a\": \"C4-HEAVIES\", \"chemical_b\": \"PROPANE\"}",
+    "model_call_id": "mc:965b32c6379ae882"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:fdf5203d8949791d",
+   "position": 44,
+   "record": {
+    "id": "step:fdf5203d8949791d",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:f6e8e2f04f65e13a",
+    "agent": "process",
+    "tool": "answer",
+    "arguments": {
+     "question_ids": [
+      "m:S-EA-425A:other_than:composition"
+     ],
+     "level": "hard"
+    },
+    "reason": "answered 1 of 1 questions",
+    "model_call_id": "mc:5dc638152d9e1275"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:ff4c1d4021035b7d",
+   "position": 14,
+   "record": {
+    "id": "step:ff4c1d4021035b7d",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:3c2a99edf3ca0f08",
+    "agent": "chemistry",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "C4-HEAVIES",
+     "chemical_b": "water"
+    },
+    "reason": "reactivity_lookup {\"chemical_a\": \"C4-HEAVIES\", \"chemical_b\": \"water\"}",
+    "model_call_id": "mc:34042816e2746ea9"
+   }
+  }
+ ]
+}

@@ -1,0 +1,241 @@
+{
+ "table": "sections",
+ "rows": [
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "S-DA-406",
+   "position": 0,
+   "record": {
+    "id": "S-DA-406",
+    "plant_record_id": "plant:williams_geismar:440369931e305d48",
+    "kind": "equipment",
+    "section_type": "column",
+    "name": "DA-406 (column)",
+    "purpose": null,
+    "object_ids": [
+     "DA-406"
+    ],
+    "flagged_no_flow": false,
+    "drawn_by": "rule",
+    "suggestion_reason": null
+   }
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "S-EA-425A",
+   "position": 1,
+   "record": {
+    "id": "S-EA-425A",
+    "plant_record_id": "plant:williams_geismar:440369931e305d48",
+    "kind": "equipment",
+    "section_type": "heat_exchanger",
+    "name": "EA-425A (heat_exchanger)",
+    "purpose": null,
+    "object_ids": [
+     "EA-425A"
+    ],
+    "flagged_no_flow": false,
+    "drawn_by": "rule",
+    "suggestion_reason": null
+   }
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "S-EA-425B",
+   "position": 2,
+   "record": {
+    "id": "S-EA-425B",
+    "plant_record_id": "plant:williams_geismar:440369931e305d48",
+    "kind": "equipment",
+    "section_type": "heat_exchanger",
+    "name": "EA-425B (heat_exchanger)",
+    "purpose": null,
+    "object_ids": [
+     "EA-425B"
+    ],
+    "flagged_no_flow": false,
+    "drawn_by": "rule",
+    "suggestion_reason": null
+   }
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "S-L-A-SIN",
+   "position": 3,
+   "record": {
+    "id": "S-L-A-SIN",
+    "plant_record_id": "plant:williams_geismar:440369931e305d48",
+    "kind": "line",
+    "section_type": "pipe",
+    "name": "L-A-SIN (pipe)",
+    "purpose": null,
+    "object_ids": [
+     "L-A-SIN",
+     "HV-A-SIN"
+    ],
+    "flagged_no_flow": false,
+    "drawn_by": "rule",
+    "suggestion_reason": null
+   }
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "S-L-A-SOUT",
+   "position": 4,
+   "record": {
+    "id": "S-L-A-SOUT",
+    "plant_record_id": "plant:williams_geismar:440369931e305d48",
+    "kind": "line",
+    "section_type": "pipe",
+    "name": "L-A-SOUT (pipe)",
+    "purpose": null,
+    "object_ids": [
+     "L-A-SOUT",
+     "HV-A-SOUT"
+    ],
+    "flagged_no_flow": false,
+    "drawn_by": "rule",
+    "suggestion_reason": null
+   }
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "S-L-B-SIN",
+   "position": 5,
+   "record": {
+    "id": "S-L-B-SIN",
+    "plant_record_id": "plant:williams_geismar:440369931e305d48",
+    "kind": "no_flow_line",
+    "section_type": "pipe",
+    "name": "L-B-SIN (no-flow line)",
+    "purpose": null,
+    "object_ids": [
+     "L-B-SIN",
+     "HV-B-SIN"
+    ],
+    "flagged_no_flow": true,
+    "drawn_by": "rule",
+    "suggestion_reason": null
+   }
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "S-L-B-SOUT",
+   "position": 6,
+   "record": {
+    "id": "S-L-B-SOUT",
+    "plant_record_id": "plant:williams_geismar:440369931e305d48",
+    "kind": "no_flow_line",
+    "section_type": "pipe",
+    "name": "L-B-SOUT (no-flow line)",
+    "purpose": null,
+    "object_ids": [
+     "L-B-SOUT",
+     "HV-B-SOUT"
+    ],
+    "flagged_no_flow": true,
+    "drawn_by": "rule",
+    "suggestion_reason": null
+   }
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "S-L-QW-A-IN",
+   "position": 7,
+   "record": {
+    "id": "S-L-QW-A-IN",
+    "plant_record_id": "plant:williams_geismar:440369931e305d48",
+    "kind": "line",
+    "section_type": "pipe",
+    "name": "L-QW-A-IN (pipe)",
+    "purpose": null,
+    "object_ids": [
+     "L-QW-A-IN",
+     "HV-QW-A-IN"
+    ],
+    "flagged_no_flow": false,
+    "drawn_by": "rule",
+    "suggestion_reason": null
+   }
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "S-L-QW-A-OUT",
+   "position": 8,
+   "record": {
+    "id": "S-L-QW-A-OUT",
+    "plant_record_id": "plant:williams_geismar:440369931e305d48",
+    "kind": "line",
+    "section_type": "pipe",
+    "name": "L-QW-A-OUT (pipe)",
+    "purpose": null,
+    "object_ids": [
+     "L-QW-A-OUT",
+     "HV-QW-A-OUT"
+    ],
+    "flagged_no_flow": false,
+    "drawn_by": "rule",
+    "suggestion_reason": null
+   }
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "S-L-QW-B-IN",
+   "position": 9,
+   "record": {
+    "id": "S-L-QW-B-IN",
+    "plant_record_id": "plant:williams_geismar:440369931e305d48",
+    "kind": "no_flow_line",
+    "section_type": "pipe",
+    "name": "L-QW-B-IN (no-flow line)",
+    "purpose": null,
+    "object_ids": [
+     "L-QW-B-IN",
+     "HV-QW-B-IN"
+    ],
+    "flagged_no_flow": true,
+    "drawn_by": "rule",
+    "suggestion_reason": null
+   }
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "S-L-QW-B-OUT",
+   "position": 10,
+   "record": {
+    "id": "S-L-QW-B-OUT",
+    "plant_record_id": "plant:williams_geismar:440369931e305d48",
+    "kind": "no_flow_line",
+    "section_type": "pipe",
+    "name": "L-QW-B-OUT (no-flow line)",
+    "purpose": null,
+    "object_ids": [
+     "L-QW-B-OUT",
+     "HV-QW-B-OUT"
+    ],
+    "flagged_no_flow": true,
+    "drawn_by": "rule",
+    "suggestion_reason": null
+   }
+  },
+  {
+   "plant_record_id": "plant:williams_geismar:440369931e305d48",
+   "id": "S-P-REB-START",
+   "position": 11,
+   "record": {
+    "id": "S-P-REB-START",
+    "plant_record_id": "plant:williams_geismar:440369931e305d48",
+    "kind": "procedure",
+    "section_type": "procedure",
+    "name": "P-REB-START (procedure: start_up)",
+    "purpose": null,
+    "object_ids": [
+     "P-REB-START"
+    ],
+    "flagged_no_flow": false,
+    "drawn_by": "rule",
+    "suggestion_reason": null
+   }
+  }
+ ]
+}
