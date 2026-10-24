@@ -1,0 +1,2885 @@
+{
+ "table": "questions",
+ "rows": [
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "env:C4-HEAVIES:air",
+   "position": 133,
+   "record": {
+    "id": "env:C4-HEAVIES:air",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "chemical_environment",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": null,
+    "text": "C4-HEAVIES (heavier hydrocarbons (C4 and above)) with air: what would happen on contact or exposure, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:8a741e0d443b37dc"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "env:C4-HEAVIES:heat",
+   "position": 134,
+   "record": {
+    "id": "env:C4-HEAVIES:heat",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "chemical_environment",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": null,
+    "text": "C4-HEAVIES (heavier hydrocarbons (C4 and above)) with heat: what would happen on contact or exposure, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:0c0d6a02a4503d60"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "env:C4-HEAVIES:water",
+   "position": 135,
+   "record": {
+    "id": "env:C4-HEAVIES:water",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "chemical_environment",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": null,
+    "text": "C4-HEAVIES (heavier hydrocarbons (C4 and above)) with water: what would happen on contact or exposure, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:e45f3acd19a74611"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "env:PROPANE:air",
+   "position": 136,
+   "record": {
+    "id": "env:PROPANE:air",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "chemical_environment",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": null,
+    "text": "PROPANE (propane) with air: what would happen on contact or exposure, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:88305c4760dbefe6"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "env:PROPANE:heat",
+   "position": 137,
+   "record": {
+    "id": "env:PROPANE:heat",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "chemical_environment",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": null,
+    "text": "PROPANE (propane) with heat: what would happen on contact or exposure, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:88305c4760dbefe6"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "env:PROPANE:water",
+   "position": 138,
+   "record": {
+    "id": "env:PROPANE:water",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "chemical_environment",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": null,
+    "text": "PROPANE (propane) with water: what would happen on contact or exposure, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:88305c4760dbefe6"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "env:PROPYLENE:air",
+   "position": 139,
+   "record": {
+    "id": "env:PROPYLENE:air",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "chemical_environment",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": null,
+    "text": "PROPYLENE (propylene) with air: what would happen on contact or exposure, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:88305c4760dbefe6"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "env:PROPYLENE:heat",
+   "position": 140,
+   "record": {
+    "id": "env:PROPYLENE:heat",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "chemical_environment",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": null,
+    "text": "PROPYLENE (propylene) with heat: what would happen on contact or exposure, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:88305c4760dbefe6"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "env:PROPYLENE:water",
+   "position": 141,
+   "record": {
+    "id": "env:PROPYLENE:water",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "chemical_environment",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": null,
+    "text": "PROPYLENE (propylene) with water: what would happen on contact or exposure, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:8a741e0d443b37dc"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-DA-406:as_well_as:composition",
+   "position": 0,
+   "record": {
+    "id": "m:S-DA-406:as_well_as:composition",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-DA-406",
+    "text": "As well as composition in S-DA-406 (column): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:75dde3eab739ec8b"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-DA-406:less:flow",
+   "position": 1,
+   "record": {
+    "id": "m:S-DA-406:less:flow",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "failed",
+    "section_id": "S-DA-406",
+    "text": "Less flow in S-DA-406 (column): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": null
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-DA-406:less:level",
+   "position": 2,
+   "record": {
+    "id": "m:S-DA-406:less:level",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "failed",
+    "section_id": "S-DA-406",
+    "text": "Less level in S-DA-406 (column): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": null
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-DA-406:less:pressure",
+   "position": 3,
+   "record": {
+    "id": "m:S-DA-406:less:pressure",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "failed",
+    "section_id": "S-DA-406",
+    "text": "Less pressure in S-DA-406 (column): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": null
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-DA-406:less:temperature",
+   "position": 4,
+   "record": {
+    "id": "m:S-DA-406:less:temperature",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "failed",
+    "section_id": "S-DA-406",
+    "text": "Less temperature in S-DA-406 (column): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": null
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-DA-406:more:flow",
+   "position": 5,
+   "record": {
+    "id": "m:S-DA-406:more:flow",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-DA-406",
+    "text": "More flow in S-DA-406 (column): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:42a41e9a9c642139"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-DA-406:more:level",
+   "position": 6,
+   "record": {
+    "id": "m:S-DA-406:more:level",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "failed",
+    "section_id": "S-DA-406",
+    "text": "More level in S-DA-406 (column): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": null
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-DA-406:more:pressure",
+   "position": 7,
+   "record": {
+    "id": "m:S-DA-406:more:pressure",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-DA-406",
+    "text": "More pressure in S-DA-406 (column): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:dc34772a20704fdc"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-DA-406:more:temperature",
+   "position": 8,
+   "record": {
+    "id": "m:S-DA-406:more:temperature",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-DA-406",
+    "text": "More temperature in S-DA-406 (column): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:40db4cc95a7da595"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-DA-406:no:flow",
+   "position": 9,
+   "record": {
+    "id": "m:S-DA-406:no:flow",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-DA-406",
+    "text": "No flow in S-DA-406 (column): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:40db4cc95a7da595"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-DA-406:no:level",
+   "position": 10,
+   "record": {
+    "id": "m:S-DA-406:no:level",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-DA-406",
+    "text": "No level in S-DA-406 (column): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:40db4cc95a7da595"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-DA-406:other_than:composition",
+   "position": 11,
+   "record": {
+    "id": "m:S-DA-406:other_than:composition",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-DA-406",
+    "text": "Other than composition in S-DA-406 (column): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:40db4cc95a7da595"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-DA-406:other_than:phase",
+   "position": 12,
+   "record": {
+    "id": "m:S-DA-406:other_than:phase",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-DA-406",
+    "text": "Other than phase in S-DA-406 (column): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:40db4cc95a7da595"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-DA-406:part_of:composition",
+   "position": 13,
+   "record": {
+    "id": "m:S-DA-406:part_of:composition",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-DA-406",
+    "text": "Part of composition in S-DA-406 (column): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:af8f1b91f5990b9c"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-EA-425A:as_well_as:composition",
+   "position": 14,
+   "record": {
+    "id": "m:S-EA-425A:as_well_as:composition",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-EA-425A",
+    "text": "As well as composition in S-EA-425A (heat exchanger): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:0cd3beb5fe5cfd58"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-EA-425A:less:flow",
+   "position": 15,
+   "record": {
+    "id": "m:S-EA-425A:less:flow",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-EA-425A",
+    "text": "Less flow in S-EA-425A (heat exchanger): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:0cd3beb5fe5cfd58"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-EA-425A:less:pressure",
+   "position": 16,
+   "record": {
+    "id": "m:S-EA-425A:less:pressure",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-EA-425A",
+    "text": "Less pressure in S-EA-425A (heat exchanger): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:bf5b1337a63848cf"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-EA-425A:less:temperature",
+   "position": 17,
+   "record": {
+    "id": "m:S-EA-425A:less:temperature",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-EA-425A",
+    "text": "Less temperature in S-EA-425A (heat exchanger): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:dc84cbcc142632ab"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-EA-425A:more:flow",
+   "position": 18,
+   "record": {
+    "id": "m:S-EA-425A:more:flow",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-EA-425A",
+    "text": "More flow in S-EA-425A (heat exchanger): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:bf5b1337a63848cf"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-EA-425A:more:pressure",
+   "position": 19,
+   "record": {
+    "id": "m:S-EA-425A:more:pressure",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-EA-425A",
+    "text": "More pressure in S-EA-425A (heat exchanger): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:bf5b1337a63848cf"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-EA-425A:more:temperature",
+   "position": 20,
+   "record": {
+    "id": "m:S-EA-425A:more:temperature",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-EA-425A",
+    "text": "More temperature in S-EA-425A (heat exchanger): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:bf5b1337a63848cf"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-EA-425A:no:flow",
+   "position": 21,
+   "record": {
+    "id": "m:S-EA-425A:no:flow",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-EA-425A",
+    "text": "No flow in S-EA-425A (heat exchanger): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:bf5b1337a63848cf"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-EA-425A:other_than:composition",
+   "position": 22,
+   "record": {
+    "id": "m:S-EA-425A:other_than:composition",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-EA-425A",
+    "text": "Other than composition in S-EA-425A (heat exchanger): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:5dc638152d9e1275"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-EA-425A:reverse:flow",
+   "position": 23,
+   "record": {
+    "id": "m:S-EA-425A:reverse:flow",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-EA-425A",
+    "text": "Reverse flow in S-EA-425A (heat exchanger): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:fe58d6fdc744e792"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-EA-425B:as_well_as:composition",
+   "position": 24,
+   "record": {
+    "id": "m:S-EA-425B:as_well_as:composition",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-EA-425B",
+    "text": "As well as composition in S-EA-425B (heat exchanger): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:c0d5c484bddc09b6"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-EA-425B:less:flow",
+   "position": 25,
+   "record": {
+    "id": "m:S-EA-425B:less:flow",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-EA-425B",
+    "text": "Less flow in S-EA-425B (heat exchanger): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:c0d5c484bddc09b6"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-EA-425B:less:pressure",
+   "position": 26,
+   "record": {
+    "id": "m:S-EA-425B:less:pressure",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-EA-425B",
+    "text": "Less pressure in S-EA-425B (heat exchanger): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:c0d5c484bddc09b6"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-EA-425B:less:temperature",
+   "position": 27,
+   "record": {
+    "id": "m:S-EA-425B:less:temperature",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-EA-425B",
+    "text": "Less temperature in S-EA-425B (heat exchanger): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:c0d5c484bddc09b6"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-EA-425B:more:flow",
+   "position": 28,
+   "record": {
+    "id": "m:S-EA-425B:more:flow",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-EA-425B",
+    "text": "More flow in S-EA-425B (heat exchanger): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:c0d5c484bddc09b6"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-EA-425B:more:pressure",
+   "position": 29,
+   "record": {
+    "id": "m:S-EA-425B:more:pressure",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-EA-425B",
+    "text": "More pressure in S-EA-425B (heat exchanger): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:ff5d458992498e25"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-EA-425B:more:temperature",
+   "position": 30,
+   "record": {
+    "id": "m:S-EA-425B:more:temperature",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-EA-425B",
+    "text": "More temperature in S-EA-425B (heat exchanger): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:0b6fb3b4611ee01f"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-EA-425B:no:flow",
+   "position": 31,
+   "record": {
+    "id": "m:S-EA-425B:no:flow",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-EA-425B",
+    "text": "No flow in S-EA-425B (heat exchanger): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:0b6fb3b4611ee01f"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-EA-425B:other_than:composition",
+   "position": 32,
+   "record": {
+    "id": "m:S-EA-425B:other_than:composition",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-EA-425B",
+    "text": "Other than composition in S-EA-425B (heat exchanger): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:0b6fb3b4611ee01f"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-EA-425B:reverse:flow",
+   "position": 33,
+   "record": {
+    "id": "m:S-EA-425B:reverse:flow",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-EA-425B",
+    "text": "Reverse flow in S-EA-425B (heat exchanger): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:0b6fb3b4611ee01f"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-L-A-SIN:as_well_as:composition",
+   "position": 34,
+   "record": {
+    "id": "m:S-L-A-SIN:as_well_as:composition",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-A-SIN",
+    "text": "As well as composition in S-L-A-SIN (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:4190e1a86b512f69"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-L-A-SIN:less:flow",
+   "position": 35,
+   "record": {
+    "id": "m:S-L-A-SIN:less:flow",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-A-SIN",
+    "text": "Less flow in S-L-A-SIN (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:4190e1a86b512f69"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-L-A-SIN:less:pressure",
+   "position": 36,
+   "record": {
+    "id": "m:S-L-A-SIN:less:pressure",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-A-SIN",
+    "text": "Less pressure in S-L-A-SIN (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:4190e1a86b512f69"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-L-A-SIN:less:temperature",
+   "position": 37,
+   "record": {
+    "id": "m:S-L-A-SIN:less:temperature",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-A-SIN",
+    "text": "Less temperature in S-L-A-SIN (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:4190e1a86b512f69"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-L-A-SIN:more:flow",
+   "position": 38,
+   "record": {
+    "id": "m:S-L-A-SIN:more:flow",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-A-SIN",
+    "text": "More flow in S-L-A-SIN (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:4190e1a86b512f69"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-L-A-SIN:more:pressure",
+   "position": 39,
+   "record": {
+    "id": "m:S-L-A-SIN:more:pressure",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-A-SIN",
+    "text": "More pressure in S-L-A-SIN (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:2f9dd2f096496609"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-L-A-SIN:more:temperature",
+   "position": 40,
+   "record": {
+    "id": "m:S-L-A-SIN:more:temperature",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "not_credible",
+    "section_id": "S-L-A-SIN",
+    "text": "More temperature in S-L-A-SIN (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": "The line L-A-SIN is uninsulated and in open air; ambient temperature changes are the only source of temperature increase, which are not considered a credible 'more temperature' deviation for a process line in this context.",
+    "model_call_id": "mc:7eca7a375672892e"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-L-A-SIN:no:flow",
+   "position": 41,
+   "record": {
+    "id": "m:S-L-A-SIN:no:flow",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-A-SIN",
+    "text": "No flow in S-L-A-SIN (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:706ac8f826cb615d"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-L-A-SIN:other_than:composition",
+   "position": 42,
+   "record": {
+    "id": "m:S-L-A-SIN:other_than:composition",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-A-SIN",
+    "text": "Other than composition in S-L-A-SIN (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:706ac8f826cb615d"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-L-A-SIN:other_than:phase",
+   "position": 43,
+   "record": {
+    "id": "m:S-L-A-SIN:other_than:phase",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-A-SIN",
+    "text": "Other than phase in S-L-A-SIN (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:706ac8f826cb615d"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-L-A-SIN:part_of:composition",
+   "position": 44,
+   "record": {
+    "id": "m:S-L-A-SIN:part_of:composition",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-A-SIN",
+    "text": "Part of composition in S-L-A-SIN (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:27236ea1eba29e12"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-L-A-SIN:reverse:flow",
+   "position": 45,
+   "record": {
+    "id": "m:S-L-A-SIN:reverse:flow",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "not_credible",
+    "section_id": "S-L-A-SIN",
+    "text": "Reverse flow in S-L-A-SIN (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": "Reverse flow in L-A-SIN is not credible because the line runs from the propylene fractionator (DA-406) to the reboiler (EA-425A); there is no downstream equipment at higher pressure to push flow backwards, and the control logic and pump status do not support a reversal mechanism.",
+    "model_call_id": "mc:35f47625bfcaa6e3"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-L-A-SOUT:as_well_as:composition",
+   "position": 46,
+   "record": {
+    "id": "m:S-L-A-SOUT:as_well_as:composition",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-A-SOUT",
+    "text": "As well as composition in S-L-A-SOUT (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:6f810330abe12989"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-L-A-SOUT:less:flow",
+   "position": 47,
+   "record": {
+    "id": "m:S-L-A-SOUT:less:flow",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-A-SOUT",
+    "text": "Less flow in S-L-A-SOUT (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:ad4cdbebbc49dd01"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-L-A-SOUT:less:pressure",
+   "position": 48,
+   "record": {
+    "id": "m:S-L-A-SOUT:less:pressure",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-A-SOUT",
+    "text": "Less pressure in S-L-A-SOUT (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:ad4cdbebbc49dd01"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-L-A-SOUT:less:temperature",
+   "position": 49,
+   "record": {
+    "id": "m:S-L-A-SOUT:less:temperature",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-A-SOUT",
+    "text": "Less temperature in S-L-A-SOUT (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:ad4cdbebbc49dd01"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-L-A-SOUT:more:flow",
+   "position": 50,
+   "record": {
+    "id": "m:S-L-A-SOUT:more:flow",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-A-SOUT",
+    "text": "More flow in S-L-A-SOUT (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:ad4cdbebbc49dd01"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-L-A-SOUT:more:pressure",
+   "position": 51,
+   "record": {
+    "id": "m:S-L-A-SOUT:more:pressure",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-A-SOUT",
+    "text": "More pressure in S-L-A-SOUT (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:2d76683fcaee9ce8"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-L-A-SOUT:more:temperature",
+   "position": 52,
+   "record": {
+    "id": "m:S-L-A-SOUT:more:temperature",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-A-SOUT",
+    "text": "More temperature in S-L-A-SOUT (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:2d76683fcaee9ce8"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-L-A-SOUT:no:flow",
+   "position": 53,
+   "record": {
+    "id": "m:S-L-A-SOUT:no:flow",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-A-SOUT",
+    "text": "No flow in S-L-A-SOUT (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:2d76683fcaee9ce8"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-L-A-SOUT:other_than:composition",
+   "position": 54,
+   "record": {
+    "id": "m:S-L-A-SOUT:other_than:composition",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-A-SOUT",
+    "text": "Other than composition in S-L-A-SOUT (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:2d76683fcaee9ce8"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-L-A-SOUT:other_than:phase",
+   "position": 55,
+   "record": {
+    "id": "m:S-L-A-SOUT:other_than:phase",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-A-SOUT",
+    "text": "Other than phase in S-L-A-SOUT (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:2d76683fcaee9ce8"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-L-A-SOUT:part_of:composition",
+   "position": 56,
+   "record": {
+    "id": "m:S-L-A-SOUT:part_of:composition",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "not_credible",
+    "section_id": "S-L-A-SOUT",
+    "text": "Part of composition in S-L-A-SOUT (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": "The line is a simple pipe with no internal equipment to cause separation or enrichment; composition can only change via leak or reaction, neither indicated.",
+    "model_call_id": "mc:ad4cdbebbc49dd01"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-L-A-SOUT:reverse:flow",
+   "position": 57,
+   "record": {
+    "id": "m:S-L-A-SOUT:reverse:flow",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-A-SOUT",
+    "text": "Reverse flow in S-L-A-SOUT (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:711b7ac88bc5ae95"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-L-B-SIN:as_well_as:composition",
+   "position": 58,
+   "record": {
+    "id": "m:S-L-B-SIN:as_well_as:composition",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-B-SIN",
+    "text": "As well as composition in S-L-B-SIN (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:ee6acffc939b7027"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-L-B-SIN:less:flow",
+   "position": 59,
+   "record": {
+    "id": "m:S-L-B-SIN:less:flow",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-B-SIN",
+    "text": "Less flow in S-L-B-SIN (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:ed31fff73c87e896"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-L-B-SIN:less:pressure",
+   "position": 60,
+   "record": {
+    "id": "m:S-L-B-SIN:less:pressure",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-B-SIN",
+    "text": "Less pressure in S-L-B-SIN (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:ed31fff73c87e896"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-L-B-SIN:less:temperature",
+   "position": 61,
+   "record": {
+    "id": "m:S-L-B-SIN:less:temperature",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-B-SIN",
+    "text": "Less temperature in S-L-B-SIN (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:ed31fff73c87e896"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-L-B-SIN:more:flow",
+   "position": 62,
+   "record": {
+    "id": "m:S-L-B-SIN:more:flow",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-B-SIN",
+    "text": "More flow in S-L-B-SIN (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:ed31fff73c87e896"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-L-B-SIN:more:pressure",
+   "position": 63,
+   "record": {
+    "id": "m:S-L-B-SIN:more:pressure",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-B-SIN",
+    "text": "More pressure in S-L-B-SIN (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:448b3046c4e5d3e6"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-L-B-SIN:more:temperature",
+   "position": 64,
+   "record": {
+    "id": "m:S-L-B-SIN:more:temperature",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-B-SIN",
+    "text": "More temperature in S-L-B-SIN (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:ed31fff73c87e896"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-L-B-SIN:no:flow",
+   "position": 65,
+   "record": {
+    "id": "m:S-L-B-SIN:no:flow",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-B-SIN",
+    "text": "No flow in S-L-B-SIN (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:e3284cda6e81dad2"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-L-B-SIN:other_than:composition",
+   "position": 66,
+   "record": {
+    "id": "m:S-L-B-SIN:other_than:composition",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-B-SIN",
+    "text": "Other than composition in S-L-B-SIN (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:627ddf4e18bd007e"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-L-B-SIN:other_than:phase",
+   "position": 67,
+   "record": {
+    "id": "m:S-L-B-SIN:other_than:phase",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-B-SIN",
+    "text": "Other than phase in S-L-B-SIN (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:e3284cda6e81dad2"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-L-B-SIN:part_of:composition",
+   "position": 68,
+   "record": {
+    "id": "m:S-L-B-SIN:part_of:composition",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-B-SIN",
+    "text": "Part of composition in S-L-B-SIN (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:22949f7338606f0d"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-L-B-SIN:reverse:flow",
+   "position": 69,
+   "record": {
+    "id": "m:S-L-B-SIN:reverse:flow",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-B-SIN",
+    "text": "Reverse flow in S-L-B-SIN (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:e3284cda6e81dad2"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-L-B-SOUT:as_well_as:composition",
+   "position": 70,
+   "record": {
+    "id": "m:S-L-B-SOUT:as_well_as:composition",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-B-SOUT",
+    "text": "As well as composition in S-L-B-SOUT (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:7e690cad9ce9f1ed"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-L-B-SOUT:less:flow",
+   "position": 71,
+   "record": {
+    "id": "m:S-L-B-SOUT:less:flow",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "not_credible",
+    "section_id": "S-L-B-SOUT",
+    "text": "Less flow in S-L-B-SOUT (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": "The line L-B-SOUT is flagged as a no‑flow line; under normal operation it is intended to have zero flow, so a deviation to less flow (negative flow) is physically impossible.",
+    "model_call_id": "mc:eae416ae31114a09"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-L-B-SOUT:less:pressure",
+   "position": 72,
+   "record": {
+    "id": "m:S-L-B-SOUT:less:pressure",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-B-SOUT",
+    "text": "Less pressure in S-L-B-SOUT (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:eae416ae31114a09"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-L-B-SOUT:less:temperature",
+   "position": 73,
+   "record": {
+    "id": "m:S-L-B-SOUT:less:temperature",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-B-SOUT",
+    "text": "Less temperature in S-L-B-SOUT (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:d43bf72decff8874"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-L-B-SOUT:more:flow",
+   "position": 74,
+   "record": {
+    "id": "m:S-L-B-SOUT:more:flow",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "not_credible",
+    "section_id": "S-L-B-SOUT",
+    "text": "More flow in S-L-B-SOUT (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": "No flow in this line is expected; the line is flagged no_flow and is designated standby, so more flow is not credible without a change in status or procedure execution.",
+    "model_call_id": "mc:dc92fd4038826973"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-L-B-SOUT:more:pressure",
+   "position": 75,
+   "record": {
+    "id": "m:S-L-B-SOUT:more:pressure",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "not_credible",
+    "section_id": "S-L-B-SOUT",
+    "text": "More pressure in S-L-B-SOUT (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": "The line L-B-SOUT has no pressurization source; it is a standby no-flow line discharging to DA-406 at the same pressure level. No pump, blower, or compressor feeds this line, so a pressure increase has no credible initiating cause.",
+    "model_call_id": "mc:4c830c9eea1bcf50"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-L-B-SOUT:more:temperature",
+   "position": 76,
+   "record": {
+    "id": "m:S-L-B-SOUT:more:temperature",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "not_credible",
+    "section_id": "S-L-B-SOUT",
+    "text": "More temperature in S-L-B-SOUT (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": "The line L-B-SOUT is a standby line with no heat input, no insulation trace, and no utility connection that could raise its temperature above the ambient/pipe-bulk temperature.",
+    "model_call_id": "mc:4c830c9eea1bcf50"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-L-B-SOUT:no:flow",
+   "position": 77,
+   "record": {
+    "id": "m:S-L-B-SOUT:no:flow",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "not_credible",
+    "section_id": "S-L-B-SOUT",
+    "text": "No flow in S-L-B-SOUT (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": "The context explicitly marks this line with `flagged_no_flow: true` and `no_flow: standby`, confirming it is a no-flow line by design. The deviation is inherent to its purpose, not a credible unexpected event.",
+    "model_call_id": "mc:4c830c9eea1bcf50"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-L-B-SOUT:other_than:composition",
+   "position": 78,
+   "record": {
+    "id": "m:S-L-B-SOUT:other_than:composition",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "not_credible",
+    "section_id": "S-L-B-SOUT",
+    "text": "Other than composition in S-L-B-SOUT (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": "With no flow and no upstream source, there is no mechanism to introduce a different composition into this line. The line contents are fixed as standby inventory.",
+    "model_call_id": "mc:4c830c9eea1bcf50"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-L-B-SOUT:other_than:phase",
+   "position": 79,
+   "record": {
+    "id": "m:S-L-B-SOUT:other_than:phase",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "not_credible",
+    "section_id": "S-L-B-SOUT",
+    "text": "Other than phase in S-L-B-SOUT (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": "The line is listed with liquid-phase chemicals (propane, propylene, C4-heavies) and no vapor‑liquid interface, pumps, or heat source is present to induce a phase change.",
+    "model_call_id": "mc:4c830c9eea1bcf50"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-L-B-SOUT:part_of:composition",
+   "position": 80,
+   "record": {
+    "id": "m:S-L-B-SOUT:part_of:composition",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "not_credible",
+    "section_id": "S-L-B-SOUT",
+    "text": "Part of composition in S-L-B-SOUT (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": "L-B-SOUT only carries propane, propylene and C4‑heavies; there are no other process streams connected to this line, so introduction of a different component is not possible.",
+    "model_call_id": "mc:eae416ae31114a09"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-L-B-SOUT:reverse:flow",
+   "position": 81,
+   "record": {
+    "id": "m:S-L-B-SOUT:reverse:flow",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-B-SOUT",
+    "text": "Reverse flow in S-L-B-SOUT (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:eae416ae31114a09"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-L-QW-A-IN:as_well_as:composition",
+   "position": 82,
+   "record": {
+    "id": "m:S-L-QW-A-IN:as_well_as:composition",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-QW-A-IN",
+    "text": "As well as composition in S-L-QW-A-IN (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:198677e667db3663"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-L-QW-A-IN:less:flow",
+   "position": 83,
+   "record": {
+    "id": "m:S-L-QW-A-IN:less:flow",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-QW-A-IN",
+    "text": "Less flow in S-L-QW-A-IN (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:198677e667db3663"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-L-QW-A-IN:less:pressure",
+   "position": 84,
+   "record": {
+    "id": "m:S-L-QW-A-IN:less:pressure",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-QW-A-IN",
+    "text": "Less pressure in S-L-QW-A-IN (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:2cc149445cc016e7"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-L-QW-A-IN:less:temperature",
+   "position": 85,
+   "record": {
+    "id": "m:S-L-QW-A-IN:less:temperature",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-QW-A-IN",
+    "text": "Less temperature in S-L-QW-A-IN (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:bdba57b17f74ebda"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-L-QW-A-IN:more:flow",
+   "position": 86,
+   "record": {
+    "id": "m:S-L-QW-A-IN:more:flow",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-QW-A-IN",
+    "text": "More flow in S-L-QW-A-IN (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:b8f07267c4493df7"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-L-QW-A-IN:more:pressure",
+   "position": 87,
+   "record": {
+    "id": "m:S-L-QW-A-IN:more:pressure",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-QW-A-IN",
+    "text": "More pressure in S-L-QW-A-IN (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:64295214c2850885"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-L-QW-A-IN:more:temperature",
+   "position": 88,
+   "record": {
+    "id": "m:S-L-QW-A-IN:more:temperature",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-QW-A-IN",
+    "text": "More temperature in S-L-QW-A-IN (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:b8f07267c4493df7"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-L-QW-A-IN:no:flow",
+   "position": 89,
+   "record": {
+    "id": "m:S-L-QW-A-IN:no:flow",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-QW-A-IN",
+    "text": "No flow in S-L-QW-A-IN (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:b8f07267c4493df7"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-L-QW-A-IN:other_than:composition",
+   "position": 90,
+   "record": {
+    "id": "m:S-L-QW-A-IN:other_than:composition",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-QW-A-IN",
+    "text": "Other than composition in S-L-QW-A-IN (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:b8f07267c4493df7"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-L-QW-A-IN:other_than:phase",
+   "position": 91,
+   "record": {
+    "id": "m:S-L-QW-A-IN:other_than:phase",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-QW-A-IN",
+    "text": "Other than phase in S-L-QW-A-IN (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:b8f07267c4493df7"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-L-QW-A-IN:part_of:composition",
+   "position": 92,
+   "record": {
+    "id": "m:S-L-QW-A-IN:part_of:composition",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-QW-A-IN",
+    "text": "Part of composition in S-L-QW-A-IN (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:a7849a503be0291e"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-L-QW-A-IN:reverse:flow",
+   "position": 93,
+   "record": {
+    "id": "m:S-L-QW-A-IN:reverse:flow",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "failed",
+    "section_id": "S-L-QW-A-IN",
+    "text": "Reverse flow in S-L-QW-A-IN (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": null
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-L-QW-A-OUT:as_well_as:composition",
+   "position": 94,
+   "record": {
+    "id": "m:S-L-QW-A-OUT:as_well_as:composition",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-QW-A-OUT",
+    "text": "As well as composition in S-L-QW-A-OUT (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:a396ee34104d18e7"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-L-QW-A-OUT:less:flow",
+   "position": 95,
+   "record": {
+    "id": "m:S-L-QW-A-OUT:less:flow",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-QW-A-OUT",
+    "text": "Less flow in S-L-QW-A-OUT (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:a396ee34104d18e7"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-L-QW-A-OUT:less:pressure",
+   "position": 96,
+   "record": {
+    "id": "m:S-L-QW-A-OUT:less:pressure",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-QW-A-OUT",
+    "text": "Less pressure in S-L-QW-A-OUT (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:a396ee34104d18e7"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-L-QW-A-OUT:less:temperature",
+   "position": 97,
+   "record": {
+    "id": "m:S-L-QW-A-OUT:less:temperature",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-QW-A-OUT",
+    "text": "Less temperature in S-L-QW-A-OUT (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:a396ee34104d18e7"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-L-QW-A-OUT:more:flow",
+   "position": 98,
+   "record": {
+    "id": "m:S-L-QW-A-OUT:more:flow",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "not_credible",
+    "section_id": "S-L-QW-A-OUT",
+    "text": "More flow in S-L-QW-A-OUT (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": "The line has no pump or compressor; flow is solely determined by utility pressure and valve position, with no mechanism to increase flow beyond the maximum when valve is fully open.",
+    "model_call_id": "mc:a396ee34104d18e7"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-L-QW-A-OUT:more:pressure",
+   "position": 99,
+   "record": {
+    "id": "m:S-L-QW-A-OUT:more:pressure",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-QW-A-OUT",
+    "text": "More pressure in S-L-QW-A-OUT (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:9b9c1e633bf2d83c"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-L-QW-A-OUT:more:temperature",
+   "position": 100,
+   "record": {
+    "id": "m:S-L-QW-A-OUT:more:temperature",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-QW-A-OUT",
+    "text": "More temperature in S-L-QW-A-OUT (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:9b9c1e633bf2d83c"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-L-QW-A-OUT:no:flow",
+   "position": 101,
+   "record": {
+    "id": "m:S-L-QW-A-OUT:no:flow",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-QW-A-OUT",
+    "text": "No flow in S-L-QW-A-OUT (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:9b9c1e633bf2d83c"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-L-QW-A-OUT:other_than:composition",
+   "position": 102,
+   "record": {
+    "id": "m:S-L-QW-A-OUT:other_than:composition",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-QW-A-OUT",
+    "text": "Other than composition in S-L-QW-A-OUT (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:9b9c1e633bf2d83c"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-L-QW-A-OUT:other_than:phase",
+   "position": 103,
+   "record": {
+    "id": "m:S-L-QW-A-OUT:other_than:phase",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-QW-A-OUT",
+    "text": "Other than phase in S-L-QW-A-OUT (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:9b9c1e633bf2d83c"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-L-QW-A-OUT:part_of:composition",
+   "position": 104,
+   "record": {
+    "id": "m:S-L-QW-A-OUT:part_of:composition",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-QW-A-OUT",
+    "text": "Part of composition in S-L-QW-A-OUT (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:1b8c8bc5365674e9"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-L-QW-A-OUT:reverse:flow",
+   "position": 105,
+   "record": {
+    "id": "m:S-L-QW-A-OUT:reverse:flow",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "not_credible",
+    "section_id": "S-L-QW-A-OUT",
+    "text": "Reverse flow in S-L-QW-A-OUT (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": "There is no pump or pressure source capable of driving flow opposite to the normal direction; the line is a passive return dependent on utility supply, so reverse flow cannot occur.",
+    "model_call_id": "mc:1b8c8bc5365674e9"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-L-QW-B-IN:as_well_as:composition",
+   "position": 106,
+   "record": {
+    "id": "m:S-L-QW-B-IN:as_well_as:composition",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-QW-B-IN",
+    "text": "As well as composition in S-L-QW-B-IN (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:96e0c33fadf8c36b"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-L-QW-B-IN:less:flow",
+   "position": 107,
+   "record": {
+    "id": "m:S-L-QW-B-IN:less:flow",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-QW-B-IN",
+    "text": "Less flow in S-L-QW-B-IN (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:96e0c33fadf8c36b"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-L-QW-B-IN:less:pressure",
+   "position": 108,
+   "record": {
+    "id": "m:S-L-QW-B-IN:less:pressure",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-QW-B-IN",
+    "text": "Less pressure in S-L-QW-B-IN (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:96e0c33fadf8c36b"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-L-QW-B-IN:less:temperature",
+   "position": 109,
+   "record": {
+    "id": "m:S-L-QW-B-IN:less:temperature",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-QW-B-IN",
+    "text": "Less temperature in S-L-QW-B-IN (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:96e0c33fadf8c36b"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-L-QW-B-IN:more:flow",
+   "position": 110,
+   "record": {
+    "id": "m:S-L-QW-B-IN:more:flow",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-QW-B-IN",
+    "text": "More flow in S-L-QW-B-IN (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:96e0c33fadf8c36b"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-L-QW-B-IN:more:pressure",
+   "position": 111,
+   "record": {
+    "id": "m:S-L-QW-B-IN:more:pressure",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-QW-B-IN",
+    "text": "More pressure in S-L-QW-B-IN (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:eb3a03af780cb6c2"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-L-QW-B-IN:more:temperature",
+   "position": 112,
+   "record": {
+    "id": "m:S-L-QW-B-IN:more:temperature",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-QW-B-IN",
+    "text": "More temperature in S-L-QW-B-IN (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:eb3a03af780cb6c2"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-L-QW-B-IN:no:flow",
+   "position": 113,
+   "record": {
+    "id": "m:S-L-QW-B-IN:no:flow",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "not_credible",
+    "section_id": "S-L-QW-B-IN",
+    "text": "No flow in S-L-QW-B-IN (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": "Line is designated no‑flow line; valve HV‑QW‑B‑IN is normally closed, so no flow is the expected condition.",
+    "model_call_id": "mc:eb3a03af780cb6c2"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-L-QW-B-IN:other_than:composition",
+   "position": 114,
+   "record": {
+    "id": "m:S-L-QW-B-IN:other_than:composition",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-QW-B-IN",
+    "text": "Other than composition in S-L-QW-B-IN (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:eb3a03af780cb6c2"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-L-QW-B-IN:other_than:phase",
+   "position": 115,
+   "record": {
+    "id": "m:S-L-QW-B-IN:other_than:phase",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-QW-B-IN",
+    "text": "Other than phase in S-L-QW-B-IN (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:eb3a03af780cb6c2"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-L-QW-B-IN:part_of:composition",
+   "position": 116,
+   "record": {
+    "id": "m:S-L-QW-B-IN:part_of:composition",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-QW-B-IN",
+    "text": "Part of composition in S-L-QW-B-IN (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:43303f2da0a30413"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-L-QW-B-IN:reverse:flow",
+   "position": 117,
+   "record": {
+    "id": "m:S-L-QW-B-IN:reverse:flow",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "not_credible",
+    "section_id": "S-L-QW-B-IN",
+    "text": "Reverse flow in S-L-QW-B-IN (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": "The line L-QW-B-IN is a single no-flow line with no downstream section at higher pressure to drive reverse flow. Flow is blocked at the outlet valve and isolated at the reboiler shell.",
+    "model_call_id": "mc:6812314ecad55e3e"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-L-QW-B-OUT:as_well_as:composition",
+   "position": 118,
+   "record": {
+    "id": "m:S-L-QW-B-OUT:as_well_as:composition",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-QW-B-OUT",
+    "text": "As well as composition in S-L-QW-B-OUT (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:ecc71b680607d2a2"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-L-QW-B-OUT:less:flow",
+   "position": 119,
+   "record": {
+    "id": "m:S-L-QW-B-OUT:less:flow",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-QW-B-OUT",
+    "text": "Less flow in S-L-QW-B-OUT (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:ecc71b680607d2a2"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-L-QW-B-OUT:less:pressure",
+   "position": 120,
+   "record": {
+    "id": "m:S-L-QW-B-OUT:less:pressure",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-QW-B-OUT",
+    "text": "Less pressure in S-L-QW-B-OUT (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:ecc71b680607d2a2"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-L-QW-B-OUT:less:temperature",
+   "position": 121,
+   "record": {
+    "id": "m:S-L-QW-B-OUT:less:temperature",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-QW-B-OUT",
+    "text": "Less temperature in S-L-QW-B-OUT (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:ecc71b680607d2a2"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-L-QW-B-OUT:more:flow",
+   "position": 122,
+   "record": {
+    "id": "m:S-L-QW-B-OUT:more:flow",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-QW-B-OUT",
+    "text": "More flow in S-L-QW-B-OUT (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:ecc71b680607d2a2"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-L-QW-B-OUT:more:pressure",
+   "position": 123,
+   "record": {
+    "id": "m:S-L-QW-B-OUT:more:pressure",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-QW-B-OUT",
+    "text": "More pressure in S-L-QW-B-OUT (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:61ea6ce321207c16"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-L-QW-B-OUT:more:temperature",
+   "position": 124,
+   "record": {
+    "id": "m:S-L-QW-B-OUT:more:temperature",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-QW-B-OUT",
+    "text": "More temperature in S-L-QW-B-OUT (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:61ea6ce321207c16"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-L-QW-B-OUT:no:flow",
+   "position": 125,
+   "record": {
+    "id": "m:S-L-QW-B-OUT:no:flow",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "not_credible",
+    "section_id": "S-L-QW-B-OUT",
+    "text": "No flow in S-L-QW-B-OUT (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": "The line is explicitly flagged as a no‑flow line for standby operation, so absence of flow is the expected condition, not a deviation.",
+    "model_call_id": "mc:61ea6ce321207c16"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-L-QW-B-OUT:other_than:composition",
+   "position": 126,
+   "record": {
+    "id": "m:S-L-QW-B-OUT:other_than:composition",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-QW-B-OUT",
+    "text": "Other than composition in S-L-QW-B-OUT (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:61ea6ce321207c16"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-L-QW-B-OUT:other_than:phase",
+   "position": 127,
+   "record": {
+    "id": "m:S-L-QW-B-OUT:other_than:phase",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-QW-B-OUT",
+    "text": "Other than phase in S-L-QW-B-OUT (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:61ea6ce321207c16"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-L-QW-B-OUT:part_of:composition",
+   "position": 128,
+   "record": {
+    "id": "m:S-L-QW-B-OUT:part_of:composition",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-QW-B-OUT",
+    "text": "Part of composition in S-L-QW-B-OUT (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:d1922970768dc40d"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "m:S-L-QW-B-OUT:reverse:flow",
+   "position": 129,
+   "record": {
+    "id": "m:S-L-QW-B-OUT:reverse:flow",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-QW-B-OUT",
+    "text": "Reverse flow in S-L-QW-B-OUT (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:d1922970768dc40d"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "nf:L-B-SIN",
+   "position": 142,
+   "record": {
+    "id": "nf:L-B-SIN",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "no_flow_line",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": "S-L-B-SIN",
+    "text": "No-flow line L-B-SIN (standby): what could accumulate there or be missing, and what would happen?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:e849fe7d1109f8de"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "nf:L-B-SOUT",
+   "position": 143,
+   "record": {
+    "id": "nf:L-B-SOUT",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "no_flow_line",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": "S-L-B-SOUT",
+    "text": "No-flow line L-B-SOUT (standby): what could accumulate there or be missing, and what would happen?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:e636f4ef461fe66e"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "nf:L-QW-B-IN",
+   "position": 144,
+   "record": {
+    "id": "nf:L-QW-B-IN",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "no_flow_line",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": "S-L-QW-B-IN",
+    "text": "No-flow line L-QW-B-IN (standby): what could accumulate there or be missing, and what would happen?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:c9f88468b5afa6af"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "nf:L-QW-B-OUT",
+   "position": 145,
+   "record": {
+    "id": "nf:L-QW-B-OUT",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "no_flow_line",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": "S-L-QW-B-OUT",
+    "text": "No-flow line L-QW-B-OUT (standby): what could accumulate there or be missing, and what would happen?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:398260cb15201976"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "pair:C4-HEAVIES:PROPANE",
+   "position": 130,
+   "record": {
+    "id": "pair:C4-HEAVIES:PROPANE",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "chemical_pair",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": null,
+    "text": "C4-HEAVIES (heavier hydrocarbons (C4 and above)) and PROPANE (propane): could they come into contact anywhere in the plant, and what would happen if they did?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:8a741e0d443b37dc"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "pair:C4-HEAVIES:PROPYLENE",
+   "position": 131,
+   "record": {
+    "id": "pair:C4-HEAVIES:PROPYLENE",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "chemical_pair",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": null,
+    "text": "C4-HEAVIES (heavier hydrocarbons (C4 and above)) and PROPYLENE (propylene): could they come into contact anywhere in the plant, and what would happen if they did?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:8a741e0d443b37dc"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "pair:PROPANE:PROPYLENE",
+   "position": 132,
+   "record": {
+    "id": "pair:PROPANE:PROPYLENE",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "chemical_pair",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": null,
+    "text": "PROPANE (propane) and PROPYLENE (propylene): could they come into contact anywhere in the plant, and what would happen if they did?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:8a741e0d443b37dc"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "proc:P-REB-START-1:early",
+   "position": 146,
+   "record": {
+    "id": "proc:P-REB-START-1:early",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "procedure_step",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": "S-P-REB-START",
+    "text": "Step P-REB-START-1 of P-REB-START (start up), early: what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:eab811438bdef29a"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "proc:P-REB-START-1:late",
+   "position": 147,
+   "record": {
+    "id": "proc:P-REB-START-1:late",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "procedure_step",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": "S-P-REB-START",
+    "text": "Step P-REB-START-1 of P-REB-START (start up), late: what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:c7a45ef86680efc6"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "proc:P-REB-START-1:out_of_order",
+   "position": 148,
+   "record": {
+    "id": "proc:P-REB-START-1:out_of_order",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "procedure_step",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": "S-P-REB-START",
+    "text": "Step P-REB-START-1 of P-REB-START (start up), out of order: what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:c7a45ef86680efc6"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "proc:P-REB-START-1:skipped",
+   "position": 149,
+   "record": {
+    "id": "proc:P-REB-START-1:skipped",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "procedure_step",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": "S-P-REB-START",
+    "text": "Step P-REB-START-1 of P-REB-START (start up), skipped: what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:c7a45ef86680efc6"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "proc:P-REB-START-1:wrong",
+   "position": 150,
+   "record": {
+    "id": "proc:P-REB-START-1:wrong",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "procedure_step",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": "S-P-REB-START",
+    "text": "Step P-REB-START-1 of P-REB-START (start up), wrong: what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:c7a45ef86680efc6"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "proc:P-REB-START-2:early",
+   "position": 151,
+   "record": {
+    "id": "proc:P-REB-START-2:early",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "procedure_step",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": "S-P-REB-START",
+    "text": "Step P-REB-START-2 of P-REB-START (start up), early: what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:c7a45ef86680efc6"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "proc:P-REB-START-2:late",
+   "position": 152,
+   "record": {
+    "id": "proc:P-REB-START-2:late",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "procedure_step",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": "S-P-REB-START",
+    "text": "Step P-REB-START-2 of P-REB-START (start up), late: what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:95bc59a150a8d30e"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "proc:P-REB-START-2:out_of_order",
+   "position": 153,
+   "record": {
+    "id": "proc:P-REB-START-2:out_of_order",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "procedure_step",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": "S-P-REB-START",
+    "text": "Step P-REB-START-2 of P-REB-START (start up), out of order: what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:95bc59a150a8d30e"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "proc:P-REB-START-2:skipped",
+   "position": 154,
+   "record": {
+    "id": "proc:P-REB-START-2:skipped",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "procedure_step",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": "S-P-REB-START",
+    "text": "Step P-REB-START-2 of P-REB-START (start up), skipped: what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:95bc59a150a8d30e"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "proc:P-REB-START-2:wrong",
+   "position": 155,
+   "record": {
+    "id": "proc:P-REB-START-2:wrong",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "procedure_step",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": "S-P-REB-START",
+    "text": "Step P-REB-START-2 of P-REB-START (start up), wrong: what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:95bc59a150a8d30e"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "relief:RV-PATH-EA425A",
+   "position": 156,
+   "record": {
+    "id": "relief:RV-PATH-EA425A",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "relief_discharge",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": "S-EA-425A",
+    "text": "Relief device RV-PATH-EA425A on EA-425A: where does it discharge, what is there (people, ignition sources, other equipment), and is that acceptable?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:fe58d6fdc744e792"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "relief:RV-PATH-EA425B",
+   "position": 157,
+   "record": {
+    "id": "relief:RV-PATH-EA425B",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "relief_discharge",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": "S-EA-425B",
+    "text": "Relief device RV-PATH-EA425B on EA-425B: where does it discharge, what is there (people, ignition sources, other equipment), and is that acceptable?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:0b6fb3b4611ee01f"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "relief:SV-421QA",
+   "position": 158,
+   "record": {
+    "id": "relief:SV-421QA",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "relief_discharge",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": "S-DA-406",
+    "text": "Relief device SV-421QA on DA-406: where does it discharge, what is there (people, ignition sources, other equipment), and is that acceptable?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:af8f1b91f5990b9c"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "relief:SV-421QB",
+   "position": 159,
+   "record": {
+    "id": "relief:SV-421QB",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "kind": "relief_discharge",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": "S-DA-406",
+    "text": "Relief device SV-421QB on DA-406: where does it discharge, what is there (people, ignition sources, other equipment), and is that acceptable?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:af8f1b91f5990b9c"
+   }
+  }
+ ]
+}

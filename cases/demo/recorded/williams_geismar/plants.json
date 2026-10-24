@@ -1,0 +1,662 @@
+{
+ "table": "plants",
+ "rows": [
+  {
+   "id": "plant:williams_geismar:440369931e305d48",
+   "plant_id": "williams_geismar",
+   "status": "sections_confirmed",
+   "plant_file": {
+    "plant_id": "williams_geismar",
+    "schema_version": "1.0",
+    "notes": [
+     {
+      "text": "Demo plant, not a benchmark case. Built by Cowork from the public CSB case study of the Williams Olefins Plant, Geismar, Louisiana (report 2013-03-I-LA, Oct 2016). Scope: the propylene fractionator DA-406 and its two quench-water reboilers EA-425A/B only. Every value is cited to a CSB page or listed as 'assumed' in provenance.",
+      "source": "Cowork"
+     },
+     {
+      "text": "The propylene fractionator separates propylene from propane. Its reboilers are shell-and-tube exchangers: the process fluid (mostly propane, with small amounts of propylene and heavier hydrocarbons) is on the shell side and enters at about 130 °F (54 °C); hot quench water from the plant's quench tower loop is on the tube side and enters at about 185 °F (85 °C).",
+      "source": "CSB case study p. 10"
+     },
+     {
+      "text": "A 2001 management-of-change added block valves on the shell-side inlet (16-inch) and outlet (18-inch) of each reboiler so that one reboiler could be isolated and cleaned while the other operated.",
+      "source": "CSB case study p. 15 fn. 21, p. 32"
+     },
+     {
+      "text": "The relief valves SV-421QA/QB on top of the fractionator DA-406 are the overpressure protection for the reboiler shells; a reboiler shell reaches them only through its shell-side piping to the column.",
+      "source": "CSB case study p. 10, p. 34 fn. 44"
+     },
+     {
+      "text": "Car-seal practice: only the in-service reboiler's 18-inch shell-side outlet valve is car sealed open; the standby reboiler's shell-side valves are closed and not car sealed ('only the in service exchanger is to be car sealed open', 2012 email).",
+      "source": "CSB case study pp. 32, 34"
+     },
+     {
+      "text": "Since February 2012 Reboiler B has been on standby, isolated from the process by its single closed shell-side inlet and outlet block valves; Reboiler A is in service.",
+      "source": "CSB case study pp. 12, 15"
+     },
+     {
+      "text": "Reboiler shell: about 18.5 ft long and over 5 ft in diameter (24 ft 8 in end to end), six tube passes, 3,020 tubes of 3/4 inch. MAWP 300 psig; hydrostatic test 450 psig.",
+      "source": "CSB case study p. 10 fn. 11 and fn. 13, p. 41"
+     },
+     {
+      "text": "The equilibrium vapour pressure of propane at ambient temperature is about 124 psig.",
+      "source": "CSB case study p. 15 fn. 22"
+     },
+     {
+      "text": "There is no equipment-specific procedure for these reboilers. The site uses a generic reboiler start-up procedure, last revised 1996, written for exchangers with the process fluid on the tube side.",
+      "source": "CSB case study p. 27"
+     },
+     {
+      "text": "Many contractor personnel work in the unit area during the day.",
+      "source": "CSB case study p. 12 fn. 14 (164 of 167 people reporting injuries were contractors)"
+     }
+    ],
+    "locations": [
+     {
+      "id": "LOC-OLEFINS-UNIT",
+      "description": "Olefins unit area around the propylene fractionator, outdoors",
+      "occupied": true,
+      "indoor": false
+     },
+     {
+      "id": "LOC-QUENCH-LOOP",
+      "description": "Quench tower hot-water loop, outside this study's scope"
+     }
+    ],
+    "utilities": [
+     {
+      "id": "UT-QW",
+      "kind": "other",
+      "location_id": "LOC-QUENCH-LOOP",
+      "notes": [
+       {
+        "text": "Hot quench water, closed loop fed by the quench tower, about 185 °F (85 °C) at the reboiler inlet.",
+        "source": "CSB case study p. 10"
+       }
+      ]
+     }
+    ],
+    "equipment": [
+     {
+      "id": "DA-406",
+      "type": "column",
+      "location_id": "LOC-OLEFINS-UNIT",
+      "contents": [
+       "PROPYLENE",
+       "PROPANE",
+       "C4-HEAVIES"
+      ],
+      "notes": [
+       {
+        "text": "Propylene fractionator; relief valves SV-421QA/QB on top.",
+        "source": "CSB case study p. 10, p. 38"
+       }
+      ]
+     },
+     {
+      "id": "EA-425A",
+      "type": "heat_exchanger",
+      "location_id": "LOC-OLEFINS-UNIT",
+      "contents": [
+       "PROPANE",
+       "PROPYLENE",
+       "C4-HEAVIES"
+      ],
+      "design_pressure_kpa": 2068,
+      "heat_sources": [
+       {
+        "medium": "hot quench water",
+        "via_line_id": "L-QW-A-IN",
+        "isolating_valve_ids": [
+         "HV-QW-A-IN",
+         "HV-QW-A-OUT"
+        ]
+       }
+      ],
+      "notes": [
+       {
+        "text": "Reboiler A, in service. Process fluid shell side, quench water tube side.",
+        "source": "CSB case study pp. 6, 10"
+       }
+      ]
+     },
+     {
+      "id": "EA-425B",
+      "type": "heat_exchanger",
+      "location_id": "LOC-OLEFINS-UNIT",
+      "contents": [
+       "PROPANE",
+       "PROPYLENE",
+       "C4-HEAVIES"
+      ],
+      "design_pressure_kpa": 2068,
+      "heat_sources": [
+       {
+        "medium": "hot quench water",
+        "via_line_id": "L-QW-B-IN",
+        "isolating_valve_ids": [
+         "HV-QW-B-IN",
+         "HV-QW-B-OUT"
+        ]
+       }
+      ],
+      "notes": [
+       {
+        "text": "Reboiler B, standby since February 2012, isolated on the shell side by single closed block valves. Quench-water inlet valve is a ball valve.",
+        "source": "CSB case study pp. 12, 15, 17 fig. 10"
+       }
+      ]
+     }
+    ],
+    "valves": [
+     {
+      "id": "HV-A-SIN",
+      "kind": "block",
+      "on_line_id": "L-A-SIN",
+      "normal_position": "open",
+      "fail_position": "last",
+      "locked": false
+     },
+     {
+      "id": "HV-A-SOUT",
+      "kind": "block",
+      "on_line_id": "L-A-SOUT",
+      "normal_position": "open",
+      "fail_position": "last",
+      "locked": true
+     },
+     {
+      "id": "HV-B-SIN",
+      "kind": "block",
+      "on_line_id": "L-B-SIN",
+      "normal_position": "closed",
+      "fail_position": "last",
+      "locked": false
+     },
+     {
+      "id": "HV-B-SOUT",
+      "kind": "block",
+      "on_line_id": "L-B-SOUT",
+      "normal_position": "closed",
+      "fail_position": "last",
+      "locked": false
+     },
+     {
+      "id": "HV-QW-A-IN",
+      "kind": "manual",
+      "on_line_id": "L-QW-A-IN",
+      "normal_position": "open",
+      "fail_position": "last",
+      "locked": false
+     },
+     {
+      "id": "HV-QW-A-OUT",
+      "kind": "manual",
+      "on_line_id": "L-QW-A-OUT",
+      "normal_position": "open",
+      "fail_position": "last",
+      "locked": false
+     },
+     {
+      "id": "HV-QW-B-IN",
+      "kind": "manual",
+      "on_line_id": "L-QW-B-IN",
+      "normal_position": "closed",
+      "fail_position": "last",
+      "locked": false
+     },
+     {
+      "id": "HV-QW-B-OUT",
+      "kind": "manual",
+      "on_line_id": "L-QW-B-OUT",
+      "normal_position": "closed",
+      "fail_position": "last",
+      "locked": false
+     }
+    ],
+    "lines": [
+     {
+      "id": "L-A-SIN",
+      "from_id": "DA-406",
+      "to_id": "EA-425A",
+      "components": [
+       "HV-A-SIN"
+      ],
+      "no_flow": [],
+      "contents": [
+       "PROPANE",
+       "PROPYLENE",
+       "C4-HEAVIES"
+      ],
+      "size_mm": 406
+     },
+     {
+      "id": "L-A-SOUT",
+      "from_id": "EA-425A",
+      "to_id": "DA-406",
+      "components": [
+       "HV-A-SOUT"
+      ],
+      "no_flow": [],
+      "contents": [
+       "PROPANE",
+       "PROPYLENE",
+       "C4-HEAVIES"
+      ],
+      "size_mm": 457
+     },
+     {
+      "id": "L-B-SIN",
+      "from_id": "DA-406",
+      "to_id": "EA-425B",
+      "components": [
+       "HV-B-SIN"
+      ],
+      "no_flow": [
+       "standby"
+      ],
+      "contents": [
+       "PROPANE",
+       "PROPYLENE",
+       "C4-HEAVIES"
+      ],
+      "size_mm": 406
+     },
+     {
+      "id": "L-B-SOUT",
+      "from_id": "EA-425B",
+      "to_id": "DA-406",
+      "components": [
+       "HV-B-SOUT"
+      ],
+      "no_flow": [
+       "standby"
+      ],
+      "contents": [
+       "PROPANE",
+       "PROPYLENE",
+       "C4-HEAVIES"
+      ],
+      "size_mm": 457
+     },
+     {
+      "id": "L-QW-A-IN",
+      "from_id": "UT-QW",
+      "to_id": "EA-425A",
+      "components": [
+       "HV-QW-A-IN"
+      ],
+      "no_flow": []
+     },
+     {
+      "id": "L-QW-A-OUT",
+      "from_id": "EA-425A",
+      "to_id": "UT-QW",
+      "components": [
+       "HV-QW-A-OUT"
+      ],
+      "no_flow": []
+     },
+     {
+      "id": "L-QW-B-IN",
+      "from_id": "UT-QW",
+      "to_id": "EA-425B",
+      "components": [
+       "HV-QW-B-IN"
+      ],
+      "no_flow": [
+       "standby"
+      ]
+     },
+     {
+      "id": "L-QW-B-OUT",
+      "from_id": "EA-425B",
+      "to_id": "UT-QW",
+      "components": [
+       "HV-QW-B-OUT"
+      ],
+      "no_flow": [
+       "standby"
+      ]
+     }
+    ],
+    "operating": [
+     {
+      "target_id": "EA-425A",
+      "parameter": "pressure",
+      "design_max": 2068
+     },
+     {
+      "target_id": "EA-425B",
+      "parameter": "pressure",
+      "design_max": 2068
+     },
+     {
+      "target_id": "L-QW-A-IN",
+      "parameter": "temperature",
+      "normal": 85
+     },
+     {
+      "target_id": "L-QW-B-IN",
+      "parameter": "temperature",
+      "normal": 85
+     }
+    ],
+    "safeguards": [],
+    "relief_devices": [
+     {
+      "id": "SV-421QA",
+      "protects_id": "DA-406",
+      "kind": "prv",
+      "inlet_valve_ids": []
+     },
+     {
+      "id": "SV-421QB",
+      "protects_id": "DA-406",
+      "kind": "prv",
+      "inlet_valve_ids": []
+     },
+     {
+      "id": "RV-PATH-EA425A",
+      "protects_id": "EA-425A",
+      "kind": "prv",
+      "inlet_valve_ids": [
+       "HV-A-SIN",
+       "HV-A-SOUT"
+      ],
+      "notes": [
+       {
+        "text": "Modelling record, not a separate valve: the relief path from the Reboiler A shell to SV-421QA/QB on DA-406, through the shell-side piping and its block valves.",
+        "source": "Cowork, from CSB case study p. 10, p. 34 fn. 44"
+       }
+      ]
+     },
+     {
+      "id": "RV-PATH-EA425B",
+      "protects_id": "EA-425B",
+      "kind": "prv",
+      "inlet_valve_ids": [
+       "HV-B-SIN",
+       "HV-B-SOUT"
+      ],
+      "notes": [
+       {
+        "text": "Modelling record, not a separate valve: the relief path from the Reboiler B shell to SV-421QA/QB on DA-406, through the shell-side piping and its block valves.",
+        "source": "Cowork, from CSB case study p. 10, p. 34 fn. 44"
+       }
+      ]
+     }
+    ],
+    "chemicals": [
+     {
+      "id": "PROPANE",
+      "name": "propane",
+      "epa_groups": [
+       29
+      ],
+      "cameo_groups": [
+       29
+      ],
+      "physical_form": "liquid",
+      "boiling_point_c": -42.1,
+      "source": "CSB case study p. 10, p. 15 fn. 22",
+      "vapor_pressure_points": [
+       {
+        "temp_c": 30.0,
+        "pressure_kpaa": 1079.0
+       },
+       {
+        "temp_c": 35.0,
+        "pressure_kpaa": 1217.9
+       },
+       {
+        "temp_c": 40.0,
+        "pressure_kpaa": 1369.4
+       },
+       {
+        "temp_c": 45.0,
+        "pressure_kpaa": 1534.3
+       },
+       {
+        "temp_c": 50.0,
+        "pressure_kpaa": 1713.3
+       },
+       {
+        "temp_c": 55.0,
+        "pressure_kpaa": 1907.2
+       },
+       {
+        "temp_c": 60.0,
+        "pressure_kpaa": 2116.7
+       },
+       {
+        "temp_c": 65.0,
+        "pressure_kpaa": 2342.9
+       },
+       {
+        "temp_c": 70.0,
+        "pressure_kpaa": 2586.8
+       },
+       {
+        "temp_c": 75.0,
+        "pressure_kpaa": 2849.3
+       },
+       {
+        "temp_c": 80.0,
+        "pressure_kpaa": 3131.9
+       },
+       {
+        "temp_c": 85.0,
+        "pressure_kpaa": 3436.1
+       },
+       {
+        "temp_c": 90.0,
+        "pressure_kpaa": 3764.1
+       },
+       {
+        "temp_c": 95.0,
+        "pressure_kpaa": 4119.5
+       }
+      ]
+     },
+     {
+      "id": "PROPYLENE",
+      "name": "propylene",
+      "epa_groups": [
+       28
+      ],
+      "cameo_groups": [
+       28
+      ],
+      "physical_form": "liquid",
+      "boiling_point_c": -47.6,
+      "source": "CSB case study p. 10",
+      "vapor_pressure_points": [
+       {
+        "temp_c": 30.0,
+        "pressure_kpaa": 1305.0
+       },
+       {
+        "temp_c": 35.0,
+        "pressure_kpaa": 1469.4
+       },
+       {
+        "temp_c": 40.0,
+        "pressure_kpaa": 1648.4
+       },
+       {
+        "temp_c": 45.0,
+        "pressure_kpaa": 1843.0
+       },
+       {
+        "temp_c": 50.0,
+        "pressure_kpaa": 2053.8
+       },
+       {
+        "temp_c": 55.0,
+        "pressure_kpaa": 2281.9
+       },
+       {
+        "temp_c": 60.0,
+        "pressure_kpaa": 2528.3
+       },
+       {
+        "temp_c": 65.0,
+        "pressure_kpaa": 2794.0
+       },
+       {
+        "temp_c": 70.0,
+        "pressure_kpaa": 3080.2
+       },
+       {
+        "temp_c": 75.0,
+        "pressure_kpaa": 3388.5
+       },
+       {
+        "temp_c": 80.0,
+        "pressure_kpaa": 3720.5
+       },
+       {
+        "temp_c": 85.0,
+        "pressure_kpaa": 4078.8
+       },
+       {
+        "temp_c": 90.0,
+        "pressure_kpaa": 4467.5
+       }
+      ]
+     },
+     {
+      "id": "C4-HEAVIES",
+      "name": "heavier hydrocarbons (C4 and above)",
+      "epa_groups": [
+       29
+      ],
+      "cameo_groups": [
+       29
+      ],
+      "physical_form": "liquid",
+      "source": "CSB case study p. 10"
+     }
+    ],
+    "procedures": [
+     {
+      "id": "P-REB-START",
+      "kind": "start_up",
+      "notes": [
+       {
+        "text": "Generic reboiler start-up procedure, last revised 1996, written for exchangers with process fluid on the tube side; no equipment-specific procedure exists for EA-425A/B.",
+        "source": "CSB case study p. 27"
+       }
+      ],
+      "steps": [
+       {
+        "id": "P-REB-START-1",
+        "text": "Line up the process side of the reboiler being placed in service.",
+        "equipment_ids": [
+         "EA-425A",
+         "EA-425B"
+        ],
+        "valve_ids": [
+         "HV-A-SIN",
+         "HV-A-SOUT",
+         "HV-B-SIN",
+         "HV-B-SOUT"
+        ]
+       },
+       {
+        "id": "P-REB-START-2",
+        "text": "Open the heating-medium inlet and outlet valves to the reboiler being placed in service.",
+        "equipment_ids": [
+         "EA-425A",
+         "EA-425B"
+        ],
+        "valve_ids": [
+         "HV-QW-A-IN",
+         "HV-QW-A-OUT",
+         "HV-QW-B-IN",
+         "HV-QW-B-OUT"
+        ]
+       }
+      ]
+     }
+    ],
+    "provenance": {
+     "DA-406": "CSB case study p. 10, p. 38; operating pressure not stated (124 psig on p. 15 is propane vapour pressure, not column pressure), left empty",
+     "EA-425A": "CSB case study pp. 6, 10",
+     "EA-425B": "CSB case study pp. 6, 10, 12",
+     "EA-425A.design_pressure_kpa": "CSB case study p. 41 (MAWP 300 psig = 2068 kPa g); assumed the same rating as EA-425B",
+     "EA-425B.design_pressure_kpa": "CSB case study p. 41 (MAWP 300 psig = 2068 kPa g)",
+     "EA-425A.design_temp_c": "not stated in the CSB report; left empty",
+     "EA-425B.design_temp_c": "not stated in the CSB report; left empty",
+     "LOC-OLEFINS-UNIT.occupied": "CSB case study p. 12 fn. 14",
+     "LOC-OLEFINS-UNIT.ignition_sources": "not stated; left empty",
+     "UT-QW": "CSB case study p. 10",
+     "HV-A-SIN": "assumed: A has the same shell-side valves as B (CSB p. 15 fn. 21 gives B's sizes; p. 32 says the MOC added valves to both)",
+     "HV-A-SOUT.locked": "CSB case study p. 32 (in-service outlet car sealed open)",
+     "HV-B-SIN": "CSB case study p. 15 fn. 21, p. 32",
+     "HV-B-SOUT": "CSB case study p. 15 fn. 21, p. 32",
+     "HV-B-SIN.locked": "CSB case study p. 32 (standby valves not car sealed)",
+     "HV-B-SOUT.locked": "CSB case study p. 32 (standby valves not car sealed)",
+     "HV-QW-B-IN": "CSB case study p. 17 fig. 10 (ball valve on the quench-water inlet)",
+     "HV-QW-B-IN.normal_position": "CSB case study pp. 12, 35 (closed on standby)",
+     "HV-QW-B-OUT": "assumed: tag and kind; CSB p. 17 fig. 10 shows an outlet quench-water valve",
+     "HV-QW-B-OUT.normal_position": "assumed closed on standby (CSB pp. 12, 35: the hot-side valves were opened)",
+     "HV-QW-A-IN": "assumed: tag, kind and position (in service)",
+     "HV-QW-A-OUT": "assumed: tag, kind and position (in service)",
+     "L-A-SIN.size_mm": "assumed same as B: 16 in = 406 mm",
+     "L-A-SOUT.size_mm": "assumed same as B: 18 in = 457 mm",
+     "L-B-SIN.size_mm": "CSB case study p. 15 fn. 21 (16 in = 406 mm)",
+     "L-B-SOUT.size_mm": "CSB case study p. 15 fn. 21 (18 in = 457 mm)",
+     "L-QW-A-IN": "assumed: line routing as for B",
+     "L-QW-A-OUT": "assumed: line routing as for B",
+     "L-QW-B-IN": "CSB case study p. 10, p. 17 fig. 10",
+     "L-QW-B-OUT": "CSB case study p. 10, p. 17 fig. 10",
+     "SV-421QA": "CSB case study p. 10, p. 34 fn. 44; set pressure and discharge not stated",
+     "SV-421QB": "CSB case study p. 10, p. 34 fn. 44; set pressure and discharge not stated",
+     "RV-PATH-EA425A": "assumed: modelling record. The schema holds one protects_id per relief device, so the reboiler's protection by SV-421QA/QB through its shell-side valves is recorded as a path record (CSB p. 10, p. 34 fn. 44)",
+     "RV-PATH-EA425B": "assumed: modelling record. The schema holds one protects_id per relief device, so the reboiler's protection by SV-421QA/QB through its shell-side valves is recorded as a path record (CSB p. 10, p. 34 fn. 44)",
+     "PROPANE.epa_groups": "assumed: EPA group 29 (hydrocarbons, aliphatic, saturated)",
+     "PROPANE.cameo_groups": "assumed: same mapping as case_d butanes",
+     "PROPANE.boiling_point_c": "assumed: standard handbook value",
+     "PROPYLENE.epa_groups": "assumed: EPA group 28 (hydrocarbons, aliphatic, unsaturated)",
+     "PROPYLENE.cameo_groups": "assumed: same mapping as case_d butenes",
+     "PROPYLENE.boiling_point_c": "assumed: standard handbook value",
+     "C4-HEAVIES": "CSB case study p. 10 ('heavier hydrocarbons'); composition assumed",
+     "P-REB-START": "CSB case study p. 27",
+     "P-REB-START-1.text": "assumed: step wording; the CSB does not quote the generic procedure's steps",
+     "P-REB-START-2.text": "assumed: step wording; the CSB does not quote the generic procedure's steps",
+     "HV-A-SIN.fail_position": "assumed: 'last' (manual or block valve)",
+     "HV-A-SOUT.fail_position": "assumed: 'last' (manual or block valve)",
+     "HV-B-SIN.fail_position": "assumed: 'last' (manual or block valve)",
+     "HV-B-SOUT.fail_position": "assumed: 'last' (manual or block valve)",
+     "HV-QW-A-IN.fail_position": "assumed: 'last' (manual or block valve)",
+     "HV-QW-A-OUT.fail_position": "assumed: 'last' (manual or block valve)",
+     "HV-QW-B-IN.fail_position": "assumed: 'last' (manual or block valve)",
+     "HV-QW-B-OUT.fail_position": "assumed: 'last' (manual or block valve)",
+     "PROPANE.physical_form": "assumed: liquid under pressure on the shell side",
+     "PROPYLENE.physical_form": "assumed: liquid under pressure on the shell side",
+     "C4-HEAVIES.physical_form": "assumed: liquid under pressure on the shell side",
+     "PROPANE.vapor_pressure_points": "NIST Chemistry WebBook, SRD 69, Saturation Properties for Propane (EOS: Lemmon, McLinden & Wagner, J. Chem. Eng. Data 54 (2009) 3141), https://webbook.nist.gov/cgi/fluid.cgi?ID=C74986&Type=SatP&TUnit=C&PUnit=kPa, read 2026-10-21 (saturated liquid pressure, 30-95 C in 5 C steps; critical point 96.74 C)",
+     "PROPYLENE.vapor_pressure_points": "NIST Chemistry WebBook, SRD 69, Saturation Properties for Propene, https://webbook.nist.gov/cgi/fluid.cgi?ID=C115071&Type=SatP&TUnit=C&PUnit=kPa, read 2026-10-21 (saturated liquid pressure, 30-90 C in 5 C steps; points stop below the critical point, about 91.6 C)",
+     "C4-HEAVIES.vapor_pressure_points": "not given: composition unknown (CSB p. 10 says only 'heavier hydrocarbons'); left empty",
+     "L-QW-A-IN.operating.temperature.normal": "CSB case study p. 10 (quench water enters at about 185 F = 85 C); assumed the same for Reboiler A's supply",
+     "L-QW-B-IN.operating.temperature.normal": "CSB case study p. 10 (quench water enters at about 185 F = 85 C)"
+    }
+   },
+   "confirmed_section_ids": [
+    "S-DA-406",
+    "S-EA-425A",
+    "S-EA-425B",
+    "S-L-A-SIN",
+    "S-L-A-SOUT",
+    "S-L-B-SIN",
+    "S-L-B-SOUT",
+    "S-L-QW-A-IN",
+    "S-L-QW-A-OUT",
+    "S-L-QW-B-IN",
+    "S-L-QW-B-OUT",
+    "S-P-REB-START"
+   ]
+  }
+ ]
+}

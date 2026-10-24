@@ -1,0 +1,285 @@
+{
+ "table": "chains",
+ "rows": [
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "ch:EA-425B.design_pressure_kpa+EA-425B.heat_sources+HV-B-SIN.normal_position+HV-B-SOUT.normal_position+HV-QW-B-IN.normal_position+HV-QW-B-OUT.normal_position+RV-PATH-EA425B.inlet_valve_ids+f:m:S-EA-425B:as_well_as:composition:super:C12:b3d32268f909ddb3+f:proc:P-REB-START-2:early:super:C16:126a45a4b13afa1b",
+   "position": 0,
+   "record": {
+    "id": "ch:EA-425B.design_pressure_kpa+EA-425B.heat_sources+HV-B-SIN.normal_position+HV-B-SOUT.normal_position+HV-QW-B-IN.normal_position+HV-QW-B-OUT.normal_position+RV-PATH-EA425B.inlet_valve_ids+f:m:S-EA-425B:as_well_as:composition:super:C12:b3d32268f909ddb3+f:proc:P-REB-START-2:early:super:C16:126a45a4b13afa1b",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "links": [
+     "f:proc:P-REB-START-2:early:super:C16:126a45a4b13afa1b",
+     "EA-425B.heat_sources",
+     "HV-QW-B-IN.normal_position",
+     "HV-QW-B-OUT.normal_position",
+     "HV-B-SIN.normal_position",
+     "HV-B-SOUT.normal_position",
+     "RV-PATH-EA425B.inlet_valve_ids",
+     "EA-425B.design_pressure_kpa",
+     "f:m:S-EA-425B:as_well_as:composition:super:C12:b3d32268f909ddb3"
+    ],
+    "description": "During startup of standby reboiler EA-425B, opening quench-water valves (proc:P-REB-START-2:early) while shell-side block valves HV-B-SIN and HV-B-SOUT remain closed traps heat in the shell; pressure rises above 2068 kPa with no relief path (RV-PATH-EA425B needs those same valves open), leading to tube rupture (m:S-EA-425B:as_well_as:composition) that互",
+    "reason": "proc:P-REB-START-2:early creates heat input to an isolated shell; plant facts show quench-water valves normally closed (HV-QW-B-IN.normal_position, HV-QW-B-OUT.normal_position), process valves normally closed (HV-B-SIN.normal_position, HV-B-SOUT.normal_position), relief path blocked (RV-PATH-EA425B.inlet_valve_ids), and design pressure 2068 kPa (EA-425B.design_pressure_kpa). This combination makes tube rupture (m:S-EA-425B:as_well_as:composition) credible.",
+    "multi_failure": true,
+    "flags": [
+     "handles in text replaced by code"
+    ],
+    "model_call_id": "mc:a5c40750db596be1",
+    "severity_class": "S3",
+    "severity_reason": "Tube rupture in EA-425B releases flammable hydrocarbons (propane, propylene, C4-heavies) to occupied outdoor Olefins unit (LOC-OLEFINS-UNIT), causing significant release with potential fire/explosion leading to single fatality or serious injuries on site."
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "ch:EA-425B.heat_sources+HV-QW-B-IN.normal_position+HV-QW-B-OUT.normal_position+L-QW-B-OUT.no_flow+L-QW-B-OUT.to_id+f:m:S-EA-425B:as_well_as:composition:super:C12:b3d32268f909ddb3+f:m:S-L-QW-B-IN:other_than:composition:super:914c7bdc8d006e9c:b3d32268f909ddb3+f:m:S-L-QW-B-OUT:as_well_as:composition:super:110cc327ced3d481:b3d32268f909ddb3",
+   "position": 9,
+   "record": {
+    "id": "ch:EA-425B.heat_sources+HV-QW-B-IN.normal_position+HV-QW-B-OUT.normal_position+L-QW-B-OUT.no_flow+L-QW-B-OUT.to_id+f:m:S-EA-425B:as_well_as:composition:super:C12:b3d32268f909ddb3+f:m:S-L-QW-B-IN:other_than:composition:super:914c7bdc8d006e9c:b3d32268f909ddb3+f:m:S-L-QW-B-OUT:as_well_as:composition:super:110cc327ced3d481:b3d32268f909ddb3",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "links": [
+     "f:m:S-EA-425B:as_well_as:composition:super:C12:b3d32268f909ddb3",
+     "EA-425B.heat_sources",
+     "HV-QW-B-IN.normal_position",
+     "HV-QW-B-OUT.normal_position",
+     "L-QW-B-OUT.to_id",
+     "L-QW-B-OUT.no_flow",
+     "f:m:S-L-QW-B-IN:other_than:composition:super:914c7bdc8d006e9c:b3d32268f909ddb3",
+     "f:m:S-L-QW-B-OUT:as_well_as:composition:super:110cc327ced3d481:b3d32268f909ddb3"
+    ],
+    "description": "A tube rupture on standby EA-425B (m:S-EA-425B:as_well_as:composition) lets hydrocarbons enter the quench-water tube side; because the outlet line L-QW-B-OUT runs to UT-QW (L-QW-B-OUT.to_id) but has no flow in standby (L-QW-B-OUT.no_flow), the flammable mixture accumulates in the quench loop (m:S-L-QW-B-IN:other_than:composition, m:S-L-QW-B-OUT:as_well_as:composition), creating a latent fire/explosion hazard when flow res",
+    "reason": "m:S-EA-425B:as_well_as:composition initiates cross-contamination; plant facts show EA-425B's heat source and isolating valves (EA-425B.heat_sources, HV-QW-B-IN.normal_position, HV-QW-B-OUT.normal_position) and that its quench-water outlet goes to UT-QW (L-QW-B-OUT.to_id) with no flow in standby (L-QW-B-OUT.no_flow). The hydrocarbon–water mixture (m:S-L-QW-B-IN:other_than:composition, m:S-L-QW-B-OUT:as_well_as:composition) then sits in the quench loop awaiting restart.",
+    "multi_failure": true,
+    "flags": [
+     "handles in text replaced by code"
+    ],
+    "model_call_id": "mc:a5c40750db596be1",
+    "severity_class": "S3",
+    "severity_reason": "Tube rupture on standby EA-425B admits hydrocarbons to quench lines (L-QW-B-IN, L-QW-B-OUT); with no flow in standby (L-QW-B-OUT.no_flow) flammable mixture accumulates in quench loop (UT-QW, L-QW-B-OUT.to_id) creating latent fire/explosion hazard when flow resumes. Hazard in utility loop,  "
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "ch:HV-A-SIN.normal_position+HV-A-SOUT.normal_position+RV-PATH-EA425A.inlet_valve_ids+SV-421QA.protects_id+SV-421QB.protects_id+f:m:S-EA-425B:more:temperature:super:C22:e53bce019995581b+f:m:S-L-A-SOUT:reverse:flow:super:d96e945a65e57280:e8d47871d4a47f89+f:m:S-L-QW-A-IN:more:pressure:lightning:C22:e53bce019995581b",
+   "position": 2,
+   "record": {
+    "id": "ch:HV-A-SIN.normal_position+HV-A-SOUT.normal_position+RV-PATH-EA425A.inlet_valve_ids+SV-421QA.protects_id+SV-421QB.protects_id+f:m:S-EA-425B:more:temperature:super:C22:e53bce019995581b+f:m:S-L-A-SOUT:reverse:flow:super:d96e945a65e57280:e8d47871d4a47f89+f:m:S-L-QW-A-IN:more:pressure:lightning:C22:e53bce019995581b",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "links": [
+     "f:m:S-EA-425B:more:temperature:super:C22:e53bce019995581b",
+     "f:m:S-L-QW-A-IN:more:pressure:lightning:C22:e53bce019995581b",
+     "RV-PATH-EA425A.inlet_valve_ids",
+     "HV-A-SIN.normal_position",
+     "HV-A-SOUT.normal_position",
+     "SV-421QA.protects_id",
+     "SV-421QB.protects_id",
+     "f:m:S-L-A-SOUT:reverse:flow:super:d96e945a65e57280:e8d47871d4a47f89"
+    ],
+    "description": "An external fire (m:S-EA-425B:more:temperature, m:S-L-QW-A-IN:more:pressure) overpressures EA-425A; its relief path RV-PATH-EA425A can vent through HV-A-SIN/HV-A-SOUT (normally open, HV-A-SOUT locked open). If the column relief valves SV-421QA/QB then fail to open (m:S-L-A-SOUT:reverse:flow), DA-406 overpressures and pushes liquid/vapor back through L-A-SOUT into EA-425A",
+    "reason": "Fire scenarios (m:S-EA-425B:more:temperature, m:S-L-QW-A-IN:more:pressure) raise shell pressure; plant facts confirm relief inlet valves are open (HV-A-SIN.normal_position, HV-A-SOUT.normal_position) and protect EA-425A (RV-PATH-EA425A.inlet_valve_ids). Column relief failure (m:S-L-A-SOUT:reverse:flow) on DA-406 (SV-421QA.protects_id, SV-421QB.protects_id) creates reverse flow into the already stressed reboiler.",
+    "multi_failure": true,
+    "flags": [
+     "handles in text replaced by code"
+    ],
+    "model_call_id": "mc:a5c40750db596be1",
+    "severity_class": "S3",
+    "severity_reason": "External fire (LOC-OLEFINS-UNIT) plus column relief valve failure causes backflow into EA-425A, adding hydrocarbon release to occupied outdoor area, worsening fire with potential for serious injuries/fatality on site."
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "ch:HV-B-SIN.normal_position+HV-B-SOUT.normal_position+HV-QW-B-IN.normal_position+HV-QW-B-OUT.normal_position+P-REB-START-1.equipment_ids+P-REB-START-1.valve_ids+P-REB-START-2.text+P-REB-START-2.valve_ids+f:m:S-EA-425B:as_well_as:composition:super:C12:b3d32268f909ddb3+f:m:S-EA-425B:no:flow:super:C15:2a0b544cd1cded80",
+   "position": 8,
+   "record": {
+    "id": "ch:HV-B-SIN.normal_position+HV-B-SOUT.normal_position+HV-QW-B-IN.normal_position+HV-QW-B-OUT.normal_position+P-REB-START-1.equipment_ids+P-REB-START-1.valve_ids+P-REB-START-2.text+P-REB-START-2.valve_ids+f:m:S-EA-425B:as_well_as:composition:super:C12:b3d32268f909ddb3+f:m:S-EA-425B:no:flow:super:C15:2a0b544cd1cded80",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "links": [
+     "f:m:S-EA-425B:no:flow:super:C15:2a0b544cd1cded80",
+     "P-REB-START-1.equipment_ids",
+     "P-REB-START-1.valve_ids",
+     "P-REB-START-2.text",
+     "P-REB-START-2.valve_ids",
+     "HV-QW-B-IN.normal_position",
+     "HV-QW-B-OUT.normal_position",
+     "HV-B-SIN.normal_position",
+     "HV-B-SOUT.normal_position",
+     "f:m:S-EA-425B:as_well_as:composition:super:C12:b3d32268f909ddb3"
+    ],
+    "description": "During reboiler startup, leaving process-side valves (HV-B-SIN, HV-B-SOUT) closed while opening quench-water valves (HV-QW-B-IN, HV-QW-B-OUT) per procedure step P-REB-START-2 (m:S-EA-425B:no:flow (C15)) isolates the shell side with heat input, causing tube rupture (m:S-EA-425B:as_well_as:composition) on EA-425B.",
+    "reason": "m:S-EA-425B:no:flow (C15) is the valve-position error; plant facts list the procedure steps (P-REB-START-1.equipment_ids, P-REB-START-1.valve_ids, P-REB-START-2.text, P-REB-START-2.valve_ids) and show quench-water valves normally closed (HV-QW-B-IN.normal_position, HV-QW-B-OUT.normal_position) while process valves are normally closed (HV-B-SIN.normal_position, HV-B-SOUT.normal_position). The same combination as Chain 1 but initiated by a different human error (m:S-EA-425B:no:flow (C15) vs proc:P-REB-START-2:early).",
+    "multi_failure": true,
+    "flags": [
+     "handles in text replaced by code"
+    ],
+    "model_call_id": "mc:a5c40750db596be1",
+    "severity_class": "S2",
+    "severity_reason": "Startup error leaves process valves closed (HV-B-SIN, HV-B-SOUT per P-REB-START-1.valve_ids) while opening quench valves (HV-QW-B-IN, HV-QW-B-OUT per P-REB-START-2.valve_ids) isolating EA-425B shell with heat input, causing tube rupture and release of hot quench water/hydrocarbons on-site. No  "
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "ch:HV-B-SIN.normal_position+HV-B-SOUT.normal_position+L-B-SIN.contents+L-B-SIN.from_id+L-B-SIN.to_id+L-B-SOUT.no_flow+RV-PATH-EA425B.inlet_valve_ids+f:m:S-L-B-SOUT:reverse:flow:super:345133984edf92fd:a08f37899448f932+f:m:S-L-QW-B-IN:other_than:phase:super:7973f11d45e2283f:6f092b4dd2ec8f48",
+   "position": 3,
+   "record": {
+    "id": "ch:HV-B-SIN.normal_position+HV-B-SOUT.normal_position+L-B-SIN.contents+L-B-SIN.from_id+L-B-SIN.to_id+L-B-SOUT.no_flow+RV-PATH-EA425B.inlet_valve_ids+f:m:S-L-B-SOUT:reverse:flow:super:345133984edf92fd:a08f37899448f932+f:m:S-L-QW-B-IN:other_than:phase:super:7973f11d45e2283f:6f092b4dd2ec8f48",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "links": [
+     "f:m:S-L-QW-B-IN:other_than:phase:super:7973f11d45e2283f:6f092b4dd2ec8f48",
+     "RV-PATH-EA425B.inlet_valve_ids",
+     "HV-B-SIN.normal_position",
+     "HV-B-SOUT.normal_position",
+     "L-B-SIN.to_id",
+     "L-B-SIN.from_id",
+     "L-B-SIN.contents",
+     "L-B-SOUT.no_flow",
+     "f:m:S-L-B-SOUT:reverse:flow:super:345133984edf92fd:a08f37899448f932"
+    ],
+    "description": "Opening of column relief valves SV-421QA/QB (m:S-L-QW-B-IN:other_than:phase) drops DA-406 pressure, drawing liquid from standby EA-425B back through L-B-SIN (reverse flow). With HV-B-SIN and HV-B-SOUT normally closed (HV-B-SIN.normal_position, HV-B-SOUT.normal_position), the relief path RV-PATH-EA425B is blocked, so reverse flow (m:S-L-B-SOUT:reverse:flow) can overfill the EA-425B shell.",
+    "reason": "m:S-L-QW-B-IN:other_than:phase initiates column depressurization; plant facts show L-B-SIN connects DA-406 to EA-425B (L-B-SIN.from_id, L-B-SIN.to_id) with hydrocarbon contents (L-B-SIN.contents), EA-425B relief needs HV-B-SIN/HV-B-SOUT open (RV-PATH-EA425B.inlet_valve_ids) but they are normally closed (HV-B-SIN.normal_position, HV-B-SOUT.normal_position), and L-B-SOUT has no flow in standby (L-B-SOUT.no_flow). This enables reverse flow (m:S-EA-425B:as_well_as:composition",
+    "multi_failure": true,
+    "flags": [
+     "handles in text replaced by code"
+    ],
+    "model_call_id": "mc:a5c40750db596be1",
+    "severity_class": "S3",
+    "severity_reason": "Reverse flow from DA-406 overfills EA-425B shell with blocked relief path (HV-B-SIN, HV-B-SOUT closed), risking shell overpressure/rupture and significant hydrocarbon release to occupied Olefins unit (LOC-OLEFINS-UNIT)."
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "ch:HV-QW-A-IN.on_line_id+L-QW-A-IN.from_id+L-QW-A-IN.operating.temperature.normal+L-QW-A-IN.to_id+f:m:S-EA-425A:less:flow:lightning:C12:8415bea03d6aeff2+f:m:S-L-A-SIN:other_than:composition:super:d96ce767f3a03ba5:8415bea03d6aeff2+f:m:S-L-QW-A-IN:other_than:phase:super:3f304222f383d181:0ce1eb86d1d19ceb",
+   "position": 5,
+   "record": {
+    "id": "ch:HV-QW-A-IN.on_line_id+L-QW-A-IN.from_id+L-QW-A-IN.operating.temperature.normal+L-QW-A-IN.to_id+f:m:S-EA-425A:less:flow:lightning:C12:8415bea03d6aeff2+f:m:S-L-A-SIN:other_than:composition:super:d96ce767f3a03ba5:8415bea03d6aeff2+f:m:S-L-QW-A-IN:other_than:phase:super:3f304222f383d181:0ce1eb86d1d19ceb",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "links": [
+     "f:m:S-EA-425A:less:flow:lightning:C12:8415bea03d6aeff2",
+     "f:m:S-L-QW-A-IN:other_than:phase:super:3f304222f383d181:0ce1eb86d1d19ceb",
+     "L-QW-A-IN.operating.temperature.normal",
+     "L-QW-A-IN.from_id",
+     "L-QW-A-IN.to_id",
+     "HV-QW-A-IN.on_line_id",
+     "f:m:S-L-A-SIN:other_than:composition:super:d96ce767f3a03ba5:8415bea03d6aeff2"
+    ],
+    "description": "Tube rupture in EA-425A (m:S-EA-425A:less:flow (C12)) admits hot process fluid into the quench-water inlet line L-QW-A-IN; the temperature rise can flash water to steam (m:S-L-QW-A-IN:other_than:phase), creating two-phase flow and water hammer. Simultaneously, quench-water ingress into the shell (m:S-L-A-SIN:other_than:composition) flashes to steam, causing local overpressure and",
+    "reason": "m:S-EA-425A:less:flow (C12) puts hot hydrocarbons into L-QW-A-IN (normal 85 °C, L-QW-A-IN.operating.temperature.normal) which runs from UT-QW to EA-425A (L-QW-A-IN.from_id, L-QW-A-IN.to_id) with HV-QW-A-IN open (HV-QW-A-IN.on_line_id). Flashing to steam (m:S-L-QW-A-IN:other_than:phase) and shell-side water flashing (m:S-L-A-SIN:other_than:composition) are mutually amplifying pressure excursions.",
+    "multi_failure": true,
+    "flags": [
+     "handles in text replaced by code"
+    ],
+    "model_call_id": "mc:a5c40750db596be1",
+    "severity_class": "S2",
+    "severity_reason": "Tube rupture in operating reboiler EA-425A admits hot process fluid to quench line (85°C, L-QW-A-IN.operating.temperature.normal) flashing water to steam, causing two-phase flow/water hammer; quench water enters shell, flashes to steam, local overpressure, release of hot hydrocarbons/water on-site. "
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "ch:HV-QW-A-OUT.fail_position+HV-QW-A-OUT.kind+L-QW-A-IN.from_id+L-QW-A-IN.operating.temperature.normal+L-QW-A-OUT.components+L-QW-A-OUT.from_id+f:m:S-EA-425A:less:flow:lightning:C12:8415bea03d6aeff2+f:m:S-L-QW-A-OUT:more:pressure:super:C17:126a45a4b13afa1b",
+   "position": 6,
+   "record": {
+    "id": "ch:HV-QW-A-OUT.fail_position+HV-QW-A-OUT.kind+L-QW-A-IN.from_id+L-QW-A-IN.operating.temperature.normal+L-QW-A-OUT.components+L-QW-A-OUT.from_id+f:m:S-EA-425A:less:flow:lightning:C12:8415bea03d6aeff2+f:m:S-L-QW-A-OUT:more:pressure:super:C17:126a45a4b13afa1b",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "links": [
+     "f:m:S-L-QW-A-OUT:more:pressure:super:C17:126a45a4b13afa1b",
+     "HV-QW-A-OUT.kind",
+     "HV-QW-A-OUT.fail_position",
+     "L-QW-A-OUT.components",
+     "L-QW-A-OUT.from_id",
+     "L-QW-A-IN.operating.temperature.normal",
+     "L-QW-A-IN.from_id",
+     "f:m:S-EA-425A:less:flow:lightning:C12:8415bea03d6aeff2"
+    ],
+    "description": "If the quench-water outlet valve HV-QW-A-OUT is closed (m:S-L-QW-A-OUT:more:pressure) while hot water continues to enter EA-425A via L-QW-A-IN (normal 85 °C, L-QW-A-IN.operating.temperature.normal), pressure builds in the tube side until tubes rupture (m:S-EA-425A:less:flow (C12)), releasing hot quench water and process fluid.",
+    "reason": "m:S-L-QW-A-OUT:more:pressure blocks the only outlet from the tube side (L-QW-A-OUT.components, L-QW-A-OUT.from_id from EA-425A); heat input continues (L-QW-A-IN.from_id, L-QW-A-IN.operating.temperature.normal) with HV-QW-A-OUT normally open but able to fail closed (HV-QW-A-OUT.kind, HV-QW-A-OUT.fail_position). The pressure rise directly causes tube rupture (m:S-EA-425A:less:flow (C12)).",
+    "multi_failure": true,
+    "flags": [
+     "handles in text replaced by code"
+    ],
+    "model_call_id": "mc:a5c40750db596be1",
+    "severity_class": "S2",
+    "severity_reason": "Blocked outlet HV-QW-A-OUT (manual, fail last) traps heat input (85°C quench water via L-QW-A-IN.operating.temperature.normal) causing tube rupture in EA-425A, releasing hot quench water and process hydrocarbons on-site. No ignition.  "
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "ch:HV-QW-A-OUT.fail_position+HV-QW-A-OUT.kind+L-QW-A-OUT.components+L-QW-A-OUT.from_id+L-QW-A-OUT.to_id+f:m:S-EA-425A:less:flow:lightning:C12:8415bea03d6aeff2+f:m:S-L-QW-A-OUT:as_well_as:composition:super:8723306549fe41a9:8415bea03d6aeff2+f:m:S-L-QW-A-OUT:more:pressure:super:C17:126a45a4b13afa1b",
+   "position": 1,
+   "record": {
+    "id": "ch:HV-QW-A-OUT.fail_position+HV-QW-A-OUT.kind+L-QW-A-OUT.components+L-QW-A-OUT.from_id+L-QW-A-OUT.to_id+f:m:S-EA-425A:less:flow:lightning:C12:8415bea03d6aeff2+f:m:S-L-QW-A-OUT:as_well_as:composition:super:8723306549fe41a9:8415bea03d6aeff2+f:m:S-L-QW-A-OUT:more:pressure:super:C17:126a45a4b13afa1b",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "links": [
+     "f:m:S-EA-425A:less:flow:lightning:C12:8415bea03d6aeff2",
+     "HV-QW-A-OUT.kind",
+     "HV-QW-A-OUT.fail_position",
+     "L-QW-A-OUT.components",
+     "L-QW-A-OUT.from_id",
+     "L-QW-A-OUT.to_id",
+     "f:m:S-L-QW-A-OUT:more:pressure:super:C17:126a45a4b13afa1b",
+     "f:m:S-L-QW-A-OUT:as_well_as:composition:super:8723306549fe41a9:8415bea03d6aeff2"
+    ],
+    "description": "A tube rupture in EA-425A (m:S-EA-425A:less:flow (C12)) leaks hydrocarbons into the quench-water tube side; if the outlet valve HV-QW-A-OUT is then closed (m:S-L-QW-A-OUT:more:pressure), pressure builds in the tube side causing further tube damage and discharging a flammable hydrocarbon–water mixture to the quench-water utility UT-QW (m:S-L-QW-A-OUT:as_well_as:composition).",
+    "reason": "m:S-EA-425A:less:flow (C12) initiates contamination; plant facts show HV-QW-A-OUT normally open but can fail closed (HV-QW-A-OUT.kind, HV-QW-A-OUT.fail_position) on line L-QW-A-OUT from EA-425A to UT-QW (L-QW-A-OUT.components–L-QW-A-OUT.to_id). Closing it (m:S-L-QW-A-OUT:more:pressure) traps the contaminated flow, worsening the release (m:S-L-QW-A-OUT:as_well_as:composition).",
+    "multi_failure": true,
+    "flags": [
+     "handles in text replaced by code"
+    ],
+    "model_call_id": "mc:a5c40750db596be1",
+    "severity_class": "S2",
+    "severity_reason": "Flammable hydrocarbon-water mixture discharged to quench utility UT-QW (LOC-QUENCH-LOOP) creates release requiring on-site response; consequence confined to utility loop outside main unit."
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "ch:L-A-SIN.contents+LOC-OLEFINS-UNIT.description+LOC-OLEFINS-UNIT.indoor+LOC-OLEFINS-UNIT.occupied+f:env:C4-HEAVIES:air:lightning:cda259f9f53fa076:e53bce019995581b+f:m:S-EA-425B:more:temperature:super:C22:e53bce019995581b+f:m:S-L-A-SIN:less:flow:lightning:C20:53694b3a517365b4",
+   "position": 7,
+   "record": {
+    "id": "ch:L-A-SIN.contents+LOC-OLEFINS-UNIT.description+LOC-OLEFINS-UNIT.indoor+LOC-OLEFINS-UNIT.occupied+f:env:C4-HEAVIES:air:lightning:cda259f9f53fa076:e53bce019995581b+f:m:S-EA-425B:more:temperature:super:C22:e53bce019995581b+f:m:S-L-A-SIN:less:flow:lightning:C20:53694b3a517365b4",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "links": [
+     "f:m:S-L-A-SIN:less:flow:lightning:C20:53694b3a517365b4",
+     "L-A-SIN.contents",
+     "LOC-OLEFINS-UNIT.description",
+     "LOC-OLEFINS-UNIT.indoor",
+     "LOC-OLEFINS-UNIT.occupied",
+     "f:env:C4-HEAVIES:air:lightning:cda259f9f53fa076:e53bce019995581b",
+     "f:m:S-EA-425B:more:temperature:super:C22:e53bce019995581b"
+    ],
+    "description": "A piping leak on L-A-SIN (m:S-L-A-SIN:less:flow) releases propane/propylene/C4-heavies to the outdoor, occupied Olefins unit (LOC-OLEFINS-UNIT.description–LOC-OLEFINS-UNIT.occupied). The vapour can form a flammable mixture with air (env:C4-HEAVIES:air) and be ignited by an external fire (m:S-EA-425B:more:temperature), escalating to a pool fire or vapour cloud explosion.",
+    "reason": "m:S-L-A-SIN:less:flow provides the release; plant facts confirm line contents (L-A-SIN.contents) and location characteristics (LOC-OLEFINS-UNIT.description–LOC-OLEFINS-UNIT.occupied). env:C4-HEAVIES:air describes the air-mixing hazard, and m:S-EA-425B:more:temperature provides an ignition source that can act on the released cloud.",
+    "multi_failure": true,
+    "flags": [
+     "handles in text replaced by code"
+    ],
+    "model_call_id": "mc:a5c40750db596be1",
+    "severity_class": "S4",
+    "severity_reason": "Piping leak on L-A-SIN releases propane/propylene/C4-heavies (L-A-SIN.contents) to occupied outdoor Olefins unit (LOC-OLEFINS-UNIT.occupied, indoor=false); vapour forms flammable mixture with air (env:C4-HEAVIES:air) ignited by external fire (m:S-EA-425B:more:temperature) causing pool fire/vapour  "
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "ch:L-QW-B-OUT.to_id+UT-QW.kind+UT-QW.location_id+f:env:PROPYLENE:water:lightning:ff9ae8d70ab3832e:e53bce019995581b+f:m:S-L-QW-A-IN:other_than:composition:super:b94317caa5d133dc:8415bea03d6aeff2+f:m:S-L-QW-A-OUT:as_well_as:composition:super:8723306549fe41a9:8415bea03d6aeff2",
+   "position": 4,
+   "record": {
+    "id": "ch:L-QW-B-OUT.to_id+UT-QW.kind+UT-QW.location_id+f:env:PROPYLENE:water:lightning:ff9ae8d70ab3832e:e53bce019995581b+f:m:S-L-QW-A-IN:other_than:composition:super:b94317caa5d133dc:8415bea03d6aeff2+f:m:S-L-QW-A-OUT:as_well_as:composition:super:8723306549fe41a9:8415bea03d6aeff2",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "links": [
+     "f:m:S-L-QW-A-IN:other_than:composition:super:b94317caa5d133dc:8415bea03d6aeff2",
+     "f:m:S-L-QW-A-OUT:as_well_as:composition:super:8723306549fe41a9:8415bea03d6aeff2",
+     "UT-QW.kind",
+     "UT-QW.location_id",
+     "L-QW-B-OUT.to_id",
+     "f:env:PROPYLENE:water:lightning:ff9ae8d70ab3832e:e53bce019995581b"
+    ],
+    "description": "A tube leak in EA-425A (m:S-L-QW-A-IN:other_than:composition) lets hydrocarbons enter the quench-water tube side and be discharged to the quench-water utility UT-QW (m:S-L-QW-A-OUT:as_well_as:composition). In the quench loop (UT-QW.kind, UT-QW.location_id, L-QW-B-OUT.to_id), propylene can react with water (env:PROPYLENE:water), releasing heat and forming peroxides or flammable by-products.",
+    "reason": "m:S-L-QW-A-IN:other_than:composition and m:S-L-QW-A-OUT:as_well_as:composition move hydrocarbons into UT-QW; plant facts identify UT-QW as the quench-loop utility (UT-QW.kind, UT-QW.location_id) receiving flow from EA-425B's outlet line (L-QW-B-OUT.to_id). The chemical interaction (env:PROPYLENE:water) is a known hazard not captured in the individual scenarios.",
+    "multi_failure": true,
+    "flags": [
+     "handles in text replaced by code"
+    ],
+    "model_call_id": "mc:a5c40750db596be1",
+    "severity_class": "S2",
+    "severity_reason": "Propylene-water reaction in quench loop (UT-QW, LOC-QUENCH-LOOP) forms peroxides/flammable by-products with heat release, creating hazardous mixture in utility system requiring on-site response."
+   }
+  }
+ ]
+}

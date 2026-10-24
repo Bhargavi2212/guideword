@@ -1,0 +1,1841 @@
+{
+ "table": "tool_calls",
+ "rows": [
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "tc:step:06b29dd40688acad:dispatch_specialist:ce4116c5c057ef9c",
+   "position": 14,
+   "record": {
+    "id": "tc:step:06b29dd40688acad:dispatch_specialist:ce4116c5c057ef9c",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "agent_step_id": "step:06b29dd40688acad",
+    "tool": "dispatch_specialist",
+    "arguments": {
+     "reason": "Chemistry questions linked to all top priority hazards (ranks 1-12); address them first with priority routing",
+     "agent": "chemistry",
+     "level": "bulk",
+     "priority": true
+    },
+    "result": {
+     "summary": "chemistry at bulk: 7 answered, 5 failed, 7 findings",
+     "question_ids": [
+      "env:PROPANE:air",
+      "env:PROPANE:heat",
+      "env:PROPANE:water",
+      "env:PROPYLENE:air",
+      "env:PROPYLENE:heat",
+      "env:PROPYLENE:water",
+      "pair:C4-HEAVIES:PROPANE",
+      "pair:C4-HEAVIES:PROPYLENE",
+      "pair:PROPANE:PROPYLENE",
+      "env:C4-HEAVIES:air",
+      "env:C4-HEAVIES:heat",
+      "env:C4-HEAVIES:water"
+     ],
+     "skipped": [],
+     "dropped_ids": []
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "tc:step:0900784d281a8ae5:dispatch_specialist:6848a7ed6bb5154e",
+   "position": 20,
+   "record": {
+    "id": "tc:step:0900784d281a8ae5:dispatch_specialist:6848a7ed6bb5154e",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "agent_step_id": "step:0900784d281a8ae5",
+    "tool": "dispatch_specialist",
+    "arguments": {
+     "reason": "74 open process questions linked to priority hazards ranks 2, 5, 6, 7, 12; dispatch process specialist with priority routing to address highest-risk deviations first",
+     "agent": "process",
+     "level": "bulk",
+     "priority": true
+    },
+    "result": {
+     "summary": "process at bulk: 32 answered, 28 failed, 31 findings",
+     "question_ids": [
+      "m:S-EA-425A:reverse:flow",
+      "m:S-L-A-SIN:as_well_as:composition",
+      "m:S-L-A-SIN:less:flow",
+      "m:S-L-A-SIN:less:pressure",
+      "m:S-L-A-SIN:less:temperature",
+      "m:S-L-A-SIN:more:flow",
+      "m:S-L-A-SIN:more:pressure",
+      "m:S-L-A-SIN:more:temperature",
+      "m:S-L-A-SIN:no:flow",
+      "m:S-L-A-SIN:other_than:composition",
+      "m:S-L-A-SIN:other_than:phase",
+      "m:S-L-A-SIN:part_of:composition",
+      "m:S-L-A-SIN:reverse:flow",
+      "m:S-L-A-SOUT:as_well_as:composition",
+      "m:S-L-A-SOUT:less:flow",
+      "m:S-L-A-SOUT:less:pressure",
+      "m:S-L-A-SOUT:less:temperature",
+      "m:S-L-A-SOUT:more:flow",
+      "m:S-L-A-SOUT:more:pressure",
+      "m:S-L-A-SOUT:more:temperature",
+      "m:S-L-A-SOUT:no:flow",
+      "m:S-L-A-SOUT:other_than:composition",
+      "m:S-L-A-SOUT:other_than:phase",
+      "m:S-L-A-SOUT:part_of:composition",
+      "m:S-L-A-SOUT:reverse:flow",
+      "relief:RV-PATH-EA425A",
+      "m:S-L-QW-A-IN:as_well_as:composition",
+      "m:S-L-QW-A-IN:less:flow",
+      "m:S-L-QW-A-IN:less:pressure",
+      "m:S-L-QW-A-IN:less:temperature",
+      "m:S-L-QW-A-IN:more:flow",
+      "m:S-L-QW-A-IN:more:pressure",
+      "m:S-L-QW-A-IN:more:temperature",
+      "m:S-L-QW-A-IN:no:flow",
+      "m:S-L-QW-A-IN:other_than:composition",
+      "m:S-L-QW-A-IN:other_than:phase",
+      "m:S-L-QW-A-IN:part_of:composition",
+      "m:S-L-QW-A-IN:reverse:flow",
+      "m:S-L-QW-A-OUT:as_well_as:composition",
+      "m:S-L-QW-A-OUT:less:flow",
+      "m:S-L-QW-A-OUT:less:pressure",
+      "m:S-L-QW-A-OUT:less:temperature",
+      "m:S-L-QW-A-OUT:more:flow",
+      "m:S-L-QW-A-OUT:more:pressure",
+      "m:S-L-QW-A-OUT:more:temperature",
+      "m:S-L-QW-A-OUT:no:flow",
+      "m:S-L-QW-A-OUT:other_than:composition",
+      "m:S-L-QW-A-OUT:other_than:phase",
+      "m:S-L-QW-A-OUT:part_of:composition",
+      "m:S-L-QW-A-OUT:reverse:flow",
+      "m:S-L-QW-B-IN:as_well_as:composition",
+      "m:S-L-QW-B-IN:less:flow",
+      "m:S-L-QW-B-IN:less:pressure",
+      "m:S-L-QW-B-IN:less:temperature",
+      "m:S-L-QW-B-IN:more:flow",
+      "m:S-L-QW-B-IN:more:pressure",
+      "m:S-L-QW-B-IN:more:temperature",
+      "m:S-L-QW-B-IN:no:flow",
+      "m:S-L-QW-B-IN:other_than:composition",
+      "m:S-L-QW-B-IN:other_than:phase"
+     ],
+     "skipped": [],
+     "dropped_ids": []
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "tc:step:0dc6733be0b824c9:reactivity_lookup:ff4a77bd56ea4430",
+   "position": 3,
+   "record": {
+    "id": "tc:step:0dc6733be0b824c9:reactivity_lookup:ff4a77bd56ea4430",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "agent_step_id": "step:0dc6733be0b824c9",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "PROPANE",
+     "chemical_b": "water"
+    },
+    "result": null,
+    "refused_reason": "at most 2 tool calls per batch",
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "tc:step:104edc6a39185abd:reactivity_lookup:1c760d22766e038b",
+   "position": 4,
+   "record": {
+    "id": "tc:step:104edc6a39185abd:reactivity_lookup:1c760d22766e038b",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "agent_step_id": "step:104edc6a39185abd",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "PROPANE",
+     "chemical_b": "PROPANE"
+    },
+    "result": null,
+    "refused_reason": "reactivity_lookup needs two different chemicals",
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "tc:step:109c3d3c38d967e9:reactivity_lookup:5cd8102f93125d54",
+   "position": 2,
+   "record": {
+    "id": "tc:step:109c3d3c38d967e9:reactivity_lookup:5cd8102f93125d54",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "agent_step_id": "step:109c3d3c38d967e9",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "PROPANE",
+     "chemical_b": "air"
+    },
+    "result": null,
+    "refused_reason": "air is not a chemical in this plant",
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "tc:step:1450fcc3fde9200f:dispatch_specialist:57c849bda36d49d1",
+   "position": 24,
+   "record": {
+    "id": "tc:step:1450fcc3fde9200f:dispatch_specialist:57c849bda36d49d1",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "agent_step_id": "step:1450fcc3fde9200f",
+    "tool": "dispatch_specialist",
+    "arguments": {
+     "reason": "Retry 5 failed S-DA-406 process questions at hard level; they failed at bulk and still block completion",
+     "agent": "process",
+     "level": "hard",
+     "question_ids": [
+      "m:S-DA-406:less:flow",
+      "m:S-DA-406:less:level",
+      "m:S-DA-406:less:pressure",
+      "m:S-DA-406:less:temperature",
+      "m:S-DA-406:more:level"
+     ]
+    },
+    "result": {
+     "summary": "all already answered; stored results used",
+     "skipped": [
+      "m:S-DA-406:less:flow",
+      "m:S-DA-406:less:level",
+      "m:S-DA-406:less:pressure",
+      "m:S-DA-406:less:temperature",
+      "m:S-DA-406:more:level"
+     ]
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "tc:step:16c5ec3dbf35e980:reactivity_lookup:1c760d22766e038b",
+   "position": 5,
+   "record": {
+    "id": "tc:step:16c5ec3dbf35e980:reactivity_lookup:1c760d22766e038b",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "agent_step_id": "step:16c5ec3dbf35e980",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "PROPANE",
+     "chemical_b": "PROPANE"
+    },
+    "result": null,
+    "refused_reason": "at most 2 tool calls per batch",
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "tc:step:205cd003b4f0484d:search_precedent:8a64df2fd5c79003",
+   "position": 44,
+   "record": {
+    "id": "tc:step:205cd003b4f0484d:search_precedent:8a64df2fd5c79003",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "agent_step_id": "step:205cd003b4f0484d",
+    "tool": "search_precedent",
+    "arguments": {
+     "query": "external fire near the equipment more flow heat exchanger propane propylene heavier hydrocarbons c4 and above",
+     "k": 5
+    },
+    "result": {
+     "candidates": [
+      "CSB-066",
+      "CSB-056",
+      "CSB-080",
+      "CSB-094",
+      "CSB-078"
+     ],
+     "scores": [
+      13.570294911493203,
+      11.938234997970433,
+      9.94113054463821,
+      7.496909312967988,
+      6.563294110322056
+     ],
+     "blocked_rows": 2,
+     "index_version": "14678fe5d063a968bb6c3557a2fc43dc2a48707ba1d7e796fb496baadd0671e1"
+    },
+    "refused_reason": null,
+    "source_urls": [
+     "https://www.csb.gov/goodyear-heat-exchanger-rupture/",
+     "https://www.csb.gov/tesoro-anacortes-refinery-fatal-explosion-and-fire-/",
+     "https://www.csb.gov/valero-mckee-refinery-propane-fire/",
+     "https://www.csb.gov/formosa-plastics-propylene-explosion/",
+     "https://www.csb.gov/little-general-store-propane-explosion/"
+    ],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "tc:step:26261269305d5355:dispatch_specialist:3e63fd44ad2aa893",
+   "position": 18,
+   "record": {
+    "id": "tc:step:26261269305d5355:dispatch_specialist:3e63fd44ad2aa893",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "agent_step_id": "step:26261269305d5355",
+    "tool": "dispatch_specialist",
+    "arguments": {
+     "reason": "Four no-flow line questions (nf:L-B-SIN, nf:L-B-SOUT, nf:L-QW-B-IN, nf:L-QW-B-OUT) linked to top priority hazards ranks 1, 3, 4, 12; dispatch piping specialist with priority routing",
+     "agent": "piping",
+     "level": "bulk",
+     "priority": true
+    },
+    "result": {
+     "summary": "piping at bulk: 0 answered, 4 failed, 0 findings",
+     "question_ids": [
+      "nf:L-B-SIN",
+      "nf:L-B-SOUT",
+      "nf:L-QW-B-IN",
+      "nf:L-QW-B-OUT"
+     ],
+     "skipped": [],
+     "dropped_ids": []
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "tc:step:2a7cf17e2f4f5663:web_research:9a089528549a85dd",
+   "position": 33,
+   "record": {
+    "id": "tc:step:2a7cf17e2f4f5663:web_research:9a089528549a85dd",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "agent_step_id": "step:2a7cf17e2f4f5663",
+    "tool": "web_research",
+    "arguments": {
+     "query": "external fire near the equipment more temperature heat exchanger propane propylene heavier hydrocarbons c4 and above",
+     "max_results": 5
+    },
+    "result": {
+     "cache_key": "e785b280a527af7f",
+     "cache_hit": true,
+     "urls": [
+      "https://www.charcoat.com/blogs/hydrocarbon-fire-protection-oil-gas-2026",
+      "https://westairgases.com/blog/is-propane-flammable",
+      "https://www.csb.gov/assets/1/20/csbfinalreportvalerosunray.pdf?13739=",
+      "https://cameochemicals.noaa.gov/chemical/9018",
+      "https://www.iafc.org/topics-and-tools/resources/resource/responding-to-propane-flammable-gas-incidents-bulletin"
+     ],
+     "blocked_results": 0
+    },
+    "refused_reason": null,
+    "source_urls": [
+     "https://www.charcoat.com/blogs/hydrocarbon-fire-protection-oil-gas-2026",
+     "https://westairgases.com/blog/is-propane-flammable",
+     "https://www.csb.gov/assets/1/20/csbfinalreportvalerosunray.pdf?13739=",
+     "https://cameochemicals.noaa.gov/chemical/9018",
+     "https://www.iafc.org/topics-and-tools/resources/resource/responding-to-propane-flammable-gas-incidents-bulletin"
+    ],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "tc:step:2b648cc26de58fa9:dispatch_specialist:456e37d3ed7845ff",
+   "position": 25,
+   "record": {
+    "id": "tc:step:2b648cc26de58fa9:dispatch_specialist:456e37d3ed7845ff",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "agent_step_id": "step:2b648cc26de58fa9",
+    "tool": "dispatch_specialist",
+    "arguments": {
+     "reason": "54 open process questions linked to priority hazards ranks 2, 4, 5, 6, 7, 9, 10, 11, 12; dispatch process specialist with priority routing to address highest-risk deviations first",
+     "agent": "process",
+     "level": "bulk",
+     "priority": true
+    },
+    "result": {
+     "summary": "process at bulk: 2 answered, 12 failed, 6 findings",
+     "question_ids": [
+      "m:S-L-QW-B-IN:part_of:composition",
+      "m:S-L-QW-B-IN:reverse:flow",
+      "m:S-L-QW-B-OUT:as_well_as:composition",
+      "m:S-L-QW-B-OUT:less:flow",
+      "m:S-L-QW-B-OUT:less:pressure",
+      "m:S-L-QW-B-OUT:less:temperature",
+      "m:S-L-QW-B-OUT:more:flow",
+      "m:S-L-QW-B-OUT:more:pressure",
+      "m:S-L-QW-B-OUT:more:temperature",
+      "m:S-L-QW-B-OUT:no:flow",
+      "m:S-L-QW-B-OUT:other_than:composition",
+      "m:S-L-QW-B-OUT:other_than:phase",
+      "m:S-L-QW-B-OUT:part_of:composition",
+      "m:S-L-QW-B-OUT:reverse:flow"
+     ],
+     "skipped": [],
+     "dropped_ids": []
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "tc:step:2c463b9127198404:physics_calc:58f7c3ce9aaf5380",
+   "position": 38,
+   "record": {
+    "id": "tc:step:2c463b9127198404:physics_calc:58f7c3ce9aaf5380",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "agent_step_id": "step:2c463b9127198404",
+    "tool": "physics_calc",
+    "arguments": {
+     "calculation": "heat_up_rate",
+     "equipment_id": "EA-425B"
+    },
+    "result": {
+     "calculation": "heat_up_rate",
+     "equipment_id": "EA-425B",
+     "verdict": "none",
+     "value": null,
+     "unit": "min",
+     "fact_ids": [],
+     "missing_fact_ids": [
+      "EA-425B.heat_duty_kw",
+      "EA-425B.volume_m3",
+      "PROPANE.density_kg_m3",
+      "PROPYLENE.density_kg_m3",
+      "C4-HEAVIES.density_kg_m3",
+      "PROPANE.heat_capacity_kj_kg_k",
+      "PROPYLENE.heat_capacity_kj_kg_k",
+      "C4-HEAVIES.heat_capacity_kj_kg_k",
+      "EA-425B.operating.temperature.normal",
+      "EA-425B.operating.temperature.design_max",
+      "EA-425B.design_temp_c"
+     ],
+     "flags": [],
+     "failed": [],
+     "detail": {}
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": [
+     "ev:ch:HV-A-SIN.normal_position+HV-A-SOUT.normal_position+RV-PATH-EA425A.inlet_valve_ids+SV-421QA.protects_id+SV-421QB.protects_id+f:m:S-EA-425B:more:temperature:super:C22:e53bce019995581b+f:m:S-L-A-SOUT:reverse:flow:super:d96e945a65e57280:e8d47871d4a47f89+f:m:S-L-QW-A-IN:more:pressure:lightning:C22:e53bce019995581b:calculation:heat_up_rate-EA-425B"
+    ]
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "tc:step:2c463b9127198404:physics_calc:703c235cf61df72b",
+   "position": 37,
+   "record": {
+    "id": "tc:step:2c463b9127198404:physics_calc:703c235cf61df72b",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "agent_step_id": "step:2c463b9127198404",
+    "tool": "physics_calc",
+    "arguments": {
+     "calculation": "blocked_in_heating",
+     "equipment_id": "EA-425B"
+    },
+    "result": {
+     "calculation": "blocked_in_heating",
+     "equipment_id": "EA-425B",
+     "verdict": "confirmed",
+     "value": 1.6125604448742747,
+     "unit": "x_design",
+     "fact_ids": [
+      "HV-B-SIN.normal_position",
+      "HV-B-SOUT.normal_position",
+      "HV-QW-B-IN.locked",
+      "HV-QW-B-OUT.locked",
+      "EA-425B.design_pressure_kpa",
+      "L-QW-B-IN.operating.temperature.normal",
+      "PROPANE.vapor_pressure_points",
+      "PROPYLENE.vapor_pressure_points"
+     ],
+     "missing_fact_ids": [],
+     "flags": [
+      "pure-component vapour pressure; liquid-full thermal expansion not modelled; real pressure can be higher",
+      "heating-medium temperature from normal (no design_max)",
+      "no data: C4-HEAVIES; bound covers listed chemicals only"
+     ],
+     "failed": [],
+     "detail": {
+      "chemical": "PROPANE",
+      "heat_source": "hot quench water",
+      "temperature_c": 85.0,
+      "pressures_kpaa": {
+       "PROPANE": 3436.1,
+       "PROPYLENE": 4078.8
+      },
+      "multiples": {
+       "PROPANE": 1.6125604448742747,
+       "PROPYLENE": 1.9233438104448743
+      }
+     }
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": [
+     "ev:ch:HV-A-SIN.normal_position+HV-A-SOUT.normal_position+RV-PATH-EA425A.inlet_valve_ids+SV-421QA.protects_id+SV-421QB.protects_id+f:m:S-EA-425B:more:temperature:super:C22:e53bce019995581b+f:m:S-L-A-SOUT:reverse:flow:super:d96e945a65e57280:e8d47871d4a47f89+f:m:S-L-QW-A-IN:more:pressure:lightning:C22:e53bce019995581b:calculation:blocked_in_heating-EA-425B"
+    ]
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "tc:step:2f76a24618b3ad19:physics_calc:703c235cf61df72b",
+   "position": 34,
+   "record": {
+    "id": "tc:step:2f76a24618b3ad19:physics_calc:703c235cf61df72b",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "agent_step_id": "step:2f76a24618b3ad19",
+    "tool": "physics_calc",
+    "arguments": {
+     "calculation": "blocked_in_heating",
+     "equipment_id": "EA-425B"
+    },
+    "result": {
+     "calculation": "blocked_in_heating",
+     "equipment_id": "EA-425B",
+     "verdict": "confirmed",
+     "value": 1.6125604448742747,
+     "unit": "x_design",
+     "fact_ids": [
+      "HV-B-SIN.normal_position",
+      "HV-B-SOUT.normal_position",
+      "HV-QW-B-IN.locked",
+      "HV-QW-B-OUT.locked",
+      "EA-425B.design_pressure_kpa",
+      "L-QW-B-IN.operating.temperature.normal",
+      "PROPANE.vapor_pressure_points",
+      "PROPYLENE.vapor_pressure_points"
+     ],
+     "missing_fact_ids": [],
+     "flags": [
+      "pure-component vapour pressure; liquid-full thermal expansion not modelled; real pressure can be higher",
+      "heating-medium temperature from normal (no design_max)",
+      "no data: C4-HEAVIES; bound covers listed chemicals only"
+     ],
+     "failed": [],
+     "detail": {
+      "chemical": "PROPANE",
+      "heat_source": "hot quench water",
+      "temperature_c": 85.0,
+      "pressures_kpaa": {
+       "PROPANE": 3436.1,
+       "PROPYLENE": 4078.8
+      },
+      "multiples": {
+       "PROPANE": 1.6125604448742747,
+       "PROPYLENE": 1.9233438104448743
+      }
+     }
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": [
+     "ev:ch:EA-425B.design_pressure_kpa+EA-425B.heat_sources+HV-B-SIN.normal_position+HV-B-SOUT.normal_position+HV-QW-B-IN.normal_position+HV-QW-B-OUT.normal_position+RV-PATH-EA425B.inlet_valve_ids+f:m:S-EA-425B:as_well_as:composition:super:C12:b3d32268f909ddb3+f:proc:P-REB-START-2:early:super:C16:126a45a4b13afa1b:calculation:blocked_in_heating-EA-425B"
+    ]
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "tc:step:387b3f46a0fc7920:reactivity_lookup:2a5b3845af9422a8",
+   "position": 7,
+   "record": {
+    "id": "tc:step:387b3f46a0fc7920:reactivity_lookup:2a5b3845af9422a8",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "agent_step_id": "step:387b3f46a0fc7920",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "C4-HEAVIES",
+     "chemical_b": "PROPYLENE"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "C4-HEAVIES",
+       "name": "heavier hydrocarbons (C4 and above)",
+       "epa_groups": [
+        29
+       ],
+       "cameo_groups": [
+        {
+         "id": 29,
+         "name": "Hydrocarbons, Aliphatic Saturated"
+        }
+       ]
+      },
+      {
+       "id": "PROPYLENE",
+       "name": "propylene",
+       "epa_groups": [
+        28
+       ],
+       "cameo_groups": [
+        {
+         "id": 28,
+         "name": "Hydrocarbons, Aliphatic Unsaturated"
+        }
+       ]
+      }
+     ],
+     "pairs": [
+      {
+       "groups": [
+        29,
+        28
+       ],
+       "group_names": [
+        "Hydrocarbons, Aliphatic, Saturated",
+        "Hydrocarbons, Aliphatic, Unsaturated"
+       ],
+       "status": "not_listed",
+       "codes": [],
+       "source": "no row in reactive_pairs.csv"
+      }
+     ],
+     "no_groups": [],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "tc:step:3f73d5392bd14f5f:reactivity_lookup:f26fabf534fd853d",
+   "position": 0,
+   "record": {
+    "id": "tc:step:3f73d5392bd14f5f:reactivity_lookup:f26fabf534fd853d",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "agent_step_id": "step:3f73d5392bd14f5f",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "PROPANE",
+     "chemical_b": "PROPYLENE"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "PROPANE",
+       "name": "propane",
+       "epa_groups": [
+        29
+       ],
+       "cameo_groups": [
+        {
+         "id": 29,
+         "name": "Hydrocarbons, Aliphatic Saturated"
+        }
+       ]
+      },
+      {
+       "id": "PROPYLENE",
+       "name": "propylene",
+       "epa_groups": [
+        28
+       ],
+       "cameo_groups": [
+        {
+         "id": 28,
+         "name": "Hydrocarbons, Aliphatic Unsaturated"
+        }
+       ]
+      }
+     ],
+     "pairs": [
+      {
+       "groups": [
+        29,
+        28
+       ],
+       "group_names": [
+        "Hydrocarbons, Aliphatic, Saturated",
+        "Hydrocarbons, Aliphatic, Unsaturated"
+       ],
+       "status": "not_listed",
+       "codes": [],
+       "source": "no row in reactive_pairs.csv"
+      }
+     ],
+     "no_groups": [],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "tc:step:47fc2e5e084a27a6:dispatch_specialist:37fa7422d4679033",
+   "position": 16,
+   "record": {
+    "id": "tc:step:47fc2e5e084a27a6:dispatch_specialist:37fa7422d4679033",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "agent_step_id": "step:47fc2e5e084a27a6",
+    "tool": "dispatch_specialist",
+    "arguments": {
+     "reason": "Process questions linked to top priority hazards (ranks 1-12) remain open; dispatch process specialist with priority routing to address highest-risk deviations first",
+     "agent": "process",
+     "level": "bulk",
+     "priority": true
+    },
+    "result": {
+     "summary": "process at bulk: 42 answered, 18 failed, 30 findings",
+     "question_ids": [
+      "m:S-DA-406:as_well_as:composition",
+      "m:S-DA-406:less:flow",
+      "m:S-DA-406:less:level",
+      "m:S-DA-406:less:pressure",
+      "m:S-DA-406:less:temperature",
+      "m:S-DA-406:more:flow",
+      "m:S-DA-406:more:level",
+      "m:S-DA-406:more:pressure",
+      "m:S-DA-406:more:temperature",
+      "m:S-DA-406:no:flow",
+      "m:S-DA-406:no:level",
+      "m:S-DA-406:other_than:composition",
+      "m:S-DA-406:other_than:phase",
+      "m:S-DA-406:part_of:composition",
+      "m:S-EA-425B:as_well_as:composition",
+      "m:S-EA-425B:less:flow",
+      "m:S-EA-425B:less:pressure",
+      "m:S-EA-425B:less:temperature",
+      "m:S-EA-425B:more:flow",
+      "m:S-EA-425B:more:pressure",
+      "m:S-EA-425B:more:temperature",
+      "m:S-EA-425B:no:flow",
+      "m:S-EA-425B:other_than:composition",
+      "m:S-EA-425B:reverse:flow",
+      "m:S-L-B-SIN:as_well_as:composition",
+      "m:S-L-B-SIN:less:flow",
+      "m:S-L-B-SIN:less:pressure",
+      "m:S-L-B-SIN:less:temperature",
+      "m:S-L-B-SIN:more:flow",
+      "m:S-L-B-SIN:more:pressure",
+      "m:S-L-B-SIN:more:temperature",
+      "m:S-L-B-SIN:no:flow",
+      "m:S-L-B-SIN:other_than:composition",
+      "m:S-L-B-SIN:other_than:phase",
+      "m:S-L-B-SIN:part_of:composition",
+      "m:S-L-B-SIN:reverse:flow",
+      "m:S-L-B-SOUT:as_well_as:composition",
+      "m:S-L-B-SOUT:less:flow",
+      "m:S-L-B-SOUT:less:pressure",
+      "m:S-L-B-SOUT:less:temperature",
+      "m:S-L-B-SOUT:more:flow",
+      "m:S-L-B-SOUT:more:pressure",
+      "m:S-L-B-SOUT:more:temperature",
+      "m:S-L-B-SOUT:no:flow",
+      "m:S-L-B-SOUT:other_than:composition",
+      "m:S-L-B-SOUT:other_than:phase",
+      "m:S-L-B-SOUT:part_of:composition",
+      "m:S-L-B-SOUT:reverse:flow",
+      "relief:RV-PATH-EA425B",
+      "relief:SV-421QA",
+      "relief:SV-421QB",
+      "m:S-EA-425A:as_well_as:composition",
+      "m:S-EA-425A:less:flow",
+      "m:S-EA-425A:less:pressure",
+      "m:S-EA-425A:less:temperature",
+      "m:S-EA-425A:more:flow",
+      "m:S-EA-425A:more:pressure",
+      "m:S-EA-425A:more:temperature",
+      "m:S-EA-425A:no:flow",
+      "m:S-EA-425A:other_than:composition"
+     ],
+     "skipped": [],
+     "dropped_ids": []
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "tc:step:5b2b46f993da0796:reactivity_lookup:1c760d22766e038b",
+   "position": 1,
+   "record": {
+    "id": "tc:step:5b2b46f993da0796:reactivity_lookup:1c760d22766e038b",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "agent_step_id": "step:5b2b46f993da0796",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "PROPANE",
+     "chemical_b": "PROPANE"
+    },
+    "result": null,
+    "refused_reason": "reactivity_lookup needs two different chemicals",
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "tc:step:628484febe8f174a:dispatch_specialist:54af88850ca7521b",
+   "position": 23,
+   "record": {
+    "id": "tc:step:628484febe8f174a:dispatch_specialist:54af88850ca7521b",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "agent_step_id": "step:628484febe8f174a",
+    "tool": "dispatch_specialist",
+    "arguments": {
+     "reason": "Retry 5 failed process questions for S-DA-406 at hard level; they failed once at bulk and block completion",
+     "agent": "process",
+     "level": "hard",
+     "question_ids": [
+      "m:S-DA-406:less:flow",
+      "m:S-DA-406:less:level",
+      "m:S-DA-406:less:pressure",
+      "m:S-DA-406:less:temperature",
+      "m:S-DA-406:more:level"
+     ]
+    },
+    "result": {
+     "summary": "all already answered; stored results used",
+     "skipped": [
+      "m:S-DA-406:less:flow",
+      "m:S-DA-406:less:level",
+      "m:S-DA-406:less:pressure",
+      "m:S-DA-406:less:temperature",
+      "m:S-DA-406:more:level"
+     ]
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "tc:step:65ea45ebcc366f5a:dispatch_specialist:5979337c67ddaba7",
+   "position": 21,
+   "record": {
+    "id": "tc:step:65ea45ebcc366f5a:dispatch_specialist:5979337c67ddaba7",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "agent_step_id": "step:65ea45ebcc366f5a",
+    "tool": "dispatch_specialist",
+    "arguments": {
+     "reason": "10 open procedure questions for P-REB-START-1/2 linked to priority hazard rank 5 (cause C16, unsupported); dispatch procedures agent with priority routing",
+     "agent": "procedures",
+     "level": "bulk",
+     "priority": true
+    },
+    "result": {
+     "summary": "procedures at bulk: 5 answered, 5 failed, 1 findings",
+     "question_ids": [
+      "proc:P-REB-START-1:early",
+      "proc:P-REB-START-1:late",
+      "proc:P-REB-START-1:out_of_order",
+      "proc:P-REB-START-1:skipped",
+      "proc:P-REB-START-1:wrong",
+      "proc:P-REB-START-2:early",
+      "proc:P-REB-START-2:late",
+      "proc:P-REB-START-2:out_of_order",
+      "proc:P-REB-START-2:skipped",
+      "proc:P-REB-START-2:wrong"
+     ],
+     "skipped": [],
+     "dropped_ids": []
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "tc:step:69db299e0fbc4088:reactivity_lookup:d243286fcdc7c774",
+   "position": 12,
+   "record": {
+    "id": "tc:step:69db299e0fbc4088:reactivity_lookup:d243286fcdc7c774",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "agent_step_id": "step:69db299e0fbc4088",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "C4-HEAVIES",
+     "chemical_b": "water"
+    },
+    "result": null,
+    "refused_reason": "water is not a chemical in this plant",
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "tc:step:7b6b48d8b4317d34:dispatch_specialist:79d55a6260f01044",
+   "position": 22,
+   "record": {
+    "id": "tc:step:7b6b48d8b4317d34:dispatch_specialist:79d55a6260f01044",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "agent_step_id": "step:7b6b48d8b4317d34",
+    "tool": "dispatch_specialist",
+    "arguments": {
+     "reason": "Retry 5 failed procedure questions for P-REB-START-1/2 at hard level; they link to priority hazard rank 5 (C16, supported) with 9 total open procedure questions",
+     "agent": "procedures",
+     "level": "hard",
+     "priority": true
+    },
+    "result": {
+     "summary": "procedures at hard: 9 answered, 0 failed, 9 findings",
+     "question_ids": [
+      "proc:P-REB-START-1:late",
+      "proc:P-REB-START-1:out_of_order",
+      "proc:P-REB-START-1:skipped",
+      "proc:P-REB-START-1:wrong",
+      "proc:P-REB-START-2:early",
+      "proc:P-REB-START-2:late",
+      "proc:P-REB-START-2:out_of_order",
+      "proc:P-REB-START-2:skipped",
+      "proc:P-REB-START-2:wrong"
+     ],
+     "skipped": [],
+     "dropped_ids": []
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "tc:step:7c0fd4cb3932defa:physics_calc:58f7c3ce9aaf5380",
+   "position": 31,
+   "record": {
+    "id": "tc:step:7c0fd4cb3932defa:physics_calc:58f7c3ce9aaf5380",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "agent_step_id": "step:7c0fd4cb3932defa",
+    "tool": "physics_calc",
+    "arguments": {
+     "calculation": "heat_up_rate",
+     "equipment_id": "EA-425B"
+    },
+    "result": {
+     "calculation": "heat_up_rate",
+     "equipment_id": "EA-425B",
+     "verdict": "none",
+     "value": null,
+     "unit": "min",
+     "fact_ids": [],
+     "missing_fact_ids": [
+      "EA-425B.heat_duty_kw",
+      "EA-425B.volume_m3",
+      "PROPANE.density_kg_m3",
+      "PROPYLENE.density_kg_m3",
+      "C4-HEAVIES.density_kg_m3",
+      "PROPANE.heat_capacity_kj_kg_k",
+      "PROPYLENE.heat_capacity_kj_kg_k",
+      "C4-HEAVIES.heat_capacity_kj_kg_k",
+      "EA-425B.operating.temperature.normal",
+      "EA-425B.operating.temperature.design_max",
+      "EA-425B.design_temp_c"
+     ],
+     "flags": [],
+     "failed": [],
+     "detail": {}
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": [
+     "ev:f:m:S-EA-425B:more:temperature:super:C22:e53bce019995581b:calculation:heat_up_rate-EA-425B"
+    ]
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "tc:step:7c0fd4cb3932defa:physics_calc:703c235cf61df72b",
+   "position": 30,
+   "record": {
+    "id": "tc:step:7c0fd4cb3932defa:physics_calc:703c235cf61df72b",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "agent_step_id": "step:7c0fd4cb3932defa",
+    "tool": "physics_calc",
+    "arguments": {
+     "calculation": "blocked_in_heating",
+     "equipment_id": "EA-425B"
+    },
+    "result": {
+     "calculation": "blocked_in_heating",
+     "equipment_id": "EA-425B",
+     "verdict": "confirmed",
+     "value": 1.6125604448742747,
+     "unit": "x_design",
+     "fact_ids": [
+      "HV-B-SIN.normal_position",
+      "HV-B-SOUT.normal_position",
+      "HV-QW-B-IN.locked",
+      "HV-QW-B-OUT.locked",
+      "EA-425B.design_pressure_kpa",
+      "L-QW-B-IN.operating.temperature.normal",
+      "PROPANE.vapor_pressure_points",
+      "PROPYLENE.vapor_pressure_points"
+     ],
+     "missing_fact_ids": [],
+     "flags": [
+      "pure-component vapour pressure; liquid-full thermal expansion not modelled; real pressure can be higher",
+      "heating-medium temperature from normal (no design_max)",
+      "no data: C4-HEAVIES; bound covers listed chemicals only"
+     ],
+     "failed": [],
+     "detail": {
+      "chemical": "PROPANE",
+      "heat_source": "hot quench water",
+      "temperature_c": 85.0,
+      "pressures_kpaa": {
+       "PROPANE": 3436.1,
+       "PROPYLENE": 4078.8
+      },
+      "multiples": {
+       "PROPANE": 1.6125604448742747,
+       "PROPYLENE": 1.9233438104448743
+      }
+     }
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": [
+     "ev:f:m:S-EA-425B:more:temperature:super:C22:e53bce019995581b:calculation:blocked_in_heating-EA-425B"
+    ]
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "tc:step:7f56ba7a8ad4b261:reactivity_lookup:d243286fcdc7c774",
+   "position": 13,
+   "record": {
+    "id": "tc:step:7f56ba7a8ad4b261:reactivity_lookup:d243286fcdc7c774",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "agent_step_id": "step:7f56ba7a8ad4b261",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "C4-HEAVIES",
+     "chemical_b": "water"
+    },
+    "result": null,
+    "refused_reason": "at most 2 tool calls per batch",
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "tc:step:81c8f5db0868fb65:dispatch_specialist:8ef5f01a304e9ae6",
+   "position": 19,
+   "record": {
+    "id": "tc:step:81c8f5db0868fb65:dispatch_specialist:8ef5f01a304e9ae6",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "agent_step_id": "step:81c8f5db0868fb65",
+    "tool": "dispatch_specialist",
+    "arguments": {
+     "reason": "Four no-flow line questions failed at bulk; they link to priority hazards ranks 1, 3, 5, 12. Retry at hard level.",
+     "agent": "piping",
+     "level": "hard",
+     "priority": true
+    },
+    "result": {
+     "summary": "piping at hard: 4 answered, 0 failed, 9 findings",
+     "question_ids": [
+      "nf:L-B-SIN",
+      "nf:L-B-SOUT",
+      "nf:L-QW-B-IN",
+      "nf:L-QW-B-OUT"
+     ],
+     "skipped": [],
+     "dropped_ids": []
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "tc:step:8b373b05e88ee6b7:web_research:590d9b60224aba84",
+   "position": 36,
+   "record": {
+    "id": "tc:step:8b373b05e88ee6b7:web_research:590d9b60224aba84",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "agent_step_id": "step:8b373b05e88ee6b7",
+    "tool": "web_research",
+    "arguments": {
+     "query": "procedure step skipped or done out of order operator error heat exchanger tube ruptures as well composition propane propylene heavier hydrocarbons c4 and above",
+     "max_results": 5
+    },
+    "result": {
+     "cache_key": "679a9884c3e0e0ba",
+     "cache_hit": true,
+     "urls": [
+      "https://www.facebook.com/ismail.saad.18/posts/process-safety-scenario-heat-exchanger-tube-ruptureheat-exchangers-are-often-see/25644733988562671",
+      "https://www.digitalrefining.com/article/1001215/tube-rupture-in-a-natural-gas-heater",
+      "https://e2g.com/industry-insights-ar/managing-tube-rupture-failure-risks-in-pressure-relief-systems",
+      "https://inspectioneering.com/videos/2014-10-28/4926/csb-safety-video-behind-the-cu",
+      "https://www.youtube.com/watch?v=sQzN_fBzFmc"
+     ],
+     "blocked_results": 0
+    },
+    "refused_reason": null,
+    "source_urls": [
+     "https://www.facebook.com/ismail.saad.18/posts/process-safety-scenario-heat-exchanger-tube-ruptureheat-exchangers-are-often-see/25644733988562671",
+     "https://www.digitalrefining.com/article/1001215/tube-rupture-in-a-natural-gas-heater",
+     "https://e2g.com/industry-insights-ar/managing-tube-rupture-failure-risks-in-pressure-relief-systems",
+     "https://inspectioneering.com/videos/2014-10-28/4926/csb-safety-video-behind-the-cu",
+     "https://www.youtube.com/watch?v=sQzN_fBzFmc"
+    ],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "tc:step:9b0568f3bab50ef3:dispatch_specialist:1e4f30221e90df8c",
+   "position": 26,
+   "record": {
+    "id": "tc:step:9b0568f3bab50ef3:dispatch_specialist:1e4f30221e90df8c",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "agent_step_id": "step:9b0568f3bab50ef3",
+    "tool": "dispatch_specialist",
+    "arguments": {
+     "reason": "52 open process questions linked to priority hazards ranks 2, 4, 5, 6, 7, 9, 10, 11, 12; dispatch process specialist with priority routing to address highest-risk deviations first",
+     "agent": "process",
+     "level": "bulk",
+     "priority": true
+    },
+    "result": null,
+    "refused_reason": "nothing to dispatch to process at level bulk",
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "tc:step:9bdd700794dbf0fd:web_research:80cdb0c355eaa20e",
+   "position": 45,
+   "record": {
+    "id": "tc:step:9bdd700794dbf0fd:web_research:80cdb0c355eaa20e",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "agent_step_id": "step:9bdd700794dbf0fd",
+    "tool": "web_research",
+    "arguments": {
+     "query": "external fire near the equipment more flow heat exchanger propane propylene heavier hydrocarbons c4 and above",
+     "max_results": 5
+    },
+    "result": {
+     "cache_key": "1bf4f79ee984fa00",
+     "cache_hit": true,
+     "urls": [
+      "https://www.csb.gov/assets/1/20/csbfinalreportvalerosunray.pdf?13739=",
+      "https://cameochemicals.noaa.gov/chemical/9018",
+      "https://www.iafc.org/topics-and-tools/resources/resource/responding-to-propane-flammable-gas-incidents-bulletin",
+      "https://risklogic.com/industry_news/south-haven-plastics-plant-fire-outdoor-storage-risks",
+      "https://pmc.ncbi.nlm.nih.gov/articles/PMC5792075"
+     ],
+     "blocked_results": 0
+    },
+    "refused_reason": null,
+    "source_urls": [
+     "https://www.csb.gov/assets/1/20/csbfinalreportvalerosunray.pdf?13739=",
+     "https://cameochemicals.noaa.gov/chemical/9018",
+     "https://www.iafc.org/topics-and-tools/resources/resource/responding-to-propane-flammable-gas-incidents-bulletin",
+     "https://risklogic.com/industry_news/south-haven-plastics-plant-fire-outdoor-storage-risks",
+     "https://pmc.ncbi.nlm.nih.gov/articles/PMC5792075"
+    ],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "tc:step:9f9bb577c483e535:finish:86a89c7fc2b55f8f",
+   "position": 29,
+   "record": {
+    "id": "tc:step:9f9bb577c483e535:finish:86a89c7fc2b55f8f",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "agent_step_id": "step:9f9bb577c483e535",
+    "tool": "finish",
+    "arguments": {
+     "reason": "All questions resolved: open=0, failed=6 (all process questions failed at hard level - their last attempt), unsure=84 (answered but low confidence). Priority hazards 9,10,11 not supported but have no "
+    },
+    "result": {
+     "summary": "accepted: every question answered, not credible or failed"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "tc:step:a254b7950552fe77:web_research:7322da0f3d1b3292",
+   "position": 42,
+   "record": {
+    "id": "tc:step:a254b7950552fe77:web_research:7322da0f3d1b3292",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "agent_step_id": "step:a254b7950552fe77",
+    "tool": "web_research",
+    "arguments": {
+     "query": "procedure step skipped or done out of order operator error",
+     "max_results": 5
+    },
+    "result": {
+     "cache_key": "c2abb4f68125dd57",
+     "cache_hit": true,
+     "urls": [
+      "https://www.gate.energy/viking/insights/gat2004-gkp-2012-08/human-error-in-procedure-following",
+      "https://docs.appian.com/suite/help/26.9/Testing_and_Debugging_Problems_with_Process_Models.html",
+      "https://assets.publishing.service.gov.uk/media/5a79dd42ed915d6b1deb3e69/consult-organic-products-guidnote-operators-20120928.pdf",
+      "https://asq.org/quality-resources/mistake-proofing",
+      "https://www.businessinsider.com/trump-skipped-anesthesia-to-not-give-pence-temporary-power-book-2021-9"
+     ],
+     "blocked_results": 0
+    },
+    "refused_reason": null,
+    "source_urls": [
+     "https://www.gate.energy/viking/insights/gat2004-gkp-2012-08/human-error-in-procedure-following",
+     "https://docs.appian.com/suite/help/26.9/Testing_and_Debugging_Problems_with_Process_Models.html",
+     "https://assets.publishing.service.gov.uk/media/5a79dd42ed915d6b1deb3e69/consult-organic-products-guidnote-operators-20120928.pdf",
+     "https://asq.org/quality-resources/mistake-proofing",
+     "https://www.businessinsider.com/trump-skipped-anesthesia-to-not-give-pence-temporary-power-book-2021-9"
+    ],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "tc:step:b54a6d0c11c08b09:search_precedent:8892c48af82f524e",
+   "position": 39,
+   "record": {
+    "id": "tc:step:b54a6d0c11c08b09:search_precedent:8892c48af82f524e",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "agent_step_id": "step:b54a6d0c11c08b09",
+    "tool": "search_precedent",
+    "arguments": {
+     "query": "external fire near the equipment more temperature heat exchanger propane propylene heavier hydrocarbons c4 and above pressure relief valve sv 421qa or 421qb fails to open at set reverse flow",
+     "k": 5
+    },
+    "result": {
+     "candidates": [
+      "CSB-066",
+      "CSB-121",
+      "CSB-056",
+      "CSB-080",
+      "CSB-100"
+     ],
+     "scores": [
+      14.481574128621315,
+      13.989894427501959,
+      13.354914285984785,
+      10.82500026927454,
+      9.225923653235608
+     ],
+     "blocked_rows": 2,
+     "index_version": "14678fe5d063a968bb6c3557a2fc43dc2a48707ba1d7e796fb496baadd0671e1"
+    },
+    "refused_reason": null,
+    "source_urls": [
+     "https://www.csb.gov/goodyear-heat-exchanger-rupture/",
+     "https://www.csb.gov/sonat-exploration-co-catastrophic-vessel-overpressurization/",
+     "https://www.csb.gov/tesoro-anacortes-refinery-fatal-explosion-and-fire-/",
+     "https://www.csb.gov/valero-mckee-refinery-propane-fire/",
+     "https://www.csb.gov/giant-industries-refinery-explosions-and-fire/"
+    ],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "tc:step:bc871c1ba897546b:web_research:c2af04d96fc9c1a9",
+   "position": 40,
+   "record": {
+    "id": "tc:step:bc871c1ba897546b:web_research:c2af04d96fc9c1a9",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "agent_step_id": "step:bc871c1ba897546b",
+    "tool": "web_research",
+    "arguments": {
+     "query": "external fire near the equipment more temperature heat exchanger propane propylene heavier hydrocarbons c4 and above pressure relief valve sv 421qa or 421qb fails to open at set reverse flow",
+     "max_results": 5
+    },
+    "result": {
+     "cache_key": "81f2e7468ac00c3d",
+     "cache_hit": true,
+     "urls": [
+      "https://www.gasequipment.com/content/02-cylinderandservicevalves.pdf",
+      "https://www.youtube.com/watch?v=Z-1kLrLis9U",
+      "https://www.youtube.com/watch?v=iY-uG97Rf3s&vl=en",
+      "https://www.mapquest.com/us/north-carolina/ward-tank-heat-exchanger-467421515",
+      "https://rocketreach.co/ward-tank-and-heat-exchanger-profile_b5d24de6f42e4403"
+     ],
+     "blocked_results": 0
+    },
+    "refused_reason": null,
+    "source_urls": [
+     "https://www.gasequipment.com/content/02-cylinderandservicevalves.pdf",
+     "https://www.youtube.com/watch?v=Z-1kLrLis9U",
+     "https://www.youtube.com/watch?v=iY-uG97Rf3s&vl=en",
+     "https://www.mapquest.com/us/north-carolina/ward-tank-heat-exchanger-467421515",
+     "https://rocketreach.co/ward-tank-and-heat-exchanger-profile_b5d24de6f42e4403"
+    ],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "tc:step:c0ae7d4a02af0ea6:physics_calc:f7c9a37580de6109",
+   "position": 43,
+   "record": {
+    "id": "tc:step:c0ae7d4a02af0ea6:physics_calc:f7c9a37580de6109",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "agent_step_id": "step:c0ae7d4a02af0ea6",
+    "tool": "physics_calc",
+    "arguments": {
+     "calculation": "blocked_in_heating",
+     "equipment_id": "EA-425A"
+    },
+    "result": {
+     "calculation": "blocked_in_heating",
+     "equipment_id": "EA-425A",
+     "verdict": "none",
+     "value": 1.6125604448742747,
+     "unit": "x_design",
+     "fact_ids": [
+      "HV-A-SIN.normal_position",
+      "HV-A-SOUT.normal_position",
+      "HV-QW-A-IN.locked",
+      "HV-QW-A-OUT.locked",
+      "EA-425A.design_pressure_kpa",
+      "L-QW-A-IN.operating.temperature.normal",
+      "PROPANE.vapor_pressure_points",
+      "PROPYLENE.vapor_pressure_points"
+     ],
+     "missing_fact_ids": [],
+     "flags": [
+      "pure-component vapour pressure; liquid-full thermal expansion not modelled; real pressure can be higher",
+      "heating-medium temperature from normal (no design_max)",
+      "no data: C4-HEAVIES; bound covers listed chemicals only"
+     ],
+     "failed": [
+      "not blocked in"
+     ],
+     "detail": {
+      "chemical": "PROPANE",
+      "heat_source": "hot quench water",
+      "temperature_c": 85.0,
+      "pressures_kpaa": {
+       "PROPANE": 3436.1,
+       "PROPYLENE": 4078.8
+      },
+      "multiples": {
+       "PROPANE": 1.6125604448742747,
+       "PROPYLENE": 1.9233438104448743
+      }
+     }
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": [
+     "ev:f:m:S-EA-425A:more:flow:super:C22:e53bce019995581b:calculation:blocked_in_heating-EA-425A"
+    ]
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "tc:step:c41439a5ed53fe5d:search_precedent:9d44add4e711ce50",
+   "position": 35,
+   "record": {
+    "id": "tc:step:c41439a5ed53fe5d:search_precedent:9d44add4e711ce50",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "agent_step_id": "step:c41439a5ed53fe5d",
+    "tool": "search_precedent",
+    "arguments": {
+     "query": "procedure step skipped or done out of order operator error heat exchanger tube ruptures as well composition propane propylene heavier hydrocarbons c4 and above",
+     "k": 5
+    },
+    "result": {
+     "candidates": [
+      "CSB-066",
+      "CSB-056",
+      "CSB-080",
+      "CSB-078",
+      "CSB-094"
+     ],
+     "scores": [
+      13.438441355238124,
+      11.471000971090515,
+      9.498344424930352,
+      8.15222657737505,
+      7.372959198217744
+     ],
+     "blocked_rows": 2,
+     "index_version": "14678fe5d063a968bb6c3557a2fc43dc2a48707ba1d7e796fb496baadd0671e1"
+    },
+    "refused_reason": null,
+    "source_urls": [
+     "https://www.csb.gov/goodyear-heat-exchanger-rupture/",
+     "https://www.csb.gov/tesoro-anacortes-refinery-fatal-explosion-and-fire-/",
+     "https://www.csb.gov/valero-mckee-refinery-propane-fire/",
+     "https://www.csb.gov/little-general-store-propane-explosion/",
+     "https://www.csb.gov/formosa-plastics-propylene-explosion/"
+    ],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "tc:step:c97f13619d7bd449:search_precedent:abd3f5b1431a3242",
+   "position": 41,
+   "record": {
+    "id": "tc:step:c97f13619d7bd449:search_precedent:abd3f5b1431a3242",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "agent_step_id": "step:c97f13619d7bd449",
+    "tool": "search_precedent",
+    "arguments": {
+     "query": "procedure step skipped or done out of order operator error",
+     "k": 5
+    },
+    "result": {
+     "candidates": [
+      "CSB-010",
+      "CSB-074",
+      "CSB-063",
+      "CSB-039",
+      "CSB-021"
+     ],
+     "scores": [
+      4.820067383320909,
+      4.368171591331867,
+      4.308310983391016,
+      4.202017652812151,
+      3.982777509402018
+     ],
+     "blocked_rows": 2,
+     "index_version": "14678fe5d063a968bb6c3557a2fc43dc2a48707ba1d7e796fb496baadd0671e1"
+    },
+    "refused_reason": null,
+    "source_urls": [
+     "https://www.csb.gov/marathon-martinez-renewable-fuels-fire-/",
+     "https://www.csb.gov/indspec-chemical-corporation-oleum-release/",
+     "https://www.csb.gov/oil-tank-safety-study/",
+     "https://www.csb.gov/mgpi-processing-inc-toxic-chemical-release-/",
+     "https://www.csb.gov/lyondellbasell-la-porte-fatal-chemical-release-/"
+    ],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "tc:step:d00c4f76506c94ad:reactivity_lookup:d243286fcdc7c774",
+   "position": 9,
+   "record": {
+    "id": "tc:step:d00c4f76506c94ad:reactivity_lookup:d243286fcdc7c774",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "agent_step_id": "step:d00c4f76506c94ad",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "C4-HEAVIES",
+     "chemical_b": "water"
+    },
+    "result": null,
+    "refused_reason": "water is not a chemical in this plant",
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "tc:step:e1f5692c9a1c406d:reactivity_lookup:0fcfa0573460d308",
+   "position": 10,
+   "record": {
+    "id": "tc:step:e1f5692c9a1c406d:reactivity_lookup:0fcfa0573460d308",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "agent_step_id": "step:e1f5692c9a1c406d",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "C4-HEAVIES",
+     "chemical_b": "air"
+    },
+    "result": null,
+    "refused_reason": "air is not a chemical in this plant",
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "tc:step:e307ba9749dc2ed9:search_precedent:a0e9fc2ef127250e",
+   "position": 32,
+   "record": {
+    "id": "tc:step:e307ba9749dc2ed9:search_precedent:a0e9fc2ef127250e",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "agent_step_id": "step:e307ba9749dc2ed9",
+    "tool": "search_precedent",
+    "arguments": {
+     "query": "external fire near the equipment more temperature heat exchanger propane propylene heavier hydrocarbons c4 and above",
+     "k": 5
+    },
+    "result": {
+     "candidates": [
+      "CSB-066",
+      "CSB-056",
+      "CSB-080",
+      "CSB-094",
+      "CSB-078"
+     ],
+     "scores": [
+      13.570294911493203,
+      11.938234997970433,
+      9.94113054463821,
+      7.496909312967988,
+      6.563294110322056
+     ],
+     "blocked_rows": 2,
+     "index_version": "14678fe5d063a968bb6c3557a2fc43dc2a48707ba1d7e796fb496baadd0671e1"
+    },
+    "refused_reason": null,
+    "source_urls": [
+     "https://www.csb.gov/goodyear-heat-exchanger-rupture/",
+     "https://www.csb.gov/tesoro-anacortes-refinery-fatal-explosion-and-fire-/",
+     "https://www.csb.gov/valero-mckee-refinery-propane-fire/",
+     "https://www.csb.gov/formosa-plastics-propylene-explosion/",
+     "https://www.csb.gov/little-general-store-propane-explosion/"
+    ],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "tc:step:e4d7043e9a145587:reactivity_lookup:f26fabf534fd853d",
+   "position": 8,
+   "record": {
+    "id": "tc:step:e4d7043e9a145587:reactivity_lookup:f26fabf534fd853d",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "agent_step_id": "step:e4d7043e9a145587",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "PROPANE",
+     "chemical_b": "PROPYLENE"
+    },
+    "result": null,
+    "refused_reason": "at most 2 tool calls per batch",
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "tc:step:e5770125e556c0f2:dispatch_specialist:a1689ef916d218ae",
+   "position": 28,
+   "record": {
+    "id": "tc:step:e5770125e556c0f2:dispatch_specialist:a1689ef916d218ae",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "agent_step_id": "step:e5770125e556c0f2",
+    "tool": "dispatch_specialist",
+    "arguments": {
+     "reason": "Target the 7 open process questions for S-L-QW-B-OUT (linked to priority hazard rank 5, cause C16) at hard level; they were deferred for spend on last hard dispatch",
+     "agent": "process",
+     "level": "hard",
+     "question_ids": [
+      "m:S-L-QW-B-OUT:more:pressure",
+      "m:S-L-QW-B-OUT:more:temperature",
+      "m:S-L-QW-B-OUT:no:flow",
+      "m:S-L-QW-B-OUT:other_than:composition",
+      "m:S-L-QW-B-OUT:other_than:phase",
+      "m:S-L-QW-B-OUT:part_of:composition",
+      "m:S-L-QW-B-OUT:reverse:flow"
+     ]
+    },
+    "result": {
+     "summary": "process at hard: 7 answered, 0 failed, 11 findings",
+     "question_ids": [
+      "m:S-L-QW-B-OUT:more:pressure",
+      "m:S-L-QW-B-OUT:more:temperature",
+      "m:S-L-QW-B-OUT:no:flow",
+      "m:S-L-QW-B-OUT:other_than:composition",
+      "m:S-L-QW-B-OUT:other_than:phase",
+      "m:S-L-QW-B-OUT:part_of:composition",
+      "m:S-L-QW-B-OUT:reverse:flow"
+     ],
+     "skipped": [],
+     "dropped_ids": []
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "tc:step:f688fee35ce5765a:dispatch_specialist:3875f1ad90f0f77f",
+   "position": 15,
+   "record": {
+    "id": "tc:step:f688fee35ce5765a:dispatch_specialist:3875f1ad90f0f77f",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "agent_step_id": "step:f688fee35ce5765a",
+    "tool": "dispatch_specialist",
+    "arguments": {
+     "reason": "Chemistry questions linked to all top priority hazards (ranks 1-12) are in retry_at_hard; dispatch at hard level to resolve them",
+     "agent": "chemistry",
+     "level": "hard",
+     "priority": true
+    },
+    "result": {
+     "summary": "chemistry at hard: 6 answered, 0 failed, 6 findings",
+     "question_ids": [
+      "env:PROPANE:air",
+      "env:PROPANE:heat",
+      "env:PROPANE:water",
+      "env:PROPYLENE:air",
+      "env:PROPYLENE:heat",
+      "env:C4-HEAVIES:water"
+     ],
+     "skipped": [],
+     "dropped_ids": []
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "tc:step:f6e8e2f04f65e13a:dispatch_specialist:ae3c5eec7972fefb",
+   "position": 17,
+   "record": {
+    "id": "tc:step:f6e8e2f04f65e13a:dispatch_specialist:ae3c5eec7972fefb",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "agent_step_id": "step:f6e8e2f04f65e13a",
+    "tool": "dispatch_specialist",
+    "arguments": {
+     "reason": "Process questions in retry_at_hard (41 questions) linked to top priority hazards (ranks 1-4, 9, 12); dispatch process specialist at hard level to resolve failed/retried deviations",
+     "agent": "process",
+     "level": "hard",
+     "priority": true
+    },
+    "result": {
+     "summary": "process at hard: 36 answered, 5 failed, 74 findings",
+     "question_ids": [
+      "m:S-DA-406:less:flow",
+      "m:S-DA-406:less:level",
+      "m:S-DA-406:less:pressure",
+      "m:S-DA-406:less:temperature",
+      "m:S-DA-406:more:level",
+      "m:S-DA-406:more:temperature",
+      "m:S-DA-406:no:flow",
+      "m:S-DA-406:no:level",
+      "m:S-DA-406:other_than:composition",
+      "m:S-DA-406:other_than:phase",
+      "m:S-DA-406:part_of:composition",
+      "m:S-EA-425B:as_well_as:composition",
+      "m:S-EA-425B:less:flow",
+      "m:S-EA-425B:less:pressure",
+      "m:S-EA-425B:less:temperature",
+      "m:S-EA-425B:more:flow",
+      "m:S-EA-425B:more:temperature",
+      "m:S-EA-425B:no:flow",
+      "m:S-EA-425B:other_than:composition",
+      "m:S-EA-425B:reverse:flow",
+      "m:S-L-B-SIN:less:flow",
+      "m:S-L-B-SIN:less:pressure",
+      "m:S-L-B-SIN:less:temperature",
+      "m:S-L-B-SIN:more:flow",
+      "m:S-L-B-SIN:more:temperature",
+      "m:S-L-B-SIN:no:flow",
+      "m:S-L-B-SIN:other_than:phase",
+      "m:S-L-B-SIN:reverse:flow",
+      "m:S-L-B-SOUT:less:flow",
+      "m:S-L-B-SOUT:less:pressure",
+      "m:S-L-B-SOUT:part_of:composition",
+      "m:S-L-B-SOUT:reverse:flow",
+      "relief:RV-PATH-EA425B",
+      "relief:SV-421QA",
+      "relief:SV-421QB",
+      "m:S-EA-425A:less:pressure",
+      "m:S-EA-425A:more:flow",
+      "m:S-EA-425A:more:pressure",
+      "m:S-EA-425A:more:temperature",
+      "m:S-EA-425A:no:flow",
+      "m:S-EA-425A:other_than:composition"
+     ],
+     "skipped": [],
+     "dropped_ids": []
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "tc:step:f8b7731bd0840db7:dispatch_specialist:769e5ea752d7687f",
+   "position": 27,
+   "record": {
+    "id": "tc:step:f8b7731bd0840db7:dispatch_specialist:769e5ea752d7687f",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "agent_step_id": "step:f8b7731bd0840db7",
+    "tool": "dispatch_specialist",
+    "arguments": {
+     "reason": "Process bulk refused; send priority-linked process questions at hard level to resolve unsure/failed answers for top hazards ranks 2,4,5,6,7,9,10,11,12",
+     "agent": "process",
+     "level": "hard",
+     "priority": true
+    },
+    "result": {
+     "summary": "process at hard: 45 answered, 0 failed, 76 findings, 7 questions deferred for spend (still open)",
+     "question_ids": [
+      "m:S-EA-425A:reverse:flow",
+      "m:S-L-A-SIN:no:flow",
+      "m:S-L-A-SIN:other_than:composition",
+      "m:S-L-A-SIN:other_than:phase",
+      "m:S-L-A-SOUT:less:flow",
+      "m:S-L-A-SOUT:less:pressure",
+      "m:S-L-A-SOUT:less:temperature",
+      "m:S-L-A-SOUT:more:flow",
+      "m:S-L-A-SOUT:part_of:composition",
+      "m:S-L-A-SOUT:reverse:flow",
+      "relief:RV-PATH-EA425A",
+      "m:S-L-QW-A-IN:more:flow",
+      "m:S-L-QW-A-IN:more:temperature",
+      "m:S-L-QW-A-IN:no:flow",
+      "m:S-L-QW-A-IN:other_than:composition",
+      "m:S-L-QW-A-IN:other_than:phase",
+      "m:S-L-QW-A-IN:part_of:composition",
+      "m:S-L-QW-A-IN:reverse:flow",
+      "m:S-L-QW-A-OUT:as_well_as:composition",
+      "m:S-L-QW-A-OUT:less:flow",
+      "m:S-L-QW-A-OUT:less:pressure",
+      "m:S-L-QW-A-OUT:less:temperature",
+      "m:S-L-QW-A-OUT:more:flow",
+      "m:S-L-QW-A-OUT:more:pressure",
+      "m:S-L-QW-A-OUT:more:temperature",
+      "m:S-L-QW-A-OUT:no:flow",
+      "m:S-L-QW-A-OUT:other_than:composition",
+      "m:S-L-QW-A-OUT:other_than:phase",
+      "m:S-L-QW-A-OUT:part_of:composition",
+      "m:S-L-QW-A-OUT:reverse:flow",
+      "m:S-L-QW-B-IN:as_well_as:composition",
+      "m:S-L-QW-B-IN:less:flow",
+      "m:S-L-QW-B-IN:less:pressure",
+      "m:S-L-QW-B-IN:less:temperature",
+      "m:S-L-QW-B-IN:more:flow",
+      "m:S-L-QW-B-IN:more:pressure",
+      "m:S-L-QW-B-IN:more:temperature",
+      "m:S-L-QW-B-IN:no:flow",
+      "m:S-L-QW-B-IN:other_than:composition",
+      "m:S-L-QW-B-IN:other_than:phase",
+      "m:S-L-QW-B-OUT:as_well_as:composition",
+      "m:S-L-QW-B-OUT:less:flow",
+      "m:S-L-QW-B-OUT:less:pressure",
+      "m:S-L-QW-B-OUT:less:temperature",
+      "m:S-L-QW-B-OUT:more:flow",
+      "m:S-L-QW-B-OUT:more:pressure",
+      "m:S-L-QW-B-OUT:more:temperature",
+      "m:S-L-QW-B-OUT:no:flow",
+      "m:S-L-QW-B-OUT:other_than:composition",
+      "m:S-L-QW-B-OUT:other_than:phase",
+      "m:S-L-QW-B-OUT:part_of:composition",
+      "m:S-L-QW-B-OUT:reverse:flow"
+     ],
+     "skipped": [],
+     "dropped_ids": []
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "tc:step:fc6ae0907006bb9d:reactivity_lookup:96a899ad84a8bb1e",
+   "position": 6,
+   "record": {
+    "id": "tc:step:fc6ae0907006bb9d:reactivity_lookup:96a899ad84a8bb1e",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "agent_step_id": "step:fc6ae0907006bb9d",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "C4-HEAVIES",
+     "chemical_b": "PROPANE"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "C4-HEAVIES",
+       "name": "heavier hydrocarbons (C4 and above)",
+       "epa_groups": [
+        29
+       ],
+       "cameo_groups": [
+        {
+         "id": 29,
+         "name": "Hydrocarbons, Aliphatic Saturated"
+        }
+       ]
+      },
+      {
+       "id": "PROPANE",
+       "name": "propane",
+       "epa_groups": [
+        29
+       ],
+       "cameo_groups": [
+        {
+         "id": 29,
+         "name": "Hydrocarbons, Aliphatic Saturated"
+        }
+       ]
+      }
+     ],
+     "pairs": [
+      {
+       "groups": [
+        29,
+        29
+       ],
+       "group_names": [
+        "Hydrocarbons, Aliphatic, Saturated",
+        "Hydrocarbons, Aliphatic, Saturated"
+       ],
+       "status": "not_listed",
+       "codes": [],
+       "source": "no row in reactive_pairs.csv"
+      }
+     ],
+     "no_groups": [],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "tc:step:ff4c1d4021035b7d:reactivity_lookup:d243286fcdc7c774",
+   "position": 11,
+   "record": {
+    "id": "tc:step:ff4c1d4021035b7d:reactivity_lookup:d243286fcdc7c774",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "agent_step_id": "step:ff4c1d4021035b7d",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "C4-HEAVIES",
+     "chemical_b": "water"
+    },
+    "result": null,
+    "refused_reason": "water is not a chemical in this plant",
+    "source_urls": [],
+    "record_ids": []
+   }
+  }
+ ]
+}
