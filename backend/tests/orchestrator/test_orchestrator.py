@@ -254,7 +254,8 @@ def test_step_cap_stopped_cap_with_event(world: World, config: Config) -> None:
     gateway, _ = world.gateway(lambda view: ("check_coverage", {}), config=tight)
     assert world.run_to_end(run, world.steppers(gateway, tight)) == RunStatus.STOPPED_CAP
     hits = [e.payload for e in world.runs.events(run.id) if e.type == EventType.CAP_HIT]
-    assert hits == [{"reason": "orchestrator_max_steps", "limit": 2}]
+    # contract v1.9: every cap_hit names its cap
+    assert hits == [{"reason": "orchestrator_max_steps", "limit": 2, "cap": "analysis"}]
     assert len([s for s in world.runs.steps(run.id) if s.agent == "orchestrator"]) == 2
 
 

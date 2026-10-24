@@ -397,6 +397,34 @@
             "title": "Payload",
             "type": "object"
           },
+          "payload_error": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Payload Error"
+          },
+          "payload_invalid": {
+            "default": false,
+            "title": "Payload Invalid",
+            "type": "boolean"
+          },
+          "payload_schema": {
+            "anyOf": [
+              {
+                "const": "v1.9",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Payload Schema"
+          },
           "run_id": {
             "title": "Run Id",
             "type": "string"
@@ -1157,6 +1185,16 @@
           "run_id": {
             "title": "Run Id",
             "type": "string"
+          },
+          "tier": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Tier"
+              },
+              {
+                "type": "null"
+              }
+            ]
           }
         },
         "required": [

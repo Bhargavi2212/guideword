@@ -38,3 +38,10 @@ def block_network(monkeypatch: pytest.MonkeyPatch) -> Iterator[None]:
     monkeypatch.setattr(socket.socket, "connect", guarded_connect)
     monkeypatch.setattr(socket.socket, "connect_ex", guarded_connect_ex)
     yield
+
+
+@pytest.fixture(autouse=True)
+def strict_event_payloads(monkeypatch: pytest.MonkeyPatch) -> None:
+    """Contract v1.9 (Bhargavi, 2026-10-23): in tests an event whose payload fails its model
+    raises; a live run writes it flagged instead."""
+    monkeypatch.setattr("guideword.runs.store.STRICT_PAYLOADS", True)

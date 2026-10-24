@@ -31,8 +31,8 @@ from guideword.orchestrator.view import (
 from guideword.questions.coverage import coverage
 from guideword.ranking.severity import SeverityReserve, severity_reserve
 from guideword.reference import ReferenceSet
-from guideword.runs.machine import StepResult, record_attempts, stop_for_refusal
-from guideword.runs.store import StepWriter
+from guideword.runs.machine import ANALYSIS_CAP, StepResult, record_attempts, stop_for_refusal
+from guideword.runs.store import TIER_RECORDED, StepWriter
 from guideword.schema import ids
 from guideword.schema.enums import Agent, AgentTool, EventType, QuestionStatus, RunStatus, Tier
 from guideword.schema.plant import Plant
@@ -112,7 +112,11 @@ class OrchestratorStepper:
         if len(mine) >= caps.orchestrator_max_steps:
             writer.emit(
                 EventType.CAP_HIT,
-                {"reason": "orchestrator_max_steps", "limit": caps.orchestrator_max_steps},
+                {
+                    "reason": "orchestrator_max_steps",
+                    "limit": caps.orchestrator_max_steps,
+                    "cap": ANALYSIS_CAP,
+                },
             )
             return StepResult(status=RunStatus.STOPPED_CAP)
 
@@ -347,6 +351,9 @@ class OrchestratorStepper:
             "selected_by_code": args.question_ids is None,
             "priority": args.priority,
             "skipped": skipped,
+            # contract v1.9: the tier the level routes to, from the routing config
+            "tier": tier,
+            "tier_source": TIER_RECORDED,
         }
         if not chosen:
             writer.emit(EventType.DISPATCH, payload | {"batches": 0})
@@ -429,6 +436,7 @@ class OrchestratorStepper:
                     "reserve_usd": reserve.usd,
                     "unrated": reserve.unrated,
                     "severity_calls": reserve.calls,
+                    "cap": ANALYSIS_CAP,
                 },
             )
             self._record(
@@ -658,6 +666,7 @@ class OrchestratorStepper:
                     "reserve_usd": reserve.usd,
                     "unrated": reserve.unrated,
                     "severity_calls": reserve.calls,
+                    "cap": ANALYSIS_CAP,
                 },
             )
             return StepResult(next_step=NEXT)

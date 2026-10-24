@@ -104,6 +104,17 @@
         "run_id": {
           "title": "Run Id",
           "type": "string"
+        },
+        "tier": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Tier"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
         }
       },
       "required": [
@@ -168,6 +179,17 @@
         "mock"
       ],
       "title": "RunLabelKind",
+      "type": "string"
+    },
+    "Tier": {
+      "description": "Model tiers; config/routing.yaml maps jobs to these, the live model list to IDs.",
+      "enum": [
+        "ultra",
+        "super",
+        "lightning",
+        "nano"
+      ],
+      "title": "Tier",
       "type": "string"
     },
     "ToolCall": {

@@ -10,14 +10,16 @@ import pytest
 from pydantic import BaseModel
 
 from guideword.config import Config, load_config
-from guideword.gateway.client import BudgetRefused, Gateway, RunBudget
+from guideword.gateway.catalog import Resolved
+from guideword.gateway.client import BudgetRefused, Gateway, RunBudget, TierMismatch
 from guideword.gateway.estimate import estimate_cost
 from guideword.gateway.fake import FakeTransport, catalog_for, fake_gateway, reply
 from guideword.gateway.ledgers import LaptopLedger
 from guideword.gateway.transport import ToolCallRequest, TransportError
 from guideword.runs.db import make_session_factory
+from guideword.schema import ids
 from guideword.schema.enums import BudgetUse, Environment, RunStatus, Tier
-from guideword.schema.records import SpendEntry
+from guideword.schema.records import ModelCall, SpendEntry
 
 NOW = datetime(2026, 10, 15, 12, 0, tzinfo=UTC)
 MESSAGES = [{"role": "user", "content": "Is the sky blue? Answer yes or no."}]
@@ -642,3 +644,68 @@ def test_a_refusal_before_any_attempt_carries_nothing(build: Build) -> None:
         _call(gateway, run=RunBudget("run:test", 0.0, 0.0))
     assert transport.sent == [] and refused.value.attempts == []
     assert refused.value.cost_usd == 0.0
+
+
+# --- the tier on each call record (contract v1.9, Phase 5 plan; Bhargavi, option A) ----------
+
+
+def test_each_call_record_carries_the_tier_that_served_it(build: Build) -> None:
+    gateway, _ = build(_ok)
+    result = _call(gateway, run=RunBudget("run:test", 0.0, 1.0))
+    assert [c.tier for c in result.model_calls] == [Tier.LIGHTNING]
+
+
+def test_a_fallen_back_call_records_the_tier_it_used(build: Build, config: Config) -> None:
+    models = [
+        m for m in catalog_for(config) if m["id"] != config.models.tiers[Tier.LIGHTNING].expected_id
+    ]
+    gateway, _ = build(_ok, models=models)
+    result = _call(gateway, run=RunBudget("run:test", 0.0, 1.0))
+    assert [c.tier for c in result.model_calls] == [Tier.SUPER]
+
+
+def test_the_tier_is_left_out_of_the_call_id(build: Build) -> None:
+    """The record's ID is the cache key's, which holds no tier: stored IDs never move."""
+    gateway, transport = build(_ok)
+    result = _call(gateway, run=RunBudget("run:test", 0.0, 1.0))
+    (call,) = result.model_calls
+    request = {k: v for k, v in transport.sent[0][1].items() if k != "model"}
+    assert call.id == ids.model_call_id(call.model_id, "test/v1", request)
+    assert call.model_copy(update={"tier": Tier.ULTRA}).id == call.id
+
+
+def test_a_tier_that_does_not_match_models_yaml_raises(build: Build, config: Config) -> None:
+    """At record build the served model ID must be the tier's `expected_id` in models.yaml."""
+    gateway, _ = build(_ok)
+    lightning_id = config.models.tiers[Tier.LIGHTNING].expected_id
+    gateway.catalog.resolve = lambda tier: Resolved(Tier.SUPER, lightning_id)  # type: ignore[method-assign]
+    with pytest.raises(TierMismatch, match="super"):
+        _call(gateway, run=RunBudget("run:test", 0.0, 1.0))
+
+
+def test_each_refused_attempt_records_the_tier_it_used(build: Build) -> None:
+    gateway, _ = build(lambda j, r: reply("not json"))
+    request_settings = gateway.config.models.tiers[Tier.LIGHTNING]
+    max_tokens = gateway.config.caps.run.max_tokens["specialist_bulk"]
+    limit = estimate_cost(request_settings, MESSAGES, None, max_tokens).cost_usd
+    with pytest.raises(BudgetRefused) as refused:
+        _call(gateway, run=RunBudget("run:test", 0.0, limit))
+    assert [c.tier for c in refused.value.attempts] == [Tier.LIGHTNING]
+
+
+def test_a_call_stored_before_v1_9_reads_no_tier() -> None:
+    stored = {
+        "id": "mc:aaaaaaaaaaaaaaaa",
+        "run_id": "run:aaaaaaaaaaaaaaaa",
+        "model_id": "m",
+        "prompt_version": "p/v1",
+        "job": "specialist_bulk",
+        "cache_hit": False,
+        "outcome": "ok",
+        "input_tokens": 1,
+        "output_tokens": 1,
+        "latency_ms": 0.0,
+        "cost_usd": 0.0,
+        "raw_response": "{}",
+    }
+    assert ModelCall.model_validate(stored).tier is None
