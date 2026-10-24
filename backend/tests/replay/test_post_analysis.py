@@ -357,7 +357,7 @@ def test_extension_makes_no_analysis_calls_and_keeps_every_earlier_record_byte_i
     before = snapshot(world, run.id)
     steps_before = len(world.steps_started(run.id))
 
-    extended = extend(world.runs, run.id, 0.30, config)
+    extended = extend(world.runs, run.id, 0.30, config, use=BudgetUse.DEVELOPMENT)
     assert extended.id == run.id
     assert extended.status == RunStatus.RUNNING and extended.step == "chains"
     assert extended.post_spend_cap_usd == 0.30
@@ -396,21 +396,21 @@ def test_extension_refuses_an_unfinished_run_and_a_run_already_extended(
     world = World(tmp_path / "a", ref)
     unfinished = world.start(config)
     with pytest.raises(ExtendRefused, match="not finished"):
-        extend(world.runs, unfinished.id, 0.30, config)
+        extend(world.runs, unfinished.id, 0.30, config, use=BudgetUse.DEVELOPMENT)
 
     other = World(tmp_path / "b", ref)
     script = post_script()
     run = phase_2_run(other, config, script)
-    extend(other.runs, run.id, 0.30, config)
+    extend(other.runs, run.id, 0.30, config, use=BudgetUse.DEVELOPMENT)
     gateway, _ = other.gateway(config, script)
     assert drive(other.runs, run.id, other.steppers(config, gateway)) == RunStatus.FINISHED
     with pytest.raises(ExtendRefused, match="already"):
-        extend(other.runs, run.id, 0.30, config)
+        extend(other.runs, run.id, 0.30, config, use=BudgetUse.DEVELOPMENT)
     # a new run on the Phase 3 steps has its chains step done already
     fresh, _ = World(tmp_path / "c", ref).run(config, script)
     assert fresh.status == RunStatus.FINISHED
     with pytest.raises(ExtendRefused, match="already"):
-        extend(World(tmp_path / "c", ref).runs, fresh.id, 0.30, config)
+        extend(World(tmp_path / "c", ref).runs, fresh.id, 0.30, config, use=BudgetUse.DEVELOPMENT)
 
 
 def test_pre_r50_run_extends_with_every_line_also_found_and_labelled(
@@ -420,7 +420,7 @@ def test_pre_r50_run_extends_with_every_line_also_found_and_labelled(
     script = post_script(connector=first_two)
     run = phase_2_run(world, config, script, pre_r50=True)
     assert world.runs.hypotheses(run.id) == []
-    extend(world.runs, run.id, 0.30, config)
+    extend(world.runs, run.id, 0.30, config, use=BudgetUse.DEVELOPMENT)
     gateway, _ = world.gateway(config, script)
     drive(world.runs, run.id, world.steppers(config, gateway))
     report = world.report(config, run.id)
@@ -524,7 +524,7 @@ def test_extending_a_run_at_its_analysis_cap_is_not_refused(
     assert run.cap_spent_usd > 0
     with world.runs.step(run.id) as writer:
         writer.set_spend_cap(run.cap_spent_usd)  # no analysis room left
-    extend(world.runs, run.id, 0.30, config)
+    extend(world.runs, run.id, 0.30, config, use=BudgetUse.DEVELOPMENT)
     gateway, transport = world.gateway(config, script)
     assert drive(world.runs, run.id, world.steppers(config, gateway)) == RunStatus.FINISHED
     assert "connector" in {job for job, _ in transport.sent}
@@ -566,7 +566,7 @@ def test_a_run_stopped_at_the_post_cap_resumes_with_a_higher_post_cap(
     run = _stop_at_post_cap(world, config, script)
     before = snapshot(world, run.id)
 
-    resumed = extend(world.runs, run.id, 0.30, config)
+    resumed = extend(world.runs, run.id, 0.30, config, use=BudgetUse.DEVELOPMENT)
     assert resumed.id == run.id
     assert resumed.status == RunStatus.RUNNING and resumed.step == "chains"
     assert resumed.post_spend_cap_usd == 0.30
@@ -606,7 +606,7 @@ def test_a_resume_after_a_mid_post_stop_sends_no_finished_step_again(
     connector_calls = [c.id for c in world.runs.model_calls(run.id) if c.job == "connector"]
     assert connector_calls
 
-    extend(world.runs, run.id, 0.30, config)
+    extend(world.runs, run.id, 0.30, config, use=BudgetUse.DEVELOPMENT)
     gateway, transport = world.gateway(config, script)
     assert drive(world.runs, run.id, world.steppers(config, gateway)) == RunStatus.FINISHED
     assert "connector" not in {job for job, _ in transport.sent}
@@ -623,7 +623,7 @@ def test_extend_refuses_an_analysis_cap_stop_and_a_post_cap_that_is_not_higher(
     world = World(tmp_path / "post", ref)
     run = _stop_at_post_cap(world, config, post_script())
     with pytest.raises(ExtendRefused, match="higher"):
-        extend(world.runs, run.id, 0.0, config)
+        extend(world.runs, run.id, 0.0, config, use=BudgetUse.DEVELOPMENT)
     stored = world.runs.get(run.id)
     assert stored is not None and stored.status == RunStatus.STOPPED_CAP
 
@@ -631,7 +631,7 @@ def test_extend_refuses_an_analysis_cap_stop_and_a_post_cap_that_is_not_higher(
     stopped, _ = other.run(config, capped_script, cap=0.08)
     assert stopped.status == RunStatus.STOPPED_CAP
     with pytest.raises(ExtendRefused, match="analysis cap"):
-        extend(other.runs, stopped.id, 0.30, config)
+        extend(other.runs, stopped.id, 0.30, config, use=BudgetUse.DEVELOPMENT)
 
 
 def test_extend_run_resumes_a_post_cap_stop(
@@ -823,7 +823,7 @@ def _extend_run(
 
     out = world.dir / "phase3"
     code = extend_run.main(
-        list(args),
+        ["--use", "development", *args],
         transport=FakeTransport(script, catalog_for(config)),
         config=config,
         settings=_settings(world),
@@ -854,7 +854,7 @@ def test_scripts_take_the_phase_from_the_flag(
         world = World(tmp_path / f"case{expected}", ref)
         ledger = world.dir / "ledger.jsonl"
         code = run_case.main(
-            [str(EXAMPLE), *flag],
+            ["--use", "development", str(EXAMPLE), *flag],
             transport=FakeTransport(script, catalog_for(config)),
             config=config,
             settings=_settings(world),
@@ -870,8 +870,15 @@ def test_scripts_take_the_phase_from_the_flag(
     code, _ = _extend_run(world, config, script, run.id, "--name", "case_x", ledger=ledger)
     assert code == 0 and _phases(ledger) == {"3"}
 
-    assert screen_check._arguments([str(EXAMPLE), "--cap", "1"]).phase == "3"
-    assert screen_check._arguments([str(EXAMPLE), "--cap", "1", "--phase", "2"]).phase == "2"
+    assert (
+        screen_check._arguments(["--use", "development", str(EXAMPLE), "--cap", "1"]).phase == "3"
+    )
+    assert (
+        screen_check._arguments(
+            ["--use", "development", str(EXAMPLE), "--cap", "1", "--phase", "2"]
+        ).phase
+        == "2"
+    )
     assert run_test5a._arguments(["--case", "d", "--use", "development"]).phase == "3"
     assert four_tier._arguments(["--cap", "1"]).phase == "3"
     assert four_tier._arguments(["--cap", "1", "--phase", "2"]).phase == "2"
@@ -1083,7 +1090,9 @@ def test_rerun_from_chains_redoes_chain_severity_lopa_and_recommendations(
     world, run = _rerun_world(tmp_path, ref, config)
     old_chain_ids = {c.id for c in world.runs.chains(run.id)}
     before = len(world.steps_started(run.id))
-    rerun = extend(world.runs, run.id, 0.30, changed(config), rerun_from="chains")
+    rerun = extend(
+        world.runs, run.id, 0.30, changed(config), rerun_from="chains", use=BudgetUse.DEVELOPMENT
+    )
     assert rerun.id == run.id and rerun.status == RunStatus.RUNNING and rerun.step == "chains"
     gateway, transport = world.gateway(changed(config), post_script(connector=_second_chain))
     assert drive(world.runs, run.id, world.steppers(changed(config), gateway)) == RunStatus.FINISHED
@@ -1110,7 +1119,7 @@ def test_rerun_supersedes_old_records_through_the_event_log_and_deletes_nothing(
         ],
     }
     first_pass = max(e.seq for e in world.runs.events(run.id) if e.type == EventType.RUN_EXTENDED)
-    extend(world.runs, run.id, 0.30, config, rerun_from="chains")
+    extend(world.runs, run.id, 0.30, config, rerun_from="chains", use=BudgetUse.DEVELOPMENT)
     event = [e for e in world.runs.events(run.id) if e.type == EventType.RUN_EXTENDED][-1]
     assert event.payload["rerun_from"] == "chains"
     kept = world.runs.superseded(run.id)
@@ -1136,11 +1145,17 @@ def test_the_run_dump_lists_superseded_records_marked_as_superseded(
 
     world, run = _rerun_world(tmp_path, ref, config)
     old_chains = world.runs.chains(run.id)
-    extend(world.runs, run.id, 0.30, changed(config), rerun_from="chains")
+    extend(
+        world.runs, run.id, 0.30, changed(config), rerun_from="chains", use=BudgetUse.DEVELOPMENT
+    )
     gateway, _ = world.gateway(changed(config), post_script(connector=_second_chain))
     drive(world.runs, run.id, world.steppers(changed(config), gateway))
     live = LiveRuns(
-        world.sessions, config=config, ref=ref, gateway_factory=lambda _: gateway, clock=lambda: NOW
+        world.sessions,
+        config=config,
+        ref=ref,
+        gateway_factory=lambda _, __: gateway,
+        clock=lambda: NOW,
     )
     dump = live.dump(run.id)
     superseded = [s for s in dump.superseded if s.kind == "chain"]
@@ -1154,7 +1169,7 @@ def test_rerun_serves_unchanged_requests_from_the_cache_at_zero_cost(
 ) -> None:
     world, run = _rerun_world(tmp_path, ref, config)
     spent = world.runs.get(run.id).spent_usd  # type: ignore[union-attr]
-    extend(world.runs, run.id, 0.30, config, rerun_from="chains")
+    extend(world.runs, run.id, 0.30, config, rerun_from="chains", use=BudgetUse.DEVELOPMENT)
     gateway, transport = world.gateway(
         config, post_script(connector=first_two, severities={0: "S4", 1: "S5"})
     )
@@ -1170,7 +1185,9 @@ def test_rerun_spend_matches_records_including_superseded_calls(
     tmp_path: Path, ref: ReferenceSet, config: Config
 ) -> None:
     world, run = _rerun_world(tmp_path, ref, config)
-    extend(world.runs, run.id, 0.30, changed(config), rerun_from="chains")
+    extend(
+        world.runs, run.id, 0.30, changed(config), rerun_from="chains", use=BudgetUse.DEVELOPMENT
+    )
     gateway, _ = world.gateway(changed(config), post_script(connector=_second_chain))
     drive(world.runs, run.id, world.steppers(changed(config), gateway))
     with world.runs.step(run.id) as writer:
@@ -1190,11 +1207,18 @@ def test_rerun_is_refused_for_an_unfinished_run_or_one_never_extended(
     unfinished = World(tmp_path / "a", ref)
     started = unfinished.start(config)
     with pytest.raises(ExtendRefused, match="not finished"):
-        extend(unfinished.runs, started.id, 0.30, config, rerun_from="chains")
+        extend(
+            unfinished.runs,
+            started.id,
+            0.30,
+            config,
+            rerun_from="chains",
+            use=BudgetUse.DEVELOPMENT,
+        )
     never = World(tmp_path / "b", ref)
     old = phase_2_run(never, config, post_script())
     with pytest.raises(ExtendRefused, match="chains step has not run"):
-        extend(never.runs, old.id, 0.30, config, rerun_from="chains")
+        extend(never.runs, old.id, 0.30, config, rerun_from="chains", use=BudgetUse.DEVELOPMENT)
     # Q3: refused while an override names a post record
     world, run = _rerun_world(tmp_path / "c", ref, config)
     lopa = world.runs.lopa_records(run.id)[0]
@@ -1211,7 +1235,7 @@ def test_rerun_is_refused_for_an_unfinished_run_or_one_never_extended(
     with world.runs.step(run.id) as writer:
         writer.add_override(override)
     with pytest.raises(ExtendRefused, match="override"):
-        extend(world.runs, run.id, 0.30, config, rerun_from="chains")
+        extend(world.runs, run.id, 0.30, config, rerun_from="chains", use=BudgetUse.DEVELOPMENT)
     assert world.runs.superseded(run.id) == []
 
 
@@ -1229,7 +1253,7 @@ def test_copy_and_clear_happen_in_one_transaction(
 
     monkeypatch.setattr(StepWriter, "_clear_post_records", broken)
     with pytest.raises(RuntimeError, match="the clear failed"):
-        extend(world.runs, run.id, 0.30, config, rerun_from="chains")
+        extend(world.runs, run.id, 0.30, config, rerun_from="chains", use=BudgetUse.DEVELOPMENT)
     assert world.runs.superseded(run.id) == []
     assert world.runs.chains(run.id) == chains
     assert snapshot(world, run.id) == before
@@ -1469,7 +1493,11 @@ def test_a_chain_with_no_severity_is_on_the_shortlist_flagged_no_severity_no_lop
     assert len(rows) == 1 and NO_SEVERITY_NO_LOPA in rows[0]["flags"]
     gateway, _ = world.gateway(config, post_script())
     live = LiveRuns(
-        world.sessions, config=config, ref=ref, gateway_factory=lambda _: gateway, clock=lambda: NOW
+        world.sessions,
+        config=config,
+        ref=ref,
+        gateway_factory=lambda _, __: gateway,
+        clock=lambda: NOW,
     )
     (item,) = [i for i in live.shortlist(run.id) if i.target_id == chain.id]
     assert NO_SEVERITY_NO_LOPA in item.flags and item.lopa is None
@@ -1502,7 +1530,15 @@ def test_retry_failed_asks_each_failed_question_alone_and_makes_no_orchestrator_
     tmp_path: Path, ref: ReferenceSet, config: Config
 ) -> None:
     world, run, failed = _with_failed(tmp_path, ref, config)
-    extend(world.runs, run.id, 0.30, config, retry_failed=True, retry_cap_usd=0.30)
+    extend(
+        world.runs,
+        run.id,
+        0.30,
+        config,
+        retry_failed=True,
+        retry_cap_usd=0.30,
+        use=BudgetUse.DEVELOPMENT,
+    )
     gateway, transport = world.gateway(config, post_script(connector=first_two))
     assert drive(world.runs, run.id, world.steppers(config, gateway)) == RunStatus.FINISHED
     jobs = [job for job, _ in transport.sent]
@@ -1524,7 +1560,15 @@ def test_retry_failed_keeps_the_run_id_and_every_checked_question(
 ) -> None:
     world, run, failed = _with_failed(tmp_path, ref, config)
     checked = {q.id: q for q in world.runs.questions(run.id) if q.id not in failed}
-    extended = extend(world.runs, run.id, 0.30, config, retry_failed=True, retry_cap_usd=0.30)
+    extended = extend(
+        world.runs,
+        run.id,
+        0.30,
+        config,
+        retry_failed=True,
+        retry_cap_usd=0.30,
+        use=BudgetUse.DEVELOPMENT,
+    )
     assert extended.id == run.id and extended.step == "retry_failed"
     assert extended.spend_cap_usd == pytest.approx(run.spend_cap_usd + 0.30)
     assert extended.caps == run.caps and extended.prompt_versions == run.prompt_versions
@@ -1542,7 +1586,15 @@ def test_retry_failed_rates_only_new_findings_then_reruns_from_chains(
     world, run, failed = _with_failed(tmp_path, ref, config)
     old_findings = {f.id for f in world.runs.findings(run.id)}
     before = len(world.steps_started(run.id))
-    extend(world.runs, run.id, 0.30, config, retry_failed=True, retry_cap_usd=0.30)
+    extend(
+        world.runs,
+        run.id,
+        0.30,
+        config,
+        retry_failed=True,
+        retry_cap_usd=0.30,
+        use=BudgetUse.DEVELOPMENT,
+    )
     gateway, transport = world.gateway(config, post_script(connector=first_two))
     drive(world.runs, run.id, world.steppers(config, gateway))
     new = {f.id for f in world.runs.findings(run.id)} - old_findings
@@ -1573,11 +1625,27 @@ def test_retry_failed_is_refused_for_an_unfinished_run_or_one_with_no_failed_que
     unfinished = World(tmp_path / "a", ref)
     started = unfinished.start(config)
     with pytest.raises(ExtendRefused, match="not finished"):
-        extend(unfinished.runs, started.id, 0.30, config, retry_failed=True, retry_cap_usd=0.30)
+        extend(
+            unfinished.runs,
+            started.id,
+            0.30,
+            config,
+            retry_failed=True,
+            retry_cap_usd=0.30,
+            use=BudgetUse.DEVELOPMENT,
+        )
     clean = World(tmp_path / "b", ref)
     run, _ = clean.run(config, post_script(connector=first_two))
     with pytest.raises(ExtendRefused, match="no failed question"):
-        extend(clean.runs, run.id, 0.30, config, retry_failed=True, retry_cap_usd=0.30)
+        extend(
+            clean.runs,
+            run.id,
+            0.30,
+            config,
+            retry_failed=True,
+            retry_cap_usd=0.30,
+            use=BudgetUse.DEVELOPMENT,
+        )
 
 
 def test_extend_run_retry_failed_writes_to_the_out_dir(
@@ -1601,7 +1669,9 @@ def test_a_demo_plant_report_goes_to_bench_demo() -> None:
     assert run_case.default_out_dir(REPO / "cases" / "dev" / "case_d.json") == (
         REPO / "bench" / "test5" / "5b"
     )
-    assert run_case._arguments([str(EXAMPLE), "--out-dir", "x"]).out_dir == Path("x")
+    assert run_case._arguments(
+        ["--use", "development", str(EXAMPLE), "--out-dir", "x"]
+    ).out_dir == Path("x")
 
 
 def test_lopa_argument_v3_leaves_valve_states_to_code(config: Config) -> None:
@@ -1628,7 +1698,7 @@ def test_rerun_from_lopa_keeps_chains_and_supersedes_lopa_and_recommendations(
         c.id for c in world.runs.model_calls(run.id) if c.job in ("connector", "chain_severity")
     }
     before = len(world.steps_started(run.id))
-    rerun = extend(world.runs, run.id, 0.30, config, rerun_from="lopa")
+    rerun = extend(world.runs, run.id, 0.30, config, rerun_from="lopa", use=BudgetUse.DEVELOPMENT)
     assert rerun.id == run.id and rerun.step == "lopa"
     superseded = world.runs.superseded(run.id)
     assert {k.kind for k in superseded} == {"lopa", "recommendation", "model_call"}
@@ -1696,7 +1766,7 @@ def test_after_the_change_the_new_leads_get_lopa_and_recommendations(
 
     run, _ = world.run(off, screen)
     assert run.status == RunStatus.FINISHED and world.runs.hypotheses(run.id)
-    extend(world.runs, run.id, 0.30, config, rerun_from="lopa")
+    extend(world.runs, run.id, 0.30, config, rerun_from="lopa", use=BudgetUse.DEVELOPMENT)
     gateway, _ = world.gateway(config, screen)
     drive(world.runs, run.id, world.steppers(config, gateway))
     lines = display_lines(
@@ -1726,7 +1796,15 @@ def test_the_retry_summary_records_the_questions_outcome(
     tmp_path: Path, ref: ReferenceSet, config: Config
 ) -> None:
     world, run, failed = _with_failed(tmp_path, ref, config)
-    extend(world.runs, run.id, 0.30, config, retry_failed=True, retry_cap_usd=0.30)
+    extend(
+        world.runs,
+        run.id,
+        0.30,
+        config,
+        retry_failed=True,
+        retry_cap_usd=0.30,
+        use=BudgetUse.DEVELOPMENT,
+    )
     gateway, _ = world.gateway(config, post_script(connector=first_two))
     drive(world.runs, run.id, world.steppers(config, gateway))
     rows = [
@@ -1767,3 +1845,25 @@ def test_with_no_scenario_line_the_chains_step_skips_the_connector(
     ]
     assert (chains["scenarios"], chains["left_out"]) == (0, 0)
     assert "connector" not in chains
+
+
+# --- B2 (plan H5, Q9): extension keeps the run's use --------------------------------------------
+
+
+def test_extend_refuses_another_use(tmp_path: Path, ref: ReferenceSet, config: Config) -> None:
+    world = World(tmp_path, ref)
+    run = phase_2_run(world, config, post_script())
+    with pytest.raises(ExtendRefused, match="development"):
+        extend(world.runs, run.id, 0.30, config, use=BudgetUse.VIDEO)
+    assert world.runs.get(run.id).step == "ranked"  # type: ignore[union-attr]
+
+
+def test_extend_stores_a_use_on_a_run_with_none(
+    tmp_path: Path, ref: ReferenceSet, config: Config
+) -> None:
+    world = World(tmp_path, ref)
+    run = phase_2_run(world, config, post_script())
+    with world.runs.step(run.id) as writer:
+        writer.set_use(None)
+    extended = extend(world.runs, run.id, 0.30, config, use=BudgetUse.VIDEO)
+    assert extended.use == BudgetUse.VIDEO

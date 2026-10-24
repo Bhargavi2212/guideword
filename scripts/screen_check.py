@@ -62,7 +62,8 @@ REASONS = (
 def _arguments(argv: Sequence[str] | None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("plant", type=Path, help="the plant file")
-    parser.add_argument("--use", choices=USES, default=BudgetUse.DEVELOPMENT.value)
+    # B2 (Q9, Q13): no default; a run's use is fixed when it starts
+    parser.add_argument("--use", choices=USES, required=True)
     parser.add_argument("--cap", type=float, required=True, help="run spend cap in USD")
     parser.add_argument(
         "--phase", default=DEFAULT_PHASE, help="the phase whose cap the spend counts against"

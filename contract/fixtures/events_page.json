@@ -195,7 +195,7 @@
       "seq": 13,
       "type": "model_call",
       "payload": {
-        "model_call_id": "mc:6bec7ba44543add6",
+        "model_call_id": "mc:bbe8cd91f88dba07",
         "job": "orchestrator",
         "model_id": "nvidia/Nemotron-3-Ultra-550b-a55b",
         "cache_hit": false,
@@ -378,7 +378,7 @@
         "failed_batches": [],
         "admission": {
           "cap_spent_usd": 0.00125,
-          "limit_usd": 1.0,
+          "limit_usd": 0.2,
           "slices_usd": [
             0.011974859999999999,
             0.011935620000000001
@@ -526,7 +526,7 @@
       "seq": 27,
       "type": "model_call",
       "payload": {
-        "model_call_id": "mc:349b2e854a501966",
+        "model_call_id": "mc:5d7bac9b1431862c",
         "job": "orchestrator",
         "model_id": "nvidia/Nemotron-3-Ultra-550b-a55b",
         "cache_hit": false,
@@ -627,7 +627,7 @@
         ],
         "admission": {
           "cap_spent_usd": 0.001572,
-          "limit_usd": 0.960942,
+          "limit_usd": 0.160942,
           "slices_usd": [
             0.0070174799999999996
           ]
@@ -774,7 +774,7 @@
       "seq": 36,
       "type": "model_call",
       "payload": {
-        "model_call_id": "mc:59dcf3a54872aaec",
+        "model_call_id": "mc:242d870012e727cf",
         "job": "orchestrator",
         "model_id": "nvidia/Nemotron-3-Ultra-550b-a55b",
         "cache_hit": false,
@@ -875,7 +875,7 @@
         ],
         "admission": {
           "cap_spent_usd": 0.001858,
-          "limit_usd": 0.960942,
+          "limit_usd": 0.160942,
           "slices_usd": [
             0.0277146
           ]
@@ -1022,7 +1022,7 @@
       "seq": 45,
       "type": "model_call",
       "payload": {
-        "model_call_id": "mc:19593f8b731285cd",
+        "model_call_id": "mc:e62c555448c74244",
         "job": "orchestrator",
         "model_id": "nvidia/Nemotron-3-Ultra-550b-a55b",
         "cache_hit": false,
@@ -1154,7 +1154,7 @@
         "failed_batches": [],
         "admission": {
           "cap_spent_usd": 0.0022580000000000005,
-          "limit_usd": 0.960942,
+          "limit_usd": 0.160942,
           "slices_usd": [
             0.007089,
             0.007089
@@ -1302,7 +1302,7 @@
       "seq": 56,
       "type": "model_call",
       "payload": {
-        "model_call_id": "mc:f22ac0dc6713637c",
+        "model_call_id": "mc:045a294bfe00b4c7",
         "job": "orchestrator",
         "model_id": "nvidia/Nemotron-3-Ultra-550b-a55b",
         "cache_hit": false,
@@ -1967,7 +1967,7 @@
         "failed_batches": [],
         "admission": {
           "cap_spent_usd": 0.0025440000000000003,
-          "limit_usd": 0.960942,
+          "limit_usd": 0.160942,
           "slices_usd": [
             0.007265880000000001,
             0.0072663599999999995,
@@ -2128,7 +2128,7 @@
       "seq": 95,
       "type": "model_call",
       "payload": {
-        "model_call_id": "mc:f04f16c0fdc16eda",
+        "model_call_id": "mc:e9cb2e7ad8bfb5ea",
         "job": "orchestrator",
         "model_id": "nvidia/Nemotron-3-Ultra-550b-a55b",
         "cache_hit": false,
@@ -2424,7 +2424,7 @@
         "failed_batches": [],
         "admission": {
           "cap_spent_usd": 0.0030639999999999973,
-          "limit_usd": 0.960418,
+          "limit_usd": 0.160418,
           "slices_usd": [
             0.00722304,
             0.00710064,
@@ -2576,7 +2576,7 @@
       "seq": 115,
       "type": "model_call",
       "payload": {
-        "model_call_id": "mc:a3f634380e6f3770",
+        "model_call_id": "mc:5e218195065f057f",
         "job": "orchestrator",
         "model_id": "nvidia/Nemotron-3-Ultra-550b-a55b",
         "cache_hit": false,
@@ -2678,7 +2678,7 @@
         "failed_batches": [],
         "admission": {
           "cap_spent_usd": 0.0034219999999999962,
-          "limit_usd": 0.96012,
+          "limit_usd": 0.16012,
           "slices_usd": [
             0.052636
           ]
@@ -2825,7 +2825,7 @@
       "seq": 125,
       "type": "model_call",
       "payload": {
-        "model_call_id": "mc:0ea2b3e2cb2b7c82",
+        "model_call_id": "mc:192e8fe58c972f3d",
         "job": "orchestrator",
         "model_id": "nvidia/Nemotron-3-Ultra-550b-a55b",
         "cache_hit": false,
@@ -3090,7 +3090,7 @@
       "seq": 138,
       "type": "run_extended",
       "payload": {
-        "post_spend_cap_usd": 0.3,
+        "post_spend_cap_usd": 0.1,
         "settings": {
           "lopa_top_n": {
             "value": 10,

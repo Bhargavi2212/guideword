@@ -539,7 +539,9 @@ def test_extend_evidence_keeps_the_run_id_and_every_earlier_record(
     script = with_judge()
     plain, _ = ev.run(config, script, enabled=False)
     before = pa.snapshot(ev.world, plain.id)
-    extended = extend(ev.world.runs, plain.id, 0.5, config, evidence_only=True)
+    extended = extend(
+        ev.world.runs, plain.id, 0.5, config, evidence_only=True, use=BudgetUse.DEVELOPMENT
+    )
     assert extended.id == plain.id and extended.step == "evidence"
     run, _ = ev.drive(extended, config, script)
     assert run.status == RunStatus.FINISHED
@@ -560,7 +562,7 @@ def test_evidence_twice_is_refused(tmp_path: Path, ref: ReferenceSet, config: Co
     ev = Evidence(tmp_path, ref)
     run, _ = ev.run(config, with_judge())
     with pytest.raises(ExtendRefused, match="--rerun-from evidence"):
-        extend(ev.world.runs, run.id, 0.5, config, evidence_only=True)
+        extend(ev.world.runs, run.id, 0.5, config, evidence_only=True, use=BudgetUse.DEVELOPMENT)
 
 
 def test_rerun_from_evidence_supersedes_only_the_evidence_pass(
@@ -571,7 +573,9 @@ def test_rerun_from_evidence_supersedes_only_the_evidence_pass(
     old_evidence = {e.id for e in ev.world.runs.evidence(run.id)}
     chains = [c.model_dump(mode="json") for c in ev.world.runs.chains(run.id)]
     analysis_steps = [s.id for s in ev.world.runs.steps(run.id) if s.agent != "evidence"]
-    rerun = extend(ev.world.runs, run.id, 0.5, config, rerun_from="evidence")
+    rerun = extend(
+        ev.world.runs, run.id, 0.5, config, rerun_from="evidence", use=BudgetUse.DEVELOPMENT
+    )
     assert rerun.step == "evidence"
     superseded = ev.world.runs.superseded(run.id)
     assert {k.kind for k in superseded} <= {"evidence", "agent_step", "tool_call", "model_call"}
@@ -596,7 +600,9 @@ def test_rerun_from_lopa_and_chains_supersede_the_old_evidence(
     old = {e.id for e in ev.world.runs.evidence(run.id)}
     assert old
     changed = pa.changed(config)
-    rerun = extend(ev.world.runs, run.id, 0.6, changed, rerun_from=rerun_from)
+    rerun = extend(
+        ev.world.runs, run.id, 0.6, changed, rerun_from=rerun_from, use=BudgetUse.DEVELOPMENT
+    )
     superseded = {k.record["id"] for k in ev.world.runs.superseded(run.id) if k.kind == "evidence"}
     assert superseded == old
     done, _ = ev.drive(rerun, changed, script)
@@ -610,7 +616,15 @@ def test_a_retry_never_supersedes_an_orchestrator_or_specialist_step_or_tool_cal
     world, run, _ = pa._with_failed(tmp_path, ref, config)
     analysis_steps = [s.id for s in world.runs.steps(run.id)]
     analysis_calls = [c.id for c in world.runs.tool_calls(run.id)]
-    extend(world.runs, run.id, 0.30, config, retry_failed=True, retry_cap_usd=0.30)
+    extend(
+        world.runs,
+        run.id,
+        0.30,
+        config,
+        retry_failed=True,
+        retry_cap_usd=0.30,
+        use=BudgetUse.DEVELOPMENT,
+    )
     kinds = {k.kind for k in world.runs.superseded(run.id)}
     assert not kinds & {"agent_step", "tool_call"}
     kept_steps = [s.id for s in world.runs.steps(run.id)]
@@ -699,7 +713,12 @@ def test_run_case_and_extend_run_accept_use_video_and_the_evidence_flags() -> No
     assert (args.use, args.no_evidence) == ("video", True)
     args = extend_run._arguments(["run:x", "--use", "video", "--evidence"])
     assert (args.use, args.evidence) == ("video", True)
-    assert extend_run._arguments(["run:x", "--rerun-from", "evidence"]).rerun_from == "evidence"
+    assert (
+        extend_run._arguments(
+            ["--use", "development", "run:x", "--rerun-from", "evidence"]
+        ).rerun_from
+        == "evidence"
+    )
     with pytest.raises(SystemExit):
         run_case._arguments(["plant.json", "--use", "benchmark"])
 
@@ -716,7 +735,7 @@ def test_api_runs_charge_phase_4() -> None:
 def _live(ev: Evidence, config: Config) -> Any:
     from guideword.api.live import LiveRuns
 
-    def no_gateway(sessions: Any) -> Any:
+    def no_gateway(sessions: Any, use: Any) -> Any:
         raise AssertionError("reads make no call")
 
     return LiveRuns(

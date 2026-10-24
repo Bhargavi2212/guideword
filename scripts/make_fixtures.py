@@ -35,16 +35,20 @@ from typing import Any
 from urllib.parse import quote
 
 from fastapi.testclient import TestClient
-from guideword.api.app import create_app
+from guideword.api.app import API_RUN_PHASE, create_app
 from guideword.config import Config, load_config
 from guideword.gateway.client import Gateway
 from guideword.gateway.fake import fake_gateway, reply
 from guideword.gateway.ledgers import LaptopLedger
 from guideword.gateway.transport import Reply, ToolCallRequest
+from guideword.reference import load_reference_set
 from guideword.reference.precedents import PrecedentIndex
+from guideword.runs.case import start_case
 from guideword.runs.db import ResponseCacheRow, make_session_factory
 from guideword.runs.extend import extend
+from guideword.runs.plants import PlantRepository
 from guideword.runs.store import RunRepository
+from guideword.schema.enums import BudgetUse
 from guideword.settings import Settings
 from guideword.tools.web import FakeSearch
 from pydantic import SecretStr
@@ -57,11 +61,12 @@ PLANT_FILE = FIXTURES / "mock_plant_a.json"
 SECRET = "fixture-generator-secret"
 START = datetime(2026, 10, 13, 10, 0, tzinfo=UTC)
 USE = "development"
-SPEND_CAP_USD = 1.0
+# B2: spend cap + post cap must fit Phase 5's cap (Q10)
+SPEND_CAP_USD = 0.20
 # small enough that the first post-analysis call stops the run at its post cap, so the run
 # shows a cap stop and its resume (plan Q2); the resume raises it to POST_CAP_USD
 FIRST_POST_CAP_USD = 0.000001
-POST_CAP_USD = 0.30
+POST_CAP_USD = 0.10
 REVIEWER = "Mock reviewer"
 # the Super section suggestions the scripted model makes (shown, not applied: the confirmed set
 # is the rule cut)
@@ -375,18 +380,19 @@ class Generator:
         ledger_path = work / "ledger.jsonl"
         self.sessions = make_session_factory(self.settings.database_url)
 
-        def gateway(sessions: sessionmaker[Session]) -> Gateway:
+        def gateway(sessions: sessionmaker[Session], use: BudgetUse) -> Gateway:
             built, _ = fake_gateway(
                 self.config,
                 self.script,
                 sessions=sessions,
                 ledger_path=ledger_path,
                 clock=self.clock,
-                phase="5",
+                use=use,
+                phase=API_RUN_PHASE,
             )
             return built
 
-        factory: Callable[[sessionmaker[Session]], Gateway] = gateway
+        factory: Callable[[sessionmaker[Session], BudgetUse], Gateway] = gateway
         self.client = TestClient(
             create_app(
                 settings=self.settings,
@@ -453,11 +459,11 @@ class Generator:
 
     def build(self) -> dict[str, Any]:
         plant, plant_files = self.plant()
+        # the API drives a started run in-process (B2) until it stops at its post cap
         started = self.start(plant, FIRST_POST_CAP_USD)
         run_id = str(started["run_id"])
-        self.advance(run_id)
-        # the run stopped at its post cap: extended with a higher one, it resumes and ends
-        extend(self.runs(), run_id, POST_CAP_USD, self.config)
+        # extended with a higher post cap, it resumes and ends
+        extend(self.runs(), run_id, POST_CAP_USD, self.config, use=BudgetUse(USE))
         self.advance(run_id)
         detail = self.get(self.run_path(run_id))
         if detail["run"]["status"] != "finished":
@@ -500,7 +506,17 @@ class Generator:
             self.run_path(run_id, f"/records/{quote(hypothesis, safe='')}")
         )
         # the next attempt, cancelled; and the one after it, failing
-        cancelled = str(self.start(plant, POST_CAP_USD)["run_id"])
+        # an API start drives at once, so the attempt to cancel is started in the store
+        cancelled = start_case(
+            PlantRepository(self.sessions),
+            self.runs(),
+            load_reference_set(),
+            self.config,
+            plant,
+            SPEND_CAP_USD,
+            use=BudgetUse(USE),
+            post_spend_cap_usd=POST_CAP_USD,
+        ).id
         out["run_status_result.json"] = self.post(self.run_path(cancelled, "/cancel"))
         self.script.fail_orchestrator = True
         # identical requests would be served from the cache the earlier attempts filled, so
@@ -508,7 +524,6 @@ class Generator:
         with self.sessions.begin() as session:
             session.execute(delete(ResponseCacheRow))
         failing = str(self.start(plant, POST_CAP_USD)["run_id"])
-        self.advance(failing)
         out["events_page_failed.json"] = self.get(self.run_path(failing, "/events?after=0"))
         out["run_list.json"] = self.get("/runs")
         out["demo_response.json"] = {

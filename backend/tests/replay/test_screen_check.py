@@ -51,7 +51,7 @@ def hyp(rank: int, components: list[str], **extra: Any) -> dict[str, Any]:
 def run(tmp_path: Path, config: Config, answer: Any, *args: str) -> tuple[int, str, Any]:
     transport = FakeTransport(lambda job, request: reply(answer), catalog_for(config))
     code = screen_check.main(
-        [str(CASE_H), "--cap", "0.05", *args],
+        ["--use", "development", str(CASE_H), "--cap", "0.05", *args],
         transport=transport,
         config=config,
         settings=Settings(
@@ -111,7 +111,7 @@ def test_an_unusable_answer_is_reported_as_such(
 
 def test_the_cap_is_required(tmp_path: Path, config: Config) -> None:
     with pytest.raises(SystemExit):
-        screen_check.main([str(CASE_H)], config=config)
+        screen_check.main(["--use", "development", str(CASE_H)], config=config)
 
 
 def test_each_attempt_is_reported_and_the_kept_one_named(
@@ -127,7 +127,7 @@ def test_each_attempt_is_reported_and_the_kept_one_named(
         catalog_for(config),
     )
     screen_check.main(
-        [str(CASE_H), "--cap", "0.09"],
+        ["--use", "development", str(CASE_H), "--cap", "0.09"],
         transport=transport,
         config=config,
         settings=Settings(
@@ -151,7 +151,7 @@ def test_each_attempt_is_reported_and_the_kept_one_named(
 def run_with(tmp_path: Path, config: Config, *args: str) -> tuple[int, Any]:
     transport = FakeTransport(lambda job, request: reply({"hypotheses": []}), catalog_for(config))
     code = screen_check.main(
-        [str(CASE_H), "--cap", "0.09", *args],
+        ["--use", "development", str(CASE_H), "--cap", "0.09", *args],
         transport=transport,
         config=config,
         settings=Settings(

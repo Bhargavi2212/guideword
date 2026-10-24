@@ -47,10 +47,10 @@
     }
   ],
   "api_run_phase": {
-    "phase": "4",
-    "cap_usd": 1.5,
+    "phase": "5",
+    "cap_usd": 0.5,
     "spent_usd": 0.0,
-    "remaining_usd": 1.5
+    "remaining_usd": 0.5
   },
   "api_run_uses": [
     "development",

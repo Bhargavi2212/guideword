@@ -37,7 +37,7 @@ class Case:
     def run(self, script: Any, *args: str) -> tuple[int, FakeTransport]:
         transport = FakeTransport(script, catalog_for(self.config))
         code = run_case.main(
-            [str(EXAMPLE), *args],
+            ["--use", "development", str(EXAMPLE), *args],
             transport=transport,
             config=self.config,
             settings=self.settings,
@@ -146,7 +146,7 @@ def test_an_invalid_plant_file_is_refused_without_a_call(
     path.write_text(json.dumps(bad), encoding="utf-8")
     transport = FakeTransport(script, catalog_for(case.config))
     code = run_case.main(
-        [str(path)],
+        ["--use", "development", str(path)],
         transport=transport,
         config=case.config,
         settings=case.settings,
@@ -219,7 +219,7 @@ def test_case_d_at_1_20_on_the_fake_gateway_defers_then_sends_then_stops_for_a_r
     transport = FakeTransport(script, catalog_for(config))
     case_d = REPO / "cases" / "dev" / "case_d.json"
     run_case.main(
-        [str(case_d), "--cap", "1.20"],
+        ["--use", "development", str(case_d), "--cap", "1.20"],
         transport=transport,
         config=config,
         settings=Settings(
@@ -345,7 +345,7 @@ def test_case_d_end_to_end_on_the_fake_gateway_with_a_scripted_screen(
         script_factory(screen_hypotheses=screen, priority=True), catalog_for(config)
     )
     code = run_case.main(
-        [str(case_d), "--cap", "1.20"],
+        ["--use", "development", str(case_d), "--cap", "1.20"],
         transport=transport,
         config=config,
         settings=Settings(

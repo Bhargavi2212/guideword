@@ -160,6 +160,15 @@ class StepWriter:
     def set_spend_cap(self, spend_cap_usd: float) -> None:
         self._update(spend_cap_usd=spend_cap_usd)
 
+    def keep_a_cancel(self) -> None:
+        """Before the step commits: if the stored run was cancelled meanwhile, by another
+        request, the step does not write its own status over it."""
+        stored = self._session.execute(
+            select(RunRow.status).where(RunRow.id == self.run.id)
+        ).scalar_one()
+        if stored == RunStatus.CANCELLED.value and self.run.status != RunStatus.CANCELLED:
+            self.set_status(RunStatus.CANCELLED)
+
     def set_use(self, use: BudgetUse | None) -> None:
         """Contract v1.9: a run stored without a use takes the one its resume names (Q4)."""
         self._update(use=use)
@@ -578,12 +587,16 @@ class RunRepository:
 
     @contextmanager
     def step(self, run_id: str) -> Iterator[StepWriter]:
-        """One transaction: everything written inside is saved together, or not at all."""
+        """One transaction: everything written inside is saved together, or not at all. A cancel
+        committed while the step ran is kept (B2): the step's records are saved, and the run
+        stays cancelled, so a background drive stops after it."""
         with self._sessions.begin() as session:
             row = session.get(RunRow, run_id)
             if row is None:
                 raise LookupError(f"no run {run_id}")
-            yield StepWriter(session, row, self._clock)
+            writer = StepWriter(session, row, self._clock)
+            yield writer
+            writer.keep_a_cancel()
 
     # --- reads -----------------------------------------------------------------------------
 

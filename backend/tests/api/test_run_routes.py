@@ -3,6 +3,7 @@ a scripted model drives a whole run of the §9 example through the advance route
 
 import json
 import re
+import threading
 from collections.abc import Callable
 from datetime import UTC, datetime
 from pathlib import Path
@@ -15,14 +16,17 @@ from sqlalchemy.orm import Session, sessionmaker
 
 from guideword.api import models as api
 from guideword.api.app import API_RUN_PHASE, NOT_BUILT_PHASE, create_app
+from guideword.api.live import LiveRuns
 from guideword.config import load_config
 from guideword.gateway.client import Gateway
 from guideword.gateway.fake import fake_gateway, reply
 from guideword.gateway.ledgers import LaptopLedger
 from guideword.gateway.transport import Reply, ToolCallRequest
+from guideword.reference import load_reference_set
+from guideword.runs.case import start_case
 from guideword.runs.db import EventRow, make_session_factory
 from guideword.runs.store import RunRepository
-from guideword.schema.enums import BudgetUse, EventType
+from guideword.schema.enums import BudgetUse, EventType, RunStatus
 from guideword.schema.records import SpendEntry
 from guideword.settings import Settings
 
@@ -144,7 +148,7 @@ def script(job: str, request: dict[str, Any]) -> Reply:
 
 
 class Api:
-    def __init__(self, tmp_path: Path) -> None:
+    def __init__(self, tmp_path: Path, env: str = "laptop") -> None:
         self.tmp = tmp_path
         self.ledger = LaptopLedger(tmp_path / "ledger.jsonl")
         self.settings = Settings(
@@ -152,20 +156,24 @@ class Api:
             guideword_mock=False,
             database_url=f"sqlite:///{(tmp_path / 'g.db').as_posix()}",
             internal_advance_secret=SECRET,
+            guideword_env=env,
         )
         config = load_config(global_budget_usd=25.0)
 
-        def gateway(sessions: sessionmaker[Session]) -> Gateway:
+        def gateway(sessions: sessionmaker[Session], use: BudgetUse) -> Gateway:
             built, _ = fake_gateway(
                 config,
                 script,
                 sessions=sessions,
                 ledger_path=tmp_path / "ledger.jsonl",
                 clock=lambda: NOW,
+                use=use,
+                phase=API_RUN_PHASE,
+                ledger=self.ledger,
             )
             return built
 
-        factory: Callable[[sessionmaker[Session]], Gateway] = gateway
+        factory: Callable[[sessionmaker[Session], BudgetUse], Gateway] = gateway
         self.client = TestClient(
             create_app(
                 settings=self.settings,
@@ -477,32 +485,59 @@ def test_a_run_with_no_use_names_one_on_its_first_advance_and_keeps_it(app: Api)
     assert app.runs().get(run_id).use == "development"  # type: ignore[union-attr]
 
 
-# --- until B2, API runs spend development only (Bhargavi, 2026-10-23) ------------------------
+# --- B2: UI-started laptop runs are driven in-process, each on its own use ------------------
 
 
-def test_until_b2_a_start_naming_another_use_is_409(app: Api) -> None:
-    refused = app.start(use="video")
-    assert refused.status_code == 409
-    assert "B2" in refused.json()["detail"] and "development" in refused.json()["detail"]
+def test_a_run_started_through_the_api_reaches_finished_with_no_further_request(
+    app: Api,
+) -> None:
+    run_id = app.start().json()["run_id"]
+    assert app.runs().get(run_id).status == "finished"  # type: ignore[union-attr]
+
+
+def test_a_run_is_driven_with_its_own_use(app: Api) -> None:
+    """B2 removes the interim refusal (2026-10-23): a video run starts, and its calls bill
+    video, on the API runs' phase."""
+    run_id = app.start(use="video").json()["run_id"]
+    assert app.runs().get(run_id).status == "finished"  # type: ignore[union-attr]
+    lines = [e for e in app.ledger.entries() if e.kind == "model"]
+    assert lines and {e.use for e in lines} == {"video"}
+    assert {e.phase for e in lines} == {"5"}
+
+
+def test_api_runs_charge_phase_5() -> None:
+    assert API_RUN_PHASE == "5"
+
+
+def test_start_refuses_a_use_not_offered_to_api_runs(app: Api) -> None:
+    refused = app.start(use="test_5")
+    assert refused.status_code == 409 and "test_5" in refused.json()["detail"]
     assert app.client.get("/runs").json()["runs"] == []
 
 
-def test_until_b2_a_run_on_another_use_is_never_advanced_through_the_api(app: Api) -> None:
-    """A run a script started on video would otherwise be billed to development here."""
-    run_id = app.start().json()["run_id"]
-    _set_use(app, run_id, "video")
-    refused = app.advance(run_id)
-    assert refused.status_code == 409 and "B2" in refused.json()["detail"]
-    assert app.runs().get(run_id).status == "running"  # type: ignore[union-attr]
-    assert app.runs().model_calls(run_id) == []
+def test_start_refuses_a_maximum_above_the_uses_remaining_amount(app: Api) -> None:
+    _spend(app, "video", "4", 1.9)  # video's $2.00 leaves $0.10
+    refused = app.start(use="video", cap=0.15, post_cap=0.10)
+    detail = refused.json()["detail"]
+    assert refused.status_code == 409 and "use video" in detail and "0.1" in detail
+    assert app.client.get("/runs").json()["runs"] == []
 
 
-def test_until_b2_a_run_with_no_use_cannot_name_another_on_advance(app: Api) -> None:
-    run_id = app.start().json()["run_id"]
-    _set_use(app, run_id, None)
-    refused = app.advance(run_id, use="video")
-    assert refused.status_code == 409 and "B2" in refused.json()["detail"]
-    assert app.runs().get(run_id).use is None  # type: ignore[union-attr]
+def test_start_refuses_a_maximum_above_the_phases_remaining_cap(app: Api) -> None:
+    _spend(app, "development", API_RUN_PHASE, 0.40)  # phase 5's $0.50 leaves $0.10
+    refused = app.start(cap=0.15, post_cap=0.10)
+    detail = refused.json()["detail"]
+    assert refused.status_code == 409 and f"phase {API_RUN_PHASE}" in detail
+    assert app.start(cap=0.05, post_cap=0.05).status_code == 200
+
+
+def test_a_hosted_app_never_starts_or_drives_a_laptop_use(tmp_path: Path) -> None:
+    """Hosted runs are Phase 7: a laptop use is not one of the hosted environment's, so the
+    start is refused before any run exists, and nothing is driven."""
+    hosted = Api(tmp_path, env="hosted")
+    refused = hosted.start()
+    assert refused.status_code == 409 and "hosted" in refused.json()["detail"]
+    assert hosted.client.get("/runs").json()["runs"] == []
 
 
 # --- events served typed; stored events get their tier on read (contract v1.9, C3, H14) -------
@@ -597,3 +632,80 @@ def test_an_event_written_flagged_is_served_with_its_flag(
     served = _served(app, run_id, event.seq)
     assert served["payload_invalid"] is True and served["payload_error"]
     assert served["payload"] == {"step": "ranked", "odd": 1}
+
+
+# --- B2 (P5-2): one driver per run; cancel stops a background drive ----------------------------
+
+
+class Blocking:
+    """The test model, held at its first plant-screen call until released."""
+
+    def __init__(self) -> None:
+        self.entered = threading.Event()
+        self.release = threading.Event()
+
+    def __call__(self, job: str, request: dict[str, Any]) -> Reply:
+        if job == "plant_screen" and not self.entered.is_set():
+            self.entered.set()
+            assert self.release.wait(10)
+        return script(job, request)
+
+
+def _live(app: Api, model: Blocking) -> tuple[LiveRuns, str]:
+    """A LiveRuns on the app's store, and a running run started in it (not driven)."""
+    config = load_config(global_budget_usd=25.0)
+    sessions = make_session_factory(app.settings.database_url)
+
+    def gateway(s: sessionmaker[Session], use: BudgetUse) -> Gateway:
+        built, _ = fake_gateway(
+            config, model, sessions=s, ledger_path=app.tmp / "l2.jsonl", clock=lambda: NOW, use=use
+        )
+        return built
+
+    live = LiveRuns(
+        sessions,
+        config=config,
+        ref=load_reference_set(),
+        gateway_factory=gateway,
+        clock=lambda: NOW,
+    )
+    run = start_case(
+        live.plants,
+        live.runs,
+        live.ref,
+        config,
+        app.plant(),
+        1.0,
+        use=BudgetUse.DEVELOPMENT,
+        post_spend_cap_usd=0.3,
+    )
+    return live, run.id
+
+
+def test_two_drives_of_one_run_never_step_it_at_once(app: Api) -> None:
+    model = Blocking()
+    live, run_id = _live(app, model)
+    first = threading.Thread(target=live.drive, args=(run_id,))
+    first.start()
+    assert model.entered.wait(10)
+    # the run is mid-step in the first driver: a second drive and a step return at once
+    assert live.drive(run_id) == RunStatus.RUNNING
+    assert live.step_once(run_id) is None
+    model.release.set()
+    first.join(10)
+    assert live.get(run_id).status == RunStatus.FINISHED
+    screens = [c for c in live.runs.model_calls(run_id) if c.job == "plant_screen"]
+    assert len({c.id for c in screens}) == len(screens)
+
+
+def test_cancel_stops_a_background_drive(app: Api) -> None:
+    model = Blocking()
+    live, run_id = _live(app, model)
+    driver = threading.Thread(target=live.drive, args=(run_id,))
+    driver.start()
+    assert model.entered.wait(10)
+    live.cancel(run_id)
+    model.release.set()
+    driver.join(10)
+    assert not driver.is_alive()
+    assert live.get(run_id).status == RunStatus.CANCELLED
