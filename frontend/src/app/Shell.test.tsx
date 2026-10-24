@@ -1,0 +1,121 @@
+import { act, fireEvent, render, screen } from "@testing-library/react";
+import { afterEach, describe, expect, it, vi } from "vitest";
+
+import budget from "../../../contract/fixtures/budget.json";
+import plantList from "../../../contract/fixtures/plant_list.json";
+import runDetail from "../../../contract/fixtures/run_detail.json";
+import runList from "../../../contract/fixtures/run_list.json";
+import { ApiClient } from "../api/client";
+import type { Budget, PlantList, RunDetail, RunList } from "../api/schema";
+import { fakeFetch } from "../test/fakeFetch";
+import { fixture } from "../test/fixtures";
+import { must } from "../test/must";
+import { AppProvider } from "./context";
+import { ENGINEER_KEY, loadEngineer, saveEngineer } from "./engineer";
+import { buildHash } from "./router";
+import { Shell } from "./Shell";
+
+const plants = fixture<PlantList>(plantList);
+const runs = fixture<RunList>(runList);
+const detail = fixture<RunDetail>(runDetail);
+const RUN = detail.run.id;
+
+function shell(route = { name: "shortlist" as const, runId: RUN }) {
+  const fake = fakeFetch({
+    "/plants": { body: plants },
+    "/runs": { body: runs },
+    [`/runs/${encodeURIComponent(RUN)}`]: { body: detail },
+    "/budget": { body: fixture<Budget>(budget) },
+  });
+  render(
+    <AppProvider client={new ApiClient("", fake.impl)}>
+      <Shell route={route}>
+        <p>screen</p>
+      </Shell>
+    </AppProvider>,
+  );
+  return fake;
+}
+
+afterEach(() => {
+  window.localStorage.clear();
+  window.location.hash = "";
+});
+
+describe("Shell header", () => {
+  it("renders from the fixtures with no console error", async () => {
+    const errors = vi.spyOn(console, "error");
+    shell();
+    expect(await screen.findByRole("status")).toBeDefined();
+    expect(errors).not.toHaveBeenCalled();
+  });
+
+  it("lists the plants and the runs, and a choice changes the route", async () => {
+    shell();
+    const runSelect = await screen.findByLabelText("Run");
+    const options = Array.from((runSelect as HTMLSelectElement).options).map(
+      (o) => o.value,
+    );
+    for (const run of runs.runs) expect(options).toContain(run.id);
+    const other = must(runs.runs[1]).id;
+    fireEvent.change(runSelect, { target: { value: other } });
+    expect(window.location.hash).toBe(
+      buildHash({ name: "shortlist", runId: other }),
+    );
+    const plantSelect = await screen.findByLabelText("Plant");
+    fireEvent.change(plantSelect, {
+      target: { value: must(plants.plants[0]).plant_record_id },
+    });
+    expect(window.location.hash).toBe(
+      buildHash({
+        name: "plant",
+        plantId: must(plants.plants[0]).plant_record_id,
+      }),
+    );
+  });
+
+  it("shows the run's label, status, step and its spend against its cap, traced", async () => {
+    shell();
+    expect((await screen.findByRole("status")).textContent).toBe(
+      "Mock data — not a real plant",
+    );
+    expect(
+      await screen.findByText(`${detail.run.status} · ${detail.run.step}`),
+    ).toBeDefined();
+    const spend = await screen.findByRole("button", {
+      name: /spent .* of .*cap/i,
+    });
+    expect(spend.getAttribute("data-record-id")).toBe(RUN);
+  });
+
+  it("shows the API runs' budget: each offered use and the phase's remaining cap", async () => {
+    shell();
+    const lines = await screen.findByLabelText("Budget");
+    expect(lines.textContent).toContain("development $5.00 left");
+    expect(lines.textContent).toContain("video $2.00 left");
+    expect(lines.textContent).toContain("phase 5 $0.50 left");
+  });
+});
+
+describe("engineer name (P5-7)", () => {
+  it("survives a reload", async () => {
+    shell();
+    const input = await screen.findByLabelText("Engineer");
+    fireEvent.change(input, { target: { value: "B. Nallapuneni" } });
+    expect(window.localStorage.getItem(ENGINEER_KEY)).toBe("B. Nallapuneni");
+    expect(loadEngineer(window.localStorage)).toBe("B. Nallapuneni");
+  });
+
+  it("is kept for the session when storage fails", () => {
+    const broken = {
+      getItem: () => {
+        throw new Error("blocked");
+      },
+      setItem: () => {
+        throw new Error("blocked");
+      },
+    } as unknown as Storage;
+    expect(loadEngineer(broken)).toBe("");
+    expect(() => act(() => saveEngineer(broken, "B"))).not.toThrow();
+  });
+});
