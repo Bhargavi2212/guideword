@@ -180,7 +180,7 @@ Bhargavi does the click-through and every paid click; Claude Code never clicks S
 - Everything else runs on fixtures or existing runs at $0.
 
 ## Done when
-- [ ] P5-1…P5-10 decided and recorded; PROJECT.md §12 updated (replay mode, traceability drawer, hash routes).
+- [x] P5-1…P5-10 decided and recorded; PROJECT.md §12 updated (replay mode, traceability drawer, hash routes).
 - [ ] B1 merged and tagged `contract-v1.9`; B2, B3 merged.
 - [ ] All seven screens on `main`, every test and check green.
 - [ ] Acceptance 1–7 done and recorded in the F6 PR, with screenshots.
