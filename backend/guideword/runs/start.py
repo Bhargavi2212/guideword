@@ -6,6 +6,7 @@ cancelled or failed one is followed by attempt `:n`, and a `stopped_cap` run res
 with a higher cap. Setup builds the question list with the Phase 1 builder.
 """
 
+import math
 from dataclasses import dataclass
 from typing import Any
 
@@ -14,7 +15,7 @@ from guideword.reference import ReferenceSet
 from guideword.runs.plants import PlantRepository
 from guideword.runs.store import RunRepository, base_run_id
 from guideword.schema import ids
-from guideword.schema.enums import PlantStatus, QuestionStatus, RunLabelKind, RunStatus
+from guideword.schema.enums import BudgetUse, PlantStatus, QuestionStatus, RunLabelKind, RunStatus
 from guideword.schema.records import Run, RunLabel
 
 FULL = "full"
@@ -49,6 +50,11 @@ class SectionsNotConfirmed(ValueError):
         super().__init__("sections not confirmed")
 
 
+class StartMismatch(ValueError):
+    """A resume names a use or post cap other than the run's own: both are fixed when the run
+    starts (contract v1.9, Q4, Q12). The message names the stored value."""
+
+
 class ModeNotBuilt(ValueError):
     """Decision R21: only `full` runs exist until Phase 7."""
 
@@ -65,10 +71,13 @@ def start_run(
     plant_record_id: str,
     spend_cap_usd: float,
     mode: str,
-    post_spend_cap_usd: float = 0.0,
+    use: BudgetUse,
+    post_spend_cap_usd: float,
 ) -> Run:
-    """Start, resume or re-attempt the run for these inputs. Raises `ids.CapReachedError`.
-    `post_spend_cap_usd` (P3-2) is stored on a new run; it is not an input of the run ID."""
+    """Start, resume or re-attempt the run for these inputs. Raises `ids.CapReachedError`,
+    or `StartMismatch` when a resume names another use or post cap. `use` and
+    `post_spend_cap_usd` (P3-2) are stored on a new run and fixed from then on; neither is
+    an input of the run ID. A run stored without a use takes the one given (Q4)."""
     if mode != FULL:
         raise ModeNotBuilt(mode)
     stored = plants.get(plant_record_id)
@@ -93,6 +102,11 @@ def start_run(
 
     existing = runs.get(run_id)
     if existing is not None:
+        _check_fixed(existing, use, post_spend_cap_usd)
+        if existing.use is None:
+            with runs.step(run_id) as writer:
+                writer.set_use(use)
+            existing = existing.model_copy(update={"use": use})
         if existing.status in RESUMABLE:
             with runs.step(run_id) as writer:
                 if existing.status == RunStatus.STOPPED_CAP:
@@ -123,6 +137,7 @@ def start_run(
         mode="full",
         spend_cap_usd=spend_cap_usd,
         post_spend_cap_usd=post_spend_cap_usd,
+        use=use,
         reference_versions=dict(ref.versions),
         routing_config=dict(settings.routing_config),
         caps=dict(settings.caps),
@@ -138,3 +153,16 @@ def start_run(
         {"attempt": attempt, "questions": len(questions), "sections": len(sections)},
     )
     return run
+
+
+def _check_fixed(run: Run, use: BudgetUse, post_spend_cap_usd: float) -> None:
+    """A run's use and post cap are fixed when it starts; never loosened silently."""
+    if run.use is not None and run.use != use:
+        raise StartMismatch(
+            f"run {run.id} spends use {run.use.value}; a resume naming {use.value} is refused"
+        )
+    if not math.isclose(run.post_spend_cap_usd, post_spend_cap_usd):
+        raise StartMismatch(
+            f"run {run.id} has post cap ${run.post_spend_cap_usd}; a resume naming "
+            f"${post_spend_cap_usd} is refused"
+        )

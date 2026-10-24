@@ -44,6 +44,24 @@
         "title": "Adequacy",
         "type": "string"
       },
+      "AdvanceRequest": {
+        "additionalProperties": false,
+        "description": "Contract v1.9 (Q4): the run's use. Required for a run stored without one, which then\nkeeps it; refused with 409 when it differs from the run's.",
+        "properties": {
+          "use": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/BudgetUse"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "title": "AdvanceRequest",
+        "type": "object"
+      },
       "AppliedModifier": {
         "additionalProperties": false,
         "properties": {
@@ -105,6 +123,19 @@
         ],
         "title": "Budget",
         "type": "object"
+      },
+      "BudgetUse": {
+        "enum": [
+          "development",
+          "test_5",
+          "benchmark",
+          "video",
+          "demo_recording",
+          "judging",
+          "buffer"
+        ],
+        "title": "BudgetUse",
+        "type": "string"
       },
       "Chain": {
         "additionalProperties": false,
@@ -1919,6 +1950,16 @@
           "step": {
             "title": "Step",
             "type": "string"
+          },
+          "use": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/BudgetUse"
+              },
+              {
+                "type": "null"
+              }
+            ]
           }
         },
         "required": [
@@ -2645,16 +2686,26 @@
             "title": "Plant Id",
             "type": "string"
           },
+          "post_spend_cap_usd": {
+            "minimum": 0.0,
+            "title": "Post Spend Cap Usd",
+            "type": "number"
+          },
           "spend_cap_usd": {
             "exclusiveMinimum": 0.0,
             "title": "Spend Cap Usd",
             "type": "number"
+          },
+          "use": {
+            "$ref": "#/components/schemas/BudgetUse"
           }
         },
         "required": [
           "plant_id",
           "spend_cap_usd",
-          "mode"
+          "mode",
+          "use",
+          "post_spend_cap_usd"
         ],
         "title": "StartRunRequest",
         "type": "object"
@@ -3236,6 +3287,23 @@
             }
           }
         ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "anyOf": [
+                  {
+                    "$ref": "#/components/schemas/AdvanceRequest"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "title": "Request"
+              }
+            }
+          }
+        },
         "responses": {
           "202": {
             "content": {

@@ -69,7 +69,9 @@ def original_run(
     )
     raw = json.loads(EXAMPLE.read_text(encoding="utf-8"))
     record = prepare_plant(store.plants, raw, ref)
-    run = start_case(store.plants, store.runs, ref, config, record.id, cap)
+    run = start_case(
+        store.plants, store.runs, ref, config, record.id, cap, use=BudgetUse.DEVELOPMENT
+    )
     drive(store.runs, run.id, steppers_for(gateway, config, ref, record.plant_file))
     return store, run.id
 
@@ -90,7 +92,9 @@ def replay(
     )
     raw = json.loads((REPO / manifest.plant_file).read_text(encoding="utf-8"))
     record = prepare_plant(store.plants, raw, ref)
-    run = start_case(store.plants, store.runs, ref, config, record.id, cap)
+    run = start_case(
+        store.plants, store.runs, ref, config, record.id, cap, use=BudgetUse.DEVELOPMENT
+    )
     status = drive(store.runs, run.id, steppers_for(gateway, config, ref, record.plant_file))
     return store, run.id, status
 

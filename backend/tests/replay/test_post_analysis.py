@@ -253,6 +253,7 @@ class World:
             self.record.id,
             cap,
             post_spend_cap_usd=post_cap,
+            use=BudgetUse.DEVELOPMENT,
         )
 
     def steppers(self, config: Config, gateway: Gateway) -> dict[str, Stepper]:
@@ -305,6 +306,8 @@ def phase_2_run(world: World, config: Config, script: Script, *, pre_r50: bool =
         plant_record_id=world.record.id,
         spend_cap_usd=1.0,
         mode="full",
+        use=BudgetUse.DEVELOPMENT,
+        post_spend_cap_usd=0.0,
     )
     if pre_r50:
         with world.runs.step(run.id) as writer:

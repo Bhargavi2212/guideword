@@ -17,7 +17,7 @@ from guideword.runs.db import make_session_factory
 from guideword.runs.plants import PlantRepository
 from guideword.runs.start import RunSettings, start_run
 from guideword.runs.store import RunRepository
-from guideword.schema.enums import EventType, QuestionStatus
+from guideword.schema.enums import BudgetUse, EventType, QuestionStatus
 
 Upload = Callable[..., str]
 
@@ -31,7 +31,15 @@ def test_cache_commits_while_a_step_with_writes_is_open(
     db_url: str,
 ) -> None:
     run = start_run(
-        plants, runs, ref, settings, plant_record_id=upload(), spend_cap_usd=1.0, mode="full"
+        plants,
+        runs,
+        ref,
+        settings,
+        plant_record_id=upload(),
+        spend_cap_usd=1.0,
+        mode="full",
+        use=BudgetUse.DEVELOPMENT,
+        post_spend_cap_usd=0.0,
     )
     cache = ResponseCache(make_session_factory(db_url))
     question = runs.questions(run.id)[0]
@@ -64,7 +72,15 @@ def test_a_step_reads_its_own_pending_writes(
     upload: Upload,
 ) -> None:
     run = start_run(
-        plants, runs, ref, settings, plant_record_id=upload(), spend_cap_usd=1.0, mode="full"
+        plants,
+        runs,
+        ref,
+        settings,
+        plant_record_id=upload(),
+        spend_cap_usd=1.0,
+        mode="full",
+        use=BudgetUse.DEVELOPMENT,
+        post_spend_cap_usd=0.0,
     )
     first = runs.questions(run.id)[0]
     with runs.step(run.id) as writer:
@@ -82,7 +98,15 @@ def test_a_failed_step_still_saves_nothing(
     upload: Upload,
 ) -> None:
     run = start_run(
-        plants, runs, ref, settings, plant_record_id=upload(), spend_cap_usd=1.0, mode="full"
+        plants,
+        runs,
+        ref,
+        settings,
+        plant_record_id=upload(),
+        spend_cap_usd=1.0,
+        mode="full",
+        use=BudgetUse.DEVELOPMENT,
+        post_spend_cap_usd=0.0,
     )
     first = runs.questions(run.id)[0]
     with pytest.raises(RuntimeError), runs.step(run.id) as writer:

@@ -9,6 +9,7 @@ from typing import Annotated, Any, Literal
 from pydantic import BaseModel, ConfigDict, Field, StrictBool, model_validator
 
 from guideword.schema.enums import (
+    BudgetUse,
     OverrideAction,
     PlantStatus,
     RunStatus,
@@ -141,6 +142,17 @@ class StartRunRequest(_Model):
     plant_id: str
     spend_cap_usd: Annotated[float, Field(gt=0)]
     mode: Literal["full", "sample"]
+    # contract v1.9: both required, never defaulted, and fixed when the run starts (Q4, Q11);
+    # a resume naming another value gets 409
+    use: BudgetUse
+    post_spend_cap_usd: Annotated[float, Field(ge=0)]
+
+
+class AdvanceRequest(_Model):
+    """Contract v1.9 (Q4): the run's use. Required for a run stored without one, which then
+    keeps it; refused with 409 when it differs from the run's."""
+
+    use: BudgetUse | None = None
 
 
 class StartRunResult(_RunResponse):

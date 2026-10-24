@@ -17,7 +17,7 @@ from fastapi import BackgroundTasks, Body, FastAPI, Header, Request
 from fastapi.responses import JSONResponse, Response
 
 from guideword.api import models as api
-from guideword.api.live import GatewayFactory, LiveRuns, RunEnded, RunNotFound
+from guideword.api.live import GatewayFactory, LiveRuns, RunEnded, RunNotFound, UseMismatch
 from guideword.api.mock import DEFAULT_FIXTURES, XLSX_MEDIA_TYPE, MockStore, worksheet_xlsx
 from guideword.api.suggester import GatewaySuggester
 from guideword.config import Config, load_config
@@ -38,7 +38,7 @@ from guideword.runs.plants import (
     not_stated_issues,
     plant_facts,
 )
-from guideword.runs.start import ModeNotBuilt, PlantNotFound, SectionsNotConfirmed
+from guideword.runs.start import ModeNotBuilt, PlantNotFound, SectionsNotConfirmed, StartMismatch
 from guideword.schema import ids
 from guideword.schema.enums import (
     BudgetUse,
@@ -62,6 +62,20 @@ Clock = Callable[[], datetime]
 # live runs started through the API on the laptop spend `development` (R25; Phase 7 sets
 # the hosted uses); the phase their calls are booked to
 API_RUN_USE = BudgetUse.DEVELOPMENT
+
+
+def one_gateway_use(use: BudgetUse | None) -> None:
+    """Until B2 adds one gateway per use, the API's only gateway spends API_RUN_USE, so a run
+    on any other use would be billed to it (Bhargavi, 2026-10-23). B2 removes this refusal
+    when it adds the gateways. Raises ApiError 409."""
+    if use is not None and use != API_RUN_USE:
+        raise ApiError(
+            409,
+            f"API runs spend use {API_RUN_USE.value} only until per-use gateways arrive in B2; "
+            f"use {use.value} is refused",
+        )
+
+
 # runs started through the API spend under Phase 4 (Phase 4 plan Q16): they now make the
 # evidence step's judge calls and web searches too
 API_RUN_PHASE = "4"
@@ -340,11 +354,18 @@ def create_app(
                 ):
                     raise ApiError(409, str(ids.CapReachedError()))
             return store.start_run_result
+        one_gateway_use(request.use)
         try:
-            run, estimate = live().start(request.plant_id, request.spend_cap_usd, request.mode)
+            run, estimate = live().start(
+                request.plant_id,
+                request.spend_cap_usd,
+                request.mode,
+                use=request.use,
+                post_spend_cap_usd=request.post_spend_cap_usd,
+            )
         except PlantNotFound as missing:
             raise ApiError(404, str(missing)) from missing
-        except (SectionsNotConfirmed, ModeNotBuilt, ids.CapReachedError) as refused:
+        except (SectionsNotConfirmed, ModeNotBuilt, ids.CapReachedError, StartMismatch) as refused:
             raise ApiError(409, str(refused)) from refused
         return api.StartRunResult(run_id=run.id, estimated_cost_usd=estimate, label=run.label)
 
@@ -595,6 +616,7 @@ def create_app(
         id: str,
         background: BackgroundTasks,
         x_internal_secret: Annotated[str | None, Header(alias="X-Internal-Secret")] = None,
+        request: api.AdvanceRequest | None = None,
     ) -> api.Accepted:
         # one advance; while the run is still running, the next ones run in-process after the
         # response (the laptop loop; the hosted chaining is Phase 7)
@@ -605,7 +627,13 @@ def create_app(
         if store is not None:
             run_of(store, id)
             return store.accepted
-        live_run(id)
+        run = live_run(id)
+        named = request.use if request is not None else None
+        one_gateway_use(run.use if run.use is not None else named)
+        try:
+            live().name_use(id, named)
+        except UseMismatch as refused:
+            raise ApiError(409, str(refused)) from refused
         if live().advance_once(id) == RunStatus.RUNNING:
             background.add_task(live().drive, id)
         return api.Accepted(accepted=True)

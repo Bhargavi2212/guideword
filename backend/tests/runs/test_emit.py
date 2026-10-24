@@ -13,7 +13,7 @@ from guideword.runs import store
 from guideword.runs.plants import PlantRepository
 from guideword.runs.start import RunSettings, start_run
 from guideword.runs.store import RunRepository
-from guideword.schema.enums import EventType
+from guideword.schema.enums import BudgetUse, EventType
 from guideword.schema.events import SCHEMA_V1_9
 
 PACKAGE = Path(__file__).resolve().parents[2] / "guideword"
@@ -29,7 +29,15 @@ def run_id(
     upload: Upload,
 ) -> str:
     run = start_run(
-        plants, runs, ref, settings, plant_record_id=upload(), spend_cap_usd=1.0, mode="full"
+        plants,
+        runs,
+        ref,
+        settings,
+        plant_record_id=upload(),
+        spend_cap_usd=1.0,
+        mode="full",
+        use=BudgetUse.DEVELOPMENT,
+        post_spend_cap_usd=0.0,
     )
     return run.id
 

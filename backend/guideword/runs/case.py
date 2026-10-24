@@ -111,9 +111,12 @@ def start_case(
     spend_cap_usd: float,
     mode: str = "full",
     *,
+    use: BudgetUse,
     post_spend_cap_usd: float | None = None,
 ) -> Run:
-    """`post_spend_cap_usd` defaults to `run.post_spend_cap_usd` in caps.yaml (Q20)."""
+    """`use` is required (contract v1.9, Q13). For the scripts, `post_spend_cap_usd`
+    defaults to `run.post_spend_cap_usd` in caps.yaml (Q20); the API always passes the
+    request's (Q11)."""
     post = (
         post_spend_cap_usd if post_spend_cap_usd is not None else config.caps.run.post_spend_cap_usd
     )
@@ -125,6 +128,7 @@ def start_case(
         plant_record_id=plant_record_id,
         spend_cap_usd=spend_cap_usd,
         mode=mode,
+        use=use,
         post_spend_cap_usd=post,
     )
 

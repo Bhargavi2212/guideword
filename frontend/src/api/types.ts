@@ -385,6 +385,14 @@ export interface components {
          * @enum {string}
          */
         Adequacy: "adequate" | "inadequate" | "unknown";
+        /**
+         * AdvanceRequest
+         * @description Contract v1.9 (Q4): the run's use. Required for a run stored without one, which then
+         *     keeps it; refused with 409 when it differs from the run's.
+         */
+        AdvanceRequest: {
+            use?: components["schemas"]["BudgetUse"] | null;
+        };
         /** AppliedModifier */
         AppliedModifier: {
             /** Modifier Id */
@@ -403,6 +411,11 @@ export interface components {
             /** Message */
             message?: string | null;
         };
+        /**
+         * BudgetUse
+         * @enum {string}
+         */
+        BudgetUse: "development" | "test_5" | "benchmark" | "video" | "demo_recording" | "judging" | "buffer";
         /** Chain */
         Chain: {
             /** Description */
@@ -1029,6 +1042,7 @@ export interface components {
             status: components["schemas"]["RunStatus"];
             /** Step */
             step: string;
+            use?: components["schemas"]["BudgetUse"] | null;
         };
         /** RunCounts */
         RunCounts: {
@@ -1254,8 +1268,11 @@ export interface components {
             mode: "full" | "sample";
             /** Plant Id */
             plant_id: string;
+            /** Post Spend Cap Usd */
+            post_spend_cap_usd: number;
             /** Spend Cap Usd */
             spend_cap_usd: number;
+            use: components["schemas"]["BudgetUse"];
         };
         /** StartRunResult */
         StartRunResult: {
@@ -1541,7 +1558,11 @@ export interface operations {
             };
             cookie?: never;
         };
-        requestBody?: never;
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["AdvanceRequest"] | null;
+            };
+        };
         responses: {
             /** @description Successful Response */
             202: {

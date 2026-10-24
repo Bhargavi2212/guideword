@@ -13,11 +13,12 @@ from guideword.runs.start import (
     PlantNotFound,
     RunSettings,
     SectionsNotConfirmed,
+    StartMismatch,
     start_run,
 )
 from guideword.runs.store import RunRepository
 from guideword.schema import ids
-from guideword.schema.enums import EventType, PlantStatus, RunLabelKind, RunStatus
+from guideword.schema.enums import BudgetUse, EventType, PlantStatus, RunLabelKind, RunStatus
 from guideword.schema.records import Run
 from guideword.sections.rules import rule_cut
 
@@ -32,6 +33,9 @@ def _start(
     plant_record_id: str,
     cap: float = 1.0,
     mode: str = "full",
+    *,
+    use: BudgetUse = BudgetUse.DEVELOPMENT,
+    post_cap: float = 0.0,
 ) -> Run:
     return start_run(
         plants,
@@ -41,6 +45,8 @@ def _start(
         plant_record_id=plant_record_id,
         spend_cap_usd=cap,
         mode=mode,
+        use=use,
+        post_spend_cap_usd=post_cap,
     )
 
 
@@ -293,3 +299,75 @@ def test_a_run_stopped_at_the_end_with_nothing_open_keeps_its_step(
     _stop_at(runs, first.id, "ranked")
     resumed = _start(plants, runs, ref, settings, record_id, cap=2.0)
     assert resumed.step == "ranked"
+
+
+# --- a run's use and caps are fixed when it starts (contract v1.9, Q4, Q12, standing rule) -----
+
+
+def test_a_new_run_records_its_use_and_post_cap(
+    plants: PlantRepository,
+    runs: RunRepository,
+    ref: ReferenceSet,
+    settings: RunSettings,
+    upload: Upload,
+) -> None:
+    run = _start(plants, runs, ref, settings, upload(), use=BudgetUse.VIDEO, post_cap=0.1)
+    stored = runs.get(run.id)
+    assert stored is not None
+    assert (stored.use, stored.post_spend_cap_usd) == (BudgetUse.VIDEO, 0.1)
+
+
+def test_a_resume_with_another_use_is_refused_naming_the_stored_one(
+    plants: PlantRepository,
+    runs: RunRepository,
+    ref: ReferenceSet,
+    settings: RunSettings,
+    upload: Upload,
+) -> None:
+    record_id = upload()
+    run = _start(plants, runs, ref, settings, record_id, use=BudgetUse.VIDEO)
+    with pytest.raises(StartMismatch, match="video"):
+        _start(plants, runs, ref, settings, record_id, use=BudgetUse.DEVELOPMENT)
+    assert runs.get(run.id).use == BudgetUse.VIDEO  # type: ignore[union-attr]
+
+
+def test_a_resume_with_another_post_cap_is_refused_naming_the_stored_one(
+    plants: PlantRepository,
+    runs: RunRepository,
+    ref: ReferenceSet,
+    settings: RunSettings,
+    upload: Upload,
+) -> None:
+    record_id = upload()
+    run = _start(plants, runs, ref, settings, record_id, post_cap=0.1)
+    with pytest.raises(StartMismatch, match="0.1"):
+        _start(plants, runs, ref, settings, record_id, post_cap=0.3)
+    assert runs.get(run.id).post_spend_cap_usd == 0.1  # type: ignore[union-attr]
+
+
+def test_a_run_stored_without_a_use_takes_the_one_its_resume_names(
+    plants: PlantRepository,
+    runs: RunRepository,
+    ref: ReferenceSet,
+    settings: RunSettings,
+    upload: Upload,
+) -> None:
+    """A run stored before v1.9 has no use; it names one on its first resume and keeps it."""
+    record_id = upload()
+    run = _start(plants, runs, ref, settings, record_id)
+    with runs.step(run.id) as writer:
+        writer.set_use(None)
+    resumed = _start(plants, runs, ref, settings, record_id, use=BudgetUse.VIDEO)
+    assert (resumed.id, resumed.use) == (run.id, BudgetUse.VIDEO)
+
+
+def test_the_use_is_not_part_of_the_run_id(
+    plants: PlantRepository,
+    runs: RunRepository,
+    ref: ReferenceSet,
+    settings: RunSettings,
+    upload: Upload,
+) -> None:
+    first = _start(plants, runs, ref, settings, upload(), use=BudgetUse.VIDEO)
+    assert first.model_copy(update={"use": BudgetUse.DEVELOPMENT}).id == first.id
+    Run.model_validate(first.model_copy(update={"use": BudgetUse.DEVELOPMENT}).model_dump())

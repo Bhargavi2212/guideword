@@ -27,6 +27,7 @@ from guideword.runs.plants import PlantRepository
 from guideword.runs.store import Clock, RunRepository
 from guideword.schema import ids
 from guideword.schema.enums import (
+    BudgetUse,
     OverrideAction,
     QuestionKind,
     QuestionOrigin,
@@ -47,6 +48,11 @@ class RunNotFound(LookupError):
 
 class RunEnded(ValueError):
     pass
+
+
+class UseMismatch(ValueError):
+    """An advance names no use for a run that has none, or a use other than the run's (contract
+    v1.9, Q4). The message names the stored value."""
 
 
 @dataclass(frozen=True)
@@ -107,11 +113,27 @@ class LiveRuns:
 
     # --- start, cancel, advance -------------------------------------------------------------
 
-    def start(self, plant_record_id: str, spend_cap_usd: float, mode: str) -> tuple[Run, float]:
+    def start(
+        self,
+        plant_record_id: str,
+        spend_cap_usd: float,
+        mode: str,
+        *,
+        use: BudgetUse,
+        post_spend_cap_usd: float,
+    ) -> tuple[Run, float]:
         """Start (or resume) the run; its upper-bound cost (R20). Raises PlantNotFound,
-        SectionsNotConfirmed, ModeNotBuilt (R21) or CapReachedError."""
+        SectionsNotConfirmed, ModeNotBuilt (R21), CapReachedError or StartMismatch."""
         run = start_case(
-            self.plants, self.runs, self.ref, self.config, plant_record_id, spend_cap_usd, mode
+            self.plants,
+            self.runs,
+            self.ref,
+            self.config,
+            plant_record_id,
+            spend_cap_usd,
+            mode,
+            use=use,
+            post_spend_cap_usd=post_spend_cap_usd,
         )
         stored = self.plants.get(plant_record_id)
         assert stored is not None  # start_case found it
@@ -133,6 +155,22 @@ class LiveRuns:
         with self.runs.step(run_id) as writer:
             writer.set_status(RunStatus.CANCELLED)
         return self.get(run_id)
+
+    def name_use(self, run_id: str, use: BudgetUse | None) -> Run:
+        """Contract v1.9 (Q4): an advance may name the run's use. A run with no use must name
+        one, and keeps it; a use other than the run's is refused. Raises UseMismatch."""
+        run = self.get(run_id)
+        if run.use is None:
+            if use is None:
+                raise UseMismatch(f"run {run_id} has no use yet: name one on this advance")
+            with self.runs.step(run_id) as writer:
+                writer.set_use(use)
+            return self.get(run_id)
+        if use is not None and use != run.use:
+            raise UseMismatch(
+                f"run {run_id} spends use {run.use.value}; an advance naming {use.value} is refused"
+            )
+        return run
 
     def advance_once(self, run_id: str) -> RunStatus:
         run = self.get(run_id)

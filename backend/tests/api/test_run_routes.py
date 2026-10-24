@@ -20,6 +20,9 @@ from guideword.gateway.client import Gateway
 from guideword.gateway.fake import fake_gateway, reply
 from guideword.gateway.ledgers import LaptopLedger
 from guideword.gateway.transport import Reply, ToolCallRequest
+from guideword.runs.db import make_session_factory
+from guideword.runs.store import RunRepository
+from guideword.schema.enums import BudgetUse
 from guideword.schema.records import SpendEntry
 from guideword.settings import Settings
 
@@ -182,17 +185,35 @@ class Api:
             assert put.status_code == 200, put.text
         return str(record_id)
 
-    def start(self, cap: float = 1.0, mode: str = "full", plant: str | None = None) -> Any:
-        body = {"plant_id": plant or self.plant(), "spend_cap_usd": cap, "mode": mode}
+    def start(
+        self,
+        cap: float = 1.0,
+        mode: str = "full",
+        plant: str | None = None,
+        *,
+        use: str = "development",
+        post_cap: float = 0.3,
+    ) -> Any:
+        body = {
+            "plant_id": plant or self.plant(),
+            "spend_cap_usd": cap,
+            "mode": mode,
+            "use": use,
+            "post_spend_cap_usd": post_cap,
+        }
         return self.client.post("/runs", json=body)
 
     def run_url(self, run_id: str, rest: str = "") -> str:
         return f"/runs/{quote(run_id, safe='')}{rest}"
 
-    def advance(self, run_id: str, secret: str | None = SECRET) -> Any:
+    def advance(self, run_id: str, secret: str | None = SECRET, use: str | None = None) -> Any:
         headers = {"X-Internal-Secret": secret} if secret is not None else {}
         url = f"/internal/runs/{quote(run_id, safe='')}/advance"
-        return self.client.post(url, headers=headers)
+        body = {"use": use} if use is not None else None
+        return self.client.post(url, headers=headers, json=body)
+
+    def runs(self) -> RunRepository:
+        return RunRepository(make_session_factory(self.settings.database_url), lambda: NOW)
 
     def finished_run(self) -> str:
         run_id = str(self.start().json()["run_id"])
@@ -364,3 +385,80 @@ def test_budget_shows_this_environment_only_from_its_own_ledger(app: Api) -> Non
     assert laptop.remaining_usd == pytest.approx(18.75)
     assert [(m.model, m.spent_usd) for m in budget.by_model] == [("nvidia/x", 0.25)]
     assert budget.live_run_available is False
+
+
+# --- a run's use and post cap are fixed when it starts (contract v1.9, Q4, Q12) ---------------
+
+
+def _set_use(app: Api, run_id: str, use: str | None) -> None:
+    """As a run started by a script on another use, or stored before v1.9 (None)."""
+    with app.runs().step(run_id) as writer:
+        writer.set_use(None if use is None else BudgetUse(use))
+
+
+def test_start_needs_a_use_and_a_post_cap(app: Api) -> None:
+    body = {"plant_id": app.plant(), "spend_cap_usd": 1.0, "mode": "full"}
+    assert app.client.post("/runs", json=body).status_code == 422
+    assert app.client.post("/runs", json=body | {"use": "development"}).status_code == 422
+
+
+def test_a_run_records_the_use_it_started_with(app: Api) -> None:
+    run_id = app.start(post_cap=0.1).json()["run_id"]
+    run = app.runs().get(run_id)
+    assert run is not None
+    assert (run.use, run.post_spend_cap_usd) == ("development", 0.1)
+
+
+def test_a_resume_naming_another_use_or_post_cap_is_409(app: Api) -> None:
+    plant = app.plant()
+    run_id = app.start(plant=plant, post_cap=0.1).json()["run_id"]
+    other_cap = app.start(plant=plant, post_cap=0.3)
+    assert other_cap.status_code == 409 and "0.1" in other_cap.json()["detail"]
+    _set_use(app, run_id, "video")
+    other_use = app.start(plant=plant, post_cap=0.1)
+    assert other_use.status_code == 409 and "video" in other_use.json()["detail"]
+
+
+def test_an_advance_naming_another_use_is_409(app: Api) -> None:
+    run_id = app.start().json()["run_id"]
+    refused = app.advance(run_id, use="test_5")
+    assert refused.status_code == 409 and "development" in refused.json()["detail"]
+    assert app.advance(run_id, use="development").status_code == 202
+
+
+def test_a_run_with_no_use_names_one_on_its_first_advance_and_keeps_it(app: Api) -> None:
+    """A run stored before v1.9 has no use: no default; the first advance names it."""
+    run_id = app.start().json()["run_id"]
+    _set_use(app, run_id, None)
+    refused = app.advance(run_id)
+    assert refused.status_code == 409 and "name one" in refused.json()["detail"]
+    assert app.advance(run_id, use="development").status_code == 202
+    assert app.runs().get(run_id).use == "development"  # type: ignore[union-attr]
+
+
+# --- until B2, API runs spend development only (Bhargavi, 2026-10-23) ------------------------
+
+
+def test_until_b2_a_start_naming_another_use_is_409(app: Api) -> None:
+    refused = app.start(use="video")
+    assert refused.status_code == 409
+    assert "B2" in refused.json()["detail"] and "development" in refused.json()["detail"]
+    assert app.client.get("/runs").json()["runs"] == []
+
+
+def test_until_b2_a_run_on_another_use_is_never_advanced_through_the_api(app: Api) -> None:
+    """A run a script started on video would otherwise be billed to development here."""
+    run_id = app.start().json()["run_id"]
+    _set_use(app, run_id, "video")
+    refused = app.advance(run_id)
+    assert refused.status_code == 409 and "B2" in refused.json()["detail"]
+    assert app.runs().get(run_id).status == "running"  # type: ignore[union-attr]
+    assert app.runs().model_calls(run_id) == []
+
+
+def test_until_b2_a_run_with_no_use_cannot_name_another_on_advance(app: Api) -> None:
+    run_id = app.start().json()["run_id"]
+    _set_use(app, run_id, None)
+    refused = app.advance(run_id, use="video")
+    assert refused.status_code == 409 and "B2" in refused.json()["detail"]
+    assert app.runs().get(run_id).use is None  # type: ignore[union-attr]

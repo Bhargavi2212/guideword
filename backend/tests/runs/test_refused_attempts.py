@@ -69,7 +69,15 @@ def test_stop_for_refusal_records_the_attempts_and_their_spend(
     upload: Callable[..., str],
 ) -> None:
     run_record = start_run(
-        plants, runs, ref, settings, plant_record_id=upload(), spend_cap_usd=1.0, mode="full"
+        plants,
+        runs,
+        ref,
+        settings,
+        plant_record_id=upload(),
+        spend_cap_usd=1.0,
+        mode="full",
+        use=BudgetUse.DEVELOPMENT,
+        post_spend_cap_usd=0.0,
     )
     refused = BudgetRefused("limit", RunStatus.STOPPED_CAP)
     refused.attempts = [_call(run_record.id, "mc:0123456789abcdef", 0.01)]

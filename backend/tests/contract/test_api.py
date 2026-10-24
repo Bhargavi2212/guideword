@@ -208,7 +208,17 @@ def test_run_list_runs_are_labelled_mock() -> None:
         ("GET", "/plants/{id}", None),
         ("POST", "/plants/{id}/sections/propose", None),
         ("PUT", "/plants/{id}/sections", {"sections": []}),
-        ("POST", "/runs", {"plant_id": PLANT, "spend_cap_usd": 1.0, "mode": "full"}),
+        (
+            "POST",
+            "/runs",
+            {
+                "plant_id": PLANT,
+                "spend_cap_usd": 1.0,
+                "mode": "full",
+                "use": "development",
+                "post_spend_cap_usd": 0.3,
+            },
+        ),
         ("POST", "/runs/{id}/cancel", None),
         ("GET", "/budget", None),
     ],
@@ -386,6 +396,8 @@ def test_start_run_on_an_unconfirmed_plant_is_409(extra_fixtures: Path) -> None:
         "plant_id": "plant:unconfirmed_plant:0000000000000000",
         "spend_cap_usd": 1.0,
         "mode": "full",
+        "use": "development",
+        "post_spend_cap_usd": 0.3,
     }
     response = _client(fixtures=extra_fixtures).post("/runs", json=body)
     assert response.status_code == 409
@@ -396,14 +408,26 @@ def test_start_run_on_an_unconfirmed_plant_is_409(extra_fixtures: Path) -> None:
 def test_restart_of_a_stopped_cap_run_without_a_higher_cap_is_409(
     extra_fixtures: Path, cap: float
 ) -> None:
-    body = {"plant_id": PLANT, "spend_cap_usd": cap, "mode": "full"}
+    body = {
+        "plant_id": PLANT,
+        "spend_cap_usd": cap,
+        "mode": "full",
+        "use": "development",
+        "post_spend_cap_usd": 0.3,
+    }
     response = _client(fixtures=extra_fixtures).post("/runs", json=body)
     assert response.status_code == 409
     assert response.json()["detail"] == "cap reached; raise spend_cap_usd to continue"
 
 
 def test_restart_of_a_stopped_cap_run_with_a_higher_cap_starts(extra_fixtures: Path) -> None:
-    body = {"plant_id": PLANT, "spend_cap_usd": 1.5, "mode": "full"}
+    body = {
+        "plant_id": PLANT,
+        "spend_cap_usd": 1.5,
+        "mode": "full",
+        "use": "development",
+        "post_spend_cap_usd": 0.3,
+    }
     assert _client(fixtures=extra_fixtures).post("/runs", json=body).status_code == 200
 
 
@@ -425,7 +449,13 @@ def test_without_mock_mode_every_unbuilt_route_is_501_naming_its_phase(
 ) -> None:
     bodies: dict[str, Any] = {
         "/plants": {"plant_id": "x", "schema_version": "1.0"},
-        "/runs": {"plant_id": PLANT, "spend_cap_usd": 1.0, "mode": "full"},
+        "/runs": {
+            "plant_id": PLANT,
+            "spend_cap_usd": 1.0,
+            "mode": "full",
+            "use": "development",
+            "post_spend_cap_usd": 0.3,
+        },
         "/plants/{id}/sections": {"sections": []},
         "/runs/{id}/questions": {"section_id": "S-L-12", "text": "x"},
         "/runs/{id}/overrides": {

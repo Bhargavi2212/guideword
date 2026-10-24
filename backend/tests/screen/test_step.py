@@ -19,7 +19,7 @@ from guideword.runs.db import make_session_factory
 from guideword.runs.machine import advance
 from guideword.runs.plants import PlantRepository
 from guideword.runs.store import RunRepository
-from guideword.schema.enums import EventType, RunStatus
+from guideword.schema.enums import BudgetUse, EventType, RunStatus
 
 REPO = Path(__file__).resolve().parents[3]
 EXAMPLE = REPO / "backend" / "tests" / "schema" / "fixtures" / "example_mixing_unit.json"
@@ -86,7 +86,15 @@ class World:
             ledger_path=self.tmp / "l.jsonl",
             clock=lambda: NOW,
         )
-        run = start_case(self.plants, self.runs, self.ref, self.config, self.record.id, cap)
+        run = start_case(
+            self.plants,
+            self.runs,
+            self.ref,
+            self.config,
+            self.record.id,
+            cap,
+            use=BudgetUse.DEVELOPMENT,
+        )
         advance(
             self.runs, run.id, steppers_for(gateway, self.config, self.ref, self.record.plant_file)
         )
@@ -250,7 +258,15 @@ def two_attempts(world: World, first: Any, second: Any) -> tuple[str, Any]:
         ledger_path=world.tmp / "l.jsonl",
         clock=lambda: NOW,
     )
-    run = start_case(world.plants, world.runs, world.ref, world.config, world.record.id, 1.0)
+    run = start_case(
+        world.plants,
+        world.runs,
+        world.ref,
+        world.config,
+        world.record.id,
+        1.0,
+        use=BudgetUse.DEVELOPMENT,
+    )
     advance(
         world.runs,
         run.id,
@@ -350,7 +366,15 @@ def by_marker(
         ledger_path=world.tmp / "l.jsonl",
         clock=lambda: NOW,
     )
-    run = start_case(world.plants, world.runs, world.ref, world.config, world.record.id, cap)
+    run = start_case(
+        world.plants,
+        world.runs,
+        world.ref,
+        world.config,
+        world.record.id,
+        cap,
+        use=BudgetUse.DEVELOPMENT,
+    )
     advance(
         world.runs, run.id, steppers_for(gateway, world.config, world.ref, world.record.plant_file)
     )

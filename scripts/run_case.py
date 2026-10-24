@@ -37,7 +37,7 @@ from guideword.runs.case import (
 from guideword.runs.db import make_session_factory
 from guideword.runs.machine import spend_check
 from guideword.runs.plants import PlantRepository
-from guideword.runs.start import ModeNotBuilt
+from guideword.runs.start import ModeNotBuilt, StartMismatch
 from guideword.runs.store import RunRepository
 from guideword.schema import ids
 from guideword.schema.enums import BudgetUse
@@ -186,9 +186,17 @@ def main(
     cap = args.cap if args.cap is not None else config.caps.run.run_spend_cap_usd
     try:
         run = start_case(
-            plants, runs, ref, config, record.id, cap, args.mode, post_spend_cap_usd=args.post_cap
+            plants,
+            runs,
+            ref,
+            config,
+            record.id,
+            cap,
+            args.mode,
+            use=BudgetUse(args.use),
+            post_spend_cap_usd=args.post_cap,
         )
-    except (ModeNotBuilt, ids.CapReachedError) as refused:
+    except (ModeNotBuilt, ids.CapReachedError, StartMismatch) as refused:
         print(f"refused: {refused}", file=sys.stderr)
         return 1
     ledger = ledger if ledger is not None else ledger_for(settings, sessions)

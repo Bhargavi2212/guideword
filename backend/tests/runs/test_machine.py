@@ -16,6 +16,7 @@ from guideword.schema.enums import (
     Adequacy,
     Agent,
     AgentTool,
+    BudgetUse,
     Confidence,
     EventType,
     FailingComponentType,
@@ -53,7 +54,15 @@ def run(
     upload: Upload,
 ) -> Run:
     run = start_run(
-        plants, runs, ref, settings, plant_record_id=upload(), spend_cap_usd=1.0, mode="full"
+        plants,
+        runs,
+        ref,
+        settings,
+        plant_record_id=upload(),
+        spend_cap_usd=1.0,
+        mode="full",
+        use=BudgetUse.DEVELOPMENT,
+        post_spend_cap_usd=0.0,
     )
     return past_screen(runs, run)
 
