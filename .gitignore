@@ -14,6 +14,9 @@ __pycache__/
 
 # run data
 *.db
+# Phase 5 stores, copies of guideword.db (also covered by *.db; named so they stay ignored)
+guideword-demo.db
+guideword-scratch.db
 *.sqlite
 *.sqlite3
 response_cache/
