@@ -59,10 +59,13 @@ Deploy before F3.
 
 ## 3. Per item
 
-### D0 — `contract/run-label-note` (contract v1.10)
+### D0 — `contract/demo-fields` (contract v1.10)
 - `RunLabel.note: str | None = None` (additive). The export writes the spend note (§0.3); the
   header shows it beside the run's spend.
-- **Tests first:** an older label without `note` validates; the note round-trips through the API.
+- `DemoResponse.start_target_id: str | None = None` (additive): the line the landing marks "start
+  here" (§0.2), from a `GUIDEWORD_DEMO_TARGET_ID` setting (no default; the WG run's rank-2 chain).
+- **Tests first:** an older label and demo response without the fields validate; both round-trip
+  through the API.
 
 ### D1 — `phase-5/recorded-export` (backend)
 - **Files:** `scripts/export_recorded.py` (read-only, key scan, the Q3 label on the copy); `cases/demo/recorded/williams_geismar/*.json`; `backend/guideword/runs/recorded.py` (`load_recorded(path) -> sessionmaker` into in-memory SQLite).
@@ -81,9 +84,7 @@ Deploy before F3.
 
 ### D3 — `phase-5/landing` (frontend)
 - **Files:** `src/app/landing.ts` (pure: the empty hash → the demo run's shortlist), `App.tsx`; the
-  shortlist marks the demo target "start here" (the target named by `GET /demo`'s response:
-  `DemoResponse` gains nothing; the target is the run's rank-2 line, `GUIDEWORD_DEMO_TARGET_ID`,
-  served with the demo response's shortlist as a flag the backend writes).
+  shortlist marks the card whose target is `DemoResponse.start_target_id` "start here" (D0).
 - **Tests first:** `the empty hash opens the demo run's shortlist`; `the demo moment's card is marked start here`; `without a demo the empty hash shows the plant list`; the recorded banner and the spend note show on the landing.
 
 ### D4 — `phase-5/vercel` (config)
