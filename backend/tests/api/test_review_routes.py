@@ -25,6 +25,7 @@ from guideword.gateway.client import Gateway
 from guideword.gateway.fake import fake_gateway, reply
 from guideword.gateway.transport import Reply, ToolCallRequest
 from guideword.runs import db
+from guideword.schema.enums import BudgetUse
 from guideword.settings import Settings
 
 REPO = Path(__file__).resolve().parents[3]
@@ -157,17 +158,19 @@ class Api:
         )
         config = load_config(global_budget_usd=25.0)
 
-        def gateway(sessions: sessionmaker[Session]) -> Gateway:
+        def gateway(sessions: sessionmaker[Session], use: BudgetUse) -> Gateway:
             built, _ = fake_gateway(
                 config,
                 script,
                 sessions=sessions,
                 ledger_path=tmp_path / "l.jsonl",
                 clock=lambda: NOW,
+                use=use,
+                phase="5",
             )
             return built
 
-        factory: Callable[[sessionmaker[Session]], Gateway] = gateway
+        factory: Callable[[sessionmaker[Session], BudgetUse], Gateway] = gateway
         self.client = TestClient(
             create_app(settings=settings, clock=lambda: NOW, gateway_factory=factory)
         )
@@ -183,10 +186,10 @@ class Api:
                 "/runs",
                 json={
                     "plant_id": plant,
-                    "spend_cap_usd": 1.0,
+                    "spend_cap_usd": 0.2,
                     "mode": "full",
                     "use": "development",
-                    "post_spend_cap_usd": 0.3,
+                    "post_spend_cap_usd": 0.1,
                 },
             ).json()["run_id"]
         )

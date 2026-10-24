@@ -15,7 +15,7 @@ from guideword.gateway.client import BudgetRefused
 from guideword.logs import get_logger
 from guideword.runs.post_budget import POST_JOBS
 from guideword.runs.store import RunRepository, StepWriter
-from guideword.schema.enums import EventType, RunStatus
+from guideword.schema.enums import BudgetUse, EventType, RunStatus
 from guideword.schema.records import Run, SpendEntry
 
 ENDED = {RunStatus.FINISHED, RunStatus.FAILED, RunStatus.CANCELLED}
@@ -44,6 +44,19 @@ class Stepper(Protocol):
     def __call__(self, run: Run, writer: StepWriter) -> StepResult: ...
 
 
+class Steppers(dict[str, Stepper]):
+    """A run's steps built on one gateway; `use` is that gateway's budget use (B2, plan H5)."""
+
+    def __init__(self, steps: Mapping[str, Stepper], *, use: BudgetUse) -> None:
+        super().__init__(steps)
+        self.use = use
+
+
+class GatewayUseMismatch(RuntimeError):
+    """The steps were built on a gateway of another use than the run's (B2, plan H5): the
+    run would be billed to the wrong allowance. Nothing is stepped."""
+
+
 def advance(runs: RunRepository, run_id: str, steppers: Mapping[str, Stepper]) -> RunStatus:
     """Run one step if the run is running; return its status afterwards."""
     run = runs.get(run_id)
@@ -51,6 +64,12 @@ def advance(runs: RunRepository, run_id: str, steppers: Mapping[str, Stepper]) -
         raise LookupError(f"no run {run_id}")
     if run.status != RunStatus.RUNNING:
         return run.status
+    gateway_use = getattr(steppers, "use", None)
+    if gateway_use is not None and run.use != gateway_use:
+        held = "no use" if run.use is None else f"use {run.use.value}"
+        raise GatewayUseMismatch(
+            f"run {run_id} has {held}; its steps were built on a gateway of use {gateway_use.value}"
+        )
     stepper = steppers[run.step]
     with runs.step(run_id) as writer:
         writer.emit(EventType.STEP_STARTED, {"step": run.step})

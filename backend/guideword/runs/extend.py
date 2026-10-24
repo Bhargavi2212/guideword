@@ -41,7 +41,7 @@ from guideword.runs.post_budget import (
     post_settings,
 )
 from guideword.runs.store import RunRepository
-from guideword.schema.enums import EventType, QuestionStatus, RunStatus
+from guideword.schema.enums import BudgetUse, EventType, QuestionStatus, RunStatus
 from guideword.schema.records import Run
 
 FIRST_POST_STEP = "chains"
@@ -178,14 +178,53 @@ def extend(
     post_cap_usd: float,
     config: Config,
     *,
+    use: BudgetUse,
     rerun_from: str | None = None,
     retry_failed: bool = False,
     retry_cap_usd: float = 0.0,
     evidence_only: bool = False,
 ) -> Run:
+    """`use` is the run's own (B2, plan H5): another is refused, naming the stored one; a run
+    stored without a use takes it once the extension is made."""
     run = runs.get(run_id)
     if run is None:
         raise LookupError(f"no run {run_id}")
+    if run.use is not None and run.use != use:
+        raise ExtendRefused(
+            f"run {run_id} spends use {run.use.value}; an extension naming {use.value} is refused"
+        )
+    extended = _extend(
+        runs,
+        run,
+        post_cap_usd,
+        config,
+        rerun_from=rerun_from,
+        retry_failed=retry_failed,
+        retry_cap_usd=retry_cap_usd,
+        evidence_only=evidence_only,
+    )
+    if extended.use is None:
+        with runs.step(run_id) as writer:
+            writer.set_use(use)
+        stored = runs.get(run_id)
+        if stored is None:
+            raise LookupError(f"run {run_id} disappeared while extending")
+        return stored
+    return extended
+
+
+def _extend(
+    runs: RunRepository,
+    run: Run,
+    post_cap_usd: float,
+    config: Config,
+    *,
+    rerun_from: str | None,
+    retry_failed: bool,
+    retry_cap_usd: float,
+    evidence_only: bool,
+) -> Run:
+    run_id = run.id
     if sum([retry_failed, evidence_only, rerun_from is not None]) > 1:
         raise ExtendRefused("give one of --rerun-from, --retry-failed or --evidence")
     if retry_failed:

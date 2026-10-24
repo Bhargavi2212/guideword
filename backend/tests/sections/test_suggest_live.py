@@ -19,6 +19,7 @@ from guideword.config import Config, load_config
 from guideword.gateway.client import Gateway
 from guideword.gateway.fake import fake_gateway, reply
 from guideword.gateway.ledgers import LaptopLedger
+from guideword.schema.enums import BudgetUse
 from guideword.schema.plant import Plant
 from guideword.sections.rules import rule_cut
 from guideword.settings import Settings
@@ -133,7 +134,7 @@ def _propose(client: TestClient) -> api.SectionProposal:
 def test_valid_returned_rejected_returned_with_reasons(tmp_path: Path, config: Config) -> None:
     sections = rule_cut(_plant(), "plant:x:0")
 
-    def factory(sessions: sessionmaker[Session]) -> Gateway:
+    def factory(sessions: sessionmaker[Session], use: BudgetUse) -> Gateway:
         gateway, _ = fake_gateway(
             config,
             lambda job, request: reply(_answer(sections)),

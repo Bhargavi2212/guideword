@@ -3,7 +3,8 @@ comes from the run store; nothing here calls a model except through the gateway 
 are given. The review reads (shortlist, worksheet, coverage, counts) apply the engineer's
 overrides on read; the run dump serves the records as stored."""
 
-from collections.abc import Callable
+import threading
+from collections.abc import Callable, Mapping
 from dataclasses import dataclass
 from datetime import datetime
 from typing import Any
@@ -39,9 +40,11 @@ from guideword.schema.plant import Plant
 from guideword.schema.records import Override, Question, Run
 from guideword.specialists.run import JOB_FOR_LEVEL
 
-GatewayFactory = Callable[[sessionmaker[Session]], Gateway]
+# B2 (plan G5): one gateway, and one set of evidence tools, per budget use; a run is driven
+# with those of its own recorded use
+GatewayFactory = Callable[[sessionmaker[Session], BudgetUse], Gateway]
 # Phase 4: the evidence step's tools for the API's runs (None: evidence off)
-EvidenceFactory = Callable[[sessionmaker[Session]], EvidenceTools]
+EvidenceFactory = Callable[[sessionmaker[Session], BudgetUse], EvidenceTools]
 
 
 class RunNotFound(LookupError):
@@ -87,14 +90,17 @@ class LiveRuns:
         self.plants = PlantRepository(sessions)
         self.runs = RunRepository(sessions, clock)
         self._factory = gateway_factory
-        self._gateway: Gateway | None = None
+        self._gateways: dict[BudgetUse, Gateway] = {}
         self._evidence_factory = evidence_factory
-        self._evidence: EvidenceTools | None = None
+        self._evidence: dict[BudgetUse, EvidenceTools] = {}
+        # B2: the runs being driven now; a second drive of one returns at once (P5-2)
+        self._driving: set[str] = set()
+        self._driving_lock = threading.Lock()
 
-    def gateway(self) -> Gateway:
-        if self._gateway is None:
-            self._gateway = self._factory(self.sessions)
-        return self._gateway
+    def gateway(self, use: BudgetUse) -> Gateway:
+        if use not in self._gateways:
+            self._gateways[use] = self._factory(self.sessions, use)
+        return self._gateways[use]
 
     def get(self, run_id: str) -> Run:
         run = self.runs.get(run_id)
@@ -108,14 +114,24 @@ class LiveRuns:
             raise RunNotFound(f"no plant {run.plant_record_id} for run {run.id}")
         return stored.record.plant_file
 
-    def evidence(self) -> EvidenceTools | None:
-        if self._evidence is None and self._evidence_factory is not None:
-            self._evidence = self._evidence_factory(self.sessions)
-        return self._evidence
+    def evidence(self, use: BudgetUse) -> EvidenceTools | None:
+        if self._evidence_factory is None:
+            return None
+        if use not in self._evidence:
+            self._evidence[use] = self._evidence_factory(self.sessions, use)
+        return self._evidence[use]
 
-    def _steppers(self, run: Run) -> dict[str, Stepper]:
+    def _steppers(self, run: Run) -> Mapping[str, Stepper]:
+        """The run's steps, on the gateway of its own use (B2). A run stored without a use
+        names one before it can be driven (Q4)."""
+        if run.use is None:
+            raise UseMismatch(f"run {run.id} has no use yet: name one on its next advance")
         return steppers_for(
-            self.gateway(), self.config, self.ref, self.plant_of(run), evidence=self.evidence()
+            self.gateway(run.use),
+            self.config,
+            self.ref,
+            self.plant_of(run),
+            evidence=self.evidence(run.use),
         )
 
     # --- start, cancel, advance -------------------------------------------------------------
@@ -151,7 +167,7 @@ class LiveRuns:
             questions=self.runs.questions(run.id),
             ref=self.ref,
             config=self.config,
-            gateway=self.gateway(),
+            gateway=self.gateway(use),
         )
         return run, estimate
 
@@ -183,12 +199,34 @@ class LiveRuns:
         run = self.get(run_id)
         return advance(self.runs, run_id, self._steppers(run))
 
+    def step_once(self, run_id: str) -> RunStatus | None:
+        """One step, unless the run is being driven now (then None: its driver goes on)."""
+        with self._driving_lock:
+            if run_id in self._driving:
+                return None
+            self._driving.add(run_id)
+        try:
+            return self.advance_once(run_id)
+        finally:
+            with self._driving_lock:
+                self._driving.discard(run_id)
+
     def drive(self, run_id: str) -> RunStatus:
-        """Advance until the run is no longer running (the in-process loop, laptop)."""
-        status = self.get(run_id).status
-        while status == RunStatus.RUNNING:
-            status = self.advance_once(run_id)
-        return status
+        """Advance until the run is no longer running (the in-process loop, laptop). One driver
+        per run (P5-2): a drive of a run already being driven returns its status at once, so a
+        second start or an advance never drives a run twice."""
+        with self._driving_lock:
+            if run_id in self._driving:
+                return self.get(run_id).status
+            self._driving.add(run_id)
+        try:
+            status = self.get(run_id).status
+            while status == RunStatus.RUNNING:
+                status = self.advance_once(run_id)
+            return status
+        finally:
+            with self._driving_lock:
+                self._driving.discard(run_id)
 
     # --- reads --------------------------------------------------------------------------------
 

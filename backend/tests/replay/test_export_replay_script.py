@@ -34,7 +34,7 @@ def _settings(tmp_path: Path) -> Settings:
 
 def _run(tmp_path: Path, config: Config, script: Any) -> str:
     run_case.main(
-        [str(EXAMPLE)],
+        ["--use", "development", str(EXAMPLE)],
         transport=FakeTransport(script, catalog_for(config)),
         config=config,
         settings=_settings(tmp_path),

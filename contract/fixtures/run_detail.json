@@ -22,10 +22,10 @@
     "status": "finished",
     "step": "ranked",
     "mode": "full",
-    "spend_cap_usd": 1.0,
+    "spend_cap_usd": 0.2,
     "spent_usd": 0.005547,
     "cap_spent_usd": 0.004171999999999997,
-    "post_spend_cap_usd": 0.3,
+    "post_spend_cap_usd": 0.1,
     "use": "development",
     "reference_versions": {
       "applicability.csv": "d725cd824798c98e398362369d0e8c277caf8e49d720809aa9537705eaa899f6",

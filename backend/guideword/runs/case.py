@@ -31,7 +31,7 @@ from guideword.ranking.tiers import (
 from guideword.recommend.step import RecommendationStepper
 from guideword.reference import ReferenceSet
 from guideword.reference.precedents import PrecedentIndex, load_precedent_index
-from guideword.runs.machine import Stepper, advance
+from guideword.runs.machine import Stepper, Steppers, advance
 from guideword.runs.plants import PlantRepository, load_plant, plant_facts
 from guideword.runs.post_budget import (
     POST_HASH_FREE_CAPS,
@@ -169,10 +169,11 @@ def steppers_for(
     plant: Plant,
     *,
     evidence: EvidenceTools | None = None,
-) -> dict[str, Stepper]:
+) -> Steppers:
     """`evidence`: the web search and precedent index the evidence step uses. Without them the
-    step records "evidence off" and moves on (a test or a replay that doesn't ask for it)."""
-    return {
+    step records "evidence off" and moves on (a test or a replay that doesn't ask for it). The
+    steps carry the gateway's use, so the machine refuses them for a run of another (B2)."""
+    steps: dict[str, Stepper] = {
         "plant_screen": PlantScreenStepper(gateway, config=config, ref=ref, plant=plant),
         "analysis": OrchestratorStepper(gateway, config=config, ref=ref, plant=plant),
         "severity": SeverityStepper(gateway, config=config, ref=ref, plant=plant),
@@ -187,6 +188,7 @@ def steppers_for(
         "evidence": EvidenceStepper(gateway, config=config, ref=ref, plant=plant, tools=evidence),
         "ranked": RankedStepper(),
     }
+    return Steppers(steps, use=gateway.use)
 
 
 def drive(runs: RunRepository, run_id: str, steppers: Mapping[str, Stepper]) -> RunStatus:

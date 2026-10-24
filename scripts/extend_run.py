@@ -79,7 +79,8 @@ def _arguments(argv: Sequence[str] | None) -> argparse.Namespace:
     parser.add_argument(
         "--out-dir", type=Path, help="where the report goes (default: bench/phase3/)"
     )
-    parser.add_argument("--use", choices=USES, default=BudgetUse.DEVELOPMENT.value)
+    # B2 (Q9, Q13): no default; a run's use is fixed when it starts
+    parser.add_argument("--use", choices=USES, required=True)
     parser.add_argument("--name", help="the report's file name (default: the plant ID)")
     parser.add_argument(
         "--rerun-from",
@@ -176,6 +177,7 @@ def main(
             run.id,
             post_cap,
             config,
+            use=BudgetUse(args.use),
             rerun_from=args.rerun_from,
             retry_failed=args.retry_failed,
             retry_cap_usd=args.retry_cap,

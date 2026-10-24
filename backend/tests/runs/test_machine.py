@@ -7,7 +7,14 @@ import pytest
 
 from guideword.reference import ReferenceSet
 from guideword.runs.db import make_session_factory
-from guideword.runs.machine import Stepper, StepResult, advance, cancel
+from guideword.runs.machine import (
+    GatewayUseMismatch,
+    Stepper,
+    Steppers,
+    StepResult,
+    advance,
+    cancel,
+)
 from guideword.runs.plants import PlantRepository
 from guideword.runs.start import RunSettings, start_run
 from guideword.runs.store import EMITTED_EVENT_TYPES, RunRepository, StepWriter
@@ -338,3 +345,33 @@ def test_step_result_summary_stays_out_of_the_api_contract() -> None:
     for name in events:
         assert "summary" not in schemas[name]["properties"], name
     assert not any("StepResult" in p.name for p in (repo / "contract" / "schemas").iterdir())
+
+
+# --- B2 (plan H5): no path drives a run on a gateway of another use ----------------------------
+
+
+def test_the_machine_refuses_a_gateway_of_another_use(run: Run, runs: RunRepository) -> None:
+    calls: list[str] = []
+
+    def step(r: Run, writer: StepWriter) -> StepResult:
+        calls.append(r.id)
+        return StepResult()
+
+    other = Steppers({"analysis": step}, use=BudgetUse.VIDEO)
+    with pytest.raises(GatewayUseMismatch, match="video"):
+        advance(runs, run.id, other)
+    assert calls == []
+    assert [e.type for e in runs.events(run.id)].count(EventType.STEP_STARTED) == 0
+    same = Steppers({"analysis": step}, use=BudgetUse.DEVELOPMENT)
+    advance(runs, run.id, same)
+    assert calls == [run.id]
+
+
+def test_the_machine_refuses_tagged_steps_for_a_run_with_no_use(
+    run: Run, runs: RunRepository
+) -> None:
+    with runs.step(run.id) as writer:
+        writer.set_use(None)
+    steps = Steppers({"analysis": lambda r, w: StepResult()}, use=BudgetUse.DEVELOPMENT)
+    with pytest.raises(GatewayUseMismatch, match="no use"):
+        advance(runs, run.id, steps)

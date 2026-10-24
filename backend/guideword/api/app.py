@@ -32,6 +32,7 @@ from guideword.reference.precedents import PrecedentIndex
 from guideword.review.overrides import OverrideRefused
 from guideword.runs.case import evidence_tools
 from guideword.runs.db import make_session_factory
+from guideword.runs.machine import SPEND_TOLERANCE_USD
 from guideword.runs.plants import (
     PlantRepository,
     StoredPlant,
@@ -62,24 +63,10 @@ from guideword.tools.web import SearchClient, live_search
 Clock = Callable[[], datetime]
 # live runs started through the API on the laptop spend `development` (R25; Phase 7 sets
 # the hosted uses); the phase their calls are booked to
-API_RUN_USE = BudgetUse.DEVELOPMENT
-
-
-def one_gateway_use(use: BudgetUse | None) -> None:
-    """Until B2 adds one gateway per use, the API's only gateway spends API_RUN_USE, so a run
-    on any other use would be billed to it (Bhargavi, 2026-10-23). B2 removes this refusal
-    when it adds the gateways. Raises ApiError 409."""
-    if use is not None and use != API_RUN_USE:
-        raise ApiError(
-            409,
-            f"API runs spend use {API_RUN_USE.value} only until per-use gateways arrive in B2; "
-            f"use {use.value} is refused",
-        )
-
-
-# runs started through the API spend under Phase 4 (Phase 4 plan Q16): they now make the
-# evidence step's judge calls and web searches too
-API_RUN_PHASE = "4"
+# a section suggestion is not a run: its Super call spends this use (acceptance 5)
+SECTION_SUGGESTION_USE = BudgetUse.DEVELOPMENT
+# B2: UI-started runs book to Phase 5's cap, whatever their use
+API_RUN_PHASE = "5"
 log = get_logger(__name__)
 
 # The phase that builds each endpoint for real (PROJECT.md §15); a 501 names it.
@@ -170,18 +157,18 @@ def create_app(
     def the_ledger() -> Ledger:
         return ledger if ledger is not None else ledger_for(settings, sessions())
 
-    def token_factory(session_factory: Any) -> Gateway:
+    def token_factory(session_factory: Any, use: BudgetUse) -> Gateway:
         return Gateway(
             config=config(),
             transport=OpenAITransport(settings),
             cache=ResponseCache(session_factory),
             ledger=the_ledger(),
-            use=API_RUN_USE,
+            use=use,
             phase=API_RUN_PHASE,
             clock=now,
         )
 
-    def evidence_factory(session_factory: Any) -> EvidenceTools:
+    def evidence_factory(session_factory: Any, use: BudgetUse) -> EvidenceTools:
         client = (
             search
             if search is not None
@@ -191,7 +178,7 @@ def create_app(
             config=config(),
             cache=ResponseCache(session_factory),
             ledger=the_ledger(),
-            use=API_RUN_USE,
+            use=use,
             phase=API_RUN_PHASE,
             clock=now,
             search=client,
@@ -217,7 +204,7 @@ def create_app(
         if suggester is not None:
             return suggester
         if gateway_factory is not None or settings.nebius_api_key.get_secret_value():
-            return GatewaySuggester(live().gateway(), config())
+            return GatewaySuggester(live().gateway(SECTION_SUGGESTION_USE), config())
         return NullSuggester()
 
     def live_run(run_id: str) -> Run:
@@ -344,8 +331,40 @@ def create_app(
             return store.run_list
         return api.RunList(runs=live().runs.records())
 
+    def check_maximum(use: BudgetUse, spend_cap_usd: float, post_cap_usd: float) -> None:
+        """B2 (Q10, G5, G6, H7): the use must be one API runs may take, in this environment,
+        and spend cap + post cap must fit both its remaining allowance and the phase's
+        remaining cap. Raises ApiError 409 naming which."""
+        caps = config().caps
+        environment = Environment(settings.guideword_env)
+        if use not in caps.api_run_uses:
+            offered = ", ".join(u.value for u in caps.api_run_uses)
+            raise ApiError(409, f"use {use.value} is not offered to API runs ({offered})")
+        if caps.environment_of(use) != environment:
+            raise ApiError(
+                409, f"use {use.value} is not a use of the {environment.value} environment"
+            )
+        maximum = spend_cap_usd + post_cap_usd
+        ledger_now = the_ledger()
+        use_left = caps.uses[use].allowance_usd - ledger_now.spent(use=use)
+        if maximum > use_left + SPEND_TOLERANCE_USD:
+            raise ApiError(
+                409,
+                f"spend cap + post cap ${maximum:.2f} is more than use {use.value}'s "
+                f"remaining ${max(use_left, 0.0):.2f}",
+            )
+        phase_left = caps.phase_caps_usd.get(API_RUN_PHASE, 0.0) - ledger_now.spent(
+            phase=API_RUN_PHASE
+        )
+        if maximum > phase_left + SPEND_TOLERANCE_USD:
+            raise ApiError(
+                409,
+                f"spend cap + post cap ${maximum:.2f} is more than phase {API_RUN_PHASE}'s "
+                f"remaining ${max(phase_left, 0.0):.2f}",
+            )
+
     @app.post("/runs", response_model=api.StartRunResult, responses=ERRORS)
-    def start_run(request: api.StartRunRequest) -> api.StartRunResult:
+    def start_run(request: api.StartRunRequest, background: BackgroundTasks) -> api.StartRunResult:
         if store is not None:
             plant = plant_of(store, request.plant_id)
             if plant.status != PlantStatus.SECTIONS_CONFIRMED:
@@ -358,7 +377,7 @@ def create_app(
                 ):
                     raise ApiError(409, str(ids.CapReachedError()))
             return store.start_run_result
-        one_gateway_use(request.use)
+        check_maximum(request.use, request.spend_cap_usd, request.post_spend_cap_usd)
         try:
             run, estimate = live().start(
                 request.plant_id,
@@ -371,6 +390,11 @@ def create_app(
             raise ApiError(404, str(missing)) from missing
         except (SectionsNotConfirmed, ModeNotBuilt, ids.CapReachedError, StartMismatch) as refused:
             raise ApiError(409, str(refused)) from refused
+        # P5-2: on the laptop, a run started here is driven in-process after the response;
+        # hosted chaining is Phase 7
+        laptop = Environment(settings.guideword_env) == Environment.LAPTOP
+        if laptop and run.status == RunStatus.RUNNING:
+            background.add_task(live().drive, run.id)
         return api.StartRunResult(run_id=run.id, estimated_cost_usd=estimate, label=run.label)
 
     @app.post("/runs/{id}/cancel", response_model=api.RunStatusResult, responses=ERRORS)
@@ -655,14 +679,15 @@ def create_app(
         if store is not None:
             run_of(store, id)
             return store.accepted
-        run = live_run(id)
+        live_run(id)
         named = request.use if request is not None else None
-        one_gateway_use(run.use if run.use is not None else named)
         try:
             live().name_use(id, named)
         except UseMismatch as refused:
             raise ApiError(409, str(refused)) from refused
-        if live().advance_once(id) == RunStatus.RUNNING:
+        # one step now, unless the run is already being driven; then the rest after the
+        # response, through the same one-driver guard (P5-2)
+        if live().step_once(id) == RunStatus.RUNNING:
             background.add_task(live().drive, id)
         return api.Accepted(accepted=True)
 
