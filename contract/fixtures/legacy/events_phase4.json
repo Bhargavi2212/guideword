@@ -1,0 +1,782 @@
+{
+  "source_run_id": "run:76f8ee0b5d1f078e",
+  "phase": "4",
+  "types": [
+    "agent_decision",
+    "chain_added",
+    "coverage_updated",
+    "dispatch",
+    "evidence_added",
+    "finding_added",
+    "hypothesis_added",
+    "lopa_done",
+    "model_call",
+    "run_extended",
+    "run_finished",
+    "run_started",
+    "step_finished",
+    "step_started",
+    "tool_call"
+  ],
+  "events": [
+    {
+      "run_id": "run:76f8ee0b5d1f078e",
+      "seq": 1,
+      "type": "run_started",
+      "payload": {
+        "attempt": 1,
+        "questions": 160,
+        "sections": 12
+      },
+      "time": "2026-10-22T10:52:52.916308Z"
+    },
+    {
+      "run_id": "run:76f8ee0b5d1f078e",
+      "seq": 2,
+      "type": "step_started",
+      "payload": {
+        "step": "plant_screen"
+      },
+      "time": "2026-10-22T10:52:52.925309Z"
+    },
+    {
+      "run_id": "run:76f8ee0b5d1f078e",
+      "seq": 3,
+      "type": "model_call",
+      "payload": {
+        "model_call_id": "mc:ef06d2b2f18453ee",
+        "job": "plant_screen",
+        "model_id": "nvidia/Nemotron-3-Ultra-550b-a55b",
+        "cache_hit": false,
+        "outcome": "ok",
+        "cost_usd": 0.027417,
+        "cap_cost_usd": 0.027417
+      },
+      "time": "2026-10-22T10:53:12.526400Z"
+    },
+    {
+      "run_id": "run:76f8ee0b5d1f078e",
+      "seq": 4,
+      "type": "hypothesis_added",
+      "payload": {
+        "hypothesis_id": "h:1:81b1e48f17bd1b05",
+        "rank": 1
+      },
+      "time": "2026-10-22T10:53:12.551027Z"
+    },
+    {
+      "run_id": "run:76f8ee0b5d1f078e",
+      "seq": 16,
+      "type": "step_finished",
+      "payload": {
+        "step": "plant_screen",
+        "status": "running",
+        "next_step": "analysis"
+      },
+      "time": "2026-10-22T10:53:12.576606Z"
+    },
+    {
+      "run_id": "run:76f8ee0b5d1f078e",
+      "seq": 17,
+      "type": "step_started",
+      "payload": {
+        "step": "analysis"
+      },
+      "time": "2026-10-22T10:53:12.589563Z"
+    },
+    {
+      "run_id": "run:76f8ee0b5d1f078e",
+      "seq": 19,
+      "type": "agent_decision",
+      "payload": {
+        "step_id": "step:06b29dd40688acad",
+        "agent": "orchestrator",
+        "tool": "dispatch_specialist",
+        "reason": "Chemistry questions linked to all top priority hazards (ranks 1-12); address them first with priority routing"
+      },
+      "time": "2026-10-22T10:53:14.095673Z"
+    },
+    {
+      "run_id": "run:76f8ee0b5d1f078e",
+      "seq": 39,
+      "type": "tool_call",
+      "payload": {
+        "tool_call_id": "tc:step:3f73d5392bd14f5f:reactivity_lookup:f26fabf534fd853d",
+        "tool": "reactivity_lookup",
+        "refused": false
+      },
+      "time": "2026-10-22T10:55:12.504115Z"
+    },
+    {
+      "run_id": "run:76f8ee0b5d1f078e",
+      "seq": 57,
+      "type": "finding_added",
+      "payload": {
+        "finding_id": "f:env:PROPYLENE:water:lightning:ff9ae8d70ab3832e:e53bce019995581b",
+        "question_id": "env:PROPYLENE:water",
+        "tier": "lightning"
+      },
+      "time": "2026-10-22T10:55:12.524142Z"
+    },
+    {
+      "run_id": "run:76f8ee0b5d1f078e",
+      "seq": 84,
+      "type": "dispatch",
+      "payload": {
+        "agent": "chemistry",
+        "level": "bulk",
+        "question_ids": [
+          "env:PROPANE:air",
+          "env:PROPANE:heat",
+          "env:PROPANE:water",
+          "env:PROPYLENE:air",
+          "env:PROPYLENE:heat",
+          "env:PROPYLENE:water",
+          "pair:C4-HEAVIES:PROPANE",
+          "pair:C4-HEAVIES:PROPYLENE",
+          "pair:PROPANE:PROPYLENE",
+          "env:C4-HEAVIES:air",
+          "env:C4-HEAVIES:heat",
+          "env:C4-HEAVIES:water"
+        ],
+        "selected_by_code": true,
+        "priority": true,
+        "skipped": [],
+        "linked_answered": 4,
+        "unlinked_sent": 3,
+        "batches": 3,
+        "dropped_ids": [],
+        "failed_batches": [
+          {
+            "question_ids": [
+              "env:PROPANE:air",
+              "env:PROPANE:heat",
+              "env:PROPANE:water",
+              "env:PROPYLENE:air",
+              "env:PROPYLENE:heat"
+            ],
+            "status": "failed",
+            "reason": "env:PROPYLENE:water is not in this batch"
+          }
+        ],
+        "admission": {
+          "cap_spent_usd": 0.039519,
+          "limit_usd": 1.0,
+          "slices_usd": [
+            0.0122175,
+            0.012319380000000001,
+            0.011966579999999997
+          ]
+        },
+        "deferred_at_admission": []
+      },
+      "time": "2026-10-22T10:55:12.562245Z"
+    },
+    {
+      "run_id": "run:76f8ee0b5d1f078e",
+      "seq": 85,
+      "type": "coverage_updated",
+      "payload": {
+        "lines": [
+          {
+            "list": "sections",
+            "total": 12,
+            "checked": 0,
+            "unsure": 0,
+            "failed": 0
+          },
+          {
+            "list": "matrix",
+            "total": 130,
+            "checked": 0,
+            "unsure": 0,
+            "failed": 0
+          },
+          {
+            "list": "chemical_pair",
+            "total": 3,
+            "checked": 3,
+            "unsure": 3,
+            "failed": 0
+          },
+          {
+            "list": "chemical_environment",
+            "total": 9,
+            "checked": 3,
+            "unsure": 3,
+            "failed": 0
+          },
+          {
+            "list": "no_flow_line",
+            "total": 4,
+            "checked": 0,
+            "unsure": 0,
+            "failed": 0
+          },
+          {
+            "list": "procedure_step",
+            "total": 10,
+            "checked": 0,
+            "unsure": 0,
+            "failed": 0
+          },
+          {
+            "list": "planned_work",
+            "total": 0,
+            "checked": 0,
+            "unsure": 0,
+            "failed": 0
+          },
+          {
+            "list": "dust",
+            "total": 0,
+            "checked": 0,
+            "unsure": 0,
+            "failed": 0
+          },
+          {
+            "list": "relief_discharge",
+            "total": 4,
+            "checked": 0,
+            "unsure": 0,
+            "failed": 0
+          },
+          {
+            "list": "added_by_ai",
+            "total": 0,
+            "checked": 0,
+            "unsure": 0,
+            "failed": 0
+          },
+          {
+            "list": "engineer",
+            "total": 0,
+            "checked": 0,
+            "unsure": 0,
+            "failed": 0
+          }
+        ]
+      },
+      "time": "2026-10-22T10:55:12.570244Z"
+    },
+    {
+      "run_id": "run:76f8ee0b5d1f078e",
+      "seq": 87,
+      "type": "step_finished",
+      "payload": {
+        "step": "analysis",
+        "status": "running",
+        "next_step": "analysis"
+      },
+      "time": "2026-10-22T10:55:12.571245Z"
+    },
+    {
+      "run_id": "run:76f8ee0b5d1f078e",
+      "seq": 510,
+      "type": "dispatch",
+      "payload": {
+        "agent": "process",
+        "level": "hard",
+        "question_ids": [
+          "m:S-DA-406:less:flow",
+          "m:S-DA-406:less:level",
+          "m:S-DA-406:less:pressure",
+          "m:S-DA-406:less:temperature",
+          "m:S-DA-406:more:level"
+        ],
+        "selected_by_code": false,
+        "priority": false,
+        "skipped": [
+          "m:S-DA-406:less:flow",
+          "m:S-DA-406:less:level",
+          "m:S-DA-406:less:pressure",
+          "m:S-DA-406:less:temperature",
+          "m:S-DA-406:more:level"
+        ],
+        "batches": 0
+      },
+      "time": "2026-10-22T11:13:35.005804Z"
+    },
+    {
+      "run_id": "run:76f8ee0b5d1f078e",
+      "seq": 689,
+      "type": "step_started",
+      "payload": {
+        "step": "severity"
+      },
+      "time": "2026-10-22T11:18:57.662307Z"
+    },
+    {
+      "run_id": "run:76f8ee0b5d1f078e",
+      "seq": 691,
+      "type": "step_finished",
+      "payload": {
+        "step": "severity",
+        "status": "running",
+        "next_step": "severity"
+      },
+      "time": "2026-10-22T11:19:09.080420Z"
+    },
+    {
+      "run_id": "run:76f8ee0b5d1f078e",
+      "seq": 724,
+      "type": "step_started",
+      "payload": {
+        "step": "chains"
+      },
+      "time": "2026-10-22T11:20:55.247395Z"
+    },
+    {
+      "run_id": "run:76f8ee0b5d1f078e",
+      "seq": 725,
+      "type": "run_extended",
+      "payload": {
+        "post_spend_cap_usd": 0.3,
+        "settings": {
+          "lopa_top_n": {
+            "value": 10,
+            "source": "config"
+          },
+          "connector_max_input_tokens": {
+            "value": 80000,
+            "source": "run.caps"
+          },
+          "connector_max_chains": {
+            "value": 10,
+            "source": "config"
+          },
+          "lopa_batch_size": {
+            "value": 5,
+            "source": "config"
+          },
+          "recommendation_batch_size": {
+            "value": 5,
+            "source": "config"
+          },
+          "chain_severity_batch_size": {
+            "value": 5,
+            "source": "config"
+          }
+        },
+        "jobs": {
+          "chain_severity": "ultra",
+          "connector": "ultra",
+          "lopa_argument": "ultra",
+          "precedent_judge": "super",
+          "recommendation": "ultra"
+        },
+        "max_tokens": {
+          "chain_severity": 12288,
+          "connector": 12288,
+          "lopa_argument": 12288,
+          "precedent_judge": 6144,
+          "recommendation": 12288
+        },
+        "prompt_versions": {
+          "connector": "v2",
+          "lopa_argument": "v3",
+          "precedent_judge": "v1",
+          "recommendation": "v2",
+          "severity_chain": "v2"
+        },
+        "ranking": {
+          "lead_prefers_own_section": true
+        },
+        "evidence_settings": {
+          "evidence_top_n": {
+            "value": 5,
+            "source": "config"
+          },
+          "precedent_candidates": {
+            "value": 5,
+            "source": "config"
+          },
+          "tavily_searches_per_run": {
+            "value": 5,
+            "source": "config"
+          },
+          "tavily_max_results": {
+            "value": 5,
+            "source": "config"
+          },
+          "overflow_confirm_minutes": {
+            "value": 60.0,
+            "source": "config"
+          },
+          "heat_up_confirm_minutes": {
+            "value": 60.0,
+            "source": "config"
+          }
+        },
+        "resumed_after_post_cap": false,
+        "step": "chains"
+      },
+      "time": "2026-10-22T11:20:55.250394Z"
+    },
+    {
+      "run_id": "run:76f8ee0b5d1f078e",
+      "seq": 727,
+      "type": "chain_added",
+      "payload": {
+        "chain_id": "ch:EA-425B.design_pressure_kpa+EA-425B.heat_sources+HV-B-SIN.normal_position+HV-B-SOUT.normal_position+HV-QW-B-IN.normal_position+HV-QW-B-OUT.normal_position+RV-PATH-EA425B.inlet_valve_ids+f:m:S-EA-425B:as_well_as:composition:super:C12:b3d32268f909ddb3+f:proc:P-REB-START-2:early:super:C16:126a45a4b13afa1b",
+        "links": 9
+      },
+      "time": "2026-10-22T11:21:20.949471Z"
+    },
+    {
+      "run_id": "run:76f8ee0b5d1f078e",
+      "seq": 737,
+      "type": "step_finished",
+      "payload": {
+        "connector": {
+          "outcome": "ok",
+          "error": null
+        },
+        "scenarios": 51,
+        "left_out": 0,
+        "rejected": [],
+        "step": "chains",
+        "status": "running",
+        "next_step": "chain_severity"
+      },
+      "time": "2026-10-22T11:21:20.957738Z"
+    },
+    {
+      "run_id": "run:76f8ee0b5d1f078e",
+      "seq": 738,
+      "type": "step_started",
+      "payload": {
+        "step": "chain_severity"
+      },
+      "time": "2026-10-22T11:21:20.965317Z"
+    },
+    {
+      "run_id": "run:76f8ee0b5d1f078e",
+      "seq": 740,
+      "type": "step_finished",
+      "payload": {
+        "sent": 5,
+        "answered": 5,
+        "missing": [],
+        "re_ask": false,
+        "sent_ids": [
+          "ch:EA-425B.design_pressure_kpa+EA-425B.heat_sources+HV-B-SIN.normal_position+HV-B-SOUT.normal_position+HV-QW-B-IN.normal_position+HV-QW-B-OUT.normal_position+RV-PATH-EA425B.inlet_valve_ids+f:m:S-EA-425B:as_well_as:composition:super:C12:b3d32268f909ddb3+f:proc:P-REB-START-2:early:super:C16:126a45a4b13afa1b",
+          "ch:HV-QW-A-OUT.fail_position+HV-QW-A-OUT.kind+L-QW-A-OUT.components+L-QW-A-OUT.from_id+L-QW-A-OUT.to_id+f:m:S-EA-425A:less:flow:lightning:C12:8415bea03d6aeff2+f:m:S-L-QW-A-OUT:as_well_as:composition:super:8723306549fe41a9:8415bea03d6aeff2+f:m:S-L-QW-A-OUT:more:pressure:super:C17:126a45a4b13afa1b",
+          "ch:HV-A-SIN.normal_position+HV-A-SOUT.normal_position+RV-PATH-EA425A.inlet_valve_ids+SV-421QA.protects_id+SV-421QB.protects_id+f:m:S-EA-425B:more:temperature:super:C22:e53bce019995581b+f:m:S-L-A-SOUT:reverse:flow:super:d96e945a65e57280:e8d47871d4a47f89+f:m:S-L-QW-A-IN:more:pressure:lightning:C22:e53bce019995581b",
+          "ch:HV-B-SIN.normal_position+HV-B-SOUT.normal_position+L-B-SIN.contents+L-B-SIN.from_id+L-B-SIN.to_id+L-B-SOUT.no_flow+RV-PATH-EA425B.inlet_valve_ids+f:m:S-L-B-SOUT:reverse:flow:super:345133984edf92fd:a08f37899448f932+f:m:S-L-QW-B-IN:other_than:phase:super:7973f11d45e2283f:6f092b4dd2ec8f48",
+          "ch:L-QW-B-OUT.to_id+UT-QW.kind+UT-QW.location_id+f:env:PROPYLENE:water:lightning:ff9ae8d70ab3832e:e53bce019995581b+f:m:S-L-QW-A-IN:other_than:composition:super:b94317caa5d133dc:8415bea03d6aeff2+f:m:S-L-QW-A-OUT:as_well_as:composition:super:8723306549fe41a9:8415bea03d6aeff2"
+        ],
+        "missing_ids": [],
+        "outcome": "ok",
+        "step": "chain_severity",
+        "status": "running",
+        "next_step": "chain_severity"
+      },
+      "time": "2026-10-22T11:21:26.886797Z"
+    },
+    {
+      "run_id": "run:76f8ee0b5d1f078e",
+      "seq": 744,
+      "type": "step_started",
+      "payload": {
+        "step": "lopa"
+      },
+      "time": "2026-10-22T11:21:38.319317Z"
+    },
+    {
+      "run_id": "run:76f8ee0b5d1f078e",
+      "seq": 745,
+      "type": "lopa_done",
+      "payload": {
+        "lopa_id": "lopa:f:proc:P-REB-START-2:early:super:C16:126a45a4b13afa1b",
+        "complete": true,
+        "kind": "full"
+      },
+      "time": "2026-10-22T11:21:38.355041Z"
+    },
+    {
+      "run_id": "run:76f8ee0b5d1f078e",
+      "seq": 756,
+      "type": "step_finished",
+      "payload": {
+        "step": "lopa",
+        "status": "running",
+        "next_step": "lopa"
+      },
+      "time": "2026-10-22T11:21:41.966548Z"
+    },
+    {
+      "run_id": "run:76f8ee0b5d1f078e",
+      "seq": 775,
+      "type": "step_started",
+      "payload": {
+        "step": "recommendations"
+      },
+      "time": "2026-10-22T11:21:58.151314Z"
+    },
+    {
+      "run_id": "run:76f8ee0b5d1f078e",
+      "seq": 777,
+      "type": "step_finished",
+      "payload": {
+        "step": "recommendations",
+        "status": "running",
+        "next_step": "recommendations"
+      },
+      "time": "2026-10-22T11:22:05.846334Z"
+    },
+    {
+      "run_id": "run:76f8ee0b5d1f078e",
+      "seq": 786,
+      "type": "step_started",
+      "payload": {
+        "step": "evidence"
+      },
+      "time": "2026-10-22T11:22:22.941658Z"
+    },
+    {
+      "run_id": "run:76f8ee0b5d1f078e",
+      "seq": 795,
+      "type": "evidence_added",
+      "payload": {
+        "evidence_id": "ev:f:m:S-EA-425B:more:temperature:super:C22:e53bce019995581b:calculation:blocked_in_heating-EA-425B",
+        "target_id": "f:m:S-EA-425B:more:temperature:super:C22:e53bce019995581b",
+        "kind": "calculation",
+        "verdict": "confirmed"
+      },
+      "time": "2026-10-22T11:22:34.314676Z"
+    },
+    {
+      "run_id": "run:76f8ee0b5d1f078e",
+      "seq": 798,
+      "type": "step_finished",
+      "payload": {
+        "step": "evidence",
+        "status": "running",
+        "next_step": "evidence"
+      },
+      "time": "2026-10-22T11:22:34.316674Z"
+    },
+    {
+      "run_id": "run:76f8ee0b5d1f078e",
+      "seq": 847,
+      "type": "step_finished",
+      "payload": {
+        "evidence": "on",
+        "lines": [
+          "f:m:S-EA-425B:more:temperature:super:C22:e53bce019995581b",
+          "ch:EA-425B.design_pressure_kpa+EA-425B.heat_sources+HV-B-SIN.normal_position+HV-B-SOUT.normal_position+HV-QW-B-IN.normal_position+HV-QW-B-OUT.normal_position+RV-PATH-EA425B.inlet_valve_ids+f:m:S-EA-425B:as_well_as:composition:super:C12:b3d32268f909ddb3+f:proc:P-REB-START-2:early:super:C16:126a45a4b13afa1b",
+          "ch:HV-A-SIN.normal_position+HV-A-SOUT.normal_position+RV-PATH-EA425A.inlet_valve_ids+SV-421QA.protects_id+SV-421QB.protects_id+f:m:S-EA-425B:more:temperature:super:C22:e53bce019995581b+f:m:S-L-A-SOUT:reverse:flow:super:d96e945a65e57280:e8d47871d4a47f89+f:m:S-L-QW-A-IN:more:pressure:lightning:C22:e53bce019995581b",
+          "f:proc:P-REB-START-2:early:super:C16:126a45a4b13afa1b",
+          "f:m:S-EA-425A:more:flow:super:C22:e53bce019995581b"
+        ],
+        "settings": {
+          "evidence_top_n": {
+            "value": 5,
+            "source": "config"
+          },
+          "precedent_candidates": {
+            "value": 5,
+            "source": "config"
+          },
+          "tavily_searches_per_run": {
+            "value": 5,
+            "source": "config"
+          },
+          "tavily_max_results": {
+            "value": 5,
+            "source": "config"
+          },
+          "overflow_confirm_minutes": {
+            "value": 60.0,
+            "source": "config"
+          },
+          "heat_up_confirm_minutes": {
+            "value": 60.0,
+            "source": "config"
+          }
+        },
+        "block_list": {
+          "file": "williams_geismar.block.txt",
+          "version": "93b0789ab87ec842338c54a8ccf43eedf94ac7a78e1450f399c8d23101bfb3bf",
+          "terms": 5
+        },
+        "precedent_index_version": "14678fe5d063a968bb6c3557a2fc43dc2a48707ba1d7e796fb496baadd0671e1",
+        "step": "evidence",
+        "status": "running",
+        "next_step": "ranked"
+      },
+      "time": "2026-10-22T11:23:41.525313Z"
+    },
+    {
+      "run_id": "run:76f8ee0b5d1f078e",
+      "seq": 848,
+      "type": "step_started",
+      "payload": {
+        "step": "ranked"
+      },
+      "time": "2026-10-22T11:23:41.536891Z"
+    },
+    {
+      "run_id": "run:76f8ee0b5d1f078e",
+      "seq": 849,
+      "type": "step_finished",
+      "payload": {
+        "step": "ranked",
+        "status": "finished",
+        "next_step": "ranked"
+      },
+      "time": "2026-10-22T11:23:41.541934Z"
+    },
+    {
+      "run_id": "run:76f8ee0b5d1f078e",
+      "seq": 850,
+      "type": "run_finished",
+      "payload": {
+        "spent_usd": 0.86577278
+      },
+      "time": "2026-10-22T11:23:41.639904Z"
+    },
+    {
+      "run_id": "run:76f8ee0b5d1f078e",
+      "seq": 851,
+      "type": "run_extended",
+      "payload": {
+        "post_spend_cap_usd": 0.3,
+        "settings": {
+          "lopa_top_n": {
+            "value": 10,
+            "source": "config"
+          },
+          "connector_max_input_tokens": {
+            "value": 80000,
+            "source": "run.caps"
+          },
+          "connector_max_chains": {
+            "value": 10,
+            "source": "config"
+          },
+          "lopa_batch_size": {
+            "value": 5,
+            "source": "config"
+          },
+          "recommendation_batch_size": {
+            "value": 5,
+            "source": "config"
+          },
+          "chain_severity_batch_size": {
+            "value": 5,
+            "source": "config"
+          }
+        },
+        "jobs": {
+          "chain_severity": "ultra",
+          "connector": "ultra",
+          "lopa_argument": "ultra",
+          "precedent_judge": "super",
+          "recommendation": "ultra"
+        },
+        "max_tokens": {
+          "chain_severity": 12288,
+          "connector": 12288,
+          "lopa_argument": 12288,
+          "precedent_judge": 6144,
+          "recommendation": 12288
+        },
+        "prompt_versions": {
+          "connector": "v2",
+          "lopa_argument": "v3",
+          "precedent_judge": "v2",
+          "recommendation": "v2",
+          "severity_chain": "v2"
+        },
+        "ranking": {
+          "lead_prefers_own_section": true
+        },
+        "evidence_settings": {
+          "evidence_top_n": {
+            "value": 5,
+            "source": "config"
+          },
+          "precedent_candidates": {
+            "value": 5,
+            "source": "config"
+          },
+          "tavily_searches_per_run": {
+            "value": 5,
+            "source": "config"
+          },
+          "tavily_max_results": {
+            "value": 5,
+            "source": "config"
+          },
+          "overflow_confirm_minutes": {
+            "value": 60.0,
+            "source": "config"
+          },
+          "heat_up_confirm_minutes": {
+            "value": 60.0,
+            "source": "config"
+          }
+        },
+        "resumed_after_post_cap": false,
+        "step": "evidence",
+        "rerun_from": "evidence",
+        "superseded_pass_seq": 725,
+        "superseded_ids": [
+          "mc:14fb4add87fcf80d",
+          "mc:8e39285a982108e8",
+          "mc:19bb1ef4f74eac52",
+          "mc:a53a146da49f773a",
+          "mc:a3379cd2fe6a908b",
+          "mc:6e7a98a132cb5bf3",
+          "mc:53bf7c902574875e",
+          "mc:f4eda8ec026bf1b5",
+          "mc:8df6ad8749e5448d",
+          "ev:f:m:S-EA-425B:more:temperature:super:C22:e53bce019995581b:calculation:blocked_in_heating-EA-425B",
+          "ev:f:m:S-EA-425B:more:temperature:super:C22:e53bce019995581b:calculation:heat_up_rate-EA-425B",
+          "ev:f:m:S-EA-425B:more:temperature:super:C22:e53bce019995581b:precedent:none",
+          "ev:ch:EA-425B.design_pressure_kpa+EA-425B.heat_sources+HV-B-SIN.normal_position+HV-B-SOUT.normal_position+HV-QW-B-IN.normal_position+HV-QW-B-OUT.normal_position+RV-PATH-EA425B.inlet_valve_ids+f:m:S-EA-425B:as_well_as:composition:super:C12:b3d32268f909ddb3+f:proc:P-REB-START-2:early:super:C16:126a45a4b13afa1b:calculation:blocked_in_heating-EA-425B",
+          "ev:ch:EA-425B.design_pressure_kpa+EA-425B.heat_sources+HV-B-SIN.normal_position+HV-B-SOUT.normal_position+HV-QW-B-IN.normal_position+HV-QW-B-OUT.normal_position+RV-PATH-EA425B.inlet_valve_ids+f:m:S-EA-425B:as_well_as:composition:super:C12:b3d32268f909ddb3+f:proc:P-REB-START-2:early:super:C16:126a45a4b13afa1b:precedent:none",
+          "ev:ch:HV-A-SIN.normal_position+HV-A-SOUT.normal_position+RV-PATH-EA425A.inlet_valve_ids+SV-421QA.protects_id+SV-421QB.protects_id+f:m:S-EA-425B:more:temperature:super:C22:e53bce019995581b+f:m:S-L-A-SOUT:reverse:flow:super:d96e945a65e57280:e8d47871d4a47f89+f:m:S-L-QW-A-IN:more:pressure:lightning:C22:e53bce019995581b:calculation:blocked_in_heating-EA-425B",
+          "ev:ch:HV-A-SIN.normal_position+HV-A-SOUT.normal_position+RV-PATH-EA425A.inlet_valve_ids+SV-421QA.protects_id+SV-421QB.protects_id+f:m:S-EA-425B:more:temperature:super:C22:e53bce019995581b+f:m:S-L-A-SOUT:reverse:flow:super:d96e945a65e57280:e8d47871d4a47f89+f:m:S-L-QW-A-IN:more:pressure:lightning:C22:e53bce019995581b:calculation:heat_up_rate-EA-425B",
+          "ev:ch:HV-A-SIN.normal_position+HV-A-SOUT.normal_position+RV-PATH-EA425A.inlet_valve_ids+SV-421QA.protects_id+SV-421QB.protects_id+f:m:S-EA-425B:more:temperature:super:C22:e53bce019995581b+f:m:S-L-A-SOUT:reverse:flow:super:d96e945a65e57280:e8d47871d4a47f89+f:m:S-L-QW-A-IN:more:pressure:lightning:C22:e53bce019995581b:precedent:none",
+          "ev:f:proc:P-REB-START-2:early:super:C16:126a45a4b13afa1b:precedent:none",
+          "ev:f:m:S-EA-425A:more:flow:super:C22:e53bce019995581b:calculation:blocked_in_heating-EA-425A",
+          "ev:f:m:S-EA-425A:more:flow:super:C22:e53bce019995581b:precedent:none",
+          "step:7c0fd4cb3932defa",
+          "step:e307ba9749dc2ed9",
+          "step:2a7cf17e2f4f5663",
+          "step:2f76a24618b3ad19",
+          "step:c41439a5ed53fe5d",
+          "step:8b373b05e88ee6b7",
+          "step:2c463b9127198404",
+          "step:b54a6d0c11c08b09",
+          "step:bc871c1ba897546b",
+          "step:c97f13619d7bd449",
+          "step:a254b7950552fe77",
+          "step:c0ae7d4a02af0ea6",
+          "step:205cd003b4f0484d",
+          "step:9bdd700794dbf0fd",
+          "tc:step:7c0fd4cb3932defa:physics_calc:703c235cf61df72b",
+          "tc:step:7c0fd4cb3932defa:physics_calc:58f7c3ce9aaf5380",
+          "tc:step:e307ba9749dc2ed9:search_precedent:a0e9fc2ef127250e",
+          "tc:step:2a7cf17e2f4f5663:web_research:9a089528549a85dd",
+          "tc:step:2f76a24618b3ad19:physics_calc:703c235cf61df72b",
+          "tc:step:c41439a5ed53fe5d:search_precedent:9d44add4e711ce50",
+          "tc:step:8b373b05e88ee6b7:web_research:590d9b60224aba84",
+          "tc:step:2c463b9127198404:physics_calc:703c235cf61df72b",
+          "tc:step:2c463b9127198404:physics_calc:58f7c3ce9aaf5380",
+          "tc:step:b54a6d0c11c08b09:search_precedent:8892c48af82f524e",
+          "tc:step:bc871c1ba897546b:web_research:c2af04d96fc9c1a9",
+          "tc:step:c97f13619d7bd449:search_precedent:abd3f5b1431a3242",
+          "tc:step:a254b7950552fe77:web_research:7322da0f3d1b3292",
+          "tc:step:c0ae7d4a02af0ea6:physics_calc:f7c9a37580de6109",
+          "tc:step:205cd003b4f0484d:search_precedent:8a64df2fd5c79003",
+          "tc:step:9bdd700794dbf0fd:web_research:80cdb0c355eaa20e"
+        ]
+      },
+      "time": "2026-10-23T04:39:20.439590Z"
+    }
+  ]
+}

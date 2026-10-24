@@ -1,0 +1,368 @@
+{
+  "source_run_id": "run:e4f544ce3e94a468",
+  "phase": "2",
+  "types": [
+    "agent_decision",
+    "cap_hit",
+    "coverage_updated",
+    "dispatch",
+    "finding_added",
+    "model_call",
+    "run_started",
+    "step_finished",
+    "step_started",
+    "tool_call"
+  ],
+  "events": [
+    {
+      "run_id": "run:e4f544ce3e94a468",
+      "seq": 1,
+      "type": "run_started",
+      "payload": {
+        "attempt": 1,
+        "questions": 362,
+        "sections": 25
+      },
+      "time": "2026-10-16T03:04:15.708056Z"
+    },
+    {
+      "run_id": "run:e4f544ce3e94a468",
+      "seq": 2,
+      "type": "step_started",
+      "payload": {
+        "step": "analysis"
+      },
+      "time": "2026-10-16T03:04:15.736060Z"
+    },
+    {
+      "run_id": "run:e4f544ce3e94a468",
+      "seq": 3,
+      "type": "model_call",
+      "payload": {
+        "model_call_id": "mc:6f58cf4a8b81641a",
+        "job": "orchestrator",
+        "model_id": "nvidia/Nemotron-3-Ultra-550b-a55b",
+        "cache_hit": false,
+        "outcome": "ok",
+        "cost_usd": 0.005475,
+        "cap_cost_usd": 0.005475
+      },
+      "time": "2026-10-16T03:04:18.034599Z"
+    },
+    {
+      "run_id": "run:e4f544ce3e94a468",
+      "seq": 4,
+      "type": "agent_decision",
+      "payload": {
+        "step_id": "step:068f5e4bba6829e1",
+        "agent": "orchestrator",
+        "tool": "dispatch_specialist",
+        "reason": "Process questions are the largest open set (294). Dispatching first bulk batch of 60 to process agent."
+      },
+      "time": "2026-10-16T03:04:18.037603Z"
+    },
+    {
+      "run_id": "run:e4f544ce3e94a468",
+      "seq": 25,
+      "type": "finding_added",
+      "payload": {
+        "finding_id": "f:m:S-C-101:as_well_as:composition:lightning:C07:415735ddaa7e1dea",
+        "question_id": "m:S-C-101:as_well_as:composition",
+        "tier": "lightning"
+      },
+      "time": "2026-10-16T03:05:34.936753Z"
+    },
+    {
+      "run_id": "run:e4f544ce3e94a468",
+      "seq": 101,
+      "type": "dispatch",
+      "payload": {
+        "agent": "process",
+        "level": "bulk",
+        "question_ids": [
+          "m:S-C-101:as_well_as:composition",
+          "m:S-C-101:less:flow",
+          "m:S-C-101:less:level",
+          "m:S-C-101:less:pressure",
+          "m:S-C-101:less:temperature",
+          "m:S-C-101:more:flow",
+          "m:S-C-101:more:level",
+          "m:S-C-101:more:pressure",
+          "m:S-C-101:more:temperature",
+          "m:S-C-101:no:flow",
+          "m:S-C-101:no:level",
+          "m:S-C-101:other_than:composition",
+          "m:S-C-101:other_than:phase",
+          "m:S-C-101:part_of:composition",
+          "m:S-C-102:as_well_as:composition",
+          "m:S-C-102:less:flow",
+          "m:S-C-102:less:level",
+          "m:S-C-102:less:pressure",
+          "m:S-C-102:less:temperature",
+          "m:S-C-102:more:flow",
+          "m:S-C-102:more:level",
+          "m:S-C-102:more:pressure",
+          "m:S-C-102:more:temperature",
+          "m:S-C-102:no:flow",
+          "m:S-C-102:no:level",
+          "m:S-C-102:other_than:composition",
+          "m:S-C-102:other_than:phase",
+          "m:S-C-102:part_of:composition",
+          "m:S-C-103:as_well_as:composition",
+          "m:S-C-103:less:flow",
+          "m:S-C-103:less:level",
+          "m:S-C-103:less:pressure",
+          "m:S-C-103:less:temperature",
+          "m:S-C-103:more:flow",
+          "m:S-C-103:more:level",
+          "m:S-C-103:more:pressure",
+          "m:S-C-103:more:temperature",
+          "m:S-C-103:no:flow",
+          "m:S-C-103:no:level",
+          "m:S-C-103:other_than:composition",
+          "m:S-C-103:other_than:phase",
+          "m:S-C-103:part_of:composition",
+          "m:S-C-104:as_well_as:composition",
+          "m:S-C-104:less:flow",
+          "m:S-C-104:less:level",
+          "m:S-C-104:less:pressure",
+          "m:S-C-104:less:temperature",
+          "m:S-C-104:more:flow",
+          "m:S-C-104:more:level",
+          "m:S-C-104:more:pressure",
+          "m:S-C-104:more:temperature",
+          "m:S-C-104:no:flow",
+          "m:S-C-104:no:level",
+          "m:S-C-104:other_than:composition",
+          "m:S-C-104:other_than:phase",
+          "m:S-C-104:part_of:composition",
+          "m:S-E-104:as_well_as:composition",
+          "m:S-E-104:less:flow",
+          "m:S-E-104:less:pressure",
+          "m:S-E-104:less:temperature"
+        ],
+        "selected_by_code": true,
+        "skipped": [],
+        "batches": 9,
+        "dropped_ids": [],
+        "failed_batches": [
+          {
+            "question_ids": [
+              "m:S-C-102:as_well_as:composition",
+              "m:S-C-102:less:flow",
+              "m:S-C-102:less:level",
+              "m:S-C-102:less:pressure",
+              "m:S-C-102:less:temperature",
+              "m:S-C-102:more:flow",
+              "m:S-C-102:more:level",
+              "m:S-C-102:more:pressure",
+              "m:S-C-102:more:temperature",
+              "m:S-C-102:no:flow"
+            ],
+            "status": "failed",
+            "reason": "m:S-C-102:less:level is answered more than once"
+          },
+          {
+            "question_ids": [
+              "m:S-C-103:as_well_as:composition",
+              "m:S-C-103:less:flow",
+              "m:S-C-103:less:level",
+              "m:S-C-103:less:pressure",
+              "m:S-C-103:less:temperature",
+              "m:S-C-103:more:flow",
+              "m:S-C-103:more:level",
+              "m:S-C-103:more:pressure",
+              "m:S-C-103:more:temperature",
+              "m:S-C-103:no:flow"
+            ],
+            "status": "failed",
+            "reason": "cut off at the token limit; not parsed"
+          },
+          {
+            "question_ids": [
+              "m:S-C-103:no:level",
+              "m:S-C-103:other_than:composition",
+              "m:S-C-103:other_than:phase",
+              "m:S-C-103:part_of:composition"
+            ],
+            "status": "failed",
+            "reason": "m:S-C-103:other_than:composition is answered more than once"
+          }
+        ]
+      },
+      "time": "2026-10-16T03:05:34.984753Z"
+    },
+    {
+      "run_id": "run:e4f544ce3e94a468",
+      "seq": 102,
+      "type": "coverage_updated",
+      "payload": {
+        "lines": [
+          {
+            "list": "sections",
+            "total": 25,
+            "checked": 0,
+            "unsure": 3,
+            "failed": 0
+          },
+          {
+            "list": "matrix",
+            "total": 286,
+            "checked": 30,
+            "unsure": 20,
+            "failed": 0
+          },
+          {
+            "list": "chemical_pair",
+            "total": 36,
+            "checked": 0,
+            "unsure": 0,
+            "failed": 0
+          },
+          {
+            "list": "chemical_environment",
+            "total": 27,
+            "checked": 0,
+            "unsure": 0,
+            "failed": 0
+          },
+          {
+            "list": "no_flow_line",
+            "total": 5,
+            "checked": 0,
+            "unsure": 0,
+            "failed": 0
+          },
+          {
+            "list": "procedure_step",
+            "total": 0,
+            "checked": 0,
+            "unsure": 0,
+            "failed": 0
+          },
+          {
+            "list": "planned_work",
+            "total": 0,
+            "checked": 0,
+            "unsure": 0,
+            "failed": 0
+          },
+          {
+            "list": "dust",
+            "total": 0,
+            "checked": 0,
+            "unsure": 0,
+            "failed": 0
+          },
+          {
+            "list": "relief_discharge",
+            "total": 8,
+            "checked": 0,
+            "unsure": 0,
+            "failed": 0
+          },
+          {
+            "list": "added_by_ai",
+            "total": 0,
+            "checked": 0,
+            "unsure": 0,
+            "failed": 0
+          },
+          {
+            "list": "engineer",
+            "total": 0,
+            "checked": 0,
+            "unsure": 0,
+            "failed": 0
+          }
+        ]
+      },
+      "time": "2026-10-16T03:05:34.994751Z"
+    },
+    {
+      "run_id": "run:e4f544ce3e94a468",
+      "seq": 103,
+      "type": "tool_call",
+      "payload": {
+        "tool_call_id": "tc:step:068f5e4bba6829e1:dispatch_specialist:bb56a66526555b4c",
+        "tool": "dispatch_specialist",
+        "refused": false
+      },
+      "time": "2026-10-16T03:05:34.996752Z"
+    },
+    {
+      "run_id": "run:e4f544ce3e94a468",
+      "seq": 104,
+      "type": "step_finished",
+      "payload": {
+        "step": "analysis",
+        "status": "running",
+        "next_step": "analysis"
+      },
+      "time": "2026-10-16T03:05:34.997754Z"
+    },
+    {
+      "run_id": "run:e4f544ce3e94a468",
+      "seq": 927,
+      "type": "cap_hit",
+      "payload": {
+        "reason": "severity reserve",
+        "detail": "run run:e4f544ce3e94a468 limit $0.32 would be exceeded",
+        "reserve_usd": 0.881856,
+        "unrated": 313,
+        "severity_calls": 32
+      },
+      "time": "2026-10-16T03:22:45.214556Z"
+    },
+    {
+      "run_id": "run:e4f544ce3e94a468",
+      "seq": 929,
+      "type": "step_started",
+      "payload": {
+        "step": "severity"
+      },
+      "time": "2026-10-16T03:22:45.220582Z"
+    },
+    {
+      "run_id": "run:e4f544ce3e94a468",
+      "seq": 931,
+      "type": "step_finished",
+      "payload": {
+        "step": "severity",
+        "status": "running",
+        "next_step": "severity"
+      },
+      "time": "2026-10-16T03:22:52.668053Z"
+    },
+    {
+      "run_id": "run:e4f544ce3e94a468",
+      "seq": 1027,
+      "type": "step_started",
+      "payload": {
+        "step": "ranked"
+      },
+      "time": "2026-10-16T03:27:45.591746Z"
+    },
+    {
+      "run_id": "run:e4f544ce3e94a468",
+      "seq": 1028,
+      "type": "cap_hit",
+      "payload": {
+        "reason": "questions left open",
+        "open": 99
+      },
+      "time": "2026-10-16T03:27:45.642114Z"
+    },
+    {
+      "run_id": "run:e4f544ce3e94a468",
+      "seq": 1029,
+      "type": "step_finished",
+      "payload": {
+        "step": "ranked",
+        "status": "stopped_cap",
+        "next_step": "ranked"
+      },
+      "time": "2026-10-16T03:27:45.642114Z"
+    }
+  ]
+}

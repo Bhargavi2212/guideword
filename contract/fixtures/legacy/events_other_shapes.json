@@ -1,0 +1,630 @@
+{
+  "events": [
+    {
+      "source_run_id": "run:14aa6477a666ff65",
+      "event": {
+        "run_id": "run:14aa6477a666ff65",
+        "seq": 1109,
+        "type": "step_finished",
+        "payload": {
+          "step": "chain_severity",
+          "status": "running",
+          "next_step": "lopa"
+        },
+        "time": "2026-10-21T02:34:47.689293Z"
+      }
+    },
+    {
+      "source_run_id": "run:14aa6477a666ff65",
+      "event": {
+        "run_id": "run:14aa6477a666ff65",
+        "seq": 1141,
+        "type": "run_extended",
+        "payload": {
+          "post_spend_cap_usd": 0.3,
+          "settings": {
+            "lopa_top_n": {
+              "value": 10,
+              "source": "run.caps"
+            },
+            "connector_max_input_tokens": {
+              "value": 80000,
+              "source": "run.caps"
+            },
+            "connector_max_chains": {
+              "value": 10,
+              "source": "config"
+            },
+            "lopa_batch_size": {
+              "value": 5,
+              "source": "config"
+            },
+            "recommendation_batch_size": {
+              "value": 5,
+              "source": "config"
+            }
+          },
+          "jobs": {
+            "chain_severity": "ultra",
+            "connector": "ultra",
+            "lopa_argument": "ultra",
+            "recommendation": "ultra"
+          },
+          "max_tokens": {
+            "chain_severity": 12288,
+            "connector": 12288,
+            "lopa_argument": 12288,
+            "recommendation": 12288
+          },
+          "prompt_versions": {
+            "connector": "v2",
+            "lopa_argument": "v1",
+            "recommendation": "v1",
+            "severity_chain": "v1"
+          },
+          "resumed_after_post_cap": false,
+          "step": "chains",
+          "rerun_from": "chains",
+          "superseded_pass_seq": 1100,
+          "superseded_ids": [
+            "ch:L-CONDENSATE-8IN.from_id+T-32.contents+W-1.line_ids+W-1.location_id+f:m:S-L-T32-OVERFLOW:less:flow:lightning:C17:b6b5bc6a0c7c4ab2+f:m:S-L-T32-OVERFLOW:more:pressure:super:713978bc06b3a027:2a73dcc90e940939+f:work:W-1:T-32:lightning:C15:b6b5bc6a0c7c4ab2",
+            "ch:L-STRIPPER-FEED.from_id+L-STRIPPER-FEED.to_id+STRIPPER-FEED-PUMP.contents+f:env:TURPENTINE:air:super:C06:94612b35bae9b32d+f:env:TURPENTINE:heat:super:C04:94612b35bae9b32d+f:m:S-T-33:more:level:super:f849cb2da722142b:94612b35bae9b32d",
+            "ch:L-WHITE-LIQUOR.contents+STRIPPER-FEED-PUMP.contents+W-2.equipment_ids+W-3.line_ids+f:env:NA2S:water:super:dd7bddfbf46bc15a:f02e5633bad17123+f:pair:METHANOL:NA2S:super:C15:f02e5633bad17123+f:pair:NA2S:TURPENTINE:lightning:C14:4fb7f7562a334c42",
+            "lopa:f:m:S-L-T32-OVERFLOW:more:pressure:super:713978bc06b3a027:2a73dcc90e940939",
+            "lopa:f:env:TURPENTINE:air:super:C06:94612b35bae9b32d",
+            "lopa:f:env:TURPENTINE:air:super:C21:5ec43d205c41ff60",
+            "lopa:f:env:TURPENTINE:air:super:C20:a1602b4ee1104456",
+            "lopa:f:env:WEAK-BLACK-LIQUOR:air:super:C21:a45280cbb9ee4e94",
+            "lopa:f:m:S-SURFACE-CONDENSER:as_well_as:composition:lightning:C07:e02f8c3a3b2fcaa4",
+            "lopa:f:m:S-SURFACE-CONDENSER:as_well_as:composition:lightning:C12:20acb9fffe2fbac1",
+            "lopa:f:m:S-EVAPORATORS:more:pressure:super:f70ae43f1926a99f:e02f8c3a3b2fcaa4",
+            "lopa:f:m:S-L-T33-VENT:less:flow:super:65d0cdb2f5e90ffa:ac8ccf468ac0a385",
+            "lopa:ch:L-CONDENSATE-8IN.from_id+T-32.contents+W-1.line_ids+W-1.location_id+f:m:S-L-T32-OVERFLOW:less:flow:lightning:C17:b6b5bc6a0c7c4ab2+f:m:S-L-T32-OVERFLOW:more:pressure:super:713978bc06b3a027:2a73dcc90e940939+f:work:W-1:T-32:lightning:C15:b6b5bc6a0c7c4ab2",
+            "lopa:ch:L-STRIPPER-FEED.from_id+L-STRIPPER-FEED.to_id+STRIPPER-FEED-PUMP.contents+f:env:TURPENTINE:air:super:C06:94612b35bae9b32d+f:env:TURPENTINE:heat:super:C04:94612b35bae9b32d+f:m:S-T-33:more:level:super:f849cb2da722142b:94612b35bae9b32d",
+            "lopa:ch:L-WHITE-LIQUOR.contents+STRIPPER-FEED-PUMP.contents+W-2.equipment_ids+W-3.line_ids+f:env:NA2S:water:super:dd7bddfbf46bc15a:f02e5633bad17123+f:pair:METHANOL:NA2S:super:C15:f02e5633bad17123+f:pair:NA2S:TURPENTINE:lightning:C14:4fb7f7562a334c42",
+            "lopa:f:m:S-L-VENT-DISCHARGE:no:flow:super:c2df2ce822118d78:50c334d2a2c97ed6",
+            "lopa:f:env:WEAK-BLACK-LIQUOR:heat:super:fb5e2ae76472afb5:a45280cbb9ee4e94",
+            "lopa:f:m:S-L-T33-VENT:more:flow:super:9a93fd239204e6e4:132d087e6e07321e",
+            "rec:ch:L-CONDENSATE-8IN.from_id+T-32.contents+W-1.line_ids+W-1.location_id+f:m:S-L-T32-OVERFLOW:less:flow:lightning:C17:b6b5bc6a0c7c4ab2+f:m:S-L-T32-OVERFLOW:more:pressure:super:713978bc06b3a027:2a73dcc90e940939+f:work:W-1:T-32:lightning:C15:b6b5bc6a0c7c4ab2:8737f87157a63894",
+            "rec:f:m:S-L-T32-OVERFLOW:more:pressure:super:713978bc06b3a027:2a73dcc90e940939:cd7a6004d7484917",
+            "rec:ch:L-STRIPPER-FEED.from_id+L-STRIPPER-FEED.to_id+STRIPPER-FEED-PUMP.contents+f:env:TURPENTINE:air:super:C06:94612b35bae9b32d+f:env:TURPENTINE:heat:super:C04:94612b35bae9b32d+f:m:S-T-33:more:level:super:f849cb2da722142b:94612b35bae9b32d:52b1e29848aaa2ca",
+            "rec:f:env:TURPENTINE:air:super:C06:94612b35bae9b32d:d3905b4428c5d7cf",
+            "rec:f:m:S-EVAPORATORS:more:pressure:super:f70ae43f1926a99f:e02f8c3a3b2fcaa4:861822cc1fd14bd6",
+            "rec:f:m:S-SURFACE-CONDENSER:as_well_as:composition:lightning:C07:e02f8c3a3b2fcaa4:f20968aee69a1f2b",
+            "rec:f:m:S-L-T33-VENT:less:flow:super:65d0cdb2f5e90ffa:ac8ccf468ac0a385:cfcb9584d1f4f6aa",
+            "rec:f:m:S-L-VENT-DISCHARGE:no:flow:super:c2df2ce822118d78:50c334d2a2c97ed6:302430facddeeb4d",
+            "rec:ch:L-WHITE-LIQUOR.contents+STRIPPER-FEED-PUMP.contents+W-2.equipment_ids+W-3.line_ids+f:env:NA2S:water:super:dd7bddfbf46bc15a:f02e5633bad17123+f:pair:METHANOL:NA2S:super:C15:f02e5633bad17123+f:pair:NA2S:TURPENTINE:lightning:C14:4fb7f7562a334c42:0d9994c9fc75c1f6",
+            "rec:f:env:WEAK-BLACK-LIQUOR:heat:super:fb5e2ae76472afb5:a45280cbb9ee4e94:6a69c0245d77ec28",
+            "rec:f:m:S-L-T33-VENT:more:flow:super:9a93fd239204e6e4:132d087e6e07321e:f5ce06934b52c825",
+            "mc:46bf119496ea5946",
+            "mc:d6661d8f3175fd64",
+            "mc:1c2445cb2e15c47d",
+            "mc:843d29bd44c03617",
+            "mc:17ba82595180e532"
+          ]
+        },
+        "time": "2026-10-21T03:39:44.769951Z"
+      }
+    },
+    {
+      "source_run_id": "run:14aa6477a666ff65",
+      "event": {
+        "run_id": "run:14aa6477a666ff65",
+        "seq": 1243,
+        "type": "run_extended",
+        "payload": {
+          "post_spend_cap_usd": 0.3,
+          "settings": {
+            "lopa_top_n": {
+              "value": 10,
+              "source": "run.caps"
+            },
+            "connector_max_input_tokens": {
+              "value": 80000,
+              "source": "run.caps"
+            },
+            "connector_max_chains": {
+              "value": 10,
+              "source": "config"
+            },
+            "lopa_batch_size": {
+              "value": 5,
+              "source": "config"
+            },
+            "recommendation_batch_size": {
+              "value": 5,
+              "source": "config"
+            },
+            "chain_severity_batch_size": {
+              "value": 5,
+              "source": "config"
+            }
+          },
+          "jobs": {
+            "chain_severity": "ultra",
+            "connector": "ultra",
+            "lopa_argument": "ultra",
+            "precedent_judge": "super",
+            "recommendation": "ultra"
+          },
+          "max_tokens": {
+            "chain_severity": 12288,
+            "connector": 12288,
+            "lopa_argument": 12288,
+            "precedent_judge": 6144,
+            "recommendation": 12288
+          },
+          "prompt_versions": {
+            "connector": "v2",
+            "lopa_argument": "v3",
+            "precedent_judge": "v1",
+            "recommendation": "v2",
+            "severity_chain": "v2"
+          },
+          "ranking": {
+            "lead_prefers_own_section": true
+          },
+          "evidence_settings": {
+            "evidence_top_n": {
+              "value": 5,
+              "source": "run.caps"
+            },
+            "precedent_candidates": {
+              "value": 5,
+              "source": "config"
+            },
+            "tavily_searches_per_run": {
+              "value": 5,
+              "source": "config"
+            },
+            "tavily_max_results": {
+              "value": 5,
+              "source": "config"
+            },
+            "overflow_confirm_minutes": {
+              "value": 60.0,
+              "source": "config"
+            },
+            "heat_up_confirm_minutes": {
+              "value": 60.0,
+              "source": "config"
+            }
+          },
+          "resumed_after_post_cap": false,
+          "step": "evidence",
+          "evidence_only": true
+        },
+        "time": "2026-10-22T12:50:09.295334Z"
+      }
+    },
+    {
+      "source_run_id": "run:6e4f55dd0daaaa31",
+      "event": {
+        "run_id": "run:6e4f55dd0daaaa31",
+        "seq": 781,
+        "type": "cap_hit",
+        "payload": {
+          "reason": "severity reserve",
+          "detail": "run run:6e4f55dd0daaaa31 limit $0.70 would be exceeded"
+        },
+        "time": "2026-10-16T01:34:31.148966Z"
+      }
+    },
+    {
+      "source_run_id": "run:6e4f55dd0daaaa31",
+      "event": {
+        "run_id": "run:6e4f55dd0daaaa31",
+        "seq": 805,
+        "type": "cap_hit",
+        "payload": {
+          "reason": "run run:6e4f55dd0daaaa31 limit $0.85 would be exceeded",
+          "status": "stopped_cap"
+        },
+        "time": "2026-10-16T01:35:47.630060Z"
+      }
+    },
+    {
+      "source_run_id": "run:dbaab5578fbff8f3",
+      "event": {
+        "run_id": "run:dbaab5578fbff8f3",
+        "seq": 1184,
+        "type": "dispatch",
+        "payload": {
+          "agent": "process",
+          "level": "hard",
+          "question_ids": [
+            "m:S-L-HOSE-MX-3:as_well_as:composition",
+            "m:S-L-HOSE-MX-3:less:flow",
+            "m:S-L-HOSE-MX-3:less:pressure",
+            "m:S-L-HOSE-MX-3:less:temperature",
+            "m:S-L-HOSE-MX-3:more:flow",
+            "m:S-MX-2:as_well_as:composition",
+            "m:S-MX-2:less:level",
+            "m:S-MX-2:less:mixing",
+            "m:S-MX-2:less:pressure",
+            "m:S-MX-2:less:temperature",
+            "m:S-MX-3:less:level",
+            "m:S-MX-3:less:pressure",
+            "m:S-MX-3:more:level",
+            "m:S-MX-3:more:mixing",
+            "m:S-MX-3:more:pressure"
+          ],
+          "selected_by_code": false,
+          "skipped": [
+            "m:S-L-HOSE-MX-3:as_well_as:composition",
+            "m:S-L-HOSE-MX-3:less:flow",
+            "m:S-L-HOSE-MX-3:less:pressure",
+            "m:S-L-HOSE-MX-3:less:temperature",
+            "m:S-L-HOSE-MX-3:more:flow",
+            "m:S-MX-2:as_well_as:composition",
+            "m:S-MX-2:less:level",
+            "m:S-MX-2:less:mixing",
+            "m:S-MX-2:less:pressure",
+            "m:S-MX-2:less:temperature",
+            "m:S-MX-3:less:level",
+            "m:S-MX-3:less:pressure",
+            "m:S-MX-3:more:level",
+            "m:S-MX-3:more:mixing",
+            "m:S-MX-3:more:pressure"
+          ],
+          "batches": 0
+        },
+        "time": "2026-10-16T04:10:25.790344Z"
+      }
+    },
+    {
+      "source_run_id": "run:fede2ad2fa5d90f7",
+      "event": {
+        "run_id": "run:fede2ad2fa5d90f7",
+        "seq": 77,
+        "type": "dispatch",
+        "payload": {
+          "agent": "process",
+          "level": "bulk",
+          "question_ids": [
+            "m:S-C-101:as_well_as:composition",
+            "m:S-C-101:less:flow",
+            "m:S-C-101:less:level",
+            "m:S-C-101:less:pressure",
+            "m:S-C-101:less:temperature",
+            "m:S-C-101:more:flow",
+            "m:S-C-101:more:level",
+            "m:S-C-101:more:pressure",
+            "m:S-C-101:more:temperature",
+            "m:S-C-101:no:flow",
+            "m:S-C-101:no:level",
+            "m:S-C-101:other_than:composition",
+            "m:S-C-101:other_than:phase",
+            "m:S-C-101:part_of:composition",
+            "m:S-C-102:as_well_as:composition",
+            "m:S-C-102:less:flow",
+            "m:S-C-102:less:level",
+            "m:S-C-102:less:pressure",
+            "m:S-C-102:less:temperature",
+            "m:S-C-102:more:flow",
+            "m:S-C-102:more:level",
+            "m:S-C-102:more:pressure",
+            "m:S-C-102:more:temperature",
+            "m:S-C-102:no:flow",
+            "m:S-C-102:no:level",
+            "m:S-C-102:other_than:composition",
+            "m:S-C-102:other_than:phase",
+            "m:S-C-102:part_of:composition",
+            "m:S-C-103:as_well_as:composition",
+            "m:S-C-103:less:flow",
+            "m:S-C-103:less:level",
+            "m:S-C-103:less:pressure",
+            "m:S-C-103:less:temperature",
+            "m:S-C-103:more:flow",
+            "m:S-C-103:more:level",
+            "m:S-C-103:more:pressure",
+            "m:S-C-103:more:temperature",
+            "m:S-C-103:no:flow",
+            "m:S-C-103:no:level",
+            "m:S-C-103:other_than:composition",
+            "m:S-C-103:other_than:phase",
+            "m:S-C-103:part_of:composition",
+            "m:S-C-104:as_well_as:composition",
+            "m:S-C-104:less:flow",
+            "m:S-C-104:less:level",
+            "m:S-C-104:less:pressure",
+            "m:S-C-104:less:temperature",
+            "m:S-C-104:more:flow",
+            "m:S-C-104:more:level",
+            "m:S-C-104:more:pressure",
+            "m:S-C-104:more:temperature",
+            "m:S-C-104:no:flow",
+            "m:S-C-104:no:level",
+            "m:S-C-104:other_than:composition",
+            "m:S-C-104:other_than:phase",
+            "m:S-C-104:part_of:composition",
+            "m:S-E-104:as_well_as:composition",
+            "m:S-E-104:less:flow",
+            "m:S-E-104:less:pressure",
+            "m:S-E-104:less:temperature"
+          ],
+          "selected_by_code": true,
+          "skipped": [],
+          "batches": 13,
+          "dropped_ids": [],
+          "failed_batches": [
+            {
+              "question_ids": [
+                "m:S-C-101:as_well_as:composition",
+                "m:S-C-101:less:flow",
+                "m:S-C-101:less:level",
+                "m:S-C-101:less:pressure",
+                "m:S-C-101:less:temperature"
+              ],
+              "status": "failed",
+              "reason": "m:S-C-101:as_well_as:composition is answered more than once"
+            },
+            {
+              "question_ids": [
+                "m:S-C-101:more:flow",
+                "m:S-C-101:more:level",
+                "m:S-C-101:more:pressure",
+                "m:S-C-101:more:temperature",
+                "m:S-C-101:no:flow"
+              ],
+              "status": "failed",
+              "reason": "m:S-C-101:more:flow: C-101 cannot fail as a control_loop"
+            },
+            {
+              "question_ids": [
+                "m:S-C-102:as_well_as:composition",
+                "m:S-C-102:less:flow",
+                "m:S-C-102:less:level",
+                "m:S-C-102:less:pressure",
+                "m:S-C-102:less:temperature"
+              ],
+              "status": "failed",
+              "reason": "m:S-C-102:as_well_as:composition: an operator cause must name a procedure step or planned job from the context's procedure_steps or planned_jobs"
+            },
+            {
+              "question_ids": [
+                "m:S-C-103:as_well_as:composition",
+                "m:S-C-103:less:flow",
+                "m:S-C-103:less:level",
+                "m:S-C-103:less:pressure",
+                "m:S-C-103:less:temperature"
+              ],
+              "status": "failed",
+              "reason": "cut off at the token limit; not parsed"
+            },
+            {
+              "question_ids": [
+                "m:S-C-103:no:level",
+                "m:S-C-103:other_than:composition",
+                "m:S-C-103:other_than:phase",
+                "m:S-C-103:part_of:composition"
+              ],
+              "status": "failed",
+              "reason": "m:S-C-103:other_than:composition is answered more than once"
+            },
+            {
+              "question_ids": [
+                "m:S-C-104:as_well_as:composition",
+                "m:S-C-104:less:flow",
+                "m:S-C-104:less:level",
+                "m:S-C-104:less:pressure",
+                "m:S-C-104:less:temperature"
+              ],
+              "status": "failed",
+              "reason": "cut off at the token limit; not parsed"
+            },
+            {
+              "question_ids": [
+                "m:S-C-104:more:flow",
+                "m:S-C-104:more:level",
+                "m:S-C-104:more:pressure",
+                "m:S-C-104:more:temperature",
+                "m:S-C-104:no:flow"
+              ],
+              "status": "failed",
+              "reason": "m:S-C-104:more:flow: LCV-104, L-104 not in this agent's context"
+            }
+          ],
+          "admission": {
+            "cap_spent_usd": 0.005475,
+            "limit_usd": 1.2,
+            "slices_usd": [
+              0.00713916,
+              0.00713772,
+              0.00713052,
+              0.0071304,
+              0.00712896,
+              0.0071217599999999995,
+              0.007115399999999999,
+              0.00711396,
+              0.00710676,
+              0.00715968,
+              0.00715824,
+              0.007151039999999999,
+              0.007097879999999999
+            ]
+          },
+          "refused_at_admission": []
+        },
+        "time": "2026-10-16T12:05:36.018339Z"
+      }
+    },
+    {
+      "source_run_id": "run:fede2ad2fa5d90f7:2",
+      "event": {
+        "run_id": "run:fede2ad2fa5d90f7:2",
+        "seq": 77,
+        "type": "dispatch",
+        "payload": {
+          "agent": "process",
+          "level": "bulk",
+          "question_ids": [
+            "m:S-C-101:as_well_as:composition",
+            "m:S-C-101:less:flow",
+            "m:S-C-101:less:level",
+            "m:S-C-101:less:pressure",
+            "m:S-C-101:less:temperature",
+            "m:S-C-101:more:flow",
+            "m:S-C-101:more:level",
+            "m:S-C-101:more:pressure",
+            "m:S-C-101:more:temperature",
+            "m:S-C-101:no:flow",
+            "m:S-C-101:no:level",
+            "m:S-C-101:other_than:composition",
+            "m:S-C-101:other_than:phase",
+            "m:S-C-101:part_of:composition",
+            "m:S-C-102:as_well_as:composition",
+            "m:S-C-102:less:flow",
+            "m:S-C-102:less:level",
+            "m:S-C-102:less:pressure",
+            "m:S-C-102:less:temperature",
+            "m:S-C-102:more:flow",
+            "m:S-C-102:more:level",
+            "m:S-C-102:more:pressure",
+            "m:S-C-102:more:temperature",
+            "m:S-C-102:no:flow",
+            "m:S-C-102:no:level",
+            "m:S-C-102:other_than:composition",
+            "m:S-C-102:other_than:phase",
+            "m:S-C-102:part_of:composition",
+            "m:S-C-103:as_well_as:composition",
+            "m:S-C-103:less:flow",
+            "m:S-C-103:less:level",
+            "m:S-C-103:less:pressure",
+            "m:S-C-103:less:temperature",
+            "m:S-C-103:more:flow",
+            "m:S-C-103:more:level",
+            "m:S-C-103:more:pressure",
+            "m:S-C-103:more:temperature",
+            "m:S-C-103:no:flow",
+            "m:S-C-103:no:level",
+            "m:S-C-103:other_than:composition",
+            "m:S-C-103:other_than:phase",
+            "m:S-C-103:part_of:composition",
+            "m:S-C-104:as_well_as:composition",
+            "m:S-C-104:less:flow",
+            "m:S-C-104:less:level",
+            "m:S-C-104:less:pressure",
+            "m:S-C-104:less:temperature",
+            "m:S-C-104:more:flow",
+            "m:S-C-104:more:level",
+            "m:S-C-104:more:pressure",
+            "m:S-C-104:more:temperature",
+            "m:S-C-104:no:flow",
+            "m:S-C-104:no:level",
+            "m:S-C-104:other_than:composition",
+            "m:S-C-104:other_than:phase",
+            "m:S-C-104:part_of:composition",
+            "m:S-E-104:as_well_as:composition",
+            "m:S-E-104:less:flow",
+            "m:S-E-104:less:pressure",
+            "m:S-E-104:less:temperature"
+          ],
+          "selected_by_code": true,
+          "skipped": [],
+          "batches": 13,
+          "dropped_ids": [],
+          "failed_batches": [
+            {
+              "question_ids": [
+                "m:S-C-101:as_well_as:composition",
+                "m:S-C-101:less:flow",
+                "m:S-C-101:less:level",
+                "m:S-C-101:less:pressure",
+                "m:S-C-101:less:temperature"
+              ],
+              "status": "failed",
+              "reason": "m:S-C-101:as_well_as:composition is answered more than once"
+            },
+            {
+              "question_ids": [
+                "m:S-C-101:more:flow",
+                "m:S-C-101:more:level",
+                "m:S-C-101:more:pressure",
+                "m:S-C-101:more:temperature",
+                "m:S-C-101:no:flow"
+              ],
+              "status": "failed",
+              "reason": "m:S-C-101:more:flow: C-101 cannot fail as a control_loop"
+            },
+            {
+              "question_ids": [
+                "m:S-C-102:as_well_as:composition",
+                "m:S-C-102:less:flow",
+                "m:S-C-102:less:level",
+                "m:S-C-102:less:pressure",
+                "m:S-C-102:less:temperature"
+              ],
+              "status": "failed",
+              "reason": "m:S-C-102:as_well_as:composition: an operator cause must name a procedure step or planned job from the context's procedure_steps or planned_jobs"
+            },
+            {
+              "question_ids": [
+                "m:S-C-103:as_well_as:composition",
+                "m:S-C-103:less:flow",
+                "m:S-C-103:less:level",
+                "m:S-C-103:less:pressure",
+                "m:S-C-103:less:temperature"
+              ],
+              "status": "failed",
+              "reason": "cut off at the token limit; not parsed"
+            },
+            {
+              "question_ids": [
+                "m:S-C-103:no:level",
+                "m:S-C-103:other_than:composition",
+                "m:S-C-103:other_than:phase",
+                "m:S-C-103:part_of:composition"
+              ],
+              "status": "failed",
+              "reason": "m:S-C-103:other_than:composition is answered more than once"
+            },
+            {
+              "question_ids": [
+                "m:S-C-104:as_well_as:composition",
+                "m:S-C-104:less:flow",
+                "m:S-C-104:less:level",
+                "m:S-C-104:less:pressure",
+                "m:S-C-104:less:temperature"
+              ],
+              "status": "failed",
+              "reason": "cut off at the token limit; not parsed"
+            },
+            {
+              "question_ids": [
+                "m:S-C-104:more:flow",
+                "m:S-C-104:more:level",
+                "m:S-C-104:more:pressure",
+                "m:S-C-104:more:temperature",
+                "m:S-C-104:no:flow"
+              ],
+              "status": "failed",
+              "reason": "m:S-C-104:more:flow: LCV-104, L-104 not in this agent's context"
+            }
+          ],
+          "admission": {
+            "cap_spent_usd": 0.005475,
+            "limit_usd": 1.2,
+            "slices_usd": [
+              0.00713916,
+              0.00713772,
+              0.00713052,
+              0.0071304,
+              0.00712896,
+              0.0071217599999999995,
+              0.007115399999999999,
+              0.00711396,
+              0.00710676,
+              0.00715968,
+              0.00715824,
+              0.007151039999999999,
+              0.007097879999999999
+            ]
+          },
+          "deferred_at_admission": []
+        },
+        "time": "2026-10-16T12:44:06.312762Z"
+      }
+    }
+  ]
+}
