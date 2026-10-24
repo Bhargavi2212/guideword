@@ -414,7 +414,7 @@ Sections are proposed and confirmed on the plant before any run. A run has two p
 | Record | Holds | Points back to |
 |---|---|---|
 | Plant | Plant file, status (uploaded / sections_proposed / sections_confirmed), confirmed section set | Its uploaded file |
-| Run | Plant, section snapshot, status, step, spend cap, post-analysis cap (`post_spend_cap_usd`, not hashed; contract v1.4), spent, reference versions, routing config, caps, prompt versions, mode, attempt, label (live / recorded / mock). The stored inputs rebuild the run ID exactly | Plant |
+| Run | Plant, section snapshot, status, step, spend cap, post-analysis cap (`post_spend_cap_usd`, not hashed; contract v1.4), spent, reference versions, routing config, caps, prompt versions, mode, attempt, label (live / recorded / mock), and from contract v1.9 its budget `use` (not hashed; fixed when the run starts; null on runs stored before v1.9 until they name one). The stored inputs rebuild the run ID exactly | Plant |
 | Plant fact | One fact about the plant, ID `<object id>.<field>` | Its source or "assumed" |
 | Section | Confirmed section, type, purpose | Plant record; plant facts; rule or suggestion that drew it |
 | Question | One check; status; not-credible reason (a not-credible answer is a question status with its reason and needs no finding) | Run; section, facts needed; origin tag; the model call that marked it not credible or added it (`ai:`) |
@@ -428,7 +428,7 @@ Sections are proposed and confirmed on the plant before any run. A run has two p
 | Evidence | Calculation, precedent or simulation result; verdict; summary; sources; from contract v1.8 the judge's model call, missing fact IDs and flags | Finding or chain; tool call; model call; plant fact IDs it used |
 | Superseded record | A chain, LOPA record, recommendation or post-step model call that a re-run from `chains` replaced, kept verbatim with the pass it belonged to and the pass that replaced it (`RunDump.superseded`, contract v1.7); from contract v1.8 also evidence, and the evidence agent's steps and their tool calls | The run; the `run_extended` events of both passes |
 | Override | Action, new value, reason, who (display name) and when | Any record |
-| Event | Sequence number, type, payload, time | Run |
+| Event | Sequence number, type, payload, time; from contract v1.9 `payload_schema` (`"v1.9"`, written only by the event writer; null on events stored before it) | Run |
 
 ### IDs and enums (frozen in Phase 0)
 
@@ -462,7 +462,7 @@ Sections are proposed and confirmed on the plant before any run. A run has two p
 - **Calculation** (contract v1.8): blocked_in_heating, overflow_time, heat_up_rate.
 - **Protection adequacy:** adequate, inadequate, unknown.
 - **Agents:** orchestrator, process, chemistry, piping, procedures, maintenance, dust, connector, evidence (contract v1.8: one agent step per evidence line).
-- **Event types:** run_started, step_started, step_finished, agent_decision, dispatch, model_call, tool_call, finding_added, chain_added, lopa_done, evidence_added, coverage_updated, cap_hit, run_finished, run_failed, hypothesis_added, hypothesis_dropped (the last two: R50, contract v1.2), run_extended (contract v1.4: a finished run extended with the post-analysis steps). The `evidence_added` payload (contract v1.8) is `{evidence_id, target_id, kind, verdict}`.
+- **Event types:** run_started, step_started, step_finished, agent_decision, dispatch, model_call, tool_call, finding_added, chain_added, lopa_done, evidence_added, coverage_updated, cap_hit, run_finished, run_failed, hypothesis_added, hypothesis_dropped (the last two: R50, contract v1.2), run_extended (contract v1.4: a finished run extended with the post-analysis steps). The `evidence_added` payload (contract v1.8) is `{evidence_id, target_id, kind, verdict}`. **From contract v1.9 every payload is typed:** an event stamped `payload_schema: "v1.9"` validates strictly against its type's model (`step_finished` against its step's), and an unstamped stored event against its type's legacy model; the model is chosen by the stamp alone. `model_call` and `dispatch` carry `tier` with `tier_source` (`recorded`; or `inferred` on read for stored events, from the model ID or the run's own routing config, never written back; null when unknown). `cap_hit` always carries `cap` (`analysis`, `post`, or null for a budget stop).
 
 ### Storage schema (Postgres; SQLite in development)
 `plants` (status uploaded / sections_proposed / sections_confirmed), `plant_facts`, `runs` (status, step, section snapshot, spend_cap_usd, spent_usd, reference_versions, routing_config, caps, prompt_versions, label), `sections`, `questions` (status open / answered / not_credible / failed, not_credible_reason), `findings`, `hypotheses` (R50: rank, mechanism, component and chemical IDs, cause, consequence, reason, question links), `agent_steps`, `model_calls` (key: run_id + id), `tool_calls`, `chains`, `lopa_records`, `recommendations`, `evidence`, `overrides`, `events` (append-only: seq, run_id, type, payload), `response_cache`, `spend_ledger` (environment, phase, use, model or tool, tokens or searches, cost). Links are foreign keys; large payloads are JSON columns.
@@ -479,7 +479,7 @@ Every run-related response carries a `label`: `{kind: live | recorded | mock, re
 | `POST /plants/{id}/sections/propose` | — | Rules plus Super suggestions with reasons (under `section_suggest_cap_usd`; the live Super call is wired in Phase 2, and Phase 1 returns no suggestions), and the suggestions code refused with its reasons (`rejected`, contract v1.3); plant status → sections_proposed |
 | `PUT /plants/{id}/sections` | confirmed section set | Save confirmed sections; plant status → sections_confirmed |
 | `GET /runs` | — | List runs |
-| `POST /runs` | plant_id, spend_cap_usd, mode (full, sample) | Start a run; returns run ID and estimated cost; 409 if the plant's sections are not confirmed, or if a `stopped_cap` run with the same inputs is restarted without a higher `spend_cap_usd` |
+| `POST /runs` | plant_id, use, spend_cap_usd, post_spend_cap_usd, mode (full, sample); from contract v1.9 `use` and `post_spend_cap_usd` are required, never defaulted | Start a run; returns run ID and estimated cost; 409 if the plant's sections are not confirmed, or if a `stopped_cap` run with the same inputs is restarted without a higher `spend_cap_usd`; from v1.9 also 409 when spend cap + post cap exceeds the use's or the API runs' phase's remaining amount, when the use isn't offered to API runs, or when a resume names a use or post cap different from the stored one (the 409 names the stored value). On the laptop (not mock) the run is then driven in-process |
 | `POST /runs/{id}/cancel` | — | Cancel a running run |
 | `GET /runs/{id}` | — | Status, step, cost, counts |
 | `GET /runs/{id}/events?after={seq}` | — | New events since `seq` (polled every few seconds) |
@@ -495,8 +495,8 @@ Every run-related response carries a `label`: `{kind: live | recorded | mock, re
 | `GET /runs/{id}/export/coverage.json` | — | Coverage report |
 | `GET /runs/{id}/export/run.json` | — | Full JSON dump of the run |
 | `GET /demo` | — | Preloaded plant and recorded run; no credits used |
-| `GET /budget` | — | Spend by environment and model, remaining, live-run availability |
-| `POST /internal/runs/{id}/advance` | secret header | Runs the next step; called by the previous step (not public) |
+| `GET /budget` | — | Spend by environment and model, remaining, live-run availability; from contract v1.9 also each use's allowance, spent and remaining, the API runs' phase cap and what remains of it, and the uses offered to API runs |
+| `POST /internal/runs/{id}/advance` | secret header; from contract v1.9 an optional `use` | Runs the next step; called by the previous step (not public). 409 when the use differs from the run's, or when the run has no use and none is given; a use given to a run with none is stored |
 
 TypeScript types are generated from `contract/openapi.json` with `openapi-typescript`.
 
@@ -523,6 +523,12 @@ TypeScript types are generated from `contract/openapi.json` with `openapi-typesc
 7. **Coverage** — checked versus total for every list, failed questions.
 
 Stack: React, TypeScript, Vite. Built against mock responses of the frozen API contract from day 1, then wired to the real API.
+
+Phase 5 (`specs/phase-5.md`):
+- **Hash routes** (`#/plants`, `#/runs/:runId/shortlist`, …), so any static host serves them; IDs URL-encoded.
+- **The record drawer:** every number, ID and claim opens the record it came from (parents, model calls, tool calls). A plant fact shows its value and source; a fact not in the plant file reads "not stated in the plant file".
+- **Live and replay modes** on the live-run screen. Live polls the events of a running run. Replay plays a finished run's stored events in order, never reordered or invented, at 1×/10×/60×/max, under a permanent "Replay of a finished run" banner with its date and cost.
+- **UI-started laptop runs:** the start form picks the use and takes the spend cap and post cap (never pre-filled), shows their sum as the maximum, and refuses it above what remains. The run is then driven in-process. Hosted runs stay Phase 7.
 
 ---
 
@@ -564,12 +570,19 @@ Plus the four-tier comparison on 50 fixed questions. Hand-scored.
 
 ## 14. Demo and video
 
-**The one moment:** the Williams Geismar reboiler — a hazard the plant's own reviews missed three times. Guideword ranks it at the top, shows the chain (isolated from relief + heat still reaching it), the LOPA gap with zero credited protection, and the CSB report.
+**The one moment:** the Williams Geismar reboiler — a hazard the plant's own reviews missed three times. On the WG final run (`run:76f8ee0b5d1f078e`) Guideword ranks the reboiler-B startup chain second, behind an external-fire finding on the same reboiler. The screen shows:
+- the chain (isolated from relief + heat still reaching it, through procedure `P-REB-START-2`), its description as stored, with its unexpected-character flag;
+- the RV-PATH-EA425B relief layer not credited, with its stored "does not apply" reason, and the `HV-B-SIN.normal_position` fact;
+- the LOPA gap (about 1,000×) with zero credited protection;
+- the blocked-in heating evidence (at least 1.6× design);
+- the engineer's S3 → S4 override, after which code recomputes the gap (about 10,000×).
+
+The precedent search found no matching precedent for this line, so the video doesn't claim one.
 
 Video (under 3 minutes, a pitch, not a tutorial):
 1. Problem (≈20 s): the real accident; a review was done and missed it.
 2. Guideword running (≈60 s): plant loaded, sections confirmed, then the agent timeline: the Ultra orchestrator dispatching specialist agents on cheaper Nemotron tiers, calling tools, coverage filling up, shortlist forming.
-3. The moment (≈40 s): the reboiler finding, chain, LOPA gap, evidence.
+3. The moment (≈40 s): the reboiler chain, the uncredited relief layer, the LOPA gap, the evidence, the engineer's override.
 4. The numbers (≈40 s): held-out benchmark x of n vs baselines; coverage counts; cost per study per tier.
 5. Close (≈20 s): who it's for; the engineer decides.
 
@@ -590,7 +603,7 @@ Each phase has a spec (`specs/phase-N.md`) written and approved before it starts
 | 2. Gateway and agents | Oct 15–17 | Gateway with JSON rules; six specialist agents; orchestrator core (`check_coverage`, `dispatch_specialist`, `finish` guard); `reactivity_lookup` (the chemistry agent has it at G2); risk-matrix ranking; test #5 harness and run | **G2** |
 | 3. Reasoning | Oct 18–20 | Chains (connector, ID validation), chain severity, LOPA engine (independence check), recommendations, as run steps after the analysis; shortlist. (Planned as orchestrator tools; moved to run steps, P3-1.) | Shortlist per dev case |
 | 4. Tools and evidence | Oct 22–24 | The evidence step after recommendations (P4-1): `physics_calc`, `search_precedent`, `web_research`, `run_simulation`; precedent index; simulator wrapper around the open-licence Tennessee Eastman package (gated) | Evidence on top findings |
-| 5. Frontend | Oct 14–25 (parallel, from `contract-v1`) | Seven screens on mocks, then real API; rough video cut Oct 20 | Demo moment works on screen |
+| 5. Frontend | Oct 22–26 (`specs/phase-5.md`; contract v1.9) | Seven screens on generated fixtures, then real API; UI-started laptop runs | Demo moment works on screen |
 | 6. Benchmark | Oct 22–24 | Memorisation probe, held-out runs, baselines, scoring, results table | **G3** |
 | 7. Ship | Oct 24–28 | Vercel deploy, demo mode, live-run button, README, feedback write-up, final video | **G4**; submit Oct 29 |
 
@@ -609,6 +622,7 @@ Each phase has a spec (`specs/phase-N.md`) written and approved before it starts
 - Simulator: gate Oct 23 (install and reproduce kill test #1), running Tennessee Eastman faults Oct 24.
 - Maintenance and dust specialists: Oct 20.
 - Live-run button within the 5-minute step limit: Oct 24.
+- Phase 5: shortlist + finding detail with the demo moment Oct 24; live run with replay Oct 25; all seven screens Oct 26.
 
 ---
 

@@ -153,6 +153,8 @@ class CapsConfig(_Strict):
     uses: dict[BudgetUse, UseAllowance]
     environments: dict[Environment, EnvironmentAllowance]
     phase_caps_usd: dict[str, Positive]
+    # Phase 5 (plan H7): the uses a run started through the API may take; not hashed
+    api_run_uses: Annotated[list[BudgetUse], Field(min_length=1)]
     ranking: RankingCaps
     evidence: EvidenceCaps
     concurrency: dict[Tier, PositiveInt]
@@ -245,6 +247,9 @@ def _check_caps(caps: CapsConfig, global_budget_usd: float) -> None:
         raise ConfigError("caps.yaml", f"no allowance for uses {sorted(missing_uses)}")
     if set(caps.environments) != set(Environment):
         raise ConfigError("caps.yaml", "every environment needs an allowance")
+    repeated_uses = sorted(u for u, n in Counter(caps.api_run_uses).items() if n > 1)
+    if repeated_uses:
+        raise ConfigError("caps.yaml", f"api_run_uses names {repeated_uses} more than once")
     if sum(_cents(u.allowance_usd) for u in caps.uses.values()) != budget:
         raise ConfigError("caps.yaml", "use allowances do not sum to GLOBAL_BUDGET_USD")
     if sum(_cents(e.allowance_usd) for e in caps.environments.values()) != budget:

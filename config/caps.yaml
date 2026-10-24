@@ -98,6 +98,12 @@ phase_caps_usd:
   "2": 8.50
   "3": 2.50
   "4": 1.50
+  # Phase 5 (specs/phase-5-plan.md Q10): acceptance 2 and 5, at most $0.30 of it; no raise
+  "5": 0.50
+
+# Phase 5 (plan H7): the uses a run started through the API may take; the start form lists
+# them. Outside the run block, so not hashed into a run ID.
+api_run_uses: [development, video]
 
 # Phase 4 (spec 4.4, P4-9): the evidence step's settings. Outside the run block, so no
 # value here is hashed into a run ID; the values used are recorded on the step's events.
