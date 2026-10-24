@@ -1,50 +1,101 @@
 {
   "$defs": {
-    "Event": {
+    "Admission": {
       "additionalProperties": false,
-      "description": "Identified by (run_id, seq); events are a log, not part of the replay comparison.",
+      "properties": {
+        "cap_spent_usd": {
+          "title": "Cap Spent Usd",
+          "type": "number"
+        },
+        "limit_usd": {
+          "title": "Limit Usd",
+          "type": "number"
+        },
+        "slices_usd": {
+          "items": {
+            "type": "number"
+          },
+          "title": "Slices Usd",
+          "type": "array"
+        }
+      },
+      "required": [
+        "cap_spent_usd",
+        "limit_usd",
+        "slices_usd"
+      ],
+      "title": "Admission",
+      "type": "object"
+    },
+    "Agent": {
+      "enum": [
+        "orchestrator",
+        "process",
+        "chemistry",
+        "piping",
+        "procedures",
+        "maintenance",
+        "dust",
+        "connector",
+        "evidence"
+      ],
+      "title": "Agent",
+      "type": "string"
+    },
+    "AgentDecision": {
+      "additionalProperties": false,
+      "properties": {
+        "agent": {
+          "$ref": "#/$defs/Agent"
+        },
+        "reason": {
+          "title": "Reason",
+          "type": "string"
+        },
+        "step_id": {
+          "title": "Step Id",
+          "type": "string"
+        },
+        "tool": {
+          "$ref": "#/$defs/AgentTool"
+        }
+      },
+      "required": [
+        "step_id",
+        "agent",
+        "tool",
+        "reason"
+      ],
+      "title": "AgentDecision",
+      "type": "object"
+    },
+    "AgentDecisionEventLegacy": {
+      "additionalProperties": false,
       "properties": {
         "payload": {
-          "additionalProperties": true,
-          "title": "Payload",
-          "type": "object"
+          "$ref": "#/$defs/LegacyAgentDecision"
         },
         "payload_error": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
           "default": null,
-          "title": "Payload Error"
+          "title": "Payload Error",
+          "type": "null"
         },
         "payload_invalid": {
+          "const": false,
           "default": false,
           "title": "Payload Invalid",
           "type": "boolean"
         },
         "payload_schema": {
-          "anyOf": [
-            {
-              "const": "v1.9",
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
           "default": null,
-          "title": "Payload Schema"
+          "title": "Payload Schema",
+          "type": "null"
         },
         "run_id": {
           "title": "Run Id",
           "type": "string"
         },
         "seq": {
-          "minimum": 1,
           "title": "Seq",
           "type": "integer"
         },
@@ -54,7 +105,9 @@
           "type": "string"
         },
         "type": {
-          "$ref": "#/$defs/EventType"
+          "const": "agent_decision",
+          "title": "Type",
+          "type": "string"
         }
       },
       "required": [
@@ -64,7 +117,1204 @@
         "payload",
         "time"
       ],
-      "title": "Event",
+      "title": "AgentDecisionEventLegacy",
+      "type": "object"
+    },
+    "AgentDecisionEventV19": {
+      "additionalProperties": false,
+      "properties": {
+        "payload": {
+          "$ref": "#/$defs/AgentDecision"
+        },
+        "payload_error": {
+          "default": null,
+          "title": "Payload Error",
+          "type": "null"
+        },
+        "payload_invalid": {
+          "const": false,
+          "default": false,
+          "title": "Payload Invalid",
+          "type": "boolean"
+        },
+        "payload_schema": {
+          "const": "v1.9",
+          "title": "Payload Schema",
+          "type": "string"
+        },
+        "run_id": {
+          "title": "Run Id",
+          "type": "string"
+        },
+        "seq": {
+          "title": "Seq",
+          "type": "integer"
+        },
+        "time": {
+          "format": "date-time",
+          "title": "Time",
+          "type": "string"
+        },
+        "type": {
+          "const": "agent_decision",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "run_id",
+        "seq",
+        "type",
+        "payload",
+        "time",
+        "payload_schema"
+      ],
+      "title": "AgentDecisionEventV19",
+      "type": "object"
+    },
+    "AgentTool": {
+      "description": "The orchestrator tools in PROJECT.md §5, plus `answer` for a specialist's answer step.",
+      "enum": [
+        "check_coverage",
+        "dispatch_specialist",
+        "web_research",
+        "search_precedent",
+        "reactivity_lookup",
+        "physics_calc",
+        "propose_chains",
+        "run_lopa",
+        "run_simulation",
+        "finish",
+        "answer"
+      ],
+      "title": "AgentTool",
+      "type": "string"
+    },
+    "BlockList": {
+      "additionalProperties": false,
+      "properties": {
+        "file": {
+          "title": "File",
+          "type": "string"
+        },
+        "terms": {
+          "title": "Terms",
+          "type": "integer"
+        },
+        "version": {
+          "title": "Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "file",
+        "version",
+        "terms"
+      ],
+      "title": "BlockList",
+      "type": "object"
+    },
+    "CapHitEventLegacy": {
+      "additionalProperties": false,
+      "properties": {
+        "payload": {
+          "$ref": "#/$defs/LegacyCapHit"
+        },
+        "payload_error": {
+          "default": null,
+          "title": "Payload Error",
+          "type": "null"
+        },
+        "payload_invalid": {
+          "const": false,
+          "default": false,
+          "title": "Payload Invalid",
+          "type": "boolean"
+        },
+        "payload_schema": {
+          "default": null,
+          "title": "Payload Schema",
+          "type": "null"
+        },
+        "run_id": {
+          "title": "Run Id",
+          "type": "string"
+        },
+        "seq": {
+          "title": "Seq",
+          "type": "integer"
+        },
+        "time": {
+          "format": "date-time",
+          "title": "Time",
+          "type": "string"
+        },
+        "type": {
+          "const": "cap_hit",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "run_id",
+        "seq",
+        "type",
+        "payload",
+        "time"
+      ],
+      "title": "CapHitEventLegacy",
+      "type": "object"
+    },
+    "CapHitEventV19": {
+      "additionalProperties": false,
+      "properties": {
+        "payload": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/CapHitRefused"
+            },
+            {
+              "$ref": "#/$defs/CapHitSteps"
+            },
+            {
+              "$ref": "#/$defs/CapHitReserve"
+            },
+            {
+              "$ref": "#/$defs/CapHitOpen"
+            }
+          ],
+          "title": "Payload"
+        },
+        "payload_error": {
+          "default": null,
+          "title": "Payload Error",
+          "type": "null"
+        },
+        "payload_invalid": {
+          "const": false,
+          "default": false,
+          "title": "Payload Invalid",
+          "type": "boolean"
+        },
+        "payload_schema": {
+          "const": "v1.9",
+          "title": "Payload Schema",
+          "type": "string"
+        },
+        "run_id": {
+          "title": "Run Id",
+          "type": "string"
+        },
+        "seq": {
+          "title": "Seq",
+          "type": "integer"
+        },
+        "time": {
+          "format": "date-time",
+          "title": "Time",
+          "type": "string"
+        },
+        "type": {
+          "const": "cap_hit",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "run_id",
+        "seq",
+        "type",
+        "payload",
+        "time",
+        "payload_schema"
+      ],
+      "title": "CapHitEventV19",
+      "type": "object"
+    },
+    "CapHitOpen": {
+      "additionalProperties": false,
+      "properties": {
+        "cap": {
+          "anyOf": [
+            {
+              "enum": [
+                "analysis",
+                "post"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Cap"
+        },
+        "open": {
+          "title": "Open",
+          "type": "integer"
+        },
+        "reason": {
+          "const": "questions left open",
+          "title": "Reason",
+          "type": "string"
+        }
+      },
+      "required": [
+        "reason",
+        "cap",
+        "open"
+      ],
+      "title": "CapHitOpen",
+      "type": "object"
+    },
+    "CapHitRefused": {
+      "additionalProperties": false,
+      "description": "The gateway refused a call: the run stops with this status.",
+      "properties": {
+        "cap": {
+          "anyOf": [
+            {
+              "enum": [
+                "analysis",
+                "post"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Cap"
+        },
+        "reason": {
+          "title": "Reason",
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/$defs/RunStatus"
+        }
+      },
+      "required": [
+        "reason",
+        "cap",
+        "status"
+      ],
+      "title": "CapHitRefused",
+      "type": "object"
+    },
+    "CapHitReserve": {
+      "additionalProperties": false,
+      "description": "The analysis stops at the severity reserve (R38); severity runs next.",
+      "properties": {
+        "cap": {
+          "anyOf": [
+            {
+              "enum": [
+                "analysis",
+                "post"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Cap"
+        },
+        "detail": {
+          "title": "Detail",
+          "type": "string"
+        },
+        "reason": {
+          "enum": [
+            "severity reserve",
+            "admission"
+          ],
+          "title": "Reason",
+          "type": "string"
+        },
+        "reserve_usd": {
+          "title": "Reserve Usd",
+          "type": "number"
+        },
+        "severity_calls": {
+          "title": "Severity Calls",
+          "type": "integer"
+        },
+        "unrated": {
+          "title": "Unrated",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "reason",
+        "cap",
+        "detail",
+        "reserve_usd",
+        "unrated",
+        "severity_calls"
+      ],
+      "title": "CapHitReserve",
+      "type": "object"
+    },
+    "CapHitSteps": {
+      "additionalProperties": false,
+      "properties": {
+        "cap": {
+          "anyOf": [
+            {
+              "enum": [
+                "analysis",
+                "post"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Cap"
+        },
+        "limit": {
+          "title": "Limit",
+          "type": "integer"
+        },
+        "reason": {
+          "const": "orchestrator_max_steps",
+          "title": "Reason",
+          "type": "string"
+        }
+      },
+      "required": [
+        "reason",
+        "cap",
+        "limit"
+      ],
+      "title": "CapHitSteps",
+      "type": "object"
+    },
+    "ChainAdded": {
+      "additionalProperties": false,
+      "properties": {
+        "chain_id": {
+          "title": "Chain Id",
+          "type": "string"
+        },
+        "links": {
+          "title": "Links",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "chain_id",
+        "links"
+      ],
+      "title": "ChainAdded",
+      "type": "object"
+    },
+    "ChainAddedEventLegacy": {
+      "additionalProperties": false,
+      "properties": {
+        "payload": {
+          "$ref": "#/$defs/LegacyChainAdded"
+        },
+        "payload_error": {
+          "default": null,
+          "title": "Payload Error",
+          "type": "null"
+        },
+        "payload_invalid": {
+          "const": false,
+          "default": false,
+          "title": "Payload Invalid",
+          "type": "boolean"
+        },
+        "payload_schema": {
+          "default": null,
+          "title": "Payload Schema",
+          "type": "null"
+        },
+        "run_id": {
+          "title": "Run Id",
+          "type": "string"
+        },
+        "seq": {
+          "title": "Seq",
+          "type": "integer"
+        },
+        "time": {
+          "format": "date-time",
+          "title": "Time",
+          "type": "string"
+        },
+        "type": {
+          "const": "chain_added",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "run_id",
+        "seq",
+        "type",
+        "payload",
+        "time"
+      ],
+      "title": "ChainAddedEventLegacy",
+      "type": "object"
+    },
+    "ChainAddedEventV19": {
+      "additionalProperties": false,
+      "properties": {
+        "payload": {
+          "$ref": "#/$defs/ChainAdded"
+        },
+        "payload_error": {
+          "default": null,
+          "title": "Payload Error",
+          "type": "null"
+        },
+        "payload_invalid": {
+          "const": false,
+          "default": false,
+          "title": "Payload Invalid",
+          "type": "boolean"
+        },
+        "payload_schema": {
+          "const": "v1.9",
+          "title": "Payload Schema",
+          "type": "string"
+        },
+        "run_id": {
+          "title": "Run Id",
+          "type": "string"
+        },
+        "seq": {
+          "title": "Seq",
+          "type": "integer"
+        },
+        "time": {
+          "format": "date-time",
+          "title": "Time",
+          "type": "string"
+        },
+        "type": {
+          "const": "chain_added",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "run_id",
+        "seq",
+        "type",
+        "payload",
+        "time",
+        "payload_schema"
+      ],
+      "title": "ChainAddedEventV19",
+      "type": "object"
+    },
+    "ChainSeverityFinished": {
+      "additionalProperties": false,
+      "properties": {
+        "answered": {
+          "title": "Answered",
+          "type": "integer"
+        },
+        "missing": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Missing",
+          "type": "array"
+        },
+        "missing_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Missing Ids",
+          "type": "array"
+        },
+        "next_step": {
+          "title": "Next Step",
+          "type": "string"
+        },
+        "outcome": {
+          "title": "Outcome",
+          "type": "string"
+        },
+        "re_ask": {
+          "title": "Re Ask",
+          "type": "boolean"
+        },
+        "sent": {
+          "title": "Sent",
+          "type": "integer"
+        },
+        "sent_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Sent Ids",
+          "type": "array"
+        },
+        "status": {
+          "$ref": "#/$defs/RunStatus"
+        },
+        "step": {
+          "const": "chain_severity",
+          "title": "Step",
+          "type": "string"
+        }
+      },
+      "required": [
+        "step",
+        "status",
+        "next_step",
+        "sent",
+        "answered",
+        "missing",
+        "re_ask",
+        "sent_ids",
+        "missing_ids",
+        "outcome"
+      ],
+      "title": "ChainSeverityFinished",
+      "type": "object"
+    },
+    "ChainsFinished": {
+      "additionalProperties": false,
+      "properties": {
+        "connector": {
+          "$ref": "#/$defs/ConnectorOutcome"
+        },
+        "left_out": {
+          "title": "Left Out",
+          "type": "integer"
+        },
+        "next_step": {
+          "title": "Next Step",
+          "type": "string"
+        },
+        "rejected": {
+          "items": {
+            "$ref": "#/$defs/RejectedChain"
+          },
+          "title": "Rejected",
+          "type": "array"
+        },
+        "scenarios": {
+          "title": "Scenarios",
+          "type": "integer"
+        },
+        "status": {
+          "$ref": "#/$defs/RunStatus"
+        },
+        "step": {
+          "const": "chains",
+          "title": "Step",
+          "type": "string"
+        }
+      },
+      "required": [
+        "step",
+        "status",
+        "next_step",
+        "connector",
+        "scenarios",
+        "left_out",
+        "rejected"
+      ],
+      "title": "ChainsFinished",
+      "type": "object"
+    },
+    "ChainsFinishedNoScenarios": {
+      "additionalProperties": false,
+      "description": "No scenario line fitted, so the connector was not called.",
+      "properties": {
+        "left_out": {
+          "title": "Left Out",
+          "type": "integer"
+        },
+        "next_step": {
+          "title": "Next Step",
+          "type": "string"
+        },
+        "scenarios": {
+          "const": 0,
+          "title": "Scenarios",
+          "type": "integer"
+        },
+        "status": {
+          "$ref": "#/$defs/RunStatus"
+        },
+        "step": {
+          "const": "chains",
+          "title": "Step",
+          "type": "string"
+        }
+      },
+      "required": [
+        "step",
+        "status",
+        "next_step",
+        "scenarios",
+        "left_out"
+      ],
+      "title": "ChainsFinishedNoScenarios",
+      "type": "object"
+    },
+    "ConnectorOutcome": {
+      "additionalProperties": false,
+      "properties": {
+        "error": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Error"
+        },
+        "outcome": {
+          "title": "Outcome",
+          "type": "string"
+        }
+      },
+      "required": [
+        "outcome",
+        "error"
+      ],
+      "title": "ConnectorOutcome",
+      "type": "object"
+    },
+    "CoverageLine": {
+      "additionalProperties": false,
+      "properties": {
+        "checked": {
+          "title": "Checked",
+          "type": "integer"
+        },
+        "failed": {
+          "title": "Failed",
+          "type": "integer"
+        },
+        "list": {
+          "title": "List",
+          "type": "string"
+        },
+        "total": {
+          "title": "Total",
+          "type": "integer"
+        },
+        "unsure": {
+          "title": "Unsure",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "list",
+        "total",
+        "checked",
+        "unsure",
+        "failed"
+      ],
+      "title": "CoverageLine",
+      "type": "object"
+    },
+    "CoverageUpdated": {
+      "additionalProperties": false,
+      "properties": {
+        "lines": {
+          "items": {
+            "$ref": "#/$defs/CoverageLine"
+          },
+          "title": "Lines",
+          "type": "array"
+        }
+      },
+      "required": [
+        "lines"
+      ],
+      "title": "CoverageUpdated",
+      "type": "object"
+    },
+    "CoverageUpdatedEventLegacy": {
+      "additionalProperties": false,
+      "properties": {
+        "payload": {
+          "$ref": "#/$defs/LegacyCoverageUpdated"
+        },
+        "payload_error": {
+          "default": null,
+          "title": "Payload Error",
+          "type": "null"
+        },
+        "payload_invalid": {
+          "const": false,
+          "default": false,
+          "title": "Payload Invalid",
+          "type": "boolean"
+        },
+        "payload_schema": {
+          "default": null,
+          "title": "Payload Schema",
+          "type": "null"
+        },
+        "run_id": {
+          "title": "Run Id",
+          "type": "string"
+        },
+        "seq": {
+          "title": "Seq",
+          "type": "integer"
+        },
+        "time": {
+          "format": "date-time",
+          "title": "Time",
+          "type": "string"
+        },
+        "type": {
+          "const": "coverage_updated",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "run_id",
+        "seq",
+        "type",
+        "payload",
+        "time"
+      ],
+      "title": "CoverageUpdatedEventLegacy",
+      "type": "object"
+    },
+    "CoverageUpdatedEventV19": {
+      "additionalProperties": false,
+      "properties": {
+        "payload": {
+          "$ref": "#/$defs/CoverageUpdated"
+        },
+        "payload_error": {
+          "default": null,
+          "title": "Payload Error",
+          "type": "null"
+        },
+        "payload_invalid": {
+          "const": false,
+          "default": false,
+          "title": "Payload Invalid",
+          "type": "boolean"
+        },
+        "payload_schema": {
+          "const": "v1.9",
+          "title": "Payload Schema",
+          "type": "string"
+        },
+        "run_id": {
+          "title": "Run Id",
+          "type": "string"
+        },
+        "seq": {
+          "title": "Seq",
+          "type": "integer"
+        },
+        "time": {
+          "format": "date-time",
+          "title": "Time",
+          "type": "string"
+        },
+        "type": {
+          "const": "coverage_updated",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "run_id",
+        "seq",
+        "type",
+        "payload",
+        "time",
+        "payload_schema"
+      ],
+      "title": "CoverageUpdatedEventV19",
+      "type": "object"
+    },
+    "DeferredBatch": {
+      "additionalProperties": false,
+      "properties": {
+        "question_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Question Ids",
+          "type": "array"
+        },
+        "slice_usd": {
+          "title": "Slice Usd",
+          "type": "number"
+        }
+      },
+      "required": [
+        "question_ids",
+        "slice_usd"
+      ],
+      "title": "DeferredBatch",
+      "type": "object"
+    },
+    "DispatchEventLegacy": {
+      "additionalProperties": false,
+      "properties": {
+        "payload": {
+          "$ref": "#/$defs/LegacyDispatch"
+        },
+        "payload_error": {
+          "default": null,
+          "title": "Payload Error",
+          "type": "null"
+        },
+        "payload_invalid": {
+          "const": false,
+          "default": false,
+          "title": "Payload Invalid",
+          "type": "boolean"
+        },
+        "payload_schema": {
+          "default": null,
+          "title": "Payload Schema",
+          "type": "null"
+        },
+        "run_id": {
+          "title": "Run Id",
+          "type": "string"
+        },
+        "seq": {
+          "title": "Seq",
+          "type": "integer"
+        },
+        "time": {
+          "format": "date-time",
+          "title": "Time",
+          "type": "string"
+        },
+        "type": {
+          "const": "dispatch",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "run_id",
+        "seq",
+        "type",
+        "payload",
+        "time"
+      ],
+      "title": "DispatchEventLegacy",
+      "type": "object"
+    },
+    "DispatchEventV19": {
+      "additionalProperties": false,
+      "properties": {
+        "payload": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/DispatchNothingToSend"
+            },
+            {
+              "$ref": "#/$defs/DispatchNoRoom"
+            },
+            {
+              "$ref": "#/$defs/DispatchSent"
+            }
+          ],
+          "title": "Payload"
+        },
+        "payload_error": {
+          "default": null,
+          "title": "Payload Error",
+          "type": "null"
+        },
+        "payload_invalid": {
+          "const": false,
+          "default": false,
+          "title": "Payload Invalid",
+          "type": "boolean"
+        },
+        "payload_schema": {
+          "const": "v1.9",
+          "title": "Payload Schema",
+          "type": "string"
+        },
+        "run_id": {
+          "title": "Run Id",
+          "type": "string"
+        },
+        "seq": {
+          "title": "Seq",
+          "type": "integer"
+        },
+        "time": {
+          "format": "date-time",
+          "title": "Time",
+          "type": "string"
+        },
+        "type": {
+          "const": "dispatch",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "run_id",
+        "seq",
+        "type",
+        "payload",
+        "time",
+        "payload_schema"
+      ],
+      "title": "DispatchEventV19",
+      "type": "object"
+    },
+    "DispatchNoRoom": {
+      "additionalProperties": false,
+      "description": "Not even the first batch fits the spend left: the analysis ends.",
+      "properties": {
+        "admission": {
+          "$ref": "#/$defs/Admission"
+        },
+        "agent": {
+          "$ref": "#/$defs/Agent"
+        },
+        "batches": {
+          "title": "Batches",
+          "type": "integer"
+        },
+        "deferred_at_admission": {
+          "items": {
+            "$ref": "#/$defs/DeferredBatch"
+          },
+          "title": "Deferred At Admission",
+          "type": "array"
+        },
+        "level": {
+          "title": "Level",
+          "type": "string"
+        },
+        "priority": {
+          "title": "Priority",
+          "type": "boolean"
+        },
+        "question_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Question Ids",
+          "type": "array"
+        },
+        "selected_by_code": {
+          "title": "Selected By Code",
+          "type": "boolean"
+        },
+        "skipped": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Skipped",
+          "type": "array"
+        },
+        "tier": {
+          "$ref": "#/$defs/Tier"
+        },
+        "tier_source": {
+          "const": "recorded",
+          "title": "Tier Source",
+          "type": "string"
+        }
+      },
+      "required": [
+        "agent",
+        "level",
+        "question_ids",
+        "selected_by_code",
+        "priority",
+        "skipped",
+        "tier",
+        "tier_source",
+        "batches",
+        "admission",
+        "deferred_at_admission"
+      ],
+      "title": "DispatchNoRoom",
+      "type": "object"
+    },
+    "DispatchNothingToSend": {
+      "additionalProperties": false,
+      "description": "Every chosen question was already answered: stored results are used.",
+      "properties": {
+        "agent": {
+          "$ref": "#/$defs/Agent"
+        },
+        "batches": {
+          "const": 0,
+          "title": "Batches",
+          "type": "integer"
+        },
+        "level": {
+          "title": "Level",
+          "type": "string"
+        },
+        "priority": {
+          "title": "Priority",
+          "type": "boolean"
+        },
+        "question_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Question Ids",
+          "type": "array"
+        },
+        "selected_by_code": {
+          "title": "Selected By Code",
+          "type": "boolean"
+        },
+        "skipped": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Skipped",
+          "type": "array"
+        },
+        "tier": {
+          "$ref": "#/$defs/Tier"
+        },
+        "tier_source": {
+          "const": "recorded",
+          "title": "Tier Source",
+          "type": "string"
+        }
+      },
+      "required": [
+        "agent",
+        "level",
+        "question_ids",
+        "selected_by_code",
+        "priority",
+        "skipped",
+        "tier",
+        "tier_source",
+        "batches"
+      ],
+      "title": "DispatchNothingToSend",
+      "type": "object"
+    },
+    "DispatchSent": {
+      "additionalProperties": false,
+      "properties": {
+        "admission": {
+          "$ref": "#/$defs/Admission"
+        },
+        "agent": {
+          "$ref": "#/$defs/Agent"
+        },
+        "batches": {
+          "title": "Batches",
+          "type": "integer"
+        },
+        "deferred_at_admission": {
+          "items": {
+            "$ref": "#/$defs/DeferredBatch"
+          },
+          "title": "Deferred At Admission",
+          "type": "array"
+        },
+        "dropped_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Dropped Ids",
+          "type": "array"
+        },
+        "failed_batches": {
+          "items": {
+            "$ref": "#/$defs/FailedBatch"
+          },
+          "title": "Failed Batches",
+          "type": "array"
+        },
+        "level": {
+          "title": "Level",
+          "type": "string"
+        },
+        "linked_answered": {
+          "title": "Linked Answered",
+          "type": "integer"
+        },
+        "linked_answered_count": {
+          "const": "checked_questions",
+          "title": "Linked Answered Count",
+          "type": "string"
+        },
+        "priority": {
+          "title": "Priority",
+          "type": "boolean"
+        },
+        "question_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Question Ids",
+          "type": "array"
+        },
+        "selected_by_code": {
+          "title": "Selected By Code",
+          "type": "boolean"
+        },
+        "skipped": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Skipped",
+          "type": "array"
+        },
+        "tier": {
+          "$ref": "#/$defs/Tier"
+        },
+        "tier_source": {
+          "const": "recorded",
+          "title": "Tier Source",
+          "type": "string"
+        },
+        "unlinked_sent": {
+          "title": "Unlinked Sent",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "agent",
+        "level",
+        "question_ids",
+        "selected_by_code",
+        "priority",
+        "skipped",
+        "tier",
+        "tier_source",
+        "linked_answered",
+        "linked_answered_count",
+        "unlinked_sent",
+        "batches",
+        "dropped_ids",
+        "failed_batches",
+        "admission",
+        "deferred_at_admission"
+      ],
+      "title": "DispatchSent",
       "type": "object"
     },
     "EventType": {
@@ -90,6 +1340,2160 @@
       ],
       "title": "EventType",
       "type": "string"
+    },
+    "EvidenceAdded": {
+      "additionalProperties": false,
+      "properties": {
+        "evidence_id": {
+          "title": "Evidence Id",
+          "type": "string"
+        },
+        "kind": {
+          "$ref": "#/$defs/EvidenceKind"
+        },
+        "target_id": {
+          "title": "Target Id",
+          "type": "string"
+        },
+        "verdict": {
+          "$ref": "#/$defs/Verdict"
+        }
+      },
+      "required": [
+        "evidence_id",
+        "target_id",
+        "kind",
+        "verdict"
+      ],
+      "title": "EvidenceAdded",
+      "type": "object"
+    },
+    "EvidenceAddedEventLegacy": {
+      "additionalProperties": false,
+      "properties": {
+        "payload": {
+          "$ref": "#/$defs/LegacyEvidenceAdded"
+        },
+        "payload_error": {
+          "default": null,
+          "title": "Payload Error",
+          "type": "null"
+        },
+        "payload_invalid": {
+          "const": false,
+          "default": false,
+          "title": "Payload Invalid",
+          "type": "boolean"
+        },
+        "payload_schema": {
+          "default": null,
+          "title": "Payload Schema",
+          "type": "null"
+        },
+        "run_id": {
+          "title": "Run Id",
+          "type": "string"
+        },
+        "seq": {
+          "title": "Seq",
+          "type": "integer"
+        },
+        "time": {
+          "format": "date-time",
+          "title": "Time",
+          "type": "string"
+        },
+        "type": {
+          "const": "evidence_added",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "run_id",
+        "seq",
+        "type",
+        "payload",
+        "time"
+      ],
+      "title": "EvidenceAddedEventLegacy",
+      "type": "object"
+    },
+    "EvidenceAddedEventV19": {
+      "additionalProperties": false,
+      "properties": {
+        "payload": {
+          "$ref": "#/$defs/EvidenceAdded"
+        },
+        "payload_error": {
+          "default": null,
+          "title": "Payload Error",
+          "type": "null"
+        },
+        "payload_invalid": {
+          "const": false,
+          "default": false,
+          "title": "Payload Invalid",
+          "type": "boolean"
+        },
+        "payload_schema": {
+          "const": "v1.9",
+          "title": "Payload Schema",
+          "type": "string"
+        },
+        "run_id": {
+          "title": "Run Id",
+          "type": "string"
+        },
+        "seq": {
+          "title": "Seq",
+          "type": "integer"
+        },
+        "time": {
+          "format": "date-time",
+          "title": "Time",
+          "type": "string"
+        },
+        "type": {
+          "const": "evidence_added",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "run_id",
+        "seq",
+        "type",
+        "payload",
+        "time",
+        "payload_schema"
+      ],
+      "title": "EvidenceAddedEventV19",
+      "type": "object"
+    },
+    "EvidenceKind": {
+      "enum": [
+        "calculation",
+        "precedent",
+        "simulation"
+      ],
+      "title": "EvidenceKind",
+      "type": "string"
+    },
+    "EvidenceOff": {
+      "additionalProperties": false,
+      "properties": {
+        "evidence": {
+          "const": "off",
+          "title": "Evidence",
+          "type": "string"
+        },
+        "next_step": {
+          "title": "Next Step",
+          "type": "string"
+        },
+        "reason": {
+          "title": "Reason",
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/$defs/RunStatus"
+        },
+        "step": {
+          "const": "evidence",
+          "title": "Step",
+          "type": "string"
+        }
+      },
+      "required": [
+        "step",
+        "status",
+        "next_step",
+        "evidence",
+        "reason"
+      ],
+      "title": "EvidenceOff",
+      "type": "object"
+    },
+    "EvidenceOn": {
+      "additionalProperties": false,
+      "properties": {
+        "block_list": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/BlockList"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "evidence": {
+          "const": "on",
+          "title": "Evidence",
+          "type": "string"
+        },
+        "lines": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Lines",
+          "type": "array"
+        },
+        "next_step": {
+          "title": "Next Step",
+          "type": "string"
+        },
+        "precedent_index_version": {
+          "title": "Precedent Index Version",
+          "type": "string"
+        },
+        "settings": {
+          "additionalProperties": true,
+          "title": "Settings",
+          "type": "object"
+        },
+        "status": {
+          "$ref": "#/$defs/RunStatus"
+        },
+        "step": {
+          "const": "evidence",
+          "title": "Step",
+          "type": "string"
+        }
+      },
+      "required": [
+        "step",
+        "status",
+        "next_step",
+        "evidence",
+        "lines",
+        "settings",
+        "block_list",
+        "precedent_index_version"
+      ],
+      "title": "EvidenceOn",
+      "type": "object"
+    },
+    "FailedBatch": {
+      "additionalProperties": false,
+      "properties": {
+        "question_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Question Ids",
+          "type": "array"
+        },
+        "reason": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Reason"
+        },
+        "status": {
+          "const": "failed",
+          "title": "Status",
+          "type": "string"
+        }
+      },
+      "required": [
+        "question_ids",
+        "status",
+        "reason"
+      ],
+      "title": "FailedBatch",
+      "type": "object"
+    },
+    "FindingAdded": {
+      "additionalProperties": false,
+      "properties": {
+        "finding_id": {
+          "title": "Finding Id",
+          "type": "string"
+        },
+        "question_id": {
+          "title": "Question Id",
+          "type": "string"
+        },
+        "tier": {
+          "$ref": "#/$defs/Tier"
+        }
+      },
+      "required": [
+        "finding_id",
+        "question_id",
+        "tier"
+      ],
+      "title": "FindingAdded",
+      "type": "object"
+    },
+    "FindingAddedEventLegacy": {
+      "additionalProperties": false,
+      "properties": {
+        "payload": {
+          "$ref": "#/$defs/LegacyFindingAdded"
+        },
+        "payload_error": {
+          "default": null,
+          "title": "Payload Error",
+          "type": "null"
+        },
+        "payload_invalid": {
+          "const": false,
+          "default": false,
+          "title": "Payload Invalid",
+          "type": "boolean"
+        },
+        "payload_schema": {
+          "default": null,
+          "title": "Payload Schema",
+          "type": "null"
+        },
+        "run_id": {
+          "title": "Run Id",
+          "type": "string"
+        },
+        "seq": {
+          "title": "Seq",
+          "type": "integer"
+        },
+        "time": {
+          "format": "date-time",
+          "title": "Time",
+          "type": "string"
+        },
+        "type": {
+          "const": "finding_added",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "run_id",
+        "seq",
+        "type",
+        "payload",
+        "time"
+      ],
+      "title": "FindingAddedEventLegacy",
+      "type": "object"
+    },
+    "FindingAddedEventV19": {
+      "additionalProperties": false,
+      "properties": {
+        "payload": {
+          "$ref": "#/$defs/FindingAdded"
+        },
+        "payload_error": {
+          "default": null,
+          "title": "Payload Error",
+          "type": "null"
+        },
+        "payload_invalid": {
+          "const": false,
+          "default": false,
+          "title": "Payload Invalid",
+          "type": "boolean"
+        },
+        "payload_schema": {
+          "const": "v1.9",
+          "title": "Payload Schema",
+          "type": "string"
+        },
+        "run_id": {
+          "title": "Run Id",
+          "type": "string"
+        },
+        "seq": {
+          "title": "Seq",
+          "type": "integer"
+        },
+        "time": {
+          "format": "date-time",
+          "title": "Time",
+          "type": "string"
+        },
+        "type": {
+          "const": "finding_added",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "run_id",
+        "seq",
+        "type",
+        "payload",
+        "time",
+        "payload_schema"
+      ],
+      "title": "FindingAddedEventV19",
+      "type": "object"
+    },
+    "HypothesisAdded": {
+      "additionalProperties": false,
+      "properties": {
+        "hypothesis_id": {
+          "title": "Hypothesis Id",
+          "type": "string"
+        },
+        "rank": {
+          "title": "Rank",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "hypothesis_id",
+        "rank"
+      ],
+      "title": "HypothesisAdded",
+      "type": "object"
+    },
+    "HypothesisAddedEventLegacy": {
+      "additionalProperties": false,
+      "properties": {
+        "payload": {
+          "$ref": "#/$defs/LegacyHypothesisAdded"
+        },
+        "payload_error": {
+          "default": null,
+          "title": "Payload Error",
+          "type": "null"
+        },
+        "payload_invalid": {
+          "const": false,
+          "default": false,
+          "title": "Payload Invalid",
+          "type": "boolean"
+        },
+        "payload_schema": {
+          "default": null,
+          "title": "Payload Schema",
+          "type": "null"
+        },
+        "run_id": {
+          "title": "Run Id",
+          "type": "string"
+        },
+        "seq": {
+          "title": "Seq",
+          "type": "integer"
+        },
+        "time": {
+          "format": "date-time",
+          "title": "Time",
+          "type": "string"
+        },
+        "type": {
+          "const": "hypothesis_added",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "run_id",
+        "seq",
+        "type",
+        "payload",
+        "time"
+      ],
+      "title": "HypothesisAddedEventLegacy",
+      "type": "object"
+    },
+    "HypothesisAddedEventV19": {
+      "additionalProperties": false,
+      "properties": {
+        "payload": {
+          "$ref": "#/$defs/HypothesisAdded"
+        },
+        "payload_error": {
+          "default": null,
+          "title": "Payload Error",
+          "type": "null"
+        },
+        "payload_invalid": {
+          "const": false,
+          "default": false,
+          "title": "Payload Invalid",
+          "type": "boolean"
+        },
+        "payload_schema": {
+          "const": "v1.9",
+          "title": "Payload Schema",
+          "type": "string"
+        },
+        "run_id": {
+          "title": "Run Id",
+          "type": "string"
+        },
+        "seq": {
+          "title": "Seq",
+          "type": "integer"
+        },
+        "time": {
+          "format": "date-time",
+          "title": "Time",
+          "type": "string"
+        },
+        "type": {
+          "const": "hypothesis_added",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "run_id",
+        "seq",
+        "type",
+        "payload",
+        "time",
+        "payload_schema"
+      ],
+      "title": "HypothesisAddedEventV19",
+      "type": "object"
+    },
+    "HypothesisDropped": {
+      "additionalProperties": false,
+      "properties": {
+        "rank": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Rank"
+        },
+        "reason": {
+          "title": "Reason",
+          "type": "string"
+        }
+      },
+      "required": [
+        "rank",
+        "reason"
+      ],
+      "title": "HypothesisDropped",
+      "type": "object"
+    },
+    "HypothesisDroppedEventV19": {
+      "additionalProperties": false,
+      "properties": {
+        "payload": {
+          "$ref": "#/$defs/HypothesisDropped"
+        },
+        "payload_error": {
+          "default": null,
+          "title": "Payload Error",
+          "type": "null"
+        },
+        "payload_invalid": {
+          "const": false,
+          "default": false,
+          "title": "Payload Invalid",
+          "type": "boolean"
+        },
+        "payload_schema": {
+          "const": "v1.9",
+          "title": "Payload Schema",
+          "type": "string"
+        },
+        "run_id": {
+          "title": "Run Id",
+          "type": "string"
+        },
+        "seq": {
+          "title": "Seq",
+          "type": "integer"
+        },
+        "time": {
+          "format": "date-time",
+          "title": "Time",
+          "type": "string"
+        },
+        "type": {
+          "const": "hypothesis_dropped",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "run_id",
+        "seq",
+        "type",
+        "payload",
+        "time",
+        "payload_schema"
+      ],
+      "title": "HypothesisDroppedEventV19",
+      "type": "object"
+    },
+    "InvalidEvent": {
+      "additionalProperties": false,
+      "description": "An event a live run wrote although its payload failed its model (Bhargavi,\n2026-10-23): shown with its flag and the error, its payload as written.",
+      "properties": {
+        "payload": {
+          "additionalProperties": true,
+          "title": "Payload",
+          "type": "object"
+        },
+        "payload_error": {
+          "title": "Payload Error",
+          "type": "string"
+        },
+        "payload_invalid": {
+          "const": true,
+          "title": "Payload Invalid",
+          "type": "boolean"
+        },
+        "payload_schema": {
+          "const": "v1.9",
+          "title": "Payload Schema",
+          "type": "string"
+        },
+        "run_id": {
+          "title": "Run Id",
+          "type": "string"
+        },
+        "seq": {
+          "title": "Seq",
+          "type": "integer"
+        },
+        "time": {
+          "format": "date-time",
+          "title": "Time",
+          "type": "string"
+        },
+        "type": {
+          "$ref": "#/$defs/EventType"
+        }
+      },
+      "required": [
+        "run_id",
+        "seq",
+        "type",
+        "payload",
+        "time",
+        "payload_schema",
+        "payload_invalid",
+        "payload_error"
+      ],
+      "title": "InvalidEvent",
+      "type": "object"
+    },
+    "LegacyAgentDecision": {
+      "additionalProperties": true,
+      "properties": {
+        "agent": {
+          "title": "Agent",
+          "type": "string"
+        },
+        "reason": {
+          "title": "Reason",
+          "type": "string"
+        },
+        "step_id": {
+          "title": "Step Id",
+          "type": "string"
+        },
+        "tool": {
+          "title": "Tool",
+          "type": "string"
+        }
+      },
+      "required": [
+        "step_id",
+        "agent",
+        "tool",
+        "reason"
+      ],
+      "title": "LegacyAgentDecision",
+      "type": "object"
+    },
+    "LegacyCapHit": {
+      "additionalProperties": true,
+      "properties": {
+        "reason": {
+          "title": "Reason",
+          "type": "string"
+        }
+      },
+      "required": [
+        "reason"
+      ],
+      "title": "LegacyCapHit",
+      "type": "object"
+    },
+    "LegacyChainAdded": {
+      "additionalProperties": true,
+      "properties": {
+        "chain_id": {
+          "title": "Chain Id",
+          "type": "string"
+        },
+        "links": {
+          "title": "Links",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "chain_id",
+        "links"
+      ],
+      "title": "LegacyChainAdded",
+      "type": "object"
+    },
+    "LegacyCoverageUpdated": {
+      "additionalProperties": true,
+      "properties": {
+        "lines": {
+          "items": {
+            "additionalProperties": true,
+            "type": "object"
+          },
+          "title": "Lines",
+          "type": "array"
+        }
+      },
+      "required": [
+        "lines"
+      ],
+      "title": "LegacyCoverageUpdated",
+      "type": "object"
+    },
+    "LegacyDispatch": {
+      "additionalProperties": true,
+      "properties": {
+        "agent": {
+          "title": "Agent",
+          "type": "string"
+        },
+        "batches": {
+          "title": "Batches",
+          "type": "integer"
+        },
+        "level": {
+          "title": "Level",
+          "type": "string"
+        },
+        "question_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Question Ids",
+          "type": "array"
+        },
+        "selected_by_code": {
+          "title": "Selected By Code",
+          "type": "boolean"
+        },
+        "skipped": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Skipped",
+          "type": "array"
+        },
+        "tier": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Tier"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "tier_source": {
+          "anyOf": [
+            {
+              "const": "inferred",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Tier Source"
+        }
+      },
+      "required": [
+        "agent",
+        "level",
+        "question_ids",
+        "selected_by_code",
+        "skipped",
+        "batches"
+      ],
+      "title": "LegacyDispatch",
+      "type": "object"
+    },
+    "LegacyEvidenceAdded": {
+      "additionalProperties": true,
+      "properties": {
+        "evidence_id": {
+          "title": "Evidence Id",
+          "type": "string"
+        },
+        "kind": {
+          "title": "Kind",
+          "type": "string"
+        },
+        "target_id": {
+          "title": "Target Id",
+          "type": "string"
+        },
+        "verdict": {
+          "title": "Verdict",
+          "type": "string"
+        }
+      },
+      "required": [
+        "evidence_id",
+        "target_id",
+        "kind",
+        "verdict"
+      ],
+      "title": "LegacyEvidenceAdded",
+      "type": "object"
+    },
+    "LegacyFindingAdded": {
+      "additionalProperties": true,
+      "properties": {
+        "finding_id": {
+          "title": "Finding Id",
+          "type": "string"
+        },
+        "question_id": {
+          "title": "Question Id",
+          "type": "string"
+        },
+        "tier": {
+          "title": "Tier",
+          "type": "string"
+        }
+      },
+      "required": [
+        "finding_id",
+        "question_id",
+        "tier"
+      ],
+      "title": "LegacyFindingAdded",
+      "type": "object"
+    },
+    "LegacyHypothesisAdded": {
+      "additionalProperties": true,
+      "properties": {
+        "hypothesis_id": {
+          "title": "Hypothesis Id",
+          "type": "string"
+        },
+        "rank": {
+          "title": "Rank",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "hypothesis_id",
+        "rank"
+      ],
+      "title": "LegacyHypothesisAdded",
+      "type": "object"
+    },
+    "LegacyLopaDone": {
+      "additionalProperties": true,
+      "properties": {
+        "complete": {
+          "title": "Complete",
+          "type": "boolean"
+        },
+        "kind": {
+          "title": "Kind",
+          "type": "string"
+        },
+        "lopa_id": {
+          "title": "Lopa Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "lopa_id",
+        "complete",
+        "kind"
+      ],
+      "title": "LegacyLopaDone",
+      "type": "object"
+    },
+    "LegacyModelCall": {
+      "additionalProperties": true,
+      "properties": {
+        "cache_hit": {
+          "title": "Cache Hit",
+          "type": "boolean"
+        },
+        "cap_cost_usd": {
+          "title": "Cap Cost Usd",
+          "type": "number"
+        },
+        "cost_usd": {
+          "title": "Cost Usd",
+          "type": "number"
+        },
+        "job": {
+          "title": "Job",
+          "type": "string"
+        },
+        "model_call_id": {
+          "title": "Model Call Id",
+          "type": "string"
+        },
+        "model_id": {
+          "title": "Model Id",
+          "type": "string"
+        },
+        "outcome": {
+          "title": "Outcome",
+          "type": "string"
+        },
+        "tier": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Tier"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "tier_source": {
+          "anyOf": [
+            {
+              "const": "inferred",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Tier Source"
+        }
+      },
+      "required": [
+        "model_call_id",
+        "job",
+        "model_id",
+        "cache_hit",
+        "outcome",
+        "cost_usd",
+        "cap_cost_usd"
+      ],
+      "title": "LegacyModelCall",
+      "type": "object"
+    },
+    "LegacyRunExtended": {
+      "additionalProperties": true,
+      "properties": {
+        "jobs": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Jobs",
+          "type": "object"
+        },
+        "max_tokens": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "Max Tokens",
+          "type": "object"
+        },
+        "post_spend_cap_usd": {
+          "title": "Post Spend Cap Usd",
+          "type": "number"
+        },
+        "prompt_versions": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Prompt Versions",
+          "type": "object"
+        },
+        "resumed_after_post_cap": {
+          "title": "Resumed After Post Cap",
+          "type": "boolean"
+        },
+        "settings": {
+          "additionalProperties": true,
+          "title": "Settings",
+          "type": "object"
+        },
+        "step": {
+          "title": "Step",
+          "type": "string"
+        }
+      },
+      "required": [
+        "post_spend_cap_usd",
+        "settings",
+        "jobs",
+        "max_tokens",
+        "prompt_versions",
+        "resumed_after_post_cap",
+        "step"
+      ],
+      "title": "LegacyRunExtended",
+      "type": "object"
+    },
+    "LegacyRunFinished": {
+      "additionalProperties": true,
+      "properties": {
+        "spent_usd": {
+          "title": "Spent Usd",
+          "type": "number"
+        }
+      },
+      "required": [
+        "spent_usd"
+      ],
+      "title": "LegacyRunFinished",
+      "type": "object"
+    },
+    "LegacyRunStarted": {
+      "additionalProperties": true,
+      "properties": {
+        "attempt": {
+          "title": "Attempt",
+          "type": "integer"
+        },
+        "questions": {
+          "title": "Questions",
+          "type": "integer"
+        },
+        "sections": {
+          "title": "Sections",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "attempt",
+        "questions",
+        "sections"
+      ],
+      "title": "LegacyRunStarted",
+      "type": "object"
+    },
+    "LegacyStepFinished": {
+      "additionalProperties": true,
+      "properties": {
+        "next_step": {
+          "title": "Next Step",
+          "type": "string"
+        },
+        "status": {
+          "title": "Status",
+          "type": "string"
+        },
+        "step": {
+          "title": "Step",
+          "type": "string"
+        }
+      },
+      "required": [
+        "step",
+        "status",
+        "next_step"
+      ],
+      "title": "LegacyStepFinished",
+      "type": "object"
+    },
+    "LegacyStepStarted": {
+      "additionalProperties": true,
+      "properties": {
+        "step": {
+          "title": "Step",
+          "type": "string"
+        }
+      },
+      "required": [
+        "step"
+      ],
+      "title": "LegacyStepStarted",
+      "type": "object"
+    },
+    "LegacyToolCall": {
+      "additionalProperties": true,
+      "properties": {
+        "refused": {
+          "title": "Refused",
+          "type": "boolean"
+        },
+        "tool": {
+          "title": "Tool",
+          "type": "string"
+        },
+        "tool_call_id": {
+          "title": "Tool Call Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "tool_call_id",
+        "tool",
+        "refused"
+      ],
+      "title": "LegacyToolCall",
+      "type": "object"
+    },
+    "LopaDone": {
+      "additionalProperties": false,
+      "properties": {
+        "complete": {
+          "title": "Complete",
+          "type": "boolean"
+        },
+        "kind": {
+          "enum": [
+            "full",
+            "code_only"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "lopa_id": {
+          "title": "Lopa Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "lopa_id",
+        "complete",
+        "kind"
+      ],
+      "title": "LopaDone",
+      "type": "object"
+    },
+    "LopaDoneEventLegacy": {
+      "additionalProperties": false,
+      "properties": {
+        "payload": {
+          "$ref": "#/$defs/LegacyLopaDone"
+        },
+        "payload_error": {
+          "default": null,
+          "title": "Payload Error",
+          "type": "null"
+        },
+        "payload_invalid": {
+          "const": false,
+          "default": false,
+          "title": "Payload Invalid",
+          "type": "boolean"
+        },
+        "payload_schema": {
+          "default": null,
+          "title": "Payload Schema",
+          "type": "null"
+        },
+        "run_id": {
+          "title": "Run Id",
+          "type": "string"
+        },
+        "seq": {
+          "title": "Seq",
+          "type": "integer"
+        },
+        "time": {
+          "format": "date-time",
+          "title": "Time",
+          "type": "string"
+        },
+        "type": {
+          "const": "lopa_done",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "run_id",
+        "seq",
+        "type",
+        "payload",
+        "time"
+      ],
+      "title": "LopaDoneEventLegacy",
+      "type": "object"
+    },
+    "LopaDoneEventV19": {
+      "additionalProperties": false,
+      "properties": {
+        "payload": {
+          "$ref": "#/$defs/LopaDone"
+        },
+        "payload_error": {
+          "default": null,
+          "title": "Payload Error",
+          "type": "null"
+        },
+        "payload_invalid": {
+          "const": false,
+          "default": false,
+          "title": "Payload Invalid",
+          "type": "boolean"
+        },
+        "payload_schema": {
+          "const": "v1.9",
+          "title": "Payload Schema",
+          "type": "string"
+        },
+        "run_id": {
+          "title": "Run Id",
+          "type": "string"
+        },
+        "seq": {
+          "title": "Seq",
+          "type": "integer"
+        },
+        "time": {
+          "format": "date-time",
+          "title": "Time",
+          "type": "string"
+        },
+        "type": {
+          "const": "lopa_done",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "run_id",
+        "seq",
+        "type",
+        "payload",
+        "time",
+        "payload_schema"
+      ],
+      "title": "LopaDoneEventV19",
+      "type": "object"
+    },
+    "ModelCallEvent": {
+      "additionalProperties": false,
+      "properties": {
+        "cache_hit": {
+          "title": "Cache Hit",
+          "type": "boolean"
+        },
+        "cap_cost_usd": {
+          "title": "Cap Cost Usd",
+          "type": "number"
+        },
+        "cost_usd": {
+          "title": "Cost Usd",
+          "type": "number"
+        },
+        "fell_back_from": {
+          "anyOf": [
+            {
+              "items": {
+                "$ref": "#/$defs/Tier"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Fell Back From"
+        },
+        "job": {
+          "title": "Job",
+          "type": "string"
+        },
+        "model_call_id": {
+          "title": "Model Call Id",
+          "type": "string"
+        },
+        "model_id": {
+          "title": "Model Id",
+          "type": "string"
+        },
+        "outcome": {
+          "enum": [
+            "ok",
+            "invalid",
+            "truncated",
+            "error"
+          ],
+          "title": "Outcome",
+          "type": "string"
+        },
+        "tier": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Tier"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "tier_source": {
+          "anyOf": [
+            {
+              "const": "recorded",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Tier Source"
+        }
+      },
+      "required": [
+        "model_call_id",
+        "job",
+        "model_id",
+        "cache_hit",
+        "outcome",
+        "cost_usd",
+        "cap_cost_usd",
+        "tier",
+        "tier_source"
+      ],
+      "title": "ModelCallEvent",
+      "type": "object"
+    },
+    "ModelCallEventLegacy": {
+      "additionalProperties": false,
+      "properties": {
+        "payload": {
+          "$ref": "#/$defs/LegacyModelCall"
+        },
+        "payload_error": {
+          "default": null,
+          "title": "Payload Error",
+          "type": "null"
+        },
+        "payload_invalid": {
+          "const": false,
+          "default": false,
+          "title": "Payload Invalid",
+          "type": "boolean"
+        },
+        "payload_schema": {
+          "default": null,
+          "title": "Payload Schema",
+          "type": "null"
+        },
+        "run_id": {
+          "title": "Run Id",
+          "type": "string"
+        },
+        "seq": {
+          "title": "Seq",
+          "type": "integer"
+        },
+        "time": {
+          "format": "date-time",
+          "title": "Time",
+          "type": "string"
+        },
+        "type": {
+          "const": "model_call",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "run_id",
+        "seq",
+        "type",
+        "payload",
+        "time"
+      ],
+      "title": "ModelCallEventLegacy",
+      "type": "object"
+    },
+    "ModelCallEventV19": {
+      "additionalProperties": false,
+      "properties": {
+        "payload": {
+          "$ref": "#/$defs/ModelCallEvent"
+        },
+        "payload_error": {
+          "default": null,
+          "title": "Payload Error",
+          "type": "null"
+        },
+        "payload_invalid": {
+          "const": false,
+          "default": false,
+          "title": "Payload Invalid",
+          "type": "boolean"
+        },
+        "payload_schema": {
+          "const": "v1.9",
+          "title": "Payload Schema",
+          "type": "string"
+        },
+        "run_id": {
+          "title": "Run Id",
+          "type": "string"
+        },
+        "seq": {
+          "title": "Seq",
+          "type": "integer"
+        },
+        "time": {
+          "format": "date-time",
+          "title": "Time",
+          "type": "string"
+        },
+        "type": {
+          "const": "model_call",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "run_id",
+        "seq",
+        "type",
+        "payload",
+        "time",
+        "payload_schema"
+      ],
+      "title": "ModelCallEventV19",
+      "type": "object"
+    },
+    "RejectedChain": {
+      "additionalProperties": false,
+      "properties": {
+        "links": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Links",
+          "type": "array"
+        },
+        "reason": {
+          "title": "Reason",
+          "type": "string"
+        }
+      },
+      "required": [
+        "links",
+        "reason"
+      ],
+      "title": "RejectedChain",
+      "type": "object"
+    },
+    "RetryFailedFinished": {
+      "additionalProperties": false,
+      "properties": {
+        "error": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Error"
+        },
+        "findings": {
+          "title": "Findings",
+          "type": "integer"
+        },
+        "next_step": {
+          "title": "Next Step",
+          "type": "string"
+        },
+        "outcome": {
+          "title": "Outcome",
+          "type": "string"
+        },
+        "question_id": {
+          "title": "Question Id",
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/$defs/RunStatus"
+        },
+        "step": {
+          "const": "retry_failed",
+          "title": "Step",
+          "type": "string"
+        }
+      },
+      "required": [
+        "step",
+        "status",
+        "next_step",
+        "question_id",
+        "outcome",
+        "error",
+        "findings"
+      ],
+      "title": "RetryFailedFinished",
+      "type": "object"
+    },
+    "RunExtendedEventLegacy": {
+      "additionalProperties": false,
+      "properties": {
+        "payload": {
+          "$ref": "#/$defs/LegacyRunExtended"
+        },
+        "payload_error": {
+          "default": null,
+          "title": "Payload Error",
+          "type": "null"
+        },
+        "payload_invalid": {
+          "const": false,
+          "default": false,
+          "title": "Payload Invalid",
+          "type": "boolean"
+        },
+        "payload_schema": {
+          "default": null,
+          "title": "Payload Schema",
+          "type": "null"
+        },
+        "run_id": {
+          "title": "Run Id",
+          "type": "string"
+        },
+        "seq": {
+          "title": "Seq",
+          "type": "integer"
+        },
+        "time": {
+          "format": "date-time",
+          "title": "Time",
+          "type": "string"
+        },
+        "type": {
+          "const": "run_extended",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "run_id",
+        "seq",
+        "type",
+        "payload",
+        "time"
+      ],
+      "title": "RunExtendedEventLegacy",
+      "type": "object"
+    },
+    "RunExtendedEventV19": {
+      "additionalProperties": false,
+      "properties": {
+        "payload": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/RunExtendedPass"
+            },
+            {
+              "$ref": "#/$defs/RunExtendedRerun"
+            },
+            {
+              "$ref": "#/$defs/RunExtendedEvidence"
+            },
+            {
+              "$ref": "#/$defs/RunExtendedRetry"
+            }
+          ],
+          "title": "Payload"
+        },
+        "payload_error": {
+          "default": null,
+          "title": "Payload Error",
+          "type": "null"
+        },
+        "payload_invalid": {
+          "const": false,
+          "default": false,
+          "title": "Payload Invalid",
+          "type": "boolean"
+        },
+        "payload_schema": {
+          "const": "v1.9",
+          "title": "Payload Schema",
+          "type": "string"
+        },
+        "run_id": {
+          "title": "Run Id",
+          "type": "string"
+        },
+        "seq": {
+          "title": "Seq",
+          "type": "integer"
+        },
+        "time": {
+          "format": "date-time",
+          "title": "Time",
+          "type": "string"
+        },
+        "type": {
+          "const": "run_extended",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "run_id",
+        "seq",
+        "type",
+        "payload",
+        "time",
+        "payload_schema"
+      ],
+      "title": "RunExtendedEventV19",
+      "type": "object"
+    },
+    "RunExtendedEvidence": {
+      "additionalProperties": false,
+      "properties": {
+        "evidence_only": {
+          "const": true,
+          "title": "Evidence Only",
+          "type": "boolean"
+        },
+        "evidence_settings": {
+          "additionalProperties": true,
+          "title": "Evidence Settings",
+          "type": "object"
+        },
+        "jobs": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Jobs",
+          "type": "object"
+        },
+        "max_tokens": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "Max Tokens",
+          "type": "object"
+        },
+        "post_spend_cap_usd": {
+          "title": "Post Spend Cap Usd",
+          "type": "number"
+        },
+        "prompt_versions": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Prompt Versions",
+          "type": "object"
+        },
+        "ranking": {
+          "additionalProperties": {
+            "type": "boolean"
+          },
+          "title": "Ranking",
+          "type": "object"
+        },
+        "resumed_after_post_cap": {
+          "title": "Resumed After Post Cap",
+          "type": "boolean"
+        },
+        "settings": {
+          "additionalProperties": true,
+          "title": "Settings",
+          "type": "object"
+        },
+        "step": {
+          "title": "Step",
+          "type": "string"
+        }
+      },
+      "required": [
+        "post_spend_cap_usd",
+        "settings",
+        "jobs",
+        "max_tokens",
+        "prompt_versions",
+        "ranking",
+        "evidence_settings",
+        "resumed_after_post_cap",
+        "step",
+        "evidence_only"
+      ],
+      "title": "RunExtendedEvidence",
+      "type": "object"
+    },
+    "RunExtendedPass": {
+      "additionalProperties": false,
+      "description": "A new post-analysis pass, or a resume after the post cap.",
+      "properties": {
+        "evidence_settings": {
+          "additionalProperties": true,
+          "title": "Evidence Settings",
+          "type": "object"
+        },
+        "jobs": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Jobs",
+          "type": "object"
+        },
+        "max_tokens": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "Max Tokens",
+          "type": "object"
+        },
+        "post_spend_cap_usd": {
+          "title": "Post Spend Cap Usd",
+          "type": "number"
+        },
+        "prompt_versions": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Prompt Versions",
+          "type": "object"
+        },
+        "ranking": {
+          "additionalProperties": {
+            "type": "boolean"
+          },
+          "title": "Ranking",
+          "type": "object"
+        },
+        "resumed_after_post_cap": {
+          "title": "Resumed After Post Cap",
+          "type": "boolean"
+        },
+        "settings": {
+          "additionalProperties": true,
+          "title": "Settings",
+          "type": "object"
+        },
+        "step": {
+          "title": "Step",
+          "type": "string"
+        }
+      },
+      "required": [
+        "post_spend_cap_usd",
+        "settings",
+        "jobs",
+        "max_tokens",
+        "prompt_versions",
+        "ranking",
+        "evidence_settings",
+        "resumed_after_post_cap",
+        "step"
+      ],
+      "title": "RunExtendedPass",
+      "type": "object"
+    },
+    "RunExtendedRerun": {
+      "additionalProperties": false,
+      "properties": {
+        "evidence_settings": {
+          "additionalProperties": true,
+          "title": "Evidence Settings",
+          "type": "object"
+        },
+        "jobs": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Jobs",
+          "type": "object"
+        },
+        "max_tokens": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "Max Tokens",
+          "type": "object"
+        },
+        "post_spend_cap_usd": {
+          "title": "Post Spend Cap Usd",
+          "type": "number"
+        },
+        "prompt_versions": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Prompt Versions",
+          "type": "object"
+        },
+        "ranking": {
+          "additionalProperties": {
+            "type": "boolean"
+          },
+          "title": "Ranking",
+          "type": "object"
+        },
+        "rerun_from": {
+          "title": "Rerun From",
+          "type": "string"
+        },
+        "resumed_after_post_cap": {
+          "title": "Resumed After Post Cap",
+          "type": "boolean"
+        },
+        "settings": {
+          "additionalProperties": true,
+          "title": "Settings",
+          "type": "object"
+        },
+        "step": {
+          "title": "Step",
+          "type": "string"
+        },
+        "superseded_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Superseded Ids",
+          "type": "array"
+        },
+        "superseded_pass_seq": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Superseded Pass Seq"
+        }
+      },
+      "required": [
+        "post_spend_cap_usd",
+        "settings",
+        "jobs",
+        "max_tokens",
+        "prompt_versions",
+        "ranking",
+        "evidence_settings",
+        "resumed_after_post_cap",
+        "step",
+        "rerun_from",
+        "superseded_pass_seq",
+        "superseded_ids"
+      ],
+      "title": "RunExtendedRerun",
+      "type": "object"
+    },
+    "RunExtendedRetry": {
+      "additionalProperties": false,
+      "properties": {
+        "evidence_settings": {
+          "additionalProperties": true,
+          "title": "Evidence Settings",
+          "type": "object"
+        },
+        "jobs": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Jobs",
+          "type": "object"
+        },
+        "max_tokens": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "Max Tokens",
+          "type": "object"
+        },
+        "post_spend_cap_usd": {
+          "title": "Post Spend Cap Usd",
+          "type": "number"
+        },
+        "prompt_versions": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Prompt Versions",
+          "type": "object"
+        },
+        "ranking": {
+          "additionalProperties": {
+            "type": "boolean"
+          },
+          "title": "Ranking",
+          "type": "object"
+        },
+        "rerun_from": {
+          "const": "retry_failed",
+          "title": "Rerun From",
+          "type": "string"
+        },
+        "resumed_after_post_cap": {
+          "title": "Resumed After Post Cap",
+          "type": "boolean"
+        },
+        "retry_cap_usd": {
+          "title": "Retry Cap Usd",
+          "type": "number"
+        },
+        "retry_failed": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Retry Failed",
+          "type": "array"
+        },
+        "settings": {
+          "additionalProperties": true,
+          "title": "Settings",
+          "type": "object"
+        },
+        "step": {
+          "title": "Step",
+          "type": "string"
+        },
+        "superseded_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Superseded Ids",
+          "type": "array"
+        },
+        "superseded_pass_seq": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Superseded Pass Seq"
+        }
+      },
+      "required": [
+        "post_spend_cap_usd",
+        "settings",
+        "jobs",
+        "max_tokens",
+        "prompt_versions",
+        "ranking",
+        "evidence_settings",
+        "resumed_after_post_cap",
+        "step",
+        "rerun_from",
+        "retry_failed",
+        "retry_cap_usd",
+        "superseded_pass_seq",
+        "superseded_ids"
+      ],
+      "title": "RunExtendedRetry",
+      "type": "object"
+    },
+    "RunFailed": {
+      "additionalProperties": false,
+      "properties": {
+        "step": {
+          "title": "Step",
+          "type": "string"
+        }
+      },
+      "required": [
+        "step"
+      ],
+      "title": "RunFailed",
+      "type": "object"
+    },
+    "RunFailedEventV19": {
+      "additionalProperties": false,
+      "properties": {
+        "payload": {
+          "$ref": "#/$defs/RunFailed"
+        },
+        "payload_error": {
+          "default": null,
+          "title": "Payload Error",
+          "type": "null"
+        },
+        "payload_invalid": {
+          "const": false,
+          "default": false,
+          "title": "Payload Invalid",
+          "type": "boolean"
+        },
+        "payload_schema": {
+          "const": "v1.9",
+          "title": "Payload Schema",
+          "type": "string"
+        },
+        "run_id": {
+          "title": "Run Id",
+          "type": "string"
+        },
+        "seq": {
+          "title": "Seq",
+          "type": "integer"
+        },
+        "time": {
+          "format": "date-time",
+          "title": "Time",
+          "type": "string"
+        },
+        "type": {
+          "const": "run_failed",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "run_id",
+        "seq",
+        "type",
+        "payload",
+        "time",
+        "payload_schema"
+      ],
+      "title": "RunFailedEventV19",
+      "type": "object"
+    },
+    "RunFinished": {
+      "additionalProperties": false,
+      "properties": {
+        "spent_usd": {
+          "title": "Spent Usd",
+          "type": "number"
+        }
+      },
+      "required": [
+        "spent_usd"
+      ],
+      "title": "RunFinished",
+      "type": "object"
+    },
+    "RunFinishedEventLegacy": {
+      "additionalProperties": false,
+      "properties": {
+        "payload": {
+          "$ref": "#/$defs/LegacyRunFinished"
+        },
+        "payload_error": {
+          "default": null,
+          "title": "Payload Error",
+          "type": "null"
+        },
+        "payload_invalid": {
+          "const": false,
+          "default": false,
+          "title": "Payload Invalid",
+          "type": "boolean"
+        },
+        "payload_schema": {
+          "default": null,
+          "title": "Payload Schema",
+          "type": "null"
+        },
+        "run_id": {
+          "title": "Run Id",
+          "type": "string"
+        },
+        "seq": {
+          "title": "Seq",
+          "type": "integer"
+        },
+        "time": {
+          "format": "date-time",
+          "title": "Time",
+          "type": "string"
+        },
+        "type": {
+          "const": "run_finished",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "run_id",
+        "seq",
+        "type",
+        "payload",
+        "time"
+      ],
+      "title": "RunFinishedEventLegacy",
+      "type": "object"
+    },
+    "RunFinishedEventV19": {
+      "additionalProperties": false,
+      "properties": {
+        "payload": {
+          "$ref": "#/$defs/RunFinished"
+        },
+        "payload_error": {
+          "default": null,
+          "title": "Payload Error",
+          "type": "null"
+        },
+        "payload_invalid": {
+          "const": false,
+          "default": false,
+          "title": "Payload Invalid",
+          "type": "boolean"
+        },
+        "payload_schema": {
+          "const": "v1.9",
+          "title": "Payload Schema",
+          "type": "string"
+        },
+        "run_id": {
+          "title": "Run Id",
+          "type": "string"
+        },
+        "seq": {
+          "title": "Seq",
+          "type": "integer"
+        },
+        "time": {
+          "format": "date-time",
+          "title": "Time",
+          "type": "string"
+        },
+        "type": {
+          "const": "run_finished",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "run_id",
+        "seq",
+        "type",
+        "payload",
+        "time",
+        "payload_schema"
+      ],
+      "title": "RunFinishedEventV19",
+      "type": "object"
     },
     "RunLabel": {
       "additionalProperties": false,
@@ -137,13 +3541,674 @@
       ],
       "title": "RunLabelKind",
       "type": "string"
+    },
+    "RunStarted": {
+      "additionalProperties": false,
+      "properties": {
+        "attempt": {
+          "title": "Attempt",
+          "type": "integer"
+        },
+        "questions": {
+          "title": "Questions",
+          "type": "integer"
+        },
+        "sections": {
+          "title": "Sections",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "attempt",
+        "questions",
+        "sections"
+      ],
+      "title": "RunStarted",
+      "type": "object"
+    },
+    "RunStartedEventLegacy": {
+      "additionalProperties": false,
+      "properties": {
+        "payload": {
+          "$ref": "#/$defs/LegacyRunStarted"
+        },
+        "payload_error": {
+          "default": null,
+          "title": "Payload Error",
+          "type": "null"
+        },
+        "payload_invalid": {
+          "const": false,
+          "default": false,
+          "title": "Payload Invalid",
+          "type": "boolean"
+        },
+        "payload_schema": {
+          "default": null,
+          "title": "Payload Schema",
+          "type": "null"
+        },
+        "run_id": {
+          "title": "Run Id",
+          "type": "string"
+        },
+        "seq": {
+          "title": "Seq",
+          "type": "integer"
+        },
+        "time": {
+          "format": "date-time",
+          "title": "Time",
+          "type": "string"
+        },
+        "type": {
+          "const": "run_started",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "run_id",
+        "seq",
+        "type",
+        "payload",
+        "time"
+      ],
+      "title": "RunStartedEventLegacy",
+      "type": "object"
+    },
+    "RunStartedEventV19": {
+      "additionalProperties": false,
+      "properties": {
+        "payload": {
+          "$ref": "#/$defs/RunStarted"
+        },
+        "payload_error": {
+          "default": null,
+          "title": "Payload Error",
+          "type": "null"
+        },
+        "payload_invalid": {
+          "const": false,
+          "default": false,
+          "title": "Payload Invalid",
+          "type": "boolean"
+        },
+        "payload_schema": {
+          "const": "v1.9",
+          "title": "Payload Schema",
+          "type": "string"
+        },
+        "run_id": {
+          "title": "Run Id",
+          "type": "string"
+        },
+        "seq": {
+          "title": "Seq",
+          "type": "integer"
+        },
+        "time": {
+          "format": "date-time",
+          "title": "Time",
+          "type": "string"
+        },
+        "type": {
+          "const": "run_started",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "run_id",
+        "seq",
+        "type",
+        "payload",
+        "time",
+        "payload_schema"
+      ],
+      "title": "RunStartedEventV19",
+      "type": "object"
+    },
+    "RunStatus": {
+      "description": "`draft` = run created, setup not yet done (D9).",
+      "enum": [
+        "draft",
+        "running",
+        "finished",
+        "stopped_cap",
+        "stopped_budget",
+        "failed",
+        "cancelled"
+      ],
+      "title": "RunStatus",
+      "type": "string"
+    },
+    "StepFinishedBare": {
+      "additionalProperties": false,
+      "description": "A step with no summary: every step that only moves on, and any step stopped by a cap.",
+      "properties": {
+        "next_step": {
+          "title": "Next Step",
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/$defs/RunStatus"
+        },
+        "step": {
+          "title": "Step",
+          "type": "string"
+        }
+      },
+      "required": [
+        "step",
+        "status",
+        "next_step"
+      ],
+      "title": "StepFinishedBare",
+      "type": "object"
+    },
+    "StepFinishedEventLegacy": {
+      "additionalProperties": false,
+      "properties": {
+        "payload": {
+          "$ref": "#/$defs/LegacyStepFinished"
+        },
+        "payload_error": {
+          "default": null,
+          "title": "Payload Error",
+          "type": "null"
+        },
+        "payload_invalid": {
+          "const": false,
+          "default": false,
+          "title": "Payload Invalid",
+          "type": "boolean"
+        },
+        "payload_schema": {
+          "default": null,
+          "title": "Payload Schema",
+          "type": "null"
+        },
+        "run_id": {
+          "title": "Run Id",
+          "type": "string"
+        },
+        "seq": {
+          "title": "Seq",
+          "type": "integer"
+        },
+        "time": {
+          "format": "date-time",
+          "title": "Time",
+          "type": "string"
+        },
+        "type": {
+          "const": "step_finished",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "run_id",
+        "seq",
+        "type",
+        "payload",
+        "time"
+      ],
+      "title": "StepFinishedEventLegacy",
+      "type": "object"
+    },
+    "StepFinishedEventV19": {
+      "additionalProperties": false,
+      "properties": {
+        "payload": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/StepFinishedBare"
+            },
+            {
+              "$ref": "#/$defs/ChainsFinished"
+            },
+            {
+              "$ref": "#/$defs/ChainsFinishedNoScenarios"
+            },
+            {
+              "$ref": "#/$defs/ChainSeverityFinished"
+            },
+            {
+              "$ref": "#/$defs/EvidenceOn"
+            },
+            {
+              "$ref": "#/$defs/EvidenceOff"
+            },
+            {
+              "$ref": "#/$defs/RetryFailedFinished"
+            }
+          ],
+          "title": "Payload"
+        },
+        "payload_error": {
+          "default": null,
+          "title": "Payload Error",
+          "type": "null"
+        },
+        "payload_invalid": {
+          "const": false,
+          "default": false,
+          "title": "Payload Invalid",
+          "type": "boolean"
+        },
+        "payload_schema": {
+          "const": "v1.9",
+          "title": "Payload Schema",
+          "type": "string"
+        },
+        "run_id": {
+          "title": "Run Id",
+          "type": "string"
+        },
+        "seq": {
+          "title": "Seq",
+          "type": "integer"
+        },
+        "time": {
+          "format": "date-time",
+          "title": "Time",
+          "type": "string"
+        },
+        "type": {
+          "const": "step_finished",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "run_id",
+        "seq",
+        "type",
+        "payload",
+        "time",
+        "payload_schema"
+      ],
+      "title": "StepFinishedEventV19",
+      "type": "object"
+    },
+    "StepStarted": {
+      "additionalProperties": false,
+      "properties": {
+        "step": {
+          "title": "Step",
+          "type": "string"
+        }
+      },
+      "required": [
+        "step"
+      ],
+      "title": "StepStarted",
+      "type": "object"
+    },
+    "StepStartedEventLegacy": {
+      "additionalProperties": false,
+      "properties": {
+        "payload": {
+          "$ref": "#/$defs/LegacyStepStarted"
+        },
+        "payload_error": {
+          "default": null,
+          "title": "Payload Error",
+          "type": "null"
+        },
+        "payload_invalid": {
+          "const": false,
+          "default": false,
+          "title": "Payload Invalid",
+          "type": "boolean"
+        },
+        "payload_schema": {
+          "default": null,
+          "title": "Payload Schema",
+          "type": "null"
+        },
+        "run_id": {
+          "title": "Run Id",
+          "type": "string"
+        },
+        "seq": {
+          "title": "Seq",
+          "type": "integer"
+        },
+        "time": {
+          "format": "date-time",
+          "title": "Time",
+          "type": "string"
+        },
+        "type": {
+          "const": "step_started",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "run_id",
+        "seq",
+        "type",
+        "payload",
+        "time"
+      ],
+      "title": "StepStartedEventLegacy",
+      "type": "object"
+    },
+    "StepStartedEventV19": {
+      "additionalProperties": false,
+      "properties": {
+        "payload": {
+          "$ref": "#/$defs/StepStarted"
+        },
+        "payload_error": {
+          "default": null,
+          "title": "Payload Error",
+          "type": "null"
+        },
+        "payload_invalid": {
+          "const": false,
+          "default": false,
+          "title": "Payload Invalid",
+          "type": "boolean"
+        },
+        "payload_schema": {
+          "const": "v1.9",
+          "title": "Payload Schema",
+          "type": "string"
+        },
+        "run_id": {
+          "title": "Run Id",
+          "type": "string"
+        },
+        "seq": {
+          "title": "Seq",
+          "type": "integer"
+        },
+        "time": {
+          "format": "date-time",
+          "title": "Time",
+          "type": "string"
+        },
+        "type": {
+          "const": "step_started",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "run_id",
+        "seq",
+        "type",
+        "payload",
+        "time",
+        "payload_schema"
+      ],
+      "title": "StepStartedEventV19",
+      "type": "object"
+    },
+    "Tier": {
+      "description": "Model tiers; config/routing.yaml maps jobs to these, the live model list to IDs.",
+      "enum": [
+        "ultra",
+        "super",
+        "lightning",
+        "nano"
+      ],
+      "title": "Tier",
+      "type": "string"
+    },
+    "ToolCallEvent": {
+      "additionalProperties": false,
+      "properties": {
+        "refused": {
+          "title": "Refused",
+          "type": "boolean"
+        },
+        "tool": {
+          "title": "Tool",
+          "type": "string"
+        },
+        "tool_call_id": {
+          "title": "Tool Call Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "tool_call_id",
+        "tool",
+        "refused"
+      ],
+      "title": "ToolCallEvent",
+      "type": "object"
+    },
+    "ToolCallEventLegacy": {
+      "additionalProperties": false,
+      "properties": {
+        "payload": {
+          "$ref": "#/$defs/LegacyToolCall"
+        },
+        "payload_error": {
+          "default": null,
+          "title": "Payload Error",
+          "type": "null"
+        },
+        "payload_invalid": {
+          "const": false,
+          "default": false,
+          "title": "Payload Invalid",
+          "type": "boolean"
+        },
+        "payload_schema": {
+          "default": null,
+          "title": "Payload Schema",
+          "type": "null"
+        },
+        "run_id": {
+          "title": "Run Id",
+          "type": "string"
+        },
+        "seq": {
+          "title": "Seq",
+          "type": "integer"
+        },
+        "time": {
+          "format": "date-time",
+          "title": "Time",
+          "type": "string"
+        },
+        "type": {
+          "const": "tool_call",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "run_id",
+        "seq",
+        "type",
+        "payload",
+        "time"
+      ],
+      "title": "ToolCallEventLegacy",
+      "type": "object"
+    },
+    "ToolCallEventV19": {
+      "additionalProperties": false,
+      "properties": {
+        "payload": {
+          "$ref": "#/$defs/ToolCallEvent"
+        },
+        "payload_error": {
+          "default": null,
+          "title": "Payload Error",
+          "type": "null"
+        },
+        "payload_invalid": {
+          "const": false,
+          "default": false,
+          "title": "Payload Invalid",
+          "type": "boolean"
+        },
+        "payload_schema": {
+          "const": "v1.9",
+          "title": "Payload Schema",
+          "type": "string"
+        },
+        "run_id": {
+          "title": "Run Id",
+          "type": "string"
+        },
+        "seq": {
+          "title": "Seq",
+          "type": "integer"
+        },
+        "time": {
+          "format": "date-time",
+          "title": "Time",
+          "type": "string"
+        },
+        "type": {
+          "const": "tool_call",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "run_id",
+        "seq",
+        "type",
+        "payload",
+        "time",
+        "payload_schema"
+      ],
+      "title": "ToolCallEventV19",
+      "type": "object"
+    },
+    "Verdict": {
+      "enum": [
+        "confirmed",
+        "contradicted",
+        "none"
+      ],
+      "title": "Verdict",
+      "type": "string"
     }
   },
   "additionalProperties": false,
   "properties": {
     "events": {
       "items": {
-        "$ref": "#/$defs/Event"
+        "oneOf": [
+          {
+            "$ref": "#/$defs/InvalidEvent"
+          },
+          {
+            "$ref": "#/$defs/RunStartedEventV19"
+          },
+          {
+            "$ref": "#/$defs/RunStartedEventLegacy"
+          },
+          {
+            "$ref": "#/$defs/StepStartedEventV19"
+          },
+          {
+            "$ref": "#/$defs/StepStartedEventLegacy"
+          },
+          {
+            "$ref": "#/$defs/StepFinishedEventV19"
+          },
+          {
+            "$ref": "#/$defs/StepFinishedEventLegacy"
+          },
+          {
+            "$ref": "#/$defs/AgentDecisionEventV19"
+          },
+          {
+            "$ref": "#/$defs/AgentDecisionEventLegacy"
+          },
+          {
+            "$ref": "#/$defs/DispatchEventV19"
+          },
+          {
+            "$ref": "#/$defs/DispatchEventLegacy"
+          },
+          {
+            "$ref": "#/$defs/ModelCallEventV19"
+          },
+          {
+            "$ref": "#/$defs/ModelCallEventLegacy"
+          },
+          {
+            "$ref": "#/$defs/ToolCallEventV19"
+          },
+          {
+            "$ref": "#/$defs/ToolCallEventLegacy"
+          },
+          {
+            "$ref": "#/$defs/FindingAddedEventV19"
+          },
+          {
+            "$ref": "#/$defs/FindingAddedEventLegacy"
+          },
+          {
+            "$ref": "#/$defs/ChainAddedEventV19"
+          },
+          {
+            "$ref": "#/$defs/ChainAddedEventLegacy"
+          },
+          {
+            "$ref": "#/$defs/LopaDoneEventV19"
+          },
+          {
+            "$ref": "#/$defs/LopaDoneEventLegacy"
+          },
+          {
+            "$ref": "#/$defs/EvidenceAddedEventV19"
+          },
+          {
+            "$ref": "#/$defs/EvidenceAddedEventLegacy"
+          },
+          {
+            "$ref": "#/$defs/CoverageUpdatedEventV19"
+          },
+          {
+            "$ref": "#/$defs/CoverageUpdatedEventLegacy"
+          },
+          {
+            "$ref": "#/$defs/CapHitEventV19"
+          },
+          {
+            "$ref": "#/$defs/CapHitEventLegacy"
+          },
+          {
+            "$ref": "#/$defs/RunFinishedEventV19"
+          },
+          {
+            "$ref": "#/$defs/RunFinishedEventLegacy"
+          },
+          {
+            "$ref": "#/$defs/RunFailedEventV19"
+          },
+          {
+            "$ref": "#/$defs/HypothesisAddedEventV19"
+          },
+          {
+            "$ref": "#/$defs/HypothesisAddedEventLegacy"
+          },
+          {
+            "$ref": "#/$defs/HypothesisDroppedEventV19"
+          },
+          {
+            "$ref": "#/$defs/RunExtendedEventV19"
+          },
+          {
+            "$ref": "#/$defs/RunExtendedEventLegacy"
+          }
+        ]
       },
       "title": "Events",
       "type": "array"

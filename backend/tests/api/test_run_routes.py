@@ -20,9 +20,9 @@ from guideword.gateway.client import Gateway
 from guideword.gateway.fake import fake_gateway, reply
 from guideword.gateway.ledgers import LaptopLedger
 from guideword.gateway.transport import Reply, ToolCallRequest
-from guideword.runs.db import make_session_factory
+from guideword.runs.db import EventRow, make_session_factory
 from guideword.runs.store import RunRepository
-from guideword.schema.enums import BudgetUse
+from guideword.schema.enums import BudgetUse, EventType
 from guideword.schema.records import SpendEntry
 from guideword.settings import Settings
 
@@ -462,3 +462,97 @@ def test_until_b2_a_run_with_no_use_cannot_name_another_on_advance(app: Api) -> 
     refused = app.advance(run_id, use="video")
     assert refused.status_code == 409 and "B2" in refused.json()["detail"]
     assert app.runs().get(run_id).use is None  # type: ignore[union-attr]
+
+
+# --- events served typed; stored events get their tier on read (contract v1.9, C3, H14) -------
+
+
+def _store_legacy_event(app: Api, run_id: str, type: str, payload: dict[str, Any]) -> int:
+    """An event as stored before v1.9: no stamp. Written straight to the table."""
+    sessions = make_session_factory(app.settings.database_url)
+    with sessions.begin() as session:
+        seq = 1 + max(r.seq for r in session.query(EventRow).filter_by(run_id=run_id))
+        record = {"run_id": run_id, "seq": seq, "type": type, "payload": payload}
+        session.add(
+            EventRow(run_id=run_id, seq=seq, type=type, record=record | {"time": NOW.isoformat()})
+        )
+    return seq
+
+
+def _served(app: Api, run_id: str, seq: int) -> dict[str, Any]:
+    events = app.client.get(app.run_url(run_id, "/events")).json()["events"]
+    [event] = [e for e in events if e["seq"] == seq]
+    return dict(event)
+
+
+LEGACY_CALL = {
+    "model_call_id": "mc:aaaaaaaaaaaaaaaa",
+    "job": "specialist_bulk",
+    "cache_hit": False,
+    "outcome": "ok",
+    "cost_usd": 0.0,
+    "cap_cost_usd": 0.0,
+}
+
+
+def test_a_stored_model_call_gets_its_tier_inferred_on_read_and_never_written_back(
+    app: Api,
+) -> None:
+    config = load_config(global_budget_usd=25.0)
+    lightning = config.models.tiers["lightning"].expected_id
+    run_id = app.finished_run()
+    seq = _store_legacy_event(app, run_id, "model_call", LEGACY_CALL | {"model_id": lightning})
+    served = _served(app, run_id, seq)
+    assert served["payload_schema"] is None
+    assert (served["payload"]["tier"], served["payload"]["tier_source"]) == (
+        "lightning",
+        "inferred",
+    )
+    [stored] = [e for e in app.runs().events(run_id) if e.seq == seq]
+    assert "tier" not in stored.payload and "tier_source" not in stored.payload
+
+
+def test_a_stored_model_call_with_an_unknown_model_shows_no_tier(app: Api) -> None:
+    run_id = app.finished_run()
+    seq = _store_legacy_event(app, run_id, "model_call", LEGACY_CALL | {"model_id": "gone/model"})
+    payload = _served(app, run_id, seq)["payload"]
+    assert (payload["tier"], payload["tier_source"]) == (None, None)
+
+
+def test_a_stored_dispatch_gets_its_tier_from_its_runs_routing_config(app: Api) -> None:
+    run_id = app.finished_run()
+    dispatch = {
+        "agent": "process",
+        "level": "hard",
+        "question_ids": [],
+        "selected_by_code": True,
+        "skipped": [],
+        "batches": 0,
+    }
+    seq = _store_legacy_event(app, run_id, "dispatch", dispatch)
+    run = app.runs().get(run_id)
+    assert run is not None
+    expected = run.routing_config["specialist_hard"]
+    payload = _served(app, run_id, seq)["payload"]
+    assert (payload["tier"], payload["tier_source"]) == (expected, "inferred")
+
+
+def test_new_events_carry_their_recorded_tier(app: Api) -> None:
+    run_id = app.finished_run()
+    events = app.client.get(app.run_url(run_id, "/events")).json()["events"]
+    calls = [e for e in events if e["type"] in ("model_call", "dispatch")]
+    assert calls and all(e["payload"]["tier_source"] == "recorded" for e in calls)
+    assert all(e["payload_schema"] == "v1.9" for e in events)
+
+
+def test_an_event_written_flagged_is_served_with_its_flag(
+    app: Api, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """A live run writes an event whose payload fails its model, flagged (2026-10-23)."""
+    run_id = app.finished_run()
+    monkeypatch.setattr("guideword.runs.store.STRICT_PAYLOADS", False)
+    with app.runs().step(run_id) as writer:
+        event = writer.emit(EventType.STEP_STARTED, {"step": "ranked", "odd": 1})
+    served = _served(app, run_id, event.seq)
+    assert served["payload_invalid"] is True and served["payload_error"]
+    assert served["payload"] == {"step": "ranked", "odd": 1}

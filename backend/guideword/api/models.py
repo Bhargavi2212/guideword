@@ -16,9 +16,9 @@ from guideword.schema.enums import (
     SeverityClass,
     ShortlistTier,
 )
+from guideword.schema.events import ApiEvent
 from guideword.schema.records import (
     Chain,
-    Event,
     Evidence,
     Finding,
     Hypothesis,
@@ -182,7 +182,8 @@ class RunDetail(_RunResponse):
 
 class EventsPage(_RunResponse):
     run_id: str
-    events: list[Event]
+    # contract v1.9: typed by event type and stamp (schema/events.py)
+    events: list[ApiEvent]
     # poll again with ?after=next_after
     next_after: int
 
@@ -406,7 +407,7 @@ class RunDump(_RunResponse):
     recommendations: list[Recommendation]
     evidence: list[Evidence]
     overrides: list[Override]
-    events: list[Event]
+    events: list[ApiEvent]
     # contract v1.7: the records re-runs from `chains` replaced, oldest pass first
     superseded: list[SupersededRecord] = Field(default_factory=list)
 

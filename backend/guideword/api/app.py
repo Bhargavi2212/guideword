@@ -402,12 +402,14 @@ def create_app(
                 run_id=run.id, events=events, next_after=next_after, label=store.events_page.label
             )
         run = live_run(id)
-        page = live().runs.events(id, after)
-        return api.EventsPage(
-            run_id=run.id,
-            events=page,
-            next_after=page[-1].seq if page else after,
-            label=run.label,
+        page = live().events(id, after)
+        return api.EventsPage.model_validate(
+            {
+                "run_id": run.id,
+                "events": page,
+                "next_after": page[-1]["seq"] if page else after,
+                "label": run.label.model_dump(mode="json"),
+            }
         )
 
     @app.get("/runs/{id}/sections", response_model=api.RunSections, responses=ERRORS)

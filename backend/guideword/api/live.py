@@ -28,6 +28,7 @@ from guideword.runs.store import Clock, RunRepository
 from guideword.schema import ids
 from guideword.schema.enums import (
     BudgetUse,
+    EventType,
     OverrideAction,
     QuestionKind,
     QuestionOrigin,
@@ -36,6 +37,7 @@ from guideword.schema.enums import (
 )
 from guideword.schema.plant import Plant
 from guideword.schema.records import Override, Question, Run
+from guideword.specialists.run import JOB_FOR_LEVEL
 
 GatewayFactory = Callable[[sessionmaker[Session]], Gateway]
 # Phase 4: the evidence step's tools for the API's runs (None: evidence off)
@@ -48,6 +50,11 @@ class RunNotFound(LookupError):
 
 class RunEnded(ValueError):
     pass
+
+
+# contract v1.9 (C3): the stored events whose tier is added on read
+INFERRED_TIER_TYPES = frozenset({EventType.MODEL_CALL, EventType.DISPATCH})
+INFERRED = "inferred"
 
 
 class UseMismatch(ValueError):
@@ -185,6 +192,29 @@ class LiveRuns:
 
     # --- reads --------------------------------------------------------------------------------
 
+    def events(self, run_id: str, after: int = 0) -> list[dict[str, Any]]:
+        """The run's events after `after`, as served. An event stored before v1.9 (no stamp)
+        that is a `model_call` or `dispatch` gets its tier on read, labelled "inferred" and
+        never written back (C3): a call's from its model ID against models.yaml, a dispatch's
+        from its run's own routing config (plan H14); none found reads null ("unknown")."""
+        run = self.get(run_id)
+        by_model = {t.expected_id: str(tier) for tier, t in self.config.models.tiers.items()}
+        served = []
+        for event in self.runs.events(run_id, after):
+            dumped = event.model_dump(mode="json")
+            if event.payload_schema is None and event.type in INFERRED_TIER_TYPES:
+                payload = dict(event.payload)
+                if event.type == EventType.MODEL_CALL:
+                    tier = by_model.get(str(payload.get("model_id")))
+                else:
+                    job = JOB_FOR_LEVEL.get(str(payload.get("level")))
+                    tier = run.routing_config.get(job) if job is not None else None
+                payload["tier"] = tier
+                payload["tier_source"] = INFERRED if tier is not None else None
+                dumped["payload"] = payload
+            served.append(dumped)
+        return served
+
     def records_of(self, run_id: str) -> RunRecords:
         return RunRecords(
             findings=self.runs.findings(run_id),
@@ -256,7 +286,8 @@ class LiveRuns:
             recommendations=self.runs.recommendations(run_id),
             evidence=self.runs.evidence(run_id),
             overrides=self.runs.overrides(run_id),
-            events=self.runs.events(run_id),
+            # dicts, validated into the typed events (contract v1.9)
+            events=self.events(run_id),  # type: ignore[arg-type]
             # contract v1.7: what re-runs from `chains` replaced, marked as superseded
             superseded=[
                 api.SupersededRecord(

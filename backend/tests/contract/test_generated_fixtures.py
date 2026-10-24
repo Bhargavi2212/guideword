@@ -142,10 +142,10 @@ def test_the_generated_run_covers_every_case_in_table_f() -> None:
     # the cap stop and its resume, a stored override, the tiers on calls and dispatches
     assert {"cap_hit", "run_extended"} <= types
     resumed = [e for e in dump.events if e.type == "run_extended"]
-    assert any(e.payload["resumed_after_post_cap"] for e in resumed)
-    assert [h.payload["cap"] for h in dump.events if h.type == "cap_hit"] == ["post"]
+    assert any(e.payload.resumed_after_post_cap for e in resumed)
+    assert [h.payload.cap for h in dump.events if h.type == "cap_hit"] == ["post"]
     assert dump.overrides and dump.overrides[0].action == "change_severity"
-    assert all(e.payload["tier"] for e in dump.events if e.type in ("model_call", "dispatch"))
+    assert all(e.payload.tier for e in dump.events if e.type in ("model_call", "dispatch"))
     # the cancelled and failed attempts
     assert _committed("run_status_result.json")["status"] == "cancelled"
     failed = {e["type"] for e in _committed("events_page_failed.json")["events"]}
