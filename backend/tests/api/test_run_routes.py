@@ -727,3 +727,48 @@ def test_cancel_stops_a_background_drive(app: Api) -> None:
     driver.join(10)
     assert not driver.is_alive()
     assert live.get(run_id).status == RunStatus.CANCELLED
+
+
+# --- B3 (P5-6): every timeline entry opens in the record drawer --------------------------------
+
+# the payload keys that name a record the drawer can open
+RECORD_KEYS = (
+    "finding_id",
+    "hypothesis_id",
+    "chain_id",
+    "lopa_id",
+    "evidence_id",
+    "model_call_id",
+    "tool_call_id",
+    "step_id",
+)
+
+
+def _record(app: Api, run_id: str, record_id: str) -> Any:
+    return app.client.get(app.run_url(run_id, f"/records/{quote(record_id, safe='')}"))
+
+
+def test_record_detail_returns_a_tool_call_with_its_step(app: Api) -> None:
+    run_id = app.finished_run()
+    events = app.client.get(app.run_url(run_id, "/events")).json()["events"]
+    tool_call_id = next(e["payload"]["tool_call_id"] for e in events if e["type"] == "tool_call")
+    response = _record(app, run_id, tool_call_id)
+    assert response.status_code == 200, response.text
+    detail = api.RecordDetail.model_validate(response.json())
+    assert detail.record_kind == "tool_call"
+    assert detail.record["id"] == tool_call_id
+    step_id = detail.record["agent_step_id"]
+    assert detail.parent_ids == [step_id]
+    assert [t.id for t in detail.tool_calls] == [tool_call_id]
+    assert _record(app, run_id, step_id).status_code == 200
+
+
+def test_every_timeline_entry_of_a_fake_run_is_addressable(app: Api) -> None:
+    """Each record an event names opens in the drawer (P5-6); an event that names none is a
+    step boundary, a coverage line, a cap or the run's start or end."""
+    run_id = app.finished_run()
+    events = app.client.get(app.run_url(run_id, "/events")).json()["events"]
+    named = {e["payload"][k] for e in events for k in RECORD_KEYS if k in e["payload"]}
+    assert any(r.startswith("tc:") for r in named) and any(r.startswith("mc:") for r in named)
+    missing = [r for r in sorted(named) if _record(app, run_id, r).status_code != 200]
+    assert missing == []
