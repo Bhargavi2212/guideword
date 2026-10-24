@@ -1,12 +1,32 @@
 # Phase 5 deploy plan — the first deploy: backend + the no-key landing on the WG run
 
-Status: **draft, awaiting Bhargavi's approval** (mark `Status: approved <date>` here).
+Status: approved 2026-10-24 (Bhargavi), with the changes in §0.
 
 Written 2026-10-24, after F2 merged (#116). Bhargavi asked (2026-10-24): "After F2 merges, deploy
 first: backend + the no-key replay landing on the WG run. Later PRs redeploy." This reaches into
 Phase 7's scope (`specs/phase-5.md` "Not in scope": `GET /demo`, demo mode, the recorded-run
 read-only serving, Vercel deploy), so this plan is the spec item and the plan together. Read with
 `PROJECT.md` §11 (hosting and deployment, demo mode), §14, §15, and `CLAUDE.md` §4, §7, §13.
+
+## 0. Changes on approval (Bhargavi, 2026-10-24)
+
+1. **The export reads `guideword-demo.db`** (decision C8), not `guideword.db`: the engineer's
+   S3 → S4 override is made there (acceptance 4) and is the beat the site must show. Once it
+   exists, the export is rerun and the site redeployed (done-when, §7). New overrides still 403.
+2. **The landing marks the demo moment:** the shortlist with the rank-2 `P-REB-START-2` chain
+   flagged "start here". F3's PR switches the landing to the replay.
+3. **Spend:** the label shows $0.90 (the ledger), and the run's spend carries a note, "record
+   $0.0083 under ledger, run stored before the 2026-10-22 fix", so the label and the drawer agree.
+   It needs `RunLabel.note` (a contract change: D0, its own PR).
+4. **Public repo:** the export publishes no third-party page text. Checked $0 on the WG run: the
+   stored rows hold none (a web search's tool call keeps only URLs and a cache key; a precedent
+   search, index row IDs and scores; the judge's response, its own verdicts and reasons; the page
+   text lives only in the response cache, which is never exported). As a precaution the export
+   also leaves out the precedent judge's `reasoning_text`, where the model may have quoted a page.
+   There is no stored title or snippet: the export keeps the URLs and the verdicts.
+5. D1 reports the export's size and load time; D4's curl check confirms `/demo` returns the WG run.
+
+Deploy before F3.
 
 ---
 
@@ -29,7 +49,7 @@ read-only serving, Vercel deploy), so this plan is the spec item and the plan to
 | # | Question | Recommendation |
 |---|---|---|
 | Q1 | **Host.** PROJECT.md §11 names Vercel: static frontend, the API as Python functions, Postgres via the Marketplace. | **Vercel**, as §11 says, but **no Postgres yet**: the API reads the WG run from an in-memory SQLite store loaded at cold start from the committed export (Q2). Nothing on a no-key landing writes; Vercel's filesystem is read-only anyway. Postgres arrives with the hosted live-run button (Phase 7). |
-| Q2 | **How the WG run travels.** A `.db` file can't be committed (CLAUDE.md §7). | **A JSON export in `cases/demo/recorded/williams_geismar/`**: every stored row of the run, one file per table (run, sections, questions, findings, hypotheses, chains, LOPA, recommendations, evidence, overrides, events, agent steps, model calls, tool calls, superseded), plus its plant record, facts and sections. Exported read-only from `guideword.db` (`mode=ro`) by `scripts/export_recorded.py`; a key scan refuses to write if any configured key appears. Loaded by `scripts/`-free package code (`runs/recorded.py`) into an in-memory store at startup. No response cache rows and no ledger. |
+| Q2 | **How the WG run travels.** A `.db` file can't be committed (CLAUDE.md §7). | **A JSON export in `cases/demo/recorded/williams_geismar/`**: every stored row of the run, one file per table (run, sections, questions, findings, hypotheses, chains, LOPA, recommendations, evidence, overrides, events, agent steps, model calls, tool calls, superseded), plus its plant record, facts and sections. Exported read-only from `guideword-demo.db` (`mode=ro`; C8, §0.1) by `scripts/export_recorded.py`; a key scan refuses to write if any configured key appears. Loaded by `scripts/`-free package code (`runs/recorded.py`) into an in-memory store at startup. No response cache rows and no ledger. |
 | Q3 | **The label.** §11: demo mode is "labelled on screen as a recorded run (with its date and cost)". The run is stored `live`. | The **export** sets `label = {kind: recorded, recorded_at: 2026-10-22T…Z (its last event's time), cost_usd: 0.8965 (its ledger lines, the authority for runs stored before the fix)}`. `guideword.db` is never changed. Overrides then get 403, as the contract says for recorded runs. |
 | Q4 | **`GET /demo`.** | Built now: with `GUIDEWORD_DEMO_RUN_ID` set (a new setting; no default), it returns `DemoResponse` for that run from the store; unset, it keeps its 501. Mock mode keeps its fixture. |
 | Q5 | **The landing.** F3 (the replay) is the second session's and not built yet. | **This deploy lands on the WG run's shortlist** with the recorded banner: the empty hash reads `GET /demo` and opens `#/runs/<demo run>/shortlist`. When F3 merges, the landing switches to its replay (that PR redeploys). |
@@ -39,21 +59,33 @@ read-only serving, Vercel deploy), so this plan is the spec item and the plan to
 
 ## 3. Per item
 
+### D0 — `contract/demo-fields` (contract v1.10)
+- `RunLabel.note: str | None = None` (additive). The export writes the spend note (§0.3); the
+  header shows it beside the run's spend.
+- `DemoResponse.start_target_id: str | None = None` (additive): the line the landing marks "start
+  here" (§0.2), from a `GUIDEWORD_DEMO_TARGET_ID` setting (no default; the WG run's rank-2 chain).
+- **Tests first:** an older label and demo response without the fields validate; both round-trip
+  through the API.
+
 ### D1 — `phase-5/recorded-export` (backend)
 - **Files:** `scripts/export_recorded.py` (read-only, key scan, the Q3 label on the copy); `cases/demo/recorded/williams_geismar/*.json`; `backend/guideword/runs/recorded.py` (`load_recorded(path) -> sessionmaker` into in-memory SQLite).
 - **Tests first:**
   - `test_export_then_load_serves_the_same_shortlist` (on the fixture generator's $0 run: the shortlist, run detail, events and every record detail read the same from the loaded copy as from the source);
   - `test_the_export_sets_the_recorded_label_and_leaves_the_source_unchanged` (hash);
   - `test_the_export_refuses_a_configured_key`;
-  - `test_the_recorded_copy_refuses_overrides_with_403`.
+  - `test_the_recorded_copy_refuses_overrides_with_403`;
+  - `test_the_export_keeps_no_page_text` (no response cache; no precedent judge reasoning text);
+  - `test_the_export_keeps_an_engineer_override_with_its_reason` (§0.1);
+  - the PR reports the export's size and its load time (§0.5).
 
 ### D2 — `phase-5/demo-route` (backend)
 - **Files:** `settings.py` (`guideword_demo_run_id: str | None = None`, `guideword_recorded_dir: str | None = None`); `api/app.py` (`GET /demo` from the store when set; the app loads the recorded store when `guideword_recorded_dir` is set); `NOT_BUILT_PHASE` loses `/demo` only when it is built.
 - **Tests first:** `test_demo_returns_the_recorded_run_with_its_label`, `test_demo_without_a_demo_run_is_501`, `test_a_keyless_hosted_app_refuses_every_paid_route`, the contract route test unchanged.
 
 ### D3 — `phase-5/landing` (frontend)
-- **Files:** `src/app/landing.ts` (pure: the empty hash → the demo run's shortlist), `App.tsx`.
-- **Tests first:** `the empty hash opens the demo run's shortlist`; `without a demo the empty hash shows the plant list`; the recorded banner shows on the landing.
+- **Files:** `src/app/landing.ts` (pure: the empty hash → the demo run's shortlist), `App.tsx`; the
+  shortlist marks the card whose target is `DemoResponse.start_target_id` "start here" (D0).
+- **Tests first:** `the empty hash opens the demo run's shortlist`; `the demo moment's card is marked start here`; `without a demo the empty hash shows the plant list`; the recorded banner and the spend note show on the landing.
 
 ### D4 — `phase-5/vercel` (config)
 - **Files:** `vercel.json` (build the frontend, the Python function, rewrites); `api/index.py` (`app = create_app(settings=Settings())`); `api/requirements.txt` (the backend's pinned runtime set, no dev tools); `docs/deploy.md` (Bhargavi's steps and the env vars: `GUIDEWORD_ENV=hosted`, `GUIDEWORD_DEMO_RUN_ID`, `GUIDEWORD_RECORDED_DIR`, no keys).
@@ -72,8 +104,10 @@ D1 → D2 → D3 (D3 can start on D1's export) → D4 → Bhargavi deploys. Each
 ## 6. Live calls and spend
 None. Every test uses the fixture generator's fake runs or the read-only export; the deployment has no keys.
 
-## 7. Acceptance
+## 7. Acceptance and done-when
 - The deployed URL opens on the WG run's shortlist, labelled "Recorded run — 2026-10-22 — cost $0.90".
 - The demo moment's card opens, its numbers traced, the drawer resolving `HV-B-SIN.normal_position`.
 - An override answers 403 "This run is recorded and read-only".
-- `curl` checks of `/demo` and the shortlist pass, recorded in the D4 PR.
+- `curl` checks of `/demo` (it returns the WG run) and the shortlist pass, recorded in the D4 PR.
+- [ ] **Done when:** acceptance 4 has made the S3 → S4 override on `guideword-demo.db`, the export
+  is rerun, and the redeployed site shows the override with its reason and the recomputed gap.
