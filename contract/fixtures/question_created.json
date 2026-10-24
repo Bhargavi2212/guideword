@@ -2,16 +2,16 @@
   "label": {
     "kind": "mock",
     "recorded_at": null,
-    "cost_usd": 0.31
+    "cost_usd": null
   },
   "question": {
-    "id": "eng:S-L-12:95696e3915b30910",
-    "run_id": "run:8ede059837927e4a",
+    "id": "eng:S-L-12:ca86fcc92907c1f2",
+    "run_id": "run:eaf6f55e4d2a4a30",
     "kind": "engineer",
     "origin": "engineer",
     "status": "open",
     "section_id": "S-L-12",
-    "text": "Could the tote be left connected after charging?",
+    "text": "Can HV-12 be left open with P-1 stopped?",
     "fact_ids": [],
     "attempts": 0,
     "not_credible_reason": null,

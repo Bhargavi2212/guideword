@@ -17,8 +17,10 @@ from pydantic import SecretStr, ValidationError
 from guideword.api import models as api
 from guideword.api.app import NOT_BUILT_PHASE, create_app
 from guideword.schema import ids
+from guideword.schema.plant import Plant
 from guideword.schema.records import Evidence
 from guideword.settings import Settings
+from guideword.tools.physics import heat_up_rate
 
 FIXTURES = Path(__file__).resolve().parents[3] / "contract" / "fixtures"
 SECRET = "advance-test-secret-123"
@@ -102,7 +104,8 @@ def _fixture(name: str) -> dict[str, Any]:
     return data
 
 
-RUN = _fixture("run_list.json")["runs"][0]["id"]
+# the main generated run (the run list also holds its cancelled and failed attempts)
+RUN = _fixture("run_detail.json")["run"]["id"]
 PLANT = _fixture("plant_list.json")["plants"][0]["plant_record_id"]
 R = quote(RUN, safe="")
 P = quote(PLANT, safe="")
@@ -152,18 +155,46 @@ def _walk(value: Any) -> list[dict[str, Any]]:
     return []
 
 
-def test_fixture_runs_and_model_calls_show_their_cap_spend() -> None:
-    """R45: the mock data states both spend figures; every mock call was paid."""
-    runs = calls = 0
+# R45 by step (Bhargavi, 2026-10-24): the post-analysis steps, fixed here and not read from the
+# code. Their calls count against the post cap only (Bhargavi, 2026-10-20).
+POST_STEPS = ("chains", "chain_severity", "lopa", "recommendations", "evidence")
+
+
+def test_fixture_run_spend_matches_its_calls_by_step() -> None:
+    """R45: each `model_call` event belongs to the step it was written in (the last
+    `step_started` before it), so a refused call's attempt records count under their step.
+    `cap_spent_usd` is the analysis calls' `cap_cost_usd`; `post_spent_usd` is the
+    post-analysis calls' `cost_usd`; `spent_usd == cap_spent_usd + post_spent_usd`; and a
+    paid call counts what it cost."""
+    dump = _fixture("run_dump.json")
+    run = dump["run"]
+    step: str | None = None
+    analysis_cap = post_spent = 0.0
+    calls = post_calls = 0
+    for event in dump["events"]:
+        if event["type"] == "step_started":
+            step = event["payload"]["step"]
+        elif event["type"] == "model_call":
+            payload = event["payload"]
+            calls += 1
+            if step in POST_STEPS:
+                post_calls += 1
+                post_spent += payload["cost_usd"]
+            else:
+                analysis_cap += payload["cap_cost_usd"]
+            if not payload["cache_hit"]:
+                assert payload["cap_cost_usd"] == payload["cost_usd"]
+    assert calls and post_calls and post_spent > 0
+    assert run["cap_spent_usd"] == pytest.approx(analysis_cap, rel=1e-12)
+    assert run["spent_usd"] == pytest.approx(run["cap_spent_usd"] + post_spent, rel=1e-12)
+    # every fixture that shows this run shows the same two figures
     for path in FIXTURES.glob("*.json"):
         for obj in _walk(json.loads(path.read_text(encoding="utf-8"))):
-            if "spend_cap_usd" in obj and "spent_usd" in obj:
-                runs += 1
-                assert obj["cap_spent_usd"] == obj["spent_usd"], path.name
-            if "raw_response" in obj and "cost_usd" in obj:
-                calls += 1
-                assert obj["cap_cost_usd"] == obj["cost_usd"], path.name
-    assert runs and calls
+            if obj.get("id") == run["id"] and "spent_usd" in obj:
+                assert (obj["spent_usd"], obj["cap_spent_usd"]) == (
+                    run["spent_usd"],
+                    run["cap_spent_usd"],
+                ), path.name
 
 
 def test_openapi_json_matches_the_app() -> None:
@@ -692,11 +723,46 @@ def test_shortlist_item_flags_default_to_empty_for_older_items() -> None:
     assert api.ShortlistItem.model_validate(old).flags == []
 
 
-def test_fixture_shortlist_flags_the_incomplete_lopa_line_on_its_card() -> None:
+SKIPPED_BLOCKED_IN = (
+    "evidence skipped: missing L-STM.operating.temperature.normal, "
+    "SIH.vapor_pressure_points, KOH.vapor_pressure_points"
+)
+
+
+def _cards() -> dict[str, api.ShortlistItem]:
+    """The generated shortlist's six cards, by which line they are."""
     items = api.Shortlist.model_validate(_fixture("shortlist.json")).items
-    incomplete = [i for i in items if i.lopa is not None and not i.lopa.complete]
-    assert incomplete and all(i.flags == ["incomplete LOPA: gap unknown"] for i in incomplete)
-    assert all(i.flags == [] for i in items if i not in incomplete)
+    prefixes = {
+        "pair": "f:pair:KOH:SIH:",
+        "chain": "ch:",
+        "mx1": "f:m:S-MX-1:more:temperature:",
+        "relief": "f:relief:PSV-1:",
+        "l12": "f:m:S-L-12:reverse:flow:",
+        "hypothesis": "h:",
+    }
+    cards = {}
+    for name, prefix in prefixes.items():
+        [card] = [i for i in items if i.target_id.startswith(prefix)]
+        cards[name] = card
+    assert len(items) == len(cards)
+    return cards
+
+
+def test_fixture_shortlist_pins_each_cards_flags() -> None:
+    """Each card's flags, written by hand (Bhargavi, 2026-10-24)."""
+    flags = {name: card.flags for name, card in _cards().items()}
+    assert flags == {
+        "pair": [],
+        "chain": [SKIPPED_BLOCKED_IN],
+        "mx1": [SKIPPED_BLOCKED_IN],
+        "relief": [SKIPPED_BLOCKED_IN],
+        "l12": ["incomplete LOPA: gap unknown"],
+        "hypothesis": [
+            "not confirmed by the checks — engineer to review",
+            "no LOPA: unconfirmed: no finding to analyse",
+        ],
+    }
+    items = api.Shortlist.model_validate(_fixture("shortlist.json")).items
     demo = api.DemoResponse.model_validate(_fixture("demo_response.json"))
     assert demo.shortlist.items == items
 
@@ -710,22 +776,53 @@ def test_shortlist_item_gap_text_defaults_to_none_for_older_items() -> None:
     assert api.ShortlistItem.model_validate(old).gap_text is None
 
 
-def test_fixture_shortlist_shows_the_gap_text_on_every_line_with_lopa() -> None:
+def test_fixture_shortlist_pins_the_gap_text_on_every_line_with_lopa() -> None:
     """One text per line, written by the backend; the card shows it and formats no number.
-    The mock lines sit on the boundaries: a gap of exactly 1000 and of exactly 10."""
-    items = api.Shortlist.model_validate(_fixture("shortlist.json")).items
-    texts = {i.gap: i.gap_text for i in items if i.lopa is not None and i.lopa.complete}
-    assert texts == {
-        1000.0: "about 1,000× tolerable — mitigated about 1 in 10 years, "
-        "tolerable about 1 in 10,000 years",
-        10.0: "about 10× tolerable — mitigated about 1 in 100 years, "
-        "tolerable about 1 in 1,000 years",
+    The expected strings are written by hand from the formatter rule: the gap to the nearest
+    order of magnitude, then mitigated and tolerable as "1 in N years". The two gaps with
+    float noise (0.1 x 0.1 / 0.001, and the chain's 0.01 / 1e-4) display as clean numbers."""
+    cards = _cards()
+    gaps = {name: (card.gap, card.gap_text) for name, card in cards.items()}
+    assert gaps == {
+        "pair": (
+            1000.0,
+            "about 1,000× tolerable — mitigated about 1 in 10 years, "
+            "tolerable about 1 in 10,000 years",
+        ),
+        "relief": (
+            10.0,
+            "about 10× tolerable — mitigated about 1 in 1,000 years, "
+            "tolerable about 1 in 10,000 years",
+        ),
+        "chain": (
+            100.00000000000001,
+            "about 100× tolerable — mitigated about 1 in 100 years, "
+            "tolerable about 1 in 10,000 years",
+        ),
+        "mx1": (
+            10.000000000000002,
+            "about 10× tolerable — mitigated about 1 in 100 years, "
+            "tolerable about 1 in 1,000 years",
+        ),
+        "l12": (None, "incomplete: L-12.length_m missing"),
+        "hypothesis": (None, None),
     }
-    incomplete = next(i for i in items if i.lopa is not None and not i.lopa.complete)
-    assert incomplete.gap_text == "incomplete: L-12.length_m missing"
-    assert all(i.gap_text is None for i in items if i.lopa is None)
+    items = api.Shortlist.model_validate(_fixture("shortlist.json")).items
     demo = api.DemoResponse.model_validate(_fixture("demo_response.json"))
     assert demo.shortlist.items == items
+
+
+def test_mock_heat_up_time_is_the_hand_worked_value() -> None:
+    """MX-1 in mock_plant_a.json (fictional values, Bhargavi, 2026-10-24):
+    rate = duty x 60 / (volume x lowest density x lowest heat capacity)
+         = 500 kW x 60 / (10 m3 x 1000 kg/m3 x 1.5 kJ/kg/K)   (SIH: 1000 < 1450, 1.5 < 3.0)
+         = 30000 / 15000 = 2.0 degC/min;
+    minutes = (design_max 80 - normal 25) / 2.0 = 27.5, under the 60-minute confirm line."""
+    plant = Plant.model_validate(_fixture("mock_plant_a.json"))
+    assert heat_up_rate("MX-1", plant, 60.0).value == pytest.approx(27.5, rel=1e-9)
+    [evidence] = [e for e in _mock_evidence() if e["id"].endswith(":calculation:heat_up_rate-MX-1")]
+    assert evidence["verdict"] == "confirmed"
+    assert "MX-1.heat_duty_kw" in evidence["fact_ids"]
 
 
 # --- contract v1.7: superseded post-analysis records (Bhargavi, 2026-10-21) ---------------------

@@ -1,0 +1,261 @@
+{
+  "label": {
+    "kind": "mock",
+    "recorded_at": null,
+    "cost_usd": null
+  },
+  "run_id": "run:eaf6f55e4d2a4a30:3",
+  "events": [
+    {
+      "run_id": "run:eaf6f55e4d2a4a30:3",
+      "seq": 1,
+      "type": "run_started",
+      "payload": {
+        "attempt": 3,
+        "questions": 98,
+        "sections": 9
+      },
+      "time": "2026-10-13T10:06:48Z",
+      "payload_schema": "v1.9",
+      "payload_invalid": false,
+      "payload_error": null
+    },
+    {
+      "run_id": "run:eaf6f55e4d2a4a30:3",
+      "seq": 2,
+      "type": "step_started",
+      "payload": {
+        "step": "plant_screen"
+      },
+      "time": "2026-10-13T10:07:14Z",
+      "payload_schema": "v1.9",
+      "payload_invalid": false,
+      "payload_error": null
+    },
+    {
+      "run_id": "run:eaf6f55e4d2a4a30:3",
+      "seq": 3,
+      "type": "model_call",
+      "payload": {
+        "model_call_id": "mc:feee39b7b34791cd",
+        "job": "plant_screen",
+        "model_id": "nvidia/Nemotron-3-Ultra-550b-a55b",
+        "cache_hit": false,
+        "outcome": "invalid",
+        "cost_usd": 0.00025,
+        "cap_cost_usd": 0.00025,
+        "tier": "ultra",
+        "tier_source": "recorded"
+      },
+      "time": "2026-10-13T10:07:18Z",
+      "payload_schema": "v1.9",
+      "payload_invalid": false,
+      "payload_error": null
+    },
+    {
+      "run_id": "run:eaf6f55e4d2a4a30:3",
+      "seq": 4,
+      "type": "model_call",
+      "payload": {
+        "model_call_id": "mc:3692a0440e517c8f",
+        "job": "plant_screen",
+        "model_id": "nvidia/Nemotron-3-Ultra-550b-a55b",
+        "cache_hit": false,
+        "outcome": "invalid",
+        "cost_usd": 0.00025,
+        "cap_cost_usd": 0.00025,
+        "tier": "ultra",
+        "tier_source": "recorded"
+      },
+      "time": "2026-10-13T10:07:19Z",
+      "payload_schema": "v1.9",
+      "payload_invalid": false,
+      "payload_error": null
+    },
+    {
+      "run_id": "run:eaf6f55e4d2a4a30:3",
+      "seq": 5,
+      "type": "model_call",
+      "payload": {
+        "model_call_id": "mc:3b7275b5aec7a3c5",
+        "job": "plant_screen",
+        "model_id": "nvidia/Nemotron-3-Ultra-550b-a55b",
+        "cache_hit": false,
+        "outcome": "invalid",
+        "cost_usd": 0.00025,
+        "cap_cost_usd": 0.00025,
+        "tier": "ultra",
+        "tier_source": "recorded"
+      },
+      "time": "2026-10-13T10:07:23Z",
+      "payload_schema": "v1.9",
+      "payload_invalid": false,
+      "payload_error": null
+    },
+    {
+      "run_id": "run:eaf6f55e4d2a4a30:3",
+      "seq": 6,
+      "type": "model_call",
+      "payload": {
+        "model_call_id": "mc:d9c6d251288ef6e4",
+        "job": "plant_screen",
+        "model_id": "nvidia/Nemotron-3-Ultra-550b-a55b",
+        "cache_hit": false,
+        "outcome": "invalid",
+        "cost_usd": 0.00025,
+        "cap_cost_usd": 0.00025,
+        "tier": "ultra",
+        "tier_source": "recorded"
+      },
+      "time": "2026-10-13T10:07:24Z",
+      "payload_schema": "v1.9",
+      "payload_invalid": false,
+      "payload_error": null
+    },
+    {
+      "run_id": "run:eaf6f55e4d2a4a30:3",
+      "seq": 7,
+      "type": "hypothesis_dropped",
+      "payload": {
+        "rank": 3,
+        "reason": "rank 3: TANK-9 not in this plant"
+      },
+      "time": "2026-10-13T10:07:25Z",
+      "payload_schema": "v1.9",
+      "payload_invalid": false,
+      "payload_error": null
+    },
+    {
+      "run_id": "run:eaf6f55e4d2a4a30:3",
+      "seq": 8,
+      "type": "hypothesis_dropped",
+      "payload": {
+        "rank": null,
+        "reason": "screen degraded: 2 kept"
+      },
+      "time": "2026-10-13T10:07:26Z",
+      "payload_schema": "v1.9",
+      "payload_invalid": false,
+      "payload_error": null
+    },
+    {
+      "run_id": "run:eaf6f55e4d2a4a30:3",
+      "seq": 9,
+      "type": "hypothesis_added",
+      "payload": {
+        "hypothesis_id": "h:1:3816f75bc6a4f1e1",
+        "rank": 1
+      },
+      "time": "2026-10-13T10:07:27Z",
+      "payload_schema": "v1.9",
+      "payload_invalid": false,
+      "payload_error": null
+    },
+    {
+      "run_id": "run:eaf6f55e4d2a4a30:3",
+      "seq": 10,
+      "type": "hypothesis_added",
+      "payload": {
+        "hypothesis_id": "h:2:8eb9ae798c74bbc8",
+        "rank": 2
+      },
+      "time": "2026-10-13T10:07:28Z",
+      "payload_schema": "v1.9",
+      "payload_invalid": false,
+      "payload_error": null
+    },
+    {
+      "run_id": "run:eaf6f55e4d2a4a30:3",
+      "seq": 11,
+      "type": "step_finished",
+      "payload": {
+        "step": "plant_screen",
+        "status": "running",
+        "next_step": "analysis"
+      },
+      "time": "2026-10-13T10:07:29Z",
+      "payload_schema": "v1.9",
+      "payload_invalid": false,
+      "payload_error": null
+    },
+    {
+      "run_id": "run:eaf6f55e4d2a4a30:3",
+      "seq": 12,
+      "type": "step_started",
+      "payload": {
+        "step": "analysis"
+      },
+      "time": "2026-10-13T10:07:30Z",
+      "payload_schema": "v1.9",
+      "payload_invalid": false,
+      "payload_error": null
+    },
+    {
+      "run_id": "run:eaf6f55e4d2a4a30:3",
+      "seq": 13,
+      "type": "model_call",
+      "payload": {
+        "model_call_id": "mc:6bec7ba44543add6",
+        "job": "orchestrator",
+        "model_id": "nvidia/Nemotron-3-Ultra-550b-a55b",
+        "cache_hit": false,
+        "outcome": "ok",
+        "cost_usd": 0.00025,
+        "cap_cost_usd": 0.00025,
+        "tier": "ultra",
+        "tier_source": "recorded"
+      },
+      "time": "2026-10-13T10:07:33Z",
+      "payload_schema": "v1.9",
+      "payload_invalid": false,
+      "payload_error": null
+    },
+    {
+      "run_id": "run:eaf6f55e4d2a4a30:3",
+      "seq": 14,
+      "type": "model_call",
+      "payload": {
+        "model_call_id": "mc:b4a0655752b4a87a",
+        "job": "orchestrator",
+        "model_id": "nvidia/Nemotron-3-Ultra-550b-a55b",
+        "cache_hit": false,
+        "outcome": "ok",
+        "cost_usd": 0.00025,
+        "cap_cost_usd": 0.00025,
+        "tier": "ultra",
+        "tier_source": "recorded"
+      },
+      "time": "2026-10-13T10:07:36Z",
+      "payload_schema": "v1.9",
+      "payload_invalid": false,
+      "payload_error": null
+    },
+    {
+      "run_id": "run:eaf6f55e4d2a4a30:3",
+      "seq": 15,
+      "type": "step_finished",
+      "payload": {
+        "step": "analysis",
+        "status": "failed",
+        "next_step": "analysis"
+      },
+      "time": "2026-10-13T10:07:37Z",
+      "payload_schema": "v1.9",
+      "payload_invalid": false,
+      "payload_error": null
+    },
+    {
+      "run_id": "run:eaf6f55e4d2a4a30:3",
+      "seq": 16,
+      "type": "run_failed",
+      "payload": {
+        "step": "analysis"
+      },
+      "time": "2026-10-13T10:07:38Z",
+      "payload_schema": "v1.9",
+      "payload_invalid": false,
+      "payload_error": null
+    }
+  ],
+  "next_after": 16
+}

@@ -28,6 +28,7 @@ from guideword.gateway.ledgers import Ledger, ledger_for
 from guideword.gateway.transport import OpenAITransport
 from guideword.logs import get_logger
 from guideword.reference import ReferenceSet, load_reference_set
+from guideword.reference.precedents import PrecedentIndex
 from guideword.review.overrides import OverrideRefused
 from guideword.runs.case import evidence_tools
 from guideword.runs.db import make_session_factory
@@ -110,11 +111,13 @@ def create_app(
     gateway_factory: GatewayFactory | None = None,
     ledger: Ledger | None = None,
     search: SearchClient | None = None,
+    precedent_index: PrecedentIndex | None = None,
 ) -> FastAPI:
-    """`gateway_factory`, `ledger` and `search` are injected by tests (fake gateway, temporary
-    ledger, fake web search); by default live runs go through Token Factory, Tavily and this
-    environment's ledger. With a fake gateway and no search, evidence is off (Q4 holds for
-    the real app: an uploaded plant on use development gets evidence)."""
+    """`gateway_factory`, `ledger`, `search` and `precedent_index` are injected by tests and the
+    fixture generator (fake gateway, temporary ledger, fake web search, synthetic precedents);
+    by default live runs go through Token Factory, Tavily and this environment's ledger. With a
+    fake gateway and no search, evidence is off (Q4 holds for the real app: an uploaded plant on
+    use development gets evidence)."""
     settings = settings if settings is not None else Settings()
     now: Clock = clock if clock is not None else (lambda: datetime.now(UTC))
     store = MockStore(fixtures_dir or DEFAULT_FIXTURES) if settings.guideword_mock else None
@@ -192,6 +195,7 @@ def create_app(
             phase=API_RUN_PHASE,
             clock=now,
             search=client,
+            index=precedent_index,
         )
 
     @cache

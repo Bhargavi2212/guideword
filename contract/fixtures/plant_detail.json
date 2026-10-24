@@ -1,25 +1,653 @@
 {
-  "plant_record_id": "plant:mock_plant_a:437a7c5b6e544611",
+  "plant_record_id": "plant:mock_plant_a:be40872ede387491",
   "plant_id": "mock_plant_a",
   "status": "sections_confirmed",
   "facts": [
     {
+      "id": "BLDG-1.ignition_sources",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": true,
+      "source": "not stated"
+    },
+    {
+      "id": "BLDG-1.indoor",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": true,
+      "source": "not stated"
+    },
+    {
+      "id": "BLDG-1.occupied",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": true,
+      "source": "not stated"
+    },
+    {
+      "id": "DCS-1.system",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": "bpcs",
+      "source": "not stated"
+    },
+    {
+      "id": "HV-12.fail_position",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": "last",
+      "source": "not stated"
+    },
+    {
+      "id": "HV-12.kind",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": "manual",
+      "source": "not stated"
+    },
+    {
+      "id": "HV-12.locked",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": false,
+      "source": "not stated"
+    },
+    {
+      "id": "HV-12.normal_position",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": "closed",
+      "source": "not stated"
+    },
+    {
+      "id": "HV-12.on_line_id",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": "L-12",
+      "source": "not stated"
+    },
+    {
+      "id": "KOH.cameo_groups",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": [
+        10,
+        100
+      ],
+      "source": "SDS"
+    },
+    {
+      "id": "KOH.combustible_dust",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": false,
+      "source": "SDS"
+    },
+    {
+      "id": "KOH.density_kg_m3",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": 1450,
+      "source": "Mock Plant A: fictional value for the fixtures"
+    },
+    {
+      "id": "KOH.epa_groups",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": [
+        10,
+        106
+      ],
+      "source": "SDS"
+    },
+    {
+      "id": "KOH.heat_capacity_kj_kg_k",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": 3,
+      "source": "Mock Plant A: fictional value for the fixtures"
+    },
+    {
+      "id": "KOH.name",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": "potassium hydroxide solution",
+      "source": "SDS"
+    },
+    {
+      "id": "KOH.physical_form",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": "liquid",
+      "source": "SDS"
+    },
+    {
+      "id": "L-12.components",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": [
+        "P-1",
+        "HV-12"
+      ],
+      "source": "not stated"
+    },
+    {
+      "id": "L-12.contents",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": [
+        "SIH"
+      ],
+      "source": "not stated"
+    },
+    {
+      "id": "L-12.from_id",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": "TOTE-1",
+      "source": "not stated"
+    },
+    {
+      "id": "L-12.normal_flow_kg_h",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": 2000,
+      "source": "not stated"
+    },
+    {
+      "id": "L-12.size_mm",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": 50,
+      "source": "not stated"
+    },
+    {
+      "id": "L-12.to_id",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": "MX-1",
+      "source": "not stated"
+    },
+    {
+      "id": "L-STM.components",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": [
+        "XV-STM",
+        "TV-1"
+      ],
+      "source": "not stated"
+    },
+    {
+      "id": "L-STM.from_id",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": "UT-STEAM",
+      "source": "not stated"
+    },
+    {
+      "id": "L-STM.size_mm",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": 25,
+      "source": "not stated"
+    },
+    {
+      "id": "L-STM.to_id",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": "MX-1",
+      "source": "not stated"
+    },
+    {
+      "id": "MX-1.contents",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": [
+        "SIH",
+        "KOH"
+      ],
+      "source": "not stated"
+    },
+    {
       "id": "MX-1.design_pressure_kpa",
-      "plant_record_id": "plant:mock_plant_a:437a7c5b6e544611",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
       "value": 350,
       "source": "assumed"
     },
     {
       "id": "MX-1.design_temp_c",
-      "plant_record_id": "plant:mock_plant_a:437a7c5b6e544611",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
       "value": 80,
-      "source": "assumed"
+      "source": "not stated"
+    },
+    {
+      "id": "MX-1.heat_duty_kw",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": 500,
+      "source": "Mock Plant A: fictional value for the fixtures"
+    },
+    {
+      "id": "MX-1.heat_sources",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": [
+        {
+          "medium": "steam",
+          "via_line_id": "L-STM",
+          "isolating_valve_ids": [
+            "XV-STM"
+          ]
+        }
+      ],
+      "source": "not stated"
+    },
+    {
+      "id": "MX-1.location_id",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": "BLDG-1",
+      "source": "not stated"
+    },
+    {
+      "id": "MX-1.operating.temperature.alarm_high",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": 50,
+      "source": "not stated"
+    },
+    {
+      "id": "MX-1.operating.temperature.design_max",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": 80,
+      "source": "not stated"
+    },
+    {
+      "id": "MX-1.operating.temperature.normal",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": 25,
+      "source": "not stated"
     },
     {
       "id": "MX-1.operating.temperature.trip_high",
-      "plant_record_id": "plant:mock_plant_a:437a7c5b6e544611",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
       "value": 60,
-      "source": "assumed"
+      "source": "not stated"
+    },
+    {
+      "id": "MX-1.type",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": "mixer",
+      "source": "not stated"
+    },
+    {
+      "id": "MX-1.volume_m3",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": 10,
+      "source": "not stated"
+    },
+    {
+      "id": "P-1.location_id",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": "BLDG-1",
+      "source": "not stated"
+    },
+    {
+      "id": "P-1.type",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": "pump",
+      "source": "not stated"
+    },
+    {
+      "id": "P-CHARGE-1.equipment_ids",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": [
+        "TOTE-1"
+      ],
+      "source": "not stated"
+    },
+    {
+      "id": "P-CHARGE-1.text",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": "Select tote by label",
+      "source": "not stated"
+    },
+    {
+      "id": "P-CHARGE-2.equipment_ids",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": [
+        "P-1"
+      ],
+      "source": "not stated"
+    },
+    {
+      "id": "P-CHARGE-2.text",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": "Open HV-12 and start P-1",
+      "source": "not stated"
+    },
+    {
+      "id": "P-CHARGE-2.valve_ids",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": [
+        "HV-12"
+      ],
+      "source": "not stated"
+    },
+    {
+      "id": "P-CHARGE.kind",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": "charging",
+      "source": "not stated"
+    },
+    {
+      "id": "PSV-1.capacity_kg_h",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": 5000,
+      "source": "not stated"
+    },
+    {
+      "id": "PSV-1.discharge",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": {
+        "kind": "atmosphere",
+        "location_id": "ROOF",
+        "elevation_m": 12.0
+      },
+      "source": "not stated"
+    },
+    {
+      "id": "PSV-1.kind",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": "prv",
+      "source": "not stated"
+    },
+    {
+      "id": "PSV-1.protects_id",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": "MX-1",
+      "source": "not stated"
+    },
+    {
+      "id": "PSV-1.set_pressure_kpa",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": 350,
+      "source": "not stated"
+    },
+    {
+      "id": "ROOF.ignition_sources",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": false,
+      "source": "not stated"
+    },
+    {
+      "id": "ROOF.indoor",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": false,
+      "source": "not stated"
+    },
+    {
+      "id": "ROOF.occupied",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": false,
+      "source": "not stated"
+    },
+    {
+      "id": "SG-TRIP.component_ids",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": [
+        "TS-2",
+        "SIS-1",
+        "XV-STM"
+      ],
+      "source": "not stated"
+    },
+    {
+      "id": "SG-TRIP.layer_type",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": "IPL-SIS-SIL1",
+      "source": "not stated"
+    },
+    {
+      "id": "SG-TRIP.protects_id",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": "MX-1",
+      "source": "not stated"
+    },
+    {
+      "id": "SG-VENT.layer_type",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": "IPL-VENT-CONT",
+      "source": "not stated"
+    },
+    {
+      "id": "SG-VENT.protects_id",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": "BLDG-1",
+      "source": "not stated"
+    },
+    {
+      "id": "SIH.cameo_groups",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": [
+        58,
+        35
+      ],
+      "source": "SDS"
+    },
+    {
+      "id": "SIH.combustible_dust",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": false,
+      "source": "SDS"
+    },
+    {
+      "id": "SIH.density_kg_m3",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": 1000,
+      "source": "Mock Plant A: fictional value for the fixtures"
+    },
+    {
+      "id": "SIH.epa_groups",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": [
+        105
+      ],
+      "source": "SDS"
+    },
+    {
+      "id": "SIH.heat_capacity_kj_kg_k",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": 1.5,
+      "source": "Mock Plant A: fictional value for the fixtures"
+    },
+    {
+      "id": "SIH.name",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": "methylhydrogen siloxane fluid",
+      "source": "SDS"
+    },
+    {
+      "id": "SIH.physical_form",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": "liquid",
+      "source": "SDS"
+    },
+    {
+      "id": "SIS-1.system",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": "sis",
+      "source": "not stated"
+    },
+    {
+      "id": "TIC-1.acts_on_id",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": "MX-1",
+      "source": "not stated"
+    },
+    {
+      "id": "TIC-1.controller_id",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": "DCS-1",
+      "source": "not stated"
+    },
+    {
+      "id": "TIC-1.final_element_id",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": "TV-1",
+      "source": "not stated"
+    },
+    {
+      "id": "TIC-1.sensor_id",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": "TT-1",
+      "source": "not stated"
+    },
+    {
+      "id": "TIC-1.system",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": "bpcs",
+      "source": "not stated"
+    },
+    {
+      "id": "TOTE-1.contents",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": [
+        "SIH"
+      ],
+      "source": "not stated"
+    },
+    {
+      "id": "TOTE-1.location_id",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": "BLDG-1",
+      "source": "not stated"
+    },
+    {
+      "id": "TOTE-1.type",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": "tank",
+      "source": "not stated"
+    },
+    {
+      "id": "TOTE-1.volume_m3",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": 1,
+      "source": "not stated"
+    },
+    {
+      "id": "TS-2.kind",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": "switch",
+      "source": "not stated"
+    },
+    {
+      "id": "TS-2.measures",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": "temperature",
+      "source": "not stated"
+    },
+    {
+      "id": "TS-2.on_id",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": "MX-1",
+      "source": "not stated"
+    },
+    {
+      "id": "TS-2.system",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": "sis",
+      "source": "not stated"
+    },
+    {
+      "id": "TT-1.kind",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": "sensor",
+      "source": "not stated"
+    },
+    {
+      "id": "TT-1.measures",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": "temperature",
+      "source": "not stated"
+    },
+    {
+      "id": "TT-1.on_id",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": "MX-1",
+      "source": "not stated"
+    },
+    {
+      "id": "TT-1.system",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": "bpcs",
+      "source": "not stated"
+    },
+    {
+      "id": "TV-1.fail_position",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": "closed",
+      "source": "not stated"
+    },
+    {
+      "id": "TV-1.kind",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": "control",
+      "source": "not stated"
+    },
+    {
+      "id": "TV-1.locked",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": false,
+      "source": "not stated"
+    },
+    {
+      "id": "TV-1.normal_position",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": "open",
+      "source": "not stated"
+    },
+    {
+      "id": "TV-1.on_line_id",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": "L-STM",
+      "source": "not stated"
+    },
+    {
+      "id": "UT-STEAM.kind",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": "steam",
+      "source": "not stated"
+    },
+    {
+      "id": "UT-STEAM.location_id",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": "BLDG-1",
+      "source": "not stated"
+    },
+    {
+      "id": "W-1.end",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": "2026-10-20T16:00:00",
+      "source": "not stated"
+    },
+    {
+      "id": "W-1.location_id",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": "ROOF",
+      "source": "not stated"
+    },
+    {
+      "id": "W-1.start",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": "2026-10-20T08:00:00",
+      "source": "not stated"
+    },
+    {
+      "id": "W-1.type",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": "hot_work",
+      "source": "not stated"
+    },
+    {
+      "id": "XV-STM.fail_position",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": "closed",
+      "source": "not stated"
+    },
+    {
+      "id": "XV-STM.kind",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": "block",
+      "source": "not stated"
+    },
+    {
+      "id": "XV-STM.locked",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": false,
+      "source": "not stated"
+    },
+    {
+      "id": "XV-STM.normal_position",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": "open",
+      "source": "not stated"
+    },
+    {
+      "id": "XV-STM.on_line_id",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "value": "L-STM",
+      "source": "not stated"
     }
   ],
   "warnings": [
@@ -37,58 +665,436 @@
       "code": "line_without_contents",
       "object_id": "L-STM",
       "message": "L-STM: no contents"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "BLDG-1",
+      "message": "BLDG-1.ignition_sources: no source stated for ignition_sources"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "BLDG-1",
+      "message": "BLDG-1.indoor: no source stated for indoor"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "BLDG-1",
+      "message": "BLDG-1.occupied: no source stated for occupied"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "DCS-1",
+      "message": "DCS-1.system: no source stated for system"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "HV-12",
+      "message": "HV-12.fail_position: no source stated for fail_position"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "HV-12",
+      "message": "HV-12.kind: no source stated for kind"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "HV-12",
+      "message": "HV-12.locked: no source stated for locked"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "HV-12",
+      "message": "HV-12.normal_position: no source stated for normal_position"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "HV-12",
+      "message": "HV-12.on_line_id: no source stated for on_line_id"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "L-12",
+      "message": "L-12.components: no source stated for components"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "L-12",
+      "message": "L-12.contents: no source stated for contents"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "L-12",
+      "message": "L-12.from_id: no source stated for from_id"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "L-12",
+      "message": "L-12.normal_flow_kg_h: no source stated for normal_flow_kg_h"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "L-12",
+      "message": "L-12.size_mm: no source stated for size_mm"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "L-12",
+      "message": "L-12.to_id: no source stated for to_id"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "L-STM",
+      "message": "L-STM.components: no source stated for components"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "L-STM",
+      "message": "L-STM.from_id: no source stated for from_id"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "L-STM",
+      "message": "L-STM.size_mm: no source stated for size_mm"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "L-STM",
+      "message": "L-STM.to_id: no source stated for to_id"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "MX-1",
+      "message": "MX-1.contents: no source stated for contents"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "MX-1",
+      "message": "MX-1.design_temp_c: no source stated for design_temp_c"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "MX-1",
+      "message": "MX-1.heat_sources: no source stated for heat_sources"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "MX-1",
+      "message": "MX-1.location_id: no source stated for location_id"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "MX-1",
+      "message": "MX-1.operating.temperature.alarm_high: no source stated for operating.temperature.alarm_high"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "MX-1",
+      "message": "MX-1.operating.temperature.design_max: no source stated for operating.temperature.design_max"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "MX-1",
+      "message": "MX-1.operating.temperature.normal: no source stated for operating.temperature.normal"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "MX-1",
+      "message": "MX-1.operating.temperature.trip_high: no source stated for operating.temperature.trip_high"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "MX-1",
+      "message": "MX-1.type: no source stated for type"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "MX-1",
+      "message": "MX-1.volume_m3: no source stated for volume_m3"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "P-1",
+      "message": "P-1.location_id: no source stated for location_id"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "P-1",
+      "message": "P-1.type: no source stated for type"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "P-CHARGE-1",
+      "message": "P-CHARGE-1.equipment_ids: no source stated for equipment_ids"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "P-CHARGE-1",
+      "message": "P-CHARGE-1.text: no source stated for text"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "P-CHARGE-2",
+      "message": "P-CHARGE-2.equipment_ids: no source stated for equipment_ids"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "P-CHARGE-2",
+      "message": "P-CHARGE-2.text: no source stated for text"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "P-CHARGE-2",
+      "message": "P-CHARGE-2.valve_ids: no source stated for valve_ids"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "P-CHARGE",
+      "message": "P-CHARGE.kind: no source stated for kind"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "PSV-1",
+      "message": "PSV-1.capacity_kg_h: no source stated for capacity_kg_h"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "PSV-1",
+      "message": "PSV-1.discharge: no source stated for discharge"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "PSV-1",
+      "message": "PSV-1.kind: no source stated for kind"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "PSV-1",
+      "message": "PSV-1.protects_id: no source stated for protects_id"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "PSV-1",
+      "message": "PSV-1.set_pressure_kpa: no source stated for set_pressure_kpa"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "ROOF",
+      "message": "ROOF.ignition_sources: no source stated for ignition_sources"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "ROOF",
+      "message": "ROOF.indoor: no source stated for indoor"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "ROOF",
+      "message": "ROOF.occupied: no source stated for occupied"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "SG-TRIP",
+      "message": "SG-TRIP.component_ids: no source stated for component_ids"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "SG-TRIP",
+      "message": "SG-TRIP.layer_type: no source stated for layer_type"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "SG-TRIP",
+      "message": "SG-TRIP.protects_id: no source stated for protects_id"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "SG-VENT",
+      "message": "SG-VENT.layer_type: no source stated for layer_type"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "SG-VENT",
+      "message": "SG-VENT.protects_id: no source stated for protects_id"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "SIS-1",
+      "message": "SIS-1.system: no source stated for system"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "TIC-1",
+      "message": "TIC-1.acts_on_id: no source stated for acts_on_id"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "TIC-1",
+      "message": "TIC-1.controller_id: no source stated for controller_id"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "TIC-1",
+      "message": "TIC-1.final_element_id: no source stated for final_element_id"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "TIC-1",
+      "message": "TIC-1.sensor_id: no source stated for sensor_id"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "TIC-1",
+      "message": "TIC-1.system: no source stated for system"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "TOTE-1",
+      "message": "TOTE-1.contents: no source stated for contents"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "TOTE-1",
+      "message": "TOTE-1.location_id: no source stated for location_id"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "TOTE-1",
+      "message": "TOTE-1.type: no source stated for type"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "TOTE-1",
+      "message": "TOTE-1.volume_m3: no source stated for volume_m3"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "TS-2",
+      "message": "TS-2.kind: no source stated for kind"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "TS-2",
+      "message": "TS-2.measures: no source stated for measures"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "TS-2",
+      "message": "TS-2.on_id: no source stated for on_id"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "TS-2",
+      "message": "TS-2.system: no source stated for system"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "TT-1",
+      "message": "TT-1.kind: no source stated for kind"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "TT-1",
+      "message": "TT-1.measures: no source stated for measures"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "TT-1",
+      "message": "TT-1.on_id: no source stated for on_id"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "TT-1",
+      "message": "TT-1.system: no source stated for system"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "TV-1",
+      "message": "TV-1.fail_position: no source stated for fail_position"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "TV-1",
+      "message": "TV-1.kind: no source stated for kind"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "TV-1",
+      "message": "TV-1.locked: no source stated for locked"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "TV-1",
+      "message": "TV-1.normal_position: no source stated for normal_position"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "TV-1",
+      "message": "TV-1.on_line_id: no source stated for on_line_id"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "UT-STEAM",
+      "message": "UT-STEAM.kind: no source stated for kind"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "UT-STEAM",
+      "message": "UT-STEAM.location_id: no source stated for location_id"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "W-1",
+      "message": "W-1.end: no source stated for end"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "W-1",
+      "message": "W-1.location_id: no source stated for location_id"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "W-1",
+      "message": "W-1.start: no source stated for start"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "W-1",
+      "message": "W-1.type: no source stated for type"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "XV-STM",
+      "message": "XV-STM.fail_position: no source stated for fail_position"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "XV-STM",
+      "message": "XV-STM.kind: no source stated for kind"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "XV-STM",
+      "message": "XV-STM.locked: no source stated for locked"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "XV-STM",
+      "message": "XV-STM.normal_position: no source stated for normal_position"
+    },
+    {
+      "code": "source_not_stated",
+      "object_id": "XV-STM",
+      "message": "XV-STM.on_line_id: no source stated for on_line_id"
     }
   ],
   "sections": [
     {
-      "id": "S-TOTE-1",
-      "plant_record_id": "plant:mock_plant_a:437a7c5b6e544611",
-      "kind": "equipment",
-      "section_type": "tank",
-      "name": "Tote TOTE-1",
-      "purpose": "Holds Si-H fluid for charging",
-      "object_ids": [
-        "TOTE-1"
-      ],
-      "flagged_no_flow": false,
-      "drawn_by": "rule",
-      "suggestion_reason": null
-    },
-    {
-      "id": "S-P-1",
-      "plant_record_id": "plant:mock_plant_a:437a7c5b6e544611",
-      "kind": "equipment",
-      "section_type": "pump",
-      "name": "Charge pump P-1",
-      "purpose": "Moves tote contents to the mixer",
-      "object_ids": [
-        "P-1"
-      ],
-      "flagged_no_flow": false,
-      "drawn_by": "rule",
-      "suggestion_reason": null
-    },
-    {
-      "id": "S-MX-1",
-      "plant_record_id": "plant:mock_plant_a:437a7c5b6e544611",
-      "kind": "equipment",
-      "section_type": "mixer",
-      "name": "Mixer MX-1",
-      "purpose": "Blends Si-H fluid and KOH solution, steam heated",
-      "object_ids": [
-        "MX-1"
-      ],
-      "flagged_no_flow": false,
-      "drawn_by": "rule",
-      "suggestion_reason": null
-    },
-    {
       "id": "S-L-12",
-      "plant_record_id": "plant:mock_plant_a:437a7c5b6e544611",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
       "kind": "line",
       "section_type": "pipe",
-      "name": "Line L-12, tote to mixer",
-      "purpose": "Charging line",
+      "name": "L-12 (pipe)",
+      "purpose": null,
       "object_ids": [
         "L-12"
       ],
@@ -97,14 +1103,74 @@
       "suggestion_reason": null
     },
     {
-      "id": "S-L-STM",
-      "plant_record_id": "plant:mock_plant_a:437a7c5b6e544611",
+      "id": "S-L-12~P-1",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
       "kind": "line",
       "section_type": "pipe",
-      "name": "Steam line L-STM",
-      "purpose": "Heating steam to MX-1",
+      "name": "L-12 from P-1 (pipe)",
+      "purpose": null,
       "object_ids": [
-        "L-STM"
+        "L-12",
+        "P-1",
+        "HV-12"
+      ],
+      "flagged_no_flow": false,
+      "drawn_by": "rule",
+      "suggestion_reason": null
+    },
+    {
+      "id": "S-L-STM",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "kind": "line",
+      "section_type": "pipe",
+      "name": "L-STM (pipe)",
+      "purpose": null,
+      "object_ids": [
+        "L-STM",
+        "XV-STM"
+      ],
+      "flagged_no_flow": false,
+      "drawn_by": "rule",
+      "suggestion_reason": null
+    },
+    {
+      "id": "S-L-STM~TV-1",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "kind": "line",
+      "section_type": "pipe",
+      "name": "L-STM from TV-1 (pipe)",
+      "purpose": null,
+      "object_ids": [
+        "L-STM",
+        "TV-1"
+      ],
+      "flagged_no_flow": false,
+      "drawn_by": "rule",
+      "suggestion_reason": null
+    },
+    {
+      "id": "S-MX-1",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "kind": "equipment",
+      "section_type": "mixer",
+      "name": "MX-1 (mixer)",
+      "purpose": null,
+      "object_ids": [
+        "MX-1"
+      ],
+      "flagged_no_flow": false,
+      "drawn_by": "rule",
+      "suggestion_reason": null
+    },
+    {
+      "id": "S-P-1",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "kind": "equipment",
+      "section_type": "pump",
+      "name": "P-1 (pump)",
+      "purpose": null,
+      "object_ids": [
+        "P-1"
       ],
       "flagged_no_flow": false,
       "drawn_by": "rule",
@@ -112,11 +1178,11 @@
     },
     {
       "id": "S-P-CHARGE",
-      "plant_record_id": "plant:mock_plant_a:437a7c5b6e544611",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
       "kind": "procedure",
       "section_type": "procedure",
-      "name": "Charging procedure",
-      "purpose": "Charge the mixer from a tote",
+      "name": "P-CHARGE (procedure: charging)",
+      "purpose": null,
       "object_ids": [
         "P-CHARGE"
       ],
@@ -125,12 +1191,26 @@
       "suggestion_reason": null
     },
     {
+      "id": "S-TOTE-1",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
+      "kind": "equipment",
+      "section_type": "tank",
+      "name": "TOTE-1 (tank)",
+      "purpose": null,
+      "object_ids": [
+        "TOTE-1"
+      ],
+      "flagged_no_flow": false,
+      "drawn_by": "rule",
+      "suggestion_reason": null
+    },
+    {
       "id": "S-W-1",
-      "plant_record_id": "plant:mock_plant_a:437a7c5b6e544611",
+      "plant_record_id": "plant:mock_plant_a:be40872ede387491",
       "kind": "planned_work",
       "section_type": null,
-      "name": "Hot work on the roof",
-      "purpose": "Planned hot work W-1",
+      "name": "W-1 (hot_work)",
+      "purpose": null,
       "object_ids": [
         "W-1"
       ],

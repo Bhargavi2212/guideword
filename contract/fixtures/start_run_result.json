@@ -2,8 +2,8 @@
   "label": {
     "kind": "mock",
     "recorded_at": null,
-    "cost_usd": 0.31
+    "cost_usd": null
   },
-  "run_id": "run:8ede059837927e4a",
-  "estimated_cost_usd": 0.4
+  "run_id": "run:eaf6f55e4d2a4a30",
+  "estimated_cost_usd": 1.000001
 }
