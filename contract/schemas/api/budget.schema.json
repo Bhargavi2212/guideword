@@ -1,5 +1,18 @@
 {
   "$defs": {
+    "BudgetUse": {
+      "enum": [
+        "development",
+        "test_5",
+        "benchmark",
+        "video",
+        "demo_recording",
+        "judging",
+        "buffer"
+      ],
+      "title": "BudgetUse",
+      "type": "string"
+    },
     "EnvironmentBudget": {
       "additionalProperties": false,
       "properties": {
@@ -47,10 +60,84 @@
       ],
       "title": "ModelSpend",
       "type": "object"
+    },
+    "PhaseBudget": {
+      "additionalProperties": false,
+      "description": "Contract v1.9 (G6): the phase API runs book to, and what is left of its cap.",
+      "properties": {
+        "cap_usd": {
+          "title": "Cap Usd",
+          "type": "number"
+        },
+        "phase": {
+          "title": "Phase",
+          "type": "string"
+        },
+        "remaining_usd": {
+          "title": "Remaining Usd",
+          "type": "number"
+        },
+        "spent_usd": {
+          "title": "Spent Usd",
+          "type": "number"
+        }
+      },
+      "required": [
+        "phase",
+        "cap_usd",
+        "spent_usd",
+        "remaining_usd"
+      ],
+      "title": "PhaseBudget",
+      "type": "object"
+    },
+    "UseBudget": {
+      "additionalProperties": false,
+      "description": "Contract v1.9 (C6): one use of this environment, from its own ledger, read the way the\ngateway checks it.",
+      "properties": {
+        "allowance_usd": {
+          "title": "Allowance Usd",
+          "type": "number"
+        },
+        "environment": {
+          "title": "Environment",
+          "type": "string"
+        },
+        "remaining_usd": {
+          "title": "Remaining Usd",
+          "type": "number"
+        },
+        "spent_usd": {
+          "title": "Spent Usd",
+          "type": "number"
+        },
+        "use": {
+          "$ref": "#/$defs/BudgetUse"
+        }
+      },
+      "required": [
+        "use",
+        "environment",
+        "allowance_usd",
+        "spent_usd",
+        "remaining_usd"
+      ],
+      "title": "UseBudget",
+      "type": "object"
     }
   },
   "additionalProperties": false,
   "properties": {
+    "api_run_phase": {
+      "$ref": "#/$defs/PhaseBudget"
+    },
+    "api_run_uses": {
+      "items": {
+        "$ref": "#/$defs/BudgetUse"
+      },
+      "title": "Api Run Uses",
+      "type": "array"
+    },
     "by_model": {
       "items": {
         "$ref": "#/$defs/ModelSpend"
@@ -80,12 +167,22 @@
       ],
       "default": null,
       "title": "Message"
+    },
+    "uses": {
+      "items": {
+        "$ref": "#/$defs/UseBudget"
+      },
+      "title": "Uses",
+      "type": "array"
     }
   },
   "required": [
     "environments",
     "by_model",
-    "live_run_available"
+    "live_run_available",
+    "uses",
+    "api_run_phase",
+    "api_run_uses"
   ],
   "title": "Budget",
   "type": "object"

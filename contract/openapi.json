@@ -293,6 +293,16 @@
       "Budget": {
         "additionalProperties": false,
         "properties": {
+          "api_run_phase": {
+            "$ref": "#/components/schemas/PhaseBudget"
+          },
+          "api_run_uses": {
+            "items": {
+              "$ref": "#/components/schemas/BudgetUse"
+            },
+            "title": "Api Run Uses",
+            "type": "array"
+          },
           "by_model": {
             "items": {
               "$ref": "#/components/schemas/ModelSpend"
@@ -321,12 +331,22 @@
               }
             ],
             "title": "Message"
+          },
+          "uses": {
+            "items": {
+              "$ref": "#/components/schemas/UseBudget"
+            },
+            "title": "Uses",
+            "type": "array"
           }
         },
         "required": [
           "environments",
           "by_model",
-          "live_run_available"
+          "live_run_available",
+          "uses",
+          "api_run_phase",
+          "api_run_uses"
         ],
         "title": "Budget",
         "type": "object"
@@ -4097,6 +4117,36 @@
         "title": "OverrideResult",
         "type": "object"
       },
+      "PhaseBudget": {
+        "additionalProperties": false,
+        "description": "Contract v1.9 (G6): the phase API runs book to, and what is left of its cap.",
+        "properties": {
+          "cap_usd": {
+            "title": "Cap Usd",
+            "type": "number"
+          },
+          "phase": {
+            "title": "Phase",
+            "type": "string"
+          },
+          "remaining_usd": {
+            "title": "Remaining Usd",
+            "type": "number"
+          },
+          "spent_usd": {
+            "title": "Spent Usd",
+            "type": "number"
+          }
+        },
+        "required": [
+          "phase",
+          "cap_usd",
+          "spent_usd",
+          "remaining_usd"
+        ],
+        "title": "PhaseBudget",
+        "type": "object"
+      },
       "PlantDetail": {
         "additionalProperties": false,
         "properties": {
@@ -6797,6 +6847,40 @@
           "payload_schema"
         ],
         "title": "ToolCallEventV19",
+        "type": "object"
+      },
+      "UseBudget": {
+        "additionalProperties": false,
+        "description": "Contract v1.9 (C6): one use of this environment, from its own ledger, read the way the\ngateway checks it.",
+        "properties": {
+          "allowance_usd": {
+            "title": "Allowance Usd",
+            "type": "number"
+          },
+          "environment": {
+            "title": "Environment",
+            "type": "string"
+          },
+          "remaining_usd": {
+            "title": "Remaining Usd",
+            "type": "number"
+          },
+          "spent_usd": {
+            "title": "Spent Usd",
+            "type": "number"
+          },
+          "use": {
+            "$ref": "#/components/schemas/BudgetUse"
+          }
+        },
+        "required": [
+          "use",
+          "environment",
+          "allowance_usd",
+          "spent_usd",
+          "remaining_usd"
+        ],
+        "title": "UseBudget",
         "type": "object"
       },
       "ValidationError": {

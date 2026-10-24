@@ -499,6 +499,9 @@ export interface components {
         };
         /** Budget */
         Budget: {
+            api_run_phase: components["schemas"]["PhaseBudget"];
+            /** Api Run Uses */
+            api_run_uses: components["schemas"]["BudgetUse"][];
             /** By Model */
             by_model: components["schemas"]["ModelSpend"][];
             /** Environments */
@@ -507,6 +510,8 @@ export interface components {
             live_run_available: boolean;
             /** Message */
             message?: string | null;
+            /** Uses */
+            uses: components["schemas"]["UseBudget"][];
         };
         /**
          * BudgetUse
@@ -2075,6 +2080,20 @@ export interface components {
             /** Stored */
             stored: boolean;
         };
+        /**
+         * PhaseBudget
+         * @description Contract v1.9 (G6): the phase API runs book to, and what is left of its cap.
+         */
+        PhaseBudget: {
+            /** Cap Usd */
+            cap_usd: number;
+            /** Phase */
+            phase: string;
+            /** Remaining Usd */
+            remaining_usd: number;
+            /** Spent Usd */
+            spent_usd: number;
+        };
         /** PlantDetail */
         PlantDetail: {
             /** Facts */
@@ -3185,6 +3204,22 @@ export interface components {
              * @constant
              */
             type: "tool_call";
+        };
+        /**
+         * UseBudget
+         * @description Contract v1.9 (C6): one use of this environment, from its own ledger, read the way the
+         *     gateway checks it.
+         */
+        UseBudget: {
+            /** Allowance Usd */
+            allowance_usd: number;
+            /** Environment */
+            environment: string;
+            /** Remaining Usd */
+            remaining_usd: number;
+            /** Spent Usd */
+            spent_usd: number;
+            use: components["schemas"]["BudgetUse"];
         };
         /** ValidationError */
         ValidationError: {
