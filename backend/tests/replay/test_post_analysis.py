@@ -1738,3 +1738,32 @@ def test_the_retry_summary_records_the_questions_outcome(
     ]
     assert {r["question_id"] for r in rows} == failed
     assert {r["outcome"] for r in rows} == {"answered"}
+
+
+def test_with_no_scenario_line_the_chains_step_skips_the_connector(
+    tmp_path: Path, ref: ReferenceSet, config: Config
+) -> None:
+    """Emit coverage (contract v1.9): the `chains` summary when nothing reaches the connector,
+    checked by its strict model."""
+    base = post_script()
+
+    def script(job: str, request: dict[str, Any]) -> Reply:
+        if job.startswith("specialist"):
+            answers = [
+                {"question_id": q["id"], "not_credible": {"reason": "none"}, "findings": []}
+                for q in block(request, "questions")
+            ]
+            return reply({"answers": answers, "added_questions": []})
+        return base(job, request)
+
+    world = World(tmp_path, ref)
+    run, transport = world.run(config, script)
+    assert world.runs.findings(run.id) == []
+    assert "connector" not in [job for job, _ in transport.sent]
+    [chains] = [
+        e.payload
+        for e in world.runs.events(run.id)
+        if e.type == EventType.STEP_FINISHED and e.payload["step"] == "chains"
+    ]
+    assert (chains["scenarios"], chains["left_out"]) == (0, 0)
+    assert "connector" not in chains

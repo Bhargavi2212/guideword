@@ -74,10 +74,10 @@ class World:
             self.plants, json.loads(plant_file.read_text(encoding="utf-8")), ref
         )
 
-    def screen(self, answer: Any, cap: float = 1.0) -> tuple[str, Any]:
+    def screen(self, answer: Any, cap: float = 1.0, finish_reason: str = "stop") -> tuple[str, Any]:
         def script(job: str, request: dict[str, Any]) -> Any:
             assert job == "plant_screen", job
-            return reply(answer)
+            return reply(answer, finish_reason=finish_reason)
 
         gateway, transport = fake_gateway(
             self.config,
@@ -229,6 +229,18 @@ def test_hypothesis_events_record_what_was_added_and_dropped(world: World) -> No
     run_id, _ = world.screen({"hypotheses": [GOOD_1, hyp(2, ["TANK-9"], "tank", "C21")]})
     assert [a["rank"] for a in world.events(run_id, EventType.HYPOTHESIS_ADDED)] == [1]
     assert [d["rank"] for d in world.events(run_id, EventType.HYPOTHESIS_DROPPED)] == [2]
+
+
+def test_a_screen_answer_cut_off_at_the_token_limit_is_dropped_with_its_reason(
+    world: World,
+) -> None:
+    """Emit coverage (contract v1.9): a truncated answer is never parsed; its drop names why,
+    the run keeps no hypothesis and goes on to the analysis."""
+    run_id, _ = world.screen({"hypotheses": [GOOD_1]}, finish_reason="length")
+    reasons = [d["reason"] for d in world.events(run_id, EventType.HYPOTHESIS_DROPPED)]
+    assert any(r.startswith("no usable answer: ") for r in reasons), reasons
+    assert world.runs.hypotheses(run_id) == []
+    assert world.runs.get(run_id).step == "analysis"  # type: ignore[union-attr]
 
 
 def test_a_hypothesis_is_stored_once_and_never_rewritten(world: World) -> None:
