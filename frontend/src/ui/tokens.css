@@ -1,0 +1,318 @@
+/* Design tokens and base styles (P5-10): an engineering-review tool, legible on a 1920×1080
+   recording at 100 %. State is carried by text and form (stripes, outlines, strike-through),
+   never by colour alone. One light theme, with dark tokens for prefers-color-scheme. */
+
+:root {
+  --bg: #fbfaf7;
+  --surface: #ffffff;
+  --ink: #1d1f22;
+  --ink-soft: #5b616b;
+  --line: #d9d6cf;
+  --accent: #1f5f8b;
+  --accent-soft: #e4eef5;
+  --warn: #8a5300;
+  --warn-soft: #fbf0dc;
+  --bad: #9b2226;
+  --bad-soft: #f8e3e3;
+  --good: #2d6a4f;
+  --good-soft: #e3f1ea;
+  --mono: ui-monospace, "Cascadia Mono", "Consolas", monospace;
+  --sans: "Segoe UI", system-ui, -apple-system, sans-serif;
+  --radius: 4px;
+  --gap: 12px;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #15171a;
+    --surface: #1d2024;
+    --ink: #e6e3dc;
+    --ink-soft: #a3a8b0;
+    --line: #34383e;
+    --accent: #7fb4dc;
+    --accent-soft: #1f3343;
+    --warn: #f0b660;
+    --warn-soft: #3a2c14;
+    --bad: #f08a8d;
+    --bad-soft: #3d1d1f;
+    --good: #8fd1ae;
+    --good-soft: #193328;
+    color-scheme: dark;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 15px/1.5 var(--sans);
+}
+
+h1,
+h2,
+h3 {
+  line-height: 1.25;
+  margin: 0 0 var(--gap);
+}
+
+a {
+  color: var(--accent);
+}
+
+button,
+input,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 4px 10px;
+  cursor: pointer;
+}
+
+button:focus-visible,
+select:focus-visible,
+input:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+input,
+select {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 4px 6px;
+}
+
+/* --- the shell -------------------------------------------------------------------------- */
+
+.shell {
+  min-height: 100vh;
+}
+
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--gap);
+  padding: var(--gap) 16px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+}
+
+.header label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--ink-soft);
+}
+
+.header select {
+  max-width: 22rem;
+}
+
+.brand {
+  font-size: 18px;
+  margin: 0;
+}
+
+.brand a {
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.run-state,
+.budget {
+  color: var(--ink-soft);
+}
+
+.main {
+  padding: 16px;
+  max-width: 1400px;
+}
+
+.placeholder {
+  color: var(--ink-soft);
+}
+
+/* --- the banner: always says what the data is ------------------------------------------- */
+
+.banner {
+  margin: 0;
+  padding: 2px 10px;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  font-weight: 600;
+}
+
+.banner-live {
+  background: var(--good-soft);
+  color: var(--good);
+}
+
+.banner-recorded {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.banner-mock {
+  background: var(--warn-soft);
+  color: var(--warn);
+  border-style: dashed;
+}
+
+/* --- traced values open the drawer ------------------------------------------------------ */
+
+.traced {
+  border: 0;
+  border-bottom: 1px dotted var(--accent);
+  border-radius: 0;
+  padding: 0;
+  background: none;
+  color: inherit;
+  text-align: inherit;
+}
+
+.traced:hover {
+  color: var(--accent);
+}
+
+.id,
+.drawer .traced {
+  font-family: var(--mono);
+  font-size: 13px;
+  word-break: break-all;
+}
+
+.drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: min(36rem, 100vw);
+  overflow-y: auto;
+  padding: 16px;
+  background: var(--surface);
+  border-left: 1px solid var(--line);
+  box-shadow: -4px 0 16px rgb(0 0 0 / 0.12);
+}
+
+.drawer-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  gap: var(--gap);
+}
+
+.drawer-head h2 {
+  font-size: 16px;
+  word-break: break-all;
+}
+
+.drawer dl {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 4px 12px;
+}
+
+.drawer dl > div {
+  display: contents;
+}
+
+.drawer dt {
+  color: var(--ink-soft);
+}
+
+.drawer dd {
+  margin: 0;
+  word-break: break-word;
+}
+
+.assumed {
+  background: var(--warn-soft);
+  color: var(--warn);
+  padding: 0 4px;
+  border-radius: var(--radius);
+  font-weight: 600;
+}
+
+/* --- chips, flags, refused layers, tier stripes ------------------------------------------ */
+
+.chip {
+  display: inline-block;
+  padding: 0 8px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.chip-severity-S4,
+.chip-severity-S5 {
+  border-width: 2px;
+  border-color: var(--bad);
+  color: var(--bad);
+}
+
+.chip-verdict-confirmed {
+  background: var(--good-soft);
+  color: var(--good);
+}
+
+.chip-verdict-contradicted {
+  background: var(--bad-soft);
+  color: var(--bad);
+  border-style: dashed;
+}
+
+.flags {
+  margin: 6px 0;
+  padding-left: 18px;
+  color: var(--warn);
+}
+
+.refused {
+  text-decoration: line-through;
+  color: var(--ink-soft);
+}
+
+.tier-confirmed {
+  border-left: 6px solid var(--good);
+}
+
+.tier-also_found {
+  border-left: 6px double var(--accent);
+}
+
+.tier-unconfirmed {
+  border-left: 6px dashed var(--warn);
+}
+
+.cost-line {
+  margin: 4px 0;
+  font-weight: 600;
+}
+
+.confirm-inline {
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+}
+
+@media (max-width: 400px) {
+  .header select {
+    max-width: 100%;
+  }
+}
