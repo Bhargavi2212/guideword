@@ -623,3 +623,15 @@ def test_agent_evidence_is_an_agent() -> None:
         {**_sample(r.AgentStep), "agent": "evidence", "tool": "physics_calc"}
     )
     assert step.agent == "evidence"
+
+
+# --- contract v1.10: the recorded run's spend note (deploy plan D0) -----------------------------
+
+
+def test_a_run_label_may_carry_a_note_and_an_older_one_reads_none() -> None:
+    from guideword.schema.records import RunLabel
+
+    assert RunLabel.model_validate({"kind": "recorded"}).note is None
+    note = "record $0.0083 under ledger, run stored before the 2026-10-22 fix"
+    label = RunLabel.model_validate({"kind": "recorded", "cost_usd": 0.8965, "note": note})
+    assert RunLabel.model_validate(label.model_dump(mode="json")).note == note

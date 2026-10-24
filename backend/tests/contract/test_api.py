@@ -898,3 +898,15 @@ def test_mock_evidence_agrees_across_fixtures() -> None:
     assert dump == shortlist
     demo = _fixture("demo_response.json")["shortlist"]["items"]
     assert {ev["id"]: ev for item in demo for ev in item["evidence"]} == shortlist
+
+
+# --- contract v1.10: the demo landing's start line (deploy plan D0) -----------------------------
+
+
+def test_a_demo_response_may_name_its_start_line_and_an_older_one_names_none() -> None:
+    demo = _fixture("demo_response.json")
+    old = {k: v for k, v in demo.items() if k != "start_target_id"}
+    assert api.DemoResponse.model_validate(old).start_target_id is None
+    target = demo["shortlist"]["items"][0]["target_id"]
+    named = api.DemoResponse.model_validate(old | {"start_target_id": target})
+    assert named.start_target_id == target
