@@ -245,6 +245,9 @@ class ModelCall(_Record):
     attempts: Annotated[int, Field(ge=1)] = 1
     raw_response: str
     reasoning_text: str | None = None
+    # contract v1.9: the tier that served the call, set by the gateway when it builds the
+    # record (after any fallback); null on calls stored before it. Never part of an ID or hash.
+    tier: Tier | None = None
     record_ids: list[str] = Field(default_factory=list)
 
     @model_validator(mode="before")

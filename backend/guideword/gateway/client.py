@@ -45,6 +45,10 @@ class RepeatedRequest(RuntimeError):
     again would only repeat that answer and overwrite its record. Found in the case D dev run."""
 
 
+class TierMismatch(RuntimeError):
+    """A call record's tier does not serve its model ID in models.yaml (contract v1.9)."""
+
+
 class BudgetRefused(RuntimeError):
     """A request was refused before sending. `attempts` are the call's earlier attempts that
     were sent (or served from the cache) before it, with what they cost: a validation retry
@@ -204,7 +208,14 @@ class Gateway:
             if run is not None:
                 result.model_calls.append(
                     self._record(
-                        job, prompt_version, resolved.model_id, request, sent, outcome, run.run_id
+                        job,
+                        prompt_version,
+                        resolved.tier,
+                        resolved.model_id,
+                        request,
+                        sent,
+                        outcome,
+                        run.run_id,
                     )
                 )
             result.outcome, result.value, result.content, result.error = (
@@ -437,12 +448,18 @@ class Gateway:
         self,
         job: str,
         prompt_version: str,
+        tier: Tier,
         model_id: str,
         request: dict[str, Any],
         sent: _Sent,
         outcome: Outcome,
         run_id: str,
     ) -> ModelCall:
+        expected = self.config.models.tiers[tier].expected_id
+        if model_id != expected:
+            raise TierMismatch(
+                f"tier {tier} serves {expected} in models.yaml, not the served {model_id}"
+            )
         reply = sent.reply
         return ModelCall(
             id=ids.model_call_id(model_id, prompt_version, _exact_input(request)),
@@ -461,6 +478,7 @@ class Gateway:
             attempts=sent.attempts,
             raw_response=json.dumps(reply.raw if reply is not None else {"error": sent.error}),
             reasoning_text=reply.reasoning if reply is not None else None,
+            tier=tier,
         )
 
 

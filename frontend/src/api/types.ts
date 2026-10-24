@@ -750,6 +750,7 @@ export interface components {
             record_ids?: string[];
             /** Run Id */
             run_id: string;
+            tier?: components["schemas"]["Tier"] | null;
         };
         /** ModelSpend */
         ModelSpend: {

@@ -1157,6 +1157,16 @@
           "run_id": {
             "title": "Run Id",
             "type": "string"
+          },
+          "tier": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Tier"
+              },
+              {
+                "type": "null"
+              }
+            ]
           }
         },
         "required": [
