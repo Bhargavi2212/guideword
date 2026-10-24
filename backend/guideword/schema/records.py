@@ -34,6 +34,7 @@ from guideword.schema.enums import (
     Tier,
     Verdict,
 )
+from guideword.schema.events import PayloadSchema
 from guideword.schema.plant import Plant
 
 OUTSIDE_LIBRARY = "outside_library"
@@ -436,6 +437,13 @@ class Event(_Record):
     type: EventType
     payload: dict[str, Any]
     time: datetime
+    # contract v1.9: "v1.9" on every event the code writes, set only by the event writer;
+    # null on events stored before it. It alone chooses the payload's model.
+    payload_schema: PayloadSchema | None = None
+    # a live run writes an event whose payload fails its model as given, flagged with the
+    # error (Bhargavi, 2026-10-23); tests raise instead
+    payload_invalid: bool = False
+    payload_error: str | None = None
 
 
 class SpendEntry(_Record):

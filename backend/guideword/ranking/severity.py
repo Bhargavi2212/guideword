@@ -24,7 +24,7 @@ from guideword.gateway.estimate import estimate_cost
 from guideword.gateway.prompts import Prompt, as_data, load_prompt, render
 from guideword.ranking.rank import cause_key
 from guideword.reference import ReferenceSet
-from guideword.runs.machine import StepResult, stop_for_refusal
+from guideword.runs.machine import ANALYSIS_CAP, StepResult, stop_for_refusal
 from guideword.runs.plants import plant_facts
 from guideword.runs.store import StepWriter
 from guideword.schema import ids
@@ -305,7 +305,10 @@ class RankedStepper:
         open_count = sum(1 for q in writer.questions() if q.status == QuestionStatus.OPEN)
         if open_count:
             # R38: the analysis ended at the severity reserve with questions still open
-            writer.emit(EventType.CAP_HIT, {"reason": "questions left open", "open": open_count})
+            writer.emit(
+                EventType.CAP_HIT,
+                {"reason": "questions left open", "open": open_count, "cap": ANALYSIS_CAP},
+            )
             return StepResult(status=RunStatus.STOPPED_CAP)
         return StepResult(status=RunStatus.FINISHED)
 

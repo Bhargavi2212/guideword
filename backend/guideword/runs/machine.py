@@ -23,6 +23,8 @@ ENDED = {RunStatus.FINISHED, RunStatus.FAILED, RunStatus.CANCELLED}
 SPEND_TOLERANCE_USD = 1e-9
 # the `cap` a post-analysis step's cap stop records, so extension can resume it
 POST_CAP = "post"
+# contract v1.9: `cap_hit.cap` for a stop at the run's (analysis) spend cap or step limit
+ANALYSIS_CAP = "analysis"
 
 log = get_logger(__name__)
 
@@ -151,9 +153,12 @@ def stop_for_refusal(
     event says so, so extension can resume the run with a higher post cap. The calls the
     refusal carries are recorded first."""
     record_attempts(writer, refused, post=cap == POST_CAP)
-    payload: dict[str, Any] = {"reason": str(refused), "status": refused.status}
-    if cap is not None and refused.status == RunStatus.STOPPED_CAP:
-        payload["cap"] = cap
+    # contract v1.9: `cap` is always present; null for a budget or allowance stop (plan J4)
+    payload: dict[str, Any] = {
+        "reason": str(refused),
+        "status": refused.status,
+        "cap": (cap or ANALYSIS_CAP) if refused.status == RunStatus.STOPPED_CAP else None,
+    }
     writer.emit(EventType.CAP_HIT, payload)
     return StepResult(status=refused.status)
 

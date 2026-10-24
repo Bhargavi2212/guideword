@@ -507,6 +507,15 @@ export interface components {
             payload: {
                 [key: string]: unknown;
             };
+            /** Payload Error */
+            payload_error?: string | null;
+            /**
+             * Payload Invalid
+             * @default false
+             */
+            payload_invalid: boolean;
+            /** Payload Schema */
+            payload_schema?: "v1.9" | null;
             /** Run Id */
             run_id: string;
             /** Seq */

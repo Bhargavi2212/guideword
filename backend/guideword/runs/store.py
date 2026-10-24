@@ -11,10 +11,11 @@ from dataclasses import dataclass
 from datetime import datetime
 from typing import Any
 
-from pydantic import BaseModel
+from pydantic import BaseModel, ValidationError
 from sqlalchemy import func, select
 from sqlalchemy.orm import Session, sessionmaker
 
+from guideword.logs import get_logger
 from guideword.runs.db import (
     AgentStepRow,
     ChainRow,
@@ -34,6 +35,7 @@ from guideword.runs.db import (
 )
 from guideword.schema import ids
 from guideword.schema.enums import EventType, RunStatus
+from guideword.schema.events import SCHEMA_V1_9, validate_payload
 from guideword.schema.records import (
     AgentStep,
     Chain,
@@ -80,6 +82,24 @@ POST_AGENT = "evidence"
 
 # The event types this store emits (decision R32). Phase 3 adds chain_added, lopa_done and
 # run_extended with the post-analysis steps (plan G11); Phase 4 adds evidence_added.
+log = get_logger(__name__)
+
+# Contract v1.9: an event payload that fails its model raises when True. False in a live run
+# (the event is written flagged instead); the tests' conftest sets it True. Never changed by
+# the package itself.
+STRICT_PAYLOADS = False
+# the longest error kept on a flagged event
+PAYLOAD_ERROR_MAX = 300
+
+
+def _short(error: Exception) -> str:
+    text = str(error).replace("\n", " ")
+    return text if len(text) <= PAYLOAD_ERROR_MAX else text[: PAYLOAD_ERROR_MAX - 3] + "..."
+
+
+# `tier_source` on an event the code writes: the tier came from the record, not inferred
+TIER_RECORDED = "recorded"
+
 EMITTED_EVENT_TYPES = frozenset(
     {
         EventType.RUN_STARTED,
@@ -165,11 +185,33 @@ class StepWriter:
     # --- events ----------------------------------------------------------------------------
 
     def emit(self, type: EventType, payload: dict[str, Any]) -> Event:
+        """The one place an event is written and stamped `payload_schema: "v1.9"` (contract
+        v1.9, Q1). Its payload is checked against its type's model: in tests a mismatch
+        raises; in a live run the event is written as given with `payload_invalid` and the
+        error, and the run carries on (Bhargavi, 2026-10-23)."""
         if type not in EMITTED_EVENT_TYPES:
             raise ValueError(f"event type {type} is not emitted in this phase")
+        error: str | None = None
+        try:
+            validate_payload(type, payload, SCHEMA_V1_9)
+        except (ValidationError, ValueError) as invalid:
+            if STRICT_PAYLOADS:
+                raise
+            error = _short(invalid)
+            log.error(
+                "event payload does not match its model",
+                extra={"context": {"run_id": self.run.id, "type": type, "error": error}},
+            )
         self._seq += 1
         event = Event(
-            run_id=self.run.id, seq=self._seq, type=type, payload=payload, time=self._clock()
+            run_id=self.run.id,
+            seq=self._seq,
+            type=type,
+            payload=payload,
+            time=self._clock(),
+            payload_schema=SCHEMA_V1_9,
+            payload_invalid=error is not None,
+            payload_error=error,
         )
         self._session.add(
             EventRow(
@@ -395,6 +437,9 @@ class StepWriter:
             "outcome": call.outcome,
             "cost_usd": call.cost_usd,
             "cap_cost_usd": call.cap_cost_usd,
+            # contract v1.9: the tier on the call's record, set by the gateway
+            "tier": call.tier,
+            "tier_source": TIER_RECORDED if call.tier is not None else None,
         }
         if fell_back_from:
             payload["fell_back_from"] = [str(t) for t in fell_back_from]
