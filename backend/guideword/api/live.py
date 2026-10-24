@@ -437,14 +437,20 @@ class LiveRuns:
                 found = Record("agent_step", step.model_dump(mode="json"), [step.previous_id], made)
         if record_id in calls:
             found = Record("model_call", calls[record_id].model_dump(mode="json"), [], [record_id])
+        # B3 (P5-6): a tool call, with the agent step that made it as its parent
+        tool_calls_of_run = self.runs.tool_calls(run_id)
+        for tool_call in tool_calls_of_run:
+            if tool_call.id == record_id:
+                dumped = tool_call.model_dump(mode="json")
+                found = Record("tool_call", dumped, [tool_call.agent_step_id], [])
         if found is None:
             raise RunNotFound(f"no record {record_id} in run {run_id}")
         model_calls = [calls[i] for i in found.model_call_ids if i in calls]
+        if found.kind == "tool_call":
+            return found, model_calls, [t for t in tool_calls_of_run if t.id == record_id]
         # an agent step's own tool calls; else a parent step's, or a tool call named as a parent
         steps = {record_id} if found.kind == "agent_step" else set(found.parent_ids)
         tool_calls = [
-            t
-            for t in self.runs.tool_calls(run_id)
-            if t.agent_step_id in steps or t.id in found.parent_ids
+            t for t in tool_calls_of_run if t.agent_step_id in steps or t.id in found.parent_ids
         ]
         return found, model_calls, tool_calls
