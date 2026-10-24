@@ -71,8 +71,20 @@ def test_caps(shipped: Config) -> None:
     assert run.question_max_attempts == 2
     assert run.connector_max_input_tokens == 80000
     assert shipped.caps.plant.section_suggest_cap_usd == 0.05
-    # each phase adds its cap (specs/phase-2.md; Phase 4: specs/phase-4-plan.md Q8)
-    assert shipped.caps.phase_caps_usd == {"0": 0.65, "2": 8.50, "3": 2.50, "4": 1.50}
+    # each phase adds its cap (specs/phase-2.md; Phase 4: specs/phase-4-plan.md Q8; Phase 5:
+    # specs/phase-5-plan.md Q10, no raise)
+    assert shipped.caps.phase_caps_usd == {
+        "0": 0.65,
+        "2": 8.50,
+        "3": 2.50,
+        "4": 1.50,
+        "5": 0.50,
+    }
+
+
+def test_api_run_uses(shipped: Config) -> None:
+    """Phase 5 (plan H7): the uses a run started through the API may take, in this order."""
+    assert shipped.caps.api_run_uses == [BudgetUse.DEVELOPMENT, BudgetUse.VIDEO]
 
 
 def test_phase_2_run_caps(shipped: Config) -> None:
@@ -193,7 +205,14 @@ def test_run_input_caps_hold_everything_that_changes_answers(shipped: Config) ->
         # lead tie-break plan: it changes which finding leads a confirmed line, so hashed
         "lead_prefers_own_section": True,
     }
-    for left_out in ("concurrency", "gateway", "uses", "environments", "phase_caps_usd"):
+    for left_out in (
+        "concurrency",
+        "gateway",
+        "uses",
+        "environments",
+        "phase_caps_usd",
+        "api_run_uses",
+    ):
         assert left_out not in caps
 
 
@@ -297,6 +316,27 @@ def test_uses_per_environment_must_sum_to_its_allowance(config_dir: Path) -> Non
 
 def test_unknown_use(config_dir: Path) -> None:
     _edit(config_dir, "caps.yaml", r"^  buffer:", "  holiday:")
+    _refused(config_dir, "caps.yaml")
+
+
+def test_api_run_uses_must_be_known_uses(config_dir: Path) -> None:
+    _edit(config_dir, "caps.yaml", r"^api_run_uses: .*$", "api_run_uses: [development, holiday]")
+    _refused(config_dir, "caps.yaml")
+
+
+def test_api_run_uses_must_not_repeat(config_dir: Path) -> None:
+    _edit(config_dir, "caps.yaml", r"^api_run_uses: .*$", "api_run_uses: [video, video]")
+    _refused(config_dir, "caps.yaml")
+
+
+def test_api_run_uses_must_name_one(config_dir: Path) -> None:
+    _edit(config_dir, "caps.yaml", r"^api_run_uses: .*$", "api_run_uses: []")
+    _refused(config_dir, "caps.yaml")
+
+
+def test_api_run_uses_are_required(config_dir: Path) -> None:
+    """No default (Phase 5 standing rule): a caps.yaml without the list is refused."""
+    _edit(config_dir, "caps.yaml", r"^api_run_uses: .*\n", "")
     _refused(config_dir, "caps.yaml")
 
 
