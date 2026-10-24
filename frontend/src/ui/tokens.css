@@ -316,3 +316,62 @@ select {
     max-width: 100%;
   }
 }
+
+/* --- the shortlist (spec 5.1) ----------------------------------------------------------- */
+
+.tiers {
+  display: grid;
+  gap: 20px;
+}
+
+.tier > h3 {
+  font-size: 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--ink-soft);
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 10px 14px;
+  margin-bottom: 10px;
+}
+
+.card-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+.card-open {
+  font-weight: 600;
+}
+
+.card-lead {
+  font-size: 16px;
+  margin: 6px 0;
+}
+
+.card-gap {
+  margin: 4px 0;
+  font-weight: 600;
+}
+
+.card-evidence {
+  list-style: none;
+  margin: 4px 0;
+  padding: 0;
+  display: grid;
+  gap: 4px;
+}
+
+.badge {
+  font-size: 13px;
+  padding: 0 6px;
+  border: 1px dashed var(--ink-soft);
+  border-radius: var(--radius);
+  color: var(--ink-soft);
+}

@@ -5,11 +5,13 @@
 
 type Widen<T> = T extends string
   ? string
-  : T extends readonly (infer U)[]
-    ? Widen<U>[]
-    : T extends object
-      ? { [K in keyof T]: Widen<T[K]> }
-      : T;
+  : T extends boolean
+    ? boolean
+    : T extends readonly (infer U)[]
+      ? Widen<U>[]
+      : T extends object
+        ? { [K in keyof T]: Widen<T[K]> }
+        : T;
 
 export function fixture<T>(json: Widen<T>): T {
   return json as T;
