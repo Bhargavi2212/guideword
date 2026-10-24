@@ -435,7 +435,11 @@ def test_start_run_on_an_unconfirmed_plant_is_409(extra_fixtures: Path) -> None:
     assert response.json()["detail"] == "sections not confirmed"
 
 
-@pytest.mark.parametrize("cap", [1.0, 0.5])
+# the stopped_cap copy keeps the generated run's own cap
+STORED_CAP = _fixture("run_detail.json")["run"]["spend_cap_usd"]
+
+
+@pytest.mark.parametrize("cap", [STORED_CAP, STORED_CAP / 2])
 def test_restart_of_a_stopped_cap_run_without_a_higher_cap_is_409(
     extra_fixtures: Path, cap: float
 ) -> None:

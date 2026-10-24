@@ -186,10 +186,10 @@ class Api:
                 "/runs",
                 json={
                     "plant_id": plant,
-                    "spend_cap_usd": 1.0,
+                    "spend_cap_usd": 0.2,
                     "mode": "full",
                     "use": "development",
-                    "post_spend_cap_usd": 0.3,
+                    "post_spend_cap_usd": 0.1,
                 },
             ).json()["run_id"]
         )

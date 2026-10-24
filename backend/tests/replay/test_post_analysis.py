@@ -244,7 +244,14 @@ class World:
             phase="3",
         )
 
-    def start(self, config: Config, cap: float = 1.0, post_cap: float | None = None) -> Run:
+    def start(
+        self,
+        config: Config,
+        cap: float = 1.0,
+        post_cap: float | None = None,
+        *,
+        use: BudgetUse = BudgetUse.DEVELOPMENT,
+    ) -> Run:
         return start_case(
             self.plants,
             self.runs,
@@ -253,7 +260,7 @@ class World:
             self.record.id,
             cap,
             post_spend_cap_usd=post_cap,
-            use=BudgetUse.DEVELOPMENT,
+            use=use,
         )
 
     def steppers(self, config: Config, gateway: Gateway) -> dict[str, Stepper]:

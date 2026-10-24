@@ -195,12 +195,13 @@ class Api:
 
     def start(
         self,
-        cap: float = 1.0,
+        # B2: spend cap + post cap fits Phase 5's cap (Q10)
+        cap: float = 0.2,
         mode: str = "full",
         plant: str | None = None,
         *,
         use: str = "development",
-        post_cap: float = 0.3,
+        post_cap: float = 0.1,
     ) -> Any:
         body = {
             "plant_id": plant or self.plant(),
@@ -239,11 +240,19 @@ def test_the_built_routes_left_not_built_phase() -> None:
 
 
 def test_start_returns_a_live_run_and_an_upper_bound_capped_at_the_cap(app: Api) -> None:
-    response = app.start(cap=1000.0)
+    response = app.start()
     assert response.status_code == 200, response.text
     result = api.StartRunResult.model_validate(response.json())
     assert result.label.kind == "live"
-    assert 0 < result.estimated_cost_usd < 1000.0  # the real upper bound, under a huge cap
+    # the real upper bound under a huge cap: the API refuses such a cap since B2, so it is
+    # asked of LiveRuns, which computes the estimate
+    (app.tmp / "huge").mkdir()
+    other = Api(app.tmp / "huge")
+    live = _live_runs(other, Blocking())
+    _, estimate = live.start(
+        other.plant(), 1000.0, "full", use=BudgetUse.DEVELOPMENT, post_spend_cap_usd=0.1
+    )
+    assert 0 < estimate < 1000.0
 
 
 def test_the_estimate_is_the_analysis_capped_at_the_spend_cap_plus_the_post_cap(
@@ -252,10 +261,9 @@ def test_the_estimate_is_the_analysis_capped_at_the_spend_cap_plus_the_post_cap(
     """Bhargavi, 2026-10-20 (point 4): the upper bound is the worst case, so it includes the
     post-analysis cap the run may also spend."""
     app = Api(tmp_path)
-    result = app.start(cap=0.01).json()
-    post_cap = load_config(global_budget_usd=25.0).caps.run.post_spend_cap_usd
-    assert post_cap > 0
-    assert result["estimated_cost_usd"] == pytest.approx(0.01 + post_cap)
+    # B2: the post cap is the request's (Q10, Q11)
+    result = app.start(cap=0.01, post_cap=0.1).json()
+    assert result["estimated_cost_usd"] == pytest.approx(0.01 + 0.1)
 
 
 def test_sample_mode_is_refused_until_phase_7(app: Api) -> None:
@@ -359,7 +367,8 @@ def test_record_detail_for_a_finding_and_a_hypothesis(app: Api) -> None:
 
 
 def test_cancel_stops_a_run_and_a_finished_run_cannot_be_cancelled(app: Api) -> None:
-    run_id = app.start().json()["run_id"]
+    # an API start drives its run to the end (B2), so the running run is started in the store
+    _, run_id = _live(app, Blocking())
     result = api.RunStatusResult.model_validate(
         app.client.post(app.run_url(run_id, "/cancel")).json()
     )
@@ -459,9 +468,10 @@ def test_a_run_records_the_use_it_started_with(app: Api) -> None:
 
 
 def test_a_resume_naming_another_use_or_post_cap_is_409(app: Api) -> None:
-    plant = app.plant()
-    run_id = app.start(plant=plant, post_cap=0.1).json()["run_id"]
-    other_cap = app.start(plant=plant, post_cap=0.3)
+    # a running run to resume: an API start drives its run to the end (B2)
+    live, run_id = _live(app, Blocking())
+    plant = live.get(run_id).plant_record_id
+    other_cap = app.start(plant=plant, post_cap=0.2)
     assert other_cap.status_code == 409 and "0.1" in other_cap.json()["detail"]
     _set_use(app, run_id, "video")
     other_use = app.start(plant=plant, post_cap=0.1)
@@ -500,7 +510,8 @@ def test_a_run_is_driven_with_its_own_use(app: Api) -> None:
     video, on the API runs' phase."""
     run_id = app.start(use="video").json()["run_id"]
     assert app.runs().get(run_id).status == "finished"  # type: ignore[union-attr]
-    lines = [e for e in app.ledger.entries() if e.kind == "model"]
+    # the run's own lines (the plant's section suggestion spends development, acceptance 5)
+    lines = [e for e in app.ledger.entries() if e.kind == "model" and run_id in e.purpose]
     assert lines and {e.use for e in lines} == {"video"}
     assert {e.phase for e in lines} == {"5"}
 
@@ -528,7 +539,8 @@ def test_start_refuses_a_maximum_above_the_phases_remaining_cap(app: Api) -> Non
     refused = app.start(cap=0.15, post_cap=0.10)
     detail = refused.json()["detail"]
     assert refused.status_code == 409 and f"phase {API_RUN_PHASE}" in detail
-    assert app.start(cap=0.05, post_cap=0.05).status_code == 200
+    # the plant's section suggestion spent a little of the phase too
+    assert app.start(cap=0.04, post_cap=0.04).status_code == 200
 
 
 def test_a_hosted_app_never_starts_or_drives_a_laptop_use(tmp_path: Path) -> None:
@@ -651,8 +663,8 @@ class Blocking:
         return script(job, request)
 
 
-def _live(app: Api, model: Blocking) -> tuple[LiveRuns, str]:
-    """A LiveRuns on the app's store, and a running run started in it (not driven)."""
+def _live_runs(app: Api, model: Blocking) -> LiveRuns:
+    """A LiveRuns on the app's store, with the test model."""
     config = load_config(global_budget_usd=25.0)
     sessions = make_session_factory(app.settings.database_url)
 
@@ -662,22 +674,28 @@ def _live(app: Api, model: Blocking) -> tuple[LiveRuns, str]:
         )
         return built
 
-    live = LiveRuns(
+    return LiveRuns(
         sessions,
         config=config,
         ref=load_reference_set(),
         gateway_factory=gateway,
         clock=lambda: NOW,
     )
+
+
+def _live(app: Api, model: Blocking) -> tuple[LiveRuns, str]:
+    """A LiveRuns on the app's store, and a running run started in it (not driven), with the
+    caps `Api.start` uses."""
+    live = _live_runs(app, model)
     run = start_case(
         live.plants,
         live.runs,
         live.ref,
-        config,
+        live.config,
         app.plant(),
-        1.0,
+        0.2,
         use=BudgetUse.DEVELOPMENT,
-        post_spend_cap_usd=0.3,
+        post_spend_cap_usd=0.1,
     )
     return live, run.id
 

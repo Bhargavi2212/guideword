@@ -203,7 +203,9 @@ class Evidence:
         return done, transport
 
     def run(self, config: Config, script: pa.Script, **kwargs: Any) -> tuple[Run, Any]:
-        return self.drive(self.world.start(config), config, script, **kwargs)
+        # the run starts on the use it is driven with (B2: the machine refuses another)
+        use = kwargs.get("use", BudgetUse.DEVELOPMENT)
+        return self.drive(self.world.start(config, use=use), config, script, **kwargs)
 
     def summary(self, run_id: str) -> dict[str, Any]:
         finished = [
@@ -723,10 +725,11 @@ def test_run_case_and_extend_run_accept_use_video_and_the_evidence_flags() -> No
         run_case._arguments(["plant.json", "--use", "benchmark"])
 
 
-def test_api_runs_charge_phase_4() -> None:
+def test_api_runs_charge_phase_5() -> None:
+    """B2 moved API runs from Phase 4's cap to Phase 5's (specs/phase-5.md B2)."""
     from guideword.api.app import API_RUN_PHASE
 
-    assert API_RUN_PHASE == "4"
+    assert API_RUN_PHASE == "5"
 
 
 # --- the reads (plan PR 5c): shortlist, flags, worksheet, record, dump, xlsx, manifest -----------
