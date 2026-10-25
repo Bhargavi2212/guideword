@@ -1,11 +1,35 @@
 # Phase 5 review plan: evidence attachment, two card layers, visuals, D and G on the site
 
-Status: **draft, awaiting Bhargavi's approval** (mark `Status: approved <date>` here).
+Status: approved 2026-10-25 (Bhargavi), with the changes in §0.
 
 Source: Bhargavi's review of the live WG shortlist (2026-10-25), sets 1–3, plus the D and G
 request. Scope is fixed and nothing is dropped. Everything comes from stored records, the plant
 file and `reference/`: no new model text, no new dependency, no paid call. E and F stay held
 until the leak-output rule is confirmed.
+
+## 0. Changes on approval (Bhargavi, 2026-10-25)
+
+1. **Q1, the exact rule first.** Before any R1 code, the exact attach rule is written here, and
+   a table shows its result for every WG, D and G line that has a calculation candidate today or
+   under the new rule. Bhargavi expects it to need the vessel and at least one mechanism input:
+   its isolation valves, or the heat-source valves, or the step. No R1 code until she has seen
+   the table.
+2. **Q5, one event.** R2 also writes one event, "calculations re-attached <date> (<commit>)", so
+   the WG replay ends on it. Its payload is part of v1.11, in R0.
+3. **Q7, a round-trip test.** Undoing every substitution gives back the stored text exactly.
+4. **R3's PR** shows the rendered plain titles of the top 10 WG lines, as well as the template
+   list.
+5. **Approved as proposed:** Q2–Q4, Q6, Q8–Q13. The F3 session is told about Q9: the landing
+   stays on the shortlist with the plant picker, and F3 doesn't switch it to the replay (the
+   deploy plan's line is amended to say so).
+
+Settled while building R0 (each logged in `docs/decisions.md`):
+- **R0 adds `via_ids` as an empty list.** R1 fills it with the approved rule, so v1.11 doesn't
+  wait on Q1's table.
+- **R0 serves WG only.** D's and G's runs and banners join in R5, once Bhargavi has supplied the
+  banners.
+- **The re-attach event** is a new event type with a structured payload (date, commit, the
+  superseded and new record IDs). The text is a template built from it, never stored prose.
 
 ## 1. What exists today (checked $0)
 
