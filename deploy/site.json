@@ -1,0 +1,9 @@
+{
+  "_comment": "The deployed site's settings (deploy plan D4): read by api/index.py, never secret. The environment overrides each; no key belongs here.",
+  "env": {
+    "GUIDEWORD_ENV": "hosted",
+    "GUIDEWORD_RECORDED_DIR": "cases/demo/recorded/williams_geismar",
+    "GUIDEWORD_DEMO_RUN_ID": "run:76f8ee0b5d1f078e",
+    "GUIDEWORD_DEMO_TARGET_ID": "ch:EA-425B.design_pressure_kpa+EA-425B.heat_sources+HV-B-SIN.normal_position+HV-B-SOUT.normal_position+HV-QW-B-IN.normal_position+HV-QW-B-OUT.normal_position+RV-PATH-EA425B.inlet_valve_ids+f:m:S-EA-425B:as_well_as:composition:super:C12:b3d32268f909ddb3+f:proc:P-REB-START-2:early:super:C16:126a45a4b13afa1b"
+  }
+}
