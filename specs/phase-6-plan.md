@@ -9,6 +9,23 @@ Code has not opened `guideword-heldout`, `bench/heldout/` or any key, and will n
 §5). Every script is built and tested on synthetic folders, and Bhargavi runs every script and
 every paid call.
 
+## 0. Bhargavi's answers (2026-10-25)
+
+- **G1: approved.** `guideword-benchmark.db`, passed as an argument and git-ignored. The runner
+  refuses `guideword.db` and `guideword-demo.db` by name. After each step, the store's SHA-256
+  goes into the private repo with the outputs.
+- **G2: no frozen-path list.** Per P6-2 and 6.4, every benchmark call runs from a worktree at
+  `phase6-freeze`. The runner refuses anything but a clean `phase6-freeze*` checkout, so later
+  merges to `main` can't reach a run. A post-freeze tooling fix needs a new tag that passes
+  `check_freeze_diff`: only `backend/guideword/bench/` and `scripts/` may change, and `api/` and
+  `export/` may not.
+- **G6: approved.** Link `bench/test5/results.md` as recorded, labelled development and by
+  configuration as stored; no re-scoring or pooling.
+- **Not yet in the spec on disk.** The answers cite "P6-2 and 6.4" for the worktree rule, but
+  `specs/phase-6.md` on disk (saved 2026-10-25 12:07:14, untracked) has no worktree or
+  `check_freeze_diff` text, and P6-2 still reads "Tag `phase6-freeze` on `main`". This plan
+  follows the answers; the spec needs the same text before approval (G12).
+
 ## 1. Checked against the code ($0)
 
 - **Paths.** The benchmark code is in `backend/guideword/bench/` (`test5a.py`, `scoring.py`,
@@ -40,16 +57,25 @@ What remains:
 
 | # | Where | Gap or misalignment | This plan, or the question for Bhargavi |
 |---|---|---|---|
-| G1 | 6.4, P6-15 | **Which store the benchmark runs write to** isn't said. `guideword.db` is the untouched source (C8); `guideword-demo.db` holds the demo override. | **Question.** Recommend a new `guideword-benchmark.db`. It's git-ignored like every `*.db`, and is given to the runner as an argument (no default). Bhargavi commits it to the private repo with the outputs (P6-15), and its run dumps are published in 6.6. |
-| G2 | P6-2 | **"Post-freeze" can't be detected.** Phase 5 PRs (R3–R5, F3–F6) keep merging to `main` after the freeze, and some touch `backend/`. The spec says a pipeline fix makes later runs "post-freeze", but nothing tells. | The runner compares the **frozen paths** at HEAD with the `phase6-freeze` tag: `prompts/`, `config/routing.yaml`, `reference/`, the hashed `run:` and `ranking:` blocks of `caps.yaml`, and `backend/guideword/` minus `api/`, `bench/` and `export/`. Any change marks every later line `post_freeze: true`, and the results put those rows in their own table. **Question:** is that list the "pipeline"? |
+| G1 | 6.4, P6-15 | The benchmark store. | **Decided (§0):** `guideword-benchmark.db`, an argument with no default. Refused by name: `guideword.db` and `guideword-demo.db`. The runner prints the store's SHA-256 after each step, for the private repo. |
+| G2 | P6-2, 6.4 | Keeping later merges to `main` away from the runs. | **Decided (§0):** runs only from a clean `phase6-freeze*` checkout (see G2a–G2c). `scripts/check_freeze_diff.py <new-tag>` passes a later tag only when every changed path, compared with `phase6-freeze`, is under `backend/guideword/bench/` or `scripts/`. |
+| G2a | G2, `gateway/ledgers.py:22` | **The ledger would split.** `DEFAULT_LEDGER` is the checkout's own `budget/ledger.jsonl`. In a freeze worktree that is a new, empty file: the budget guard would miss the $11.78 already spent, and the main ledger would miss the benchmark's spend. | Every Phase 6 script takes `--ledger`, required, pointing at the main checkout's `budget/ledger.jsonl`. It refuses a path inside the worktree, and a ledger with no opening balance. Test: the stop rule and the guard read the given ledger. |
+| G2b | G2, the editable install | **The run could execute `main`'s code.** The shared `.venv` has an editable install pointing at the main checkout's `backend/`. Run from the worktree without an override, Python imports the main checkout's package, not the frozen one. | The runner refuses unless `guideword.__file__` and its own file both lie inside the checkout it was run from. The documented command sets `PYTHONPATH` to the worktree's `backend` and `scripts` (checked to take precedence over the editable finder). Test: a package outside the checkout is refused. |
+| G2c | G2 | **"Clean" and "at the tag", exactly.** | `git describe --exact-match --tags HEAD` matches `phase6-freeze*`, and `git status --porcelain` is empty (ignored files, such as the store and `bench/heldout/`, don't count). Every `runs.jsonl` line records the tag and its commit. Test: a dirty tree, an untagged commit and a `main` checkout are each refused. |
 | G3 | P6-7, 6.4 | **Where the benchmark caps live.** "Run cap and post cap from `caps.yaml`" names no block. | A new top-level `benchmark:` block in `caps.yaml` (`run_cap_usd: 1.40`, `post_cap_usd: 0.30`, `baselines_usd: 0.05`, `stop_below_usd: 1.75`), outside `run_input_caps()`, so it's hash-free. A test checks that `stop_below_usd` equals the sum of the other three. It lands in PR 2, before the freeze. |
 | G4 | P6-13 | **The hash-free set must cover `max_tokens`**, which lives inside the hashed `run:` block (§1). | `OUTSIDE_RUN_JOBS = {"probe", "baseline_plain"}`, stripped from jobs, prompts and `max_tokens` in `run_settings`, like `POST_JOBS`. Acceptance 2b's test covers all three. |
 | G5 | 6.7 vs done-when | **Decisions rows** are "P6-1…P6-12" in 6.7 but "P6-1…P6-15 (with the R26, R38 and §13 supersessions)" in done-when. | The plan follows done-when: P6-1…P6-15, plus rows for R26 (P6-9), R38 (P6-6), PROJECT.md §13's baselines (P6-4) and exclusion rule (P6-5), and the run rule superseded by P6-7. |
-| G6 | P6-11 | **"Dev-case results (D–G) in a separate table"**: which records? | **Question.** Recommend the G2b hand-scored results already in `bench/test5/` (their sheets and `results.md`), copied as recorded, labelled development, with nothing re-scored. |
+| G6 | P6-11 | The development table's records. | **Decided (§0):** `results.md` links `bench/test5/results.md` as recorded, labelled development and by configuration as stored; nothing re-scored or pooled. |
 | G7 | 6.2, P6-3 step 3b | **The probe judgement script** is named in P6-3 ("prints the probe's answer next to only the key's `source`") but not in 6.2's file list. | Added: `scripts/probe_judgement.py`. It reads the probe outputs and only the `source` field of each key (a Pydantic model with that one field; every other field is dropped unread). It writes the CSV's case and probe columns for Bhargavi to fill. Tested on a synthetic key whose other fields hold sentinel text that must never appear in the output. |
 | G8 | 6.5 | **The blind sheets need Guideword's record keys turned into names** (P6-10), which Phase 5 R3 does in the frontend. | A backend function, `bench/blind.py`, with its own round-trip test (undoing every substitution gives back the stored text). It shares the rule with R3, not the code. |
 | G9 | P6-12, 6.1 | **Plant file names in the folder are unknown.** `docs/case-template.md` §3 gives the format, not the file names. | `heldout_verify` lists every file `SEALS.txt` names and classifies it by pattern: package `case_<letter>_*.md`, plant `case_<letter>*.json`, keys `keys/answer_keys.json`. Anything else is listed as "unclassified", by name only. The inventory never assumes a count. |
 | G10 | P6-1 | **The seal date evidence** is Bhargavi's to record ("the private repo's first commit date and hash, or the files' timestamps"). | `heldout_verify --seal-info` prints `SEALS.txt`'s own mtime and size, and nothing from inside any file, for her decisions row. The private repo's commit history is hers to read. |
+| G12 | §0 | **The spec on disk lacks the worktree rule** that G2 cites. | Before approval: `specs/phase-6.md` P6-2 and 6.4 updated to the worktree rule and `check_freeze_diff`, then committed with `bench/example_stats.json`. |
+| G13 | P6-3 step 2, 6.4 | **Nothing checks the plant files again at run time.** `bench/heldout-frozen.txt` is committed to `main` after the freeze tag, so the freeze worktree doesn't have it, and a plant file edited after freezing would run unnoticed. | The runner takes `--frozen`, required (the main checkout's `bench/heldout-frozen.txt`), and refuses a case whose plant file's SHA-256 differs from it. Test: one changed byte in a plant file is refused, naming the file only. |
+| G14 | P6-6 | **A capped run's partial shortlist must still be scored.** A run that stops at its analysis cap never runs the post steps. | The runner writes the capped run's `case_report` with its ranked findings (the R50 views it already has), and the auto-score reads them like any other. Test: a fake run stopped at its cap writes a ranked list, its status and its open-question count, and scores as a miss when nothing matches. |
+| G15 | P6-7, G2 | **The second-$25 clause can't reach a run after the freeze.** The runs read `config/caps.yaml` from the freeze worktree, and `check_freeze_diff` allows changes only under `backend/guideword/bench/` and `scripts/`. | **Decided (Bhargavi, 2026-10-25):** the second grant isn't there yet. Phase 6 is planned on today's $5.19 (about 2–3 cases under the $1.75 stop rule). If the grant lands **before** `phase6-freeze` is tagged, Bhargavi raises `benchmark`, the laptop allowance (`caps.yaml`) and `GLOBAL_BUDGET_USD` first, in a small PR, and the tag follows. If it lands after the tag, nothing changes for Phase 6, and the unrun cases are listed by letter. The tag is not delayed to wait for it. `check_freeze_diff` stays as decided (G2). |
+| G16 | G2, CLAUDE.md §6 | **The worktree has no `.env`**, so the keys and `GLOBAL_BUDGET_USD` come only from the shell. | The documented steps set `$env:NEBIUS_API_KEY` in the session (as CLAUDE.md §6 already does), and the scripts refuse with "set NEBIUS_API_KEY" naming the setting, never a value. `GLOBAL_BUDGET_USD` stays at its default of 25 unless G15 raises it. |
+| G17 | #131 | **The plan merged on `main` (#131, at 4fbd661) is an older version.** The §0 answers, G1–G2c, G6 and the ledger fix were pushed to the branch after that merge. | A new PR from `phase-6/plan-revised` brings `main` up to this file. |
 | G11 | Dates | Oct 26: four PRs merged, then the freeze, the folder opened and plant files frozen. Oct 27: the runs. | Holds only if the spec and this plan are approved tonight (Oct 25). PR 2 carries the two prompts for review, which gates the freeze. |
 
 ## 3. Per item
@@ -100,9 +126,15 @@ What remains:
 
 ### PR 3 — `phase-6/runner` (6.4, G1, G2; acceptance 2, 3)
 
-- **Files:** `backend/guideword/bench/runner.py` and `scripts/run_benchmark.py`. Their arguments:
-  the held-out folder, `--store`, `--out` and `--phase 6`, none with a default. Also
-  `scripts/run_case.py`, whose `--use` gains `benchmark`.
+- **Files:**
+  - `backend/guideword/bench/runner.py` and `scripts/run_benchmark.py`. Their arguments are the
+    held-out folder, `--store`, `--ledger`, `--frozen`, `--out` and `--phase 6`, none with a
+    default.
+  - `backend/guideword/bench/freeze.py` (the checkout checks, G2a–G2c) and
+    `scripts/check_freeze_diff.py` (G2).
+  - `scripts/run_case.py`: `--use` gains `benchmark`.
+  - The probe and baseline scripts take `--ledger` and the freeze checks too (from PR 2, using
+    `freeze.py`, which moves into PR 2).
 - **Tests first** (fake gateway, synthetic folder, probe CSV and store):
   - `test_cases_run_in_letter_order_skipping_excluded`;
   - `test_a_case_with_no_probe_row_is_refused`;
@@ -113,7 +145,16 @@ What remains:
   - `test_per_case_order_is_a_then_b_then_guideword`;
   - `test_each_line_records_freeze_commit_status_cost_seconds_and_questions_open`;
   - `test_a_run_stopped_at_its_cap_is_recorded_and_the_runner_moves_on`;
-  - `test_a_change_to_a_frozen_path_marks_later_lines_post_freeze` (G2);
+  - `test_the_store_is_refused_by_name_for_guideword_db_and_guideword_demo_db` (G1);
+  - `test_the_stores_sha256_is_printed_after_each_step` (G1);
+  - `test_a_dirty_tree_an_untagged_commit_and_main_are_refused` (G2c);
+  - `test_a_package_imported_from_outside_the_checkout_is_refused` (G2b);
+  - `test_the_ledger_must_be_given_outside_the_checkout_with_an_opening_balance` (G2a);
+  - `test_a_plant_file_that_differs_from_heldout_frozen_is_refused` (G13);
+  - `test_a_capped_run_writes_its_ranked_list_status_and_open_questions` (G14);
+  - `test_a_missing_key_setting_is_named_never_its_value` (G16);
+  - `test_check_freeze_diff_passes_bench_and_scripts_only_and_refuses_api_and_export` (G2, on
+    a synthetic git repo in `tmp_path`);
   - `test_run_case_use_benchmark_has_evidence_off` (acceptance 3).
 
 ### PR 4 — `phase-6/scoring` (6.5, G6, G8; acceptance 5–8)
@@ -144,8 +185,7 @@ What remains:
   - `test_a_stopped_run_counts_as_a_miss`;
   - `test_no_percentage_without_x_of_n`;
   - `test_results_refuse_while_a_row_is_unscored`;
-  - `test_post_freeze_rows_are_a_separate_table` (G2);
-  - `test_dev_results_are_a_separate_table_copied_as_recorded` (G6).
+  - `test_dev_results_link_bench_test5_results_md_as_recorded` (G6).
 
 ### PR 5 — `docs/heldout-published` (P6-14; right after G3)
 
@@ -165,11 +205,17 @@ blind) can be written alongside PR 3.
 
 Bhargavi's steps, in P6-3 order:
 1. Commit `bench/heldout-seals.txt` and the seal-date row (P6-1, G10).
-2. Review the two prompts in PR 2; merge PRs 1–4.
-3. Tag `phase6-freeze`.
-4. Run `heldout_verify.py`; fix any plant file per P6-12; commit `bench/heldout-frozen.txt`.
+2. Review the two prompts in PR 2; merge PRs 1–4; if the second grant has landed, merge the
+   allowance PR now (G15).
+3. Tag `phase6-freeze`, then `git worktree add ..\guideword-freeze phase6-freeze`. Every later
+   step runs from that worktree, with `$env:NEBIUS_API_KEY` set (G16), `$env:PYTHONPATH` set to
+   the worktree's `backend` and `scripts` (G2b), and
+   `--ledger D:\Hackathon\guideword\guideword\budget\ledger.jsonl` (G2a).
+4. Run `heldout_verify.py`; fix any plant file per P6-12; commit `bench/heldout-frozen.txt` in a small PR
+   to `main`, and pass it to the runner as `--frozen` (G13).
 5. Run `probe_heldout.py`, then `probe_judgement.py`, and fill the CSV (step 3b).
-6. Run `run_benchmark.py --store guideword-benchmark.db`.
+6. Run `run_benchmark.py --store guideword-benchmark.db`; record the store's SHA-256 printed after
+   each step in the private repo (G1).
 7. Run the auto-score.
 8. Grade blind; the second grader works from the packets.
 9. Run `heldout_results.py`.
