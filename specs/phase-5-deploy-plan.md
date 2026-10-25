@@ -16,7 +16,7 @@ read-only serving, Vercel deploy), so this plan is the spec item and the plan to
 2. **The landing marks the demo moment:** the shortlist with the rank-2 `P-REB-START-2` chain
    flagged "start here". F3's PR switches the landing to the replay.
 3. **Spend:** the label shows $0.90 (the ledger), and the run's spend carries a note, "record
-   $0.0083 under ledger, run stored before the 2026-10-22 fix", so the label and the drawer agree.
+   $0.0083 under ledger: run recorded on code before the refused-retry fix (#103)", so the label and the drawer agree.
    It needs `RunLabel.note` (a contract change: D0, its own PR).
 4. **Public repo:** the export publishes no third-party page text. Checked $0 on the WG run: the
    stored rows hold none (a web search's tool call keeps only URLs and a cache key; a precedent
@@ -38,7 +38,7 @@ Deploy before F3.
 | `DemoResponse` is `{label, plant: PlantDetail, run: RunDetail, shortlist: Shortlist}` | `api/models.py` |
 | A recorded run gets 403 on every override (contract v1) | `api/live.py` |
 | `guideword.db` is 138 MB and holds every run; `guideword-demo.db` does not exist yet | the main checkout |
-| The WG final run `run:76f8ee0b5d1f078e` is stored with `label.kind = "live"`, `spent_usd` 0.8882; its ledger lines total 0.8965 (the refused-retry bug, 2026-10-22: the ledger is the authority for runs stored before the fix) | `guideword.db`, `budget/ledger.jsonl` |
+| The WG final run `run:76f8ee0b5d1f078e` is stored with `label.kind = "live"`, `spent_usd` 0.8882; its ledger lines total 0.8965 (the refused-retry bug: the run ended 2026-10-23 00:41 EDT, and the fix, #103, merged 01:32 EDT the same day; the ledger is the authority for runs recorded before it) | `guideword.db`, `budget/ledger.jsonl` |
 | `cases/demo/recorded/` exists and is empty; PROJECT.md §11: "The recorded run's export is committed in `cases/demo/recorded/` (no keys)" | the repo |
 | CLAUDE.md §7: never commit `*.db` run stores | |
 | No Vercel CLI or project link on this machine | |
@@ -50,7 +50,7 @@ Deploy before F3.
 |---|---|---|
 | Q1 | **Host.** PROJECT.md §11 names Vercel: static frontend, the API as Python functions, Postgres via the Marketplace. | **Vercel**, as §11 says, but **no Postgres yet**: the API reads the WG run from an in-memory SQLite store loaded at cold start from the committed export (Q2). Nothing on a no-key landing writes; Vercel's filesystem is read-only anyway. Postgres arrives with the hosted live-run button (Phase 7). |
 | Q2 | **How the WG run travels.** A `.db` file can't be committed (CLAUDE.md §7). | **A JSON export in `cases/demo/recorded/williams_geismar/`**: every stored row of the run, one file per table (run, sections, questions, findings, hypotheses, chains, LOPA, recommendations, evidence, overrides, events, agent steps, model calls, tool calls, superseded), plus its plant record, facts and sections. Exported read-only from `guideword-demo.db` (`mode=ro`; C8, §0.1) by `scripts/export_recorded.py`; a key scan refuses to write if any configured key appears. Loaded by `scripts/`-free package code (`runs/recorded.py`) into an in-memory store at startup. No response cache rows and no ledger. |
-| Q3 | **The label.** §11: demo mode is "labelled on screen as a recorded run (with its date and cost)". The run is stored `live`. | The **export** sets `label = {kind: recorded, recorded_at: 2026-10-22T…Z (its last event's time), cost_usd: 0.8965 (its ledger lines, the authority for runs stored before the fix)}`. `guideword.db` is never changed. Overrides then get 403, as the contract says for recorded runs. |
+| Q3 | **The label.** §11: demo mode is "labelled on screen as a recorded run (with its date and cost)". The run is stored `live`. | The **export** sets `label = {kind: recorded, recorded_at: its last event's time (2026-10-23T04:41Z), cost_usd: 0.8965 (its ledger lines, the authority for runs recorded before the refused-retry fix, #103)}`. `guideword.db` is never changed. Overrides then get 403, as the contract says for recorded runs. |
 | Q4 | **`GET /demo`.** | Built now: with `GUIDEWORD_DEMO_RUN_ID` set (a new setting; no default), it returns `DemoResponse` for that run from the store; unset, it keeps its 501. Mock mode keeps its fixture. |
 | Q5 | **The landing.** F3 (the replay) is the second session's and not built yet. | **This deploy lands on the WG run's shortlist** with the recorded banner: the empty hash reads `GET /demo` and opens `#/runs/<demo run>/shortlist`. When F3 merges, the landing switches to its replay (that PR redeploys). |
 | Q6 | **No keys.** | The deployment sets no `NEBIUS_API_KEY` or `TAVILY_API_KEY`; `GUIDEWORD_ENV=hosted`; `POST /runs` is refused (a hosted app takes no laptop use, B2) and `live_run_available` stays false. A test starts the deployed app's settings with no keys and checks no route can call out. |
@@ -105,7 +105,7 @@ D1 → D2 → D3 (D3 can start on D1's export) → D4 → Bhargavi deploys. Each
 None. Every test uses the fixture generator's fake runs or the read-only export; the deployment has no keys.
 
 ## 7. Acceptance and done-when
-- The deployed URL opens on the WG run's shortlist, labelled "Recorded run — 2026-10-22 — cost $0.90".
+- The deployed URL opens on the WG run's shortlist, labelled "Recorded run — 2026-10-23 — cost $0.90".
 - The demo moment's card opens, its numbers traced, the drawer resolving `HV-B-SIN.normal_position`.
 - An override answers 403 "This run is recorded and read-only".
 - `curl` checks of `/demo` (it returns the WG run) and the shortlist pass, recorded in the D4 PR.

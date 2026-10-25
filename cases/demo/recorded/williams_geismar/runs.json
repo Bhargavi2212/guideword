@@ -118,7 +118,7 @@
      "kind": "recorded",
      "recorded_at": "2026-10-23T04:41:18.767033Z",
      "cost_usd": 0.89652626,
-     "note": "record $0.0083 under ledger, run stored before the 2026-10-22 fix"
+     "note": "record $0.0083 under ledger: run recorded on code before the refused-retry fix (#103)"
     }
    },
    "sections": [
