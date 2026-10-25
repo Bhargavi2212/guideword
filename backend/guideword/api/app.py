@@ -40,6 +40,7 @@ from guideword.runs.plants import (
     not_stated_issues,
     plant_facts,
 )
+from guideword.runs.recorded import load_recorded
 from guideword.runs.start import ModeNotBuilt, PlantNotFound, SectionsNotConfirmed, StartMismatch
 from guideword.schema import ids
 from guideword.schema.enums import (
@@ -143,6 +144,9 @@ def create_app(
     # that are not built yet (and the OpenAPI export) never create a database.
     @cache
     def sessions() -> Any:
+        # the deployed site reads its recorded run from the committed export (deploy plan D2)
+        if settings.guideword_recorded_dir is not None:
+            return load_recorded(Path(settings.guideword_recorded_dir))
         return make_session_factory(settings.database_url)
 
     @cache
@@ -603,7 +607,23 @@ def create_app(
 
     @app.get("/demo", response_model=api.DemoResponse, responses=ERRORS)
     def get_demo() -> api.DemoResponse:
-        return need("GET", "/demo").demo_response
+        # the recorded run the site opens on (deploy plan D2): its plant, detail, shortlist and
+        # the line the landing marks "start here", only when that line is on its shortlist (a
+        # comment, not a docstring: a docstring would become the contract's description)
+        if store is not None or settings.guideword_demo_run_id is None:
+            return need("GET", "/demo").demo_response
+        run_id = settings.guideword_demo_run_id
+        run = live_run(run_id)
+        shortlist = get_shortlist(run_id)
+        target = settings.guideword_demo_target_id
+        on_list = target is not None and any(i.target_id == target for i in shortlist.items)
+        return api.DemoResponse(
+            label=run.label,
+            plant=get_plant(run.plant_record_id),
+            run=get_run(run_id),
+            shortlist=shortlist,
+            start_target_id=target if on_list else None,
+        )
 
     @app.get("/budget", response_model=api.Budget, responses=ERRORS)
     def get_budget() -> api.Budget:
