@@ -8,6 +8,7 @@ type S = components["schemas"];
 export type Budget = S["Budget"];
 export type Chain = S["Chain"];
 export type Coverage = S["Coverage"];
+export type DemoResponse = S["DemoResponse"];
 export type ErrorBody = S["ErrorBody"];
 export type EventsPage = S["EventsPage"];
 export type Evidence = S["Evidence"];
