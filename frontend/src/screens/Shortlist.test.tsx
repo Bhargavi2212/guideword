@@ -145,3 +145,33 @@ describe("Shortlist (spec 5.1)", () => {
     expect(untraced).toEqual([]);
   });
 });
+
+describe("the demo moment's card (deploy plan D3)", () => {
+  async function withDemo(startTargetId: string | null) {
+    const demo = await import("../../../contract/fixtures/demo_response.json");
+    const fake = fakeFetch({
+      [`/runs/${encodeURIComponent(RUN)}/shortlist`]: { body: data },
+      "/demo": { body: { ...demo.default, start_target_id: startTargetId } },
+    });
+    render(
+      <AppProvider client={new ApiClient("", fake.impl)}>
+        <Shortlist runId={RUN} />
+      </AppProvider>,
+    );
+    await screen.findAllByRole("article");
+  }
+
+  it("is marked start here, and no other card is", async () => {
+    const chain = must(data.items.find((i) => i.target_kind === "chain"));
+    await withDemo(chain.target_id);
+    expect(
+      await within(card(chain.target_id)).findByText("start here"),
+    ).toBeDefined();
+    expect(screen.getAllByText("start here")).toHaveLength(1);
+  });
+
+  it("is not marked when the demo names none", async () => {
+    await withDemo(null);
+    expect(screen.queryByText("start here")).toBeNull();
+  });
+});

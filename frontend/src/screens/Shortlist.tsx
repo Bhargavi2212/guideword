@@ -4,7 +4,8 @@ import { useRef, type KeyboardEvent } from "react";
 
 import { errorMessage } from "../api/client";
 import { useResource } from "../api/hooks";
-import type { Shortlist as ShortlistData } from "../api/schema";
+import type { DemoResponse, Shortlist as ShortlistData } from "../api/schema";
+import { startTarget } from "../app/landing";
 import { groupByTier } from "../model/shortlist";
 import { ShortlistCard } from "./ShortlistCard";
 
@@ -13,6 +14,9 @@ export function Shortlist({ runId }: { runId: string }) {
     `/runs/${encodeURIComponent(runId)}/shortlist`,
   );
   const list = useRef<HTMLDivElement>(null);
+  // on the deployed site, the demo moment's card is marked "start here" (deploy plan D3)
+  const demo = useResource<DemoResponse>("/demo");
+  const start = startTarget(demo.data, runId);
 
   // the arrow keys move between the cards' links, in the order shown
   function move(event: KeyboardEvent<HTMLAnchorElement>): void {
@@ -64,6 +68,7 @@ export function Shortlist({ runId }: { runId: string }) {
                 key={item.target_id}
                 runId={runId}
                 item={item}
+                start={item.target_id === start}
                 onKeyDown={move}
               />
             ))}

@@ -119,3 +119,31 @@ describe("engineer name (P5-7)", () => {
     expect(() => act(() => saveEngineer(broken, "B"))).not.toThrow();
   });
 });
+
+describe("the spend note (deploy plan §0.3)", () => {
+  it("shows the label's note beside the run's spend, traced to the run", async () => {
+    const note =
+      "record $0.0083 under ledger: run recorded on code before the refused-retry fix (#103)";
+    const noted = {
+      ...detail,
+      label: { ...detail.label, kind: "recorded", note },
+    };
+    const fake = fakeFetch({
+      "/plants": { body: plants },
+      "/runs": { body: runs },
+      [`/runs/${encodeURIComponent(RUN)}`]: { body: noted },
+      "/budget": { body: fixture<Budget>(budget) },
+    });
+    render(
+      <AppProvider client={new ApiClient("", fake.impl)}>
+        <Shell route={{ name: "shortlist", runId: RUN }}>
+          <p>screen</p>
+        </Shell>
+      </AppProvider>,
+    );
+    const shown = await screen.findByText(note);
+    expect(
+      shown.closest("[data-record-id]")?.getAttribute("data-record-id"),
+    ).toBe(RUN);
+  });
+});

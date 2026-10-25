@@ -13,10 +13,17 @@ import { Traced } from "../ui/Traced";
 type Props = {
   runId: string;
   item: ShortlistItem;
+  // the demo moment: the line the landing marks "start here" (deploy plan D3)
+  start?: boolean;
   onKeyDown: (event: KeyboardEvent<HTMLAnchorElement>) => void;
 };
 
-export function ShortlistCard({ runId, item, onKeyDown }: Props) {
+export function ShortlistCard({
+  runId,
+  item,
+  start = false,
+  onKeyDown,
+}: Props) {
   const severity = severityOf(item);
   const evidence = shownEvidence(item);
   const recommendations = item.recommendations ?? [];
@@ -35,6 +42,7 @@ export function ShortlistCard({ runId, item, onKeyDown }: Props) {
         >
           Open {item.target_kind}
         </a>
+        {start ? <span className="badge badge-start">start here</span> : null}
         {item.multi_failure ? (
           <span className="badge">multi-failure</span>
         ) : null}
