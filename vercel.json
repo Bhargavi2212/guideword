@@ -1,0 +1,46 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "installCommand": "cd frontend && npm ci",
+  "buildCommand": "cd frontend && npm run build",
+  "outputDirectory": "frontend/dist",
+  "functions": {
+    "api/index.py": {
+      "includeFiles": "{backend/guideword/**,config/**,prompts/**,reference/**,deploy/**,cases/demo/recorded/williams_geismar/**}",
+      "maxDuration": 30
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/plants",
+      "destination": "/api/index.py"
+    },
+    {
+      "source": "/plants/:path*",
+      "destination": "/api/index.py"
+    },
+    {
+      "source": "/runs",
+      "destination": "/api/index.py"
+    },
+    {
+      "source": "/runs/:path*",
+      "destination": "/api/index.py"
+    },
+    {
+      "source": "/budget",
+      "destination": "/api/index.py"
+    },
+    {
+      "source": "/budget/:path*",
+      "destination": "/api/index.py"
+    },
+    {
+      "source": "/demo",
+      "destination": "/api/index.py"
+    },
+    {
+      "source": "/demo/:path*",
+      "destination": "/api/index.py"
+    }
+  ]
+}
