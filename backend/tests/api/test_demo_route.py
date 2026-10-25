@@ -142,3 +142,20 @@ def test_a_keyless_hosted_site_refuses_every_route_that_could_spend(
     proposal = site.post(f"/plants/{quote(plant, safe='')}/sections/propose")
     assert proposal.status_code == 200 and proposal.json()["suggestions"] == []
     assert site.get("/budget").json()["live_run_available"] is False
+
+
+def test_the_run_itself_opens_in_the_drawer_with_its_stored_spend_and_label_note(
+    export: tuple[Path, dict[str, Any]],
+) -> None:
+    """The header's spend is traced to the run (C12); the drawer shows the stored record, so a
+    label's ledger cost and its stored spend can be read side by side (deploy plan §0.3)."""
+    out, served = export
+    run_id, _ = _ids(served)
+    site = _site(out, guideword_demo_run_id=run_id)
+    response = site.get(f"/runs/{quote(run_id, safe='')}/records/{quote(run_id, safe='')}")
+    assert response.status_code == 200, response.text
+    detail = api.RecordDetail.model_validate(response.json())
+    assert detail.record_kind == "run"
+    assert detail.record["spent_usd"] == served["run_detail.json"]["run"]["spent_usd"]
+    assert detail.record["label"]["kind"] == "recorded"
+    assert detail.parent_ids == [served["run_detail.json"]["run"]["plant_record_id"]]

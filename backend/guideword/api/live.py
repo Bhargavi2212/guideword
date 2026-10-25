@@ -386,9 +386,12 @@ class LiveRuns:
 
     def record(self, run_id: str, record_id: str) -> tuple[Record, list[Any], list[Any]]:
         """A record with its parents and the model and tool calls that made it."""
-        self.get(run_id)
+        run = self.get(run_id)
         calls = {c.id: c for c in self.runs.model_calls(run_id)}
         found: Record | None = None
+        # the run itself (C12: the header's spend is traced to it), with its plant as parent
+        if record_id == run.id:
+            found = Record("run", run.model_dump(mode="json"), [run.plant_record_id], [])
         for finding in self.runs.findings(run_id):
             if finding.id == record_id:
                 made = [finding.model_call_id] if finding.model_call_id else []
