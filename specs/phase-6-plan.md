@@ -201,7 +201,7 @@ Bhargavi's steps, in P6-3 order:
 4. Run `heldout_verify.py`; fix any plant file per P6-12; commit `bench/heldout-frozen.txt`.
    Then `git worktree add ..\guideword-freeze phase6-freeze`; every later step runs from there,
    with `$env:PYTHONPATH` set to that worktree's `backend` and `scripts`, and
-   `--ledger D:\Hackathon\guideword\guidewordudget\ledger.jsonl`.
+   `--ledger D:\Hackathon\guideword\guideword\budget\ledger.jsonl`.
 5. Run `probe_heldout.py`, then `probe_judgement.py`, and fill the CSV (step 3b).
 6. Run `run_benchmark.py --store guideword-benchmark.db`; record the store's SHA-256 printed after
    each step in the private repo.
