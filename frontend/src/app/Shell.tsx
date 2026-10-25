@@ -1,5 +1,7 @@
 // The header every screen shares (spec 5.0): plant and run selectors, the run's label banner,
-// status and step, spend against the cap (traced to the run, C12), the budget, the engineer.
+// status and step, spend against the cap (traced to the run, C12), the budget, the engineer. On a
+// recorded run nothing can be started or overridden, so the budget, the engineer's name and the
+// plant status are left out (Bhargavi's review, 2026-10-25).
 
 import type { ReactNode } from "react";
 
@@ -40,6 +42,7 @@ export function Shell({
   );
   const budget = useResource<Budget>("/budget");
   const plantId = plantOf(route) ?? run.data?.run.plant_record_id ?? null;
+  const recorded = run.data?.label.kind === "recorded";
 
   return (
     <div className="shell">
@@ -58,7 +61,7 @@ export function Shell({
             </option>
             {(plants.data?.plants ?? []).map((p) => (
               <option key={p.plant_record_id} value={p.plant_record_id}>
-                {p.plant_id} ({p.status})
+                {recorded ? p.plant_id : `${p.plant_id} (${p.status})`}
               </option>
             ))}
           </select>
@@ -96,7 +99,7 @@ export function Shell({
             ) : null}
           </>
         ) : null}
-        {budget.data !== null ? (
+        {budget.data !== null && !recorded ? (
           <span className="budget" aria-label="Budget">
             {budget.data.uses
               .filter((u) => budget.data?.api_run_uses.includes(u.use))
@@ -105,14 +108,16 @@ export function Shell({
             {` · phase ${budget.data.api_run_phase.phase} ${money(budget.data.api_run_phase.remaining_usd)} left`}
           </span>
         ) : null}
-        <label>
-          Engineer
-          <input
-            value={engineer}
-            placeholder="your name, for overrides"
-            onChange={(e) => setEngineer(e.target.value)}
-          />
-        </label>
+        {recorded ? null : (
+          <label>
+            Engineer
+            <input
+              value={engineer}
+              placeholder="your name, for overrides"
+              onChange={(e) => setEngineer(e.target.value)}
+            />
+          </label>
+        )}
       </header>
       <main className="main">{children}</main>
       {recordId !== null ? (

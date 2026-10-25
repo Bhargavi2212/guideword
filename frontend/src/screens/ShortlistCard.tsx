@@ -1,10 +1,11 @@
 // One shortlist line as a card (spec 5.1). Every number, ID and claim on it is traced (P5-6);
 // the gap and the evidence are shown as the server wrote them (P5-5).
 
-import type { KeyboardEvent } from "react";
+import { useEffect, useRef, type KeyboardEvent } from "react";
 
 import type { ShortlistItem } from "../api/schema";
 import { buildHash } from "../app/router";
+import { isSkipped, shownFlag, skippedLine } from "../model/evidence";
 import { leadText, severityOf, shownEvidence } from "../model/shortlist";
 import { Chip } from "../ui/Chip";
 import { Flags } from "../ui/Flags";
@@ -25,11 +26,17 @@ export function ShortlistCard({
   onKeyDown,
 }: Props) {
   const severity = severityOf(item);
+  // the landing opens with the demo moment in view (Bhargavi's review, 2026-10-25)
+  const card = useRef<HTMLElement>(null);
+  useEffect(() => {
+    if (start) card.current?.scrollIntoView({ block: "center" });
+  }, [start]);
   const evidence = shownEvidence(item);
   const recommendations = item.recommendations ?? [];
   const firstRecommendation = recommendations[0];
   return (
     <article
+      ref={card}
       className={`card tier-${item.tier}`}
       data-target-id={item.target_id}
     >
@@ -77,7 +84,9 @@ export function ShortlistCard({
           {evidence.map((e) => (
             <li key={e.id}>
               <Chip kind="verdict" value={e.verdict} />{" "}
-              <Traced id={e.id}>{e.summary}</Traced>
+              <Traced id={e.id}>
+                {isSkipped(e) ? skippedLine(e) : e.summary}
+              </Traced>
             </li>
           ))}
         </ul>
@@ -91,7 +100,10 @@ export function ShortlistCard({
           </Traced>
         </p>
       ) : null}
-      <Flags flags={item.flags ?? []} traceId={item.target_id} />
+      <Flags
+        flags={(item.flags ?? []).map(shownFlag)}
+        traceId={item.target_id}
+      />
     </article>
   );
 }
