@@ -31,6 +31,132 @@ Settled while building R0 (each logged in `docs/decisions.md`):
 - **The re-attach event** is a new event type with a structured payload (date, commit, the
   superseded and new record IDs). The text is a template built from it, never stored prose.
 
+## 0a. Q1: the attach rule, for review before R1 (2026-10-25)
+
+**Status: proposed. No R1 code until Bhargavi has seen this table.** It was computed at $0 by a
+scratch script over the WG export and the D and G exports, read-only from `guideword-demo.db`.
+The calculations were run on each plant file; no record was written.
+
+### The rule (blocked-in heating)
+
+For a line L (a finding, or a chain with its links) and a vessel E (equipment with
+`design_pressure_kpa` and at least one heat source):
+
+- **What the line names**, `named(L)`. For each of L's links:
+  - a finding link's `failing_component_ids`;
+  - a fact link's object (the ID before the first `.`);
+  - for every procedure step among those, the step itself and its `equipment_ids` and
+    `valve_ids`.
+
+  A finding's *section* objects are not counted.
+- **The mechanism inputs of E**, `mechanism(E)`:
+  - E's heat-source isolating valves (`heat_sources[].isolating_valve_ids`);
+  - the valves on E's process-side lines (lines from or to E that carry none of those heat
+    valves): the valves that block it in;
+  - the procedure steps whose `valve_ids` include any of them.
+- **Attach** `blocked_in_heating(E)` to L when E is in `named(L)` and at least one of
+  `mechanism(E)` is in `named(L)`.
+- **`via_ids`:** L's links that supply a mechanism input, in stored order.
+
+Unchanged:
+- **The matrix rule (Q4):** `more:pressure`, `more:level` and `more:temperature` still bring
+  their calculation on each equipment item of the finding's section.
+- **Q3 needs no separate rule:** the mechanism inputs come from the plant's topology, not from
+  the facts a calculation found, so a calculation with missing facts attaches the same way.
+- **Only the top `evidence_top_n` (5) lines get calculation cards.** The other rows below show
+  where the rule would act if those lines ranked higher.
+
+Two variants were checked:
+- **A:** also count section objects for both the vessel and the input. It attaches more: 9
+  composition findings on the reboilers' process and quench-water lines get a card through
+  their section's valve.
+- **B:** count section objects for the vessel only. It gives the same result as C on every
+  line.
+
+### On the lines that get cards
+
+| Run | # | Line | Blocked-in today | Under the rule | via |
+|---|---|---|---|---|---|
+| WG | 1 | fire, `f:m:S-EA-425B:more:temperature` | EA-425B confirmed (through its section) | none. Keeps its heat-up time card (skipped; matrix, Q4) | — |
+| WG | 2 | the startup chain (`as_well_as:composition` + `P-REB-START-2:early`) | EA-425B confirmed | **EA-425B confirmed**; EA-425A not confirmed (not blocked in) | EA-425B: the 4 valve-position facts and `f:proc:P-REB-START-2:early`; EA-425A: `f:proc:P-REB-START-2:early` |
+| WG | 3 | the EA-425A chain | EA-425B confirmed (through the fire link's section) | none. Keeps the heat-up time card on EA-425B through the fire link (matrix, Q4) | — |
+| WG | 4 | `f:proc:P-REB-START-2:early` | none | **EA-425B confirmed**; EA-425A not confirmed (not blocked in) | `f:proc:P-REB-START-2:early` (the step names both reboilers and their quench-water valves) |
+| WG | 5 | `f:m:S-EA-425A:more:flow` | EA-425A not confirmed (through its section) | none | — |
+| G | 1–3 | the TOTES lines | TOTES skipped (matrix, `more:pressure`) | unchanged (Q4) | — |
+| D | 1–5 | — | none | none | — |
+
+### Questions on the result
+
+1. **EA-425A on #2 and #4.** `P-REB-START-2` reads "the reboiler being placed in service" and
+   names both reboilers and both sets of quench-water valves. So the rule also attaches
+   EA-425A's card, which reads "not confirmed: not blocked in". Recommendation: keep it. It is
+   what the plant file says, and the card reads not confirmed.
+2. **Heat-up time on EA-425B stays on #3**, through the fire finding's section (the matrix rule,
+   Q4, approved unchanged). Keep it, or apply the "names the vessel" test to the matrix rule as
+   well?
+
+### Every line with a candidate, today or under the rule (WG, D, G)
+
+"Cards?" says whether the line is one of the top 5 that get calculation cards. Only
+blocked-in heating is shown; matrix cards kept under Q4 are marked.
+
+| Run | # | Cards? | Line | Blocked-in today | Under the rule (C) | via |
+|---|---|---|---|---|---|---|
+| WG | 1 | yes | `f:m:S-EA-425B:more` | EA-425B: confirmed | — | — |
+| WG | 2 | yes | `chain: f:m:S-EA-425B:as_well_as, f:proc:P-REB-START-2:early` | EA-425B: confirmed | EA-425A: not confirmed: not blocked in; EA-425B: confirmed | EA-425A via `f:proc:P-REB-START-2:early`; EA-425B via `HV-B-SIN.normal_position`, `HV-B-SOUT.normal_position`, `HV-QW-B-IN.normal_position`, `HV-QW-B-OUT.normal_position`, `f:proc:P-REB-START-2:early` |
+| WG | 3 | yes | `chain: f:m:S-EA-425B:more, f:m:S-L-A-SOUT:reverse, f:m:S-L-QW-A-IN:more` | EA-425B: confirmed | — | — |
+| WG | 4 | yes | `f:proc:P-REB-START-2:early` | — | EA-425A: not confirmed: not blocked in; EA-425B: confirmed | EA-425A via `f:proc:P-REB-START-2:early`; EA-425B via `f:proc:P-REB-START-2:early` |
+| WG | 5 | yes | `f:m:S-EA-425A:more` | EA-425A: not confirmed: not blocked in | — | — |
+| WG | 6 | no | `f:m:S-EA-425A:less` | EA-425A: not confirmed: not blocked in | EA-425A: not confirmed: not blocked in; EA-425B: confirmed | EA-425A via `f:m:S-EA-425A:less`; EA-425B via `f:m:S-EA-425A:less` |
+| WG | 7 | no | `chain: f:m:S-EA-425B:as_well_as, f:m:S-EA-425B:no` | EA-425B: confirmed | EA-425A: not confirmed: not blocked in; EA-425B: confirmed | EA-425A via `P-REB-START-1.equipment_ids`, `P-REB-START-1.valve_ids`, `P-REB-START-2.text`, `P-REB-START-2.valve_ids`, `f:m:S-EA-425B:no`; EA-425B via `HV-B-SIN.normal_position`, `HV-B-SOUT.normal_position`, `HV-QW-B-IN.normal_position`, `HV-QW-B-OUT.normal_position`, `P-REB-START-1.equipment_ids`, `P-REB-START-1.valve_ids`, `P-REB-START-2.text`, `P-REB-START-2.valve_ids`, `f:m:S-EA-425B:no` |
+| WG | 9 | no | `chain: f:m:S-EA-425A:less, f:m:S-L-QW-A-OUT:more` | EA-425A: not confirmed: not blocked in | EA-425A: not confirmed: not blocked in; EA-425B: confirmed | EA-425A via `HV-QW-A-OUT.fail_position`, `HV-QW-A-OUT.kind`, `f:m:S-L-QW-A-OUT:more`; EA-425B via `f:m:S-L-QW-A-OUT:more` |
+| WG | 10 | no | `chain: f:m:S-EA-425B:as_well_as, f:m:S-L-QW-B-IN:other_than, f:m:S-L-QW-B-OUT:as_well_as` | EA-425B: confirmed | EA-425B: confirmed | EA-425B via `HV-QW-B-IN.normal_position`, `HV-QW-B-OUT.normal_position` |
+| WG | 11 | no | `f:m:S-EA-425B:as_well_as` | EA-425B: confirmed | — | — |
+| WG | 12 | no | `chain: f:m:S-EA-425A:less, f:m:S-L-QW-A-OUT:as_well_as, f:m:S-L-QW-A-OUT:more` | EA-425A: not confirmed: not blocked in | EA-425A: not confirmed: not blocked in; EA-425B: confirmed | EA-425A via `HV-QW-A-OUT.fail_position`, `HV-QW-A-OUT.kind`, `f:m:S-L-QW-A-OUT:more`; EA-425B via `f:m:S-L-QW-A-OUT:more` |
+| WG | 13 | no | `chain: f:m:S-EA-425A:less, f:m:S-L-A-SIN:other_than, f:m:S-L-QW-A-IN:other_than` | EA-425A: not confirmed: not blocked in | EA-425A: not confirmed: not blocked in | EA-425A via `HV-QW-A-IN.on_line_id` |
+| WG | 14 | no | `f:m:S-EA-425A:less` | EA-425A: not confirmed: not blocked in | — | — |
+| WG | 15 | no | `chain: f:env:C4-HEAVIES:air, f:m:S-EA-425B:more, f:m:S-L-A-SIN:less` | EA-425B: confirmed | — | — |
+| WG | 21 | no | `chain: f:env:PROPYLENE:water, f:m:S-L-QW-A-IN:other_than, f:m:S-L-QW-A-OUT:as_well_as` | EA-425A: not confirmed: not blocked in | — | — |
+| WG | 22 | no | `f:m:S-DA-406:more` | — | EA-425A: not confirmed: not blocked in; EA-425B: confirmed | EA-425A via `f:m:S-DA-406:more`; EA-425B via `f:m:S-DA-406:more` |
+| WG | 23 | no | `f:m:S-EA-425B:no` | EA-425B: confirmed | EA-425A: not confirmed: not blocked in; EA-425B: confirmed | EA-425A via `f:m:S-EA-425B:no`; EA-425B via `f:m:S-EA-425B:no` |
+| WG | 24 | no | `f:m:S-EA-425B:no` | EA-425B: confirmed | EA-425A: not confirmed: not blocked in; EA-425B: confirmed | EA-425A via `f:m:S-EA-425B:no`; EA-425B via `f:m:S-EA-425B:no` |
+| WG | 26 | no | `f:m:S-L-QW-B-IN:as_well_as` | — | EA-425A: not confirmed: not blocked in; EA-425B: confirmed | EA-425A via `f:m:S-L-QW-B-IN:as_well_as`; EA-425B via `f:m:S-L-QW-B-IN:as_well_as` |
+| WG | 28 | no | `f:pair:C4-HEAVIES:PROPANE` | — | EA-425A: not confirmed: not blocked in; EA-425B: confirmed | EA-425A via `f:pair:C4-HEAVIES:PROPANE`; EA-425B via `f:pair:C4-HEAVIES:PROPANE` |
+| WG | 29 | no | `f:proc:P-REB-START-1:late` | — | EA-425A: not confirmed: not blocked in; EA-425B: confirmed | EA-425A via `f:proc:P-REB-START-1:late`; EA-425B via `f:proc:P-REB-START-1:late` |
+| WG | 32 | no | `f:m:S-L-A-SIN:other_than` | EA-425A: not confirmed: not blocked in | — | — |
+| WG | 33 | no | `f:m:S-L-QW-A-IN:other_than` | EA-425A: not confirmed: not blocked in | — | — |
+| WG | 34 | no | `f:m:S-L-QW-A-IN:part_of` | EA-425A: not confirmed: not blocked in | — | — |
+| WG | 35 | no | `f:m:S-L-QW-A-OUT:as_well_as` | EA-425A: not confirmed: not blocked in | — | — |
+| WG | 36 | no | `f:m:S-L-QW-A-OUT:other_than` | EA-425A: not confirmed: not blocked in | — | — |
+| WG | 37 | no | `f:m:S-L-QW-A-OUT:part_of` | EA-425A: not confirmed: not blocked in | — | — |
+| WG | 38 | no | `f:m:S-L-QW-B-IN:other_than` | EA-425B: confirmed | — | — |
+| WG | 39 | no | `f:m:S-L-QW-B-OUT:as_well_as` | EA-425B: confirmed | — | — |
+| WG | 43 | no | `f:m:S-L-QW-A-OUT:more` | — | EA-425A: not confirmed: not blocked in; EA-425B: confirmed | EA-425A via `f:m:S-L-QW-A-OUT:more`; EA-425B via `f:m:S-L-QW-A-OUT:more` |
+| WG | 47 | no | `f:m:S-EA-425B:more` | EA-425B: confirmed | — | — |
+| WG | 50 | no | `f:m:S-EA-425B:less` | EA-425B: confirmed | — | — |
+| WG | 51 | no | `f:m:S-L-B-SIN:as_well_as` | — | EA-425A: not confirmed: not blocked in; EA-425B: confirmed | EA-425A via `f:m:S-L-B-SIN:as_well_as`; EA-425B via `f:m:S-L-B-SIN:as_well_as` |
+| WG | 53 | no | `f:proc:P-REB-START-2:late` | — | EA-425A: not confirmed: not blocked in; EA-425B: confirmed | EA-425A via `f:proc:P-REB-START-2:late`; EA-425B via `f:proc:P-REB-START-2:late` |
+| WG | 54 | no | `f:env:C4-HEAVIES:water` | EA-425A: not confirmed: not blocked in; EA-425B: confirmed | — | — |
+| WG | 55 | no | `f:m:S-EA-425A:less` | EA-425A: not confirmed: not blocked in | — | — |
+| WG | 56 | no | `f:m:S-EA-425A:less` | EA-425A: not confirmed: not blocked in | — | — |
+| D | 8 | no | `f:m:S-L-RUNDOWN~E-106:more` | E-106: skipped (matrix, kept) | E-106: skipped (matrix, kept) | — |
+| D | 24 | no | `f:m:S-P-104A:more` | P-104A: skipped (matrix, kept) | P-104A: skipped (matrix, kept) | — |
+| D | 43 | no | `f:m:S-L-RUNDOWN~E-106:more` | E-106: skipped (matrix, kept) | E-106: skipped (matrix, kept) | — |
+| G | 1 | yes | `chain: f:env:ACETIC-ACID:heat, f:env:BIOCIDE:water, f:env:SIH:heat, f:m:S-TOTES:more` | TOTES: skipped (matrix, kept) | TOTES: skipped (matrix, kept) | — |
+| G | 2 | yes | `chain: f:env:ACETIC-ACID:heat, f:env:SIH:heat, f:m:S-TOTES:less, f:m:S-TOTES:more` | TOTES: skipped (matrix, kept) | TOTES: skipped (matrix, kept) | — |
+| G | 3 | yes | `f:m:S-TOTES:more` | TOTES: skipped (matrix, kept) | TOTES: skipped (matrix, kept) | — |
+| G | 6 | no | `chain: f:m:S-FILLING-LINE:more, f:m:S-FILLING-LINE:more, f:m:S-HOMOGENISER:more` | FILLING-LINE: skipped (matrix, kept) | FILLING-LINE: skipped (matrix, kept) | — |
+| G | 7 | no | `f:m:S-FILLING-LINE:more` | FILLING-LINE: skipped (matrix, kept) | FILLING-LINE: skipped (matrix, kept) | — |
+| G | 15 | no | `chain: f:m:S-L-HOSE-MX-3~PORTABLE-PUMP:as_well_as, f:m:S-L-HOSE-MX-4:other_than, f:m:S-L-HOSE-MX-4~PORTABLE-PUMP:more` | PORTABLE-PUMP: skipped (matrix, kept) | PORTABLE-PUMP: skipped (matrix, kept) | — |
+| G | 17 | no | `chain: f:m:S-MX-2:more, f:m:S-TOTES:as_well_as, f:pair:DI-WATER:PT-CATALYST` | MX-2: skipped (matrix, kept) | MX-2: skipped (matrix, kept) | — |
+| G | 20 | no | `chain: f:env:IPA:water, f:m:S-L-HOSE-MX-3:no, f:m:S-L-HOSE-MX-4~PORTABLE-PUMP:more` | PORTABLE-PUMP: skipped (matrix, kept) | PORTABLE-PUMP: skipped (matrix, kept) | — |
+| G | 24 | no | `f:m:S-L-HOSE-MX-4~PORTABLE-PUMP:more` | PORTABLE-PUMP: skipped (matrix, kept) | PORTABLE-PUMP: skipped (matrix, kept) | — |
+| G | 25 | no | `f:m:S-L-HOSE-MX-4~PORTABLE-PUMP:more` | PORTABLE-PUMP: skipped (matrix, kept) | PORTABLE-PUMP: skipped (matrix, kept) | — |
+| G | 28 | no | `f:m:S-MX-2:more` | MX-2: skipped (matrix, kept) | MX-2: skipped (matrix, kept) | — |
+| G | 34 | no | `f:m:S-MX-4:more` | MX-4: skipped (matrix, kept) | MX-4: skipped (matrix, kept) | — |
+| G | 46 | no | `f:m:S-L-HOSE-MX-4~PORTABLE-PUMP:more` | PORTABLE-PUMP: skipped (matrix, kept) | PORTABLE-PUMP: skipped (matrix, kept) | — |
+| G | 115 | no | `f:m:S-L-HOSE-MX-4~PORTABLE-PUMP:more` | PORTABLE-PUMP: skipped (matrix, kept) | PORTABLE-PUMP: skipped (matrix, kept) | — |
+
 ## 1. What exists today (checked $0)
 
 - **Already built, not merged:** `phase-5/review-fixes` (5ea700b). It has the equipment on
