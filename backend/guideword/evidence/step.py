@@ -393,13 +393,7 @@ class EvidenceStepper:
     def _calculate(
         self, run: Run, calculation: Calculation, equipment_id: str
     ) -> physics.CalcResult:
-        if calculation == Calculation.OVERFLOW_TIME:
-            minutes = float(evidence_setting(run, self.config, "overflow_confirm_minutes"))
-            return physics.overflow_time(equipment_id, self.plant, minutes)
-        if calculation == Calculation.HEAT_UP_RATE:
-            minutes = float(evidence_setting(run, self.config, "heat_up_confirm_minutes"))
-            return physics.heat_up_rate(equipment_id, self.plant, minutes)
-        return physics.blocked_in_heating(equipment_id, self.plant)
+        return calculate(run, self.config, self.plant, calculation, equipment_id)
 
     def _search(
         self,
@@ -499,6 +493,19 @@ class EvidenceStepper:
             and accepts(by_handle[j.candidate], j)
         ]
         return accepted, call_id, False
+
+
+def calculate(
+    run: Run, config: Config, plant: Plant, calculation: Calculation, equipment_id: str
+) -> physics.CalcResult:
+    """One physics card, with the run's own confirm minutes (the evidence step and R2)."""
+    if calculation == Calculation.OVERFLOW_TIME:
+        minutes = float(evidence_setting(run, config, "overflow_confirm_minutes"))
+        return physics.overflow_time(equipment_id, plant, minutes)
+    if calculation == Calculation.HEAT_UP_RATE:
+        minutes = float(evidence_setting(run, config, "heat_up_confirm_minutes"))
+        return physics.heat_up_rate(equipment_id, plant, minutes)
+    return physics.blocked_in_heating(equipment_id, plant)
 
 
 class _Pending:

@@ -120,6 +120,8 @@ EMITTED_EVENT_TYPES = frozenset(
         EventType.LOPA_DONE,
         EventType.RUN_EXTENDED,
         EventType.EVIDENCE_ADDED,
+        # review plan R2: scripts/reattach_calculations.py
+        EventType.CALCULATIONS_REATTACHED,
     }
 )
 
@@ -373,6 +375,38 @@ class StepWriter:
             )
         self._clear_post_records([row for _, row in rows])
         return [row.id for _, row in rows]
+
+    def supersede_evidence(
+        self, evidence_ids: Sequence[str], pass_seq: int, superseded_seq: int
+    ) -> list[str]:
+        """Copy these evidence records into `superseded_records`, verbatim, then clear them from
+        the live table (review plan R2: calculation cards a changed rule no longer gives).
+        Their tool calls and agent steps stay: they are what was run. Returns the IDs copied,
+        in table order."""
+        wanted = set(evidence_ids)
+        rows = [
+            row
+            for row in self._session.scalars(
+                select(EvidenceRow)
+                .where(EvidenceRow.run_id == self.run.id)
+                .order_by(EvidenceRow.position)
+            ).all()
+            if row.id in wanted
+        ]
+        for row in rows:
+            self._session.add(
+                SupersededRow(
+                    run_id=self.run.id,
+                    kind="evidence",
+                    id=row.id,
+                    pass_seq=pass_seq,
+                    superseded_seq=superseded_seq,
+                    position=row.position,
+                    record=dict(row.record),
+                )
+            )
+        self._clear_post_records(rows)
+        return [row.id for row in rows]
 
     def post_record_ids(
         self, post_jobs: Collection[str], kinds: Collection[str] = tuple(SUPERSEDED_TABLES)
