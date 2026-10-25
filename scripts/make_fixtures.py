@@ -306,7 +306,15 @@ class Script:
         pair, relief = lines.get(("P-CHARGE-1",)), lines.get(("PSV-1",))
         if pair is None or relief is None:
             return reply({"chains": []})
-        return reply({"chains": [{"links": [pair, relief], **CHAIN}]})
+        # two fact links, MX-1's and its steam isolating valve's, so the chain names the vessel
+        # and a mechanism input and gets the blocked-in check (review plan §0a)
+        facts = {f["fact_id"]: f["handle"] for f in _block(request, "facts")}
+        named = [
+            next(facts[fact] for fact in sorted(facts) if fact.startswith(prefix))
+            for prefix in ("MX-1.", "XV-STM.")
+            if any(fact.startswith(prefix) for fact in facts)
+        ]
+        return reply({"chains": [{"links": [pair, relief, *named], **CHAIN}]})
 
     def _chain_severity(self, request: dict[str, Any]) -> Reply:
         chains = _block(request, "chains")

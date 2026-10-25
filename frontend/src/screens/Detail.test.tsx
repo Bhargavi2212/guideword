@@ -133,10 +133,11 @@ describe("Detail (spec 5.2)", () => {
   });
 
   it("shows a skipped calculation as one line, its missing facts traced when opened", async () => {
-    const mx1 = item("f:m:S-MX-1:more:temperature:");
-    mockDetail("f:m:S-MX-1:more:temperature:");
+    // the mock's skipped blocked-in check is on its chain, which names MX-1 and XV-STM
+    const chain = item("ch:");
+    mockDetail("ch:");
     const cards = await screen.findAllByRole("article");
-    const skipped = (mx1.evidence ?? []).filter(isSkipped);
+    const skipped = (chain.evidence ?? []).filter(isSkipped);
     expect(skipped.length).toBeGreaterThan(0);
     for (const e of skipped) {
       const card = must(

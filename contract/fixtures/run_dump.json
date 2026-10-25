@@ -1702,11 +1702,13 @@
   ],
   "chains": [
     {
-      "id": "ch:f:pair:KOH:SIH:lightning:C14:541f633168214c61+f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b",
+      "id": "ch:MX-1.contents+XV-STM.fail_position+f:pair:KOH:SIH:lightning:C14:541f633168214c61+f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b",
       "run_id": "run:eaf6f55e4d2a4a30",
       "links": [
         "f:pair:KOH:SIH:lightning:C14:541f633168214c61",
-        "f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b"
+        "f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b",
+        "MX-1.contents",
+        "XV-STM.fail_position"
       ],
       "description": "Wrong tote charged; the hydrogen it makes leaves by PSV-1 at the roof.",
       "reason": "The pair finding's gas is what PSV-1 vents.",
@@ -1828,7 +1830,7 @@
       "mitigated_frequency_per_year": 0.001,
       "tolerable_per_year": 0.0001,
       "gap": 10.0,
-      "model_call_id": "mc:9e2695727d480404",
+      "model_call_id": "mc:3f5929e5b9f0c8f8",
       "flags": [
         "frequency assumed — engineer to confirm"
       ],
@@ -1885,7 +1887,7 @@
       "mitigated_frequency_per_year": 0.010000000000000002,
       "tolerable_per_year": 0.001,
       "gap": 10.000000000000002,
-      "model_call_id": "mc:9e2695727d480404",
+      "model_call_id": "mc:3f5929e5b9f0c8f8",
       "flags": [],
       "modifiers_not_applied": [
         {
@@ -1907,9 +1909,9 @@
       ]
     },
     {
-      "id": "lopa:ch:f:pair:KOH:SIH:lightning:C14:541f633168214c61+f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b",
+      "id": "lopa:ch:MX-1.contents+XV-STM.fail_position+f:pair:KOH:SIH:lightning:C14:541f633168214c61+f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b",
       "run_id": "run:eaf6f55e4d2a4a30",
-      "target_id": "ch:f:pair:KOH:SIH:lightning:C14:541f633168214c61+f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b",
+      "target_id": "ch:MX-1.contents+XV-STM.fail_position+f:pair:KOH:SIH:lightning:C14:541f633168214c61+f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b",
       "severity_class": "S3",
       "complete": true,
       "missing_fact_ids": [],
@@ -1940,7 +1942,7 @@
       "mitigated_frequency_per_year": 0.010000000000000002,
       "tolerable_per_year": 0.0001,
       "gap": 100.00000000000001,
-      "model_call_id": "mc:9e2695727d480404",
+      "model_call_id": "mc:3f5929e5b9f0c8f8",
       "flags": [
         "task frequency assumed — engineer to confirm"
       ],
@@ -1971,15 +1973,15 @@
       "target_id": "f:pair:KOH:SIH:lightning:C14:541f633168214c61",
       "action": "Add a tote identity check before P-1 can start.",
       "reason": "The pair finding's gas is what PSV-1 vents.",
-      "model_call_id": "mc:95beb28b44d83e4e"
+      "model_call_id": "mc:61f5a62e02b0fd1f"
     },
     {
-      "id": "rec:ch:f:pair:KOH:SIH:lightning:C14:541f633168214c61+f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b:90267bb6108708ed",
+      "id": "rec:ch:MX-1.contents+XV-STM.fail_position+f:pair:KOH:SIH:lightning:C14:541f633168214c61+f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b:90267bb6108708ed",
       "run_id": "run:eaf6f55e4d2a4a30",
-      "target_id": "ch:f:pair:KOH:SIH:lightning:C14:541f633168214c61+f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b",
+      "target_id": "ch:MX-1.contents+XV-STM.fail_position+f:pair:KOH:SIH:lightning:C14:541f633168214c61+f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b",
       "action": "Add a tote identity check before P-1 can start.",
       "reason": "The pair finding's gas is what PSV-1 vents.",
-      "model_call_id": "mc:95beb28b44d83e4e"
+      "model_call_id": "mc:61f5a62e02b0fd1f"
     },
     {
       "id": "rec:f:m:S-MX-1:more:temperature:lightning:C01:a92ada9e786e565d:90267bb6108708ed",
@@ -1987,7 +1989,7 @@
       "target_id": "f:m:S-MX-1:more:temperature:lightning:C01:a92ada9e786e565d",
       "action": "Add a tote identity check before P-1 can start.",
       "reason": "The pair finding's gas is what PSV-1 vents.",
-      "model_call_id": "mc:95beb28b44d83e4e"
+      "model_call_id": "mc:61f5a62e02b0fd1f"
     },
     {
       "id": "rec:f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b:90267bb6108708ed",
@@ -1995,7 +1997,7 @@
       "target_id": "f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b",
       "action": "Add a tote identity check before P-1 can start.",
       "reason": "The pair finding's gas is what PSV-1 vents.",
-      "model_call_id": "mc:95beb28b44d83e4e"
+      "model_call_id": "mc:61f5a62e02b0fd1f"
     }
   ],
   "evidence": [
@@ -2014,13 +2016,13 @@
       "flags": []
     },
     {
-      "id": "ev:ch:f:pair:KOH:SIH:lightning:C14:541f633168214c61+f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b:calculation:blocked_in_heating-MX-1",
+      "id": "ev:ch:MX-1.contents+XV-STM.fail_position+f:pair:KOH:SIH:lightning:C14:541f633168214c61+f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b:calculation:blocked_in_heating-MX-1",
       "run_id": "run:eaf6f55e4d2a4a30",
-      "target_id": "ch:f:pair:KOH:SIH:lightning:C14:541f633168214c61+f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b",
+      "target_id": "ch:MX-1.contents+XV-STM.fail_position+f:pair:KOH:SIH:lightning:C14:541f633168214c61+f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b",
       "kind": "calculation",
       "verdict": "none",
       "summary": "Blocked-in heating check on MX-1 skipped: missing L-STM.operating.temperature.normal, SIH.vapor_pressure_points, KOH.vapor_pressure_points",
-      "tool_call_id": "tc:step:b7c69f23ac6dbfda:physics_calc:ed75cad20da58b17",
+      "tool_call_id": "tc:step:598170dbe22cc558:physics_calc:ed75cad20da58b17",
       "fact_ids": [
         "HV-12.normal_position",
         "XV-STM.locked"
@@ -2037,41 +2039,18 @@
       ]
     },
     {
-      "id": "ev:ch:f:pair:KOH:SIH:lightning:C14:541f633168214c61+f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b:precedent:none",
+      "id": "ev:ch:MX-1.contents+XV-STM.fail_position+f:pair:KOH:SIH:lightning:C14:541f633168214c61+f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b:precedent:none",
       "run_id": "run:eaf6f55e4d2a4a30",
-      "target_id": "ch:f:pair:KOH:SIH:lightning:C14:541f633168214c61+f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b",
+      "target_id": "ch:MX-1.contents+XV-STM.fail_position+f:pair:KOH:SIH:lightning:C14:541f633168214c61+f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b",
       "kind": "precedent",
       "verdict": "none",
       "summary": "no matching precedent found",
-      "tool_call_id": "tc:step:5952f4bcc4a8a94b:search_precedent:08e1e368af7cdccd",
+      "tool_call_id": "tc:step:e38b0d5801913bba:search_precedent:08e1e368af7cdccd",
       "fact_ids": [],
       "sources": [],
       "model_call_id": "mc:ea559a4ae80db1ee",
       "missing_fact_ids": [],
       "flags": []
-    },
-    {
-      "id": "ev:f:m:S-MX-1:more:temperature:lightning:C01:a92ada9e786e565d:calculation:blocked_in_heating-MX-1",
-      "run_id": "run:eaf6f55e4d2a4a30",
-      "target_id": "f:m:S-MX-1:more:temperature:lightning:C01:a92ada9e786e565d",
-      "kind": "calculation",
-      "verdict": "none",
-      "summary": "Blocked-in heating check on MX-1 skipped: missing L-STM.operating.temperature.normal, SIH.vapor_pressure_points, KOH.vapor_pressure_points",
-      "tool_call_id": "tc:step:4422c019d61348de:physics_calc:ed75cad20da58b17",
-      "fact_ids": [
-        "HV-12.normal_position",
-        "XV-STM.locked"
-      ],
-      "sources": [],
-      "model_call_id": null,
-      "missing_fact_ids": [
-        "L-STM.operating.temperature.normal",
-        "SIH.vapor_pressure_points",
-        "KOH.vapor_pressure_points"
-      ],
-      "flags": [
-        "pure-component vapour pressure; liquid-full thermal expansion not modelled; real pressure can be higher"
-      ]
     },
     {
       "id": "ev:f:m:S-MX-1:more:temperature:lightning:C01:a92ada9e786e565d:calculation:heat_up_rate-MX-1",
@@ -2080,7 +2059,7 @@
       "kind": "calculation",
       "verdict": "confirmed",
       "summary": "Heat-up time: at its 500 kW duty, MX-1 heats from 25 °C to its 80 °C limit in about 28 minutes",
-      "tool_call_id": "tc:step:4422c019d61348de:physics_calc:78d37907b9ecfbad",
+      "tool_call_id": "tc:step:0fd95822a03446a9:physics_calc:78d37907b9ecfbad",
       "fact_ids": [
         "MX-1.heat_duty_kw",
         "MX-1.volume_m3",
@@ -2101,7 +2080,7 @@
       "kind": "precedent",
       "verdict": "confirmed",
       "summary": "web result: Mock precedent: a steam control valve stuck open overheated a batch mixer: Same mechanism (mock): a steam control valve stuck open.",
-      "tool_call_id": "tc:step:43626acfc6121682:web_research:5aa00cf474707f7c",
+      "tool_call_id": "tc:step:bb683066bf72887a:web_research:5aa00cf474707f7c",
       "fact_ids": [],
       "sources": [
         "Mock precedent: a steam control valve stuck open overheated a batch mixer",
@@ -2112,36 +2091,13 @@
       "flags": []
     },
     {
-      "id": "ev:f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b:calculation:blocked_in_heating-MX-1",
-      "run_id": "run:eaf6f55e4d2a4a30",
-      "target_id": "f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b",
-      "kind": "calculation",
-      "verdict": "none",
-      "summary": "Blocked-in heating check on MX-1 skipped: missing L-STM.operating.temperature.normal, SIH.vapor_pressure_points, KOH.vapor_pressure_points",
-      "tool_call_id": "tc:step:9fdd1ee4807b57a5:physics_calc:ed75cad20da58b17",
-      "fact_ids": [
-        "HV-12.normal_position",
-        "XV-STM.locked"
-      ],
-      "sources": [],
-      "model_call_id": null,
-      "missing_fact_ids": [
-        "L-STM.operating.temperature.normal",
-        "SIH.vapor_pressure_points",
-        "KOH.vapor_pressure_points"
-      ],
-      "flags": [
-        "pure-component vapour pressure; liquid-full thermal expansion not modelled; real pressure can be higher"
-      ]
-    },
-    {
       "id": "ev:f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b:precedent:none",
       "run_id": "run:eaf6f55e4d2a4a30",
       "target_id": "f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b",
       "kind": "precedent",
       "verdict": "none",
       "summary": "no matching precedent found",
-      "tool_call_id": "tc:step:18064c3da77970ec:search_precedent:ad8c75f0fcffd297",
+      "tool_call_id": "tc:step:8b7f9dff639fdd4e:search_precedent:ad8c75f0fcffd297",
       "fact_ids": [],
       "sources": [],
       "model_call_id": "mc:0321edc9e80dfc4b",
@@ -2155,7 +2111,7 @@
       "kind": "precedent",
       "verdict": "none",
       "summary": "no matching precedent found",
-      "tool_call_id": "tc:step:726df4fd2c6ecb1d:search_precedent:06df157d01cbb52c",
+      "tool_call_id": "tc:step:1470965e24a7551d:search_precedent:06df157d01cbb52c",
       "fact_ids": [],
       "sources": [],
       "model_call_id": "mc:e29f6acd27e620a2",
@@ -2174,7 +2130,7 @@
       },
       "reason": "The building is occupied on every shift.",
       "by": "Mock reviewer",
-      "at": "2026-10-13T10:06:21Z",
+      "at": "2026-10-13T10:06:16Z",
       "replaces": null
     }
   ],
@@ -5385,8 +5341,8 @@
       "seq": 141,
       "type": "chain_added",
       "payload": {
-        "chain_id": "ch:f:pair:KOH:SIH:lightning:C14:541f633168214c61+f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b",
-        "links": 2
+        "chain_id": "ch:MX-1.contents+XV-STM.fail_position+f:pair:KOH:SIH:lightning:C14:541f633168214c61+f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b",
+        "links": 4
       },
       "time": "2026-10-13T10:04:44Z",
       "payload_schema": "v1.9",
@@ -5431,7 +5387,7 @@
       "seq": 144,
       "type": "model_call",
       "payload": {
-        "model_call_id": "mc:97d3a3bb59a4138e",
+        "model_call_id": "mc:bec1aec2a4c277bd",
         "job": "chain_severity",
         "model_id": "nvidia/Nemotron-3-Ultra-550b-a55b",
         "cache_hit": false,
@@ -5456,7 +5412,7 @@
         "missing": [],
         "re_ask": false,
         "sent_ids": [
-          "ch:f:pair:KOH:SIH:lightning:C14:541f633168214c61+f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b"
+          "ch:MX-1.contents+XV-STM.fail_position+f:pair:KOH:SIH:lightning:C14:541f633168214c61+f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b"
         ],
         "missing_ids": [],
         "outcome": "ok",
@@ -5514,7 +5470,7 @@
       "seq": 149,
       "type": "model_call",
       "payload": {
-        "model_call_id": "mc:9e2695727d480404",
+        "model_call_id": "mc:3f5929e5b9f0c8f8",
         "job": "lopa_argument",
         "model_id": "nvidia/Nemotron-3-Ultra-550b-a55b",
         "cache_hit": false,
@@ -5562,7 +5518,7 @@
       "seq": 152,
       "type": "lopa_done",
       "payload": {
-        "lopa_id": "lopa:ch:f:pair:KOH:SIH:lightning:C14:541f633168214c61+f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b",
+        "lopa_id": "lopa:ch:MX-1.contents+XV-STM.fail_position+f:pair:KOH:SIH:lightning:C14:541f633168214c61+f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b",
         "complete": true,
         "kind": "full"
       },
@@ -5628,7 +5584,7 @@
       "seq": 157,
       "type": "model_call",
       "payload": {
-        "model_call_id": "mc:95beb28b44d83e4e",
+        "model_call_id": "mc:61f5a62e02b0fd1f",
         "job": "recommendation",
         "model_id": "nvidia/Nemotron-3-Ultra-550b-a55b",
         "cache_hit": false,
@@ -5839,7 +5795,7 @@
       "seq": 171,
       "type": "agent_decision",
       "payload": {
-        "step_id": "step:b7c69f23ac6dbfda",
+        "step_id": "step:598170dbe22cc558",
         "agent": "evidence",
         "tool": "physics_calc",
         "reason": "code: physics calculations for this line"
@@ -5854,7 +5810,7 @@
       "seq": 172,
       "type": "agent_decision",
       "payload": {
-        "step_id": "step:5952f4bcc4a8a94b",
+        "step_id": "step:e38b0d5801913bba",
         "agent": "evidence",
         "tool": "search_precedent",
         "reason": "code: precedent index search"
@@ -5869,7 +5825,7 @@
       "seq": 173,
       "type": "agent_decision",
       "payload": {
-        "step_id": "step:dc24c62d6f09c865",
+        "step_id": "step:8da2a110dbd8b62b",
         "agent": "evidence",
         "tool": "web_research",
         "reason": "code: web search"
@@ -5884,7 +5840,7 @@
       "seq": 174,
       "type": "tool_call",
       "payload": {
-        "tool_call_id": "tc:step:b7c69f23ac6dbfda:physics_calc:ed75cad20da58b17",
+        "tool_call_id": "tc:step:598170dbe22cc558:physics_calc:ed75cad20da58b17",
         "tool": "physics_calc",
         "refused": false
       },
@@ -5898,7 +5854,7 @@
       "seq": 175,
       "type": "tool_call",
       "payload": {
-        "tool_call_id": "tc:step:5952f4bcc4a8a94b:search_precedent:08e1e368af7cdccd",
+        "tool_call_id": "tc:step:e38b0d5801913bba:search_precedent:08e1e368af7cdccd",
         "tool": "search_precedent",
         "refused": false
       },
@@ -5912,7 +5868,7 @@
       "seq": 176,
       "type": "tool_call",
       "payload": {
-        "tool_call_id": "tc:step:dc24c62d6f09c865:web_research:e4551acec3649d77",
+        "tool_call_id": "tc:step:8da2a110dbd8b62b:web_research:e4551acec3649d77",
         "tool": "web_research",
         "refused": false
       },
@@ -5926,8 +5882,8 @@
       "seq": 177,
       "type": "evidence_added",
       "payload": {
-        "evidence_id": "ev:ch:f:pair:KOH:SIH:lightning:C14:541f633168214c61+f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b:calculation:blocked_in_heating-MX-1",
-        "target_id": "ch:f:pair:KOH:SIH:lightning:C14:541f633168214c61+f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b",
+        "evidence_id": "ev:ch:MX-1.contents+XV-STM.fail_position+f:pair:KOH:SIH:lightning:C14:541f633168214c61+f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b:calculation:blocked_in_heating-MX-1",
+        "target_id": "ch:MX-1.contents+XV-STM.fail_position+f:pair:KOH:SIH:lightning:C14:541f633168214c61+f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b",
         "kind": "calculation",
         "verdict": "none"
       },
@@ -5941,8 +5897,8 @@
       "seq": 178,
       "type": "evidence_added",
       "payload": {
-        "evidence_id": "ev:ch:f:pair:KOH:SIH:lightning:C14:541f633168214c61+f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b:precedent:none",
-        "target_id": "ch:f:pair:KOH:SIH:lightning:C14:541f633168214c61+f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b",
+        "evidence_id": "ev:ch:MX-1.contents+XV-STM.fail_position+f:pair:KOH:SIH:lightning:C14:541f633168214c61+f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b:precedent:none",
+        "target_id": "ch:MX-1.contents+XV-STM.fail_position+f:pair:KOH:SIH:lightning:C14:541f633168214c61+f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b",
         "kind": "precedent",
         "verdict": "none"
       },
@@ -6002,7 +5958,7 @@
       "seq": 182,
       "type": "agent_decision",
       "payload": {
-        "step_id": "step:4422c019d61348de",
+        "step_id": "step:0fd95822a03446a9",
         "agent": "evidence",
         "tool": "physics_calc",
         "reason": "code: physics calculations for this line"
@@ -6017,7 +5973,7 @@
       "seq": 183,
       "type": "agent_decision",
       "payload": {
-        "step_id": "step:f7725a37fa150d99",
+        "step_id": "step:c5b7ce36d25873ea",
         "agent": "evidence",
         "tool": "search_precedent",
         "reason": "code: precedent index search"
@@ -6032,7 +5988,7 @@
       "seq": 184,
       "type": "agent_decision",
       "payload": {
-        "step_id": "step:43626acfc6121682",
+        "step_id": "step:bb683066bf72887a",
         "agent": "evidence",
         "tool": "web_research",
         "reason": "code: web search"
@@ -6047,7 +6003,7 @@
       "seq": 185,
       "type": "tool_call",
       "payload": {
-        "tool_call_id": "tc:step:4422c019d61348de:physics_calc:ed75cad20da58b17",
+        "tool_call_id": "tc:step:0fd95822a03446a9:physics_calc:78d37907b9ecfbad",
         "tool": "physics_calc",
         "refused": false
       },
@@ -6061,8 +6017,8 @@
       "seq": 186,
       "type": "tool_call",
       "payload": {
-        "tool_call_id": "tc:step:4422c019d61348de:physics_calc:78d37907b9ecfbad",
-        "tool": "physics_calc",
+        "tool_call_id": "tc:step:c5b7ce36d25873ea:search_precedent:23e24c06772f8265",
+        "tool": "search_precedent",
         "refused": false
       },
       "time": "2026-10-13T10:05:44Z",
@@ -6075,8 +6031,8 @@
       "seq": 187,
       "type": "tool_call",
       "payload": {
-        "tool_call_id": "tc:step:f7725a37fa150d99:search_precedent:23e24c06772f8265",
-        "tool": "search_precedent",
+        "tool_call_id": "tc:step:bb683066bf72887a:web_research:5aa00cf474707f7c",
+        "tool": "web_research",
         "refused": false
       },
       "time": "2026-10-13T10:05:45Z",
@@ -6087,11 +6043,12 @@
     {
       "run_id": "run:eaf6f55e4d2a4a30",
       "seq": 188,
-      "type": "tool_call",
+      "type": "evidence_added",
       "payload": {
-        "tool_call_id": "tc:step:43626acfc6121682:web_research:5aa00cf474707f7c",
-        "tool": "web_research",
-        "refused": false
+        "evidence_id": "ev:f:m:S-MX-1:more:temperature:lightning:C01:a92ada9e786e565d:calculation:heat_up_rate-MX-1",
+        "target_id": "f:m:S-MX-1:more:temperature:lightning:C01:a92ada9e786e565d",
+        "kind": "calculation",
+        "verdict": "confirmed"
       },
       "time": "2026-10-13T10:05:46Z",
       "payload_schema": "v1.9",
@@ -6103,10 +6060,10 @@
       "seq": 189,
       "type": "evidence_added",
       "payload": {
-        "evidence_id": "ev:f:m:S-MX-1:more:temperature:lightning:C01:a92ada9e786e565d:calculation:blocked_in_heating-MX-1",
+        "evidence_id": "ev:f:m:S-MX-1:more:temperature:lightning:C01:a92ada9e786e565d:precedent:a23c17c7ec668ed7",
         "target_id": "f:m:S-MX-1:more:temperature:lightning:C01:a92ada9e786e565d",
-        "kind": "calculation",
-        "verdict": "none"
+        "kind": "precedent",
+        "verdict": "confirmed"
       },
       "time": "2026-10-13T10:05:47Z",
       "payload_schema": "v1.9",
@@ -6116,12 +6073,11 @@
     {
       "run_id": "run:eaf6f55e4d2a4a30",
       "seq": 190,
-      "type": "evidence_added",
+      "type": "step_finished",
       "payload": {
-        "evidence_id": "ev:f:m:S-MX-1:more:temperature:lightning:C01:a92ada9e786e565d:calculation:heat_up_rate-MX-1",
-        "target_id": "f:m:S-MX-1:more:temperature:lightning:C01:a92ada9e786e565d",
-        "kind": "calculation",
-        "verdict": "confirmed"
+        "step": "evidence",
+        "status": "running",
+        "next_step": "evidence"
       },
       "time": "2026-10-13T10:05:48Z",
       "payload_schema": "v1.9",
@@ -6131,12 +6087,9 @@
     {
       "run_id": "run:eaf6f55e4d2a4a30",
       "seq": 191,
-      "type": "evidence_added",
+      "type": "step_started",
       "payload": {
-        "evidence_id": "ev:f:m:S-MX-1:more:temperature:lightning:C01:a92ada9e786e565d:precedent:a23c17c7ec668ed7",
-        "target_id": "f:m:S-MX-1:more:temperature:lightning:C01:a92ada9e786e565d",
-        "kind": "precedent",
-        "verdict": "confirmed"
+        "step": "evidence"
       },
       "time": "2026-10-13T10:05:49Z",
       "payload_schema": "v1.9",
@@ -6146,32 +6099,6 @@
     {
       "run_id": "run:eaf6f55e4d2a4a30",
       "seq": 192,
-      "type": "step_finished",
-      "payload": {
-        "step": "evidence",
-        "status": "running",
-        "next_step": "evidence"
-      },
-      "time": "2026-10-13T10:05:50Z",
-      "payload_schema": "v1.9",
-      "payload_invalid": false,
-      "payload_error": null
-    },
-    {
-      "run_id": "run:eaf6f55e4d2a4a30",
-      "seq": 193,
-      "type": "step_started",
-      "payload": {
-        "step": "evidence"
-      },
-      "time": "2026-10-13T10:05:51Z",
-      "payload_schema": "v1.9",
-      "payload_invalid": false,
-      "payload_error": null
-    },
-    {
-      "run_id": "run:eaf6f55e4d2a4a30",
-      "seq": 194,
       "type": "model_call",
       "payload": {
         "model_call_id": "mc:0321edc9e80dfc4b",
@@ -6184,6 +6111,36 @@
         "tier": "super",
         "tier_source": "recorded"
       },
+      "time": "2026-10-13T10:05:53Z",
+      "payload_schema": "v1.9",
+      "payload_invalid": false,
+      "payload_error": null
+    },
+    {
+      "run_id": "run:eaf6f55e4d2a4a30",
+      "seq": 193,
+      "type": "agent_decision",
+      "payload": {
+        "step_id": "step:8b7f9dff639fdd4e",
+        "agent": "evidence",
+        "tool": "search_precedent",
+        "reason": "code: precedent index search"
+      },
+      "time": "2026-10-13T10:05:54Z",
+      "payload_schema": "v1.9",
+      "payload_invalid": false,
+      "payload_error": null
+    },
+    {
+      "run_id": "run:eaf6f55e4d2a4a30",
+      "seq": 194,
+      "type": "agent_decision",
+      "payload": {
+        "step_id": "step:0fec1cd6d5f8c046",
+        "agent": "evidence",
+        "tool": "web_research",
+        "reason": "code: web search"
+      },
       "time": "2026-10-13T10:05:55Z",
       "payload_schema": "v1.9",
       "payload_invalid": false,
@@ -6192,12 +6149,11 @@
     {
       "run_id": "run:eaf6f55e4d2a4a30",
       "seq": 195,
-      "type": "agent_decision",
+      "type": "tool_call",
       "payload": {
-        "step_id": "step:9fdd1ee4807b57a5",
-        "agent": "evidence",
-        "tool": "physics_calc",
-        "reason": "code: physics calculations for this line"
+        "tool_call_id": "tc:step:8b7f9dff639fdd4e:search_precedent:ad8c75f0fcffd297",
+        "tool": "search_precedent",
+        "refused": false
       },
       "time": "2026-10-13T10:05:56Z",
       "payload_schema": "v1.9",
@@ -6207,12 +6163,11 @@
     {
       "run_id": "run:eaf6f55e4d2a4a30",
       "seq": 196,
-      "type": "agent_decision",
+      "type": "tool_call",
       "payload": {
-        "step_id": "step:18064c3da77970ec",
-        "agent": "evidence",
-        "tool": "search_precedent",
-        "reason": "code: precedent index search"
+        "tool_call_id": "tc:step:0fec1cd6d5f8c046:web_research:e23133658d3363d0",
+        "tool": "web_research",
+        "refused": false
       },
       "time": "2026-10-13T10:05:57Z",
       "payload_schema": "v1.9",
@@ -6222,12 +6177,12 @@
     {
       "run_id": "run:eaf6f55e4d2a4a30",
       "seq": 197,
-      "type": "agent_decision",
+      "type": "evidence_added",
       "payload": {
-        "step_id": "step:afa6a814187b328f",
-        "agent": "evidence",
-        "tool": "web_research",
-        "reason": "code: web search"
+        "evidence_id": "ev:f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b:precedent:none",
+        "target_id": "f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b",
+        "kind": "precedent",
+        "verdict": "none"
       },
       "time": "2026-10-13T10:05:58Z",
       "payload_schema": "v1.9",
@@ -6237,11 +6192,11 @@
     {
       "run_id": "run:eaf6f55e4d2a4a30",
       "seq": 198,
-      "type": "tool_call",
+      "type": "step_finished",
       "payload": {
-        "tool_call_id": "tc:step:9fdd1ee4807b57a5:physics_calc:ed75cad20da58b17",
-        "tool": "physics_calc",
-        "refused": false
+        "step": "evidence",
+        "status": "running",
+        "next_step": "evidence"
       },
       "time": "2026-10-13T10:05:59Z",
       "payload_schema": "v1.9",
@@ -6251,11 +6206,9 @@
     {
       "run_id": "run:eaf6f55e4d2a4a30",
       "seq": 199,
-      "type": "tool_call",
+      "type": "step_started",
       "payload": {
-        "tool_call_id": "tc:step:18064c3da77970ec:search_precedent:ad8c75f0fcffd297",
-        "tool": "search_precedent",
-        "refused": false
+        "step": "evidence"
       },
       "time": "2026-10-13T10:06:00Z",
       "payload_schema": "v1.9",
@@ -6265,76 +6218,6 @@
     {
       "run_id": "run:eaf6f55e4d2a4a30",
       "seq": 200,
-      "type": "tool_call",
-      "payload": {
-        "tool_call_id": "tc:step:afa6a814187b328f:web_research:e23133658d3363d0",
-        "tool": "web_research",
-        "refused": false
-      },
-      "time": "2026-10-13T10:06:01Z",
-      "payload_schema": "v1.9",
-      "payload_invalid": false,
-      "payload_error": null
-    },
-    {
-      "run_id": "run:eaf6f55e4d2a4a30",
-      "seq": 201,
-      "type": "evidence_added",
-      "payload": {
-        "evidence_id": "ev:f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b:calculation:blocked_in_heating-MX-1",
-        "target_id": "f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b",
-        "kind": "calculation",
-        "verdict": "none"
-      },
-      "time": "2026-10-13T10:06:02Z",
-      "payload_schema": "v1.9",
-      "payload_invalid": false,
-      "payload_error": null
-    },
-    {
-      "run_id": "run:eaf6f55e4d2a4a30",
-      "seq": 202,
-      "type": "evidence_added",
-      "payload": {
-        "evidence_id": "ev:f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b:precedent:none",
-        "target_id": "f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b",
-        "kind": "precedent",
-        "verdict": "none"
-      },
-      "time": "2026-10-13T10:06:03Z",
-      "payload_schema": "v1.9",
-      "payload_invalid": false,
-      "payload_error": null
-    },
-    {
-      "run_id": "run:eaf6f55e4d2a4a30",
-      "seq": 203,
-      "type": "step_finished",
-      "payload": {
-        "step": "evidence",
-        "status": "running",
-        "next_step": "evidence"
-      },
-      "time": "2026-10-13T10:06:04Z",
-      "payload_schema": "v1.9",
-      "payload_invalid": false,
-      "payload_error": null
-    },
-    {
-      "run_id": "run:eaf6f55e4d2a4a30",
-      "seq": 204,
-      "type": "step_started",
-      "payload": {
-        "step": "evidence"
-      },
-      "time": "2026-10-13T10:06:05Z",
-      "payload_schema": "v1.9",
-      "payload_invalid": false,
-      "payload_error": null
-    },
-    {
-      "run_id": "run:eaf6f55e4d2a4a30",
-      "seq": 205,
       "type": "model_call",
       "payload": {
         "model_call_id": "mc:e29f6acd27e620a2",
@@ -6347,6 +6230,79 @@
         "tier": "super",
         "tier_source": "recorded"
       },
+      "time": "2026-10-13T10:06:04Z",
+      "payload_schema": "v1.9",
+      "payload_invalid": false,
+      "payload_error": null
+    },
+    {
+      "run_id": "run:eaf6f55e4d2a4a30",
+      "seq": 201,
+      "type": "agent_decision",
+      "payload": {
+        "step_id": "step:1470965e24a7551d",
+        "agent": "evidence",
+        "tool": "search_precedent",
+        "reason": "code: precedent index search"
+      },
+      "time": "2026-10-13T10:06:05Z",
+      "payload_schema": "v1.9",
+      "payload_invalid": false,
+      "payload_error": null
+    },
+    {
+      "run_id": "run:eaf6f55e4d2a4a30",
+      "seq": 202,
+      "type": "agent_decision",
+      "payload": {
+        "step_id": "step:310c438ea02a1c84",
+        "agent": "evidence",
+        "tool": "web_research",
+        "reason": "code: web search"
+      },
+      "time": "2026-10-13T10:06:06Z",
+      "payload_schema": "v1.9",
+      "payload_invalid": false,
+      "payload_error": null
+    },
+    {
+      "run_id": "run:eaf6f55e4d2a4a30",
+      "seq": 203,
+      "type": "tool_call",
+      "payload": {
+        "tool_call_id": "tc:step:1470965e24a7551d:search_precedent:06df157d01cbb52c",
+        "tool": "search_precedent",
+        "refused": false
+      },
+      "time": "2026-10-13T10:06:07Z",
+      "payload_schema": "v1.9",
+      "payload_invalid": false,
+      "payload_error": null
+    },
+    {
+      "run_id": "run:eaf6f55e4d2a4a30",
+      "seq": 204,
+      "type": "tool_call",
+      "payload": {
+        "tool_call_id": "tc:step:310c438ea02a1c84:web_research:ca3b598bbfb72981",
+        "tool": "web_research",
+        "refused": false
+      },
+      "time": "2026-10-13T10:06:08Z",
+      "payload_schema": "v1.9",
+      "payload_invalid": false,
+      "payload_error": null
+    },
+    {
+      "run_id": "run:eaf6f55e4d2a4a30",
+      "seq": 205,
+      "type": "evidence_added",
+      "payload": {
+        "evidence_id": "ev:f:m:S-L-12:reverse:flow:lightning:C20:2274a734f2fd0c60:precedent:none",
+        "target_id": "f:m:S-L-12:reverse:flow:lightning:C20:2274a734f2fd0c60",
+        "kind": "precedent",
+        "verdict": "none"
+      },
       "time": "2026-10-13T10:06:09Z",
       "payload_schema": "v1.9",
       "payload_invalid": false,
@@ -6355,12 +6311,11 @@
     {
       "run_id": "run:eaf6f55e4d2a4a30",
       "seq": 206,
-      "type": "agent_decision",
+      "type": "step_finished",
       "payload": {
-        "step_id": "step:726df4fd2c6ecb1d",
-        "agent": "evidence",
-        "tool": "search_precedent",
-        "reason": "code: precedent index search"
+        "step": "evidence",
+        "status": "running",
+        "next_step": "evidence"
       },
       "time": "2026-10-13T10:06:10Z",
       "payload_schema": "v1.9",
@@ -6370,12 +6325,9 @@
     {
       "run_id": "run:eaf6f55e4d2a4a30",
       "seq": 207,
-      "type": "agent_decision",
+      "type": "step_started",
       "payload": {
-        "step_id": "step:beca380ad0190ecf",
-        "agent": "evidence",
-        "tool": "web_research",
-        "reason": "code: web search"
+        "step": "evidence"
       },
       "time": "2026-10-13T10:06:11Z",
       "payload_schema": "v1.9",
@@ -6385,81 +6337,12 @@
     {
       "run_id": "run:eaf6f55e4d2a4a30",
       "seq": 208,
-      "type": "tool_call",
-      "payload": {
-        "tool_call_id": "tc:step:726df4fd2c6ecb1d:search_precedent:06df157d01cbb52c",
-        "tool": "search_precedent",
-        "refused": false
-      },
-      "time": "2026-10-13T10:06:12Z",
-      "payload_schema": "v1.9",
-      "payload_invalid": false,
-      "payload_error": null
-    },
-    {
-      "run_id": "run:eaf6f55e4d2a4a30",
-      "seq": 209,
-      "type": "tool_call",
-      "payload": {
-        "tool_call_id": "tc:step:beca380ad0190ecf:web_research:ca3b598bbfb72981",
-        "tool": "web_research",
-        "refused": false
-      },
-      "time": "2026-10-13T10:06:13Z",
-      "payload_schema": "v1.9",
-      "payload_invalid": false,
-      "payload_error": null
-    },
-    {
-      "run_id": "run:eaf6f55e4d2a4a30",
-      "seq": 210,
-      "type": "evidence_added",
-      "payload": {
-        "evidence_id": "ev:f:m:S-L-12:reverse:flow:lightning:C20:2274a734f2fd0c60:precedent:none",
-        "target_id": "f:m:S-L-12:reverse:flow:lightning:C20:2274a734f2fd0c60",
-        "kind": "precedent",
-        "verdict": "none"
-      },
-      "time": "2026-10-13T10:06:14Z",
-      "payload_schema": "v1.9",
-      "payload_invalid": false,
-      "payload_error": null
-    },
-    {
-      "run_id": "run:eaf6f55e4d2a4a30",
-      "seq": 211,
-      "type": "step_finished",
-      "payload": {
-        "step": "evidence",
-        "status": "running",
-        "next_step": "evidence"
-      },
-      "time": "2026-10-13T10:06:15Z",
-      "payload_schema": "v1.9",
-      "payload_invalid": false,
-      "payload_error": null
-    },
-    {
-      "run_id": "run:eaf6f55e4d2a4a30",
-      "seq": 212,
-      "type": "step_started",
-      "payload": {
-        "step": "evidence"
-      },
-      "time": "2026-10-13T10:06:16Z",
-      "payload_schema": "v1.9",
-      "payload_invalid": false,
-      "payload_error": null
-    },
-    {
-      "run_id": "run:eaf6f55e4d2a4a30",
-      "seq": 213,
       "type": "step_finished",
       "payload": {
         "evidence": "on",
         "lines": [
           "f:pair:KOH:SIH:lightning:C14:541f633168214c61",
-          "ch:f:pair:KOH:SIH:lightning:C14:541f633168214c61+f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b",
+          "ch:MX-1.contents+XV-STM.fail_position+f:pair:KOH:SIH:lightning:C14:541f633168214c61+f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b",
           "f:m:S-MX-1:more:temperature:lightning:C01:a92ada9e786e565d",
           "f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b",
           "f:m:S-L-12:reverse:flow:lightning:C20:2274a734f2fd0c60"
@@ -6496,45 +6379,45 @@
         "status": "running",
         "next_step": "ranked"
       },
-      "time": "2026-10-13T10:06:17Z",
+      "time": "2026-10-13T10:06:12Z",
       "payload_schema": "v1.9",
       "payload_invalid": false,
       "payload_error": null
     },
     {
       "run_id": "run:eaf6f55e4d2a4a30",
-      "seq": 214,
+      "seq": 209,
       "type": "step_started",
       "payload": {
         "step": "ranked"
       },
-      "time": "2026-10-13T10:06:18Z",
+      "time": "2026-10-13T10:06:13Z",
       "payload_schema": "v1.9",
       "payload_invalid": false,
       "payload_error": null
     },
     {
       "run_id": "run:eaf6f55e4d2a4a30",
-      "seq": 215,
+      "seq": 210,
       "type": "step_finished",
       "payload": {
         "step": "ranked",
         "status": "finished",
         "next_step": "ranked"
       },
-      "time": "2026-10-13T10:06:19Z",
+      "time": "2026-10-13T10:06:14Z",
       "payload_schema": "v1.9",
       "payload_invalid": false,
       "payload_error": null
     },
     {
       "run_id": "run:eaf6f55e4d2a4a30",
-      "seq": 216,
+      "seq": 211,
       "type": "run_finished",
       "payload": {
         "spent_usd": 0.005547
       },
-      "time": "2026-10-13T10:06:20Z",
+      "time": "2026-10-13T10:06:15Z",
       "payload_schema": "v1.9",
       "payload_invalid": false,
       "payload_error": null

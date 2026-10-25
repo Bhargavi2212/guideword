@@ -753,13 +753,15 @@ def _cards() -> dict[str, api.ShortlistItem]:
 
 
 def test_fixture_shortlist_pins_each_cards_flags() -> None:
-    """Each card's flags, written by hand (Bhargavi, 2026-10-24)."""
+    """Each card's flags, written by hand (Bhargavi, 2026-10-24). Under the attach rule (review
+    plan §0a, 2026-10-25) only the chain, which names MX-1 and its steam valve XV-STM, gets the
+    blocked-in check; `mx1` and `relief` reached MX-1 through section objects only."""
     flags = {name: card.flags for name, card in _cards().items()}
     assert flags == {
         "pair": [],
         "chain": [SKIPPED_BLOCKED_IN],
-        "mx1": [SKIPPED_BLOCKED_IN],
-        "relief": [SKIPPED_BLOCKED_IN],
+        "mx1": [],
+        "relief": [],
         "l12": ["incomplete LOPA: gap unknown"],
         "hypothesis": [
             "not confirmed by the checks — engineer to review",
@@ -921,9 +923,18 @@ def test_a_demo_response_may_name_its_start_line_and_an_older_one_names_none() -
 
 
 def test_every_shortlist_evidence_card_carries_its_via_ids() -> None:
+    """A calculation card is attached through links of its own line (review plan R1); a
+    precedent card through none."""
     items = _fixture("shortlist.json")["items"]
-    cards = [ev for item in items for ev in item["evidence"]]
-    assert cards and all(ev["via_ids"] == [] for ev in cards)
+    cards = [(item, ev) for item in items for ev in item["evidence"]]
+    assert cards
+    for item, ev in cards:
+        links = item["chain"]["links"] if item["chain"] else [item["target_id"]]
+        if ev["kind"] == "calculation":
+            assert ev["via_ids"] and set(ev["via_ids"]) <= set(links), ev["id"]
+        else:
+            assert ev["via_ids"] == []
+    cards = [ev for _, ev in cards]
     card = api.ShortlistEvidence.model_validate(cards[0] | {"via_ids": ["f:x"]})
     assert card.via_ids == ["f:x"]
     stored = {k: v for k, v in card.model_dump(mode="json").items() if k != "via_ids"}

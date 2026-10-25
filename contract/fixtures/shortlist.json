@@ -97,7 +97,7 @@
           "target_id": "f:pair:KOH:SIH:lightning:C14:541f633168214c61",
           "action": "Add a tote identity check before P-1 can start.",
           "reason": "The pair finding's gas is what PSV-1 vents.",
-          "model_call_id": "mc:95beb28b44d83e4e"
+          "model_call_id": "mc:61f5a62e02b0fd1f"
         }
       ],
       "tier": "confirmed",
@@ -155,18 +155,20 @@
     },
     {
       "rank": 2,
-      "target_id": "ch:f:pair:KOH:SIH:lightning:C14:541f633168214c61+f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b",
+      "target_id": "ch:MX-1.contents+XV-STM.fail_position+f:pair:KOH:SIH:lightning:C14:541f633168214c61+f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b",
       "target_kind": "chain",
       "gap": 100.00000000000001,
       "multi_failure": true,
       "unsure": true,
       "finding": null,
       "chain": {
-        "id": "ch:f:pair:KOH:SIH:lightning:C14:541f633168214c61+f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b",
+        "id": "ch:MX-1.contents+XV-STM.fail_position+f:pair:KOH:SIH:lightning:C14:541f633168214c61+f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b",
         "run_id": "run:eaf6f55e4d2a4a30",
         "links": [
           "f:pair:KOH:SIH:lightning:C14:541f633168214c61",
-          "f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b"
+          "f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b",
+          "MX-1.contents",
+          "XV-STM.fail_position"
         ],
         "description": "Wrong tote charged; the hydrogen it makes leaves by PSV-1 at the roof.",
         "reason": "The pair finding's gas is what PSV-1 vents.",
@@ -177,9 +179,9 @@
         "severity_reason": "The pair finding's gas is what PSV-1 vents."
       },
       "lopa": {
-        "id": "lopa:ch:f:pair:KOH:SIH:lightning:C14:541f633168214c61+f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b",
+        "id": "lopa:ch:MX-1.contents+XV-STM.fail_position+f:pair:KOH:SIH:lightning:C14:541f633168214c61+f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b",
         "run_id": "run:eaf6f55e4d2a4a30",
-        "target_id": "ch:f:pair:KOH:SIH:lightning:C14:541f633168214c61+f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b",
+        "target_id": "ch:MX-1.contents+XV-STM.fail_position+f:pair:KOH:SIH:lightning:C14:541f633168214c61+f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b",
         "severity_class": "S3",
         "complete": true,
         "missing_fact_ids": [],
@@ -210,7 +212,7 @@
         "mitigated_frequency_per_year": 0.010000000000000002,
         "tolerable_per_year": 0.0001,
         "gap": 100.00000000000001,
-        "model_call_id": "mc:9e2695727d480404",
+        "model_call_id": "mc:3f5929e5b9f0c8f8",
         "flags": [
           "task frequency assumed — engineer to confirm"
         ],
@@ -235,13 +237,13 @@
       },
       "evidence": [
         {
-          "id": "ev:ch:f:pair:KOH:SIH:lightning:C14:541f633168214c61+f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b:calculation:blocked_in_heating-MX-1",
+          "id": "ev:ch:MX-1.contents+XV-STM.fail_position+f:pair:KOH:SIH:lightning:C14:541f633168214c61+f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b:calculation:blocked_in_heating-MX-1",
           "run_id": "run:eaf6f55e4d2a4a30",
-          "target_id": "ch:f:pair:KOH:SIH:lightning:C14:541f633168214c61+f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b",
+          "target_id": "ch:MX-1.contents+XV-STM.fail_position+f:pair:KOH:SIH:lightning:C14:541f633168214c61+f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b",
           "kind": "calculation",
           "verdict": "none",
           "summary": "Blocked-in heating check on MX-1 skipped: missing L-STM.operating.temperature.normal, SIH.vapor_pressure_points, KOH.vapor_pressure_points",
-          "tool_call_id": "tc:step:b7c69f23ac6dbfda:physics_calc:ed75cad20da58b17",
+          "tool_call_id": "tc:step:598170dbe22cc558:physics_calc:ed75cad20da58b17",
           "fact_ids": [
             "HV-12.normal_position",
             "XV-STM.locked"
@@ -256,16 +258,18 @@
           "flags": [
             "pure-component vapour pressure; liquid-full thermal expansion not modelled; real pressure can be higher"
           ],
-          "via_ids": []
+          "via_ids": [
+            "XV-STM.fail_position"
+          ]
         },
         {
-          "id": "ev:ch:f:pair:KOH:SIH:lightning:C14:541f633168214c61+f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b:precedent:none",
+          "id": "ev:ch:MX-1.contents+XV-STM.fail_position+f:pair:KOH:SIH:lightning:C14:541f633168214c61+f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b:precedent:none",
           "run_id": "run:eaf6f55e4d2a4a30",
-          "target_id": "ch:f:pair:KOH:SIH:lightning:C14:541f633168214c61+f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b",
+          "target_id": "ch:MX-1.contents+XV-STM.fail_position+f:pair:KOH:SIH:lightning:C14:541f633168214c61+f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b",
           "kind": "precedent",
           "verdict": "none",
           "summary": "no matching precedent found",
-          "tool_call_id": "tc:step:5952f4bcc4a8a94b:search_precedent:08e1e368af7cdccd",
+          "tool_call_id": "tc:step:e38b0d5801913bba:search_precedent:08e1e368af7cdccd",
           "fact_ids": [],
           "sources": [],
           "model_call_id": "mc:ea559a4ae80db1ee",
@@ -276,12 +280,12 @@
       ],
       "recommendations": [
         {
-          "id": "rec:ch:f:pair:KOH:SIH:lightning:C14:541f633168214c61+f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b:90267bb6108708ed",
+          "id": "rec:ch:MX-1.contents+XV-STM.fail_position+f:pair:KOH:SIH:lightning:C14:541f633168214c61+f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b:90267bb6108708ed",
           "run_id": "run:eaf6f55e4d2a4a30",
-          "target_id": "ch:f:pair:KOH:SIH:lightning:C14:541f633168214c61+f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b",
+          "target_id": "ch:MX-1.contents+XV-STM.fail_position+f:pair:KOH:SIH:lightning:C14:541f633168214c61+f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b",
           "action": "Add a tote identity check before P-1 can start.",
           "reason": "The pair finding's gas is what PSV-1 vents.",
-          "model_call_id": "mc:95beb28b44d83e4e"
+          "model_call_id": "mc:61f5a62e02b0fd1f"
         }
       ],
       "tier": "confirmed",
@@ -357,7 +361,7 @@
         "mitigated_frequency_per_year": 0.010000000000000002,
         "tolerable_per_year": 0.001,
         "gap": 10.000000000000002,
-        "model_call_id": "mc:9e2695727d480404",
+        "model_call_id": "mc:3f5929e5b9f0c8f8",
         "flags": [],
         "modifiers_not_applied": [
           {
@@ -380,37 +384,13 @@
       },
       "evidence": [
         {
-          "id": "ev:f:m:S-MX-1:more:temperature:lightning:C01:a92ada9e786e565d:calculation:blocked_in_heating-MX-1",
-          "run_id": "run:eaf6f55e4d2a4a30",
-          "target_id": "f:m:S-MX-1:more:temperature:lightning:C01:a92ada9e786e565d",
-          "kind": "calculation",
-          "verdict": "none",
-          "summary": "Blocked-in heating check on MX-1 skipped: missing L-STM.operating.temperature.normal, SIH.vapor_pressure_points, KOH.vapor_pressure_points",
-          "tool_call_id": "tc:step:4422c019d61348de:physics_calc:ed75cad20da58b17",
-          "fact_ids": [
-            "HV-12.normal_position",
-            "XV-STM.locked"
-          ],
-          "sources": [],
-          "model_call_id": null,
-          "missing_fact_ids": [
-            "L-STM.operating.temperature.normal",
-            "SIH.vapor_pressure_points",
-            "KOH.vapor_pressure_points"
-          ],
-          "flags": [
-            "pure-component vapour pressure; liquid-full thermal expansion not modelled; real pressure can be higher"
-          ],
-          "via_ids": []
-        },
-        {
           "id": "ev:f:m:S-MX-1:more:temperature:lightning:C01:a92ada9e786e565d:calculation:heat_up_rate-MX-1",
           "run_id": "run:eaf6f55e4d2a4a30",
           "target_id": "f:m:S-MX-1:more:temperature:lightning:C01:a92ada9e786e565d",
           "kind": "calculation",
           "verdict": "confirmed",
           "summary": "Heat-up time: at its 500 kW duty, MX-1 heats from 25 °C to its 80 °C limit in about 28 minutes",
-          "tool_call_id": "tc:step:4422c019d61348de:physics_calc:78d37907b9ecfbad",
+          "tool_call_id": "tc:step:0fd95822a03446a9:physics_calc:78d37907b9ecfbad",
           "fact_ids": [
             "MX-1.heat_duty_kw",
             "MX-1.volume_m3",
@@ -423,7 +403,9 @@
           "model_call_id": null,
           "missing_fact_ids": [],
           "flags": [],
-          "via_ids": []
+          "via_ids": [
+            "f:m:S-MX-1:more:temperature:lightning:C01:a92ada9e786e565d"
+          ]
         },
         {
           "id": "ev:f:m:S-MX-1:more:temperature:lightning:C01:a92ada9e786e565d:precedent:a23c17c7ec668ed7",
@@ -432,7 +414,7 @@
           "kind": "precedent",
           "verdict": "confirmed",
           "summary": "web result: Mock precedent: a steam control valve stuck open overheated a batch mixer: Same mechanism (mock): a steam control valve stuck open.",
-          "tool_call_id": "tc:step:43626acfc6121682:web_research:5aa00cf474707f7c",
+          "tool_call_id": "tc:step:bb683066bf72887a:web_research:5aa00cf474707f7c",
           "fact_ids": [],
           "sources": [
             "Mock precedent: a steam control valve stuck open overheated a batch mixer",
@@ -451,7 +433,7 @@
           "target_id": "f:m:S-MX-1:more:temperature:lightning:C01:a92ada9e786e565d",
           "action": "Add a tote identity check before P-1 can start.",
           "reason": "The pair finding's gas is what PSV-1 vents.",
-          "model_call_id": "mc:95beb28b44d83e4e"
+          "model_call_id": "mc:61f5a62e02b0fd1f"
         }
       ],
       "tier": "also_found",
@@ -459,9 +441,7 @@
       "hypothesis_rank": null,
       "hypothesis": null,
       "support_finding_ids": [],
-      "flags": [
-        "evidence skipped: missing L-STM.operating.temperature.normal, SIH.vapor_pressure_points, KOH.vapor_pressure_points"
-      ],
+      "flags": [],
       "gap_text": "about 10× tolerable — mitigated about 1 in 100 years, tolerable about 1 in 1,000 years"
     },
     {
@@ -525,7 +505,7 @@
         "mitigated_frequency_per_year": 0.001,
         "tolerable_per_year": 0.0001,
         "gap": 10.0,
-        "model_call_id": "mc:9e2695727d480404",
+        "model_call_id": "mc:3f5929e5b9f0c8f8",
         "flags": [
           "frequency assumed — engineer to confirm"
         ],
@@ -550,37 +530,13 @@
       },
       "evidence": [
         {
-          "id": "ev:f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b:calculation:blocked_in_heating-MX-1",
-          "run_id": "run:eaf6f55e4d2a4a30",
-          "target_id": "f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b",
-          "kind": "calculation",
-          "verdict": "none",
-          "summary": "Blocked-in heating check on MX-1 skipped: missing L-STM.operating.temperature.normal, SIH.vapor_pressure_points, KOH.vapor_pressure_points",
-          "tool_call_id": "tc:step:9fdd1ee4807b57a5:physics_calc:ed75cad20da58b17",
-          "fact_ids": [
-            "HV-12.normal_position",
-            "XV-STM.locked"
-          ],
-          "sources": [],
-          "model_call_id": null,
-          "missing_fact_ids": [
-            "L-STM.operating.temperature.normal",
-            "SIH.vapor_pressure_points",
-            "KOH.vapor_pressure_points"
-          ],
-          "flags": [
-            "pure-component vapour pressure; liquid-full thermal expansion not modelled; real pressure can be higher"
-          ],
-          "via_ids": []
-        },
-        {
           "id": "ev:f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b:precedent:none",
           "run_id": "run:eaf6f55e4d2a4a30",
           "target_id": "f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b",
           "kind": "precedent",
           "verdict": "none",
           "summary": "no matching precedent found",
-          "tool_call_id": "tc:step:18064c3da77970ec:search_precedent:ad8c75f0fcffd297",
+          "tool_call_id": "tc:step:8b7f9dff639fdd4e:search_precedent:ad8c75f0fcffd297",
           "fact_ids": [],
           "sources": [],
           "model_call_id": "mc:0321edc9e80dfc4b",
@@ -596,7 +552,7 @@
           "target_id": "f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b",
           "action": "Add a tote identity check before P-1 can start.",
           "reason": "The pair finding's gas is what PSV-1 vents.",
-          "model_call_id": "mc:95beb28b44d83e4e"
+          "model_call_id": "mc:61f5a62e02b0fd1f"
         }
       ],
       "tier": "also_found",
@@ -604,9 +560,7 @@
       "hypothesis_rank": null,
       "hypothesis": null,
       "support_finding_ids": [],
-      "flags": [
-        "evidence skipped: missing L-STM.operating.temperature.normal, SIH.vapor_pressure_points, KOH.vapor_pressure_points"
-      ],
+      "flags": [],
       "gap_text": "about 10× tolerable — mitigated about 1 in 1,000 years, tolerable about 1 in 10,000 years"
     },
     {
@@ -682,7 +636,7 @@
           "kind": "precedent",
           "verdict": "none",
           "summary": "no matching precedent found",
-          "tool_call_id": "tc:step:726df4fd2c6ecb1d:search_precedent:06df157d01cbb52c",
+          "tool_call_id": "tc:step:1470965e24a7551d:search_precedent:06df157d01cbb52c",
           "fact_ids": [],
           "sources": [],
           "model_call_id": "mc:e29f6acd27e620a2",
