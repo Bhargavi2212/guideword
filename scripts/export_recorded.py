@@ -9,8 +9,8 @@ stored row of the run and of its plant is written, one JSON file per table, with
 to the copy only:
 
 - the run's label reads `recorded`, recorded at its last event, at the cost its ledger lines
-  give (the authority for runs stored before the 2026-10-22 fix), with a note when its records
-  fall under that (deploy plan §0.3);
+  give (the authority for runs recorded before the refused-retry fix, #103, merged 2026-10-23
+  01:32 EDT), with a note when its records fall under that (deploy plan §0.3);
 - the precedent judge's `reasoning_text` is left out: the model may have quoted a web page there,
   and the repo is public (§0.4). No response cache is exported, so no page text is;
 - nothing is written if a configured API key appears anywhere in the export.
@@ -56,7 +56,10 @@ def spend_note(*, stored_usd: float, ledger_usd: float) -> str | None:
     under = ledger_usd - stored_usd
     if under <= SPEND_TOLERANCE_USD or math.isclose(stored_usd, ledger_usd):
         return None
-    return f"record ${under:.4f} under ledger, run stored before the 2026-10-22 fix"
+    return (
+        f"record ${under:.4f} under ledger: run recorded on code before the refused-retry fix "
+        "(#103)"
+    )
 
 
 def _rows(store: Path, run_id: str) -> dict[str, list[dict[str, Any]]]:

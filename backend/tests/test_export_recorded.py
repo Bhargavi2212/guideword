@@ -98,7 +98,10 @@ def test_the_copy_is_labelled_recorded_with_the_ledger_cost_and_a_note(
 
 def test_a_record_under_its_ledger_gets_the_spend_note() -> None:
     note = export_recorded.spend_note(stored_usd=0.8882, ledger_usd=0.8965)
-    assert note == "record $0.0083 under ledger, run stored before the 2026-10-22 fix"
+    assert (
+        note
+        == "record $0.0083 under ledger: run recorded on code before the refused-retry fix (#103)"
+    )
     assert export_recorded.spend_note(stored_usd=0.5, ledger_usd=0.5) is None
 
 

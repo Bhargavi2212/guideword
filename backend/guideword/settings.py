@@ -20,3 +20,9 @@ class Settings(BaseSettings):
     guideword_mock: bool = False
     guideword_env: Literal["laptop", "hosted"] = "laptop"
     internal_advance_secret: SecretStr = SecretStr("")
+    # the deployed site (deploy plan D2): the recorded run's committed export, read into an
+    # in-memory store; the run `GET /demo` serves; the line its landing marks "start here".
+    # None of them has a default: unset, the API reads `database_url` and `/demo` is 501.
+    guideword_recorded_dir: str | None = None
+    guideword_demo_run_id: str | None = None
+    guideword_demo_target_id: str | None = None
