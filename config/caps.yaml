@@ -34,6 +34,10 @@ run:
     # Phase 4: Super judges a line's precedent candidates (plan PR 5b); at most 300
     # characters of reason per candidate
     precedent_judge: 6144
+    # Phase 6 (P6-13): outside any run, so not hashed (runs/case.py OUTSIDE_RUN_JOBS). The
+    # probe as 5A: Ultra's reasoning shares the output budget
+    probe: 8192
+    baseline_plain: 8192
   # questions per specialist call, by tier
   specialist_batch_size:
     # halved after case D dev run 2: Lightning answered questions twice, answered ones not in
@@ -118,6 +122,15 @@ evidence:
   overflow_confirm_minutes: 60
   heat_up_confirm_minutes: 60
   te_hours: 4
+
+# Phase 6 (spec P6-7; plan G3): the benchmark's caps and stop rule. Outside the run block, so
+# no value here is hashed into a run ID. A case starts only while the benchmark allowance has
+# stop_below_usd left: one run cap, one post cap and both baselines.
+benchmark:
+  run_cap_usd: 1.40
+  post_cap_usd: 0.30
+  baselines_usd: 0.05
+  stop_below_usd: 1.75
 
 # ranking enters Run.caps with the run block (R18). An outside-library cause whose
 # failing-component type has no library cause gets this frequency, flagged

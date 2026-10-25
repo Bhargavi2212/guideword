@@ -12,7 +12,7 @@ from pathlib import Path
 from typing import Annotated, Any, Literal
 
 import yaml
-from pydantic import BaseModel, ConfigDict, Field, ValidationError
+from pydantic import BaseModel, ConfigDict, Field, ValidationError, model_validator
 
 from guideword.schema.enums import BudgetUse, Environment, Tier
 
@@ -128,6 +128,25 @@ class EvidenceCaps(_Strict):
     te_hours: Positive
 
 
+class BenchmarkCaps(_Strict):
+    """Phase 6 (spec P6-7; plan G3): outside the `run:` block, so none is hashed into a run ID.
+    The stop rule is the sum of what one case can spend: a run cap, a post cap, both baselines."""
+
+    run_cap_usd: Positive
+    post_cap_usd: NonNegative
+    baselines_usd: NonNegative
+    stop_below_usd: Positive
+
+    @model_validator(mode="after")
+    def _stop_is_the_sum(self) -> "BenchmarkCaps":
+        whole = self.run_cap_usd + self.post_cap_usd + self.baselines_usd
+        if abs(self.stop_below_usd - whole) > 1e-9:
+            raise ValueError(
+                f"stop_below_usd must be run_cap_usd + post_cap_usd + baselines_usd ({whole})"
+            )
+        return self
+
+
 class GatewayCaps(_Strict):
     max_attempts: PositiveInt
     # the wait before each retry, so one fewer than max_attempts
@@ -157,6 +176,7 @@ class CapsConfig(_Strict):
     api_run_uses: Annotated[list[BudgetUse], Field(min_length=1)]
     ranking: RankingCaps
     evidence: EvidenceCaps
+    benchmark: BenchmarkCaps
     concurrency: dict[Tier, PositiveInt]
     gateway: GatewayCaps
 
