@@ -71,6 +71,11 @@ What remains:
 | G9 | P6-12, 6.1 | **Plant file names in the folder are unknown.** `docs/case-template.md` §3 gives the format, not the file names. | `heldout_verify` lists every file `SEALS.txt` names and classifies it by pattern: package `case_<letter>_*.md`, plant `case_<letter>*.json`, keys `keys/answer_keys.json`. Anything else is listed as "unclassified", by name only. The inventory never assumes a count. |
 | G10 | P6-1 | **The seal date evidence** is Bhargavi's to record ("the private repo's first commit date and hash, or the files' timestamps"). | `heldout_verify --seal-info` prints `SEALS.txt`'s own mtime and size, and nothing from inside any file, for her decisions row. The private repo's commit history is hers to read. |
 | G12 | §0 | **The spec on disk lacks the worktree rule** that G2 cites. | Before approval: `specs/phase-6.md` P6-2 and 6.4 updated to the worktree rule and `check_freeze_diff`, then committed with `bench/example_stats.json`. |
+| G13 | P6-3 step 2, 6.4 | **Nothing checks the plant files again at run time.** `bench/heldout-frozen.txt` is committed to `main` after the freeze tag, so the freeze worktree doesn't have it, and a plant file edited after freezing would run unnoticed. | The runner takes `--frozen`, required (the main checkout's `bench/heldout-frozen.txt`), and refuses a case whose plant file's SHA-256 differs from it. Test: one changed byte in a plant file is refused, naming the file only. |
+| G14 | P6-6 | **A capped run's partial shortlist must still be scored.** A run that stops at its analysis cap never runs the post steps. | The runner writes the capped run's `case_report` with its ranked findings (the R50 views it already has), and the auto-score reads them like any other. Test: a fake run stopped at its cap writes a ranked list, its status and its open-question count, and scores as a miss when nothing matches. |
+| G15 | P6-7, G2 | **The second-$25 clause can't reach a run after the freeze.** The runs read `config/caps.yaml` from the freeze worktree, and `check_freeze_diff` allows changes only under `backend/guideword/bench/` and `scripts/`, so a raised allowance merged to `main` later never applies. | **Question.** Recommend: the grant decision is made before `phase6-freeze` is tagged; if it lands later, nothing changes for Phase 6 (P6-7 already says "after the first run, nothing changes"). The alternative is letting `check_freeze_diff` also pass `caps.yaml`'s `uses:`, `environments:` and `benchmark:` blocks, which are hash-free. |
+| G16 | G2, CLAUDE.md §6 | **The worktree has no `.env`**, so the keys and `GLOBAL_BUDGET_USD` come only from the shell. | The documented steps set `$env:NEBIUS_API_KEY` in the session (as CLAUDE.md §6 already does), and the scripts refuse with "set NEBIUS_API_KEY" naming the setting, never a value. `GLOBAL_BUDGET_USD` stays at its default of 25 unless G15 raises it. |
+| G17 | #131 | **The plan merged on `main` (#131, at 4fbd661) is an older version.** The §0 answers, G1–G2c, G6 and the ledger fix were pushed to the branch after that merge. | A new PR from `phase-6/plan-revised` brings `main` up to this file. |
 | G11 | Dates | Oct 26: four PRs merged, then the freeze, the folder opened and plant files frozen. Oct 27: the runs. | Holds only if the spec and this plan are approved tonight (Oct 25). PR 2 carries the two prompts for review, which gates the freeze. |
 
 ## 3. Per item
@@ -123,7 +128,8 @@ What remains:
 
 - **Files:**
   - `backend/guideword/bench/runner.py` and `scripts/run_benchmark.py`. Their arguments are the
-    held-out folder, `--store`, `--ledger`, `--out` and `--phase 6`, none with a default.
+    held-out folder, `--store`, `--ledger`, `--frozen`, `--out` and `--phase 6`, none with a
+    default.
   - `backend/guideword/bench/freeze.py` (the checkout checks, G2a–G2c) and
     `scripts/check_freeze_diff.py` (G2).
   - `scripts/run_case.py`: `--use` gains `benchmark`.
@@ -144,6 +150,9 @@ What remains:
   - `test_a_dirty_tree_an_untagged_commit_and_main_are_refused` (G2c);
   - `test_a_package_imported_from_outside_the_checkout_is_refused` (G2b);
   - `test_the_ledger_must_be_given_outside_the_checkout_with_an_opening_balance` (G2a);
+  - `test_a_plant_file_that_differs_from_heldout_frozen_is_refused` (G13);
+  - `test_a_capped_run_writes_its_ranked_list_status_and_open_questions` (G14);
+  - `test_a_missing_key_setting_is_named_never_its_value` (G16);
   - `test_check_freeze_diff_passes_bench_and_scripts_only_and_refuses_api_and_export` (G2, on
     a synthetic git repo in `tmp_path`);
   - `test_run_case_use_benchmark_has_evidence_off` (acceptance 3).
@@ -196,15 +205,16 @@ blind) can be written alongside PR 3.
 
 Bhargavi's steps, in P6-3 order:
 1. Commit `bench/heldout-seals.txt` and the seal-date row (P6-1, G10).
-2. Review the two prompts in PR 2; merge PRs 1–4.
-3. Tag `phase6-freeze`.
-4. Run `heldout_verify.py`; fix any plant file per P6-12; commit `bench/heldout-frozen.txt`.
-   Then `git worktree add ..\guideword-freeze phase6-freeze`; every later step runs from there,
-   with `$env:PYTHONPATH` set to that worktree's `backend` and `scripts`, and
-   `--ledger D:\Hackathon\guideword\guideword\budget\ledger.jsonl`.
+2. Review the two prompts in PR 2; merge PRs 1–4; decide the second-$25 question (G15).
+3. Tag `phase6-freeze`, then `git worktree add ..\guideword-freeze phase6-freeze`. Every later
+   step runs from that worktree, with `$env:NEBIUS_API_KEY` set (G16), `$env:PYTHONPATH` set to
+   the worktree's `backend` and `scripts` (G2b), and
+   `--ledger D:\Hackathon\guideword\guideword\budget\ledger.jsonl` (G2a).
+4. Run `heldout_verify.py`; fix any plant file per P6-12; commit `bench/heldout-frozen.txt` in a small PR
+   to `main`, and pass it to the runner as `--frozen` (G13).
 5. Run `probe_heldout.py`, then `probe_judgement.py`, and fill the CSV (step 3b).
 6. Run `run_benchmark.py --store guideword-benchmark.db`; record the store's SHA-256 printed after
-   each step in the private repo.
+   each step in the private repo (G1).
 7. Run the auto-score.
 8. Grade blind; the second grader works from the packets.
 9. Run `heldout_results.py`.
