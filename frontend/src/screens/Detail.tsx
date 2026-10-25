@@ -8,6 +8,7 @@ import { ApiError, errorMessage, overrideBlockedReason } from "../api/client";
 import { useResource } from "../api/hooks";
 import type { Shortlist, ShortlistItem } from "../api/schema";
 import { useApp } from "../app/context";
+import { shownFlag } from "../model/evidence";
 import { leadText, severityOf } from "../model/shortlist";
 import { Chip } from "../ui/Chip";
 import { Flags } from "../ui/Flags";
@@ -87,7 +88,10 @@ export function Detail({ runId, targetId }: Props) {
         {kindTitle(item)} <Traced id={item.target_id}>#{item.rank}</Traced>
       </h2>
       <What item={item} />
-      <Flags flags={item.flags ?? []} traceId={item.target_id} />
+      <Flags
+        flags={(item.flags ?? []).map(shownFlag)}
+        traceId={item.target_id}
+      />
       {(item.support_finding_ids ?? []).length > 0 ? (
         <section>
           <h3 id="support-title">Supporting findings</h3>

@@ -12,8 +12,9 @@ when no evidence tools were given (a test or replay that doesn't ask for them). 
 records why and moves on with no call.
 
 **Per line**, one agent step per tool used (agent `evidence`):
-1. `physics_calc`: each calculation `physics.applicable` gives the line, one card per
-   equipment; the raw value goes in the tool call's result, the card text in the summary.
+1. `physics_calc`: each calculation `physics.applicable` gives the line (the attachment rule,
+   review plan §0a), one card per equipment; the raw value goes in the tool call's result, the
+   card text in the summary.
 2. `search_precedent`: the local index, minus the plant's block terms, ranked by BM25 against a
    query built by code from the line.
 3. `web_research` (Q15): one Tavily search on the top line always, its results judged with the
@@ -274,11 +275,19 @@ class EvidenceStepper:
         terms = block.terms if block is not None else ()
         pending = _Pending(writer, run.id, target)
 
-        # 1. physics, pure code
-        cards = physics.applicable(links, self.plant)
+        # 1. physics, pure code: the line's links in its order, fact links too (review plan §0a)
+        chain = item.planned.chain
+        cards = physics.applicable(
+            physics.line_links(
+                chain.links if chain is not None else [target],
+                findings,
+                lambda f: section_for(f, questions, sections),
+            ),
+            self.plant,
+        )
         if cards:
             step = pending.step(AgentTool.PHYSICS_CALC, "code: physics calculations for this line")
-            for calculation, equipment_id in cards:
+            for calculation, equipment_id, _ in cards:
                 result = self._calculate(run, calculation, equipment_id)
                 arguments = {"calculation": str(calculation), "equipment_id": equipment_id}
                 calc_call = ids.tool_call_id(step.id, AgentTool.PHYSICS_CALC, arguments)

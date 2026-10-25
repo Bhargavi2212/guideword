@@ -13,8 +13,8 @@ export function Flags({
   if (flags.length === 0) return null;
   return (
     <ul className="flags">
-      {flags.map((flag) => (
-        <li key={flag}>
+      {flags.map((flag, n) => (
+        <li key={`${n}:${flag}`}>
           {traceId === undefined ? flag : <Traced id={traceId}>{flag}</Traced>}
         </li>
       ))}

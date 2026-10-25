@@ -50,13 +50,12 @@
       "recommendation": "Add a tote identity check before P-1 can start.",
       "action_owner": null,
       "origin": "matrix",
-      "evidence": "calculation: none — Blocked-in heating check on MX-1 skipped: missing L-STM.operating.temperature.normal, SIH.vapor_pressure_points, KOH.vapor_pressure_points; calculation: confirmed — Heat-up time: at its 500 kW duty, MX-1 heats from 25 °C to its 80 °C limit in about 28 minutes; precedent: confirmed — web result: Mock precedent: a steam control valve stuck open overheated a batch mixer: Same mechanism (mock): a steam control valve stuck open.",
+      "evidence": "calculation: confirmed — Heat-up time: at its 500 kW duty, MX-1 heats from 25 °C to its 80 °C limit in about 28 minutes; precedent: confirmed — web result: Mock precedent: a steam control valve stuck open overheated a batch mixer: Same mechanism (mock): a steam control valve stuck open.",
       "status": "answered",
       "record_ids": [
         "f:m:S-MX-1:more:temperature:lightning:C01:a92ada9e786e565d",
         "lopa:f:m:S-MX-1:more:temperature:lightning:C01:a92ada9e786e565d",
         "rec:f:m:S-MX-1:more:temperature:lightning:C01:a92ada9e786e565d:90267bb6108708ed",
-        "ev:f:m:S-MX-1:more:temperature:lightning:C01:a92ada9e786e565d:calculation:blocked_in_heating-MX-1",
         "ev:f:m:S-MX-1:more:temperature:lightning:C01:a92ada9e786e565d:calculation:heat_up_rate-MX-1",
         "ev:f:m:S-MX-1:more:temperature:lightning:C01:a92ada9e786e565d:precedent:a23c17c7ec668ed7"
       ],
@@ -79,13 +78,12 @@
       "recommendation": "Add a tote identity check before P-1 can start. (scenario)",
       "action_owner": null,
       "origin": "cross_list",
-      "evidence": "calculation: none — Blocked-in heating check on MX-1 skipped: missing L-STM.operating.temperature.normal, SIH.vapor_pressure_points, KOH.vapor_pressure_points; precedent: none — no matching precedent found (scenario)",
+      "evidence": "precedent: none — no matching precedent found (scenario)",
       "status": "answered (unsure)",
       "record_ids": [
         "f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b",
         "lopa:f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b",
         "rec:f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b:90267bb6108708ed",
-        "ev:f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b:calculation:blocked_in_heating-MX-1",
         "ev:f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b:precedent:none"
       ],
       "override_state": "none"
@@ -107,13 +105,12 @@
       "recommendation": "Add a tote identity check before P-1 can start. (scenario)",
       "action_owner": null,
       "origin": "cross_list",
-      "evidence": "calculation: none — Blocked-in heating check on MX-1 skipped: missing L-STM.operating.temperature.normal, SIH.vapor_pressure_points, KOH.vapor_pressure_points; precedent: none — no matching precedent found (scenario)",
+      "evidence": "precedent: none — no matching precedent found (scenario)",
       "status": "answered",
       "record_ids": [
         "f:relief:PSV-1:ultra:c3a972fb3946b3f6:f222cda333ff2d9b",
         "lopa:f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b",
         "rec:f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b:90267bb6108708ed",
-        "ev:f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b:calculation:blocked_in_heating-MX-1",
         "ev:f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b:precedent:none",
         "ov:f:relief:PSV-1:ultra:c3a972fb3946b3f6:f222cda333ff2d9b:62a5457b855d76a7"
       ],

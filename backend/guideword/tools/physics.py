@@ -19,9 +19,9 @@ come from caps.yaml's `evidence:` block, through the caller.
 """
 
 import math
-from collections.abc import Iterable, Sequence
+from collections.abc import Callable, Iterable, Mapping, Sequence
 from dataclasses import dataclass, field
-from typing import Any
+from typing import Any, NamedTuple
 
 from guideword.review.display import calc_text
 from guideword.schema.enums import (
@@ -33,7 +33,7 @@ from guideword.schema.enums import (
     Verdict,
 )
 from guideword.schema.ids import calculation_evidence_id, parse_question_id
-from guideword.schema.plant import Chemical, Equipment, Line, Operating, Plant, Valve
+from guideword.schema.plant import Chemical, Equipment, Line, Operating, Plant, ProcedureStep, Valve
 from guideword.schema.plant import VaporPressurePoint as Point
 from guideword.schema.records import Evidence, Finding, Section
 
@@ -594,31 +594,106 @@ def heat_up_rate(equipment_id: str, plant: Plant, confirm_minutes: float) -> Cal
 
 # --- which calculations a line gets --------------------------------------------------------------
 
+# one of a line's links, in the line's order: a finding with its section, or a fact link
+Link = tuple[Finding, Section | None] | str
 
-def applicable(
-    links: Sequence[tuple[Finding, Section | None]], plant: Plant
-) -> list[tuple[Calculation, str]]:
-    """The (calculation, equipment ID) cards for a line: its findings (a chain's finding
-    links), each with its section. One card per pair, whichever rule reached it, in the order
-    of `Calculation` then equipment ID.
 
-    - A matrix finding on `more:pressure`, `more:level` or `more:temperature` brings its
-      calculation on each equipment item of its section.
-    - Every scenario object (section objects and failing components) that is equipment with a
-      design pressure and a heat source brings `blocked_in_heating` (Q1).
+class Card(NamedTuple):
+    """A calculation a line gets, on one equipment item, and the line's links that brought it
+    (contract v1.11 `via_ids`), in the line's order."""
+
+    calculation: Calculation
+    equipment_id: str
+    via_ids: tuple[str, ...]
+
+
+def line_links(
+    link_ids: Sequence[str],
+    findings: Mapping[str, Finding],
+    section_of: Callable[[Finding], Section | None],
+) -> list[Link]:
+    """A line's links as `applicable` reads them: a chain's links (or a finding line's own ID)
+    in stored order, each finding with its section; an ID that isn't a finding is a fact link."""
+    return [(findings[i], section_of(findings[i])) if i in findings else i for i in link_ids]
+
+
+def _link_id(link: Link) -> str:
+    return link if isinstance(link, str) else link[0].id
+
+
+def _named(link: Link, steps: Mapping[str, ProcedureStep]) -> set[str]:
+    """What a link names itself (review plan §0a): a finding its failing components, a fact
+    link its object; a step among them, its equipment and valves too. Never section objects."""
+    named = {link.split(".", 1)[0]} if isinstance(link, str) else set(link[0].failing_component_ids)
+    for object_id in list(named):
+        step = steps.get(object_id)
+        if step is not None:
+            named |= set(step.equipment_ids) | set(step.valve_ids)
+    return named
+
+
+def mechanism_inputs(equipment: Equipment, plant: Plant) -> set[str]:
+    """What the blocked-in check reads to block a vessel in and heat it (review plan §0a): its
+    heat sources' isolating valves, the valves on its process-side lines, and the procedure
+    steps that operate any of them."""
+    heat = _isolating_valves(equipment)
+    valve_ids = {v.id for v in plant.valves}
+    process = {
+        component
+        for line in plant.lines
+        if equipment.id in (line.from_id, line.to_id) and not heat & set(line.components)
+        for component in line.components
+        if component in valve_ids
+    }
+    valves = heat | process
+    steps = {
+        step.id
+        for procedure in plant.procedures
+        for step in procedure.steps
+        if valves & set(step.valve_ids)
+    }
+    return valves | steps
+
+
+def applicable(links: Sequence[Link], plant: Plant) -> list[Card]:
+    """The calculation cards a line gets, from its links in the line's order. One card per
+    (calculation, equipment), whichever rule reached it, in the order of `Calculation` then
+    equipment ID; its `via_ids` are every link that brought it, in the line's order.
+
+    - **The matrix rule** (Phase 4 Q1, unchanged; review plan Q4): a matrix finding on
+      `more:pressure`, `more:level` or `more:temperature` brings its calculation on each
+      equipment item of its section.
+    - **The blocked-in rule** (review plan §0a, approved 2026-10-25): equipment with a design
+      pressure and a heat source gets `blocked_in_heating` when the line names it and names at
+      least one of its `mechanism_inputs`; the card is attached through the links naming an
+      input.
     """
     equipment = {e.id: e for e in plant.equipment}
-    cards: set[tuple[Calculation, str]] = set()
-    for found, section in links:
-        objects = set(found.failing_component_ids) | set(section.object_ids if section else ())
+    steps = {s.id: s for p in plant.procedures for s in p.steps}
+    order = {_link_id(link): n for n, link in enumerate(links)}
+    via: dict[tuple[Calculation, str], set[str]] = {}
+    for link in links:
+        if isinstance(link, str):
+            continue
+        found, section = link
         parsed = parse_question_id(found.question_id)
         if parsed.kind == QuestionKind.MATRIX and section is not None:
             _, guideword, parameter = parsed.parts
             calc = _BY_QUESTION.get((guideword, parameter))
             if calc is not None:
-                cards |= {(calc, o) for o in section.object_ids if o in equipment}
-        for object_id in objects:
-            item = equipment.get(object_id)
-            if item is not None and item.design_pressure_kpa is not None and item.heat_sources:
-                cards.add((Calculation.BLOCKED_IN_HEATING, object_id))
-    return sorted(cards, key=lambda card: (_ORDER.index(card[0]), card[1]))
+                for object_id in section.object_ids:
+                    if object_id in equipment:
+                        via.setdefault((calc, object_id), set()).add(found.id)
+    named = [(_link_id(link), _named(link, steps)) for link in links]
+    everything = set().union(*(objects for _, objects in named)) if named else set()
+    for item in plant.equipment:
+        if item.design_pressure_kpa is None or not item.heat_sources or item.id not in everything:
+            continue
+        inputs = mechanism_inputs(item, plant)
+        through = {link_id for link_id, objects in named if objects & inputs}
+        if through:
+            via.setdefault((Calculation.BLOCKED_IN_HEATING, item.id), set()).update(through)
+    return [
+        Card(calc, equipment_id, tuple(sorted(via[(calc, equipment_id)], key=order.__getitem__)))
+        for calc, equipment_id in sorted(via, key=lambda key: (_ORDER.index(key[0]), key[1]))
+    ]

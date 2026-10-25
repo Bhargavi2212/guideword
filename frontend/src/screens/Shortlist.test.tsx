@@ -8,6 +8,7 @@ import { AppProvider } from "../app/context";
 import { buildHash } from "../app/router";
 import { fakeFetch } from "../test/fakeFetch";
 import { fixture } from "../test/fixtures";
+import { isSkipped, shownFlag, skippedLine } from "../model/evidence";
 import { must } from "../test/must";
 import { Shortlist } from "./Shortlist";
 
@@ -56,14 +57,16 @@ describe("Shortlist (spec 5.1)", () => {
     expect(shown).toEqual(served);
   });
 
-  it("shows every flag verbatim on its card", async () => {
+  it("shows every flag verbatim on its card, the evidence-skipped flag as its count", async () => {
     await shortlist();
     for (const item of data.items) {
       const flags = within(card(item.target_id))
         .queryAllByRole("listitem")
         .filter((li) => li.closest(".flags") !== null)
         .map((li) => li.textContent);
-      expect(flags).toEqual(item.flags ?? []);
+      expect(flags).toEqual((item.flags ?? []).map(shownFlag));
+      for (const flag of item.flags ?? [])
+        if (!flag.startsWith("evidence skipped")) expect(flags).toContain(flag);
     }
   });
 
@@ -82,9 +85,40 @@ describe("Shortlist (spec 5.1)", () => {
       const chips = card(item.target_id).querySelectorAll(".chip-verdict");
       const evidence = (item.evidence ?? []).slice(0, 3);
       expect(chips.length).toBe(evidence.length);
-      for (const e of evidence)
+      for (const e of evidence.filter((x) => !isSkipped(x)))
         expect(card(item.target_id).textContent).toContain(e.summary);
     }
+  });
+
+  it("shows a skipped calculation as one line, not its list of facts", async () => {
+    await shortlist();
+    const lines = data.items.filter((i) =>
+      (i.evidence ?? []).slice(0, 3).some(isSkipped),
+    );
+    expect(lines.length).toBeGreaterThan(0);
+    for (const item of lines) {
+      const text = card(item.target_id).textContent;
+      for (const e of (item.evidence ?? []).slice(0, 3).filter(isSkipped)) {
+        expect(text).toContain(skippedLine(e));
+        expect(text).not.toContain(e.summary);
+      }
+    }
+  });
+
+  it("gives the evidence-skipped flag as a count, with the facts left to the card", async () => {
+    await shortlist();
+    const flagged = must(
+      data.items.find((i) =>
+        (i.flags ?? []).some((f) => f.startsWith("evidence skipped")),
+      ),
+    );
+    const flags = within(card(flagged.target_id)).getAllByRole("listitem");
+    const skip = must(
+      flags.find((f) => f.textContent.startsWith("evidence skipped")),
+    );
+    expect(skip.textContent).toMatch(
+      /^evidence skipped: \d+ plant facts? missing$/,
+    );
   });
 
   it("names the hypothesis rank on a confirmed card and flags an unconfirmed one", async () => {
@@ -168,6 +202,20 @@ describe("the demo moment's card (deploy plan D3)", () => {
       await within(card(chain.target_id)).findByText("start here"),
     ).toBeDefined();
     expect(screen.getAllByText("start here")).toHaveLength(1);
+  });
+
+  it("is scrolled into view when the shortlist opens", async () => {
+    const scrolled: Element[] = [];
+    const spy = vi
+      .spyOn(Element.prototype, "scrollIntoView")
+      .mockImplementation(function (this: Element) {
+        scrolled.push(this);
+      });
+    const chain = must(data.items.find((i) => i.target_kind === "chain"));
+    await withDemo(chain.target_id);
+    await within(card(chain.target_id)).findByText("start here");
+    expect(scrolled).toEqual([card(chain.target_id)]);
+    spy.mockRestore();
   });
 
   it("is not marked when the demo names none", async () => {

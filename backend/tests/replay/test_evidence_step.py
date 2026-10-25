@@ -6,6 +6,7 @@ The run harness is the Phase 3 one (`test_post_analysis`), driven with evidence 
 
 import importlib.util
 import json
+import zlib
 from collections.abc import Callable
 from pathlib import Path
 from typing import Any
@@ -448,8 +449,10 @@ def test_the_judge_sees_handles_and_its_count_never_ids_or_batch(
 
 
 def mixer_lines(script: pa.Script) -> pa.Script:
-    """The S-MX-1 questions get their own cause, so they form their own line, whose scenario
-    objects hold MX-1 (design pressure, a steam heat source): it gets blocked_in_heating."""
+    """Each S-MX-1 question gets its own cause, so it forms its own line. The matrix rule then
+    brings each `more:` line its calculation on MX-1 (design pressure, a steam heat source):
+    `more:pressure` gets blocked_in_heating. (The findings fail the building, so the blocked-in
+    rule of review plan §0a, which needs the line to name MX-1 and a valve, never applies.)"""
 
     def wrapped(job: str, request: dict[str, Any]) -> Reply:
         answer = script(job, request)
@@ -459,7 +462,9 @@ def mixer_lines(script: pa.Script) -> pa.Script:
         for item in data.get("answers", []):
             if item["question_id"].startswith("m:S-MX-1:"):
                 for found in item["findings"]:
-                    found["cause_text"] = "outside 99"  # its own group (severity reads the number)
+                    # its own group, one per question: severity reads the last word as a
+                    # number, so each question's is a stable number of its own
+                    found["cause_text"] = f"outside {zlib.crc32(item['question_id'].encode())}"
         return reply(data)
 
     return wrapped

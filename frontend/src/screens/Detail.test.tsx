@@ -9,6 +9,7 @@ import { Shell } from "../app/Shell";
 import { fakeFetch, type FakeResponse } from "../test/fakeFetch";
 import { fixture } from "../test/fixtures";
 import demoJson from "../test/fixtures/wg_demo_item.json";
+import { calculationOf, isSkipped, skippedLine } from "../model/evidence";
 import { must } from "../test/must";
 import { Detail } from "./Detail";
 
@@ -115,11 +116,49 @@ describe("Detail (spec 5.2)", () => {
     ).toEqual(lopa.missing_fact_ids);
   });
 
+  it("names the equipment each calculation card is on", async () => {
+    const mx1 = item("f:m:S-MX-1:more:temperature:");
+    mockDetail("f:m:S-MX-1:more:temperature:");
+    const cards = await screen.findAllByRole("article");
+    const calcs = (mx1.evidence ?? []).filter((e) => e.kind === "calculation");
+    expect(calcs.length).toBeGreaterThan(0);
+    for (const e of calcs) {
+      const card = must(
+        cards.find((c) => c.getAttribute("data-evidence-id") === e.id),
+      );
+      expect(card.querySelector(".kind")?.textContent).toBe(
+        `calculation on ${must(calculationOf(e)).equipment_id}`,
+      );
+    }
+  });
+
+  it("shows a skipped calculation as one line, its missing facts traced when opened", async () => {
+    // the mock's skipped blocked-in check is on its chain, which names MX-1 and XV-STM
+    const chain = item("ch:");
+    mockDetail("ch:");
+    const cards = await screen.findAllByRole("article");
+    const skipped = (chain.evidence ?? []).filter(isSkipped);
+    expect(skipped.length).toBeGreaterThan(0);
+    for (const e of skipped) {
+      const card = must(
+        cards.find((c) => c.getAttribute("data-evidence-id") === e.id),
+      );
+      expect(card.querySelector("summary")?.textContent).toBe(skippedLine(e));
+      expect(card.textContent).not.toContain(e.summary);
+      const missing = within(card).getByRole("list", { name: "Missing facts" });
+      expect(
+        within(missing)
+          .getAllByRole("button")
+          .map((b) => b.getAttribute("data-record-id")),
+      ).toEqual(e.missing_fact_ids);
+    }
+  });
+
   it("shows each evidence summary verbatim, its facts traced, its sources in a new tab", async () => {
     const mx1 = item("f:m:S-MX-1:more:temperature:");
     mockDetail("f:m:S-MX-1:more:temperature:");
     const cards = await screen.findAllByRole("article");
-    for (const e of mx1.evidence ?? []) {
+    for (const e of (mx1.evidence ?? []).filter((x) => !isSkipped(x))) {
       const card = must(
         cards.find((c) => c.getAttribute("data-evidence-id") === e.id),
       );

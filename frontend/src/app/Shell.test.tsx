@@ -1,4 +1,4 @@
-import { act, fireEvent, render, screen } from "@testing-library/react";
+import { act, fireEvent, render, screen, within } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
 import budget from "../../../contract/fixtures/budget.json";
@@ -145,5 +145,45 @@ describe("the spend note (deploy plan §0.3)", () => {
     expect(
       shown.closest("[data-record-id]")?.getAttribute("data-record-id"),
     ).toBe(RUN);
+  });
+});
+
+describe("a recorded run (Bhargavi's review, 2026-10-25)", () => {
+  function recorded() {
+    const shown = { ...detail, label: { ...detail.label, kind: "recorded" } };
+    const fake = fakeFetch({
+      "/plants": { body: plants },
+      "/runs": { body: runs },
+      [`/runs/${encodeURIComponent(RUN)}`]: { body: shown },
+      "/budget": { body: fixture<Budget>(budget) },
+    });
+    render(
+      <AppProvider client={new ApiClient("", fake.impl)}>
+        <Shell route={{ name: "shortlist", runId: RUN }}>
+          <p>screen</p>
+        </Shell>
+      </AppProvider>,
+    );
+  }
+
+  it("hides the phase budget, the engineer's name and the plant status", async () => {
+    recorded();
+    await screen.findByRole("status");
+    const plantSelect = await screen.findByLabelText("Plant");
+    await within(plantSelect).findByText(must(plants.plants[0]).plant_id);
+    expect(screen.queryByLabelText("Budget")).toBeNull();
+    expect(screen.queryByLabelText("Engineer")).toBeNull();
+    for (const p of plants.plants)
+      expect(plantSelect.textContent).not.toContain(`(${p.status})`);
+  });
+
+  it("still shows them on a mock run", async () => {
+    shell();
+    await screen.findByLabelText("Budget");
+    expect(screen.getByLabelText("Engineer")).toBeDefined();
+    const first = must(plants.plants[0]);
+    await within(screen.getByLabelText("Plant")).findByText(
+      `${first.plant_id} (${first.status})`,
+    );
   });
 });
