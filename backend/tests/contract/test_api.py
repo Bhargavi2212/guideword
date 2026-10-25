@@ -864,9 +864,14 @@ def test_superseded_kinds_include_evidence_tool_call_and_agent_step() -> None:
         api.SupersededRecord(kind=kind, pass_seq=1, superseded_seq=2, record={})
 
 
+def _stored(card: dict[str, Any]) -> dict[str, Any]:
+    """A shortlist evidence card as stored: without `via_ids`, computed on read (v1.11)."""
+    return {k: v for k, v in card.items() if k != "via_ids"}
+
+
 def _mock_evidence() -> list[dict[str, Any]]:
     items = _fixture("shortlist.json")["items"]
-    return [ev for item in items for ev in item["evidence"]]
+    return [_stored(ev) for item in items for ev in item["evidence"]]
 
 
 def test_mock_evidence_shows_each_kind_and_verdict() -> None:
@@ -897,7 +902,7 @@ def test_mock_evidence_agrees_across_fixtures() -> None:
     dump = {ev["id"]: ev for ev in _fixture("run_dump.json")["evidence"]}
     assert dump == shortlist
     demo = _fixture("demo_response.json")["shortlist"]["items"]
-    assert {ev["id"]: ev for item in demo for ev in item["evidence"]} == shortlist
+    assert {ev["id"]: _stored(ev) for item in demo for ev in item["evidence"]} == shortlist
 
 
 # --- contract v1.10: the demo landing's start line (deploy plan D0) -----------------------------
@@ -910,3 +915,41 @@ def test_a_demo_response_may_name_its_start_line_and_an_older_one_names_none() -
     target = demo["shortlist"]["items"][0]["target_id"]
     named = api.DemoResponse.model_validate(old | {"start_target_id": target})
     assert named.start_target_id == target
+
+
+# --- contract v1.11: via, severity definitions, the demo's runs (review plan R0) ----------------
+
+
+def test_every_shortlist_evidence_card_carries_its_via_ids() -> None:
+    items = _fixture("shortlist.json")["items"]
+    cards = [ev for item in items for ev in item["evidence"]]
+    assert cards and all(ev["via_ids"] == [] for ev in cards)
+    card = api.ShortlistEvidence.model_validate(cards[0] | {"via_ids": ["f:x"]})
+    assert card.via_ids == ["f:x"]
+    stored = {k: v for k, v in card.model_dump(mode="json").items() if k != "via_ids"}
+    assert Evidence.model_validate(stored).id == card.id
+    assert "via_ids" not in Evidence.model_fields
+
+
+def test_the_shortlist_serves_the_severity_classes_from_the_reference_table() -> None:
+    from guideword.reference import load_reference_set
+
+    served = _fixture("shortlist.json")["severity_classes"]
+    table = load_reference_set().severity_classes
+    assert served == [
+        {"severity_class": r.severity_class.value, "name": r.name, "definition": r.definition}
+        for r in table
+    ]
+
+
+def test_the_demo_response_lists_its_runs_with_their_banners() -> None:
+    demo = _fixture("demo_response.json")
+    parsed = api.DemoResponse.model_validate(demo)
+    assert [r.run_id for r in parsed.runs] == [parsed.run.run.id]
+    first = parsed.runs[0]
+    assert first.plant_id == parsed.plant.plant_id
+    assert first.start_target_id == parsed.start_target_id
+    with pytest.raises(ValidationError):
+        api.DemoResponse.model_validate({k: v for k, v in demo.items() if k != "runs"})
+    with pytest.raises(ValidationError):
+        api.DemoRun.model_validate({"run_id": "run:x", "plant_id": "p", "extra": 1})

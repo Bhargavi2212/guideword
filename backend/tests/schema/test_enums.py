@@ -199,6 +199,7 @@ EXPECTED: list[tuple[type[StrEnum], set[str]]] = [
             "hypothesis_added",
             "hypothesis_dropped",
             "run_extended",
+            "calculations_reattached",
         },
     ),
     (e.ShortlistTier, {"confirmed", "also_found", "unconfirmed"}),

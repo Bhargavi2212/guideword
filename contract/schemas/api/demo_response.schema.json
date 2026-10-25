@@ -137,38 +137,11 @@
       "title": "Confidence",
       "type": "string"
     },
-    "Evidence": {
+    "DemoRun": {
       "additionalProperties": false,
+      "description": "A run the site's plant picker offers (contract v1.11, review plan R0): its banner as\nBhargavi wrote it, with the start line's served rank filled in, and that line. A banner\nthat names a line not on the shortlist is left out.",
       "properties": {
-        "fact_ids": {
-          "items": {
-            "type": "string"
-          },
-          "title": "Fact Ids",
-          "type": "array"
-        },
-        "flags": {
-          "items": {
-            "type": "string"
-          },
-          "title": "Flags",
-          "type": "array"
-        },
-        "id": {
-          "title": "Id",
-          "type": "string"
-        },
-        "kind": {
-          "$ref": "#/$defs/EvidenceKind"
-        },
-        "missing_fact_ids": {
-          "items": {
-            "type": "string"
-          },
-          "title": "Missing Fact Ids",
-          "type": "array"
-        },
-        "model_call_id": {
+        "banner": {
           "anyOf": [
             {
               "type": "string"
@@ -178,28 +151,17 @@
             }
           ],
           "default": null,
-          "title": "Model Call Id"
+          "title": "Banner"
+        },
+        "plant_id": {
+          "title": "Plant Id",
+          "type": "string"
         },
         "run_id": {
           "title": "Run Id",
           "type": "string"
         },
-        "sources": {
-          "items": {
-            "type": "string"
-          },
-          "title": "Sources",
-          "type": "array"
-        },
-        "summary": {
-          "title": "Summary",
-          "type": "string"
-        },
-        "target_id": {
-          "title": "Target Id",
-          "type": "string"
-        },
-        "tool_call_id": {
+        "start_target_id": {
           "anyOf": [
             {
               "type": "string"
@@ -209,21 +171,14 @@
             }
           ],
           "default": null,
-          "title": "Tool Call Id"
-        },
-        "verdict": {
-          "$ref": "#/$defs/Verdict"
+          "title": "Start Target Id"
         }
       },
       "required": [
-        "id",
         "run_id",
-        "target_id",
-        "kind",
-        "verdict",
-        "summary"
+        "plant_id"
       ],
-      "title": "Evidence",
+      "title": "DemoRun",
       "type": "object"
     },
     "EvidenceKind": {
@@ -1252,6 +1207,30 @@
       "title": "SeverityClass",
       "type": "string"
     },
+    "SeverityClassInfo": {
+      "additionalProperties": false,
+      "description": "A severity class as `reference/severity_classes.csv` defines it (contract v1.11).",
+      "properties": {
+        "definition": {
+          "title": "Definition",
+          "type": "string"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "severity_class": {
+          "$ref": "#/$defs/SeverityClass"
+        }
+      },
+      "required": [
+        "severity_class",
+        "name",
+        "definition"
+      ],
+      "title": "SeverityClassInfo",
+      "type": "object"
+    },
     "Shortlist": {
       "additionalProperties": false,
       "properties": {
@@ -1268,14 +1247,119 @@
         "run_id": {
           "title": "Run Id",
           "type": "string"
+        },
+        "severity_classes": {
+          "items": {
+            "$ref": "#/$defs/SeverityClassInfo"
+          },
+          "title": "Severity Classes",
+          "type": "array"
         }
       },
       "required": [
         "label",
         "run_id",
-        "items"
+        "items",
+        "severity_classes"
       ],
       "title": "Shortlist",
+      "type": "object"
+    },
+    "ShortlistEvidence": {
+      "additionalProperties": false,
+      "description": "An evidence record as a shortlist line shows it. Contract v1.11 (review plan Q6): what\nthe card is attached through, the line's findings or facts that brought it, computed by\nthe attachment rule when the list is read and never stored.",
+      "properties": {
+        "fact_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Fact Ids",
+          "type": "array"
+        },
+        "flags": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Flags",
+          "type": "array"
+        },
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "kind": {
+          "$ref": "#/$defs/EvidenceKind"
+        },
+        "missing_fact_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Missing Fact Ids",
+          "type": "array"
+        },
+        "model_call_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Model Call Id"
+        },
+        "run_id": {
+          "title": "Run Id",
+          "type": "string"
+        },
+        "sources": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Sources",
+          "type": "array"
+        },
+        "summary": {
+          "title": "Summary",
+          "type": "string"
+        },
+        "target_id": {
+          "title": "Target Id",
+          "type": "string"
+        },
+        "tool_call_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Tool Call Id"
+        },
+        "verdict": {
+          "$ref": "#/$defs/Verdict"
+        },
+        "via_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Via Ids",
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "run_id",
+        "target_id",
+        "kind",
+        "verdict",
+        "summary"
+      ],
+      "title": "ShortlistEvidence",
       "type": "object"
     },
     "ShortlistItem": {
@@ -1294,7 +1378,7 @@
         },
         "evidence": {
           "items": {
-            "$ref": "#/$defs/Evidence"
+            "$ref": "#/$defs/ShortlistEvidence"
           },
           "title": "Evidence",
           "type": "array"
@@ -1473,6 +1557,7 @@
     }
   },
   "additionalProperties": false,
+  "description": "The site's default run (the picker's first) in full, and every run the picker offers.",
   "properties": {
     "label": {
       "$ref": "#/$defs/RunLabel"
@@ -1482,6 +1567,13 @@
     },
     "run": {
       "$ref": "#/$defs/RunDetail"
+    },
+    "runs": {
+      "items": {
+        "$ref": "#/$defs/DemoRun"
+      },
+      "title": "Runs",
+      "type": "array"
     },
     "shortlist": {
       "$ref": "#/$defs/Shortlist"
@@ -1503,7 +1595,8 @@
     "label",
     "plant",
     "run",
-    "shortlist"
+    "shortlist",
+    "runs"
   ],
   "title": "DemoResponse",
   "type": "object"

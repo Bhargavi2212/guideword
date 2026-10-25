@@ -225,7 +225,8 @@ def _item(line: ShortlistLine, rank: int, view: RunView) -> api.ShortlistItem:
         finding=finding if chain is None else None,
         chain=chain,
         lopa=line.lopa,
-        evidence=evidence,
+        # contract v1.11: `via_ids` is filled by the attachment rule (review plan R1)
+        evidence=[api.ShortlistEvidence.model_validate(e.model_dump()) for e in evidence],
         recommendations=[effective_recommendation(r, overrides) for r in line.recommendations],
         tier=planned.tier,
         hypothesis_id=hypothesis.id if hypothesis is not None else None,

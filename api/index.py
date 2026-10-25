@@ -19,11 +19,13 @@ from guideword.settings import Settings
 
 SITE = json.loads((ROOT / "deploy" / "site.json").read_text(encoding="utf-8"))
 for key, value in SITE["env"].items():
-    os.environ.setdefault(key, value)
-# the recorded export, wherever the function's working folder is
-recorded = Path(os.environ["GUIDEWORD_RECORDED_DIR"])
-if not recorded.is_absolute():
-    os.environ["GUIDEWORD_RECORDED_DIR"] = str(ROOT / recorded)
+    # a list setting is read from the environment as JSON
+    os.environ.setdefault(key, value if isinstance(value, str) else json.dumps(value))
+# the recorded exports, wherever the function's working folder is
+recorded = [Path(d) for d in json.loads(os.environ["GUIDEWORD_RECORDED_DIRS"])]
+os.environ["GUIDEWORD_RECORDED_DIRS"] = json.dumps(
+    [str(d if d.is_absolute() else ROOT / d) for d in recorded]
+)
 
 # no .env on the site: every setting is the environment's or deploy/site.json's
 settings = Settings(_env_file=None)

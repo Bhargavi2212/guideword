@@ -355,6 +355,8 @@ class EventType(StrEnum):
     HYPOTHESIS_DROPPED = "hypothesis_dropped"
     # a finished run extended in place with the post-analysis steps (P3-1b, contract v1.4)
     RUN_EXTENDED = "run_extended"
+    # contract v1.11: a stored run's calculation cards re-attached by code, at $0 (review plan Q5)
+    CALCULATIONS_REATTACHED = "calculations_reattached"
 
 
 class ShortlistTier(StrEnum):

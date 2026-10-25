@@ -453,6 +453,24 @@ class EvidenceAdded(_Payload):
     verdict: Verdict
 
 
+class CalculationsReattached(_Payload):
+    """Contract v1.11 (review plan Q5): a stored run's calculation cards re-attached under a
+    changed rule, by code and at $0. The screen's text is built from these fields; none is
+    stored as prose. A new type under the v1.9 stamp: adding a member changes no other model."""
+
+    # the day it was done, and the commit whose rule did it
+    date: Annotated[str, Field(pattern=r"^\d{4}-\d{2}-\d{2}$")]
+    commit: Annotated[str, Field(pattern=r"^[0-9a-f]{7,40}$")]
+    superseded_ids: list[str]
+    added_ids: list[str]
+
+    @model_validator(mode="after")
+    def _changes_something(self) -> "CalculationsReattached":
+        if not self.superseded_ids and not self.added_ids:
+            raise ValueError("a re-attach supersedes or adds at least one record")
+        return self
+
+
 V1_9: dict[EventType, Any] = {
     EventType.RUN_STARTED: RunStarted,
     EventType.STEP_STARTED: StepStarted,
@@ -472,6 +490,7 @@ V1_9: dict[EventType, Any] = {
     EventType.HYPOTHESIS_ADDED: HypothesisAdded,
     EventType.HYPOTHESIS_DROPPED: HypothesisDropped,
     EventType.RUN_EXTENDED: RunExtended,
+    EventType.CALCULATIONS_REATTACHED: CalculationsReattached,
 }
 
 

@@ -257,6 +257,96 @@
       "title": "BudgetUse",
       "type": "string"
     },
+    "CalculationsReattached": {
+      "additionalProperties": false,
+      "description": "Contract v1.11 (review plan Q5): a stored run's calculation cards re-attached under a\nchanged rule, by code and at $0. The screen's text is built from these fields; none is\nstored as prose. A new type under the v1.9 stamp: adding a member changes no other model.",
+      "properties": {
+        "added_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Added Ids",
+          "type": "array"
+        },
+        "commit": {
+          "pattern": "^[0-9a-f]{7,40}$",
+          "title": "Commit",
+          "type": "string"
+        },
+        "date": {
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "title": "Date",
+          "type": "string"
+        },
+        "superseded_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Superseded Ids",
+          "type": "array"
+        }
+      },
+      "required": [
+        "date",
+        "commit",
+        "superseded_ids",
+        "added_ids"
+      ],
+      "title": "CalculationsReattached",
+      "type": "object"
+    },
+    "CalculationsReattachedEventV19": {
+      "additionalProperties": false,
+      "properties": {
+        "payload": {
+          "$ref": "#/$defs/CalculationsReattached"
+        },
+        "payload_error": {
+          "default": null,
+          "title": "Payload Error",
+          "type": "null"
+        },
+        "payload_invalid": {
+          "const": false,
+          "default": false,
+          "title": "Payload Invalid",
+          "type": "boolean"
+        },
+        "payload_schema": {
+          "const": "v1.9",
+          "title": "Payload Schema",
+          "type": "string"
+        },
+        "run_id": {
+          "title": "Run Id",
+          "type": "string"
+        },
+        "seq": {
+          "title": "Seq",
+          "type": "integer"
+        },
+        "time": {
+          "format": "date-time",
+          "title": "Time",
+          "type": "string"
+        },
+        "type": {
+          "const": "calculations_reattached",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "run_id",
+        "seq",
+        "type",
+        "payload",
+        "time",
+        "payload_schema"
+      ],
+      "title": "CalculationsReattachedEventV19",
+      "type": "object"
+    },
     "CapHitEventLegacy": {
       "additionalProperties": false,
       "properties": {
@@ -1473,7 +1563,8 @@
         "run_failed",
         "hypothesis_added",
         "hypothesis_dropped",
-        "run_extended"
+        "run_extended",
+        "calculations_reattached"
       ],
       "title": "EventType",
       "type": "string"
@@ -5449,6 +5540,9 @@
           },
           {
             "$ref": "#/$defs/RunExtendedEventLegacy"
+          },
+          {
+            "$ref": "#/$defs/CalculationsReattachedEventV19"
           }
         ]
       },

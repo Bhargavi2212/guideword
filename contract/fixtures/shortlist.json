@@ -86,7 +86,8 @@
           "sources": [],
           "model_call_id": "mc:6ff3297fa5e9bc24",
           "missing_fact_ids": [],
-          "flags": []
+          "flags": [],
+          "via_ids": []
         }
       ],
       "recommendations": [
@@ -254,7 +255,8 @@
           ],
           "flags": [
             "pure-component vapour pressure; liquid-full thermal expansion not modelled; real pressure can be higher"
-          ]
+          ],
+          "via_ids": []
         },
         {
           "id": "ev:ch:f:pair:KOH:SIH:lightning:C14:541f633168214c61+f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b:precedent:none",
@@ -268,7 +270,8 @@
           "sources": [],
           "model_call_id": "mc:ea559a4ae80db1ee",
           "missing_fact_ids": [],
-          "flags": []
+          "flags": [],
+          "via_ids": []
         }
       ],
       "recommendations": [
@@ -397,7 +400,8 @@
           ],
           "flags": [
             "pure-component vapour pressure; liquid-full thermal expansion not modelled; real pressure can be higher"
-          ]
+          ],
+          "via_ids": []
         },
         {
           "id": "ev:f:m:S-MX-1:more:temperature:lightning:C01:a92ada9e786e565d:calculation:heat_up_rate-MX-1",
@@ -418,7 +422,8 @@
           "sources": [],
           "model_call_id": null,
           "missing_fact_ids": [],
-          "flags": []
+          "flags": [],
+          "via_ids": []
         },
         {
           "id": "ev:f:m:S-MX-1:more:temperature:lightning:C01:a92ada9e786e565d:precedent:a23c17c7ec668ed7",
@@ -435,7 +440,8 @@
           ],
           "model_call_id": "mc:d8d8dbdfca0c2764",
           "missing_fact_ids": [],
-          "flags": []
+          "flags": [],
+          "via_ids": []
         }
       ],
       "recommendations": [
@@ -564,7 +570,8 @@
           ],
           "flags": [
             "pure-component vapour pressure; liquid-full thermal expansion not modelled; real pressure can be higher"
-          ]
+          ],
+          "via_ids": []
         },
         {
           "id": "ev:f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b:precedent:none",
@@ -578,7 +585,8 @@
           "sources": [],
           "model_call_id": "mc:0321edc9e80dfc4b",
           "missing_fact_ids": [],
-          "flags": []
+          "flags": [],
+          "via_ids": []
         }
       ],
       "recommendations": [
@@ -679,7 +687,8 @@
           "sources": [],
           "model_call_id": "mc:e29f6acd27e620a2",
           "missing_fact_ids": [],
-          "flags": []
+          "flags": [],
+          "via_ids": []
         }
       ],
       "recommendations": [],
@@ -731,6 +740,33 @@
         "no LOPA: unconfirmed: no finding to analyse"
       ],
       "gap_text": null
+    }
+  ],
+  "severity_classes": [
+    {
+      "severity_class": "S1",
+      "name": "Minor",
+      "definition": "First aid or minor injury on site; small release contained on site"
+    },
+    {
+      "severity_class": "S2",
+      "name": "Serious",
+      "definition": "Lost-time injury on site; release requiring on-site response"
+    },
+    {
+      "severity_class": "S3",
+      "name": "Major",
+      "definition": "Single fatality or several serious injuries on site; significant release"
+    },
+    {
+      "severity_class": "S4",
+      "name": "Catastrophic",
+      "definition": "Multiple fatalities on site, or serious injuries off site"
+    },
+    {
+      "severity_class": "S5",
+      "name": "Disastrous",
+      "definition": "Fatalities off site or very large loss of life"
     }
   ]
 }

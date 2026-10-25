@@ -518,6 +518,53 @@ export interface components {
          * @enum {string}
          */
         BudgetUse: "development" | "test_5" | "benchmark" | "video" | "demo_recording" | "judging" | "buffer";
+        /**
+         * CalculationsReattached
+         * @description Contract v1.11 (review plan Q5): a stored run's calculation cards re-attached under a
+         *     changed rule, by code and at $0. The screen's text is built from these fields; none is
+         *     stored as prose. A new type under the v1.9 stamp: adding a member changes no other model.
+         */
+        CalculationsReattached: {
+            /** Added Ids */
+            added_ids: string[];
+            /** Commit */
+            commit: string;
+            /** Date */
+            date: string;
+            /** Superseded Ids */
+            superseded_ids: string[];
+        };
+        /** CalculationsReattachedEventV19 */
+        CalculationsReattachedEventV19: {
+            payload: unknown;
+            /** Payload Error */
+            payload_error?: null;
+            /**
+             * Payload Invalid
+             * @default false
+             * @constant
+             */
+            payload_invalid: false;
+            /**
+             * Payload Schema
+             * @constant
+             */
+            payload_schema: "v1.9";
+            /** Run Id */
+            run_id: string;
+            /** Seq */
+            seq: number;
+            /**
+             * Time
+             * Format: date-time
+             */
+            time: string;
+            /**
+             * Type
+             * @constant
+             */
+            type: "calculations_reattached";
+        };
         /** CapHitEventLegacy */
         CapHitEventLegacy: {
             payload: unknown;
@@ -922,12 +969,33 @@ export interface components {
             /** Slice Usd */
             slice_usd: number;
         };
-        /** DemoResponse */
+        /**
+         * DemoResponse
+         * @description The site's default run (the picker's first) in full, and every run the picker offers.
+         */
         DemoResponse: {
             label: components["schemas"]["RunLabel"];
             plant: components["schemas"]["PlantDetail"];
             run: components["schemas"]["RunDetail"];
+            /** Runs */
+            runs: components["schemas"]["DemoRun"][];
             shortlist: components["schemas"]["Shortlist"];
+            /** Start Target Id */
+            start_target_id?: string | null;
+        };
+        /**
+         * DemoRun
+         * @description A run the site's plant picker offers (contract v1.11, review plan R0): its banner as
+         *     Bhargavi wrote it, with the start line's served rank filled in, and that line. A banner
+         *     that names a line not on the shortlist is left out.
+         */
+        DemoRun: {
+            /** Banner */
+            banner?: string | null;
+            /** Plant Id */
+            plant_id: string;
+            /** Run Id */
+            run_id: string;
             /** Start Target Id */
             start_target_id?: string | null;
         };
@@ -1110,11 +1178,11 @@ export interface components {
          * EventType
          * @enum {string}
          */
-        EventType: "run_started" | "step_started" | "step_finished" | "agent_decision" | "dispatch" | "model_call" | "tool_call" | "finding_added" | "chain_added" | "lopa_done" | "evidence_added" | "coverage_updated" | "cap_hit" | "run_finished" | "run_failed" | "hypothesis_added" | "hypothesis_dropped" | "run_extended";
+        EventType: "run_started" | "step_started" | "step_finished" | "agent_decision" | "dispatch" | "model_call" | "tool_call" | "finding_added" | "chain_added" | "lopa_done" | "evidence_added" | "coverage_updated" | "cap_hit" | "run_finished" | "run_failed" | "hypothesis_added" | "hypothesis_dropped" | "run_extended" | "calculations_reattached";
         /** EventsPage */
         EventsPage: {
             /** Events */
-            events: (components["schemas"]["InvalidEvent"] | components["schemas"]["RunStartedEventV19"] | components["schemas"]["RunStartedEventLegacy"] | components["schemas"]["StepStartedEventV19"] | components["schemas"]["StepStartedEventLegacy"] | components["schemas"]["StepFinishedEventV19"] | components["schemas"]["StepFinishedEventLegacy"] | components["schemas"]["AgentDecisionEventV19"] | components["schemas"]["AgentDecisionEventLegacy"] | components["schemas"]["DispatchEventV19"] | components["schemas"]["DispatchEventLegacy"] | components["schemas"]["ModelCallEventV19"] | components["schemas"]["ModelCallEventLegacy"] | components["schemas"]["ToolCallEventV19"] | components["schemas"]["ToolCallEventLegacy"] | components["schemas"]["FindingAddedEventV19"] | components["schemas"]["FindingAddedEventLegacy"] | components["schemas"]["ChainAddedEventV19"] | components["schemas"]["ChainAddedEventLegacy"] | components["schemas"]["LopaDoneEventV19"] | components["schemas"]["LopaDoneEventLegacy"] | components["schemas"]["EvidenceAddedEventV19"] | components["schemas"]["EvidenceAddedEventLegacy"] | components["schemas"]["CoverageUpdatedEventV19"] | components["schemas"]["CoverageUpdatedEventLegacy"] | components["schemas"]["CapHitEventV19"] | components["schemas"]["CapHitEventLegacy"] | components["schemas"]["RunFinishedEventV19"] | components["schemas"]["RunFinishedEventLegacy"] | components["schemas"]["RunFailedEventV19"] | components["schemas"]["HypothesisAddedEventV19"] | components["schemas"]["HypothesisAddedEventLegacy"] | components["schemas"]["HypothesisDroppedEventV19"] | components["schemas"]["RunExtendedEventV19"] | components["schemas"]["RunExtendedEventLegacy"])[];
+            events: (components["schemas"]["InvalidEvent"] | components["schemas"]["RunStartedEventV19"] | components["schemas"]["RunStartedEventLegacy"] | components["schemas"]["StepStartedEventV19"] | components["schemas"]["StepStartedEventLegacy"] | components["schemas"]["StepFinishedEventV19"] | components["schemas"]["StepFinishedEventLegacy"] | components["schemas"]["AgentDecisionEventV19"] | components["schemas"]["AgentDecisionEventLegacy"] | components["schemas"]["DispatchEventV19"] | components["schemas"]["DispatchEventLegacy"] | components["schemas"]["ModelCallEventV19"] | components["schemas"]["ModelCallEventLegacy"] | components["schemas"]["ToolCallEventV19"] | components["schemas"]["ToolCallEventLegacy"] | components["schemas"]["FindingAddedEventV19"] | components["schemas"]["FindingAddedEventLegacy"] | components["schemas"]["ChainAddedEventV19"] | components["schemas"]["ChainAddedEventLegacy"] | components["schemas"]["LopaDoneEventV19"] | components["schemas"]["LopaDoneEventLegacy"] | components["schemas"]["EvidenceAddedEventV19"] | components["schemas"]["EvidenceAddedEventLegacy"] | components["schemas"]["CoverageUpdatedEventV19"] | components["schemas"]["CoverageUpdatedEventLegacy"] | components["schemas"]["CapHitEventV19"] | components["schemas"]["CapHitEventLegacy"] | components["schemas"]["RunFinishedEventV19"] | components["schemas"]["RunFinishedEventLegacy"] | components["schemas"]["RunFailedEventV19"] | components["schemas"]["HypothesisAddedEventV19"] | components["schemas"]["HypothesisAddedEventLegacy"] | components["schemas"]["HypothesisDroppedEventV19"] | components["schemas"]["RunExtendedEventV19"] | components["schemas"]["RunExtendedEventLegacy"] | components["schemas"]["CalculationsReattachedEventV19"])[];
             label: components["schemas"]["RunLabel"];
             /** Next After */
             next_after: number;
@@ -2356,7 +2424,7 @@ export interface components {
             /** Chains */
             chains: components["schemas"]["Chain"][];
             /** Events */
-            events: (components["schemas"]["InvalidEvent"] | components["schemas"]["RunStartedEventV19"] | components["schemas"]["RunStartedEventLegacy"] | components["schemas"]["StepStartedEventV19"] | components["schemas"]["StepStartedEventLegacy"] | components["schemas"]["StepFinishedEventV19"] | components["schemas"]["StepFinishedEventLegacy"] | components["schemas"]["AgentDecisionEventV19"] | components["schemas"]["AgentDecisionEventLegacy"] | components["schemas"]["DispatchEventV19"] | components["schemas"]["DispatchEventLegacy"] | components["schemas"]["ModelCallEventV19"] | components["schemas"]["ModelCallEventLegacy"] | components["schemas"]["ToolCallEventV19"] | components["schemas"]["ToolCallEventLegacy"] | components["schemas"]["FindingAddedEventV19"] | components["schemas"]["FindingAddedEventLegacy"] | components["schemas"]["ChainAddedEventV19"] | components["schemas"]["ChainAddedEventLegacy"] | components["schemas"]["LopaDoneEventV19"] | components["schemas"]["LopaDoneEventLegacy"] | components["schemas"]["EvidenceAddedEventV19"] | components["schemas"]["EvidenceAddedEventLegacy"] | components["schemas"]["CoverageUpdatedEventV19"] | components["schemas"]["CoverageUpdatedEventLegacy"] | components["schemas"]["CapHitEventV19"] | components["schemas"]["CapHitEventLegacy"] | components["schemas"]["RunFinishedEventV19"] | components["schemas"]["RunFinishedEventLegacy"] | components["schemas"]["RunFailedEventV19"] | components["schemas"]["HypothesisAddedEventV19"] | components["schemas"]["HypothesisAddedEventLegacy"] | components["schemas"]["HypothesisDroppedEventV19"] | components["schemas"]["RunExtendedEventV19"] | components["schemas"]["RunExtendedEventLegacy"])[];
+            events: (components["schemas"]["InvalidEvent"] | components["schemas"]["RunStartedEventV19"] | components["schemas"]["RunStartedEventLegacy"] | components["schemas"]["StepStartedEventV19"] | components["schemas"]["StepStartedEventLegacy"] | components["schemas"]["StepFinishedEventV19"] | components["schemas"]["StepFinishedEventLegacy"] | components["schemas"]["AgentDecisionEventV19"] | components["schemas"]["AgentDecisionEventLegacy"] | components["schemas"]["DispatchEventV19"] | components["schemas"]["DispatchEventLegacy"] | components["schemas"]["ModelCallEventV19"] | components["schemas"]["ModelCallEventLegacy"] | components["schemas"]["ToolCallEventV19"] | components["schemas"]["ToolCallEventLegacy"] | components["schemas"]["FindingAddedEventV19"] | components["schemas"]["FindingAddedEventLegacy"] | components["schemas"]["ChainAddedEventV19"] | components["schemas"]["ChainAddedEventLegacy"] | components["schemas"]["LopaDoneEventV19"] | components["schemas"]["LopaDoneEventLegacy"] | components["schemas"]["EvidenceAddedEventV19"] | components["schemas"]["EvidenceAddedEventLegacy"] | components["schemas"]["CoverageUpdatedEventV19"] | components["schemas"]["CoverageUpdatedEventLegacy"] | components["schemas"]["CapHitEventV19"] | components["schemas"]["CapHitEventLegacy"] | components["schemas"]["RunFinishedEventV19"] | components["schemas"]["RunFinishedEventLegacy"] | components["schemas"]["RunFailedEventV19"] | components["schemas"]["HypothesisAddedEventV19"] | components["schemas"]["HypothesisAddedEventLegacy"] | components["schemas"]["HypothesisDroppedEventV19"] | components["schemas"]["RunExtendedEventV19"] | components["schemas"]["RunExtendedEventLegacy"] | components["schemas"]["CalculationsReattachedEventV19"])[];
             /** Evidence */
             evidence: components["schemas"]["Evidence"][];
             /** Findings */
@@ -2879,6 +2947,17 @@ export interface components {
          * @enum {string}
          */
         SeverityClass: "S1" | "S2" | "S3" | "S4" | "S5";
+        /**
+         * SeverityClassInfo
+         * @description A severity class as `reference/severity_classes.csv` defines it (contract v1.11).
+         */
+        SeverityClassInfo: {
+            /** Definition */
+            definition: string;
+            /** Name */
+            name: string;
+            severity_class: components["schemas"]["SeverityClass"];
+        };
         /** Shortlist */
         Shortlist: {
             /** Items */
@@ -2886,12 +2965,46 @@ export interface components {
             label: components["schemas"]["RunLabel"];
             /** Run Id */
             run_id: string;
+            /** Severity Classes */
+            severity_classes: components["schemas"]["SeverityClassInfo"][];
+        };
+        /**
+         * ShortlistEvidence
+         * @description An evidence record as a shortlist line shows it. Contract v1.11 (review plan Q6): what
+         *     the card is attached through, the line's findings or facts that brought it, computed by
+         *     the attachment rule when the list is read and never stored.
+         */
+        ShortlistEvidence: {
+            /** Fact Ids */
+            fact_ids?: string[];
+            /** Flags */
+            flags?: string[];
+            /** Id */
+            id: string;
+            kind: components["schemas"]["EvidenceKind"];
+            /** Missing Fact Ids */
+            missing_fact_ids?: string[];
+            /** Model Call Id */
+            model_call_id?: string | null;
+            /** Run Id */
+            run_id: string;
+            /** Sources */
+            sources?: string[];
+            /** Summary */
+            summary: string;
+            /** Target Id */
+            target_id: string;
+            /** Tool Call Id */
+            tool_call_id?: string | null;
+            verdict: components["schemas"]["Verdict"];
+            /** Via Ids */
+            via_ids?: string[];
         };
         /** ShortlistItem */
         ShortlistItem: {
             chain?: components["schemas"]["Chain"] | null;
             /** Evidence */
-            evidence?: components["schemas"]["Evidence"][];
+            evidence?: components["schemas"]["ShortlistEvidence"][];
             finding?: components["schemas"]["Finding"] | null;
             /** Flags */
             flags?: string[];

@@ -26,8 +26,13 @@ def test_every_event_type_has_a_v1_9_model() -> None:
 
 def test_every_stored_type_has_a_legacy_model() -> None:
     """`run_failed` and `hypothesis_dropped` were never stored before v1.9 (checked on
-    guideword.db, 2026-10-23), so they have none."""
-    assert set(EventType) - set(LEGACY) == {EventType.RUN_FAILED, EventType.HYPOTHESIS_DROPPED}
+    guideword.db, 2026-10-23), so they have none; nor has `calculations_reattached`, new in
+    contract v1.11."""
+    assert set(EventType) - set(LEGACY) == {
+        EventType.RUN_FAILED,
+        EventType.HYPOTHESIS_DROPPED,
+        EventType.CALCULATIONS_REATTACHED,
+    }
 
 
 def test_a_v1_9_payload_with_an_unknown_field_is_refused() -> None:
@@ -111,3 +116,38 @@ def test_an_event_stored_before_v1_9_reads_unstamped_and_valid() -> None:
         False,
         None,
     )
+
+
+# --- contract v1.11: the calculations re-attached on a stored run (review plan Q5, R0) -----------
+
+REATTACHED = {
+    "date": "2026-10-26",
+    "commit": "892f0fb",
+    "superseded_ids": ["ev:f:a:calculation:blocked_in_heating-EA-425B"],
+    "added_ids": ["ev:f:b:calculation:blocked_in_heating-EA-425B"],
+}
+
+
+def test_calculations_reattached_names_its_date_commit_and_records() -> None:
+    parsed = validate_payload(EventType.CALCULATIONS_REATTACHED, REATTACHED, SCHEMA_V1_9)
+    assert parsed.model_dump(mode="json") == REATTACHED
+
+
+@pytest.mark.parametrize(
+    "change",
+    [
+        {"date": "26 Oct 2026"},
+        {"commit": "not-a-commit"},
+        {"commit": "89"},
+        {"superseded_ids": [], "added_ids": []},
+        {"text": "calculations re-attached"},
+    ],
+)
+def test_calculations_reattached_refuses_a_bad_payload(change: dict[str, object]) -> None:
+    with pytest.raises(ValidationError):
+        validate_payload(EventType.CALCULATIONS_REATTACHED, REATTACHED | change, SCHEMA_V1_9)
+
+
+def test_calculations_reattached_may_only_add_or_only_supersede() -> None:
+    for side in ("superseded_ids", "added_ids"):
+        validate_payload(EventType.CALCULATIONS_REATTACHED, REATTACHED | {side: []}, SCHEMA_V1_9)

@@ -46,11 +46,17 @@ def test_the_entry_serves_the_wg_demo_with_no_keys(monkeypatch: pytest.MonkeyPat
     response = client.get("/demo")
     assert response.status_code == 200, response.text
     demo = api.DemoResponse.model_validate(response.json())
-    assert demo.run.run.id == SITE["env"]["GUIDEWORD_DEMO_RUN_ID"]
+    wg = SITE["env"]["GUIDEWORD_DEMO_RUNS"][0]
+    assert demo.run.run.id == wg["run_id"]
     assert demo.label.kind == "recorded" and demo.label.note
-    assert demo.start_target_id == SITE["env"]["GUIDEWORD_DEMO_TARGET_ID"]
+    assert demo.start_target_id == wg["start_target_id"]
+    assert [r.run_id for r in demo.runs] == [
+        r["run_id"] for r in SITE["env"]["GUIDEWORD_DEMO_RUNS"]
+    ]
+    rank = next(i.rank for i in demo.shortlist.items if i.target_id == wg["start_target_id"])
+    assert demo.runs[0].banner == wg["banner"].replace("{start_rank}", str(rank))
     run = quote(demo.run.run.id, safe="")
-    target = quote(SITE["env"]["GUIDEWORD_DEMO_TARGET_ID"], safe="")
+    target = quote(wg["start_target_id"], safe="")
     assert client.get(f"/runs/{run}/records/{target}").status_code == 200
     override = client.post(
         f"/runs/{run}/overrides",
@@ -77,7 +83,8 @@ def test_the_function_bundles_its_data_folders() -> None:
     bundled = vercel["functions"]["api/index.py"]["includeFiles"]
     for folder in ("backend/guideword", "config", "prompts", "reference", "deploy"):
         assert folder in bundled, folder
-    assert SITE["env"]["GUIDEWORD_RECORDED_DIR"] in bundled
+    for recorded in SITE["env"]["GUIDEWORD_RECORDED_DIRS"]:
+        assert recorded in bundled, recorded
 
 
 def test_the_function_requirements_are_the_backends_pins() -> None:

@@ -19,7 +19,8 @@
         "run_failed",
         "hypothesis_added",
         "hypothesis_dropped",
-        "run_extended"
+        "run_extended",
+        "calculations_reattached"
       ],
       "title": "EventType",
       "type": "string"
