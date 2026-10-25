@@ -79,6 +79,7 @@ def test_caps(shipped: Config) -> None:
         "3": 2.50,
         "4": 1.50,
         "5": 0.50,
+        "6": 5.19,
     }
 
 
@@ -221,8 +222,9 @@ def test_budget_split(shipped: Config) -> None:
     assert set(uses) == set(BudgetUse)
     assert {u: uses[u].allowance_usd for u in uses} == {
         BudgetUse.DEVELOPMENT: 5.0,
-        BudgetUse.TEST_5: 7.5,
-        BudgetUse.BENCHMARK: 4.5,
+        # Phase 6 (2026-10-25): test_5's unspent $0.69 moved into benchmark
+        BudgetUse.TEST_5: 6.81,
+        BudgetUse.BENCHMARK: 5.19,
         BudgetUse.VIDEO: 2.0,
         BudgetUse.DEMO_RECORDING: 1.0,
         BudgetUse.JUDGING: 3.0,
@@ -277,8 +279,8 @@ def test_use_allowances_must_sum_to_global_budget(config_dir: Path) -> None:
     _edit(
         config_dir,
         "caps.yaml",
-        r"benchmark: \{environment: laptop, allowance_usd: 4\.50\}",
-        "benchmark: {environment: laptop, allowance_usd: 5.50}",
+        r"benchmark: \{environment: laptop, allowance_usd: 5\.19\}",
+        "benchmark: {environment: laptop, allowance_usd: 6.19}",
     )
     _edit(
         config_dir,
