@@ -207,6 +207,14 @@ class QuestionCreated(_RunResponse):
     question: Question
 
 
+class ShortlistEvidence(Evidence):
+    """An evidence record as a shortlist line shows it. Contract v1.11 (review plan Q6): what
+    the card is attached through, the line's findings or facts that brought it, computed by
+    the attachment rule when the list is read and never stored."""
+
+    via_ids: list[str] = Field(default_factory=list)
+
+
 class ShortlistItem(_Model):
     rank: int
     target_id: str
@@ -218,7 +226,7 @@ class ShortlistItem(_Model):
     finding: Finding | None = None
     chain: Chain | None = None
     lopa: LopaRecord | None = None
-    evidence: list[Evidence] = Field(default_factory=list)
+    evidence: list[ShortlistEvidence] = Field(default_factory=list)
     recommendations: list[Recommendation] = Field(default_factory=list)
     # R50 (contract v1.2): the line's tier and, on confirmed and unconfirmed lines, its hypothesis
     tier: ShortlistTier = ShortlistTier.ALSO_FOUND
@@ -246,9 +254,19 @@ class ShortlistItem(_Model):
         return self
 
 
+class SeverityClassInfo(_Model):
+    """A severity class as `reference/severity_classes.csv` defines it (contract v1.11)."""
+
+    severity_class: SeverityClass
+    name: str
+    definition: str
+
+
 class Shortlist(_RunResponse):
     run_id: str
     items: list[ShortlistItem]
+    # contract v1.11 (review plan Q11): the severity table the cards read their codes against
+    severity_classes: list[SeverityClassInfo]
 
 
 class WorksheetRow(_Model):
@@ -412,12 +430,27 @@ class RunDump(_RunResponse):
     superseded: list[SupersededRecord] = Field(default_factory=list)
 
 
+class DemoRun(_Model):
+    """A run the site's plant picker offers (contract v1.11, review plan R0): its banner as
+    Bhargavi wrote it, with the start line's served rank filled in, and that line. A banner
+    that names a line not on the shortlist is left out."""
+
+    run_id: str
+    plant_id: str
+    banner: str | None = None
+    start_target_id: str | None = None
+
+
 class DemoResponse(_RunResponse):
+    """The site's default run (the picker's first) in full, and every run the picker offers."""
+
     plant: PlantDetail
     run: RunDetail
     shortlist: Shortlist
     # contract v1.10: the shortlist line the landing marks "start here" (deploy plan D0)
     start_target_id: Annotated[str | None, Field(exclude_if=lambda v: v is None)] = None
+    # contract v1.11: the picker's runs, in order; the first is the run above
+    runs: list[DemoRun]
 
 
 # --- budget -----------------------------------------------------------------------------------

@@ -68,6 +68,8 @@ Clock = Callable[[], datetime]
 SECTION_SUGGESTION_USE = BudgetUse.DEVELOPMENT
 # B2: UI-started runs book to Phase 5's cap, whatever their use
 API_RUN_PHASE = "5"
+# the placeholder a demo banner may use for its start line's served rank (review plan Q8)
+START_RANK = "{start_rank}"
 log = get_logger(__name__)
 
 # The phase that builds each endpoint for real (PROJECT.md §15); a 501 names it.
@@ -144,9 +146,9 @@ def create_app(
     # that are not built yet (and the OpenAPI export) never create a database.
     @cache
     def sessions() -> Any:
-        # the deployed site reads its recorded run from the committed export (deploy plan D2)
-        if settings.guideword_recorded_dir is not None:
-            return load_recorded(Path(settings.guideword_recorded_dir))
+        # the deployed site reads its recorded runs from the committed exports (deploy plan D2)
+        if settings.guideword_recorded_dirs is not None:
+            return load_recorded([Path(d) for d in settings.guideword_recorded_dirs])
         return make_session_factory(settings.database_url)
 
     @cache
@@ -501,7 +503,17 @@ def create_app(
             run_of(store, id)
             return store.shortlist
         run = live_run(id)
-        return api.Shortlist(run_id=run.id, items=live().shortlist(id), label=run.label)
+        return api.Shortlist(
+            run_id=run.id,
+            items=live().shortlist(id),
+            label=run.label,
+            severity_classes=[
+                api.SeverityClassInfo(
+                    severity_class=r.severity_class, name=r.name, definition=r.definition
+                )
+                for r in reference().severity_classes
+            ],
+        )
 
     def worksheet_of(id: str) -> api.Worksheet:
         if store is not None:
@@ -607,22 +619,39 @@ def create_app(
 
     @app.get("/demo", response_model=api.DemoResponse, responses=ERRORS)
     def get_demo() -> api.DemoResponse:
-        # the recorded run the site opens on (deploy plan D2): its plant, detail, shortlist and
-        # the line the landing marks "start here", only when that line is on its shortlist (a
-        # comment, not a docstring: a docstring would become the contract's description)
-        if store is not None or settings.guideword_demo_run_id is None:
+        # the recorded runs the site offers (deploy plan D2, review plan R0), the first in full:
+        # its plant, detail and shortlist. A run's start line is served only when it is on that
+        # run's shortlist, and its banner's `{start_rank}` is that line's served rank; a banner
+        # naming a line that isn't there is left out (a comment, not a docstring: a docstring
+        # would become the contract's description)
+        if store is not None or not settings.guideword_demo_runs:
             return need("GET", "/demo").demo_response
-        run_id = settings.guideword_demo_run_id
-        run = live_run(run_id)
-        shortlist = get_shortlist(run_id)
-        target = settings.guideword_demo_target_id
-        on_list = target is not None and any(i.target_id == target for i in shortlist.items)
+        offered: list[api.DemoRun] = []
+        lists: dict[str, api.Shortlist] = {}
+        for setting in settings.guideword_demo_runs:
+            run = live_run(setting.run_id)
+            shortlist = lists[run.id] = get_shortlist(run.id)
+            ranks = {i.target_id: i.rank for i in shortlist.items}
+            target = setting.start_target_id if setting.start_target_id in ranks else None
+            banner = setting.banner
+            if banner is not None and START_RANK in banner:
+                banner = None if target is None else banner.replace(START_RANK, str(ranks[target]))
+            offered.append(
+                api.DemoRun(
+                    run_id=run.id,
+                    plant_id=get_plant(run.plant_record_id).plant_id,
+                    banner=banner,
+                    start_target_id=target,
+                )
+            )
+        first = live_run(offered[0].run_id)
         return api.DemoResponse(
-            label=run.label,
-            plant=get_plant(run.plant_record_id),
-            run=get_run(run_id),
-            shortlist=shortlist,
-            start_target_id=target if on_list else None,
+            label=first.label,
+            plant=get_plant(first.plant_record_id),
+            run=get_run(first.id),
+            shortlist=lists[first.id],
+            start_target_id=offered[0].start_target_id,
+            runs=offered,
         )
 
     @app.get("/budget", response_model=api.Budget, responses=ERRORS)

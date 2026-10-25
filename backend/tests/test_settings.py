@@ -64,8 +64,7 @@ def test_expected_fields() -> None:
         "guideword_mock",
         "guideword_env",
         "internal_advance_secret",
-        # the deployed site (deploy plan D2)
-        "guideword_recorded_dir",
-        "guideword_demo_run_id",
-        "guideword_demo_target_id",
+        # the deployed site (deploy plan D2; several runs, review plan R0)
+        "guideword_recorded_dirs",
+        "guideword_demo_runs",
     }

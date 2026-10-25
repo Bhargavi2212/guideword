@@ -364,6 +364,93 @@
         "title": "BudgetUse",
         "type": "string"
       },
+      "CalculationsReattached": {
+        "additionalProperties": false,
+        "description": "Contract v1.11 (review plan Q5): a stored run's calculation cards re-attached under a\nchanged rule, by code and at $0. The screen's text is built from these fields; none is\nstored as prose. A new type under the v1.9 stamp: adding a member changes no other model.",
+        "properties": {
+          "added_ids": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Added Ids",
+            "type": "array"
+          },
+          "commit": {
+            "pattern": "^[0-9a-f]{7,40}$",
+            "title": "Commit",
+            "type": "string"
+          },
+          "date": {
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+            "title": "Date",
+            "type": "string"
+          },
+          "superseded_ids": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Superseded Ids",
+            "type": "array"
+          }
+        },
+        "required": [
+          "date",
+          "commit",
+          "superseded_ids",
+          "added_ids"
+        ],
+        "title": "CalculationsReattached",
+        "type": "object"
+      },
+      "CalculationsReattachedEventV19": {
+        "additionalProperties": false,
+        "properties": {
+          "payload": {},
+          "payload_error": {
+            "title": "Payload Error",
+            "type": "null"
+          },
+          "payload_invalid": {
+            "const": false,
+            "default": false,
+            "title": "Payload Invalid",
+            "type": "boolean"
+          },
+          "payload_schema": {
+            "const": "v1.9",
+            "title": "Payload Schema",
+            "type": "string"
+          },
+          "run_id": {
+            "title": "Run Id",
+            "type": "string"
+          },
+          "seq": {
+            "title": "Seq",
+            "type": "integer"
+          },
+          "time": {
+            "format": "date-time",
+            "title": "Time",
+            "type": "string"
+          },
+          "type": {
+            "const": "calculations_reattached",
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "run_id",
+          "seq",
+          "type",
+          "payload",
+          "time",
+          "payload_schema"
+        ],
+        "title": "CalculationsReattachedEventV19",
+        "type": "object"
+      },
       "CapHitEventLegacy": {
         "additionalProperties": false,
         "properties": {
@@ -1288,6 +1375,7 @@
       },
       "DemoResponse": {
         "additionalProperties": false,
+        "description": "The site's default run (the picker's first) in full, and every run the picker offers.",
         "properties": {
           "label": {
             "$ref": "#/components/schemas/RunLabel"
@@ -1297,6 +1385,13 @@
           },
           "run": {
             "$ref": "#/components/schemas/RunDetail"
+          },
+          "runs": {
+            "items": {
+              "$ref": "#/components/schemas/DemoRun"
+            },
+            "title": "Runs",
+            "type": "array"
           },
           "shortlist": {
             "$ref": "#/components/schemas/Shortlist"
@@ -1317,9 +1412,52 @@
           "label",
           "plant",
           "run",
-          "shortlist"
+          "shortlist",
+          "runs"
         ],
         "title": "DemoResponse",
+        "type": "object"
+      },
+      "DemoRun": {
+        "additionalProperties": false,
+        "description": "A run the site's plant picker offers (contract v1.11, review plan R0): its banner as\nBhargavi wrote it, with the start line's served rank filled in, and that line. A banner\nthat names a line not on the shortlist is left out.",
+        "properties": {
+          "banner": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Banner"
+          },
+          "plant_id": {
+            "title": "Plant Id",
+            "type": "string"
+          },
+          "run_id": {
+            "title": "Run Id",
+            "type": "string"
+          },
+          "start_target_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Start Target Id"
+          }
+        },
+        "required": [
+          "run_id",
+          "plant_id"
+        ],
+        "title": "DemoRun",
         "type": "object"
       },
       "DispatchEventLegacy": {
@@ -1730,7 +1868,8 @@
           "run_failed",
           "hypothesis_added",
           "hypothesis_dropped",
-          "run_extended"
+          "run_extended",
+          "calculations_reattached"
         ],
         "title": "EventType",
         "type": "string"
@@ -1845,6 +1984,9 @@
                 },
                 {
                   "$ref": "#/components/schemas/RunExtendedEventLegacy"
+                },
+                {
+                  "$ref": "#/components/schemas/CalculationsReattachedEventV19"
                 }
               ]
             },
@@ -4982,6 +5124,9 @@
                 },
                 {
                   "$ref": "#/components/schemas/RunExtendedEventLegacy"
+                },
+                {
+                  "$ref": "#/components/schemas/CalculationsReattachedEventV19"
                 }
               ]
             },
@@ -6150,6 +6295,30 @@
         "title": "SeverityClass",
         "type": "string"
       },
+      "SeverityClassInfo": {
+        "additionalProperties": false,
+        "description": "A severity class as `reference/severity_classes.csv` defines it (contract v1.11).",
+        "properties": {
+          "definition": {
+            "title": "Definition",
+            "type": "string"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "severity_class": {
+            "$ref": "#/components/schemas/SeverityClass"
+          }
+        },
+        "required": [
+          "severity_class",
+          "name",
+          "definition"
+        ],
+        "title": "SeverityClassInfo",
+        "type": "object"
+      },
       "Shortlist": {
         "additionalProperties": false,
         "properties": {
@@ -6166,14 +6335,117 @@
           "run_id": {
             "title": "Run Id",
             "type": "string"
+          },
+          "severity_classes": {
+            "items": {
+              "$ref": "#/components/schemas/SeverityClassInfo"
+            },
+            "title": "Severity Classes",
+            "type": "array"
           }
         },
         "required": [
           "label",
           "run_id",
-          "items"
+          "items",
+          "severity_classes"
         ],
         "title": "Shortlist",
+        "type": "object"
+      },
+      "ShortlistEvidence": {
+        "additionalProperties": false,
+        "description": "An evidence record as a shortlist line shows it. Contract v1.11 (review plan Q6): what\nthe card is attached through, the line's findings or facts that brought it, computed by\nthe attachment rule when the list is read and never stored.",
+        "properties": {
+          "fact_ids": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Fact Ids",
+            "type": "array"
+          },
+          "flags": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Flags",
+            "type": "array"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "kind": {
+            "$ref": "#/components/schemas/EvidenceKind"
+          },
+          "missing_fact_ids": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Missing Fact Ids",
+            "type": "array"
+          },
+          "model_call_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Model Call Id"
+          },
+          "run_id": {
+            "title": "Run Id",
+            "type": "string"
+          },
+          "sources": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Sources",
+            "type": "array"
+          },
+          "summary": {
+            "title": "Summary",
+            "type": "string"
+          },
+          "target_id": {
+            "title": "Target Id",
+            "type": "string"
+          },
+          "tool_call_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tool Call Id"
+          },
+          "verdict": {
+            "$ref": "#/components/schemas/Verdict"
+          },
+          "via_ids": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Via Ids",
+            "type": "array"
+          }
+        },
+        "required": [
+          "id",
+          "run_id",
+          "target_id",
+          "kind",
+          "verdict",
+          "summary"
+        ],
+        "title": "ShortlistEvidence",
         "type": "object"
       },
       "ShortlistItem": {
@@ -6191,7 +6463,7 @@
           },
           "evidence": {
             "items": {
-              "$ref": "#/components/schemas/Evidence"
+              "$ref": "#/components/schemas/ShortlistEvidence"
             },
             "title": "Evidence",
             "type": "array"
