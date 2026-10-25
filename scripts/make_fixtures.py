@@ -531,6 +531,15 @@ class Generator:
             "plant": out["plant_detail.json"],
             "run": out["run_detail.json"],
             "shortlist": out["shortlist.json"],
+            # contract v1.11: the mock offers one run, with no banner and no start line
+            "runs": [
+                {
+                    "run_id": out["run_detail.json"]["run"]["id"],
+                    "plant_id": out["plant_detail.json"]["plant_id"],
+                    "banner": None,
+                    "start_target_id": None,
+                }
+            ],
         }
         return out
 

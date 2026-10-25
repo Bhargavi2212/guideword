@@ -5,8 +5,19 @@ The per-run spend cap and every allowance live only in config/caps.yaml.
 
 from typing import Literal
 
-from pydantic import SecretStr
+from pydantic import BaseModel, ConfigDict, SecretStr
 from pydantic_settings import BaseSettings, SettingsConfigDict
+
+
+class DemoRunSetting(BaseModel):
+    """One run the deployed site offers (review plan R0): its banner, written by Bhargavi, may
+    name the start line as `{start_rank}`, filled from the served shortlist."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    run_id: str
+    banner: str | None = None
+    start_target_id: str | None = None
 
 
 class Settings(BaseSettings):
@@ -20,9 +31,9 @@ class Settings(BaseSettings):
     guideword_mock: bool = False
     guideword_env: Literal["laptop", "hosted"] = "laptop"
     internal_advance_secret: SecretStr = SecretStr("")
-    # the deployed site (deploy plan D2): the recorded run's committed export, read into an
-    # in-memory store; the run `GET /demo` serves; the line its landing marks "start here".
-    # None of them has a default: unset, the API reads `database_url` and `/demo` is 501.
-    guideword_recorded_dir: str | None = None
-    guideword_demo_run_id: str | None = None
-    guideword_demo_target_id: str | None = None
+    # the deployed site (deploy plan D2; several runs, review plan R0): the recorded runs'
+    # committed exports, read into one in-memory store; the runs `GET /demo` offers, in the
+    # picker's order (the first is the default), each with its banner and start line. Neither
+    # has a default: unset, the API reads `database_url` and `/demo` is 501.
+    guideword_recorded_dirs: list[str] | None = None
+    guideword_demo_runs: list[DemoRunSetting] | None = None
