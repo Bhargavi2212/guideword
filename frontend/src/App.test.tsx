@@ -64,3 +64,30 @@ describe("App", () => {
     expect(screen.getByText("/nowhere", { exact: false })).toBeDefined();
   });
 });
+
+describe("the landing (deploy plan D3)", () => {
+  it("opens the demo run's shortlist from the empty hash", async () => {
+    const demo = await import("../../contract/fixtures/demo_response.json");
+    const fake = fakeFetch({
+      "/plants": { body: plantList },
+      "/runs": { body: runList },
+      "/budget": { body: budget },
+      "/demo": { body: demo.default },
+      [`/runs/${encodeURIComponent(RUN)}`]: { body: runDetail },
+    });
+    render(<App client={new ApiClient("", fake.impl)} />);
+    await vi.waitFor(() =>
+      expect(window.location.hash).toBe(
+        buildHash({ name: "shortlist", runId: RUN }),
+      ),
+    );
+  });
+
+  it("stays on the plant list when there is no demo", async () => {
+    render(<App client={client()} />);
+    expect(
+      await screen.findByRole("heading", { name: "Plants" }),
+    ).toBeDefined();
+    expect(window.location.hash).toBe("");
+  });
+});

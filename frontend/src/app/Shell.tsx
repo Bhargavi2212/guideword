@@ -89,6 +89,11 @@ export function Shell({
               spent {money(run.data.run.spent_usd)} of{" "}
               {money(run.data.run.spend_cap_usd)} cap
             </Traced>
+            {run.data.label.note ? (
+              <Traced id={run.data.run.id}>
+                <span className="spend-note">{run.data.label.note}</span>
+              </Traced>
+            ) : null}
           </>
         ) : null}
         {budget.data !== null ? (
