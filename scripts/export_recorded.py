@@ -8,7 +8,8 @@ default (decision C8): the engineer's overrides are made there, so the site show
 stored row of the run and of its plant is written, one JSON file per table, with three changes
 to the copy only:
 
-- the run's label reads `recorded`, recorded at its last event, at the cost its ledger lines
+- the run's label reads `recorded`, recorded at its last event (a `calculations_reattached`
+  event, review plan R2, is named in the note instead), at the cost its ledger lines
   give (the authority for runs recorded before the refused-retry fix, #103, merged 2026-10-23
   01:32 EDT), with a note when its records fall under that (deploy plan §0.3);
 - the precedent judge's `reasoning_text` is left out: the model may have quoted a web page there,
@@ -29,6 +30,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
+from guideword.evidence.reattach import STEP_REASON
 from guideword.gateway.ledgers import LaptopLedger
 from guideword.runs.db import Base
 from guideword.runs.machine import SPEND_TOLERANCE_USD, ledger_spent
@@ -41,6 +43,7 @@ REPO = Path(__file__).resolve().parents[1]
 STORE = REPO / "guideword-demo.db"
 LEDGER = REPO / "budget" / "ledger.jsonl"
 JUDGE = "precedent_judge"
+REATTACHED = "calculations_reattached"
 
 
 @dataclass(frozen=True)
@@ -59,6 +62,16 @@ def spend_note(*, stored_usd: float, ledger_usd: float) -> str | None:
     return (
         f"record ${under:.4f} under ledger: run recorded on code before the refused-retry fix "
         "(#103)"
+    )
+
+
+def _reattach_event(event: dict[str, Any]) -> bool:
+    """An event a re-attach wrote: its step (the first of its batch) or its closing event."""
+    record = event["record"]
+    if event["type"] == REATTACHED:
+        return True
+    return bool(
+        event["type"] == "agent_decision" and record["payload"].get("reason") == STEP_REASON
     )
 
 
@@ -109,14 +122,24 @@ def export(
     events = rows["events"]
     paid = ledger_spent(ledger, run_id)
     cost = paid if paid is not None else float(record["spent_usd"])
+    # a re-attach (review plan R2) is not the recording: the run was recorded at its last
+    # other event, and the label's note says when and by which commit the cards were moved
+    reattached = [e for e in events if e["type"] == REATTACHED]
+    first = next((n for n, e in enumerate(events) if _reattach_event(e)), len(events))
+    recorded = events[:first]
     label: dict[str, Any] = {
         "kind": "recorded",
-        "recorded_at": events[-1]["record"]["time"] if events else None,
+        "recorded_at": recorded[-1]["record"]["time"] if recorded else None,
         "cost_usd": cost,
     }
-    note = spend_note(stored_usd=float(record["spent_usd"]), ledger_usd=cost)
-    if note is not None:
-        label["note"] = note
+    notes = [spend_note(stored_usd=float(record["spent_usd"]), ledger_usd=cost)]
+    notes += [
+        f"calculations re-attached {e['record']['payload']['date']} "
+        f"({e['record']['payload']['commit']})"
+        for e in reattached
+    ]
+    if any(notes):
+        label["note"] = "; ".join(n for n in notes if n)
     record["label"] = label
     rows["runs"] = [{**run, "record": record}]
     rows["model_calls"] = [
