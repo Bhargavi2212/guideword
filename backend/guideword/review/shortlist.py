@@ -8,7 +8,7 @@ override changes what an item shows and its gap, so the order within a tier foll
 as seen, and never crosses tiers.
 """
 
-from collections.abc import Sequence
+from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
 
 from guideword.api import models as api
@@ -18,6 +18,7 @@ from guideword.lopa.lines import (
     ShortlistLine,
     display_lines,
     lopa_plan,
+    section_for,
     shortlist,
 )
 from guideword.reference import ReferenceSet
@@ -32,7 +33,7 @@ from guideword.review.overrides import (
     override_state,
 )
 from guideword.review.text_check import unexpected_flags
-from guideword.schema.enums import Confidence, Verdict
+from guideword.schema.enums import Confidence, EvidenceKind, Verdict
 from guideword.schema.plant import Plant
 from guideword.schema.records import (
     Chain,
@@ -43,6 +44,7 @@ from guideword.schema.records import (
     ModelCall,
     Override,
 )
+from guideword.tools import physics
 
 PRE_R50_LABEL = "pre-R50 run"
 # Phase 4 spec 4.4: what a line's evidence adds to its card
@@ -182,7 +184,34 @@ def _unsure(finding: Finding | None, chain: Chain | None, findings: dict[str, Fi
     return finding is not None and finding.confidence == Confidence.UNSURE
 
 
-def _item(line: ShortlistLine, rank: int, view: RunView) -> api.ShortlistItem:
+def _via(line: ShortlistLine, view: RunView, plant: Plant) -> dict[str, tuple[str, ...]]:
+    """Contract v1.11: each calculation card's `via_ids`, by its evidence ID's
+    `calculation:<calculation>-<equipment>` key, from the attachment rule the evidence step
+    uses (review plan §0a), computed when the list is read. A stored card the rule no longer
+    gives has none."""
+    records = view.records
+    findings = {f.id: f for f in records.findings}
+    questions = {q.id: q for q in records.questions}
+    sections = {s.id: s for s in records.sections}
+    chain = line.planned.chain
+    links = physics.line_links(
+        chain.links if chain is not None else [line.planned.target_id],
+        findings,
+        lambda f: section_for(f, questions, sections),
+    )
+    return {
+        f"calculation:{card.calculation}-{card.equipment_id}": card.via_ids
+        for card in physics.applicable(links, plant)
+    }
+
+
+def _card(record: Evidence, via: Mapping[str, tuple[str, ...]]) -> api.ShortlistEvidence:
+    _, _, key = record.id.rpartition(":calculation:")
+    shown = via.get(f"calculation:{key}", ()) if record.kind == EvidenceKind.CALCULATION else ()
+    return api.ShortlistEvidence.model_validate(record.model_dump() | {"via_ids": list(shown)})
+
+
+def _item(line: ShortlistLine, rank: int, view: RunView, plant: Plant) -> api.ShortlistItem:
     planned, overrides = line.planned, view.records.overrides
     findings = {f.id: f for f in view.records.findings}
     tiered = planned.line
@@ -201,6 +230,7 @@ def _item(line: ShortlistLine, rank: int, view: RunView) -> api.ShortlistItem:
         else []
     )
     flags += evidence_flags(evidence)
+    via = _via(line, view, plant) if evidence else {}
     flags += unexpected_flags(model_text(line, lead))
     target = "chain" if chain is not None else "finding"
     if planned.target_kind != "hypothesis":
@@ -225,8 +255,8 @@ def _item(line: ShortlistLine, rank: int, view: RunView) -> api.ShortlistItem:
         finding=finding if chain is None else None,
         chain=chain,
         lopa=line.lopa,
-        # contract v1.11: `via_ids` is filled by the attachment rule (review plan R1)
-        evidence=[api.ShortlistEvidence.model_validate(e.model_dump()) for e in evidence],
+        # contract v1.11: what each card is attached through (review plan R1)
+        evidence=[_card(e, via) for e in evidence],
         recommendations=[effective_recommendation(r, overrides) for r in line.recommendations],
         tier=planned.tier,
         hypothesis_id=hypothesis.id if hypothesis is not None else None,
@@ -243,6 +273,6 @@ def shortlist_items(
     view: RunView, plant: Plant, ref: ReferenceSet, caps: CapsConfig
 ) -> list[api.ShortlistItem]:
     return [
-        _item(line, rank, view)
+        _item(line, rank, view, plant)
         for rank, line in enumerate(shortlist_lines(view, plant, ref, caps), start=1)
     ]

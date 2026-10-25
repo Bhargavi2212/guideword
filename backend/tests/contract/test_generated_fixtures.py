@@ -125,7 +125,9 @@ def test_the_generated_run_covers_every_case_in_table_f() -> None:
     types = {e.type for e in dump.events}
     assert {"hypothesis_added", "hypothesis_dropped"} <= types
     # a chain, LOPA of each kind, a recommendation
-    assert len(dump.chains) == 1 and len(dump.chains[0].links) == 2
+    # two finding links and two fact links, MX-1's and its steam valve's (review plan §0a)
+    assert len(dump.chains) == 1 and len(dump.chains[0].links) == 4
+    assert sum(link.startswith("f:") for link in dump.chains[0].links) == 2
     lopa = dump.lopa_records
     layers = [layer for r in lopa for layer in r.layers]
     assert any(layer.credited for layer in layers)

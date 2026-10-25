@@ -30,6 +30,7 @@ from guideword.schema.records import Finding, Section
 from guideword.tools import physics
 from guideword.tools.physics import (
     LOWER_BOUND_FLAG,
+    Card,
     applicable,
     as_evidence,
     blocked_in_heating,
@@ -395,16 +396,20 @@ def test_the_verdict_is_the_same_on_every_line_with_that_equipment(wg: Plant) ->
 # --- applicability -------------------------------------------------------------------------------
 
 
-def test_applicability_is_by_question_id_and_scenario_objects(wg: Plant) -> None:
+def test_applicability_is_by_question_id_and_what_the_line_names(wg: Plant) -> None:
+    """The matrix rule reads the question; the blocked-in rule (review plan §0a) needs the line
+    to name the vessel and one of its valves or steps, so naming the vessel alone is not
+    enough (Phase 4's scenario-object rule gave `env` a card here)."""
     pressure = finding("m:S-EA-425B:more:pressure", ["HV-B-SIN"])
     flow = finding("m:S-L-QW-B-IN:less:flow", ["HV-QW-B-IN"])
     env = finding("env:C4-HEAVIES:air", ["EA-425B", "LOC-OLEFINS-UNIT"])
     s_b = section("S-EA-425B", ["EA-425B"])
     s_flow = section("S-L-QW-B-IN", ["L-QW-B-IN", "HV-QW-B-IN"])
-    expected = [(Calculation.BLOCKED_IN_HEATING, "EA-425B")]
-    assert applicable([(pressure, s_b)], wg) == expected
-    assert applicable([(env, None)], wg) == expected  # a heated scenario object
-    assert applicable([(flow, s_flow)], wg) == []  # less:flow, no heated equipment
+    assert applicable([(pressure, s_b)], wg) == [
+        Card(Calculation.BLOCKED_IN_HEATING, "EA-425B", (pressure.id,))
+    ]
+    assert applicable([(env, None)], wg) == []  # the vessel, but none of its valves
+    assert applicable([(flow, s_flow)], wg) == []  # a valve, but not the vessel
 
 
 def test_more_level_and_more_temperature_get_their_calculations() -> None:
@@ -412,11 +417,11 @@ def test_more_level_and_more_temperature_get_their_calculations() -> None:
     level = finding("m:S-MX-1:more:level", ["HV-12"])
     temp = finding("m:S-MX-1:more:temperature", ["TV-1"])
     s = section("S-MX-1", ["MX-1"])
+    # the line names HV-12, an MX-1 valve, but not MX-1 itself: no blocked-in check (§0a)
     assert applicable([(level, s)], plant) == [
-        (Calculation.BLOCKED_IN_HEATING, "MX-1"),
-        (Calculation.OVERFLOW_TIME, "MX-1"),
+        Card(Calculation.OVERFLOW_TIME, "MX-1", (level.id,)),
     ]
-    assert (Calculation.HEAT_UP_RATE, "MX-1") in applicable([(temp, s)], plant)
+    assert Card(Calculation.HEAT_UP_RATE, "MX-1", (temp.id,)) in applicable([(temp, s)], plant)
 
 
 def test_one_card_per_equipment_when_both_rules_reach_it(wg: Plant) -> None:
@@ -424,7 +429,7 @@ def test_one_card_per_equipment_when_both_rules_reach_it(wg: Plant) -> None:
     other = finding("m:S-EA-425A:more:pressure", ["HV-A-SIN"])
     s_a = section("S-EA-425A", ["EA-425A"])
     assert applicable([(pressure, s_a), (other, s_a)], wg) == [
-        (Calculation.BLOCKED_IN_HEATING, "EA-425A")
+        Card(Calculation.BLOCKED_IN_HEATING, "EA-425A", (pressure.id, other.id))
     ]
 
 
@@ -436,7 +441,10 @@ def test_wg_reboiler_a_line_gets_one_card_none_not_blocked_in(wg: Plant) -> None
         (finding("m:S-EA-425A:more:pressure", ["EA-425A"]), s_a),
     ]
     cards = applicable(links, wg)
-    assert cards == [(Calculation.BLOCKED_IN_HEATING, "EA-425A")]
+    # the matrix rule through more:pressure; the blocked-in rule through less:flow's HV-A-SIN
+    assert cards == [
+        Card(Calculation.BLOCKED_IN_HEATING, "EA-425A", (links[0][0].id, links[1][0].id))
+    ]
     result = blocked_in_heating("EA-425A", wg)
     assert (result.verdict, result.failed) == (Verdict.NONE, ("not blocked in",))
 
@@ -446,22 +454,24 @@ def test_more_pressure_equipment_without_heat_sources_names_the_missing_fact() -
     _item(raw, "equipment", "MX-1")["heat_sources"] = []
     plant = _plant(raw)
     s = section("S-MX-1", ["MX-1"])
-    assert applicable([(finding("m:S-MX-1:more:pressure", ["TV-1"]), s)], plant) == [
-        (Calculation.BLOCKED_IN_HEATING, "MX-1")
+    pressure = finding("m:S-MX-1:more:pressure", ["TV-1"])
+    assert applicable([(pressure, s)], plant) == [
+        Card(Calculation.BLOCKED_IN_HEATING, "MX-1", (pressure.id,))
     ]
     assert "MX-1.heat_sources" in blocked_in_heating("MX-1", plant).missing_fact_ids
-    # the scenario-object rule never reaches equipment without a heat source
-    assert applicable([(finding("env:SIH:air", ["MX-1"]), None)], plant) == []
+    # the blocked-in rule never reaches equipment without a heat source
+    assert applicable([(finding("env:SIH:air", ["MX-1", "HV-12"]), None)], plant) == []
 
 
 def test_two_equipment_on_one_line_get_two_calculation_ids(wg: Plant) -> None:
-    env = finding("env:C4-HEAVIES:air", ["EA-425A", "EA-425B", "LOC-OLEFINS-UNIT"])
+    named = ["EA-425A", "EA-425B", "HV-QW-A-IN", "HV-QW-B-IN", "LOC-OLEFINS-UNIT"]
+    env = finding("env:C4-HEAVIES:air", named)
     cards = applicable([(env, None)], wg)
     assert cards == [
-        (Calculation.BLOCKED_IN_HEATING, "EA-425A"),
-        (Calculation.BLOCKED_IN_HEATING, "EA-425B"),
+        Card(Calculation.BLOCKED_IN_HEATING, "EA-425A", (env.id,)),
+        Card(Calculation.BLOCKED_IN_HEATING, "EA-425B", (env.id,)),
     ]
-    evidence_ids = {ids.calculation_evidence_id(env.id, c, e) for c, e in cards}
+    evidence_ids = {ids.calculation_evidence_id(env.id, c, e) for c, e, _ in cards}
     assert len(evidence_ids) == 2
 
 

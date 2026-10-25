@@ -15,7 +15,7 @@
         "questions": 98,
         "sections": 9
       },
-      "time": "2026-10-13T10:06:23Z",
+      "time": "2026-10-13T10:06:18Z",
       "payload_schema": "v1.9",
       "payload_invalid": false,
       "payload_error": null
@@ -27,7 +27,7 @@
       "payload": {
         "step": "plant_screen"
       },
-      "time": "2026-10-13T10:06:49Z",
+      "time": "2026-10-13T10:06:44Z",
       "payload_schema": "v1.9",
       "payload_invalid": false,
       "payload_error": null
@@ -47,7 +47,7 @@
         "tier": "ultra",
         "tier_source": "recorded"
       },
-      "time": "2026-10-13T10:06:53Z",
+      "time": "2026-10-13T10:06:48Z",
       "payload_schema": "v1.9",
       "payload_invalid": false,
       "payload_error": null
@@ -67,7 +67,7 @@
         "tier": "ultra",
         "tier_source": "recorded"
       },
-      "time": "2026-10-13T10:06:54Z",
+      "time": "2026-10-13T10:06:49Z",
       "payload_schema": "v1.9",
       "payload_invalid": false,
       "payload_error": null
@@ -87,7 +87,7 @@
         "tier": "ultra",
         "tier_source": "recorded"
       },
-      "time": "2026-10-13T10:06:58Z",
+      "time": "2026-10-13T10:06:53Z",
       "payload_schema": "v1.9",
       "payload_invalid": false,
       "payload_error": null
@@ -107,7 +107,7 @@
         "tier": "ultra",
         "tier_source": "recorded"
       },
-      "time": "2026-10-13T10:06:59Z",
+      "time": "2026-10-13T10:06:54Z",
       "payload_schema": "v1.9",
       "payload_invalid": false,
       "payload_error": null
@@ -120,7 +120,7 @@
         "rank": 3,
         "reason": "rank 3: TANK-9 not in this plant"
       },
-      "time": "2026-10-13T10:07:00Z",
+      "time": "2026-10-13T10:06:55Z",
       "payload_schema": "v1.9",
       "payload_invalid": false,
       "payload_error": null
@@ -133,7 +133,7 @@
         "rank": null,
         "reason": "screen degraded: 2 kept"
       },
-      "time": "2026-10-13T10:07:01Z",
+      "time": "2026-10-13T10:06:56Z",
       "payload_schema": "v1.9",
       "payload_invalid": false,
       "payload_error": null
@@ -146,7 +146,7 @@
         "hypothesis_id": "h:1:3816f75bc6a4f1e1",
         "rank": 1
       },
-      "time": "2026-10-13T10:07:02Z",
+      "time": "2026-10-13T10:06:57Z",
       "payload_schema": "v1.9",
       "payload_invalid": false,
       "payload_error": null
@@ -159,7 +159,7 @@
         "hypothesis_id": "h:2:8eb9ae798c74bbc8",
         "rank": 2
       },
-      "time": "2026-10-13T10:07:03Z",
+      "time": "2026-10-13T10:06:58Z",
       "payload_schema": "v1.9",
       "payload_invalid": false,
       "payload_error": null
@@ -173,7 +173,7 @@
         "status": "running",
         "next_step": "analysis"
       },
-      "time": "2026-10-13T10:07:04Z",
+      "time": "2026-10-13T10:06:59Z",
       "payload_schema": "v1.9",
       "payload_invalid": false,
       "payload_error": null
@@ -185,7 +185,7 @@
       "payload": {
         "step": "analysis"
       },
-      "time": "2026-10-13T10:07:05Z",
+      "time": "2026-10-13T10:07:00Z",
       "payload_schema": "v1.9",
       "payload_invalid": false,
       "payload_error": null
@@ -205,7 +205,7 @@
         "tier": "ultra",
         "tier_source": "recorded"
       },
-      "time": "2026-10-13T10:07:08Z",
+      "time": "2026-10-13T10:07:03Z",
       "payload_schema": "v1.9",
       "payload_invalid": false,
       "payload_error": null
@@ -225,7 +225,7 @@
         "tier": "ultra",
         "tier_source": "recorded"
       },
-      "time": "2026-10-13T10:07:11Z",
+      "time": "2026-10-13T10:07:06Z",
       "payload_schema": "v1.9",
       "payload_invalid": false,
       "payload_error": null
@@ -239,7 +239,7 @@
         "status": "failed",
         "next_step": "analysis"
       },
-      "time": "2026-10-13T10:07:12Z",
+      "time": "2026-10-13T10:07:07Z",
       "payload_schema": "v1.9",
       "payload_invalid": false,
       "payload_error": null
@@ -251,7 +251,7 @@
       "payload": {
         "step": "analysis"
       },
-      "time": "2026-10-13T10:07:13Z",
+      "time": "2026-10-13T10:07:08Z",
       "payload_schema": "v1.9",
       "payload_invalid": false,
       "payload_error": null
