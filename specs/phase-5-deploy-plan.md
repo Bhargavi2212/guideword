@@ -14,7 +14,8 @@ read-only serving, Vercel deploy), so this plan is the spec item and the plan to
    S3 → S4 override is made there (acceptance 4) and is the beat the site must show. Once it
    exists, the export is rerun and the site redeployed (done-when, §7). New overrides still 403.
 2. **The landing marks the demo moment:** the shortlist with the rank-2 `P-REB-START-2` chain
-   flagged "start here". F3's PR switches the landing to the replay.
+   flagged "start here". F3's PR switches the landing to the replay. *(Amended 2026-10-25,
+   review plan Q9: the landing stays on the shortlist with a plant picker; F3 doesn't switch it.)*
 3. **Spend:** the label shows $0.90 (the ledger), and the run's spend carries a note, "record
    $0.0083 under ledger: run recorded on code before the refused-retry fix (#103)", so the label and the drawer agree.
    It needs `RunLabel.note` (a contract change: D0, its own PR).
