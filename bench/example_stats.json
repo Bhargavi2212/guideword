@@ -1,0 +1,62 @@
+{
+ "_about": "Hand-worked reference values for Phase 6 acceptance test 8 (Cowork, 2026-10-25). Wilson score interval, z = 1.959963984540054 (95%), no continuity correction. Exact McNemar = two-sided binomial test on the discordant cases, p = min(1, 2 * sum_{i<=min(b,c)} C(n,i) / 2^n), n = b + c. Compare with relative tolerance 1e-9.",
+ "wilson_95": [
+  {
+   "x": 0,
+   "n": 4,
+   "low": 0.0,
+   "high": 0.4898908364545973
+  },
+  {
+   "x": 2,
+   "n": 4,
+   "low": 0.15003898915214947,
+   "high": 0.8499610108478506
+  },
+  {
+   "x": 4,
+   "n": 4,
+   "low": 0.5101091635454027,
+   "high": 1.0
+  },
+  {
+   "x": 3,
+   "n": 8,
+   "low": 0.13684428582359742,
+   "high": 0.6942576053973727
+  }
+ ],
+ "mcnemar_exact": [
+  {
+   "b": 0,
+   "c": 0,
+   "p": 1.0
+  },
+  {
+   "b": 1,
+   "c": 0,
+   "p": 1.0
+  },
+  {
+   "b": 3,
+   "c": 0,
+   "p": 0.25
+  },
+  {
+   "b": 5,
+   "c": 0,
+   "p": 0.0625
+  },
+  {
+   "b": 6,
+   "c": 0,
+   "p": 0.03125
+  },
+  {
+   "b": 4,
+   "c": 1,
+   "p": 0.375
+  }
+ ],
+ "smallest_all_one_way_discordant_for_p_below_0_05": 6
+}

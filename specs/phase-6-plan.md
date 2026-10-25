@@ -1,7 +1,6 @@
 # Phase 6 plan: the held-out benchmark
 
-Status: **draft, awaiting Bhargavi's approval** (mark `Status: approved <date>` here). It also
-needs `specs/phase-6.md` approved and committed: the spec is still marked draft and untracked.
+Status: approved 2026-10-25 (Bhargavi), with `specs/phase-6.md`.
 
 Revised 2026-10-25 against the updated `specs/phase-6.md`, which now has P6-13, P6-14, P6-15,
 the "started" line and acceptance 2b. Built from `main` at `37ecd31` (after #129, #130). Claude
