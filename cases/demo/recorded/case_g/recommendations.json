@@ -1,0 +1,265 @@
+{
+ "table": "recommendations",
+ "rows": [
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "rec:ch:f:env:ACETIC-ACID:heat:lightning:4e4cfd6b63f35ea2:ed67bd729cf1411f+f:env:BIOCIDE:water:lightning:0dc866d38545499a:4a6d5fe17bf216f7+f:env:SIH:heat:super:8292e1a1a4753ac1:ed67bd729cf1411f+f:m:S-TOTES:more:pressure:super:C22:ed67bd729cf1411f:81b47f1914341883",
+   "position": 0,
+   "record": {
+    "id": "rec:ch:f:env:ACETIC-ACID:heat:lightning:4e4cfd6b63f35ea2:ed67bd729cf1411f+f:env:BIOCIDE:water:lightning:0dc866d38545499a:4a6d5fe17bf216f7+f:env:SIH:heat:super:8292e1a1a4753ac1:ed67bd729cf1411f+f:m:S-TOTES:more:pressure:super:C22:ed67bd729cf1411f:81b47f1914341883",
+    "run_id": "run:dbaab5578fbff8f3",
+    "target_id": "ch:f:env:ACETIC-ACID:heat:lightning:4e4cfd6b63f35ea2:ed67bd729cf1411f+f:env:BIOCIDE:water:lightning:0dc866d38545499a:4a6d5fe17bf216f7+f:env:SIH:heat:super:8292e1a1a4753ac1:ed67bd729cf1411f+f:m:S-TOTES:more:pressure:super:C22:ed67bd729cf1411f",
+    "action": "Install fire-rated thermal insulation and water-diversion shielding on tote storage racks in LOC-G-WAREHOUSE to prevent external fire heating and washdown water contact with totes in S-TOTES.",
+    "reason": "No protection layers exist for the combined fire/water/decomposition scenario; this passive engineered layer removes the heating and water-contact causes at the source, addressing all linked deviations simultaneously.",
+    "model_call_id": "mc:f479bfe601fe9f6c"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "rec:ch:f:env:ACETIC-ACID:heat:lightning:4e4cfd6b63f35ea2:ed67bd729cf1411f+f:env:SIH:heat:super:8292e1a1a4753ac1:ed67bd729cf1411f+f:m:S-TOTES:less:pressure:super:C23:ed67bd729cf1411f+f:m:S-TOTES:more:pressure:super:C22:ed67bd729cf1411f:81b47f1914341883",
+   "position": 1,
+   "record": {
+    "id": "rec:ch:f:env:ACETIC-ACID:heat:lightning:4e4cfd6b63f35ea2:ed67bd729cf1411f+f:env:SIH:heat:super:8292e1a1a4753ac1:ed67bd729cf1411f+f:m:S-TOTES:less:pressure:super:C23:ed67bd729cf1411f+f:m:S-TOTES:more:pressure:super:C22:ed67bd729cf1411f:81b47f1914341883",
+    "run_id": "run:dbaab5578fbff8f3",
+    "target_id": "ch:f:env:ACETIC-ACID:heat:lightning:4e4cfd6b63f35ea2:ed67bd729cf1411f+f:env:SIH:heat:super:8292e1a1a4753ac1:ed67bd729cf1411f+f:m:S-TOTES:less:pressure:super:C23:ed67bd729cf1411f+f:m:S-TOTES:more:pressure:super:C22:ed67bd729cf1411f",
+    "action": "Install fire-rated thermal insulation and water-diversion shielding on tote storage racks in LOC-G-WAREHOUSE to prevent external fire heating and washdown water contact with totes in S-TOTES.",
+    "reason": "Same as above; this single engineered layer closes the gap for all four linked deviations by eliminating the common cause (external fire and water exposure) rather than adding separate mitigations.",
+    "model_call_id": "mc:f479bfe601fe9f6c"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "rec:ch:f:env:IPA:water:lightning:C21:3b97db13b41da138+f:m:S-L-HOSE-MX-3:no:flow:super:C19:7e983c30a4f63d4c+f:m:S-L-HOSE-MX-4~PORTABLE-PUMP:more:pressure:super:C23:aa402b1e56a4f47d:c33b6eca7177284f",
+   "position": 19,
+   "record": {
+    "id": "rec:ch:f:env:IPA:water:lightning:C21:3b97db13b41da138+f:m:S-L-HOSE-MX-3:no:flow:super:C19:7e983c30a4f63d4c+f:m:S-L-HOSE-MX-4~PORTABLE-PUMP:more:pressure:super:C23:aa402b1e56a4f47d:c33b6eca7177284f",
+    "run_id": "run:dbaab5578fbff8f3",
+    "target_id": "ch:f:env:IPA:water:lightning:C21:3b97db13b41da138+f:m:S-L-HOSE-MX-3:no:flow:super:C19:7e983c30a4f63d4c+f:m:S-L-HOSE-MX-4~PORTABLE-PUMP:more:pressure:super:C23:aa402b1e56a4f47d",
+    "action": "Fit a deadhead pressure switch on the PORTABLE-PUMP that automatically stops the pump when discharge pressure exceeds the hose design pressure, protecting the hose S-L-HOSE-MX-4~PORTABLE-PUMP.",
+    "reason": "The scenario involves forklift impact kinking the hose, causing pump deadhead and hose rupture with no protective layers; a deadhead pressure switch on the pump provides an independent engineered layer that stops pressure build-up at the source.",
+    "model_call_id": "mc:099341a1ad17cdd4"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "rec:ch:f:m:S-FILLING-LINE:more:pressure:super:db15ed169d8dcabb:aa402b1e56a4f47d+f:m:S-FILLING-LINE:more:temperature:super:a6a610c000d3f49e:aa402b1e56a4f47d+f:m:S-HOMOGENISER:more:flow:super:c087e9ea1d5faed1:aa402b1e56a4f47d:9806ee496b68e599",
+   "position": 5,
+   "record": {
+    "id": "rec:ch:f:m:S-FILLING-LINE:more:pressure:super:db15ed169d8dcabb:aa402b1e56a4f47d+f:m:S-FILLING-LINE:more:temperature:super:a6a610c000d3f49e:aa402b1e56a4f47d+f:m:S-HOMOGENISER:more:flow:super:c087e9ea1d5faed1:aa402b1e56a4f47d:9806ee496b68e599",
+    "run_id": "run:dbaab5578fbff8f3",
+    "target_id": "ch:f:m:S-FILLING-LINE:more:pressure:super:db15ed169d8dcabb:aa402b1e56a4f47d+f:m:S-FILLING-LINE:more:temperature:super:a6a610c000d3f49e:aa402b1e56a4f47d+f:m:S-HOMOGENISER:more:flow:super:c087e9ea1d5faed1:aa402b1e56a4f47d",
+    "action": "Add an independent low-flow trip on the S-HOMOGENISER circulation line that closes the steam supply valve to the jacket.",
+    "reason": "Closes the gap by removing the cause (heating without circulation) with an engineered layer independent of the flow control loop; no existing layer credited for the combined pressure, temperature, and flow deviation scenario.",
+    "model_call_id": "mc:8c335289dd9bfd62"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "rec:ch:f:m:S-L-HOSE-MX-1~PORTABLE-PUMP:more:temperature:lightning:C22:aa402b1e56a4f47d+f:m:S-L-HOSE-MX-3:no:flow:super:C19:7e983c30a4f63d4c+f:m:S-L-HOSE-MX-4:more:temperature:super:04709a7fa0816f7d:b7ded5680b191fcf+f:m:S-L-HOSE-MX-4~PORTABLE-PUMP:less:temperature:super:f87d741ea3ea4cd3:7df636aeb8a82524:923322b22c528c87",
+   "position": 11,
+   "record": {
+    "id": "rec:ch:f:m:S-L-HOSE-MX-1~PORTABLE-PUMP:more:temperature:lightning:C22:aa402b1e56a4f47d+f:m:S-L-HOSE-MX-3:no:flow:super:C19:7e983c30a4f63d4c+f:m:S-L-HOSE-MX-4:more:temperature:super:04709a7fa0816f7d:b7ded5680b191fcf+f:m:S-L-HOSE-MX-4~PORTABLE-PUMP:less:temperature:super:f87d741ea3ea4cd3:7df636aeb8a82524:923322b22c528c87",
+    "run_id": "run:dbaab5578fbff8f3",
+    "target_id": "ch:f:m:S-L-HOSE-MX-1~PORTABLE-PUMP:more:temperature:lightning:C22:aa402b1e56a4f47d+f:m:S-L-HOSE-MX-3:no:flow:super:C19:7e983c30a4f63d4c+f:m:S-L-HOSE-MX-4:more:temperature:super:04709a7fa0816f7d:b7ded5680b191fcf+f:m:S-L-HOSE-MX-4~PORTABLE-PUMP:less:temperature:super:f87d741ea3ea4cd3:7df636aeb8a82524",
+    "action": "Fit the portable pump with a case-temperature trip that shuts down the pump on excessive heat, covering all linked sections S-L-HOSE-MX-1, S-L-HOSE-MX-3, S-L-HOSE-MX-4.",
+    "reason": "No layers for combined thermal load; a single independent pump thermal trip addresses deadhead heating, friction heating, and fire impingement across all sections.",
+    "model_call_id": "mc:d7dddfbefd524592"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "rec:ch:f:m:S-L-HOSE-MX-3~PORTABLE-PUMP:as_well_as:composition:super:c233e4dd08a92178:a24c8ef85249b80c+f:m:S-L-HOSE-MX-4:other_than:composition:super:b2b3fc8c8a8c051f:a24c8ef85249b80c+f:m:S-L-HOSE-MX-4~PORTABLE-PUMP:more:pressure:super:C24:aa402b1e56a4f47d:d94a2eb7f4c98d17",
+   "position": 14,
+   "record": {
+    "id": "rec:ch:f:m:S-L-HOSE-MX-3~PORTABLE-PUMP:as_well_as:composition:super:c233e4dd08a92178:a24c8ef85249b80c+f:m:S-L-HOSE-MX-4:other_than:composition:super:b2b3fc8c8a8c051f:a24c8ef85249b80c+f:m:S-L-HOSE-MX-4~PORTABLE-PUMP:more:pressure:super:C24:aa402b1e56a4f47d:d94a2eb7f4c98d17",
+    "run_id": "run:dbaab5578fbff8f3",
+    "target_id": "ch:f:m:S-L-HOSE-MX-3~PORTABLE-PUMP:as_well_as:composition:super:c233e4dd08a92178:a24c8ef85249b80c+f:m:S-L-HOSE-MX-4:other_than:composition:super:b2b3fc8c8a8c051f:a24c8ef85249b80c+f:m:S-L-HOSE-MX-4~PORTABLE-PUMP:more:pressure:super:C24:aa402b1e56a4f47d",
+    "action": "Install dedicated keyed couplings for each material hose at connections for sections S-L-HOSE-MX-3 and S-L-HOSE-MX-4 to prevent wrong hose connection.",
+    "reason": "No layers for misconnection causing reverse flow; unique mechanical couplings remove the cause (wrong connection) and are superior to procedural checks.",
+    "model_call_id": "mc:d7dddfbefd524592"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "rec:ch:f:m:S-MX-2:more:level:super:107ce31d7e43a5b9:a24c8ef85249b80c+f:m:S-MX-4:less:mixing:super:cc2fc306e77761cb:a24c8ef85249b80c+f:proc:P-G-CHARGE-2:early:super:C16:4a6d5fe17bf216f7+f:proc:P-G-CHARGE-3:early:super:C16:a24c8ef85249b80c+f:proc:P-G-CHARGE-4:early:super:2ec3b96735ec8b55:6458250bd6fa33c7:b804bdee91f8791c",
+   "position": 15,
+   "record": {
+    "id": "rec:ch:f:m:S-MX-2:more:level:super:107ce31d7e43a5b9:a24c8ef85249b80c+f:m:S-MX-4:less:mixing:super:cc2fc306e77761cb:a24c8ef85249b80c+f:proc:P-G-CHARGE-2:early:super:C16:4a6d5fe17bf216f7+f:proc:P-G-CHARGE-3:early:super:C16:a24c8ef85249b80c+f:proc:P-G-CHARGE-4:early:super:2ec3b96735ec8b55:6458250bd6fa33c7:b804bdee91f8791c",
+    "run_id": "run:dbaab5578fbff8f3",
+    "target_id": "ch:f:m:S-MX-2:more:level:super:107ce31d7e43a5b9:a24c8ef85249b80c+f:m:S-MX-4:less:mixing:super:cc2fc306e77761cb:a24c8ef85249b80c+f:proc:P-G-CHARGE-2:early:super:C16:4a6d5fe17bf216f7+f:proc:P-G-CHARGE-3:early:super:C16:a24c8ef85249b80c+f:proc:P-G-CHARGE-4:early:super:2ec3b96735ec8b55:6458250bd6fa33c7",
+    "action": "Install an automatic high-level trip on mixing tank MX-2 that stops the portable pump used in procedure P-G-CHARGE-4 when the level exceeds the maximum fill height.",
+    "reason": "The scenario involves multiple procedural deviations (skipped verification, overfill, no agitator) with no protective layers; an independent engineered level trip on MX-2 directly prevents overfilling regardless of operator action, addressing the largest risk contributor.",
+    "model_call_id": "mc:099341a1ad17cdd4"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "rec:ch:f:m:S-MX-2:more:level:super:107ce31d7e43a5b9:a24c8ef85249b80c+f:m:S-MX-4:more:level:super:e5c02794c2fcb495:a24c8ef85249b80c+f:proc:P-G-CHARGE-4:early:super:2ec3b96735ec8b55:6458250bd6fa33c7:98a754dfb8c9d920",
+   "position": 18,
+   "record": {
+    "id": "rec:ch:f:m:S-MX-2:more:level:super:107ce31d7e43a5b9:a24c8ef85249b80c+f:m:S-MX-4:more:level:super:e5c02794c2fcb495:a24c8ef85249b80c+f:proc:P-G-CHARGE-4:early:super:2ec3b96735ec8b55:6458250bd6fa33c7:98a754dfb8c9d920",
+    "run_id": "run:dbaab5578fbff8f3",
+    "target_id": "ch:f:m:S-MX-2:more:level:super:107ce31d7e43a5b9:a24c8ef85249b80c+f:m:S-MX-4:more:level:super:e5c02794c2fcb495:a24c8ef85249b80c+f:proc:P-G-CHARGE-4:early:super:2ec3b96735ec8b55:6458250bd6fa33c7",
+    "action": "Install automatic high-level trips on both MX-2 and MX-4 that stop the portable pump used in P-G-CHARGE-4 when the tank level exceeds the maximum fill height.",
+    "reason": "The scenario involves overfilling either tank by leaving the portable pump running too long with a loose lid, and no layers exist; high-level trips on both tanks directly stop the pump at the source, preventing spills and indoor vapour accumulation.",
+    "model_call_id": "mc:099341a1ad17cdd4"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "rec:ch:f:m:S-MX-2:more:pressure:super:76c3f200122fe0b3:a24c8ef85249b80c+f:m:S-TOTES:as_well_as:composition:lightning:C14:4a6d5fe17bf216f7+f:pair:DI-WATER:PT-CATALYST:lightning:C17:4a6d5fe17bf216f7:bd5a93a10e47f05f",
+   "position": 16,
+   "record": {
+    "id": "rec:ch:f:m:S-MX-2:more:pressure:super:76c3f200122fe0b3:a24c8ef85249b80c+f:m:S-TOTES:as_well_as:composition:lightning:C14:4a6d5fe17bf216f7+f:pair:DI-WATER:PT-CATALYST:lightning:C17:4a6d5fe17bf216f7:bd5a93a10e47f05f",
+    "run_id": "run:dbaab5578fbff8f3",
+    "target_id": "ch:f:m:S-MX-2:more:pressure:super:76c3f200122fe0b3:a24c8ef85249b80c+f:m:S-TOTES:as_well_as:composition:lightning:C14:4a6d5fe17bf216f7+f:pair:DI-WATER:PT-CATALYST:lightning:C17:4a6d5fe17bf216f7",
+    "action": "Add a tote-content verification interlock on the charging line to MX-2 that requires a matching tote ID scan before the portable pump can start, using the tote identification system for S-TOTES.",
+    "reason": "The scenario stems from charging a tote with an undocumented reactive combination (KOH emulsifier and PDMS); an engineered verification interlock prevents the wrong tote from being connected, removing the cause rather than relying on operator vigilance.",
+    "model_call_id": "mc:099341a1ad17cdd4"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "rec:ch:f:m:S-MX-2:more:reaction:super:C14:a24c8ef85249b80c+f:m:S-MX-2:part_of:composition:super:0ea82b87fc96b63a:b7ded5680b191fcf+f:proc:P-G-CHARGE-4:early:super:2ec3b96735ec8b55:6458250bd6fa33c7:1c08b30aa05379b3",
+   "position": 17,
+   "record": {
+    "id": "rec:ch:f:m:S-MX-2:more:reaction:super:C14:a24c8ef85249b80c+f:m:S-MX-2:part_of:composition:super:0ea82b87fc96b63a:b7ded5680b191fcf+f:proc:P-G-CHARGE-4:early:super:2ec3b96735ec8b55:6458250bd6fa33c7:1c08b30aa05379b3",
+    "run_id": "run:dbaab5578fbff8f3",
+    "target_id": "ch:f:m:S-MX-2:more:reaction:super:C14:a24c8ef85249b80c+f:m:S-MX-2:part_of:composition:super:0ea82b87fc96b63a:b7ded5680b191fcf+f:proc:P-G-CHARGE-4:early:super:2ec3b96735ec8b55:6458250bd6fa33c7",
+    "action": "Install an independent high-pressure safety trip on MX-2 that closes the jacket heating medium supply valve and opens a vent on overpressure, independent of the temperature control loop.",
+    "reason": "The scenario combines wrong material charge, uncontrolled jacket heating (temperature control failure), and loose lid with no protective layers; an independent high-pressure trip on MX-2 directly mitigates the overpressure consequence regardless of the initiating cause.",
+    "model_call_id": "mc:099341a1ad17cdd4"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "rec:f:env:SIH:heat:super:8292e1a1a4753ac1:ed67bd729cf1411f:9441a79f421f0a9f",
+   "position": 3,
+   "record": {
+    "id": "rec:f:env:SIH:heat:super:8292e1a1a4753ac1:ed67bd729cf1411f:9441a79f421f0a9f",
+    "run_id": "run:dbaab5578fbff8f3",
+    "target_id": "f:env:SIH:heat:super:8292e1a1a4753ac1:ed67bd729cf1411f",
+    "action": "Install passive fire protection (intumescent coating or thermal insulation) on tote storage in LOC-G-WAREHOUSE to limit heat transfer to SIH fluid in totes during external fire.",
+    "reason": "No layer exists for fire-induced Si-H bond cleavage; passive thermal protection removes the heating cause at the source, preventing hydrogen release without relying on active systems.",
+    "model_call_id": "mc:f479bfe601fe9f6c"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "rec:f:m:S-FILLING-LINE:as_well_as:composition:super:997a0e983313612e:aa402b1e56a4f47d:bc7799e54135caca",
+   "position": 4,
+   "record": {
+    "id": "rec:f:m:S-FILLING-LINE:as_well_as:composition:super:997a0e983313612e:aa402b1e56a4f47d:bc7799e54135caca",
+    "run_id": "run:dbaab5578fbff8f3",
+    "target_id": "f:m:S-FILLING-LINE:as_well_as:composition:super:997a0e983313612e:aa402b1e56a4f47d",
+    "action": "Install an independent inline composition analyzer (e.g., densitometer or spectrometer) on the S-FILLING-LINE feed at LOC-G-BUILDING to verify chemical identity before filling.",
+    "reason": "No layer exists for incorrect feed; an independent analyzer provides an engineered detection layer that acts on the composition deviation directly, superior to procedural checks which rely on human action.",
+    "model_call_id": "mc:f479bfe601fe9f6c"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "rec:f:m:S-FILLING-LINE:more:pressure:super:db15ed169d8dcabb:aa402b1e56a4f47d:c4be045962b53bb6",
+   "position": 6,
+   "record": {
+    "id": "rec:f:m:S-FILLING-LINE:more:pressure:super:db15ed169d8dcabb:aa402b1e56a4f47d:c4be045962b53bb6",
+    "run_id": "run:dbaab5578fbff8f3",
+    "target_id": "f:m:S-FILLING-LINE:more:pressure:super:db15ed169d8dcabb:aa402b1e56a4f47d",
+    "action": "Install a pressure safety valve on the S-FILLING-LINE that relieves to a closed containment system (e.g., catch tank) to prevent rupture and release into LOC-G-BUILDING.",
+    "reason": "Provides an independent engineered pressure relief layer where none exists; relieves overpressure from downstream blockage directly at the filling line.",
+    "model_call_id": "mc:8c335289dd9bfd62"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "rec:f:m:S-FILLING-LINE:more:temperature:super:a6a610c000d3f49e:aa402b1e56a4f47d:e13aaad491c0e74c",
+   "position": 7,
+   "record": {
+    "id": "rec:f:m:S-FILLING-LINE:more:temperature:super:a6a610c000d3f49e:aa402b1e56a4f47d:e13aaad491c0e74c",
+    "run_id": "run:dbaab5578fbff8f3",
+    "target_id": "f:m:S-FILLING-LINE:more:temperature:super:a6a610c000d3f49e:aa402b1e56a4f47d",
+    "action": "Add an independent high-temperature trip on the S-HOMOGENISER that closes the steam supply valve to the jacket on excessive temperature.",
+    "reason": "Removes the cause (continued heating during stagnation) with an engineered trip independent of the temperature control loop; no existing layer credited.",
+    "model_call_id": "mc:8c335289dd9bfd62"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "rec:f:m:S-FILLING-LINE:other_than:composition:super:8457b855c3ea1714:aa402b1e56a4f47d:1d47de64340b859f",
+   "position": 8,
+   "record": {
+    "id": "rec:f:m:S-FILLING-LINE:other_than:composition:super:8457b855c3ea1714:aa402b1e56a4f47d:1d47de64340b859f",
+    "run_id": "run:dbaab5578fbff8f3",
+    "target_id": "f:m:S-FILLING-LINE:other_than:composition:super:8457b855c3ea1714:aa402b1e56a4f47d",
+    "action": "Revise the S-FILLING-LINE charging procedure to require a documented material certificate-of-analysis match verification before opening the feed valve.",
+    "reason": "Addresses the root cause (incorrect feed or cross-connection) with a procedural barrier; no engineered layer exists and procedural check is feasible for batch transfers.",
+    "model_call_id": "mc:8c335289dd9bfd62"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "rec:f:m:S-L-HOSE-MX-1:other_than:composition:super:a933f8d5e00b2723:a24c8ef85249b80c:e7e25669a126a667",
+   "position": 9,
+   "record": {
+    "id": "rec:f:m:S-L-HOSE-MX-1:other_than:composition:super:a933f8d5e00b2723:a24c8ef85249b80c:e7e25669a126a667",
+    "run_id": "run:dbaab5578fbff8f3",
+    "target_id": "f:m:S-L-HOSE-MX-1:other_than:composition:super:a933f8d5e00b2723:a24c8ef85249b80c",
+    "action": "Implement a mandatory dual-operator material identification check at P-G-CHARGE-3 before connecting the hose to S-L-HOSE-MX-1, using tagged hose-material matching.",
+    "reason": "Prevents operator error (wrong material charging) with a procedural barrier at the charging point; no engineered layer exists and the action uses existing P-G-CHARGE-3 and S-L-HOSE-MX-1 IDs.",
+    "model_call_id": "mc:8c335289dd9bfd62"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "rec:f:m:S-L-HOSE-MX-1:other_than:phase:super:501f48dacc154fd4:4d44159ce87f33af:04f3fd98da061979",
+   "position": 10,
+   "record": {
+    "id": "rec:f:m:S-L-HOSE-MX-1:other_than:phase:super:501f48dacc154fd4:4d44159ce87f33af:04f3fd98da061979",
+    "run_id": "run:dbaab5578fbff8f3",
+    "target_id": "f:m:S-L-HOSE-MX-1:other_than:phase:super:501f48dacc154fd4:4d44159ce87f33af",
+    "action": "Install a high-temperature alarm and automatic portable pump shutdown on hose section S-L-HOSE-MX-1 to prevent phase change from temperature excursion.",
+    "reason": "No protection layers exist; this engineered trip removes the cause (temperature rise) before phase change occurs, preferred over relief or procedure.",
+    "model_call_id": "mc:d7dddfbefd524592"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "rec:f:m:S-L-HOSE-MX-1~PORTABLE-PUMP:more:temperature:lightning:C22:aa402b1e56a4f47d:5743763802d36c6a",
+   "position": 12,
+   "record": {
+    "id": "rec:f:m:S-L-HOSE-MX-1~PORTABLE-PUMP:more:temperature:lightning:C22:aa402b1e56a4f47d:5743763802d36c6a",
+    "run_id": "run:dbaab5578fbff8f3",
+    "target_id": "f:m:S-L-HOSE-MX-1~PORTABLE-PUMP:more:temperature:lightning:C22:aa402b1e56a4f47d",
+    "action": "Provide a fixed water-spray deluge system for the portable pump operating area at LOC-G-BUILDING to cool hose and pump during external fire.",
+    "reason": "No protection against external fire; a deluge system directly mitigates the fire hazard on the pump assembly at the named location.",
+    "model_call_id": "mc:d7dddfbefd524592"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "rec:f:m:S-L-HOSE-MX-3:more:pressure:super:C15:a24c8ef85249b80c:85a1da2490ac0b84",
+   "position": 13,
+   "record": {
+    "id": "rec:f:m:S-L-HOSE-MX-3:more:pressure:super:C15:a24c8ef85249b80c:85a1da2490ac0b84",
+    "run_id": "run:dbaab5578fbff8f3",
+    "target_id": "f:m:S-L-HOSE-MX-3:more:pressure:super:C15:a24c8ef85249b80c",
+    "action": "Install a pressure safety valve on hose section S-L-HOSE-MX-3 downstream of valve P-G-CHARGE-3, set below hose rupture pressure.",
+    "reason": "No layers for overpressure from valve misposition; an independent relief valve removes the hazard (overpressure) regardless of operator error.",
+    "model_call_id": "mc:d7dddfbefd524592"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "rec:f:m:S-TOTES:more:pressure:super:C22:ed67bd729cf1411f:abc9458f69be180e",
+   "position": 2,
+   "record": {
+    "id": "rec:f:m:S-TOTES:more:pressure:super:C22:ed67bd729cf1411f:abc9458f69be180e",
+    "run_id": "run:dbaab5578fbff8f3",
+    "target_id": "f:m:S-TOTES:more:pressure:super:C22:ed67bd729cf1411f",
+    "action": "Equip totes in S-TOTES with fire-rated pressure relief devices that maintain function during external fire exposure at LOC-G-WAREHOUSE.",
+    "reason": "No layer exists for fire-induced overpressure; a fire-rated relief device provides an independent engineered safeguard that operates even when totes are heated, directly addressing the pressure-exceedance consequence.",
+    "model_call_id": "mc:f479bfe601fe9f6c"
+   }
+  }
+ ]
+}

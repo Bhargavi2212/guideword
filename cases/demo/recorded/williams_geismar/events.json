@@ -17801,6 +17801,191 @@
     },
     "time": "2026-10-23T04:41:18.767033Z"
    }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "seq": 917,
+   "type": "agent_decision",
+   "record": {
+    "run_id": "run:76f8ee0b5d1f078e",
+    "seq": 917,
+    "type": "agent_decision",
+    "payload": {
+     "step_id": "step:ba495dc08672b940",
+     "agent": "evidence",
+     "tool": "physics_calc",
+     "reason": "code: calculations re-attached under the current attach rule (review plan R2)"
+    },
+    "time": "2026-10-26T03:44:21.060040Z",
+    "payload_schema": "v1.9",
+    "payload_invalid": false,
+    "payload_error": null
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "seq": 918,
+   "type": "tool_call",
+   "record": {
+    "run_id": "run:76f8ee0b5d1f078e",
+    "seq": 918,
+    "type": "tool_call",
+    "payload": {
+     "tool_call_id": "tc:step:ba495dc08672b940:physics_calc:f7c9a37580de6109",
+     "tool": "physics_calc",
+     "refused": false
+    },
+    "time": "2026-10-26T03:44:21.061039Z",
+    "payload_schema": "v1.9",
+    "payload_invalid": false,
+    "payload_error": null
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "seq": 919,
+   "type": "evidence_added",
+   "record": {
+    "run_id": "run:76f8ee0b5d1f078e",
+    "seq": 919,
+    "type": "evidence_added",
+    "payload": {
+     "evidence_id": "ev:ch:EA-425B.design_pressure_kpa+EA-425B.heat_sources+HV-B-SIN.normal_position+HV-B-SOUT.normal_position+HV-QW-B-IN.normal_position+HV-QW-B-OUT.normal_position+RV-PATH-EA425B.inlet_valve_ids+f:m:S-EA-425B:as_well_as:composition:super:C12:b3d32268f909ddb3+f:proc:P-REB-START-2:early:super:C16:126a45a4b13afa1b:calculation:blocked_in_heating-EA-425A",
+     "target_id": "ch:EA-425B.design_pressure_kpa+EA-425B.heat_sources+HV-B-SIN.normal_position+HV-B-SOUT.normal_position+HV-QW-B-IN.normal_position+HV-QW-B-OUT.normal_position+RV-PATH-EA425B.inlet_valve_ids+f:m:S-EA-425B:as_well_as:composition:super:C12:b3d32268f909ddb3+f:proc:P-REB-START-2:early:super:C16:126a45a4b13afa1b",
+     "kind": "calculation",
+     "verdict": "none"
+    },
+    "time": "2026-10-26T03:44:21.062035Z",
+    "payload_schema": "v1.9",
+    "payload_invalid": false,
+    "payload_error": null
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "seq": 920,
+   "type": "agent_decision",
+   "record": {
+    "run_id": "run:76f8ee0b5d1f078e",
+    "seq": 920,
+    "type": "agent_decision",
+    "payload": {
+     "step_id": "step:9fa7f4a3421cbb50",
+     "agent": "evidence",
+     "tool": "physics_calc",
+     "reason": "code: calculations re-attached under the current attach rule (review plan R2)"
+    },
+    "time": "2026-10-26T03:44:21.063578Z",
+    "payload_schema": "v1.9",
+    "payload_invalid": false,
+    "payload_error": null
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "seq": 921,
+   "type": "tool_call",
+   "record": {
+    "run_id": "run:76f8ee0b5d1f078e",
+    "seq": 921,
+    "type": "tool_call",
+    "payload": {
+     "tool_call_id": "tc:step:9fa7f4a3421cbb50:physics_calc:f7c9a37580de6109",
+     "tool": "physics_calc",
+     "refused": false
+    },
+    "time": "2026-10-26T03:44:21.063578Z",
+    "payload_schema": "v1.9",
+    "payload_invalid": false,
+    "payload_error": null
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "seq": 922,
+   "type": "tool_call",
+   "record": {
+    "run_id": "run:76f8ee0b5d1f078e",
+    "seq": 922,
+    "type": "tool_call",
+    "payload": {
+     "tool_call_id": "tc:step:9fa7f4a3421cbb50:physics_calc:703c235cf61df72b",
+     "tool": "physics_calc",
+     "refused": false
+    },
+    "time": "2026-10-26T03:44:21.064572Z",
+    "payload_schema": "v1.9",
+    "payload_invalid": false,
+    "payload_error": null
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "seq": 923,
+   "type": "evidence_added",
+   "record": {
+    "run_id": "run:76f8ee0b5d1f078e",
+    "seq": 923,
+    "type": "evidence_added",
+    "payload": {
+     "evidence_id": "ev:f:proc:P-REB-START-2:early:super:C16:126a45a4b13afa1b:calculation:blocked_in_heating-EA-425A",
+     "target_id": "f:proc:P-REB-START-2:early:super:C16:126a45a4b13afa1b",
+     "kind": "calculation",
+     "verdict": "none"
+    },
+    "time": "2026-10-26T03:44:21.064572Z",
+    "payload_schema": "v1.9",
+    "payload_invalid": false,
+    "payload_error": null
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "seq": 924,
+   "type": "evidence_added",
+   "record": {
+    "run_id": "run:76f8ee0b5d1f078e",
+    "seq": 924,
+    "type": "evidence_added",
+    "payload": {
+     "evidence_id": "ev:f:proc:P-REB-START-2:early:super:C16:126a45a4b13afa1b:calculation:blocked_in_heating-EA-425B",
+     "target_id": "f:proc:P-REB-START-2:early:super:C16:126a45a4b13afa1b",
+     "kind": "calculation",
+     "verdict": "confirmed"
+    },
+    "time": "2026-10-26T03:44:21.064572Z",
+    "payload_schema": "v1.9",
+    "payload_invalid": false,
+    "payload_error": null
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "seq": 925,
+   "type": "calculations_reattached",
+   "record": {
+    "run_id": "run:76f8ee0b5d1f078e",
+    "seq": 925,
+    "type": "calculations_reattached",
+    "payload": {
+     "date": "2026-10-26",
+     "commit": "0478505",
+     "superseded_ids": [
+      "ev:f:m:S-EA-425B:more:temperature:super:C22:e53bce019995581b:calculation:blocked_in_heating-EA-425B",
+      "ev:ch:HV-A-SIN.normal_position+HV-A-SOUT.normal_position+RV-PATH-EA425A.inlet_valve_ids+SV-421QA.protects_id+SV-421QB.protects_id+f:m:S-EA-425B:more:temperature:super:C22:e53bce019995581b+f:m:S-L-A-SOUT:reverse:flow:super:d96e945a65e57280:e8d47871d4a47f89+f:m:S-L-QW-A-IN:more:pressure:lightning:C22:e53bce019995581b:calculation:blocked_in_heating-EA-425B",
+      "ev:f:m:S-EA-425A:more:flow:super:C22:e53bce019995581b:calculation:blocked_in_heating-EA-425A"
+     ],
+     "added_ids": [
+      "ev:ch:EA-425B.design_pressure_kpa+EA-425B.heat_sources+HV-B-SIN.normal_position+HV-B-SOUT.normal_position+HV-QW-B-IN.normal_position+HV-QW-B-OUT.normal_position+RV-PATH-EA425B.inlet_valve_ids+f:m:S-EA-425B:as_well_as:composition:super:C12:b3d32268f909ddb3+f:proc:P-REB-START-2:early:super:C16:126a45a4b13afa1b:calculation:blocked_in_heating-EA-425A",
+      "ev:f:proc:P-REB-START-2:early:super:C16:126a45a4b13afa1b:calculation:blocked_in_heating-EA-425A",
+      "ev:f:proc:P-REB-START-2:early:super:C16:126a45a4b13afa1b:calculation:blocked_in_heating-EA-425B"
+     ]
+    },
+    "time": "2026-10-26T03:44:21.064572Z",
+    "payload_schema": "v1.9",
+    "payload_invalid": false,
+    "payload_error": null
+   }
   }
  ]
 }

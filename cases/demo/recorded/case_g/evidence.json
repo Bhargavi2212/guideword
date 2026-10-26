@@ -1,0 +1,175 @@
+{
+ "table": "evidence",
+ "rows": [
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "ev:ch:f:env:ACETIC-ACID:heat:lightning:4e4cfd6b63f35ea2:ed67bd729cf1411f+f:env:BIOCIDE:water:lightning:0dc866d38545499a:4a6d5fe17bf216f7+f:env:SIH:heat:super:8292e1a1a4753ac1:ed67bd729cf1411f+f:m:S-TOTES:more:pressure:super:C22:ed67bd729cf1411f:calculation:blocked_in_heating-TOTES",
+   "position": 0,
+   "record": {
+    "id": "ev:ch:f:env:ACETIC-ACID:heat:lightning:4e4cfd6b63f35ea2:ed67bd729cf1411f+f:env:BIOCIDE:water:lightning:0dc866d38545499a:4a6d5fe17bf216f7+f:env:SIH:heat:super:8292e1a1a4753ac1:ed67bd729cf1411f+f:m:S-TOTES:more:pressure:super:C22:ed67bd729cf1411f:calculation:blocked_in_heating-TOTES",
+    "run_id": "run:dbaab5578fbff8f3",
+    "target_id": "ch:f:env:ACETIC-ACID:heat:lightning:4e4cfd6b63f35ea2:ed67bd729cf1411f+f:env:BIOCIDE:water:lightning:0dc866d38545499a:4a6d5fe17bf216f7+f:env:SIH:heat:super:8292e1a1a4753ac1:ed67bd729cf1411f+f:m:S-TOTES:more:pressure:super:C22:ed67bd729cf1411f",
+    "kind": "calculation",
+    "verdict": "none",
+    "summary": "Blocked-in heating check on TOTES skipped: missing TOTES.heat_sources, TOTES.design_pressure_kpa",
+    "tool_call_id": "tc:step:23f0ae0e82226087:physics_calc:414e9a6df59e5b22",
+    "fact_ids": [],
+    "sources": [],
+    "model_call_id": null,
+    "missing_fact_ids": [
+     "TOTES.heat_sources",
+     "TOTES.design_pressure_kpa"
+    ],
+    "flags": [
+     "pure-component vapour pressure; liquid-full thermal expansion not modelled; real pressure can be higher"
+    ]
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "ev:ch:f:env:ACETIC-ACID:heat:lightning:4e4cfd6b63f35ea2:ed67bd729cf1411f+f:env:BIOCIDE:water:lightning:0dc866d38545499a:4a6d5fe17bf216f7+f:env:SIH:heat:super:8292e1a1a4753ac1:ed67bd729cf1411f+f:m:S-TOTES:more:pressure:super:C22:ed67bd729cf1411f:precedent:none",
+   "position": 1,
+   "record": {
+    "id": "ev:ch:f:env:ACETIC-ACID:heat:lightning:4e4cfd6b63f35ea2:ed67bd729cf1411f+f:env:BIOCIDE:water:lightning:0dc866d38545499a:4a6d5fe17bf216f7+f:env:SIH:heat:super:8292e1a1a4753ac1:ed67bd729cf1411f+f:m:S-TOTES:more:pressure:super:C22:ed67bd729cf1411f:precedent:none",
+    "run_id": "run:dbaab5578fbff8f3",
+    "target_id": "ch:f:env:ACETIC-ACID:heat:lightning:4e4cfd6b63f35ea2:ed67bd729cf1411f+f:env:BIOCIDE:water:lightning:0dc866d38545499a:4a6d5fe17bf216f7+f:env:SIH:heat:super:8292e1a1a4753ac1:ed67bd729cf1411f+f:m:S-TOTES:more:pressure:super:C22:ed67bd729cf1411f",
+    "kind": "precedent",
+    "verdict": "none",
+    "summary": "no matching precedent found",
+    "tool_call_id": "tc:step:6c72c92f9bde1d5b:search_precedent:3e778f22f11c5855",
+    "fact_ids": [],
+    "sources": [],
+    "model_call_id": "mc:86a2787a372616fd",
+    "missing_fact_ids": [],
+    "flags": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "ev:ch:f:env:ACETIC-ACID:heat:lightning:4e4cfd6b63f35ea2:ed67bd729cf1411f+f:env:SIH:heat:super:8292e1a1a4753ac1:ed67bd729cf1411f+f:m:S-TOTES:less:pressure:super:C23:ed67bd729cf1411f+f:m:S-TOTES:more:pressure:super:C22:ed67bd729cf1411f:calculation:blocked_in_heating-TOTES",
+   "position": 2,
+   "record": {
+    "id": "ev:ch:f:env:ACETIC-ACID:heat:lightning:4e4cfd6b63f35ea2:ed67bd729cf1411f+f:env:SIH:heat:super:8292e1a1a4753ac1:ed67bd729cf1411f+f:m:S-TOTES:less:pressure:super:C23:ed67bd729cf1411f+f:m:S-TOTES:more:pressure:super:C22:ed67bd729cf1411f:calculation:blocked_in_heating-TOTES",
+    "run_id": "run:dbaab5578fbff8f3",
+    "target_id": "ch:f:env:ACETIC-ACID:heat:lightning:4e4cfd6b63f35ea2:ed67bd729cf1411f+f:env:SIH:heat:super:8292e1a1a4753ac1:ed67bd729cf1411f+f:m:S-TOTES:less:pressure:super:C23:ed67bd729cf1411f+f:m:S-TOTES:more:pressure:super:C22:ed67bd729cf1411f",
+    "kind": "calculation",
+    "verdict": "none",
+    "summary": "Blocked-in heating check on TOTES skipped: missing TOTES.heat_sources, TOTES.design_pressure_kpa",
+    "tool_call_id": "tc:step:c021359e20dab5c6:physics_calc:414e9a6df59e5b22",
+    "fact_ids": [],
+    "sources": [],
+    "model_call_id": null,
+    "missing_fact_ids": [
+     "TOTES.heat_sources",
+     "TOTES.design_pressure_kpa"
+    ],
+    "flags": [
+     "pure-component vapour pressure; liquid-full thermal expansion not modelled; real pressure can be higher"
+    ]
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "ev:ch:f:env:ACETIC-ACID:heat:lightning:4e4cfd6b63f35ea2:ed67bd729cf1411f+f:env:SIH:heat:super:8292e1a1a4753ac1:ed67bd729cf1411f+f:m:S-TOTES:less:pressure:super:C23:ed67bd729cf1411f+f:m:S-TOTES:more:pressure:super:C22:ed67bd729cf1411f:precedent:none",
+   "position": 3,
+   "record": {
+    "id": "ev:ch:f:env:ACETIC-ACID:heat:lightning:4e4cfd6b63f35ea2:ed67bd729cf1411f+f:env:SIH:heat:super:8292e1a1a4753ac1:ed67bd729cf1411f+f:m:S-TOTES:less:pressure:super:C23:ed67bd729cf1411f+f:m:S-TOTES:more:pressure:super:C22:ed67bd729cf1411f:precedent:none",
+    "run_id": "run:dbaab5578fbff8f3",
+    "target_id": "ch:f:env:ACETIC-ACID:heat:lightning:4e4cfd6b63f35ea2:ed67bd729cf1411f+f:env:SIH:heat:super:8292e1a1a4753ac1:ed67bd729cf1411f+f:m:S-TOTES:less:pressure:super:C23:ed67bd729cf1411f+f:m:S-TOTES:more:pressure:super:C22:ed67bd729cf1411f",
+    "kind": "precedent",
+    "verdict": "none",
+    "summary": "no matching precedent found",
+    "tool_call_id": "tc:step:b215bfaac5b120ea:search_precedent:36e3f98a50e45082",
+    "fact_ids": [],
+    "sources": [],
+    "model_call_id": "mc:8008a8a70b353d80",
+    "missing_fact_ids": [],
+    "flags": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "ev:f:env:SIH:heat:super:8292e1a1a4753ac1:ed67bd729cf1411f:precedent:CSB-087",
+   "position": 6,
+   "record": {
+    "id": "ev:f:env:SIH:heat:super:8292e1a1a4753ac1:ed67bd729cf1411f:precedent:CSB-087",
+    "run_id": "run:dbaab5578fbff8f3",
+    "target_id": "f:env:SIH:heat:super:8292e1a1a4753ac1:ed67bd729cf1411f",
+    "kind": "precedent",
+    "verdict": "confirmed",
+    "summary": "CSB investigation: Universal Form Clamp Co. Explosion and Fire: Heating a liquid led to release of flammable vapour (via vaporization) which then ignited – same physics of external heat causing flammable material release leading to fire/explosion.",
+    "tool_call_id": "tc:step:cfb9e64f85011b4b:search_precedent:5c18f5c95634ea73",
+    "fact_ids": [],
+    "sources": [
+     "Universal Form Clamp Co. Explosion and Fire",
+     "https://www.csb.gov/universal-form-clamp-co-explosion-and-fire/"
+    ],
+    "model_call_id": "mc:110a4b8f14568b83",
+    "missing_fact_ids": [],
+    "flags": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "ev:f:m:S-FILLING-LINE:as_well_as:composition:super:997a0e983313612e:aa402b1e56a4f47d:precedent:none",
+   "position": 7,
+   "record": {
+    "id": "ev:f:m:S-FILLING-LINE:as_well_as:composition:super:997a0e983313612e:aa402b1e56a4f47d:precedent:none",
+    "run_id": "run:dbaab5578fbff8f3",
+    "target_id": "f:m:S-FILLING-LINE:as_well_as:composition:super:997a0e983313612e:aa402b1e56a4f47d",
+    "kind": "precedent",
+    "verdict": "none",
+    "summary": "no matching precedent found",
+    "tool_call_id": "tc:step:4ad9f2e7c6bf9921:search_precedent:8cd4e1cd92808291",
+    "fact_ids": [],
+    "sources": [],
+    "model_call_id": "mc:fc6b3a6f289ff333",
+    "missing_fact_ids": [],
+    "flags": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "ev:f:m:S-TOTES:more:pressure:super:C22:ed67bd729cf1411f:calculation:blocked_in_heating-TOTES",
+   "position": 4,
+   "record": {
+    "id": "ev:f:m:S-TOTES:more:pressure:super:C22:ed67bd729cf1411f:calculation:blocked_in_heating-TOTES",
+    "run_id": "run:dbaab5578fbff8f3",
+    "target_id": "f:m:S-TOTES:more:pressure:super:C22:ed67bd729cf1411f",
+    "kind": "calculation",
+    "verdict": "none",
+    "summary": "Blocked-in heating check on TOTES skipped: missing TOTES.heat_sources, TOTES.design_pressure_kpa",
+    "tool_call_id": "tc:step:20be83f2cbd1e6ab:physics_calc:414e9a6df59e5b22",
+    "fact_ids": [],
+    "sources": [],
+    "model_call_id": null,
+    "missing_fact_ids": [
+     "TOTES.heat_sources",
+     "TOTES.design_pressure_kpa"
+    ],
+    "flags": [
+     "pure-component vapour pressure; liquid-full thermal expansion not modelled; real pressure can be higher"
+    ]
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "ev:f:m:S-TOTES:more:pressure:super:C22:ed67bd729cf1411f:precedent:none",
+   "position": 5,
+   "record": {
+    "id": "ev:f:m:S-TOTES:more:pressure:super:C22:ed67bd729cf1411f:precedent:none",
+    "run_id": "run:dbaab5578fbff8f3",
+    "target_id": "f:m:S-TOTES:more:pressure:super:C22:ed67bd729cf1411f",
+    "kind": "precedent",
+    "verdict": "none",
+    "summary": "no matching precedent found",
+    "tool_call_id": "tc:step:e397d9766fec682b:search_precedent:b1e3ec5816685a0d",
+    "fact_ids": [],
+    "sources": [],
+    "model_call_id": "mc:b7993a19f277a93b",
+    "missing_fact_ids": [],
+    "flags": []
+   }
+  }
+ ]
+}

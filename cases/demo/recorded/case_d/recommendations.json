@@ -1,0 +1,252 @@
+{
+ "table": "recommendations",
+ "rows": [
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "rec:ch:L-E106-BYPASS.no_flow+f:m:S-L-RUNDOWN~E-106:more:flow:super:505f6d45279a79f3:3c1edd904cd63b1b+f:nf:L-E106-BYPASS:super:8d5dae7fe44aa245:0bf756b21029355a:315fb72eaf42e2a7",
+   "position": 8,
+   "record": {
+    "id": "rec:ch:L-E106-BYPASS.no_flow+f:m:S-L-RUNDOWN~E-106:more:flow:super:505f6d45279a79f3:3c1edd904cd63b1b+f:nf:L-E106-BYPASS:super:8d5dae7fe44aa245:0bf756b21029355a:315fb72eaf42e2a7",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "target_id": "ch:L-E106-BYPASS.no_flow+f:m:S-L-RUNDOWN~E-106:more:flow:super:505f6d45279a79f3:3c1edd904cd63b1b+f:nf:L-E106-BYPASS:super:8d5dae7fe44aa245:0bf756b21029355a",
+    "action": "Install a timed nitrogen purge sweep system on bypass line L20 to prevent butadiene stagnation and polymerization, and add an interlock that blocks opening of bypass valve L25 until the purge cycle is verified complete.",
+    "reason": "No layers prevent polymerization in the normally closed L25 opening that would sweep solids downstream; the purge removes the hazard (stagnant butadiene) and the interlock prevents the error (opening with solids present).",
+    "model_call_id": "mc:bcf19590806df521"
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "rec:ch:L-RUNDOWN.components+L-RUNDOWN.contents+f:m:S-L-RUNDOWN:more:pressure:super:5cb1891d5ddd986d:415735ddaa7e1dea+f:m:S-L-RUNDOWN:more:pressure:super:7dfee843bf7791ec:3c1edd904cd63b1b:7739ebd8e638283f",
+   "position": 5,
+   "record": {
+    "id": "rec:ch:L-RUNDOWN.components+L-RUNDOWN.contents+f:m:S-L-RUNDOWN:more:pressure:super:5cb1891d5ddd986d:415735ddaa7e1dea+f:m:S-L-RUNDOWN:more:pressure:super:7dfee843bf7791ec:3c1edd904cd63b1b:7739ebd8e638283f",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "target_id": "ch:L-RUNDOWN.components+L-RUNDOWN.contents+f:m:S-L-RUNDOWN:more:pressure:super:5cb1891d5ddd986d:415735ddaa7e1dea+f:m:S-L-RUNDOWN:more:pressure:super:7dfee843bf7791ec:3c1edd904cd63b1b",
+    "action": "Install a pressure safety valve (PSV) on the 400 m insulated rundown line L9 set at design pressure, discharging to the flare header, to relieve overpressure when forward flow path L34 is blocked.",
+    "reason": "No protection layers exist for the combined loss-of-cooling and blocked-relief scenario; a PSV on L9 provides an independent engineered relief path that does not rely on forward flow through L34.",
+    "model_call_id": "mc:bcf19590806df521"
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "rec:ch:L-RUNDOWN.to_id+f:m:S-L-RUNDOWN:more:flow:super:3bcb4046fff8c6a1:3c1edd904cd63b1b+f:m:S-L-RUNDOWN:reverse:flow:super:afa55c2170b8804b:3c1edd904cd63b1b:88a7a04cea5d8be8",
+   "position": 18,
+   "record": {
+    "id": "rec:ch:L-RUNDOWN.to_id+f:m:S-L-RUNDOWN:more:flow:super:3bcb4046fff8c6a1:3c1edd904cd63b1b+f:m:S-L-RUNDOWN:reverse:flow:super:afa55c2170b8804b:3c1edd904cd63b1b:88a7a04cea5d8be8",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "target_id": "ch:L-RUNDOWN.to_id+f:m:S-L-RUNDOWN:more:flow:super:3bcb4046fff8c6a1:3c1edd904cd63b1b+f:m:S-L-RUNDOWN:reverse:flow:super:afa55c2170b8804b:3c1edd904cd63b1b",
+    "action": "Install a high-high level trip on the storage spheres at LOC-D-SPHERES that closes the inlet block valve on L-RUNDOWN (line L24) to halt overfilling and prevent the subsequent reverse flow up L35.",
+    "reason": "The chain scenario has no protection layers; a single high-high level trip on the spheres breaks both linked deviations (overfilling and reverse flow) by stopping the initial overfill, which is more effective than separate check valves or relief devices.",
+    "model_call_id": "mc:c68a0cd3048c7fa1"
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "rec:ch:V-101.contents+V-101.operating.pressure.normal+f:m:S-V-101:as_well_as:composition:lightning:C07:415735ddaa7e1dea+f:m:S-V-101:more:level:super:08411b0b7092decf:d386c56b3154574d:93a2d66e06363839",
+   "position": 10,
+   "record": {
+    "id": "rec:ch:V-101.contents+V-101.operating.pressure.normal+f:m:S-V-101:as_well_as:composition:lightning:C07:415735ddaa7e1dea+f:m:S-V-101:more:level:super:08411b0b7092decf:d386c56b3154574d:93a2d66e06363839",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "target_id": "ch:V-101.contents+V-101.operating.pressure.normal+f:m:S-V-101:as_well_as:composition:lightning:C07:415735ddaa7e1dea+f:m:S-V-101:more:level:super:08411b0b7092decf:d386c56b3154574d",
+    "action": "Install an independent high-pressure trip on V-101 (surge drum) with a dedicated pressure transmitter that closes the olefins feed line inlet valve to V-101.",
+    "reason": "RV-V101 is credited but alone cannot contain the combined fire and cooling-water-loss scenario; a second, independent engineered layer acting on pressure with a separate sensor closes the 100× frequency gap.",
+    "model_call_id": "mc:1901abcf6744f92c"
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "rec:ch:V-101.operating.pressure.normal+f:m:S-L-FEED:more:pressure:lightning:C22:d386c56b3154574d+f:m:S-V-101:as_well_as:composition:lightning:C07:415735ddaa7e1dea:93a2d66e06363839",
+   "position": 11,
+   "record": {
+    "id": "rec:ch:V-101.operating.pressure.normal+f:m:S-L-FEED:more:pressure:lightning:C22:d386c56b3154574d+f:m:S-V-101:as_well_as:composition:lightning:C07:415735ddaa7e1dea:93a2d66e06363839",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "target_id": "ch:V-101.operating.pressure.normal+f:m:S-L-FEED:more:pressure:lightning:C22:d386c56b3154574d+f:m:S-V-101:as_well_as:composition:lightning:C07:415735ddaa7e1dea",
+    "action": "Install an independent high-pressure trip on V-101 (surge drum) with a dedicated pressure transmitter that closes the olefins feed line inlet valve to V-101.",
+    "reason": "Same vessel and credited relief valve as the previous line; the independent high-pressure trip addresses the fire-plus-cooling-loss pressure rise that RV-V101 alone cannot handle.",
+    "model_call_id": "mc:1901abcf6744f92c"
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "rec:f:env:BUTADIENE:air:super:C21:a6ceaf74ea38e780:74409c03cfa14d2e",
+   "position": 17,
+   "record": {
+    "id": "rec:f:env:BUTADIENE:air:super:C21:a6ceaf74ea38e780:74409c03cfa14d2e",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "target_id": "f:env:BUTADIENE:air:super:C21:a6ceaf74ea38e780",
+    "action": "Install a hydrocarbon vapor detection ring around atmospheric tank TK-201 connected to an automatic nitrogen blanketing system that activates on detection to inert the tank headspace and prevent peroxide formation.",
+    "reason": "No layers protect against atmospheric leakage; vapor detection with automatic inerting acts on the deviation (leak) and prevents the hazardous consequence (peroxide runaway) better than procedural leak checks or passive seals.",
+    "model_call_id": "mc:c68a0cd3048c7fa1"
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "rec:f:env:BUTADIENE:heat:super:C22:80c15be938a0c764:e2db07f04d8d01a1",
+   "position": 0,
+   "record": {
+    "id": "rec:f:env:BUTADIENE:heat:super:C22:80c15be938a0c764:e2db07f04d8d01a1",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "target_id": "f:env:BUTADIENE:heat:super:C22:80c15be938a0c764",
+    "action": "Install fireproof insulation and a water deluge system on butadiene spheres LOC-D-SPHERES to prevent thermal polymerization during external fire.",
+    "reason": "No protection layers exist for external fire heating butadiene spheres; passive fire protection removes the heat input that causes runaway polymerization, preferred over adding relief or trips that act after temperature rise.",
+    "model_call_id": "mc:99981688c57f62a3"
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "rec:f:m:S-L-FEED:more:flow:super:f758143a97c28c65:104ae20e4e10a8d7:c7141978c68a029a",
+   "position": 2,
+   "record": {
+    "id": "rec:f:m:S-L-FEED:more:flow:super:f758143a97c28c65:104ae20e4e10a8d7:c7141978c68a029a",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "target_id": "f:m:S-L-FEED:more:flow:super:f758143a97c28c65:104ae20e4e10a8d7",
+    "action": "Add an independent high-pressure trip on surge drum V-101 that closes the feed isolation valve on L-FEED to stop upstream pressure surge.",
+    "reason": "No layers guard against upstream pressure forcing excess flow; an independent trip on V-101 with a dedicated sensor isolates the source before relief valve challenge, preferred over operator alarm or shared-sensor trips.",
+    "model_call_id": "mc:99981688c57f62a3"
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "rec:f:m:S-L-FEED:more:pressure:lightning:C22:d386c56b3154574d:d03ab82dce02d39c",
+   "position": 3,
+   "record": {
+    "id": "rec:f:m:S-L-FEED:more:pressure:lightning:C22:d386c56b3154574d:d03ab82dce02d39c",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "target_id": "f:m:S-L-FEED:more:pressure:lightning:C22:d386c56b3154574d",
+    "action": "Install fireproof insulation and a water deluge system on feed line L-FEED and surge drum V-101 at LOC-D-OLEFINS to prevent overpressure from external fire.",
+    "reason": "No layers address fire-induced pressure rise in L-FEED and V-101; passive fire protection prevents the heat input that drives pressure above the 4 bar g design limit, chosen over relief sizing for fire case which still risks discharge.",
+    "model_call_id": "mc:99981688c57f62a3"
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "rec:f:m:S-L-HEAVIES:as_well_as:composition:lightning:C22:aa3b8d2c6594dfb8:5673150df691f5b7",
+   "position": 4,
+   "record": {
+    "id": "rec:f:m:S-L-HEAVIES:as_well_as:composition:lightning:C22:aa3b8d2c6594dfb8:5673150df691f5b7",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "target_id": "f:m:S-L-HEAVIES:as_well_as:composition:lightning:C22:aa3b8d2c6594dfb8",
+    "action": "Install fire-rated insulation and an automatic depressurization valve on heavies line S-L-HEAVIES at LOC-D-FUEL to prevent BLEVE from external fire.",
+    "reason": "No layers protect S-L-HEAVIES from fire at LOC-D-FUEL; insulation reduces heat flux and depressurization removes inventory before rapid pressure rise causes rupture, addressing the deviation directly rather than relying on emergency response.",
+    "model_call_id": "mc:99981688c57f62a3"
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "rec:f:m:S-L-P104B-DIS:more:pressure:super:f702f5a2ed0d2a68:bbc714deabb54475:cda82093818b10c1",
+   "position": 16,
+   "record": {
+    "id": "rec:f:m:S-L-P104B-DIS:more:pressure:super:f702f5a2ed0d2a68:bbc714deabb54475:cda82093818b10c1",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "target_id": "f:m:S-L-P104B-DIS:more:pressure:super:f702f5a2ed0d2a68:bbc714deabb54475",
+    "action": "Add a hardwired interlock on pump P-104B that prevents start-up and trips the pump if its discharge block valve is not fully open, with valve position feedback to the pump control system.",
+    "reason": "The credited relief valve RV-P104B only mitigates consequence; the root cause is pump deadheading against a closed valve. An interlock removes the cause and is superior to adding another pressure trip because it prevents the deviation entirely.",
+    "model_call_id": "mc:c68a0cd3048c7fa1"
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "rec:f:m:S-L-RAFFINATE:more:pressure:lightning:C22:3fd89499fa808287:55bd0ca00aa63543",
+   "position": 1,
+   "record": {
+    "id": "rec:f:m:S-L-RAFFINATE:more:pressure:lightning:C22:3fd89499fa808287:55bd0ca00aa63543",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "target_id": "f:m:S-L-RAFFINATE:more:pressure:lightning:C22:3fd89499fa808287",
+    "action": "Install fire-rated insulation and an automatic depressurization valve on raffinate line L-RAFFINATE at LOC-D-UNSTATED to prevent rupture from external fire.",
+    "reason": "No layers protect L-RAFFINATE from fire; insulation reduces heat flux and depressurization removes inventory before pressure exceeds design, addressing the root cause rather than relying on post-rupture mitigation.",
+    "model_call_id": "mc:99981688c57f62a3"
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "rec:f:m:S-L-RUNDOWN:more:flow:super:3bcb4046fff8c6a1:3c1edd904cd63b1b:c17c05164fc433a2",
+   "position": 13,
+   "record": {
+    "id": "rec:f:m:S-L-RUNDOWN:more:flow:super:3bcb4046fff8c6a1:3c1edd904cd63b1b:c17c05164fc433a2",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "target_id": "f:m:S-L-RUNDOWN:more:flow:super:3bcb4046fff8c6a1:3c1edd904cd63b1b",
+    "action": "Install a high-flow trip on L-RUNDOWN with an independent flow transmitter that trips the upstream pump or closes the upstream block valve feeding L-RUNDOWN.",
+    "reason": "No protection layers exist for the increased-flow scenario; an engineered flow trip directly removes the cause before downstream spheres are overloaded.",
+    "model_call_id": "mc:1901abcf6744f92c"
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "rec:f:m:S-L-RUNDOWN:more:pressure:super:5cb1891d5ddd986d:415735ddaa7e1dea:248a4d37ae64daa9",
+   "position": 6,
+   "record": {
+    "id": "rec:f:m:S-L-RUNDOWN:more:pressure:super:5cb1891d5ddd986d:415735ddaa7e1dea:248a4d37ae64daa9",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "target_id": "f:m:S-L-RUNDOWN:more:pressure:super:5cb1891d5ddd986d:415735ddaa7e1dea",
+    "action": "Add an independent high-temperature trip on the E-106 outlet line (L9) that closes the butadiene feed control valve to E-106 on high temperature, using a temperature sensor and logic solver separate from the UT-D-CW cooling water system.",
+    "reason": "No layers mitigate loss of cooling water to E-106; stopping the butadiene feed at source removes the heat load before vapor pressure can reach design limits, and independence from UT-D-CW avoids common-cause failure.",
+    "model_call_id": "mc:bcf19590806df521"
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "rec:f:m:S-L-RUNDOWN~E-106:more:flow:super:505f6d45279a79f3:3c1edd904cd63b1b:d304938b12b87031",
+   "position": 14,
+   "record": {
+    "id": "rec:f:m:S-L-RUNDOWN~E-106:more:flow:super:505f6d45279a79f3:3c1edd904cd63b1b:d304938b12b87031",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "target_id": "f:m:S-L-RUNDOWN~E-106:more:flow:super:505f6d45279a79f3:3c1edd904cd63b1b",
+    "action": "Fit a position-indicating interlock on the E-106 bypass valve that alarms in the control room and automatically closes the valve on confirmed high flow in L-RUNDOWN.",
+    "reason": "No layers protect against the open-bypass-valve cause; a valve-position interlock with flow confirmation prevents the flow increase at its source.",
+    "model_call_id": "mc:1901abcf6744f92c"
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "rec:f:m:S-L-RUNDOWN~E-106:more:flow:super:7f02f4003cd706ed:3c1edd904cd63b1b:f0016e30eec2dea3",
+   "position": 15,
+   "record": {
+    "id": "rec:f:m:S-L-RUNDOWN~E-106:more:flow:super:7f02f4003cd706ed:3c1edd904cd63b1b:f0016e30eec2dea3",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "target_id": "f:m:S-L-RUNDOWN~E-106:more:flow:super:7f02f4003cd706ed:3c1edd904cd63b1b",
+    "action": "Install an independent high-flow trip on the rundown line L-RUNDOWN (section S-L-RUNDOWN~E-106) that automatically closes the inlet block valve to stop excess butadiene flow from upstream pressure increase.",
+    "reason": "No protection layers exist for this high-flow deviation; a flow-actuated trip directly removes the cause (excess flow) and is preferred over relief or alarm because it stops the hazard at source.",
+    "model_call_id": "mc:c68a0cd3048c7fa1"
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "rec:f:m:S-L-RUNDOWN~E-106:more:pressure:super:1eb536c2b23f1796:415735ddaa7e1dea:144ec678f0ab2c8e",
+   "position": 7,
+   "record": {
+    "id": "rec:f:m:S-L-RUNDOWN~E-106:more:pressure:super:1eb536c2b23f1796:415735ddaa7e1dea:144ec678f0ab2c8e",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "target_id": "f:m:S-L-RUNDOWN~E-106:more:pressure:super:1eb536c2b23f1796:415735ddaa7e1dea",
+    "action": "Provide a backup cooling water supply to E-106 with an automatic changeover valve from UT-D-CW to an independent source (e.g., firewater or nitrogen cooling) to maintain cooling on UT-D-CW failure.",
+    "reason": "No layers address loss of the UT-D-CW utility; a diverse backup supply preserves the cooling function directly, preventing the temperature rise rather than reacting to its consequence.",
+    "model_call_id": "mc:bcf19590806df521"
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "rec:f:m:S-TK-201:no:level:lightning:C23:80c15be938a0c764:faac894ac65bae79",
+   "position": 9,
+   "record": {
+    "id": "rec:f:m:S-TK-201:no:level:lightning:C23:80c15be938a0c764:faac894ac65bae79",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "target_id": "f:m:S-TK-201:no:level:lightning:C23:80c15be938a0c764",
+    "action": "Install vehicle impact protection barriers (bollards/guardrails) around TK-201 at LOC-D-SPHERES per API RP 752 to prevent mobile equipment rupture of the sphere.",
+    "reason": "No layers exist for vehicle impact on TK-201; physical barriers remove the cause (impact) at the location named in the scenario, which is preferable to procedural or detection-based measures for this external hazard.",
+    "model_call_id": "mc:bcf19590806df521"
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "rec:f:m:S-V-101:as_well_as:composition:lightning:C07:415735ddaa7e1dea:93a2d66e06363839",
+   "position": 12,
+   "record": {
+    "id": "rec:f:m:S-V-101:as_well_as:composition:lightning:C07:415735ddaa7e1dea:93a2d66e06363839",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "target_id": "f:m:S-V-101:as_well_as:composition:lightning:C07:415735ddaa7e1dea",
+    "action": "Install an independent high-pressure trip on V-101 (surge drum) with a dedicated pressure transmitter that closes the olefins feed line inlet valve to V-101.",
+    "reason": "Loss of cooling water (UT-D-CW) drives pressure to design limits; RV-V101 is credited but the 100× gap shows a second independent pressure-activated layer is needed.",
+    "model_call_id": "mc:1901abcf6744f92c"
+   }
+  }
+ ]
+}

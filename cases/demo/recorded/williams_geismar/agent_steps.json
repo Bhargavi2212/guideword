@@ -1333,6 +1333,23 @@
   },
   {
    "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:9fa7f4a3421cbb50",
+   "position": 106,
+   "record": {
+    "id": "step:9fa7f4a3421cbb50",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:ba495dc08672b940",
+    "agent": "evidence",
+    "tool": "physics_calc",
+    "arguments": {
+     "target_id": "f:proc:P-REB-START-2:early:super:C16:126a45a4b13afa1b"
+    },
+    "reason": "code: calculations re-attached under the current attach rule (review plan R2)",
+    "model_call_id": null
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
    "id": "step:a115621f0db89a24",
    "position": 49,
    "record": {
@@ -1614,6 +1631,23 @@
     },
     "reason": "answered 1 of 1 questions",
     "model_call_id": "mc:7eca7a375672892e"
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "step:ba495dc08672b940",
+   "position": 105,
+   "record": {
+    "id": "step:ba495dc08672b940",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "previous_id": "step:9bdd700794dbf0fd",
+    "agent": "evidence",
+    "tool": "physics_calc",
+    "arguments": {
+     "target_id": "ch:EA-425B.design_pressure_kpa+EA-425B.heat_sources+HV-B-SIN.normal_position+HV-B-SOUT.normal_position+HV-QW-B-IN.normal_position+HV-QW-B-OUT.normal_position+RV-PATH-EA425B.inlet_valve_ids+f:m:S-EA-425B:as_well_as:composition:super:C12:b3d32268f909ddb3+f:proc:P-REB-START-2:early:super:C16:126a45a4b13afa1b"
+    },
+    "reason": "code: calculations re-attached under the current attach rule (review plan R2)",
+    "model_call_id": null
    }
   },
   {

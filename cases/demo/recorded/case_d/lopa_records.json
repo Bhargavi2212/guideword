@@ -1,0 +1,849 @@
+{
+ "table": "lopa_records",
+ "rows": [
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "lopa:ch:L-E106-BYPASS.no_flow+f:m:S-L-RUNDOWN~E-106:more:flow:super:505f6d45279a79f3:3c1edd904cd63b1b+f:nf:L-E106-BYPASS:super:8d5dae7fe44aa245:0bf756b21029355a",
+   "position": 8,
+   "record": {
+    "id": "lopa:ch:L-E106-BYPASS.no_flow+f:m:S-L-RUNDOWN~E-106:more:flow:super:505f6d45279a79f3:3c1edd904cd63b1b+f:nf:L-E106-BYPASS:super:8d5dae7fe44aa245:0bf756b21029355a",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "target_id": "ch:L-E106-BYPASS.no_flow+f:m:S-L-RUNDOWN~E-106:more:flow:super:505f6d45279a79f3:3c1edd904cd63b1b+f:nf:L-E106-BYPASS:super:8d5dae7fe44aa245:0bf756b21029355a",
+    "severity_class": "S3",
+    "complete": true,
+    "missing_fact_ids": [],
+    "initiating_event_id": null,
+    "initiating_frequency_per_year": 0.1,
+    "frequency_assumed": true,
+    "modifiers": [],
+    "layers": [],
+    "mitigated_frequency_per_year": 0.1,
+    "tolerable_per_year": 0.0001,
+    "gap": 1000.0,
+    "model_call_id": null,
+    "flags": [
+     "frequency assumed — engineer to confirm"
+    ],
+    "modifiers_not_applied": [
+     {
+      "kind": "ignition_probability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "explosion_given_ignition",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "vulnerability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "time_at_risk",
+      "reason": "no plant fact or rule"
+     }
+    ]
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "lopa:ch:L-RUNDOWN.components+L-RUNDOWN.contents+f:m:S-L-RUNDOWN:more:pressure:super:5cb1891d5ddd986d:415735ddaa7e1dea+f:m:S-L-RUNDOWN:more:pressure:super:7dfee843bf7791ec:3c1edd904cd63b1b",
+   "position": 10,
+   "record": {
+    "id": "lopa:ch:L-RUNDOWN.components+L-RUNDOWN.contents+f:m:S-L-RUNDOWN:more:pressure:super:5cb1891d5ddd986d:415735ddaa7e1dea+f:m:S-L-RUNDOWN:more:pressure:super:7dfee843bf7791ec:3c1edd904cd63b1b",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "target_id": "ch:L-RUNDOWN.components+L-RUNDOWN.contents+f:m:S-L-RUNDOWN:more:pressure:super:5cb1891d5ddd986d:415735ddaa7e1dea+f:m:S-L-RUNDOWN:more:pressure:super:7dfee843bf7791ec:3c1edd904cd63b1b",
+    "severity_class": "S3",
+    "complete": true,
+    "missing_fact_ids": [],
+    "initiating_event_id": "IE-CW",
+    "initiating_frequency_per_year": 0.1,
+    "frequency_assumed": true,
+    "modifiers": [],
+    "layers": [],
+    "mitigated_frequency_per_year": 0.1,
+    "tolerable_per_year": 0.0001,
+    "gap": 1000.0,
+    "model_call_id": null,
+    "flags": [
+     "frequency assumed — engineer to confirm"
+    ],
+    "modifiers_not_applied": [
+     {
+      "kind": "ignition_probability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "explosion_given_ignition",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "vulnerability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "time_at_risk",
+      "reason": "no plant fact or rule"
+     }
+    ]
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "lopa:ch:L-RUNDOWN.to_id+f:m:S-L-RUNDOWN:more:flow:super:3bcb4046fff8c6a1:3c1edd904cd63b1b+f:m:S-L-RUNDOWN:reverse:flow:super:afa55c2170b8804b:3c1edd904cd63b1b",
+   "position": 9,
+   "record": {
+    "id": "lopa:ch:L-RUNDOWN.to_id+f:m:S-L-RUNDOWN:more:flow:super:3bcb4046fff8c6a1:3c1edd904cd63b1b+f:m:S-L-RUNDOWN:reverse:flow:super:afa55c2170b8804b:3c1edd904cd63b1b",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "target_id": "ch:L-RUNDOWN.to_id+f:m:S-L-RUNDOWN:more:flow:super:3bcb4046fff8c6a1:3c1edd904cd63b1b+f:m:S-L-RUNDOWN:reverse:flow:super:afa55c2170b8804b:3c1edd904cd63b1b",
+    "severity_class": "S3",
+    "complete": true,
+    "missing_fact_ids": [],
+    "initiating_event_id": "IE-PIPE-LEAK-L",
+    "initiating_frequency_per_year": 0.00039999999999999996,
+    "frequency_assumed": true,
+    "modifiers": [],
+    "layers": [],
+    "mitigated_frequency_per_year": 0.00039999999999999996,
+    "tolerable_per_year": 0.0001,
+    "gap": 3.9999999999999996,
+    "model_call_id": null,
+    "flags": [
+     "frequency assumed — engineer to confirm"
+    ],
+    "modifiers_not_applied": [
+     {
+      "kind": "ignition_probability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "explosion_given_ignition",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "vulnerability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "time_at_risk",
+      "reason": "no plant fact or rule"
+     }
+    ]
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "lopa:ch:V-101.contents+V-101.operating.pressure.normal+f:m:S-V-101:as_well_as:composition:lightning:C07:415735ddaa7e1dea+f:m:S-V-101:more:level:super:08411b0b7092decf:d386c56b3154574d",
+   "position": 13,
+   "record": {
+    "id": "lopa:ch:V-101.contents+V-101.operating.pressure.normal+f:m:S-V-101:as_well_as:composition:lightning:C07:415735ddaa7e1dea+f:m:S-V-101:more:level:super:08411b0b7092decf:d386c56b3154574d",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "target_id": "ch:V-101.contents+V-101.operating.pressure.normal+f:m:S-V-101:as_well_as:composition:lightning:C07:415735ddaa7e1dea+f:m:S-V-101:more:level:super:08411b0b7092decf:d386c56b3154574d",
+    "severity_class": "S4",
+    "complete": true,
+    "missing_fact_ids": [],
+    "initiating_event_id": "IE-CW",
+    "initiating_frequency_per_year": 0.1,
+    "frequency_assumed": false,
+    "modifiers": [],
+    "layers": [
+     {
+      "layer_id": "RV-V101",
+      "layer_type": "IPL-PRV",
+      "credited": true,
+      "pfd": 0.01,
+      "reason": "credited — IPL-PRV pfd, no inlet valve",
+      "applies": true,
+      "argument": "Combined loss of cooling water (L3) and external fire (L19) cause rapid pressure rise in V-101; RV-V101 is the vessel's pressure relief valve for overpressure, so it acts by opening to vent pressure, even if the scenario suggests it may be overwhelmed."
+     }
+    ],
+    "mitigated_frequency_per_year": 0.001,
+    "tolerable_per_year": 1e-05,
+    "gap": 100.0,
+    "model_call_id": "mc:a73578bedb4a53d5",
+    "flags": [],
+    "modifiers_not_applied": [
+     {
+      "kind": "ignition_probability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "explosion_given_ignition",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "vulnerability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "time_at_risk",
+      "reason": "no plant fact or rule"
+     }
+    ]
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "lopa:ch:V-101.operating.pressure.normal+f:m:S-L-FEED:more:pressure:lightning:C22:d386c56b3154574d+f:m:S-V-101:as_well_as:composition:lightning:C07:415735ddaa7e1dea",
+   "position": 14,
+   "record": {
+    "id": "lopa:ch:V-101.operating.pressure.normal+f:m:S-L-FEED:more:pressure:lightning:C22:d386c56b3154574d+f:m:S-V-101:as_well_as:composition:lightning:C07:415735ddaa7e1dea",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "target_id": "ch:V-101.operating.pressure.normal+f:m:S-L-FEED:more:pressure:lightning:C22:d386c56b3154574d+f:m:S-V-101:as_well_as:composition:lightning:C07:415735ddaa7e1dea",
+    "severity_class": "S4",
+    "complete": true,
+    "missing_fact_ids": [],
+    "initiating_event_id": "IE-FIRE-S",
+    "initiating_frequency_per_year": 0.1,
+    "frequency_assumed": false,
+    "modifiers": [],
+    "layers": [
+     {
+      "layer_id": "RV-V101",
+      "layer_type": "IPL-PRV",
+      "credited": true,
+      "pfd": 0.01,
+      "reason": "credited — IPL-PRV pfd, no inlet valve",
+      "applies": true,
+      "argument": "External fire (L6) plus loss of cooling water (L3) cause pressure in V-101 to rise faster than the relief valve can vent; RV-V101 is the vessel's pressure relief valve for overpressure, so it acts by opening, though the scenario notes it may be insufficient to prevent rupture."
+     }
+    ],
+    "mitigated_frequency_per_year": 0.001,
+    "tolerable_per_year": 1e-05,
+    "gap": 100.0,
+    "model_call_id": "mc:a73578bedb4a53d5",
+    "flags": [],
+    "modifiers_not_applied": [
+     {
+      "kind": "ignition_probability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "explosion_given_ignition",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "vulnerability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "time_at_risk",
+      "reason": "no plant fact or rule"
+     }
+    ]
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "lopa:f:env:BUTADIENE:air:super:C21:a6ceaf74ea38e780",
+   "position": 18,
+   "record": {
+    "id": "lopa:f:env:BUTADIENE:air:super:C21:a6ceaf74ea38e780",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "target_id": "f:env:BUTADIENE:air:super:C21:a6ceaf74ea38e780",
+    "severity_class": "S4",
+    "complete": true,
+    "missing_fact_ids": [],
+    "initiating_event_id": "IE-TANK-LEAK",
+    "initiating_frequency_per_year": 0.0001,
+    "frequency_assumed": false,
+    "modifiers": [],
+    "layers": [],
+    "mitigated_frequency_per_year": 0.0001,
+    "tolerable_per_year": 1e-05,
+    "gap": 10.0,
+    "model_call_id": null,
+    "flags": [
+     "code-only LOPA: layers not argued"
+    ],
+    "modifiers_not_applied": [
+     {
+      "kind": "ignition_probability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "explosion_given_ignition",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "vulnerability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "time_at_risk",
+      "reason": "no plant fact or rule"
+     }
+    ]
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "lopa:f:env:BUTADIENE:heat:super:C22:80c15be938a0c764",
+   "position": 0,
+   "record": {
+    "id": "lopa:f:env:BUTADIENE:heat:super:C22:80c15be938a0c764",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "target_id": "f:env:BUTADIENE:heat:super:C22:80c15be938a0c764",
+    "severity_class": "S4",
+    "complete": true,
+    "missing_fact_ids": [],
+    "initiating_event_id": "IE-FIRE-S",
+    "initiating_frequency_per_year": 0.1,
+    "frequency_assumed": false,
+    "modifiers": [],
+    "layers": [],
+    "mitigated_frequency_per_year": 0.1,
+    "tolerable_per_year": 1e-05,
+    "gap": 10000.0,
+    "model_call_id": null,
+    "flags": [],
+    "modifiers_not_applied": [
+     {
+      "kind": "ignition_probability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "explosion_given_ignition",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "vulnerability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "time_at_risk",
+      "reason": "no plant fact or rule"
+     }
+    ]
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "lopa:f:m:S-L-FEED:more:flow:super:f758143a97c28c65:104ae20e4e10a8d7",
+   "position": 3,
+   "record": {
+    "id": "lopa:f:m:S-L-FEED:more:flow:super:f758143a97c28c65:104ae20e4e10a8d7",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "target_id": "f:m:S-L-FEED:more:flow:super:f758143a97c28c65:104ae20e4e10a8d7",
+    "severity_class": "S3",
+    "complete": true,
+    "missing_fact_ids": [],
+    "initiating_event_id": null,
+    "initiating_frequency_per_year": 0.1,
+    "frequency_assumed": true,
+    "modifiers": [],
+    "layers": [],
+    "mitigated_frequency_per_year": 0.1,
+    "tolerable_per_year": 0.0001,
+    "gap": 1000.0,
+    "model_call_id": null,
+    "flags": [
+     "frequency assumed — engineer to confirm"
+    ],
+    "modifiers_not_applied": [
+     {
+      "kind": "ignition_probability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "explosion_given_ignition",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "vulnerability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "time_at_risk",
+      "reason": "no plant fact or rule"
+     }
+    ]
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "lopa:f:m:S-L-FEED:more:pressure:lightning:C22:d386c56b3154574d",
+   "position": 4,
+   "record": {
+    "id": "lopa:f:m:S-L-FEED:more:pressure:lightning:C22:d386c56b3154574d",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "target_id": "f:m:S-L-FEED:more:pressure:lightning:C22:d386c56b3154574d",
+    "severity_class": "S3",
+    "complete": true,
+    "missing_fact_ids": [],
+    "initiating_event_id": "IE-FIRE-S",
+    "initiating_frequency_per_year": 0.1,
+    "frequency_assumed": false,
+    "modifiers": [],
+    "layers": [],
+    "mitigated_frequency_per_year": 0.1,
+    "tolerable_per_year": 0.0001,
+    "gap": 1000.0,
+    "model_call_id": null,
+    "flags": [],
+    "modifiers_not_applied": [
+     {
+      "kind": "ignition_probability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "explosion_given_ignition",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "vulnerability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "time_at_risk",
+      "reason": "no plant fact or rule"
+     }
+    ]
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "lopa:f:m:S-L-HEAVIES:as_well_as:composition:lightning:C22:aa3b8d2c6594dfb8",
+   "position": 5,
+   "record": {
+    "id": "lopa:f:m:S-L-HEAVIES:as_well_as:composition:lightning:C22:aa3b8d2c6594dfb8",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "target_id": "f:m:S-L-HEAVIES:as_well_as:composition:lightning:C22:aa3b8d2c6594dfb8",
+    "severity_class": "S3",
+    "complete": true,
+    "missing_fact_ids": [],
+    "initiating_event_id": "IE-FIRE-S",
+    "initiating_frequency_per_year": 0.1,
+    "frequency_assumed": false,
+    "modifiers": [],
+    "layers": [],
+    "mitigated_frequency_per_year": 0.1,
+    "tolerable_per_year": 0.0001,
+    "gap": 1000.0,
+    "model_call_id": null,
+    "flags": [],
+    "modifiers_not_applied": [
+     {
+      "kind": "ignition_probability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "explosion_given_ignition",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "vulnerability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "time_at_risk",
+      "reason": "no plant fact or rule"
+     }
+    ]
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "lopa:f:m:S-L-P104B-DIS:more:pressure:super:f702f5a2ed0d2a68:bbc714deabb54475",
+   "position": 12,
+   "record": {
+    "id": "lopa:f:m:S-L-P104B-DIS:more:pressure:super:f702f5a2ed0d2a68:bbc714deabb54475",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "target_id": "f:m:S-L-P104B-DIS:more:pressure:super:f702f5a2ed0d2a68:bbc714deabb54475",
+    "severity_class": "S3",
+    "complete": true,
+    "missing_fact_ids": [],
+    "initiating_event_id": "IE-PUMP",
+    "initiating_frequency_per_year": 0.1,
+    "frequency_assumed": true,
+    "modifiers": [],
+    "layers": [
+     {
+      "layer_id": "RV-P104B",
+      "layer_type": "IPL-PRV",
+      "credited": true,
+      "pfd": 0.01,
+      "reason": "credited — IPL-PRV pfd, no inlet valve",
+      "applies": true,
+      "argument": "Scenario is deadhead pressure rise on P-104B discharge line beyond design limit; RV-P104B is a spring-operated pressure relief valve on P-104B for overpressure, so it would relieve the pressure before pipe rupture or valve failure."
+     }
+    ],
+    "mitigated_frequency_per_year": 0.001,
+    "tolerable_per_year": 0.0001,
+    "gap": 10.0,
+    "model_call_id": "mc:a73578bedb4a53d5",
+    "flags": [
+     "frequency assumed — engineer to confirm"
+    ],
+    "modifiers_not_applied": [
+     {
+      "kind": "ignition_probability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "explosion_given_ignition",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "vulnerability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "time_at_risk",
+      "reason": "no plant fact or rule"
+     }
+    ]
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "lopa:f:m:S-L-RAFFINATE:more:pressure:lightning:C22:3fd89499fa808287",
+   "position": 1,
+   "record": {
+    "id": "lopa:f:m:S-L-RAFFINATE:more:pressure:lightning:C22:3fd89499fa808287",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "target_id": "f:m:S-L-RAFFINATE:more:pressure:lightning:C22:3fd89499fa808287",
+    "severity_class": "S4",
+    "complete": true,
+    "missing_fact_ids": [],
+    "initiating_event_id": "IE-FIRE-S",
+    "initiating_frequency_per_year": 0.1,
+    "frequency_assumed": false,
+    "modifiers": [],
+    "layers": [],
+    "mitigated_frequency_per_year": 0.1,
+    "tolerable_per_year": 1e-05,
+    "gap": 10000.0,
+    "model_call_id": null,
+    "flags": [],
+    "modifiers_not_applied": [
+     {
+      "kind": "ignition_probability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "explosion_given_ignition",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "vulnerability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "time_at_risk",
+      "reason": "no plant fact or rule"
+     }
+    ]
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "lopa:f:m:S-L-RUNDOWN:more:flow:super:3bcb4046fff8c6a1:3c1edd904cd63b1b",
+   "position": 15,
+   "record": {
+    "id": "lopa:f:m:S-L-RUNDOWN:more:flow:super:3bcb4046fff8c6a1:3c1edd904cd63b1b",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "target_id": "f:m:S-L-RUNDOWN:more:flow:super:3bcb4046fff8c6a1:3c1edd904cd63b1b",
+    "severity_class": "S4",
+    "complete": true,
+    "missing_fact_ids": [],
+    "initiating_event_id": "IE-PIPE-LEAK-L",
+    "initiating_frequency_per_year": 0.00039999999999999996,
+    "frequency_assumed": true,
+    "modifiers": [],
+    "layers": [],
+    "mitigated_frequency_per_year": 0.00039999999999999996,
+    "tolerable_per_year": 1e-05,
+    "gap": 39.99999999999999,
+    "model_call_id": null,
+    "flags": [
+     "frequency assumed — engineer to confirm",
+     "code-only LOPA: layers not argued"
+    ],
+    "modifiers_not_applied": [
+     {
+      "kind": "ignition_probability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "explosion_given_ignition",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "vulnerability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "time_at_risk",
+      "reason": "no plant fact or rule"
+     }
+    ]
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "lopa:f:m:S-L-RUNDOWN:more:pressure:super:5cb1891d5ddd986d:415735ddaa7e1dea",
+   "position": 6,
+   "record": {
+    "id": "lopa:f:m:S-L-RUNDOWN:more:pressure:super:5cb1891d5ddd986d:415735ddaa7e1dea",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "target_id": "f:m:S-L-RUNDOWN:more:pressure:super:5cb1891d5ddd986d:415735ddaa7e1dea",
+    "severity_class": "S3",
+    "complete": true,
+    "missing_fact_ids": [],
+    "initiating_event_id": "IE-CW",
+    "initiating_frequency_per_year": 0.1,
+    "frequency_assumed": true,
+    "modifiers": [],
+    "layers": [],
+    "mitigated_frequency_per_year": 0.1,
+    "tolerable_per_year": 0.0001,
+    "gap": 1000.0,
+    "model_call_id": null,
+    "flags": [
+     "frequency assumed — engineer to confirm"
+    ],
+    "modifiers_not_applied": [
+     {
+      "kind": "ignition_probability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "explosion_given_ignition",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "vulnerability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "time_at_risk",
+      "reason": "no plant fact or rule"
+     }
+    ]
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "lopa:f:m:S-L-RUNDOWN~E-106:more:flow:super:505f6d45279a79f3:3c1edd904cd63b1b",
+   "position": 16,
+   "record": {
+    "id": "lopa:f:m:S-L-RUNDOWN~E-106:more:flow:super:505f6d45279a79f3:3c1edd904cd63b1b",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "target_id": "f:m:S-L-RUNDOWN~E-106:more:flow:super:505f6d45279a79f3:3c1edd904cd63b1b",
+    "severity_class": "S4",
+    "complete": true,
+    "missing_fact_ids": [],
+    "initiating_event_id": "IE-PIPE-LEAK-L",
+    "initiating_frequency_per_year": 0.00039999999999999996,
+    "frequency_assumed": true,
+    "modifiers": [],
+    "layers": [],
+    "mitigated_frequency_per_year": 0.00039999999999999996,
+    "tolerable_per_year": 1e-05,
+    "gap": 39.99999999999999,
+    "model_call_id": null,
+    "flags": [
+     "frequency assumed — engineer to confirm",
+     "code-only LOPA: layers not argued"
+    ],
+    "modifiers_not_applied": [
+     {
+      "kind": "ignition_probability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "explosion_given_ignition",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "vulnerability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "time_at_risk",
+      "reason": "no plant fact or rule"
+     }
+    ]
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "lopa:f:m:S-L-RUNDOWN~E-106:more:flow:super:7f02f4003cd706ed:3c1edd904cd63b1b",
+   "position": 17,
+   "record": {
+    "id": "lopa:f:m:S-L-RUNDOWN~E-106:more:flow:super:7f02f4003cd706ed:3c1edd904cd63b1b",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "target_id": "f:m:S-L-RUNDOWN~E-106:more:flow:super:7f02f4003cd706ed:3c1edd904cd63b1b",
+    "severity_class": "S4",
+    "complete": true,
+    "missing_fact_ids": [],
+    "initiating_event_id": "IE-PIPE-LEAK-L",
+    "initiating_frequency_per_year": 0.00039999999999999996,
+    "frequency_assumed": true,
+    "modifiers": [],
+    "layers": [],
+    "mitigated_frequency_per_year": 0.00039999999999999996,
+    "tolerable_per_year": 1e-05,
+    "gap": 39.99999999999999,
+    "model_call_id": null,
+    "flags": [
+     "frequency assumed — engineer to confirm",
+     "code-only LOPA: layers not argued"
+    ],
+    "modifiers_not_applied": [
+     {
+      "kind": "ignition_probability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "explosion_given_ignition",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "vulnerability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "time_at_risk",
+      "reason": "no plant fact or rule"
+     }
+    ]
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "lopa:f:m:S-L-RUNDOWN~E-106:more:pressure:super:1eb536c2b23f1796:415735ddaa7e1dea",
+   "position": 7,
+   "record": {
+    "id": "lopa:f:m:S-L-RUNDOWN~E-106:more:pressure:super:1eb536c2b23f1796:415735ddaa7e1dea",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "target_id": "f:m:S-L-RUNDOWN~E-106:more:pressure:super:1eb536c2b23f1796:415735ddaa7e1dea",
+    "severity_class": "S3",
+    "complete": true,
+    "missing_fact_ids": [],
+    "initiating_event_id": "IE-CW",
+    "initiating_frequency_per_year": 0.1,
+    "frequency_assumed": true,
+    "modifiers": [],
+    "layers": [],
+    "mitigated_frequency_per_year": 0.1,
+    "tolerable_per_year": 0.0001,
+    "gap": 1000.0,
+    "model_call_id": null,
+    "flags": [
+     "frequency assumed — engineer to confirm"
+    ],
+    "modifiers_not_applied": [
+     {
+      "kind": "ignition_probability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "explosion_given_ignition",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "vulnerability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "time_at_risk",
+      "reason": "no plant fact or rule"
+     }
+    ]
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "lopa:f:m:S-TK-201:no:level:lightning:C23:80c15be938a0c764",
+   "position": 2,
+   "record": {
+    "id": "lopa:f:m:S-TK-201:no:level:lightning:C23:80c15be938a0c764",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "target_id": "f:m:S-TK-201:no:level:lightning:C23:80c15be938a0c764",
+    "severity_class": "S4",
+    "complete": true,
+    "missing_fact_ids": [],
+    "initiating_event_id": "IE-IMPACT",
+    "initiating_frequency_per_year": 0.01,
+    "frequency_assumed": false,
+    "modifiers": [],
+    "layers": [],
+    "mitigated_frequency_per_year": 0.01,
+    "tolerable_per_year": 1e-05,
+    "gap": 999.9999999999999,
+    "model_call_id": null,
+    "flags": [],
+    "modifiers_not_applied": [
+     {
+      "kind": "ignition_probability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "explosion_given_ignition",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "vulnerability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "time_at_risk",
+      "reason": "no plant fact or rule"
+     }
+    ]
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "lopa:f:m:S-V-101:as_well_as:composition:lightning:C07:415735ddaa7e1dea",
+   "position": 11,
+   "record": {
+    "id": "lopa:f:m:S-V-101:as_well_as:composition:lightning:C07:415735ddaa7e1dea",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "target_id": "f:m:S-V-101:as_well_as:composition:lightning:C07:415735ddaa7e1dea",
+    "severity_class": "S4",
+    "complete": true,
+    "missing_fact_ids": [],
+    "initiating_event_id": "IE-CW",
+    "initiating_frequency_per_year": 0.1,
+    "frequency_assumed": false,
+    "modifiers": [],
+    "layers": [
+     {
+      "layer_id": "RV-V101",
+      "layer_type": "IPL-PRV",
+      "credited": true,
+      "pfd": 0.01,
+      "reason": "credited — IPL-PRV pfd, no inlet valve",
+      "applies": true,
+      "argument": "Scenario describes pressure rising toward design limits in V-101 due to loss of cooling water; RV-V101 is a spring-operated pressure relief valve on V-101 sized for overpressure scenarios, so it would open and relieve pressure before vessel rupture."
+     }
+    ],
+    "mitigated_frequency_per_year": 0.001,
+    "tolerable_per_year": 1e-05,
+    "gap": 100.0,
+    "model_call_id": "mc:a73578bedb4a53d5",
+    "flags": [],
+    "modifiers_not_applied": [
+     {
+      "kind": "ignition_probability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "explosion_given_ignition",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "vulnerability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "time_at_risk",
+      "reason": "no plant fact or rule"
+     }
+    ]
+   }
+  }
+ ]
+}

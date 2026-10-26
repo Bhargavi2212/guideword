@@ -1,0 +1,5117 @@
+{
+ "table": "questions",
+ "rows": [
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "ai:S-L-HOSE-MX-4~PORTABLE-PUMP:53ede1a19f9a8012",
+   "position": 283,
+   "record": {
+    "id": "ai:S-L-HOSE-MX-4~PORTABLE-PUMP:53ede1a19f9a8012",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "added_by_ai",
+    "origin": "added_by_ai",
+    "status": "answered",
+    "section_id": "S-L-HOSE-MX-4~PORTABLE-PUMP",
+    "text": "More pressure in S-L-HOSE-MX-4~PORTABLE-PUMP (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:9dd8f1a06586ce6b"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "env:ACETIC-ACID:air",
+   "position": 233,
+   "record": {
+    "id": "env:ACETIC-ACID:air",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "chemical_environment",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": null,
+    "text": "ACETIC-ACID (acetic acid (for pH adjustment)) with air: what would happen on contact or exposure, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:e5d2a2c96aceb74c"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "env:ACETIC-ACID:heat",
+   "position": 234,
+   "record": {
+    "id": "env:ACETIC-ACID:heat",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "chemical_environment",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": null,
+    "text": "ACETIC-ACID (acetic acid (for pH adjustment)) with heat: what would happen on contact or exposure, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:e5d2a2c96aceb74c"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "env:ACETIC-ACID:water",
+   "position": 235,
+   "record": {
+    "id": "env:ACETIC-ACID:water",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "chemical_environment",
+    "origin": "cross_list",
+    "status": "not_credible",
+    "section_id": null,
+    "text": "ACETIC-ACID (acetic acid (for pH adjustment)) with water: what would happen on contact or exposure, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": "Water is not present as a listed chemical in the plant context; the question asks about contact with water but no water system is described in the context.",
+    "model_call_id": "mc:fffbf197cef84629"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "env:BIOCIDE:air",
+   "position": 236,
+   "record": {
+    "id": "env:BIOCIDE:air",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "chemical_environment",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": null,
+    "text": "BIOCIDE (biocide) with air: what would happen on contact or exposure, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:b7f087d284351c0e"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "env:BIOCIDE:heat",
+   "position": 237,
+   "record": {
+    "id": "env:BIOCIDE:heat",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "chemical_environment",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": null,
+    "text": "BIOCIDE (biocide) with heat: what would happen on contact or exposure, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:89efd155fda4fc8e"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "env:BIOCIDE:water",
+   "position": 238,
+   "record": {
+    "id": "env:BIOCIDE:water",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "chemical_environment",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": null,
+    "text": "BIOCIDE (biocide) with water: what would happen on contact or exposure, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:6b603d82c5a62c28"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "env:DI-WATER:air",
+   "position": 239,
+   "record": {
+    "id": "env:DI-WATER:air",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "chemical_environment",
+    "origin": "cross_list",
+    "status": "not_credible",
+    "section_id": null,
+    "text": "DI-WATER (deionised water (from the plant system)) with air: what would happen on contact or exposure, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": "Air is not a chemical in this plant context; the question asks about deionised water with air, but 'air' is not listed among the chemicals or as a defined environmental medium.",
+    "model_call_id": "mc:990d6909cb217294"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "env:DI-WATER:heat",
+   "position": 240,
+   "record": {
+    "id": "env:DI-WATER:heat",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "chemical_environment",
+    "origin": "cross_list",
+    "status": "not_credible",
+    "section_id": null,
+    "text": "DI-WATER (deionised water (from the plant system)) with heat: what would happen on contact or exposure, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": "DI-WATER has no presence record in the plant context; therefore it cannot be present to encounter heat.",
+    "model_call_id": "mc:b7f087d284351c0e"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "env:DI-WATER:water",
+   "position": 241,
+   "record": {
+    "id": "env:DI-WATER:water",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "chemical_environment",
+    "origin": "cross_list",
+    "status": "not_credible",
+    "section_id": null,
+    "text": "DI-WATER (deionised water (from the plant system)) with water: what would happen on contact or exposure, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": "There is no chemical named 'water' in the plant context; only 'DI-WATER' exists, which is itself deionised water from the plant system.",
+    "model_call_id": "mc:9409258aaf35ee58"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "env:IPA:air",
+   "position": 242,
+   "record": {
+    "id": "env:IPA:air",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "chemical_environment",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": null,
+    "text": "IPA (isopropyl alcohol) with air: what would happen on contact or exposure, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:984d6e8f977d23d8"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "env:IPA:heat",
+   "position": 243,
+   "record": {
+    "id": "env:IPA:heat",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "chemical_environment",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": null,
+    "text": "IPA (isopropyl alcohol) with heat: what would happen on contact or exposure, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:675b69509a0fa92c"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "env:IPA:water",
+   "position": 244,
+   "record": {
+    "id": "env:IPA:water",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "chemical_environment",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": null,
+    "text": "IPA (isopropyl alcohol) with water: what would happen on contact or exposure, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:675b69509a0fa92c"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "env:KOH-EMULSIFIER:air",
+   "position": 245,
+   "record": {
+    "id": "env:KOH-EMULSIFIER:air",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "chemical_environment",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": null,
+    "text": "KOH-EMULSIFIER (emulsifier solution containing potassium hydroxide) with air: what would happen on contact or exposure, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:675b69509a0fa92c"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "env:KOH-EMULSIFIER:heat",
+   "position": 246,
+   "record": {
+    "id": "env:KOH-EMULSIFIER:heat",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "chemical_environment",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": null,
+    "text": "KOH-EMULSIFIER (emulsifier solution containing potassium hydroxide) with heat: what would happen on contact or exposure, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:675b69509a0fa92c"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "env:KOH-EMULSIFIER:water",
+   "position": 247,
+   "record": {
+    "id": "env:KOH-EMULSIFIER:water",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "chemical_environment",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": null,
+    "text": "KOH-EMULSIFIER (emulsifier solution containing potassium hydroxide) with water: what would happen on contact or exposure, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:675b69509a0fa92c"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "env:PDMS:air",
+   "position": 248,
+   "record": {
+    "id": "env:PDMS:air",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "chemical_environment",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": null,
+    "text": "PDMS (polydimethylsiloxane fluids (several viscosities)) with air: what would happen on contact or exposure, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:b7f087d284351c0e"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "env:PDMS:heat",
+   "position": 249,
+   "record": {
+    "id": "env:PDMS:heat",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "chemical_environment",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": null,
+    "text": "PDMS (polydimethylsiloxane fluids (several viscosities)) with heat: what would happen on contact or exposure, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:b7f087d284351c0e"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "env:PDMS:water",
+   "position": 250,
+   "record": {
+    "id": "env:PDMS:water",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "chemical_environment",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": null,
+    "text": "PDMS (polydimethylsiloxane fluids (several viscosities)) with water: what would happen on contact or exposure, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:b7f087d284351c0e"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "env:PT-CATALYST:air",
+   "position": 251,
+   "record": {
+    "id": "env:PT-CATALYST:air",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "chemical_environment",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": null,
+    "text": "PT-CATALYST (platinum catalyst solution) with air: what would happen on contact or exposure, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:c5436e54b7092b3d"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "env:PT-CATALYST:heat",
+   "position": 252,
+   "record": {
+    "id": "env:PT-CATALYST:heat",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "chemical_environment",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": null,
+    "text": "PT-CATALYST (platinum catalyst solution) with heat: what would happen on contact or exposure, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:c5436e54b7092b3d"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "env:PT-CATALYST:water",
+   "position": 253,
+   "record": {
+    "id": "env:PT-CATALYST:water",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "chemical_environment",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": null,
+    "text": "PT-CATALYST (platinum catalyst solution) with water: what would happen on contact or exposure, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:c5436e54b7092b3d"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "env:SIH:air",
+   "position": 254,
+   "record": {
+    "id": "env:SIH:air",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "chemical_environment",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": null,
+    "text": "SIH (methylhydrogen siloxane fluid (contains Si–H groups)) with air: what would happen on contact or exposure, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:c5436e54b7092b3d"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "env:SIH:heat",
+   "position": 255,
+   "record": {
+    "id": "env:SIH:heat",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "chemical_environment",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": null,
+    "text": "SIH (methylhydrogen siloxane fluid (contains Si–H groups)) with heat: what would happen on contact or exposure, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:c5436e54b7092b3d"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "env:SIH:water",
+   "position": 256,
+   "record": {
+    "id": "env:SIH:water",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "chemical_environment",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": null,
+    "text": "SIH (methylhydrogen siloxane fluid (contains Si–H groups)) with water: what would happen on contact or exposure, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:8a5b524d44b048ca"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "env:SURFACTANTS:air",
+   "position": 257,
+   "record": {
+    "id": "env:SURFACTANTS:air",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "chemical_environment",
+    "origin": "cross_list",
+    "status": "failed",
+    "section_id": null,
+    "text": "SURFACTANTS (non-ionic surfactants) with air: what would happen on contact or exposure, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": null
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "env:SURFACTANTS:heat",
+   "position": 258,
+   "record": {
+    "id": "env:SURFACTANTS:heat",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "chemical_environment",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": null,
+    "text": "SURFACTANTS (non-ionic surfactants) with heat: what would happen on contact or exposure, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:629ac68c88d94b04"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "env:SURFACTANTS:water",
+   "position": 259,
+   "record": {
+    "id": "env:SURFACTANTS:water",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "chemical_environment",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": null,
+    "text": "SURFACTANTS (non-ionic surfactants) with water: what would happen on contact or exposure, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:629ac68c88d94b04"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "env:VINYL-POLYMER:air",
+   "position": 260,
+   "record": {
+    "id": "env:VINYL-POLYMER:air",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "chemical_environment",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": null,
+    "text": "VINYL-POLYMER (vinyl-functional silicone polymer) with air: what would happen on contact or exposure, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:629ac68c88d94b04"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "env:VINYL-POLYMER:heat",
+   "position": 261,
+   "record": {
+    "id": "env:VINYL-POLYMER:heat",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "chemical_environment",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": null,
+    "text": "VINYL-POLYMER (vinyl-functional silicone polymer) with heat: what would happen on contact or exposure, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:629ac68c88d94b04"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "env:VINYL-POLYMER:water",
+   "position": 262,
+   "record": {
+    "id": "env:VINYL-POLYMER:water",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "chemical_environment",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": null,
+    "text": "VINYL-POLYMER (vinyl-functional silicone polymer) with water: what would happen on contact or exposure, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:629ac68c88d94b04"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-FILLING-LINE:as_well_as:composition",
+   "position": 0,
+   "record": {
+    "id": "m:S-FILLING-LINE:as_well_as:composition",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-FILLING-LINE",
+    "text": "As well as composition in S-FILLING-LINE (other): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:e2ee96fb37e1abef"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-FILLING-LINE:less:flow",
+   "position": 1,
+   "record": {
+    "id": "m:S-FILLING-LINE:less:flow",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-FILLING-LINE",
+    "text": "Less flow in S-FILLING-LINE (other): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:e2ee96fb37e1abef"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-FILLING-LINE:less:pressure",
+   "position": 2,
+   "record": {
+    "id": "m:S-FILLING-LINE:less:pressure",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-FILLING-LINE",
+    "text": "Less pressure in S-FILLING-LINE (other): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:e2ee96fb37e1abef"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-FILLING-LINE:less:temperature",
+   "position": 3,
+   "record": {
+    "id": "m:S-FILLING-LINE:less:temperature",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-FILLING-LINE",
+    "text": "Less temperature in S-FILLING-LINE (other): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:e2ee96fb37e1abef"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-FILLING-LINE:more:flow",
+   "position": 4,
+   "record": {
+    "id": "m:S-FILLING-LINE:more:flow",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-FILLING-LINE",
+    "text": "More flow in S-FILLING-LINE (other): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:e2ee96fb37e1abef"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-FILLING-LINE:more:pressure",
+   "position": 5,
+   "record": {
+    "id": "m:S-FILLING-LINE:more:pressure",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-FILLING-LINE",
+    "text": "More pressure in S-FILLING-LINE (other): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:96d19b57b354e6ad"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-FILLING-LINE:more:temperature",
+   "position": 6,
+   "record": {
+    "id": "m:S-FILLING-LINE:more:temperature",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-FILLING-LINE",
+    "text": "More temperature in S-FILLING-LINE (other): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:96d19b57b354e6ad"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-FILLING-LINE:no:flow",
+   "position": 7,
+   "record": {
+    "id": "m:S-FILLING-LINE:no:flow",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-FILLING-LINE",
+    "text": "No flow in S-FILLING-LINE (other): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:96d19b57b354e6ad"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-FILLING-LINE:other_than:composition",
+   "position": 8,
+   "record": {
+    "id": "m:S-FILLING-LINE:other_than:composition",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-FILLING-LINE",
+    "text": "Other than composition in S-FILLING-LINE (other): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:96d19b57b354e6ad"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-FILLING-LINE:part_of:composition",
+   "position": 9,
+   "record": {
+    "id": "m:S-FILLING-LINE:part_of:composition",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-FILLING-LINE",
+    "text": "Part of composition in S-FILLING-LINE (other): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:96d19b57b354e6ad"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-FILLING-LINE:reverse:flow",
+   "position": 10,
+   "record": {
+    "id": "m:S-FILLING-LINE:reverse:flow",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "not_credible",
+    "section_id": "S-FILLING-LINE",
+    "text": "Reverse flow in S-FILLING-LINE (other): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": "The FILLING-LINE is a batch process with no defined downstream equipment or pressure source, so reverse flow cannot be driven in this section.",
+    "model_call_id": "mc:5485bdc34134c563"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-HOMOGENISER:as_well_as:composition",
+   "position": 11,
+   "record": {
+    "id": "m:S-HOMOGENISER:as_well_as:composition",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-HOMOGENISER",
+    "text": "As well as composition in S-HOMOGENISER (other): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:4b53c6eb8b49ea7f"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-HOMOGENISER:less:flow",
+   "position": 12,
+   "record": {
+    "id": "m:S-HOMOGENISER:less:flow",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-HOMOGENISER",
+    "text": "Less flow in S-HOMOGENISER (other): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:4b53c6eb8b49ea7f"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-HOMOGENISER:less:pressure",
+   "position": 13,
+   "record": {
+    "id": "m:S-HOMOGENISER:less:pressure",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-HOMOGENISER",
+    "text": "Less pressure in S-HOMOGENISER (other): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:4b53c6eb8b49ea7f"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-HOMOGENISER:less:temperature",
+   "position": 14,
+   "record": {
+    "id": "m:S-HOMOGENISER:less:temperature",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-HOMOGENISER",
+    "text": "Less temperature in S-HOMOGENISER (other): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:4b53c6eb8b49ea7f"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-HOMOGENISER:more:flow",
+   "position": 15,
+   "record": {
+    "id": "m:S-HOMOGENISER:more:flow",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-HOMOGENISER",
+    "text": "More flow in S-HOMOGENISER (other): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:4b53c6eb8b49ea7f"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-HOMOGENISER:more:pressure",
+   "position": 16,
+   "record": {
+    "id": "m:S-HOMOGENISER:more:pressure",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "not_credible",
+    "section_id": "S-HOMOGENISER",
+    "text": "More pressure in S-HOMOGENISER (other): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": "No pump, compressor, or pressurized utility is defined for the homogeniser, so there is no identifiable source to raise its pressure.",
+    "model_call_id": "mc:6d190e14cda7eeea"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-HOMOGENISER:more:temperature",
+   "position": 17,
+   "record": {
+    "id": "m:S-HOMOGENISER:more:temperature",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "not_credible",
+    "section_id": "S-HOMOGENISER",
+    "text": "More temperature in S-HOMOGENISER (other): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": "No heating utility, exothermic reaction, or temperature‑raising equipment is defined for the homogeniser, making a temperature increase unlikely.",
+    "model_call_id": "mc:6d190e14cda7eeea"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-HOMOGENISER:no:flow",
+   "position": 18,
+   "record": {
+    "id": "m:S-HOMOGENISER:no:flow",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "not_credible",
+    "section_id": "S-HOMOGENISER",
+    "text": "No flow in S-HOMOGENISER (other): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": "No pump or flow‑driving equipment is defined for the homogeniser, so there is no normal flow that could be lost.",
+    "model_call_id": "mc:6d190e14cda7eeea"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-HOMOGENISER:other_than:composition",
+   "position": 19,
+   "record": {
+    "id": "m:S-HOMOGENISER:other_than:composition",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "not_credible",
+    "section_id": "S-HOMOGENISER",
+    "text": "Other than composition in S-HOMOGENISER (other): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": "No feed streams or composition controls are defined for the homogeniser, so an off‑spec composition cannot be introduced.",
+    "model_call_id": "mc:6d190e14cda7eeea"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-HOMOGENISER:part_of:composition",
+   "position": 20,
+   "record": {
+    "id": "m:S-HOMOGENISER:part_of:composition",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "not_credible",
+    "section_id": "S-HOMOGENISER",
+    "text": "Part of composition in S-HOMOGENISER (other): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": "No mixing equipment or composition monitors are defined for the homogeniser, so a partial composition deviation is not credible.",
+    "model_call_id": "mc:6d190e14cda7eeea"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-HOMOGENISER:reverse:flow",
+   "position": 21,
+   "record": {
+    "id": "m:S-HOMOGENISER:reverse:flow",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "not_credible",
+    "section_id": "S-HOMOGENISER",
+    "text": "Reverse flow in S-HOMOGENISER (other): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": "The homogeniser (HOMOGENISER) is an open-head batch vessel used for mixing product within a drum or pail fill line; there is no connected downstream line where reverse flow could occur. The equipment is a receiving/filling point, not a through-flow line, so reverse flow is not credible in this plant",
+    "model_call_id": "mc:6eb1600dc673bb3b"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-L-HOSE-MX-1:as_well_as:composition",
+   "position": 22,
+   "record": {
+    "id": "m:S-L-HOSE-MX-1:as_well_as:composition",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-HOSE-MX-1",
+    "text": "As well as composition in S-L-HOSE-MX-1 (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:917b62da2cb5af2a"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-L-HOSE-MX-1:less:flow",
+   "position": 23,
+   "record": {
+    "id": "m:S-L-HOSE-MX-1:less:flow",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-HOSE-MX-1",
+    "text": "Less flow in S-L-HOSE-MX-1 (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:917b62da2cb5af2a"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-L-HOSE-MX-1:less:pressure",
+   "position": 24,
+   "record": {
+    "id": "m:S-L-HOSE-MX-1:less:pressure",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-HOSE-MX-1",
+    "text": "Less pressure in S-L-HOSE-MX-1 (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:917b62da2cb5af2a"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-L-HOSE-MX-1:less:temperature",
+   "position": 25,
+   "record": {
+    "id": "m:S-L-HOSE-MX-1:less:temperature",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-HOSE-MX-1",
+    "text": "Less temperature in S-L-HOSE-MX-1 (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:917b62da2cb5af2a"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-L-HOSE-MX-1:more:flow",
+   "position": 26,
+   "record": {
+    "id": "m:S-L-HOSE-MX-1:more:flow",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-HOSE-MX-1",
+    "text": "More flow in S-L-HOSE-MX-1 (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:ac3914784866e9bf"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-L-HOSE-MX-1:more:pressure",
+   "position": 27,
+   "record": {
+    "id": "m:S-L-HOSE-MX-1:more:pressure",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-HOSE-MX-1",
+    "text": "More pressure in S-L-HOSE-MX-1 (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:ac3914784866e9bf"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-L-HOSE-MX-1:more:temperature",
+   "position": 28,
+   "record": {
+    "id": "m:S-L-HOSE-MX-1:more:temperature",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-HOSE-MX-1",
+    "text": "More temperature in S-L-HOSE-MX-1 (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:ac3914784866e9bf"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-L-HOSE-MX-1:no:flow",
+   "position": 29,
+   "record": {
+    "id": "m:S-L-HOSE-MX-1:no:flow",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-HOSE-MX-1",
+    "text": "No flow in S-L-HOSE-MX-1 (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:ac3914784866e9bf"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-L-HOSE-MX-1:other_than:composition",
+   "position": 30,
+   "record": {
+    "id": "m:S-L-HOSE-MX-1:other_than:composition",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-HOSE-MX-1",
+    "text": "Other than composition in S-L-HOSE-MX-1 (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:ac3914784866e9bf"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-L-HOSE-MX-1:other_than:phase",
+   "position": 31,
+   "record": {
+    "id": "m:S-L-HOSE-MX-1:other_than:phase",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-HOSE-MX-1",
+    "text": "Other than phase in S-L-HOSE-MX-1 (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:75ff78ed4880d224"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-L-HOSE-MX-1:part_of:composition",
+   "position": 32,
+   "record": {
+    "id": "m:S-L-HOSE-MX-1:part_of:composition",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-HOSE-MX-1",
+    "text": "Part of composition in S-L-HOSE-MX-1 (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:c4ee3898533ce167"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-L-HOSE-MX-1:reverse:flow",
+   "position": 33,
+   "record": {
+    "id": "m:S-L-HOSE-MX-1:reverse:flow",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-HOSE-MX-1",
+    "text": "Reverse flow in S-L-HOSE-MX-1 (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:46e53f73439feb0c"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-L-HOSE-MX-1~PORTABLE-PUMP:as_well_as:composition",
+   "position": 34,
+   "record": {
+    "id": "m:S-L-HOSE-MX-1~PORTABLE-PUMP:as_well_as:composition",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-HOSE-MX-1~PORTABLE-PUMP",
+    "text": "As well as composition in S-L-HOSE-MX-1~PORTABLE-PUMP (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:3f1b3365e084c573"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-L-HOSE-MX-1~PORTABLE-PUMP:less:flow",
+   "position": 35,
+   "record": {
+    "id": "m:S-L-HOSE-MX-1~PORTABLE-PUMP:less:flow",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-HOSE-MX-1~PORTABLE-PUMP",
+    "text": "Less flow in S-L-HOSE-MX-1~PORTABLE-PUMP (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:3f1b3365e084c573"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-L-HOSE-MX-1~PORTABLE-PUMP:less:pressure",
+   "position": 36,
+   "record": {
+    "id": "m:S-L-HOSE-MX-1~PORTABLE-PUMP:less:pressure",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-HOSE-MX-1~PORTABLE-PUMP",
+    "text": "Less pressure in S-L-HOSE-MX-1~PORTABLE-PUMP (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:3f1b3365e084c573"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-L-HOSE-MX-1~PORTABLE-PUMP:less:temperature",
+   "position": 37,
+   "record": {
+    "id": "m:S-L-HOSE-MX-1~PORTABLE-PUMP:less:temperature",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-HOSE-MX-1~PORTABLE-PUMP",
+    "text": "Less temperature in S-L-HOSE-MX-1~PORTABLE-PUMP (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:3f1b3365e084c573"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-L-HOSE-MX-1~PORTABLE-PUMP:more:flow",
+   "position": 38,
+   "record": {
+    "id": "m:S-L-HOSE-MX-1~PORTABLE-PUMP:more:flow",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-HOSE-MX-1~PORTABLE-PUMP",
+    "text": "More flow in S-L-HOSE-MX-1~PORTABLE-PUMP (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:3f1b3365e084c573"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-L-HOSE-MX-1~PORTABLE-PUMP:more:pressure",
+   "position": 39,
+   "record": {
+    "id": "m:S-L-HOSE-MX-1~PORTABLE-PUMP:more:pressure",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-HOSE-MX-1~PORTABLE-PUMP",
+    "text": "More pressure in S-L-HOSE-MX-1~PORTABLE-PUMP (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:fdbe9636699acf01"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-L-HOSE-MX-1~PORTABLE-PUMP:more:temperature",
+   "position": 40,
+   "record": {
+    "id": "m:S-L-HOSE-MX-1~PORTABLE-PUMP:more:temperature",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-HOSE-MX-1~PORTABLE-PUMP",
+    "text": "More temperature in S-L-HOSE-MX-1~PORTABLE-PUMP (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:fdbe9636699acf01"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-L-HOSE-MX-1~PORTABLE-PUMP:no:flow",
+   "position": 41,
+   "record": {
+    "id": "m:S-L-HOSE-MX-1~PORTABLE-PUMP:no:flow",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-HOSE-MX-1~PORTABLE-PUMP",
+    "text": "No flow in S-L-HOSE-MX-1~PORTABLE-PUMP (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:fdbe9636699acf01"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-L-HOSE-MX-1~PORTABLE-PUMP:other_than:composition",
+   "position": 42,
+   "record": {
+    "id": "m:S-L-HOSE-MX-1~PORTABLE-PUMP:other_than:composition",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-HOSE-MX-1~PORTABLE-PUMP",
+    "text": "Other than composition in S-L-HOSE-MX-1~PORTABLE-PUMP (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:fdbe9636699acf01"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-L-HOSE-MX-1~PORTABLE-PUMP:other_than:phase",
+   "position": 43,
+   "record": {
+    "id": "m:S-L-HOSE-MX-1~PORTABLE-PUMP:other_than:phase",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-HOSE-MX-1~PORTABLE-PUMP",
+    "text": "Other than phase in S-L-HOSE-MX-1~PORTABLE-PUMP (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:fdbe9636699acf01"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-L-HOSE-MX-1~PORTABLE-PUMP:part_of:composition",
+   "position": 44,
+   "record": {
+    "id": "m:S-L-HOSE-MX-1~PORTABLE-PUMP:part_of:composition",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-HOSE-MX-1~PORTABLE-PUMP",
+    "text": "Part of composition in S-L-HOSE-MX-1~PORTABLE-PUMP (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:7b9bde4129db57fc"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-L-HOSE-MX-1~PORTABLE-PUMP:reverse:flow",
+   "position": 45,
+   "record": {
+    "id": "m:S-L-HOSE-MX-1~PORTABLE-PUMP:reverse:flow",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "not_credible",
+    "section_id": "S-L-HOSE-MX-1~PORTABLE-PUMP",
+    "text": "Reverse flow in S-L-HOSE-MX-1~PORTABLE-PUMP (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": "The mixing tank MX-1 has a loose lid with manway, open to atmosphere, so it cannot develop pressure to drive flow backward; the hose relies on the portable pump for forward flow and there is no check valve or elevated tank to create siphon, making reverse flow physically impossible under described条件",
+    "model_call_id": "mc:7b9bde4129db57fc"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-L-HOSE-MX-2:as_well_as:composition",
+   "position": 46,
+   "record": {
+    "id": "m:S-L-HOSE-MX-2:as_well_as:composition",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-HOSE-MX-2",
+    "text": "As well as composition in S-L-HOSE-MX-2 (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:1831565038a160b3"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-L-HOSE-MX-2:less:flow",
+   "position": 47,
+   "record": {
+    "id": "m:S-L-HOSE-MX-2:less:flow",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-HOSE-MX-2",
+    "text": "Less flow in S-L-HOSE-MX-2 (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:1831565038a160b3"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-L-HOSE-MX-2:less:pressure",
+   "position": 48,
+   "record": {
+    "id": "m:S-L-HOSE-MX-2:less:pressure",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-HOSE-MX-2",
+    "text": "Less pressure in S-L-HOSE-MX-2 (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:1831565038a160b3"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-L-HOSE-MX-2:less:temperature",
+   "position": 49,
+   "record": {
+    "id": "m:S-L-HOSE-MX-2:less:temperature",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-HOSE-MX-2",
+    "text": "Less temperature in S-L-HOSE-MX-2 (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:1831565038a160b3"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-L-HOSE-MX-2:more:flow",
+   "position": 50,
+   "record": {
+    "id": "m:S-L-HOSE-MX-2:more:flow",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-HOSE-MX-2",
+    "text": "More flow in S-L-HOSE-MX-2 (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:1831565038a160b3"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-L-HOSE-MX-2:more:pressure",
+   "position": 51,
+   "record": {
+    "id": "m:S-L-HOSE-MX-2:more:pressure",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-HOSE-MX-2",
+    "text": "More pressure in S-L-HOSE-MX-2 (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:185a01f0b1fb24b1"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-L-HOSE-MX-2:more:temperature",
+   "position": 52,
+   "record": {
+    "id": "m:S-L-HOSE-MX-2:more:temperature",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-HOSE-MX-2",
+    "text": "More temperature in S-L-HOSE-MX-2 (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:185a01f0b1fb24b1"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-L-HOSE-MX-2:no:flow",
+   "position": 53,
+   "record": {
+    "id": "m:S-L-HOSE-MX-2:no:flow",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-HOSE-MX-2",
+    "text": "No flow in S-L-HOSE-MX-2 (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:185a01f0b1fb24b1"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-L-HOSE-MX-2:other_than:composition",
+   "position": 54,
+   "record": {
+    "id": "m:S-L-HOSE-MX-2:other_than:composition",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-HOSE-MX-2",
+    "text": "Other than composition in S-L-HOSE-MX-2 (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:185a01f0b1fb24b1"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-L-HOSE-MX-2:other_than:phase",
+   "position": 55,
+   "record": {
+    "id": "m:S-L-HOSE-MX-2:other_than:phase",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-HOSE-MX-2",
+    "text": "Other than phase in S-L-HOSE-MX-2 (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:185a01f0b1fb24b1"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-L-HOSE-MX-2:part_of:composition",
+   "position": 56,
+   "record": {
+    "id": "m:S-L-HOSE-MX-2:part_of:composition",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-HOSE-MX-2",
+    "text": "Part of composition in S-L-HOSE-MX-2 (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:02a96501100e9037"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-L-HOSE-MX-2:reverse:flow",
+   "position": 57,
+   "record": {
+    "id": "m:S-L-HOSE-MX-2:reverse:flow",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-HOSE-MX-2",
+    "text": "Reverse flow in S-L-HOSE-MX-2 (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:02a96501100e9037"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-L-HOSE-MX-2~PORTABLE-PUMP:as_well_as:composition",
+   "position": 58,
+   "record": {
+    "id": "m:S-L-HOSE-MX-2~PORTABLE-PUMP:as_well_as:composition",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-HOSE-MX-2~PORTABLE-PUMP",
+    "text": "As well as composition in S-L-HOSE-MX-2~PORTABLE-PUMP (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:b524ca000bd2c47d"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-L-HOSE-MX-2~PORTABLE-PUMP:less:flow",
+   "position": 59,
+   "record": {
+    "id": "m:S-L-HOSE-MX-2~PORTABLE-PUMP:less:flow",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-HOSE-MX-2~PORTABLE-PUMP",
+    "text": "Less flow in S-L-HOSE-MX-2~PORTABLE-PUMP (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:b524ca000bd2c47d"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-L-HOSE-MX-2~PORTABLE-PUMP:less:pressure",
+   "position": 60,
+   "record": {
+    "id": "m:S-L-HOSE-MX-2~PORTABLE-PUMP:less:pressure",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-HOSE-MX-2~PORTABLE-PUMP",
+    "text": "Less pressure in S-L-HOSE-MX-2~PORTABLE-PUMP (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:837913c5b6606c8b"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-L-HOSE-MX-2~PORTABLE-PUMP:less:temperature",
+   "position": 61,
+   "record": {
+    "id": "m:S-L-HOSE-MX-2~PORTABLE-PUMP:less:temperature",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "not_credible",
+    "section_id": "S-L-HOSE-MX-2~PORTABLE-PUMP",
+    "text": "Less temperature in S-L-HOSE-MX-2~PORTABLE-PUMP (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": "No heating or cooling system is applied to L-HOSE-MX-2; temperature is governed by ambient conditions and cannot deviate 'less' than ambient in a credible fault scenario.",
+    "model_call_id": "mc:837913c5b6606c8b"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-L-HOSE-MX-2~PORTABLE-PUMP:more:flow",
+   "position": 62,
+   "record": {
+    "id": "m:S-L-HOSE-MX-2~PORTABLE-PUMP:more:flow",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "not_credible",
+    "section_id": "S-L-HOSE-MX-2~PORTABLE-PUMP",
+    "text": "More flow in S-L-HOSE-MX-2~PORTABLE-PUMP (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": "No pump or source is capable of increasing flow beyond the portable pump's design; the line is open to an empty tank at the destination.",
+    "model_call_id": "mc:837913c5b6606c8b"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-L-HOSE-MX-2~PORTABLE-PUMP:more:pressure",
+   "position": 63,
+   "record": {
+    "id": "m:S-L-HOSE-MX-2~PORTABLE-PUMP:more:pressure",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "not_credible",
+    "section_id": "S-L-HOSE-MX-2~PORTABLE-PUMP",
+    "text": "More pressure in S-L-HOSE-MX-2~PORTABLE-PUMP (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": "L-HOSE-MX-2 discharges into the open mixing tank MX-2; there is no pressure barrier to build pressure in the hose beyond the pump's delivery pressure, and the pump stops when the tank is full or flow is blocked.",
+    "model_call_id": "mc:837913c5b6606c8b"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-L-HOSE-MX-2~PORTABLE-PUMP:more:temperature",
+   "position": 64,
+   "record": {
+    "id": "m:S-L-HOSE-MX-2~PORTABLE-PUMP:more:temperature",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "not_credible",
+    "section_id": "S-L-HOSE-MX-2~PORTABLE-PUMP",
+    "text": "More temperature in S-L-HOSE-MX-2~PORTABLE-PUMP (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": "No heat tracing, insulation, or temperature-controlled service is applied to L-HOSE-MX-2; temperature can only rise above ambient if external fire exposes the hose (C22), which is a separate scenario.",
+    "model_call_id": "mc:837913c5b6606c8b"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-L-HOSE-MX-2~PORTABLE-PUMP:no:flow",
+   "position": 65,
+   "record": {
+    "id": "m:S-L-HOSE-MX-2~PORTABLE-PUMP:no:flow",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-HOSE-MX-2~PORTABLE-PUMP",
+    "text": "No flow in S-L-HOSE-MX-2~PORTABLE-PUMP (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:addd0a3385cfcf27"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-L-HOSE-MX-2~PORTABLE-PUMP:other_than:composition",
+   "position": 66,
+   "record": {
+    "id": "m:S-L-HOSE-MX-2~PORTABLE-PUMP:other_than:composition",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-HOSE-MX-2~PORTABLE-PUMP",
+    "text": "Other than composition in S-L-HOSE-MX-2~PORTABLE-PUMP (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:3e16b0750e0eed9f"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-L-HOSE-MX-2~PORTABLE-PUMP:other_than:phase",
+   "position": 67,
+   "record": {
+    "id": "m:S-L-HOSE-MX-2~PORTABLE-PUMP:other_than:phase",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-HOSE-MX-2~PORTABLE-PUMP",
+    "text": "Other than phase in S-L-HOSE-MX-2~PORTABLE-PUMP (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:7474ef169a623799"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-L-HOSE-MX-2~PORTABLE-PUMP:part_of:composition",
+   "position": 68,
+   "record": {
+    "id": "m:S-L-HOSE-MX-2~PORTABLE-PUMP:part_of:composition",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-HOSE-MX-2~PORTABLE-PUMP",
+    "text": "Part of composition in S-L-HOSE-MX-2~PORTABLE-PUMP (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:fc4d8471804b6185"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-L-HOSE-MX-2~PORTABLE-PUMP:reverse:flow",
+   "position": 69,
+   "record": {
+    "id": "m:S-L-HOSE-MX-2~PORTABLE-PUMP:reverse:flow",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "not_credible",
+    "section_id": "S-L-HOSE-MX-2~PORTABLE-PUMP",
+    "text": "Reverse flow in S-L-HOSE-MX-2~PORTABLE-PUMP (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": "This line has no downstream section at a higher pressure to drive reverse flow; the hose discharges into the mixing tank and has no check valve or other mechanism that would allow flow reversal under the stated operating conditions.",
+    "model_call_id": "mc:256f881dd45c816f"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-L-HOSE-MX-3:as_well_as:composition",
+   "position": 70,
+   "record": {
+    "id": "m:S-L-HOSE-MX-3:as_well_as:composition",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "failed",
+    "section_id": "S-L-HOSE-MX-3",
+    "text": "As well as composition in S-L-HOSE-MX-3 (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": null
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-L-HOSE-MX-3:less:flow",
+   "position": 71,
+   "record": {
+    "id": "m:S-L-HOSE-MX-3:less:flow",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "failed",
+    "section_id": "S-L-HOSE-MX-3",
+    "text": "Less flow in S-L-HOSE-MX-3 (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": null
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-L-HOSE-MX-3:less:pressure",
+   "position": 72,
+   "record": {
+    "id": "m:S-L-HOSE-MX-3:less:pressure",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "failed",
+    "section_id": "S-L-HOSE-MX-3",
+    "text": "Less pressure in S-L-HOSE-MX-3 (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": null
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-L-HOSE-MX-3:less:temperature",
+   "position": 73,
+   "record": {
+    "id": "m:S-L-HOSE-MX-3:less:temperature",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "failed",
+    "section_id": "S-L-HOSE-MX-3",
+    "text": "Less temperature in S-L-HOSE-MX-3 (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": null
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-L-HOSE-MX-3:more:flow",
+   "position": 74,
+   "record": {
+    "id": "m:S-L-HOSE-MX-3:more:flow",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "failed",
+    "section_id": "S-L-HOSE-MX-3",
+    "text": "More flow in S-L-HOSE-MX-3 (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": null
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-L-HOSE-MX-3:more:pressure",
+   "position": 75,
+   "record": {
+    "id": "m:S-L-HOSE-MX-3:more:pressure",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-HOSE-MX-3",
+    "text": "More pressure in S-L-HOSE-MX-3 (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:74a127ab2ad5be8c"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-L-HOSE-MX-3:more:temperature",
+   "position": 76,
+   "record": {
+    "id": "m:S-L-HOSE-MX-3:more:temperature",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-HOSE-MX-3",
+    "text": "More temperature in S-L-HOSE-MX-3 (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:74a127ab2ad5be8c"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-L-HOSE-MX-3:no:flow",
+   "position": 77,
+   "record": {
+    "id": "m:S-L-HOSE-MX-3:no:flow",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-HOSE-MX-3",
+    "text": "No flow in S-L-HOSE-MX-3 (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:74a127ab2ad5be8c"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-L-HOSE-MX-3:other_than:composition",
+   "position": 78,
+   "record": {
+    "id": "m:S-L-HOSE-MX-3:other_than:composition",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-HOSE-MX-3",
+    "text": "Other than composition in S-L-HOSE-MX-3 (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:74a127ab2ad5be8c"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-L-HOSE-MX-3:other_than:phase",
+   "position": 79,
+   "record": {
+    "id": "m:S-L-HOSE-MX-3:other_than:phase",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-HOSE-MX-3",
+    "text": "Other than phase in S-L-HOSE-MX-3 (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:74a127ab2ad5be8c"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-L-HOSE-MX-3:part_of:composition",
+   "position": 80,
+   "record": {
+    "id": "m:S-L-HOSE-MX-3:part_of:composition",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-HOSE-MX-3",
+    "text": "Part of composition in S-L-HOSE-MX-3 (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:6a3a34203522247d"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-L-HOSE-MX-3:reverse:flow",
+   "position": 81,
+   "record": {
+    "id": "m:S-L-HOSE-MX-3:reverse:flow",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-HOSE-MX-3",
+    "text": "Reverse flow in S-L-HOSE-MX-3 (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:6a3a34203522247d"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-L-HOSE-MX-3~PORTABLE-PUMP:as_well_as:composition",
+   "position": 82,
+   "record": {
+    "id": "m:S-L-HOSE-MX-3~PORTABLE-PUMP:as_well_as:composition",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-HOSE-MX-3~PORTABLE-PUMP",
+    "text": "As well as composition in S-L-HOSE-MX-3~PORTABLE-PUMP (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:68e5c1d7b23929d6"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-L-HOSE-MX-3~PORTABLE-PUMP:less:flow",
+   "position": 83,
+   "record": {
+    "id": "m:S-L-HOSE-MX-3~PORTABLE-PUMP:less:flow",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-HOSE-MX-3~PORTABLE-PUMP",
+    "text": "Less flow in S-L-HOSE-MX-3~PORTABLE-PUMP (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:68e5c1d7b23929d6"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-L-HOSE-MX-3~PORTABLE-PUMP:less:pressure",
+   "position": 84,
+   "record": {
+    "id": "m:S-L-HOSE-MX-3~PORTABLE-PUMP:less:pressure",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-HOSE-MX-3~PORTABLE-PUMP",
+    "text": "Less pressure in S-L-HOSE-MX-3~PORTABLE-PUMP (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:68e5c1d7b23929d6"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-L-HOSE-MX-3~PORTABLE-PUMP:less:temperature",
+   "position": 85,
+   "record": {
+    "id": "m:S-L-HOSE-MX-3~PORTABLE-PUMP:less:temperature",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-HOSE-MX-3~PORTABLE-PUMP",
+    "text": "Less temperature in S-L-HOSE-MX-3~PORTABLE-PUMP (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:68e5c1d7b23929d6"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-L-HOSE-MX-3~PORTABLE-PUMP:more:flow",
+   "position": 86,
+   "record": {
+    "id": "m:S-L-HOSE-MX-3~PORTABLE-PUMP:more:flow",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-HOSE-MX-3~PORTABLE-PUMP",
+    "text": "More flow in S-L-HOSE-MX-3~PORTABLE-PUMP (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:68e5c1d7b23929d6"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-L-HOSE-MX-3~PORTABLE-PUMP:more:pressure",
+   "position": 87,
+   "record": {
+    "id": "m:S-L-HOSE-MX-3~PORTABLE-PUMP:more:pressure",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-HOSE-MX-3~PORTABLE-PUMP",
+    "text": "More pressure in S-L-HOSE-MX-3~PORTABLE-PUMP (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:a1e3467286b8246d"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-L-HOSE-MX-3~PORTABLE-PUMP:more:temperature",
+   "position": 88,
+   "record": {
+    "id": "m:S-L-HOSE-MX-3~PORTABLE-PUMP:more:temperature",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-HOSE-MX-3~PORTABLE-PUMP",
+    "text": "More temperature in S-L-HOSE-MX-3~PORTABLE-PUMP (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:b4e64443a24a2ff6"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-L-HOSE-MX-3~PORTABLE-PUMP:no:flow",
+   "position": 89,
+   "record": {
+    "id": "m:S-L-HOSE-MX-3~PORTABLE-PUMP:no:flow",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-HOSE-MX-3~PORTABLE-PUMP",
+    "text": "No flow in S-L-HOSE-MX-3~PORTABLE-PUMP (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:45e1cf79ea53adb9"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-L-HOSE-MX-3~PORTABLE-PUMP:other_than:composition",
+   "position": 90,
+   "record": {
+    "id": "m:S-L-HOSE-MX-3~PORTABLE-PUMP:other_than:composition",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-HOSE-MX-3~PORTABLE-PUMP",
+    "text": "Other than composition in S-L-HOSE-MX-3~PORTABLE-PUMP (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:2004808eb774702b"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-L-HOSE-MX-3~PORTABLE-PUMP:other_than:phase",
+   "position": 91,
+   "record": {
+    "id": "m:S-L-HOSE-MX-3~PORTABLE-PUMP:other_than:phase",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-HOSE-MX-3~PORTABLE-PUMP",
+    "text": "Other than phase in S-L-HOSE-MX-3~PORTABLE-PUMP (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:7f66b0741573434b"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-L-HOSE-MX-3~PORTABLE-PUMP:part_of:composition",
+   "position": 92,
+   "record": {
+    "id": "m:S-L-HOSE-MX-3~PORTABLE-PUMP:part_of:composition",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "not_credible",
+    "section_id": "S-L-HOSE-MX-3~PORTABLE-PUMP",
+    "text": "Part of composition in S-L-HOSE-MX-3~PORTABLE-PUMP (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": "No chemical inventory is listed for this section; the line is empty of named chemicals and has no defined operating parameters. Deviation is not credible without composition data.",
+    "model_call_id": "mc:902053232396cc7a"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-L-HOSE-MX-3~PORTABLE-PUMP:reverse:flow",
+   "position": 93,
+   "record": {
+    "id": "m:S-L-HOSE-MX-3~PORTABLE-PUMP:reverse:flow",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "not_credible",
+    "section_id": "S-L-HOSE-MX-3~PORTABLE-PUMP",
+    "text": "Reverse flow in S-L-HOSE-MX-3~PORTABLE-PUMP (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": "The line L-HOSE-MX-3 has no check valve or downstream pressure source. Contents flow only from PORTABLE-PUMP into MX-3 under positive displacement; reverse flow is physically impossible during normal pump operation.",
+    "model_call_id": "mc:902053232396cc7a"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-L-HOSE-MX-4:as_well_as:composition",
+   "position": 94,
+   "record": {
+    "id": "m:S-L-HOSE-MX-4:as_well_as:composition",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-HOSE-MX-4",
+    "text": "As well as composition in S-L-HOSE-MX-4 (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:809d5724b5a51050"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-L-HOSE-MX-4:less:flow",
+   "position": 95,
+   "record": {
+    "id": "m:S-L-HOSE-MX-4:less:flow",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-HOSE-MX-4",
+    "text": "Less flow in S-L-HOSE-MX-4 (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:809d5724b5a51050"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-L-HOSE-MX-4:less:pressure",
+   "position": 96,
+   "record": {
+    "id": "m:S-L-HOSE-MX-4:less:pressure",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-HOSE-MX-4",
+    "text": "Less pressure in S-L-HOSE-MX-4 (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:809d5724b5a51050"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-L-HOSE-MX-4:less:temperature",
+   "position": 97,
+   "record": {
+    "id": "m:S-L-HOSE-MX-4:less:temperature",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-HOSE-MX-4",
+    "text": "Less temperature in S-L-HOSE-MX-4 (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:809d5724b5a51050"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-L-HOSE-MX-4:more:flow",
+   "position": 98,
+   "record": {
+    "id": "m:S-L-HOSE-MX-4:more:flow",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-HOSE-MX-4",
+    "text": "More flow in S-L-HOSE-MX-4 (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:809d5724b5a51050"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-L-HOSE-MX-4:more:pressure",
+   "position": 99,
+   "record": {
+    "id": "m:S-L-HOSE-MX-4:more:pressure",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-HOSE-MX-4",
+    "text": "More pressure in S-L-HOSE-MX-4 (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:ca86ed09bccb218b"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-L-HOSE-MX-4:more:temperature",
+   "position": 100,
+   "record": {
+    "id": "m:S-L-HOSE-MX-4:more:temperature",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-HOSE-MX-4",
+    "text": "More temperature in S-L-HOSE-MX-4 (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:ca86ed09bccb218b"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-L-HOSE-MX-4:no:flow",
+   "position": 101,
+   "record": {
+    "id": "m:S-L-HOSE-MX-4:no:flow",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-HOSE-MX-4",
+    "text": "No flow in S-L-HOSE-MX-4 (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:ca86ed09bccb218b"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-L-HOSE-MX-4:other_than:composition",
+   "position": 102,
+   "record": {
+    "id": "m:S-L-HOSE-MX-4:other_than:composition",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-HOSE-MX-4",
+    "text": "Other than composition in S-L-HOSE-MX-4 (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:ca86ed09bccb218b"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-L-HOSE-MX-4:other_than:phase",
+   "position": 103,
+   "record": {
+    "id": "m:S-L-HOSE-MX-4:other_than:phase",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-HOSE-MX-4",
+    "text": "Other than phase in S-L-HOSE-MX-4 (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:ca86ed09bccb218b"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-L-HOSE-MX-4:part_of:composition",
+   "position": 104,
+   "record": {
+    "id": "m:S-L-HOSE-MX-4:part_of:composition",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-HOSE-MX-4",
+    "text": "Part of composition in S-L-HOSE-MX-4 (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:6b5a0c1c2edca08d"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-L-HOSE-MX-4:reverse:flow",
+   "position": 105,
+   "record": {
+    "id": "m:S-L-HOSE-MX-4:reverse:flow",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-HOSE-MX-4",
+    "text": "Reverse flow in S-L-HOSE-MX-4 (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:6b5a0c1c2edca08d"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-L-HOSE-MX-4~PORTABLE-PUMP:as_well_as:composition",
+   "position": 106,
+   "record": {
+    "id": "m:S-L-HOSE-MX-4~PORTABLE-PUMP:as_well_as:composition",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-HOSE-MX-4~PORTABLE-PUMP",
+    "text": "As well as composition in S-L-HOSE-MX-4~PORTABLE-PUMP (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:33073df010c220f1"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-L-HOSE-MX-4~PORTABLE-PUMP:less:flow",
+   "position": 107,
+   "record": {
+    "id": "m:S-L-HOSE-MX-4~PORTABLE-PUMP:less:flow",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-HOSE-MX-4~PORTABLE-PUMP",
+    "text": "Less flow in S-L-HOSE-MX-4~PORTABLE-PUMP (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:33073df010c220f1"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-L-HOSE-MX-4~PORTABLE-PUMP:less:pressure",
+   "position": 108,
+   "record": {
+    "id": "m:S-L-HOSE-MX-4~PORTABLE-PUMP:less:pressure",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-HOSE-MX-4~PORTABLE-PUMP",
+    "text": "Less pressure in S-L-HOSE-MX-4~PORTABLE-PUMP (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:33073df010c220f1"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-L-HOSE-MX-4~PORTABLE-PUMP:less:temperature",
+   "position": 109,
+   "record": {
+    "id": "m:S-L-HOSE-MX-4~PORTABLE-PUMP:less:temperature",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-HOSE-MX-4~PORTABLE-PUMP",
+    "text": "Less temperature in S-L-HOSE-MX-4~PORTABLE-PUMP (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:33073df010c220f1"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-L-HOSE-MX-4~PORTABLE-PUMP:more:flow",
+   "position": 110,
+   "record": {
+    "id": "m:S-L-HOSE-MX-4~PORTABLE-PUMP:more:flow",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-HOSE-MX-4~PORTABLE-PUMP",
+    "text": "More flow in S-L-HOSE-MX-4~PORTABLE-PUMP (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:33073df010c220f1"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-L-HOSE-MX-4~PORTABLE-PUMP:more:pressure",
+   "position": 111,
+   "record": {
+    "id": "m:S-L-HOSE-MX-4~PORTABLE-PUMP:more:pressure",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-HOSE-MX-4~PORTABLE-PUMP",
+    "text": "More pressure in S-L-HOSE-MX-4~PORTABLE-PUMP (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:909b7cc7715ca4d1"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-L-HOSE-MX-4~PORTABLE-PUMP:more:temperature",
+   "position": 112,
+   "record": {
+    "id": "m:S-L-HOSE-MX-4~PORTABLE-PUMP:more:temperature",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-HOSE-MX-4~PORTABLE-PUMP",
+    "text": "More temperature in S-L-HOSE-MX-4~PORTABLE-PUMP (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:909b7cc7715ca4d1"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-L-HOSE-MX-4~PORTABLE-PUMP:no:flow",
+   "position": 113,
+   "record": {
+    "id": "m:S-L-HOSE-MX-4~PORTABLE-PUMP:no:flow",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-HOSE-MX-4~PORTABLE-PUMP",
+    "text": "No flow in S-L-HOSE-MX-4~PORTABLE-PUMP (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:909b7cc7715ca4d1"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-L-HOSE-MX-4~PORTABLE-PUMP:other_than:composition",
+   "position": 114,
+   "record": {
+    "id": "m:S-L-HOSE-MX-4~PORTABLE-PUMP:other_than:composition",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-HOSE-MX-4~PORTABLE-PUMP",
+    "text": "Other than composition in S-L-HOSE-MX-4~PORTABLE-PUMP (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:909b7cc7715ca4d1"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-L-HOSE-MX-4~PORTABLE-PUMP:other_than:phase",
+   "position": 115,
+   "record": {
+    "id": "m:S-L-HOSE-MX-4~PORTABLE-PUMP:other_than:phase",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-HOSE-MX-4~PORTABLE-PUMP",
+    "text": "Other than phase in S-L-HOSE-MX-4~PORTABLE-PUMP (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:909b7cc7715ca4d1"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-L-HOSE-MX-4~PORTABLE-PUMP:part_of:composition",
+   "position": 116,
+   "record": {
+    "id": "m:S-L-HOSE-MX-4~PORTABLE-PUMP:part_of:composition",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-HOSE-MX-4~PORTABLE-PUMP",
+    "text": "Part of composition in S-L-HOSE-MX-4~PORTABLE-PUMP (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:9108ba497ede176e"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-L-HOSE-MX-4~PORTABLE-PUMP:reverse:flow",
+   "position": 117,
+   "record": {
+    "id": "m:S-L-HOSE-MX-4~PORTABLE-PUMP:reverse:flow",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-L-HOSE-MX-4~PORTABLE-PUMP",
+    "text": "Reverse flow in S-L-HOSE-MX-4~PORTABLE-PUMP (pipe): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:9108ba497ede176e"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-MX-1:as_well_as:composition",
+   "position": 118,
+   "record": {
+    "id": "m:S-MX-1:as_well_as:composition",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-MX-1",
+    "text": "As well as composition in S-MX-1 (mixer): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:ec4dce86664ec8c2"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-MX-1:less:level",
+   "position": 119,
+   "record": {
+    "id": "m:S-MX-1:less:level",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-MX-1",
+    "text": "Less level in S-MX-1 (mixer): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:9cc95d9b29a874e8"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-MX-1:less:mixing",
+   "position": 120,
+   "record": {
+    "id": "m:S-MX-1:less:mixing",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "not_credible",
+    "section_id": "S-MX-1",
+    "text": "Less mixing in S-MX-1 (mixer): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": "MX-1 has a loose lid with a manway and no impeller speed control; mixing level cannot be reduced below zero while material is present.",
+    "model_call_id": "mc:2913de918400306a"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-MX-1:less:pressure",
+   "position": 121,
+   "record": {
+    "id": "m:S-MX-1:less:pressure",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "not_credible",
+    "section_id": "S-MX-1",
+    "text": "Less pressure in S-MX-1 (mixer): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": "A closed-mix vessel with a loose lid cannot develop a pressure drop; there is no sealed system or vacuum pathway.",
+    "model_call_id": "mc:2913de918400306a"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-MX-1:less:temperature",
+   "position": 122,
+   "record": {
+    "id": "m:S-MX-1:less:temperature",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "not_credible",
+    "section_id": "S-MX-1",
+    "text": "Less temperature in S-MX-1 (mixer): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": "The jacket has independent heating/cooling control; temperature can only decrease if the cooling medium is actively switched on.",
+    "model_call_id": "mc:2913de918400306a"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-MX-1:more:level",
+   "position": 123,
+   "record": {
+    "id": "m:S-MX-1:more:level",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "not_credible",
+    "section_id": "S-MX-1",
+    "text": "More level in S-MX-1 (mixer): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": "The tank has no overflow line or level alarm; level can rise only if inflow exceeds design capacity, which is not described.",
+    "model_call_id": "mc:2913de918400306a"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-MX-1:more:mixing",
+   "position": 124,
+   "record": {
+    "id": "m:S-MX-1:more:mixing",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "not_credible",
+    "section_id": "S-MX-1",
+    "text": "More mixing in S-MX-1 (mixer): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": "Agitator speed is not listed as variable; the loose-lid mixer cannot exceed its design mixing rate without a drive failure not described.",
+    "model_call_id": "mc:2913de918400306a"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-MX-1:more:pressure",
+   "position": 125,
+   "record": {
+    "id": "m:S-MX-1:more:pressure",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "not_credible",
+    "section_id": "S-MX-1",
+    "text": "More pressure in S-MX-1 (mixer): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": "No pressure source is specified for MX-1. It is a jacketed mixer with no listed pressurization system or relief device. Without a means to build pressure, the deviation is not credible.",
+    "model_call_id": "mc:28c6beec999f59b3"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-MX-1:more:reaction",
+   "position": 126,
+   "record": {
+    "id": "m:S-MX-1:more:reaction",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "not_credible",
+    "section_id": "S-MX-1",
+    "text": "More reaction in S-MX-1 (mixer): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": "No reaction chemistry or listed exothermic reaction is described for MX-1. The equipment is a general-purpose mixer with jacket heating/cooling; without reactive materials or energy release terms, the deviation is not credible.",
+    "model_call_id": "mc:28c6beec999f59b3"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-MX-1:more:temperature",
+   "position": 127,
+   "record": {
+    "id": "m:S-MX-1:more:temperature",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "not_credible",
+    "section_id": "S-MX-1",
+    "text": "More temperature in S-MX-1 (mixer): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": "MX-1 has jacket heating/cooling but no listed temperature alarm, trip, or control loop. A temperature deviation could occur but would go undetected and unprotected; however, the question asks about a cause and consequence, and the context provides no temperature setpoint or reaction chemistry to驱动 a",
+    "model_call_id": "mc:28c6beec999f59b3"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-MX-1:no:mixing",
+   "position": 128,
+   "record": {
+    "id": "m:S-MX-1:no:mixing",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "not_credible",
+    "section_id": "S-MX-1",
+    "text": "No mixing in S-MX-1 (mixer): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": "MX-1 has an agitator but no listed control loop or interlock to stop agitation. If the agitator stops, mixing ceases; however, the deviation is not credible as a standalone HAZOP question because the context does not identify a cause (e.g., pump failure, power loss) that would stop the mixer, and no",
+    "model_call_id": "mc:28c6beec999f59b3"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-MX-1:other_than:composition",
+   "position": 129,
+   "record": {
+    "id": "m:S-MX-1:other_than:composition",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "not_credible",
+    "section_id": "S-MX-1",
+    "text": "Other than composition in S-MX-1 (mixer): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": "No chemicals or composition is listed for MX-1. The equipment notes state it is a general-purpose mixer with no listed materials; without a defined composition, the deviation cannot be evaluated.",
+    "model_call_id": "mc:28c6beec999f59b3"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-MX-1:part_of:composition",
+   "position": 130,
+   "record": {
+    "id": "m:S-MX-1:part_of:composition",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-MX-1",
+    "text": "Part of composition in S-MX-1 (mixer): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:6e1900ac2b3ac4d2"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-MX-2:as_well_as:composition",
+   "position": 131,
+   "record": {
+    "id": "m:S-MX-2:as_well_as:composition",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "failed",
+    "section_id": "S-MX-2",
+    "text": "As well as composition in S-MX-2 (mixer): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": null
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-MX-2:less:level",
+   "position": 132,
+   "record": {
+    "id": "m:S-MX-2:less:level",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "failed",
+    "section_id": "S-MX-2",
+    "text": "Less level in S-MX-2 (mixer): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": null
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-MX-2:less:mixing",
+   "position": 133,
+   "record": {
+    "id": "m:S-MX-2:less:mixing",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "failed",
+    "section_id": "S-MX-2",
+    "text": "Less mixing in S-MX-2 (mixer): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": null
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-MX-2:less:pressure",
+   "position": 134,
+   "record": {
+    "id": "m:S-MX-2:less:pressure",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "failed",
+    "section_id": "S-MX-2",
+    "text": "Less pressure in S-MX-2 (mixer): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": null
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-MX-2:less:temperature",
+   "position": 135,
+   "record": {
+    "id": "m:S-MX-2:less:temperature",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "failed",
+    "section_id": "S-MX-2",
+    "text": "Less temperature in S-MX-2 (mixer): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": null
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-MX-2:more:level",
+   "position": 136,
+   "record": {
+    "id": "m:S-MX-2:more:level",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-MX-2",
+    "text": "More level in S-MX-2 (mixer): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:cf12f1df7b515d20"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-MX-2:more:mixing",
+   "position": 137,
+   "record": {
+    "id": "m:S-MX-2:more:mixing",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-MX-2",
+    "text": "More mixing in S-MX-2 (mixer): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:cf12f1df7b515d20"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-MX-2:more:pressure",
+   "position": 138,
+   "record": {
+    "id": "m:S-MX-2:more:pressure",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-MX-2",
+    "text": "More pressure in S-MX-2 (mixer): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:cf12f1df7b515d20"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-MX-2:more:reaction",
+   "position": 139,
+   "record": {
+    "id": "m:S-MX-2:more:reaction",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-MX-2",
+    "text": "More reaction in S-MX-2 (mixer): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:cf12f1df7b515d20"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-MX-2:more:temperature",
+   "position": 140,
+   "record": {
+    "id": "m:S-MX-2:more:temperature",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-MX-2",
+    "text": "More temperature in S-MX-2 (mixer): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:cf12f1df7b515d20"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-MX-2:no:mixing",
+   "position": 141,
+   "record": {
+    "id": "m:S-MX-2:no:mixing",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-MX-2",
+    "text": "No mixing in S-MX-2 (mixer): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:273f4c8d8e7c3b82"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-MX-2:other_than:composition",
+   "position": 142,
+   "record": {
+    "id": "m:S-MX-2:other_than:composition",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-MX-2",
+    "text": "Other than composition in S-MX-2 (mixer): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:273f4c8d8e7c3b82"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-MX-2:part_of:composition",
+   "position": 143,
+   "record": {
+    "id": "m:S-MX-2:part_of:composition",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-MX-2",
+    "text": "Part of composition in S-MX-2 (mixer): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:273f4c8d8e7c3b82"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-MX-3:as_well_as:composition",
+   "position": 144,
+   "record": {
+    "id": "m:S-MX-3:as_well_as:composition",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-MX-3",
+    "text": "As well as composition in S-MX-3 (mixer): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:78234d196b018347"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-MX-3:less:level",
+   "position": 145,
+   "record": {
+    "id": "m:S-MX-3:less:level",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "failed",
+    "section_id": "S-MX-3",
+    "text": "Less level in S-MX-3 (mixer): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": null
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-MX-3:less:mixing",
+   "position": 146,
+   "record": {
+    "id": "m:S-MX-3:less:mixing",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-MX-3",
+    "text": "Less mixing in S-MX-3 (mixer): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:506562ad40bbb923"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-MX-3:less:pressure",
+   "position": 147,
+   "record": {
+    "id": "m:S-MX-3:less:pressure",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "failed",
+    "section_id": "S-MX-3",
+    "text": "Less pressure in S-MX-3 (mixer): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": null
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-MX-3:less:temperature",
+   "position": 148,
+   "record": {
+    "id": "m:S-MX-3:less:temperature",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-MX-3",
+    "text": "Less temperature in S-MX-3 (mixer): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:565afe2af8c5e225"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-MX-3:more:level",
+   "position": 149,
+   "record": {
+    "id": "m:S-MX-3:more:level",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "failed",
+    "section_id": "S-MX-3",
+    "text": "More level in S-MX-3 (mixer): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": null
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-MX-3:more:mixing",
+   "position": 150,
+   "record": {
+    "id": "m:S-MX-3:more:mixing",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "failed",
+    "section_id": "S-MX-3",
+    "text": "More mixing in S-MX-3 (mixer): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": null
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-MX-3:more:pressure",
+   "position": 151,
+   "record": {
+    "id": "m:S-MX-3:more:pressure",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "failed",
+    "section_id": "S-MX-3",
+    "text": "More pressure in S-MX-3 (mixer): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": null
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-MX-3:more:reaction",
+   "position": 152,
+   "record": {
+    "id": "m:S-MX-3:more:reaction",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-MX-3",
+    "text": "More reaction in S-MX-3 (mixer): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:2469dcc28d90b917"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-MX-3:more:temperature",
+   "position": 153,
+   "record": {
+    "id": "m:S-MX-3:more:temperature",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-MX-3",
+    "text": "More temperature in S-MX-3 (mixer): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:2469dcc28d90b917"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-MX-3:no:mixing",
+   "position": 154,
+   "record": {
+    "id": "m:S-MX-3:no:mixing",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-MX-3",
+    "text": "No mixing in S-MX-3 (mixer): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:64f8b1d934a42d24"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-MX-3:other_than:composition",
+   "position": 155,
+   "record": {
+    "id": "m:S-MX-3:other_than:composition",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-MX-3",
+    "text": "Other than composition in S-MX-3 (mixer): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:af84b2f4e15e72b6"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-MX-3:part_of:composition",
+   "position": 156,
+   "record": {
+    "id": "m:S-MX-3:part_of:composition",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-MX-3",
+    "text": "Part of composition in S-MX-3 (mixer): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:d0fff4ecb0c75e66"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-MX-4:as_well_as:composition",
+   "position": 157,
+   "record": {
+    "id": "m:S-MX-4:as_well_as:composition",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-MX-4",
+    "text": "As well as composition in S-MX-4 (mixer): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:a4a507d12694b093"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-MX-4:less:level",
+   "position": 158,
+   "record": {
+    "id": "m:S-MX-4:less:level",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-MX-4",
+    "text": "Less level in S-MX-4 (mixer): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:a4a507d12694b093"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-MX-4:less:mixing",
+   "position": 159,
+   "record": {
+    "id": "m:S-MX-4:less:mixing",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-MX-4",
+    "text": "Less mixing in S-MX-4 (mixer): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:a4a507d12694b093"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-MX-4:less:pressure",
+   "position": 160,
+   "record": {
+    "id": "m:S-MX-4:less:pressure",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-MX-4",
+    "text": "Less pressure in S-MX-4 (mixer): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:a4a507d12694b093"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-MX-4:less:temperature",
+   "position": 161,
+   "record": {
+    "id": "m:S-MX-4:less:temperature",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-MX-4",
+    "text": "Less temperature in S-MX-4 (mixer): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:a4a507d12694b093"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-MX-4:more:level",
+   "position": 162,
+   "record": {
+    "id": "m:S-MX-4:more:level",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-MX-4",
+    "text": "More level in S-MX-4 (mixer): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:c3de22a06ffd22b6"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-MX-4:more:mixing",
+   "position": 163,
+   "record": {
+    "id": "m:S-MX-4:more:mixing",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-MX-4",
+    "text": "More mixing in S-MX-4 (mixer): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:c3de22a06ffd22b6"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-MX-4:more:pressure",
+   "position": 164,
+   "record": {
+    "id": "m:S-MX-4:more:pressure",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-MX-4",
+    "text": "More pressure in S-MX-4 (mixer): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:c3de22a06ffd22b6"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-MX-4:more:reaction",
+   "position": 165,
+   "record": {
+    "id": "m:S-MX-4:more:reaction",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-MX-4",
+    "text": "More reaction in S-MX-4 (mixer): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:c3de22a06ffd22b6"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-MX-4:more:temperature",
+   "position": 166,
+   "record": {
+    "id": "m:S-MX-4:more:temperature",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-MX-4",
+    "text": "More temperature in S-MX-4 (mixer): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:c3de22a06ffd22b6"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-MX-4:no:mixing",
+   "position": 167,
+   "record": {
+    "id": "m:S-MX-4:no:mixing",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-MX-4",
+    "text": "No mixing in S-MX-4 (mixer): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:856328f27ce6d379"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-MX-4:other_than:composition",
+   "position": 168,
+   "record": {
+    "id": "m:S-MX-4:other_than:composition",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-MX-4",
+    "text": "Other than composition in S-MX-4 (mixer): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:856328f27ce6d379"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-MX-4:part_of:composition",
+   "position": 169,
+   "record": {
+    "id": "m:S-MX-4:part_of:composition",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-MX-4",
+    "text": "Part of composition in S-MX-4 (mixer): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:856328f27ce6d379"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-PORTABLE-PUMP:less:flow",
+   "position": 170,
+   "record": {
+    "id": "m:S-PORTABLE-PUMP:less:flow",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-PORTABLE-PUMP",
+    "text": "Less flow in S-PORTABLE-PUMP (pump): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:1abc38fd3ffc1a30"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-PORTABLE-PUMP:less:pressure",
+   "position": 171,
+   "record": {
+    "id": "m:S-PORTABLE-PUMP:less:pressure",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-PORTABLE-PUMP",
+    "text": "Less pressure in S-PORTABLE-PUMP (pump): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:afe0095921e63bf7"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-PORTABLE-PUMP:more:flow",
+   "position": 172,
+   "record": {
+    "id": "m:S-PORTABLE-PUMP:more:flow",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-PORTABLE-PUMP",
+    "text": "More flow in S-PORTABLE-PUMP (pump): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:d33a04727b50e6b1"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-PORTABLE-PUMP:more:pressure",
+   "position": 173,
+   "record": {
+    "id": "m:S-PORTABLE-PUMP:more:pressure",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-PORTABLE-PUMP",
+    "text": "More pressure in S-PORTABLE-PUMP (pump): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:356e10b026660830"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-PORTABLE-PUMP:more:temperature",
+   "position": 174,
+   "record": {
+    "id": "m:S-PORTABLE-PUMP:more:temperature",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-PORTABLE-PUMP",
+    "text": "More temperature in S-PORTABLE-PUMP (pump): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:0abfce9330e81a18"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-PORTABLE-PUMP:no:flow",
+   "position": 175,
+   "record": {
+    "id": "m:S-PORTABLE-PUMP:no:flow",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-PORTABLE-PUMP",
+    "text": "No flow in S-PORTABLE-PUMP (pump): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:34256ed6b45fb322"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-PORTABLE-PUMP:reverse:flow",
+   "position": 176,
+   "record": {
+    "id": "m:S-PORTABLE-PUMP:reverse:flow",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-PORTABLE-PUMP",
+    "text": "Reverse flow in S-PORTABLE-PUMP (pump): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:34256ed6b45fb322"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-TOTES:as_well_as:composition",
+   "position": 177,
+   "record": {
+    "id": "m:S-TOTES:as_well_as:composition",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-TOTES",
+    "text": "As well as composition in S-TOTES (tank): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:c36ea12125c61f80"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-TOTES:less:level",
+   "position": 178,
+   "record": {
+    "id": "m:S-TOTES:less:level",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-TOTES",
+    "text": "Less level in S-TOTES (tank): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:bec492a54d53702c"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-TOTES:less:pressure",
+   "position": 179,
+   "record": {
+    "id": "m:S-TOTES:less:pressure",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-TOTES",
+    "text": "Less pressure in S-TOTES (tank): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:214bbe8f23bfcb66"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-TOTES:less:temperature",
+   "position": 180,
+   "record": {
+    "id": "m:S-TOTES:less:temperature",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-TOTES",
+    "text": "Less temperature in S-TOTES (tank): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:214bbe8f23bfcb66"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-TOTES:more:level",
+   "position": 181,
+   "record": {
+    "id": "m:S-TOTES:more:level",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-TOTES",
+    "text": "More level in S-TOTES (tank): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:214bbe8f23bfcb66"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-TOTES:more:pressure",
+   "position": 182,
+   "record": {
+    "id": "m:S-TOTES:more:pressure",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-TOTES",
+    "text": "More pressure in S-TOTES (tank): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:214bbe8f23bfcb66"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-TOTES:more:temperature",
+   "position": 183,
+   "record": {
+    "id": "m:S-TOTES:more:temperature",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-TOTES",
+    "text": "More temperature in S-TOTES (tank): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:214bbe8f23bfcb66"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-TOTES:no:level",
+   "position": 184,
+   "record": {
+    "id": "m:S-TOTES:no:level",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-TOTES",
+    "text": "No level in S-TOTES (tank): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:1cdc0ddd74bbdf62"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-TOTES:other_than:composition",
+   "position": 185,
+   "record": {
+    "id": "m:S-TOTES:other_than:composition",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-TOTES",
+    "text": "Other than composition in S-TOTES (tank): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:1cdc0ddd74bbdf62"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-TOTES:other_than:phase",
+   "position": 186,
+   "record": {
+    "id": "m:S-TOTES:other_than:phase",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-TOTES",
+    "text": "Other than phase in S-TOTES (tank): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:891212e9c1fc1ec1"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "m:S-TOTES:part_of:composition",
+   "position": 187,
+   "record": {
+    "id": "m:S-TOTES:part_of:composition",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "matrix",
+    "origin": "matrix",
+    "status": "answered",
+    "section_id": "S-TOTES",
+    "text": "Part of composition in S-TOTES (tank): what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:f0a15bcdcb8ca201"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "pair:ACETIC-ACID:BIOCIDE",
+   "position": 188,
+   "record": {
+    "id": "pair:ACETIC-ACID:BIOCIDE",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "chemical_pair",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": null,
+    "text": "ACETIC-ACID (acetic acid (for pH adjustment)) and BIOCIDE (biocide): could they come into contact anywhere in the plant, and what would happen if they did?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:e4ff2889ea832b51"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "pair:ACETIC-ACID:DI-WATER",
+   "position": 189,
+   "record": {
+    "id": "pair:ACETIC-ACID:DI-WATER",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "chemical_pair",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": null,
+    "text": "ACETIC-ACID (acetic acid (for pH adjustment)) and DI-WATER (deionised water (from the plant system)): could they come into contact anywhere in the plant, and what would happen if they did?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:92c94dec9e24a83b"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "pair:ACETIC-ACID:IPA",
+   "position": 190,
+   "record": {
+    "id": "pair:ACETIC-ACID:IPA",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "chemical_pair",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": null,
+    "text": "ACETIC-ACID (acetic acid (for pH adjustment)) and IPA (isopropyl alcohol): could they come into contact anywhere in the plant, and what would happen if they did?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:6f8fff2ed6d8fb7e"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "pair:ACETIC-ACID:KOH-EMULSIFIER",
+   "position": 191,
+   "record": {
+    "id": "pair:ACETIC-ACID:KOH-EMULSIFIER",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "chemical_pair",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": null,
+    "text": "ACETIC-ACID (acetic acid (for pH adjustment)) and KOH-EMULSIFIER (emulsifier solution containing potassium hydroxide): could they come into contact anywhere in the plant, and what would happen if they did?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:5fc521f62342272c"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "pair:ACETIC-ACID:PDMS",
+   "position": 192,
+   "record": {
+    "id": "pair:ACETIC-ACID:PDMS",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "chemical_pair",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": null,
+    "text": "ACETIC-ACID (acetic acid (for pH adjustment)) and PDMS (polydimethylsiloxane fluids (several viscosities)): could they come into contact anywhere in the plant, and what would happen if they did?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:5fc521f62342272c"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "pair:ACETIC-ACID:PT-CATALYST",
+   "position": 193,
+   "record": {
+    "id": "pair:ACETIC-ACID:PT-CATALYST",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "chemical_pair",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": null,
+    "text": "ACETIC-ACID (acetic acid (for pH adjustment)) and PT-CATALYST (platinum catalyst solution): could they come into contact anywhere in the plant, and what would happen if they did?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:fc1fbe1fa414b56d"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "pair:ACETIC-ACID:SIH",
+   "position": 194,
+   "record": {
+    "id": "pair:ACETIC-ACID:SIH",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "chemical_pair",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": null,
+    "text": "ACETIC-ACID (acetic acid (for pH adjustment)) and SIH (methylhydrogen siloxane fluid (contains Si–H groups)): could they come into contact anywhere in the plant, and what would happen if they did?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:fc1fbe1fa414b56d"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "pair:ACETIC-ACID:SURFACTANTS",
+   "position": 195,
+   "record": {
+    "id": "pair:ACETIC-ACID:SURFACTANTS",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "chemical_pair",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": null,
+    "text": "ACETIC-ACID (acetic acid (for pH adjustment)) and SURFACTANTS (non-ionic surfactants): could they come into contact anywhere in the plant, and what would happen if they did?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:fc1fbe1fa414b56d"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "pair:ACETIC-ACID:VINYL-POLYMER",
+   "position": 196,
+   "record": {
+    "id": "pair:ACETIC-ACID:VINYL-POLYMER",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "chemical_pair",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": null,
+    "text": "ACETIC-ACID (acetic acid (for pH adjustment)) and VINYL-POLYMER (vinyl-functional silicone polymer): could they come into contact anywhere in the plant, and what would happen if they did?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:fc1fbe1fa414b56d"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "pair:BIOCIDE:DI-WATER",
+   "position": 197,
+   "record": {
+    "id": "pair:BIOCIDE:DI-WATER",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "chemical_pair",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": null,
+    "text": "BIOCIDE (biocide) and DI-WATER (deionised water (from the plant system)): could they come into contact anywhere in the plant, and what would happen if they did?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:fc1fbe1fa414b56d"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "pair:BIOCIDE:IPA",
+   "position": 198,
+   "record": {
+    "id": "pair:BIOCIDE:IPA",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "chemical_pair",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": null,
+    "text": "BIOCIDE (biocide) and IPA (isopropyl alcohol): could they come into contact anywhere in the plant, and what would happen if they did?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:47c77533a873b54b"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "pair:BIOCIDE:KOH-EMULSIFIER",
+   "position": 199,
+   "record": {
+    "id": "pair:BIOCIDE:KOH-EMULSIFIER",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "chemical_pair",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": null,
+    "text": "BIOCIDE (biocide) and KOH-EMULSIFIER (emulsifier solution containing potassium hydroxide): could they come into contact anywhere in the plant, and what would happen if they did?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:176784af1aba150e"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "pair:BIOCIDE:PDMS",
+   "position": 200,
+   "record": {
+    "id": "pair:BIOCIDE:PDMS",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "chemical_pair",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": null,
+    "text": "BIOCIDE (biocide) and PDMS (polydimethylsiloxane fluids (several viscosities)): could they come into contact anywhere in the plant, and what would happen if they did?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:5fc521f62342272c"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "pair:BIOCIDE:PT-CATALYST",
+   "position": 201,
+   "record": {
+    "id": "pair:BIOCIDE:PT-CATALYST",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "chemical_pair",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": null,
+    "text": "BIOCIDE (biocide) and PT-CATALYST (platinum catalyst solution): could they come into contact anywhere in the plant, and what would happen if they did?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:5aee9bc50f1fac7d"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "pair:BIOCIDE:SIH",
+   "position": 202,
+   "record": {
+    "id": "pair:BIOCIDE:SIH",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "chemical_pair",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": null,
+    "text": "BIOCIDE (biocide) and SIH (methylhydrogen siloxane fluid (contains Si–H groups)): could they come into contact anywhere in the plant, and what would happen if they did?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:4498a09a5ed0d67f"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "pair:BIOCIDE:SURFACTANTS",
+   "position": 203,
+   "record": {
+    "id": "pair:BIOCIDE:SURFACTANTS",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "chemical_pair",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": null,
+    "text": "BIOCIDE (biocide) and SURFACTANTS (non-ionic surfactants): could they come into contact anywhere in the plant, and what would happen if they did?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:56b66055c4041cf1"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "pair:BIOCIDE:VINYL-POLYMER",
+   "position": 204,
+   "record": {
+    "id": "pair:BIOCIDE:VINYL-POLYMER",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "chemical_pair",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": null,
+    "text": "BIOCIDE (biocide) and VINYL-POLYMER (vinyl-functional silicone polymer): could they come into contact anywhere in the plant, and what would happen if they did?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:56b66055c4041cf1"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "pair:DI-WATER:IPA",
+   "position": 205,
+   "record": {
+    "id": "pair:DI-WATER:IPA",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "chemical_pair",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": null,
+    "text": "DI-WATER (deionised water (from the plant system)) and IPA (isopropyl alcohol): could they come into contact anywhere in the plant, and what would happen if they did?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:56b66055c4041cf1"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "pair:DI-WATER:KOH-EMULSIFIER",
+   "position": 206,
+   "record": {
+    "id": "pair:DI-WATER:KOH-EMULSIFIER",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "chemical_pair",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": null,
+    "text": "DI-WATER (deionised water (from the plant system)) and KOH-EMULSIFIER (emulsifier solution containing potassium hydroxide): could they come into contact anywhere in the plant, and what would happen if they did?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:56b66055c4041cf1"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "pair:DI-WATER:PDMS",
+   "position": 207,
+   "record": {
+    "id": "pair:DI-WATER:PDMS",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "chemical_pair",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": null,
+    "text": "DI-WATER (deionised water (from the plant system)) and PDMS (polydimethylsiloxane fluids (several viscosities)): could they come into contact anywhere in the plant, and what would happen if they did?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:56b66055c4041cf1"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "pair:DI-WATER:PT-CATALYST",
+   "position": 208,
+   "record": {
+    "id": "pair:DI-WATER:PT-CATALYST",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "chemical_pair",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": null,
+    "text": "DI-WATER (deionised water (from the plant system)) and PT-CATALYST (platinum catalyst solution): could they come into contact anywhere in the plant, and what would happen if they did?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:7e016c15dffd918b"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "pair:DI-WATER:SIH",
+   "position": 209,
+   "record": {
+    "id": "pair:DI-WATER:SIH",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "chemical_pair",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": null,
+    "text": "DI-WATER (deionised water (from the plant system)) and SIH (methylhydrogen siloxane fluid (contains Si–H groups)): could they come into contact anywhere in the plant, and what would happen if they did?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:5fc521f62342272c"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "pair:DI-WATER:SURFACTANTS",
+   "position": 210,
+   "record": {
+    "id": "pair:DI-WATER:SURFACTANTS",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "chemical_pair",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": null,
+    "text": "DI-WATER (deionised water (from the plant system)) and SURFACTANTS (non-ionic surfactants): could they come into contact anywhere in the plant, and what would happen if they did?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:977c912177b79b72"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "pair:DI-WATER:VINYL-POLYMER",
+   "position": 211,
+   "record": {
+    "id": "pair:DI-WATER:VINYL-POLYMER",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "chemical_pair",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": null,
+    "text": "DI-WATER (deionised water (from the plant system)) and VINYL-POLYMER (vinyl-functional silicone polymer): could they come into contact anywhere in the plant, and what would happen if they did?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:5fc521f62342272c"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "pair:IPA:KOH-EMULSIFIER",
+   "position": 212,
+   "record": {
+    "id": "pair:IPA:KOH-EMULSIFIER",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "chemical_pair",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": null,
+    "text": "IPA (isopropyl alcohol) and KOH-EMULSIFIER (emulsifier solution containing potassium hydroxide): could they come into contact anywhere in the plant, and what would happen if they did?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:69a43d7cc2837e6f"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "pair:IPA:PDMS",
+   "position": 213,
+   "record": {
+    "id": "pair:IPA:PDMS",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "chemical_pair",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": null,
+    "text": "IPA (isopropyl alcohol) and PDMS (polydimethylsiloxane fluids (several viscosities)): could they come into contact anywhere in the plant, and what would happen if they did?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:ff294c8b621ae310"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "pair:IPA:PT-CATALYST",
+   "position": 214,
+   "record": {
+    "id": "pair:IPA:PT-CATALYST",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "chemical_pair",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": null,
+    "text": "IPA (isopropyl alcohol) and PT-CATALYST (platinum catalyst solution): could they come into contact anywhere in the plant, and what would happen if they did?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:6cf2bdbc14343b00"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "pair:IPA:SIH",
+   "position": 215,
+   "record": {
+    "id": "pair:IPA:SIH",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "chemical_pair",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": null,
+    "text": "IPA (isopropyl alcohol) and SIH (methylhydrogen siloxane fluid (contains Si–H groups)): could they come into contact anywhere in the plant, and what would happen if they did?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:94a750528209a586"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "pair:IPA:SURFACTANTS",
+   "position": 216,
+   "record": {
+    "id": "pair:IPA:SURFACTANTS",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "chemical_pair",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": null,
+    "text": "IPA (isopropyl alcohol) and SURFACTANTS (non-ionic surfactants): could they come into contact anywhere in the plant, and what would happen if they did?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:d10b0d36e0918455"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "pair:IPA:VINYL-POLYMER",
+   "position": 217,
+   "record": {
+    "id": "pair:IPA:VINYL-POLYMER",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "chemical_pair",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": null,
+    "text": "IPA (isopropyl alcohol) and VINYL-POLYMER (vinyl-functional silicone polymer): could they come into contact anywhere in the plant, and what would happen if they did?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:2af9845e2e38abb9"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "pair:KOH-EMULSIFIER:PDMS",
+   "position": 218,
+   "record": {
+    "id": "pair:KOH-EMULSIFIER:PDMS",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "chemical_pair",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": null,
+    "text": "KOH-EMULSIFIER (emulsifier solution containing potassium hydroxide) and PDMS (polydimethylsiloxane fluids (several viscosities)): could they come into contact anywhere in the plant, and what would happen if they did?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:1c028635e06a46e6"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "pair:KOH-EMULSIFIER:PT-CATALYST",
+   "position": 219,
+   "record": {
+    "id": "pair:KOH-EMULSIFIER:PT-CATALYST",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "chemical_pair",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": null,
+    "text": "KOH-EMULSIFIER (emulsifier solution containing potassium hydroxide) and PT-CATALYST (platinum catalyst solution): could they come into contact anywhere in the plant, and what would happen if they did?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:179b24181d67f87f"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "pair:KOH-EMULSIFIER:SIH",
+   "position": 220,
+   "record": {
+    "id": "pair:KOH-EMULSIFIER:SIH",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "chemical_pair",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": null,
+    "text": "KOH-EMULSIFIER (emulsifier solution containing potassium hydroxide) and SIH (methylhydrogen siloxane fluid (contains Si–H groups)): could they come into contact anywhere in the plant, and what would happen if they did?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:113b435b44bf4d17"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "pair:KOH-EMULSIFIER:SURFACTANTS",
+   "position": 221,
+   "record": {
+    "id": "pair:KOH-EMULSIFIER:SURFACTANTS",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "chemical_pair",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": null,
+    "text": "KOH-EMULSIFIER (emulsifier solution containing potassium hydroxide) and SURFACTANTS (non-ionic surfactants): could they come into contact anywhere in the plant, and what would happen if they did?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:1fe87d6f726220f2"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "pair:KOH-EMULSIFIER:VINYL-POLYMER",
+   "position": 222,
+   "record": {
+    "id": "pair:KOH-EMULSIFIER:VINYL-POLYMER",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "chemical_pair",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": null,
+    "text": "KOH-EMULSIFIER (emulsifier solution containing potassium hydroxide) and VINYL-POLYMER (vinyl-functional silicone polymer): could they come into contact anywhere in the plant, and what would happen if they did?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:d1e74f558d639d8a"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "pair:PDMS:PT-CATALYST",
+   "position": 223,
+   "record": {
+    "id": "pair:PDMS:PT-CATALYST",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "chemical_pair",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": null,
+    "text": "PDMS (polydimethylsiloxane fluids (several viscosities)) and PT-CATALYST (platinum catalyst solution): could they come into contact anywhere in the plant, and what would happen if they did?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:7c75370ecb49ffa9"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "pair:PDMS:SIH",
+   "position": 224,
+   "record": {
+    "id": "pair:PDMS:SIH",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "chemical_pair",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": null,
+    "text": "PDMS (polydimethylsiloxane fluids (several viscosities)) and SIH (methylhydrogen siloxane fluid (contains Si–H groups)): could they come into contact anywhere in the plant, and what would happen if they did?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:7c75370ecb49ffa9"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "pair:PDMS:SURFACTANTS",
+   "position": 225,
+   "record": {
+    "id": "pair:PDMS:SURFACTANTS",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "chemical_pair",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": null,
+    "text": "PDMS (polydimethylsiloxane fluids (several viscosities)) and SURFACTANTS (non-ionic surfactants): could they come into contact anywhere in the plant, and what would happen if they did?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:7c75370ecb49ffa9"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "pair:PDMS:VINYL-POLYMER",
+   "position": 226,
+   "record": {
+    "id": "pair:PDMS:VINYL-POLYMER",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "chemical_pair",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": null,
+    "text": "PDMS (polydimethylsiloxane fluids (several viscosities)) and VINYL-POLYMER (vinyl-functional silicone polymer): could they come into contact anywhere in the plant, and what would happen if they did?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:7c75370ecb49ffa9"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "pair:PT-CATALYST:SIH",
+   "position": 227,
+   "record": {
+    "id": "pair:PT-CATALYST:SIH",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "chemical_pair",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": null,
+    "text": "PT-CATALYST (platinum catalyst solution) and SIH (methylhydrogen siloxane fluid (contains Si–H groups)): could they come into contact anywhere in the plant, and what would happen if they did?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:7c75370ecb49ffa9"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "pair:PT-CATALYST:SURFACTANTS",
+   "position": 228,
+   "record": {
+    "id": "pair:PT-CATALYST:SURFACTANTS",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "chemical_pair",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": null,
+    "text": "PT-CATALYST (platinum catalyst solution) and SURFACTANTS (non-ionic surfactants): could they come into contact anywhere in the plant, and what would happen if they did?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:bd74c5af941146f5"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "pair:PT-CATALYST:VINYL-POLYMER",
+   "position": 229,
+   "record": {
+    "id": "pair:PT-CATALYST:VINYL-POLYMER",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "chemical_pair",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": null,
+    "text": "PT-CATALYST (platinum catalyst solution) and VINYL-POLYMER (vinyl-functional silicone polymer): could they come into contact anywhere in the plant, and what would happen if they did?",
+    "fact_ids": [],
+    "attempts": 1,
+    "not_credible_reason": null,
+    "model_call_id": "mc:286d30baa66d47c7"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "pair:SIH:SURFACTANTS",
+   "position": 230,
+   "record": {
+    "id": "pair:SIH:SURFACTANTS",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "chemical_pair",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": null,
+    "text": "SIH (methylhydrogen siloxane fluid (contains Si–H groups)) and SURFACTANTS (non-ionic surfactants): could they come into contact anywhere in the plant, and what would happen if they did?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:6dedb5881e7f6ab3"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "pair:SIH:VINYL-POLYMER",
+   "position": 231,
+   "record": {
+    "id": "pair:SIH:VINYL-POLYMER",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "chemical_pair",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": null,
+    "text": "SIH (methylhydrogen siloxane fluid (contains Si–H groups)) and VINYL-POLYMER (vinyl-functional silicone polymer): could they come into contact anywhere in the plant, and what would happen if they did?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:6dedb5881e7f6ab3"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "pair:SURFACTANTS:VINYL-POLYMER",
+   "position": 232,
+   "record": {
+    "id": "pair:SURFACTANTS:VINYL-POLYMER",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "chemical_pair",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": null,
+    "text": "SURFACTANTS (non-ionic surfactants) and VINYL-POLYMER (vinyl-functional silicone polymer): could they come into contact anywhere in the plant, and what would happen if they did?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:6dedb5881e7f6ab3"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "proc:P-G-CHARGE-1:early",
+   "position": 263,
+   "record": {
+    "id": "proc:P-G-CHARGE-1:early",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "procedure_step",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": "S-P-G-CHARGE",
+    "text": "Step P-G-CHARGE-1 of P-G-CHARGE (charging), early: what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:759ea0ffbdffeaed"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "proc:P-G-CHARGE-1:late",
+   "position": 264,
+   "record": {
+    "id": "proc:P-G-CHARGE-1:late",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "procedure_step",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": "S-P-G-CHARGE",
+    "text": "Step P-G-CHARGE-1 of P-G-CHARGE (charging), late: what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:759ea0ffbdffeaed"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "proc:P-G-CHARGE-1:out_of_order",
+   "position": 265,
+   "record": {
+    "id": "proc:P-G-CHARGE-1:out_of_order",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "procedure_step",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": "S-P-G-CHARGE",
+    "text": "Step P-G-CHARGE-1 of P-G-CHARGE (charging), out of order: what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:759ea0ffbdffeaed"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "proc:P-G-CHARGE-1:skipped",
+   "position": 266,
+   "record": {
+    "id": "proc:P-G-CHARGE-1:skipped",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "procedure_step",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": "S-P-G-CHARGE",
+    "text": "Step P-G-CHARGE-1 of P-G-CHARGE (charging), skipped: what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:759ea0ffbdffeaed"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "proc:P-G-CHARGE-1:wrong",
+   "position": 267,
+   "record": {
+    "id": "proc:P-G-CHARGE-1:wrong",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "procedure_step",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": "S-P-G-CHARGE",
+    "text": "Step P-G-CHARGE-1 of P-G-CHARGE (charging), wrong: what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:759ea0ffbdffeaed"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "proc:P-G-CHARGE-2:early",
+   "position": 268,
+   "record": {
+    "id": "proc:P-G-CHARGE-2:early",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "procedure_step",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": "S-P-G-CHARGE",
+    "text": "Step P-G-CHARGE-2 of P-G-CHARGE (charging), early: what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:27a037e1d991f6c5"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "proc:P-G-CHARGE-2:late",
+   "position": 269,
+   "record": {
+    "id": "proc:P-G-CHARGE-2:late",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "procedure_step",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": "S-P-G-CHARGE",
+    "text": "Step P-G-CHARGE-2 of P-G-CHARGE (charging), late: what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:27a037e1d991f6c5"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "proc:P-G-CHARGE-2:out_of_order",
+   "position": 270,
+   "record": {
+    "id": "proc:P-G-CHARGE-2:out_of_order",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "procedure_step",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": "S-P-G-CHARGE",
+    "text": "Step P-G-CHARGE-2 of P-G-CHARGE (charging), out of order: what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:27a037e1d991f6c5"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "proc:P-G-CHARGE-2:skipped",
+   "position": 271,
+   "record": {
+    "id": "proc:P-G-CHARGE-2:skipped",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "procedure_step",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": "S-P-G-CHARGE",
+    "text": "Step P-G-CHARGE-2 of P-G-CHARGE (charging), skipped: what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:27a037e1d991f6c5"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "proc:P-G-CHARGE-2:wrong",
+   "position": 272,
+   "record": {
+    "id": "proc:P-G-CHARGE-2:wrong",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "procedure_step",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": "S-P-G-CHARGE",
+    "text": "Step P-G-CHARGE-2 of P-G-CHARGE (charging), wrong: what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:27a037e1d991f6c5"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "proc:P-G-CHARGE-3:early",
+   "position": 273,
+   "record": {
+    "id": "proc:P-G-CHARGE-3:early",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "procedure_step",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": "S-P-G-CHARGE",
+    "text": "Step P-G-CHARGE-3 of P-G-CHARGE (charging), early: what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:8f2b84b805100c22"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "proc:P-G-CHARGE-3:late",
+   "position": 274,
+   "record": {
+    "id": "proc:P-G-CHARGE-3:late",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "procedure_step",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": "S-P-G-CHARGE",
+    "text": "Step P-G-CHARGE-3 of P-G-CHARGE (charging), late: what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:8f2b84b805100c22"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "proc:P-G-CHARGE-3:out_of_order",
+   "position": 275,
+   "record": {
+    "id": "proc:P-G-CHARGE-3:out_of_order",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "procedure_step",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": "S-P-G-CHARGE",
+    "text": "Step P-G-CHARGE-3 of P-G-CHARGE (charging), out of order: what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:8f2b84b805100c22"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "proc:P-G-CHARGE-3:skipped",
+   "position": 276,
+   "record": {
+    "id": "proc:P-G-CHARGE-3:skipped",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "procedure_step",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": "S-P-G-CHARGE",
+    "text": "Step P-G-CHARGE-3 of P-G-CHARGE (charging), skipped: what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:8f2b84b805100c22"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "proc:P-G-CHARGE-3:wrong",
+   "position": 277,
+   "record": {
+    "id": "proc:P-G-CHARGE-3:wrong",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "procedure_step",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": "S-P-G-CHARGE",
+    "text": "Step P-G-CHARGE-3 of P-G-CHARGE (charging), wrong: what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:8f2b84b805100c22"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "proc:P-G-CHARGE-4:early",
+   "position": 278,
+   "record": {
+    "id": "proc:P-G-CHARGE-4:early",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "procedure_step",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": "S-P-G-CHARGE",
+    "text": "Step P-G-CHARGE-4 of P-G-CHARGE (charging), early: what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:c4c97631e1af2a71"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "proc:P-G-CHARGE-4:late",
+   "position": 279,
+   "record": {
+    "id": "proc:P-G-CHARGE-4:late",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "procedure_step",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": "S-P-G-CHARGE",
+    "text": "Step P-G-CHARGE-4 of P-G-CHARGE (charging), late: what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:c4c97631e1af2a71"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "proc:P-G-CHARGE-4:out_of_order",
+   "position": 280,
+   "record": {
+    "id": "proc:P-G-CHARGE-4:out_of_order",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "procedure_step",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": "S-P-G-CHARGE",
+    "text": "Step P-G-CHARGE-4 of P-G-CHARGE (charging), out of order: what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:c4c97631e1af2a71"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "proc:P-G-CHARGE-4:skipped",
+   "position": 281,
+   "record": {
+    "id": "proc:P-G-CHARGE-4:skipped",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "procedure_step",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": "S-P-G-CHARGE",
+    "text": "Step P-G-CHARGE-4 of P-G-CHARGE (charging), skipped: what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:c4c97631e1af2a71"
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "proc:P-G-CHARGE-4:wrong",
+   "position": 282,
+   "record": {
+    "id": "proc:P-G-CHARGE-4:wrong",
+    "run_id": "run:dbaab5578fbff8f3",
+    "kind": "procedure_step",
+    "origin": "cross_list",
+    "status": "answered",
+    "section_id": "S-P-G-CHARGE",
+    "text": "Step P-G-CHARGE-4 of P-G-CHARGE (charging), wrong: what could cause it, what would happen, and is the existing protection adequate?",
+    "fact_ids": [],
+    "attempts": 2,
+    "not_credible_reason": null,
+    "model_call_id": "mc:c4c97631e1af2a71"
+   }
+  }
+ ]
+}

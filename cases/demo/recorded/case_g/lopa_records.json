@@ -1,0 +1,861 @@
+{
+ "table": "lopa_records",
+ "rows": [
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "lopa:ch:f:env:ACETIC-ACID:heat:lightning:4e4cfd6b63f35ea2:ed67bd729cf1411f+f:env:BIOCIDE:water:lightning:0dc866d38545499a:4a6d5fe17bf216f7+f:env:SIH:heat:super:8292e1a1a4753ac1:ed67bd729cf1411f+f:m:S-TOTES:more:pressure:super:C22:ed67bd729cf1411f",
+   "position": 17,
+   "record": {
+    "id": "lopa:ch:f:env:ACETIC-ACID:heat:lightning:4e4cfd6b63f35ea2:ed67bd729cf1411f+f:env:BIOCIDE:water:lightning:0dc866d38545499a:4a6d5fe17bf216f7+f:env:SIH:heat:super:8292e1a1a4753ac1:ed67bd729cf1411f+f:m:S-TOTES:more:pressure:super:C22:ed67bd729cf1411f",
+    "run_id": "run:dbaab5578fbff8f3",
+    "target_id": "ch:f:env:ACETIC-ACID:heat:lightning:4e4cfd6b63f35ea2:ed67bd729cf1411f+f:env:BIOCIDE:water:lightning:0dc866d38545499a:4a6d5fe17bf216f7+f:env:SIH:heat:super:8292e1a1a4753ac1:ed67bd729cf1411f+f:m:S-TOTES:more:pressure:super:C22:ed67bd729cf1411f",
+    "severity_class": "S4",
+    "complete": true,
+    "missing_fact_ids": [],
+    "initiating_event_id": "IE-HE-MONTHLY",
+    "initiating_frequency_per_year": 0.1,
+    "frequency_assumed": true,
+    "modifiers": [],
+    "layers": [],
+    "mitigated_frequency_per_year": 0.1,
+    "tolerable_per_year": 1e-05,
+    "gap": 10000.0,
+    "model_call_id": null,
+    "flags": [
+     "task frequency assumed — engineer to confirm",
+     "frequency assumed — engineer to confirm"
+    ],
+    "modifiers_not_applied": [
+     {
+      "kind": "ignition_probability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "explosion_given_ignition",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "vulnerability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "time_at_risk",
+      "reason": "no plant fact or rule"
+     }
+    ]
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "lopa:ch:f:env:ACETIC-ACID:heat:lightning:4e4cfd6b63f35ea2:ed67bd729cf1411f+f:env:SIH:heat:super:8292e1a1a4753ac1:ed67bd729cf1411f+f:m:S-TOTES:less:pressure:super:C23:ed67bd729cf1411f+f:m:S-TOTES:more:pressure:super:C22:ed67bd729cf1411f",
+   "position": 13,
+   "record": {
+    "id": "lopa:ch:f:env:ACETIC-ACID:heat:lightning:4e4cfd6b63f35ea2:ed67bd729cf1411f+f:env:SIH:heat:super:8292e1a1a4753ac1:ed67bd729cf1411f+f:m:S-TOTES:less:pressure:super:C23:ed67bd729cf1411f+f:m:S-TOTES:more:pressure:super:C22:ed67bd729cf1411f",
+    "run_id": "run:dbaab5578fbff8f3",
+    "target_id": "ch:f:env:ACETIC-ACID:heat:lightning:4e4cfd6b63f35ea2:ed67bd729cf1411f+f:env:SIH:heat:super:8292e1a1a4753ac1:ed67bd729cf1411f+f:m:S-TOTES:less:pressure:super:C23:ed67bd729cf1411f+f:m:S-TOTES:more:pressure:super:C22:ed67bd729cf1411f",
+    "severity_class": "S4",
+    "complete": true,
+    "missing_fact_ids": [],
+    "initiating_event_id": "IE-FIRE-S",
+    "initiating_frequency_per_year": 0.1,
+    "frequency_assumed": false,
+    "modifiers": [],
+    "layers": [],
+    "mitigated_frequency_per_year": 0.1,
+    "tolerable_per_year": 1e-05,
+    "gap": 10000.0,
+    "model_call_id": null,
+    "flags": [],
+    "modifiers_not_applied": [
+     {
+      "kind": "ignition_probability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "explosion_given_ignition",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "vulnerability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "time_at_risk",
+      "reason": "no plant fact or rule"
+     }
+    ]
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "lopa:ch:f:env:IPA:water:lightning:C21:3b97db13b41da138+f:m:S-L-HOSE-MX-3:no:flow:super:C19:7e983c30a4f63d4c+f:m:S-L-HOSE-MX-4~PORTABLE-PUMP:more:pressure:super:C23:aa402b1e56a4f47d",
+   "position": 12,
+   "record": {
+    "id": "lopa:ch:f:env:IPA:water:lightning:C21:3b97db13b41da138+f:m:S-L-HOSE-MX-3:no:flow:super:C19:7e983c30a4f63d4c+f:m:S-L-HOSE-MX-4~PORTABLE-PUMP:more:pressure:super:C23:aa402b1e56a4f47d",
+    "run_id": "run:dbaab5578fbff8f3",
+    "target_id": "ch:f:env:IPA:water:lightning:C21:3b97db13b41da138+f:m:S-L-HOSE-MX-3:no:flow:super:C19:7e983c30a4f63d4c+f:m:S-L-HOSE-MX-4~PORTABLE-PUMP:more:pressure:super:C23:aa402b1e56a4f47d",
+    "severity_class": "S3",
+    "complete": true,
+    "missing_fact_ids": [],
+    "initiating_event_id": "IE-IMPACT",
+    "initiating_frequency_per_year": 0.01,
+    "frequency_assumed": false,
+    "modifiers": [],
+    "layers": [],
+    "mitigated_frequency_per_year": 0.01,
+    "tolerable_per_year": 0.0001,
+    "gap": 100.0,
+    "model_call_id": null,
+    "flags": [],
+    "modifiers_not_applied": [
+     {
+      "kind": "ignition_probability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "explosion_given_ignition",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "vulnerability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "time_at_risk",
+      "reason": "no plant fact or rule"
+     }
+    ]
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "lopa:ch:f:m:S-FILLING-LINE:more:pressure:super:db15ed169d8dcabb:aa402b1e56a4f47d+f:m:S-FILLING-LINE:more:temperature:super:a6a610c000d3f49e:aa402b1e56a4f47d+f:m:S-HOMOGENISER:more:flow:super:c087e9ea1d5faed1:aa402b1e56a4f47d",
+   "position": 16,
+   "record": {
+    "id": "lopa:ch:f:m:S-FILLING-LINE:more:pressure:super:db15ed169d8dcabb:aa402b1e56a4f47d+f:m:S-FILLING-LINE:more:temperature:super:a6a610c000d3f49e:aa402b1e56a4f47d+f:m:S-HOMOGENISER:more:flow:super:c087e9ea1d5faed1:aa402b1e56a4f47d",
+    "run_id": "run:dbaab5578fbff8f3",
+    "target_id": "ch:f:m:S-FILLING-LINE:more:pressure:super:db15ed169d8dcabb:aa402b1e56a4f47d+f:m:S-FILLING-LINE:more:temperature:super:a6a610c000d3f49e:aa402b1e56a4f47d+f:m:S-HOMOGENISER:more:flow:super:c087e9ea1d5faed1:aa402b1e56a4f47d",
+    "severity_class": "S3",
+    "complete": true,
+    "missing_fact_ids": [],
+    "initiating_event_id": "IE-FIRE-S",
+    "initiating_frequency_per_year": 0.1,
+    "frequency_assumed": true,
+    "modifiers": [],
+    "layers": [],
+    "mitigated_frequency_per_year": 0.1,
+    "tolerable_per_year": 0.0001,
+    "gap": 1000.0,
+    "model_call_id": null,
+    "flags": [
+     "frequency assumed — engineer to confirm"
+    ],
+    "modifiers_not_applied": [
+     {
+      "kind": "ignition_probability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "explosion_given_ignition",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "vulnerability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "time_at_risk",
+      "reason": "no plant fact or rule"
+     }
+    ]
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "lopa:ch:f:m:S-L-HOSE-MX-1~PORTABLE-PUMP:more:temperature:lightning:C22:aa402b1e56a4f47d+f:m:S-L-HOSE-MX-3:no:flow:super:C19:7e983c30a4f63d4c+f:m:S-L-HOSE-MX-4:more:temperature:super:04709a7fa0816f7d:b7ded5680b191fcf+f:m:S-L-HOSE-MX-4~PORTABLE-PUMP:less:temperature:super:f87d741ea3ea4cd3:7df636aeb8a82524",
+   "position": 10,
+   "record": {
+    "id": "lopa:ch:f:m:S-L-HOSE-MX-1~PORTABLE-PUMP:more:temperature:lightning:C22:aa402b1e56a4f47d+f:m:S-L-HOSE-MX-3:no:flow:super:C19:7e983c30a4f63d4c+f:m:S-L-HOSE-MX-4:more:temperature:super:04709a7fa0816f7d:b7ded5680b191fcf+f:m:S-L-HOSE-MX-4~PORTABLE-PUMP:less:temperature:super:f87d741ea3ea4cd3:7df636aeb8a82524",
+    "run_id": "run:dbaab5578fbff8f3",
+    "target_id": "ch:f:m:S-L-HOSE-MX-1~PORTABLE-PUMP:more:temperature:lightning:C22:aa402b1e56a4f47d+f:m:S-L-HOSE-MX-3:no:flow:super:C19:7e983c30a4f63d4c+f:m:S-L-HOSE-MX-4:more:temperature:super:04709a7fa0816f7d:b7ded5680b191fcf+f:m:S-L-HOSE-MX-4~PORTABLE-PUMP:less:temperature:super:f87d741ea3ea4cd3:7df636aeb8a82524",
+    "severity_class": "S3",
+    "complete": true,
+    "missing_fact_ids": [],
+    "initiating_event_id": "IE-HOSE-LEAK",
+    "initiating_frequency_per_year": 0.1,
+    "frequency_assumed": true,
+    "modifiers": [],
+    "layers": [],
+    "mitigated_frequency_per_year": 0.1,
+    "tolerable_per_year": 0.0001,
+    "gap": 1000.0,
+    "model_call_id": null,
+    "flags": [
+     "frequency assumed — engineer to confirm"
+    ],
+    "modifiers_not_applied": [
+     {
+      "kind": "ignition_probability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "explosion_given_ignition",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "vulnerability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "time_at_risk",
+      "reason": "no plant fact or rule"
+     }
+    ]
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "lopa:ch:f:m:S-L-HOSE-MX-3~PORTABLE-PUMP:as_well_as:composition:super:c233e4dd08a92178:a24c8ef85249b80c+f:m:S-L-HOSE-MX-4:other_than:composition:super:b2b3fc8c8a8c051f:a24c8ef85249b80c+f:m:S-L-HOSE-MX-4~PORTABLE-PUMP:more:pressure:super:C24:aa402b1e56a4f47d",
+   "position": 15,
+   "record": {
+    "id": "lopa:ch:f:m:S-L-HOSE-MX-3~PORTABLE-PUMP:as_well_as:composition:super:c233e4dd08a92178:a24c8ef85249b80c+f:m:S-L-HOSE-MX-4:other_than:composition:super:b2b3fc8c8a8c051f:a24c8ef85249b80c+f:m:S-L-HOSE-MX-4~PORTABLE-PUMP:more:pressure:super:C24:aa402b1e56a4f47d",
+    "run_id": "run:dbaab5578fbff8f3",
+    "target_id": "ch:f:m:S-L-HOSE-MX-3~PORTABLE-PUMP:as_well_as:composition:super:c233e4dd08a92178:a24c8ef85249b80c+f:m:S-L-HOSE-MX-4:other_than:composition:super:b2b3fc8c8a8c051f:a24c8ef85249b80c+f:m:S-L-HOSE-MX-4~PORTABLE-PUMP:more:pressure:super:C24:aa402b1e56a4f47d",
+    "severity_class": "S3",
+    "complete": true,
+    "missing_fact_ids": [],
+    "initiating_event_id": "IE-HE-MONTHLY",
+    "initiating_frequency_per_year": 0.1,
+    "frequency_assumed": true,
+    "modifiers": [],
+    "layers": [],
+    "mitigated_frequency_per_year": 0.1,
+    "tolerable_per_year": 0.0001,
+    "gap": 1000.0,
+    "model_call_id": null,
+    "flags": [
+     "task frequency assumed — engineer to confirm",
+     "frequency assumed — engineer to confirm"
+    ],
+    "modifiers_not_applied": [
+     {
+      "kind": "ignition_probability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "explosion_given_ignition",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "vulnerability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "time_at_risk",
+      "reason": "no plant fact or rule"
+     }
+    ]
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "lopa:ch:f:m:S-MX-2:more:level:super:107ce31d7e43a5b9:a24c8ef85249b80c+f:m:S-MX-4:less:mixing:super:cc2fc306e77761cb:a24c8ef85249b80c+f:proc:P-G-CHARGE-2:early:super:C16:4a6d5fe17bf216f7+f:proc:P-G-CHARGE-3:early:super:C16:a24c8ef85249b80c+f:proc:P-G-CHARGE-4:early:super:2ec3b96735ec8b55:6458250bd6fa33c7",
+   "position": 19,
+   "record": {
+    "id": "lopa:ch:f:m:S-MX-2:more:level:super:107ce31d7e43a5b9:a24c8ef85249b80c+f:m:S-MX-4:less:mixing:super:cc2fc306e77761cb:a24c8ef85249b80c+f:proc:P-G-CHARGE-2:early:super:C16:4a6d5fe17bf216f7+f:proc:P-G-CHARGE-3:early:super:C16:a24c8ef85249b80c+f:proc:P-G-CHARGE-4:early:super:2ec3b96735ec8b55:6458250bd6fa33c7",
+    "run_id": "run:dbaab5578fbff8f3",
+    "target_id": "ch:f:m:S-MX-2:more:level:super:107ce31d7e43a5b9:a24c8ef85249b80c+f:m:S-MX-4:less:mixing:super:cc2fc306e77761cb:a24c8ef85249b80c+f:proc:P-G-CHARGE-2:early:super:C16:4a6d5fe17bf216f7+f:proc:P-G-CHARGE-3:early:super:C16:a24c8ef85249b80c+f:proc:P-G-CHARGE-4:early:super:2ec3b96735ec8b55:6458250bd6fa33c7",
+    "severity_class": "S3",
+    "complete": true,
+    "missing_fact_ids": [],
+    "initiating_event_id": "IE-HE-MONTHLY",
+    "initiating_frequency_per_year": 0.1,
+    "frequency_assumed": false,
+    "modifiers": [],
+    "layers": [],
+    "mitigated_frequency_per_year": 0.1,
+    "tolerable_per_year": 0.0001,
+    "gap": 1000.0,
+    "model_call_id": null,
+    "flags": [
+     "task frequency assumed — engineer to confirm"
+    ],
+    "modifiers_not_applied": [
+     {
+      "kind": "ignition_probability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "explosion_given_ignition",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "vulnerability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "time_at_risk",
+      "reason": "no plant fact or rule"
+     }
+    ]
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "lopa:ch:f:m:S-MX-2:more:level:super:107ce31d7e43a5b9:a24c8ef85249b80c+f:m:S-MX-4:more:level:super:e5c02794c2fcb495:a24c8ef85249b80c+f:proc:P-G-CHARGE-4:early:super:2ec3b96735ec8b55:6458250bd6fa33c7",
+   "position": 14,
+   "record": {
+    "id": "lopa:ch:f:m:S-MX-2:more:level:super:107ce31d7e43a5b9:a24c8ef85249b80c+f:m:S-MX-4:more:level:super:e5c02794c2fcb495:a24c8ef85249b80c+f:proc:P-G-CHARGE-4:early:super:2ec3b96735ec8b55:6458250bd6fa33c7",
+    "run_id": "run:dbaab5578fbff8f3",
+    "target_id": "ch:f:m:S-MX-2:more:level:super:107ce31d7e43a5b9:a24c8ef85249b80c+f:m:S-MX-4:more:level:super:e5c02794c2fcb495:a24c8ef85249b80c+f:proc:P-G-CHARGE-4:early:super:2ec3b96735ec8b55:6458250bd6fa33c7",
+    "severity_class": "S2",
+    "complete": true,
+    "missing_fact_ids": [],
+    "initiating_event_id": "IE-HE-MONTHLY",
+    "initiating_frequency_per_year": 0.1,
+    "frequency_assumed": true,
+    "modifiers": [],
+    "layers": [],
+    "mitigated_frequency_per_year": 0.1,
+    "tolerable_per_year": 0.001,
+    "gap": 100.0,
+    "model_call_id": null,
+    "flags": [
+     "task frequency assumed — engineer to confirm",
+     "frequency assumed — engineer to confirm"
+    ],
+    "modifiers_not_applied": [
+     {
+      "kind": "ignition_probability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "explosion_given_ignition",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "vulnerability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "time_at_risk",
+      "reason": "no plant fact or rule"
+     }
+    ]
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "lopa:ch:f:m:S-MX-2:more:pressure:super:76c3f200122fe0b3:a24c8ef85249b80c+f:m:S-TOTES:as_well_as:composition:lightning:C14:4a6d5fe17bf216f7+f:pair:DI-WATER:PT-CATALYST:lightning:C17:4a6d5fe17bf216f7",
+   "position": 18,
+   "record": {
+    "id": "lopa:ch:f:m:S-MX-2:more:pressure:super:76c3f200122fe0b3:a24c8ef85249b80c+f:m:S-TOTES:as_well_as:composition:lightning:C14:4a6d5fe17bf216f7+f:pair:DI-WATER:PT-CATALYST:lightning:C17:4a6d5fe17bf216f7",
+    "run_id": "run:dbaab5578fbff8f3",
+    "target_id": "ch:f:m:S-MX-2:more:pressure:super:76c3f200122fe0b3:a24c8ef85249b80c+f:m:S-TOTES:as_well_as:composition:lightning:C14:4a6d5fe17bf216f7+f:pair:DI-WATER:PT-CATALYST:lightning:C17:4a6d5fe17bf216f7",
+    "severity_class": "S3",
+    "complete": true,
+    "missing_fact_ids": [],
+    "initiating_event_id": "IE-HE-MONTHLY",
+    "initiating_frequency_per_year": 0.1,
+    "frequency_assumed": false,
+    "modifiers": [],
+    "layers": [],
+    "mitigated_frequency_per_year": 0.1,
+    "tolerable_per_year": 0.0001,
+    "gap": 1000.0,
+    "model_call_id": null,
+    "flags": [
+     "task frequency assumed — engineer to confirm"
+    ],
+    "modifiers_not_applied": [
+     {
+      "kind": "ignition_probability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "explosion_given_ignition",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "vulnerability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "time_at_risk",
+      "reason": "no plant fact or rule"
+     }
+    ]
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "lopa:ch:f:m:S-MX-2:more:reaction:super:C14:a24c8ef85249b80c+f:m:S-MX-2:part_of:composition:super:0ea82b87fc96b63a:b7ded5680b191fcf+f:proc:P-G-CHARGE-4:early:super:2ec3b96735ec8b55:6458250bd6fa33c7",
+   "position": 11,
+   "record": {
+    "id": "lopa:ch:f:m:S-MX-2:more:reaction:super:C14:a24c8ef85249b80c+f:m:S-MX-2:part_of:composition:super:0ea82b87fc96b63a:b7ded5680b191fcf+f:proc:P-G-CHARGE-4:early:super:2ec3b96735ec8b55:6458250bd6fa33c7",
+    "run_id": "run:dbaab5578fbff8f3",
+    "target_id": "ch:f:m:S-MX-2:more:reaction:super:C14:a24c8ef85249b80c+f:m:S-MX-2:part_of:composition:super:0ea82b87fc96b63a:b7ded5680b191fcf+f:proc:P-G-CHARGE-4:early:super:2ec3b96735ec8b55:6458250bd6fa33c7",
+    "severity_class": "S3",
+    "complete": true,
+    "missing_fact_ids": [],
+    "initiating_event_id": "IE-HE-MONTHLY",
+    "initiating_frequency_per_year": 0.1,
+    "frequency_assumed": false,
+    "modifiers": [],
+    "layers": [],
+    "mitigated_frequency_per_year": 0.1,
+    "tolerable_per_year": 0.0001,
+    "gap": 1000.0,
+    "model_call_id": null,
+    "flags": [
+     "task frequency assumed — engineer to confirm"
+    ],
+    "modifiers_not_applied": [
+     {
+      "kind": "ignition_probability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "explosion_given_ignition",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "vulnerability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "time_at_risk",
+      "reason": "no plant fact or rule"
+     }
+    ]
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "lopa:f:env:SIH:heat:super:8292e1a1a4753ac1:ed67bd729cf1411f",
+   "position": 1,
+   "record": {
+    "id": "lopa:f:env:SIH:heat:super:8292e1a1a4753ac1:ed67bd729cf1411f",
+    "run_id": "run:dbaab5578fbff8f3",
+    "target_id": "f:env:SIH:heat:super:8292e1a1a4753ac1:ed67bd729cf1411f",
+    "severity_class": "S3",
+    "complete": true,
+    "missing_fact_ids": [],
+    "initiating_event_id": "IE-FIRE-S",
+    "initiating_frequency_per_year": 0.1,
+    "frequency_assumed": true,
+    "modifiers": [],
+    "layers": [],
+    "mitigated_frequency_per_year": 0.1,
+    "tolerable_per_year": 0.0001,
+    "gap": 1000.0,
+    "model_call_id": null,
+    "flags": [
+     "frequency assumed — engineer to confirm"
+    ],
+    "modifiers_not_applied": [
+     {
+      "kind": "ignition_probability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "explosion_given_ignition",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "vulnerability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "time_at_risk",
+      "reason": "no plant fact or rule"
+     }
+    ]
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "lopa:f:m:S-FILLING-LINE:as_well_as:composition:super:997a0e983313612e:aa402b1e56a4f47d",
+   "position": 2,
+   "record": {
+    "id": "lopa:f:m:S-FILLING-LINE:as_well_as:composition:super:997a0e983313612e:aa402b1e56a4f47d",
+    "run_id": "run:dbaab5578fbff8f3",
+    "target_id": "f:m:S-FILLING-LINE:as_well_as:composition:super:997a0e983313612e:aa402b1e56a4f47d",
+    "severity_class": "S3",
+    "complete": true,
+    "missing_fact_ids": [],
+    "initiating_event_id": "IE-FIRE-S",
+    "initiating_frequency_per_year": 0.1,
+    "frequency_assumed": true,
+    "modifiers": [],
+    "layers": [],
+    "mitigated_frequency_per_year": 0.1,
+    "tolerable_per_year": 0.0001,
+    "gap": 1000.0,
+    "model_call_id": null,
+    "flags": [
+     "frequency assumed — engineer to confirm"
+    ],
+    "modifiers_not_applied": [
+     {
+      "kind": "ignition_probability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "explosion_given_ignition",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "vulnerability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "time_at_risk",
+      "reason": "no plant fact or rule"
+     }
+    ]
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "lopa:f:m:S-FILLING-LINE:more:pressure:super:db15ed169d8dcabb:aa402b1e56a4f47d",
+   "position": 3,
+   "record": {
+    "id": "lopa:f:m:S-FILLING-LINE:more:pressure:super:db15ed169d8dcabb:aa402b1e56a4f47d",
+    "run_id": "run:dbaab5578fbff8f3",
+    "target_id": "f:m:S-FILLING-LINE:more:pressure:super:db15ed169d8dcabb:aa402b1e56a4f47d",
+    "severity_class": "S3",
+    "complete": true,
+    "missing_fact_ids": [],
+    "initiating_event_id": "IE-FIRE-S",
+    "initiating_frequency_per_year": 0.1,
+    "frequency_assumed": true,
+    "modifiers": [],
+    "layers": [],
+    "mitigated_frequency_per_year": 0.1,
+    "tolerable_per_year": 0.0001,
+    "gap": 1000.0,
+    "model_call_id": null,
+    "flags": [
+     "frequency assumed — engineer to confirm"
+    ],
+    "modifiers_not_applied": [
+     {
+      "kind": "ignition_probability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "explosion_given_ignition",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "vulnerability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "time_at_risk",
+      "reason": "no plant fact or rule"
+     }
+    ]
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "lopa:f:m:S-FILLING-LINE:more:temperature:super:a6a610c000d3f49e:aa402b1e56a4f47d",
+   "position": 4,
+   "record": {
+    "id": "lopa:f:m:S-FILLING-LINE:more:temperature:super:a6a610c000d3f49e:aa402b1e56a4f47d",
+    "run_id": "run:dbaab5578fbff8f3",
+    "target_id": "f:m:S-FILLING-LINE:more:temperature:super:a6a610c000d3f49e:aa402b1e56a4f47d",
+    "severity_class": "S3",
+    "complete": true,
+    "missing_fact_ids": [],
+    "initiating_event_id": "IE-FIRE-S",
+    "initiating_frequency_per_year": 0.1,
+    "frequency_assumed": true,
+    "modifiers": [],
+    "layers": [],
+    "mitigated_frequency_per_year": 0.1,
+    "tolerable_per_year": 0.0001,
+    "gap": 1000.0,
+    "model_call_id": null,
+    "flags": [
+     "frequency assumed — engineer to confirm"
+    ],
+    "modifiers_not_applied": [
+     {
+      "kind": "ignition_probability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "explosion_given_ignition",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "vulnerability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "time_at_risk",
+      "reason": "no plant fact or rule"
+     }
+    ]
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "lopa:f:m:S-FILLING-LINE:other_than:composition:super:8457b855c3ea1714:aa402b1e56a4f47d",
+   "position": 5,
+   "record": {
+    "id": "lopa:f:m:S-FILLING-LINE:other_than:composition:super:8457b855c3ea1714:aa402b1e56a4f47d",
+    "run_id": "run:dbaab5578fbff8f3",
+    "target_id": "f:m:S-FILLING-LINE:other_than:composition:super:8457b855c3ea1714:aa402b1e56a4f47d",
+    "severity_class": "S3",
+    "complete": true,
+    "missing_fact_ids": [],
+    "initiating_event_id": "IE-FIRE-S",
+    "initiating_frequency_per_year": 0.1,
+    "frequency_assumed": true,
+    "modifiers": [],
+    "layers": [],
+    "mitigated_frequency_per_year": 0.1,
+    "tolerable_per_year": 0.0001,
+    "gap": 1000.0,
+    "model_call_id": null,
+    "flags": [
+     "frequency assumed — engineer to confirm"
+    ],
+    "modifiers_not_applied": [
+     {
+      "kind": "ignition_probability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "explosion_given_ignition",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "vulnerability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "time_at_risk",
+      "reason": "no plant fact or rule"
+     }
+    ]
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "lopa:f:m:S-L-HOSE-MX-1:other_than:composition:super:a933f8d5e00b2723:a24c8ef85249b80c",
+   "position": 6,
+   "record": {
+    "id": "lopa:f:m:S-L-HOSE-MX-1:other_than:composition:super:a933f8d5e00b2723:a24c8ef85249b80c",
+    "run_id": "run:dbaab5578fbff8f3",
+    "target_id": "f:m:S-L-HOSE-MX-1:other_than:composition:super:a933f8d5e00b2723:a24c8ef85249b80c",
+    "severity_class": "S3",
+    "complete": true,
+    "missing_fact_ids": [],
+    "initiating_event_id": "IE-HE-MONTHLY",
+    "initiating_frequency_per_year": 0.1,
+    "frequency_assumed": true,
+    "modifiers": [],
+    "layers": [],
+    "mitigated_frequency_per_year": 0.1,
+    "tolerable_per_year": 0.0001,
+    "gap": 1000.0,
+    "model_call_id": null,
+    "flags": [
+     "task frequency assumed — engineer to confirm",
+     "frequency assumed — engineer to confirm"
+    ],
+    "modifiers_not_applied": [
+     {
+      "kind": "ignition_probability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "explosion_given_ignition",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "vulnerability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "time_at_risk",
+      "reason": "no plant fact or rule"
+     }
+    ]
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "lopa:f:m:S-L-HOSE-MX-1:other_than:phase:super:501f48dacc154fd4:4d44159ce87f33af",
+   "position": 7,
+   "record": {
+    "id": "lopa:f:m:S-L-HOSE-MX-1:other_than:phase:super:501f48dacc154fd4:4d44159ce87f33af",
+    "run_id": "run:dbaab5578fbff8f3",
+    "target_id": "f:m:S-L-HOSE-MX-1:other_than:phase:super:501f48dacc154fd4:4d44159ce87f33af",
+    "severity_class": "S3",
+    "complete": true,
+    "missing_fact_ids": [],
+    "initiating_event_id": "IE-FIRE-S",
+    "initiating_frequency_per_year": 0.1,
+    "frequency_assumed": true,
+    "modifiers": [],
+    "layers": [],
+    "mitigated_frequency_per_year": 0.1,
+    "tolerable_per_year": 0.0001,
+    "gap": 1000.0,
+    "model_call_id": null,
+    "flags": [
+     "frequency assumed — engineer to confirm"
+    ],
+    "modifiers_not_applied": [
+     {
+      "kind": "ignition_probability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "explosion_given_ignition",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "vulnerability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "time_at_risk",
+      "reason": "no plant fact or rule"
+     }
+    ]
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "lopa:f:m:S-L-HOSE-MX-1~PORTABLE-PUMP:more:temperature:lightning:C22:aa402b1e56a4f47d",
+   "position": 8,
+   "record": {
+    "id": "lopa:f:m:S-L-HOSE-MX-1~PORTABLE-PUMP:more:temperature:lightning:C22:aa402b1e56a4f47d",
+    "run_id": "run:dbaab5578fbff8f3",
+    "target_id": "f:m:S-L-HOSE-MX-1~PORTABLE-PUMP:more:temperature:lightning:C22:aa402b1e56a4f47d",
+    "severity_class": "S3",
+    "complete": true,
+    "missing_fact_ids": [],
+    "initiating_event_id": "IE-FIRE-S",
+    "initiating_frequency_per_year": 0.1,
+    "frequency_assumed": false,
+    "modifiers": [],
+    "layers": [],
+    "mitigated_frequency_per_year": 0.1,
+    "tolerable_per_year": 0.0001,
+    "gap": 1000.0,
+    "model_call_id": null,
+    "flags": [],
+    "modifiers_not_applied": [
+     {
+      "kind": "ignition_probability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "explosion_given_ignition",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "vulnerability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "time_at_risk",
+      "reason": "no plant fact or rule"
+     }
+    ]
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "lopa:f:m:S-L-HOSE-MX-3:more:pressure:super:C15:a24c8ef85249b80c",
+   "position": 9,
+   "record": {
+    "id": "lopa:f:m:S-L-HOSE-MX-3:more:pressure:super:C15:a24c8ef85249b80c",
+    "run_id": "run:dbaab5578fbff8f3",
+    "target_id": "f:m:S-L-HOSE-MX-3:more:pressure:super:C15:a24c8ef85249b80c",
+    "severity_class": "S3",
+    "complete": true,
+    "missing_fact_ids": [],
+    "initiating_event_id": "IE-HE-MONTHLY",
+    "initiating_frequency_per_year": 0.1,
+    "frequency_assumed": false,
+    "modifiers": [],
+    "layers": [],
+    "mitigated_frequency_per_year": 0.1,
+    "tolerable_per_year": 0.0001,
+    "gap": 1000.0,
+    "model_call_id": null,
+    "flags": [
+     "task frequency assumed — engineer to confirm"
+    ],
+    "modifiers_not_applied": [
+     {
+      "kind": "ignition_probability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "explosion_given_ignition",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "vulnerability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "time_at_risk",
+      "reason": "no plant fact or rule"
+     }
+    ]
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "lopa:f:m:S-TOTES:more:pressure:super:C22:ed67bd729cf1411f",
+   "position": 0,
+   "record": {
+    "id": "lopa:f:m:S-TOTES:more:pressure:super:C22:ed67bd729cf1411f",
+    "run_id": "run:dbaab5578fbff8f3",
+    "target_id": "f:m:S-TOTES:more:pressure:super:C22:ed67bd729cf1411f",
+    "severity_class": "S4",
+    "complete": true,
+    "missing_fact_ids": [],
+    "initiating_event_id": "IE-FIRE-S",
+    "initiating_frequency_per_year": 0.1,
+    "frequency_assumed": false,
+    "modifiers": [],
+    "layers": [],
+    "mitigated_frequency_per_year": 0.1,
+    "tolerable_per_year": 1e-05,
+    "gap": 10000.0,
+    "model_call_id": null,
+    "flags": [],
+    "modifiers_not_applied": [
+     {
+      "kind": "ignition_probability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "explosion_given_ignition",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "vulnerability",
+      "reason": "no plant fact or rule"
+     },
+     {
+      "kind": "time_at_risk",
+      "reason": "no plant fact or rule"
+     }
+    ]
+   }
+  }
+ ]
+}

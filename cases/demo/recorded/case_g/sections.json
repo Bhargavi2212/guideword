@@ -1,0 +1,332 @@
+{
+ "table": "sections",
+ "rows": [
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "S-FILLING-LINE",
+   "position": 0,
+   "record": {
+    "id": "S-FILLING-LINE",
+    "plant_record_id": "plant:case_g:456398a194e2ec0a",
+    "kind": "equipment",
+    "section_type": "other",
+    "name": "FILLING-LINE (other)",
+    "purpose": null,
+    "object_ids": [
+     "FILLING-LINE"
+    ],
+    "flagged_no_flow": false,
+    "drawn_by": "rule",
+    "suggestion_reason": null
+   }
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "S-HOMOGENISER",
+   "position": 1,
+   "record": {
+    "id": "S-HOMOGENISER",
+    "plant_record_id": "plant:case_g:456398a194e2ec0a",
+    "kind": "equipment",
+    "section_type": "other",
+    "name": "HOMOGENISER (other)",
+    "purpose": null,
+    "object_ids": [
+     "HOMOGENISER"
+    ],
+    "flagged_no_flow": false,
+    "drawn_by": "rule",
+    "suggestion_reason": null
+   }
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "S-L-HOSE-MX-1",
+   "position": 2,
+   "record": {
+    "id": "S-L-HOSE-MX-1",
+    "plant_record_id": "plant:case_g:456398a194e2ec0a",
+    "kind": "line",
+    "section_type": "pipe",
+    "name": "L-HOSE-MX-1 (pipe)",
+    "purpose": null,
+    "object_ids": [
+     "L-HOSE-MX-1"
+    ],
+    "flagged_no_flow": false,
+    "drawn_by": "rule",
+    "suggestion_reason": null
+   }
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "S-L-HOSE-MX-1~PORTABLE-PUMP",
+   "position": 3,
+   "record": {
+    "id": "S-L-HOSE-MX-1~PORTABLE-PUMP",
+    "plant_record_id": "plant:case_g:456398a194e2ec0a",
+    "kind": "line",
+    "section_type": "pipe",
+    "name": "L-HOSE-MX-1 from PORTABLE-PUMP (pipe)",
+    "purpose": null,
+    "object_ids": [
+     "L-HOSE-MX-1",
+     "PORTABLE-PUMP"
+    ],
+    "flagged_no_flow": false,
+    "drawn_by": "rule",
+    "suggestion_reason": null
+   }
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "S-L-HOSE-MX-2",
+   "position": 4,
+   "record": {
+    "id": "S-L-HOSE-MX-2",
+    "plant_record_id": "plant:case_g:456398a194e2ec0a",
+    "kind": "line",
+    "section_type": "pipe",
+    "name": "L-HOSE-MX-2 (pipe)",
+    "purpose": null,
+    "object_ids": [
+     "L-HOSE-MX-2"
+    ],
+    "flagged_no_flow": false,
+    "drawn_by": "rule",
+    "suggestion_reason": null
+   }
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "S-L-HOSE-MX-2~PORTABLE-PUMP",
+   "position": 5,
+   "record": {
+    "id": "S-L-HOSE-MX-2~PORTABLE-PUMP",
+    "plant_record_id": "plant:case_g:456398a194e2ec0a",
+    "kind": "line",
+    "section_type": "pipe",
+    "name": "L-HOSE-MX-2 from PORTABLE-PUMP (pipe)",
+    "purpose": null,
+    "object_ids": [
+     "L-HOSE-MX-2",
+     "PORTABLE-PUMP"
+    ],
+    "flagged_no_flow": false,
+    "drawn_by": "rule",
+    "suggestion_reason": null
+   }
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "S-L-HOSE-MX-3",
+   "position": 6,
+   "record": {
+    "id": "S-L-HOSE-MX-3",
+    "plant_record_id": "plant:case_g:456398a194e2ec0a",
+    "kind": "line",
+    "section_type": "pipe",
+    "name": "L-HOSE-MX-3 (pipe)",
+    "purpose": null,
+    "object_ids": [
+     "L-HOSE-MX-3"
+    ],
+    "flagged_no_flow": false,
+    "drawn_by": "rule",
+    "suggestion_reason": null
+   }
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "S-L-HOSE-MX-3~PORTABLE-PUMP",
+   "position": 7,
+   "record": {
+    "id": "S-L-HOSE-MX-3~PORTABLE-PUMP",
+    "plant_record_id": "plant:case_g:456398a194e2ec0a",
+    "kind": "line",
+    "section_type": "pipe",
+    "name": "L-HOSE-MX-3 from PORTABLE-PUMP (pipe)",
+    "purpose": null,
+    "object_ids": [
+     "L-HOSE-MX-3",
+     "PORTABLE-PUMP"
+    ],
+    "flagged_no_flow": false,
+    "drawn_by": "rule",
+    "suggestion_reason": null
+   }
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "S-L-HOSE-MX-4",
+   "position": 8,
+   "record": {
+    "id": "S-L-HOSE-MX-4",
+    "plant_record_id": "plant:case_g:456398a194e2ec0a",
+    "kind": "line",
+    "section_type": "pipe",
+    "name": "L-HOSE-MX-4 (pipe)",
+    "purpose": null,
+    "object_ids": [
+     "L-HOSE-MX-4"
+    ],
+    "flagged_no_flow": false,
+    "drawn_by": "rule",
+    "suggestion_reason": null
+   }
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "S-L-HOSE-MX-4~PORTABLE-PUMP",
+   "position": 9,
+   "record": {
+    "id": "S-L-HOSE-MX-4~PORTABLE-PUMP",
+    "plant_record_id": "plant:case_g:456398a194e2ec0a",
+    "kind": "line",
+    "section_type": "pipe",
+    "name": "L-HOSE-MX-4 from PORTABLE-PUMP (pipe)",
+    "purpose": null,
+    "object_ids": [
+     "L-HOSE-MX-4",
+     "PORTABLE-PUMP"
+    ],
+    "flagged_no_flow": false,
+    "drawn_by": "rule",
+    "suggestion_reason": null
+   }
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "S-MX-1",
+   "position": 10,
+   "record": {
+    "id": "S-MX-1",
+    "plant_record_id": "plant:case_g:456398a194e2ec0a",
+    "kind": "equipment",
+    "section_type": "mixer",
+    "name": "MX-1 (mixer)",
+    "purpose": null,
+    "object_ids": [
+     "MX-1"
+    ],
+    "flagged_no_flow": false,
+    "drawn_by": "rule",
+    "suggestion_reason": null
+   }
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "S-MX-2",
+   "position": 11,
+   "record": {
+    "id": "S-MX-2",
+    "plant_record_id": "plant:case_g:456398a194e2ec0a",
+    "kind": "equipment",
+    "section_type": "mixer",
+    "name": "MX-2 (mixer)",
+    "purpose": null,
+    "object_ids": [
+     "MX-2"
+    ],
+    "flagged_no_flow": false,
+    "drawn_by": "rule",
+    "suggestion_reason": null
+   }
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "S-MX-3",
+   "position": 12,
+   "record": {
+    "id": "S-MX-3",
+    "plant_record_id": "plant:case_g:456398a194e2ec0a",
+    "kind": "equipment",
+    "section_type": "mixer",
+    "name": "MX-3 (mixer)",
+    "purpose": null,
+    "object_ids": [
+     "MX-3"
+    ],
+    "flagged_no_flow": false,
+    "drawn_by": "rule",
+    "suggestion_reason": null
+   }
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "S-MX-4",
+   "position": 13,
+   "record": {
+    "id": "S-MX-4",
+    "plant_record_id": "plant:case_g:456398a194e2ec0a",
+    "kind": "equipment",
+    "section_type": "mixer",
+    "name": "MX-4 (mixer)",
+    "purpose": null,
+    "object_ids": [
+     "MX-4"
+    ],
+    "flagged_no_flow": false,
+    "drawn_by": "rule",
+    "suggestion_reason": null
+   }
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "S-P-G-CHARGE",
+   "position": 14,
+   "record": {
+    "id": "S-P-G-CHARGE",
+    "plant_record_id": "plant:case_g:456398a194e2ec0a",
+    "kind": "procedure",
+    "section_type": "procedure",
+    "name": "P-G-CHARGE (procedure: charging)",
+    "purpose": null,
+    "object_ids": [
+     "P-G-CHARGE"
+    ],
+    "flagged_no_flow": false,
+    "drawn_by": "rule",
+    "suggestion_reason": null
+   }
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "S-PORTABLE-PUMP",
+   "position": 15,
+   "record": {
+    "id": "S-PORTABLE-PUMP",
+    "plant_record_id": "plant:case_g:456398a194e2ec0a",
+    "kind": "equipment",
+    "section_type": "pump",
+    "name": "PORTABLE-PUMP (pump)",
+    "purpose": null,
+    "object_ids": [
+     "PORTABLE-PUMP"
+    ],
+    "flagged_no_flow": false,
+    "drawn_by": "rule",
+    "suggestion_reason": null
+   }
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "S-TOTES",
+   "position": 16,
+   "record": {
+    "id": "S-TOTES",
+    "plant_record_id": "plant:case_g:456398a194e2ec0a",
+    "kind": "equipment",
+    "section_type": "tank",
+    "name": "TOTES (tank)",
+    "purpose": null,
+    "object_ids": [
+     "TOTES"
+    ],
+    "flagged_no_flow": false,
+    "drawn_by": "rule",
+    "suggestion_reason": null
+   }
+  }
+ ]
+}

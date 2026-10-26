@@ -1,0 +1,5602 @@
+{
+ "table": "tool_calls",
+ "rows": [
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:012085b825adc3b7:reactivity_lookup:31dde0907408b349",
+   "position": 26,
+   "record": {
+    "id": "tc:step:012085b825adc3b7:reactivity_lookup:31dde0907408b349",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:012085b825adc3b7",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "BIOCIDE",
+     "chemical_b": "PDMS"
+    },
+    "result": null,
+    "refused_reason": "at most 2 tool calls per batch",
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:05d2106d2fc4c069:reactivity_lookup:8a154b294f81ee24",
+   "position": 8,
+   "record": {
+    "id": "tc:step:05d2106d2fc4c069:reactivity_lookup:8a154b294f81ee24",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:05d2106d2fc4c069",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "DI-WATER",
+     "chemical_b": "IPA"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "DI-WATER",
+       "name": "deionised water (from the plant system)",
+       "epa_groups": [
+        106
+       ],
+       "cameo_groups": [
+        {
+         "id": 100,
+         "name": "Water and Aqueous Solutions"
+        }
+       ]
+      },
+      {
+       "id": "IPA",
+       "name": "isopropyl alcohol",
+       "epa_groups": [
+        4
+       ],
+       "cameo_groups": [
+        {
+         "id": 4,
+         "name": "Alcohols and Polyols"
+        }
+       ]
+      }
+     ],
+     "pairs": [
+      {
+       "groups": [
+        106,
+        4
+       ],
+       "group_names": [
+        "Water and Mixtures Containing Water",
+        "Alcohols and Glycols"
+       ],
+       "status": "not_listed",
+       "codes": [],
+       "source": "no row in reactive_pairs.csv"
+      }
+     ],
+     "no_groups": [],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:0641b76deeadc40f:reactivity_lookup:4d2f762d6495e299",
+   "position": 59,
+   "record": {
+    "id": "tc:step:0641b76deeadc40f:reactivity_lookup:4d2f762d6495e299",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:0641b76deeadc40f",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "PT-CATALYST",
+     "chemical_b": "SURFACTANTS"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "PT-CATALYST",
+       "name": "platinum catalyst solution",
+       "epa_groups": [],
+       "cameo_groups": [
+        {
+         "id": 99,
+         "name": "Insufficient Information for Classification"
+        }
+       ]
+      },
+      {
+       "id": "SURFACTANTS",
+       "name": "non-ionic surfactants",
+       "epa_groups": [],
+       "cameo_groups": [
+        {
+         "id": 99,
+         "name": "Insufficient Information for Classification"
+        }
+       ]
+      }
+     ],
+     "pairs": [],
+     "no_groups": [
+      "PT-CATALYST",
+      "SURFACTANTS"
+     ],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:07c4b2190dd91742:reactivity_lookup:20ae49b70ad4dbc4",
+   "position": 3,
+   "record": {
+    "id": "tc:step:07c4b2190dd91742:reactivity_lookup:20ae49b70ad4dbc4",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:07c4b2190dd91742",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "ACETIC-ACID",
+     "chemical_b": "water"
+    },
+    "result": null,
+    "refused_reason": "at most 2 tool calls per batch",
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:0aba38158062e2d9:reactivity_lookup:012ab7c3f1e5c2ed",
+   "position": 84,
+   "record": {
+    "id": "tc:step:0aba38158062e2d9:reactivity_lookup:012ab7c3f1e5c2ed",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:0aba38158062e2d9",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "SIH",
+     "chemical_b": "SURFACTANTS"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "SIH",
+       "name": "methylhydrogen siloxane fluid (contains Si–H groups)",
+       "epa_groups": [
+        105
+       ],
+       "cameo_groups": [
+        {
+         "id": 58,
+         "name": "Siloxanes"
+        },
+        {
+         "id": 35,
+         "name": "Metal Hydrides, Metal Alkyls, Metal Aryls, and Silanes"
+        }
+       ]
+      },
+      {
+       "id": "SURFACTANTS",
+       "name": "non-ionic surfactants",
+       "epa_groups": [],
+       "cameo_groups": [
+        {
+         "id": 99,
+         "name": "Insufficient Information for Classification"
+        }
+       ]
+      }
+     ],
+     "pairs": [],
+     "no_groups": [
+      "SURFACTANTS"
+     ],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:0fc962abc2ae4495:web_research:fb698261f3ec5d45",
+   "position": 102,
+   "record": {
+    "id": "tc:step:0fc962abc2ae4495:web_research:fb698261f3ec5d45",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:0fc962abc2ae4495",
+    "tool": "web_research",
+    "arguments": {
+     "query": "contact between biocide and water during charging transfer or cleaning external fire near the equipment more pressure tank polydimethylsiloxane fluids several viscosities methylhydrogen siloxane fluid contains si h groups vinyl functional silicone polymer platinum catalyst solution non ionic surfactants emulsifier containing potassium hydroxide acetic acid for ph adjustment isopropyl alcohol heat exposure to chemical in hot surface tote heating",
+     "max_results": 5
+    },
+    "result": {
+     "cache_key": "92f6686a8a4d7956",
+     "cache_hit": true,
+     "urls": [
+      "https://pmc.ncbi.nlm.nih.gov/articles/PMC4884743",
+      "https://silicorex.com/wp-content/uploads/2025/04/Silico-Silicone-Fluids.pdf",
+      "https://www.unitedchem.com/silicones-guide",
+      "https://en.wikipedia.org/wiki/Polydimethylsiloxane",
+      "https://gwunitedsilicones.com/polydimethylsiloxane"
+     ],
+     "blocked_results": 0
+    },
+    "refused_reason": null,
+    "source_urls": [
+     "https://pmc.ncbi.nlm.nih.gov/articles/PMC4884743",
+     "https://silicorex.com/wp-content/uploads/2025/04/Silico-Silicone-Fluids.pdf",
+     "https://www.unitedchem.com/silicones-guide",
+     "https://en.wikipedia.org/wiki/Polydimethylsiloxane",
+     "https://gwunitedsilicones.com/polydimethylsiloxane"
+    ],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:1026872073754469:reactivity_lookup:f04eee7d92d10567",
+   "position": 19,
+   "record": {
+    "id": "tc:step:1026872073754469:reactivity_lookup:f04eee7d92d10567",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:1026872073754469",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "ACETIC-ACID",
+     "chemical_b": "DI-WATER"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "ACETIC-ACID",
+       "name": "acetic acid (for pH adjustment)",
+       "epa_groups": [
+        3
+       ],
+       "cameo_groups": [
+        {
+         "id": 3,
+         "name": "Acids, Carboxylic"
+        }
+       ]
+      },
+      {
+       "id": "DI-WATER",
+       "name": "deionised water (from the plant system)",
+       "epa_groups": [
+        106
+       ],
+       "cameo_groups": [
+        {
+         "id": 100,
+         "name": "Water and Aqueous Solutions"
+        }
+       ]
+      }
+     ],
+     "pairs": [
+      {
+       "groups": [
+        3,
+        106
+       ],
+       "group_names": [
+        "Acids, Organic",
+        "Water and Mixtures Containing Water"
+       ],
+       "status": "not_listed",
+       "codes": [],
+       "source": "no row in reactive_pairs.csv"
+      }
+     ],
+     "no_groups": [],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:12fa8f5b42ca7f8d:reactivity_lookup:f04eee7d92d10567",
+   "position": 70,
+   "record": {
+    "id": "tc:step:12fa8f5b42ca7f8d:reactivity_lookup:f04eee7d92d10567",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:12fa8f5b42ca7f8d",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "ACETIC-ACID",
+     "chemical_b": "DI-WATER"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "ACETIC-ACID",
+       "name": "acetic acid (for pH adjustment)",
+       "epa_groups": [
+        3
+       ],
+       "cameo_groups": [
+        {
+         "id": 3,
+         "name": "Acids, Carboxylic"
+        }
+       ]
+      },
+      {
+       "id": "DI-WATER",
+       "name": "deionised water (from the plant system)",
+       "epa_groups": [
+        106
+       ],
+       "cameo_groups": [
+        {
+         "id": 100,
+         "name": "Water and Aqueous Solutions"
+        }
+       ]
+      }
+     ],
+     "pairs": [
+      {
+       "groups": [
+        3,
+        106
+       ],
+       "group_names": [
+        "Acids, Organic",
+        "Water and Mixtures Containing Water"
+       ],
+       "status": "not_listed",
+       "codes": [],
+       "source": "no row in reactive_pairs.csv"
+      }
+     ],
+     "no_groups": [],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:154120022e765dc0:reactivity_lookup:50ee964372c31dc0",
+   "position": 0,
+   "record": {
+    "id": "tc:step:154120022e765dc0:reactivity_lookup:50ee964372c31dc0",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:154120022e765dc0",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "ACETIC-ACID",
+     "chemical_b": "BIOCIDE"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "ACETIC-ACID",
+       "name": "acetic acid (for pH adjustment)",
+       "epa_groups": [
+        3
+       ],
+       "cameo_groups": [
+        {
+         "id": 3,
+         "name": "Acids, Carboxylic"
+        }
+       ]
+      },
+      {
+       "id": "BIOCIDE",
+       "name": "biocide",
+       "epa_groups": [],
+       "cameo_groups": [
+        {
+         "id": 99,
+         "name": "Insufficient Information for Classification"
+        }
+       ]
+      }
+     ],
+     "pairs": [],
+     "no_groups": [
+      "BIOCIDE"
+     ],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:1650939f835e292b:reactivity_lookup:ac7e12c1a4049db0",
+   "position": 30,
+   "record": {
+    "id": "tc:step:1650939f835e292b:reactivity_lookup:ac7e12c1a4049db0",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:1650939f835e292b",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "BIOCIDE",
+     "chemical_b": "SIH"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "BIOCIDE",
+       "name": "biocide",
+       "epa_groups": [],
+       "cameo_groups": [
+        {
+         "id": 99,
+         "name": "Insufficient Information for Classification"
+        }
+       ]
+      },
+      {
+       "id": "SIH",
+       "name": "methylhydrogen siloxane fluid (contains Si–H groups)",
+       "epa_groups": [
+        105
+       ],
+       "cameo_groups": [
+        {
+         "id": 58,
+         "name": "Siloxanes"
+        },
+        {
+         "id": 35,
+         "name": "Metal Hydrides, Metal Alkyls, Metal Aryls, and Silanes"
+        }
+       ]
+      }
+     ],
+     "pairs": [],
+     "no_groups": [
+      "BIOCIDE"
+     ],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:17299a9c64e8255c:reactivity_lookup:4b2270dd6da95eb3",
+   "position": 77,
+   "record": {
+    "id": "tc:step:17299a9c64e8255c:reactivity_lookup:4b2270dd6da95eb3",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:17299a9c64e8255c",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "IPA",
+     "chemical_b": "KOH-EMULSIFIER"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "IPA",
+       "name": "isopropyl alcohol",
+       "epa_groups": [
+        4
+       ],
+       "cameo_groups": [
+        {
+         "id": 4,
+         "name": "Alcohols and Polyols"
+        }
+       ]
+      },
+      {
+       "id": "KOH-EMULSIFIER",
+       "name": "emulsifier solution containing potassium hydroxide",
+       "epa_groups": [
+        10,
+        106
+       ],
+       "cameo_groups": [
+        {
+         "id": 10,
+         "name": "Bases, Strong"
+        },
+        {
+         "id": 100,
+         "name": "Water and Aqueous Solutions"
+        }
+       ]
+      }
+     ],
+     "pairs": [
+      {
+       "groups": [
+        4,
+        10
+       ],
+       "group_names": [
+        "Alcohols and Glycols",
+        "Caustics"
+       ],
+       "status": "not_listed",
+       "codes": [],
+       "source": "no row in reactive_pairs.csv"
+      },
+      {
+       "groups": [
+        4,
+        106
+       ],
+       "group_names": [
+        "Alcohols and Glycols",
+        "Water and Mixtures Containing Water"
+       ],
+       "status": "not_listed",
+       "codes": [],
+       "source": "no row in reactive_pairs.csv"
+      }
+     ],
+     "no_groups": [],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:1786f1cc6ac085e1:dispatch_specialist:a02b4dc97a2a56a2",
+   "position": 87,
+   "record": {
+    "id": "tc:step:1786f1cc6ac085e1:dispatch_specialist:a02b4dc97a2a56a2",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:1786f1cc6ac085e1",
+    "tool": "dispatch_specialist",
+    "arguments": {
+     "reason": "Retry 42 failed process questions at hard level: these are marked retry_at_hard and must be resolved",
+     "agent": "process",
+     "level": "hard",
+     "question_ids": [
+      "m:S-FILLING-LINE:as_well_as:composition",
+      "m:S-FILLING-LINE:less:flow",
+      "m:S-FILLING-LINE:less:pressure",
+      "m:S-FILLING-LINE:less:temperature",
+      "m:S-FILLING-LINE:more:flow",
+      "m:S-FILLING-LINE:more:pressure",
+      "m:S-FILLING-LINE:more:temperature",
+      "m:S-FILLING-LINE:no:flow",
+      "m:S-FILLING-LINE:other_than:composition",
+      "m:S-FILLING-LINE:part_of:composition",
+      "m:S-HOMOGENISER:as_well_as:composition",
+      "m:S-HOMOGENISER:less:flow",
+      "m:S-HOMOGENISER:less:pressure",
+      "m:S-HOMOGENISER:less:temperature",
+      "m:S-HOMOGENISER:more:flow",
+      "m:S-HOMOGENISER:more:pressure",
+      "m:S-HOMOGENISER:more:temperature",
+      "m:S-HOMOGENISER:no:flow",
+      "m:S-HOMOGENISER:other_than:composition",
+      "m:S-HOMOGENISER:part_of:composition"
+     ]
+    },
+    "result": {
+     "summary": "process at hard: 20 answered, 0 failed, 15 findings",
+     "question_ids": [
+      "m:S-FILLING-LINE:as_well_as:composition",
+      "m:S-FILLING-LINE:less:flow",
+      "m:S-FILLING-LINE:less:pressure",
+      "m:S-FILLING-LINE:less:temperature",
+      "m:S-FILLING-LINE:more:flow",
+      "m:S-FILLING-LINE:more:pressure",
+      "m:S-FILLING-LINE:more:temperature",
+      "m:S-FILLING-LINE:no:flow",
+      "m:S-FILLING-LINE:other_than:composition",
+      "m:S-FILLING-LINE:part_of:composition",
+      "m:S-HOMOGENISER:as_well_as:composition",
+      "m:S-HOMOGENISER:less:flow",
+      "m:S-HOMOGENISER:less:pressure",
+      "m:S-HOMOGENISER:less:temperature",
+      "m:S-HOMOGENISER:more:flow",
+      "m:S-HOMOGENISER:more:pressure",
+      "m:S-HOMOGENISER:more:temperature",
+      "m:S-HOMOGENISER:no:flow",
+      "m:S-HOMOGENISER:other_than:composition",
+      "m:S-HOMOGENISER:part_of:composition"
+     ],
+     "skipped": [],
+     "dropped_ids": []
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:204118f319ea0646:reactivity_lookup:2e81c55bfeff2920",
+   "position": 64,
+   "record": {
+    "id": "tc:step:204118f319ea0646:reactivity_lookup:2e81c55bfeff2920",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:204118f319ea0646",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "SIH",
+     "chemical_b": "VINYL-POLYMER"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "SIH",
+       "name": "methylhydrogen siloxane fluid (contains Si–H groups)",
+       "epa_groups": [
+        105
+       ],
+       "cameo_groups": [
+        {
+         "id": 58,
+         "name": "Siloxanes"
+        },
+        {
+         "id": 35,
+         "name": "Metal Hydrides, Metal Alkyls, Metal Aryls, and Silanes"
+        }
+       ]
+      },
+      {
+       "id": "VINYL-POLYMER",
+       "name": "vinyl-functional silicone polymer",
+       "epa_groups": [],
+       "cameo_groups": [
+        {
+         "id": 58,
+         "name": "Siloxanes"
+        }
+       ]
+      }
+     ],
+     "pairs": [],
+     "no_groups": [
+      "VINYL-POLYMER"
+     ],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:20be83f2cbd1e6ab:physics_calc:414e9a6df59e5b22",
+   "position": 106,
+   "record": {
+    "id": "tc:step:20be83f2cbd1e6ab:physics_calc:414e9a6df59e5b22",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:20be83f2cbd1e6ab",
+    "tool": "physics_calc",
+    "arguments": {
+     "calculation": "blocked_in_heating",
+     "equipment_id": "TOTES"
+    },
+    "result": {
+     "calculation": "blocked_in_heating",
+     "equipment_id": "TOTES",
+     "verdict": "none",
+     "value": null,
+     "unit": "x_design",
+     "fact_ids": [],
+     "missing_fact_ids": [
+      "TOTES.heat_sources",
+      "TOTES.design_pressure_kpa"
+     ],
+     "flags": [
+      "pure-component vapour pressure; liquid-full thermal expansion not modelled; real pressure can be higher"
+     ],
+     "failed": [],
+     "detail": {}
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": [
+     "ev:f:m:S-TOTES:more:pressure:super:C22:ed67bd729cf1411f:calculation:blocked_in_heating-TOTES"
+    ]
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:20fed8eee046f7e9:dispatch_specialist:c640c6fed91e49ee",
+   "position": 48,
+   "record": {
+    "id": "tc:step:20fed8eee046f7e9:dispatch_specialist:c640c6fed91e49ee",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:20fed8eee046f7e9",
+    "tool": "dispatch_specialist",
+    "arguments": {
+     "reason": "Chemical pairs and environment first: 75 open chemistry questions, the widest open list",
+     "agent": "chemistry",
+     "level": "bulk"
+    },
+    "result": {
+     "summary": "chemistry at bulk: 45 answered, 15 failed, 50 findings",
+     "question_ids": [
+      "env:ACETIC-ACID:air",
+      "env:ACETIC-ACID:heat",
+      "env:ACETIC-ACID:water",
+      "env:BIOCIDE:air",
+      "env:BIOCIDE:heat",
+      "env:BIOCIDE:water",
+      "env:DI-WATER:air",
+      "env:DI-WATER:heat",
+      "env:DI-WATER:water",
+      "env:IPA:air",
+      "env:IPA:heat",
+      "env:IPA:water",
+      "env:KOH-EMULSIFIER:air",
+      "env:KOH-EMULSIFIER:heat",
+      "env:KOH-EMULSIFIER:water",
+      "env:PDMS:air",
+      "env:PDMS:heat",
+      "env:PDMS:water",
+      "env:PT-CATALYST:air",
+      "env:PT-CATALYST:heat",
+      "env:PT-CATALYST:water",
+      "env:SIH:air",
+      "env:SIH:heat",
+      "env:SIH:water",
+      "env:SURFACTANTS:air",
+      "env:SURFACTANTS:heat",
+      "env:SURFACTANTS:water",
+      "env:VINYL-POLYMER:air",
+      "env:VINYL-POLYMER:heat",
+      "env:VINYL-POLYMER:water",
+      "pair:ACETIC-ACID:BIOCIDE",
+      "pair:ACETIC-ACID:DI-WATER",
+      "pair:ACETIC-ACID:IPA",
+      "pair:ACETIC-ACID:KOH-EMULSIFIER",
+      "pair:ACETIC-ACID:PDMS",
+      "pair:ACETIC-ACID:PT-CATALYST",
+      "pair:ACETIC-ACID:SIH",
+      "pair:ACETIC-ACID:SURFACTANTS",
+      "pair:ACETIC-ACID:VINYL-POLYMER",
+      "pair:BIOCIDE:DI-WATER",
+      "pair:BIOCIDE:IPA",
+      "pair:BIOCIDE:KOH-EMULSIFIER",
+      "pair:BIOCIDE:PDMS",
+      "pair:BIOCIDE:PT-CATALYST",
+      "pair:BIOCIDE:SIH",
+      "pair:BIOCIDE:SURFACTANTS",
+      "pair:BIOCIDE:VINYL-POLYMER",
+      "pair:DI-WATER:IPA",
+      "pair:DI-WATER:KOH-EMULSIFIER",
+      "pair:DI-WATER:PDMS",
+      "pair:DI-WATER:PT-CATALYST",
+      "pair:DI-WATER:SIH",
+      "pair:DI-WATER:SURFACTANTS",
+      "pair:DI-WATER:VINYL-POLYMER",
+      "pair:IPA:KOH-EMULSIFIER",
+      "pair:IPA:PDMS",
+      "pair:IPA:PT-CATALYST",
+      "pair:IPA:SIH",
+      "pair:IPA:SURFACTANTS",
+      "pair:IPA:VINYL-POLYMER"
+     ],
+     "skipped": [],
+     "dropped_ids": []
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:215710c0f17a7e3c:reactivity_lookup:c008aeade2330954",
+   "position": 25,
+   "record": {
+    "id": "tc:step:215710c0f17a7e3c:reactivity_lookup:c008aeade2330954",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:215710c0f17a7e3c",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "BIOCIDE",
+     "chemical_b": "KOH-EMULSIFIER"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "BIOCIDE",
+       "name": "biocide",
+       "epa_groups": [],
+       "cameo_groups": [
+        {
+         "id": 99,
+         "name": "Insufficient Information for Classification"
+        }
+       ]
+      },
+      {
+       "id": "KOH-EMULSIFIER",
+       "name": "emulsifier solution containing potassium hydroxide",
+       "epa_groups": [
+        10,
+        106
+       ],
+       "cameo_groups": [
+        {
+         "id": 10,
+         "name": "Bases, Strong"
+        },
+        {
+         "id": 100,
+         "name": "Water and Aqueous Solutions"
+        }
+       ]
+      }
+     ],
+     "pairs": [],
+     "no_groups": [
+      "BIOCIDE"
+     ],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:23f0ae0e82226087:physics_calc:414e9a6df59e5b22",
+   "position": 100,
+   "record": {
+    "id": "tc:step:23f0ae0e82226087:physics_calc:414e9a6df59e5b22",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:23f0ae0e82226087",
+    "tool": "physics_calc",
+    "arguments": {
+     "calculation": "blocked_in_heating",
+     "equipment_id": "TOTES"
+    },
+    "result": {
+     "calculation": "blocked_in_heating",
+     "equipment_id": "TOTES",
+     "verdict": "none",
+     "value": null,
+     "unit": "x_design",
+     "fact_ids": [],
+     "missing_fact_ids": [
+      "TOTES.heat_sources",
+      "TOTES.design_pressure_kpa"
+     ],
+     "flags": [
+      "pure-component vapour pressure; liquid-full thermal expansion not modelled; real pressure can be higher"
+     ],
+     "failed": [],
+     "detail": {}
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": [
+     "ev:ch:f:env:ACETIC-ACID:heat:lightning:4e4cfd6b63f35ea2:ed67bd729cf1411f+f:env:BIOCIDE:water:lightning:0dc866d38545499a:4a6d5fe17bf216f7+f:env:SIH:heat:super:8292e1a1a4753ac1:ed67bd729cf1411f+f:m:S-TOTES:more:pressure:super:C22:ed67bd729cf1411f:calculation:blocked_in_heating-TOTES"
+    ]
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:26498c2f595bb369:reactivity_lookup:4b2270dd6da95eb3",
+   "position": 75,
+   "record": {
+    "id": "tc:step:26498c2f595bb369:reactivity_lookup:4b2270dd6da95eb3",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:26498c2f595bb369",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "IPA",
+     "chemical_b": "KOH-EMULSIFIER"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "IPA",
+       "name": "isopropyl alcohol",
+       "epa_groups": [
+        4
+       ],
+       "cameo_groups": [
+        {
+         "id": 4,
+         "name": "Alcohols and Polyols"
+        }
+       ]
+      },
+      {
+       "id": "KOH-EMULSIFIER",
+       "name": "emulsifier solution containing potassium hydroxide",
+       "epa_groups": [
+        10,
+        106
+       ],
+       "cameo_groups": [
+        {
+         "id": 10,
+         "name": "Bases, Strong"
+        },
+        {
+         "id": 100,
+         "name": "Water and Aqueous Solutions"
+        }
+       ]
+      }
+     ],
+     "pairs": [
+      {
+       "groups": [
+        4,
+        10
+       ],
+       "group_names": [
+        "Alcohols and Glycols",
+        "Caustics"
+       ],
+       "status": "not_listed",
+       "codes": [],
+       "source": "no row in reactive_pairs.csv"
+      },
+      {
+       "groups": [
+        4,
+        106
+       ],
+       "group_names": [
+        "Alcohols and Glycols",
+        "Water and Mixtures Containing Water"
+       ],
+       "status": "not_listed",
+       "codes": [],
+       "source": "no row in reactive_pairs.csv"
+      }
+     ],
+     "no_groups": [],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:2ec963eab2b635b1:reactivity_lookup:5b6e5ae2ed08ec4f",
+   "position": 55,
+   "record": {
+    "id": "tc:step:2ec963eab2b635b1:reactivity_lookup:5b6e5ae2ed08ec4f",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:2ec963eab2b635b1",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "KOH-EMULSIFIER",
+     "chemical_b": "VINYL-POLYMER"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "KOH-EMULSIFIER",
+       "name": "emulsifier solution containing potassium hydroxide",
+       "epa_groups": [
+        10,
+        106
+       ],
+       "cameo_groups": [
+        {
+         "id": 10,
+         "name": "Bases, Strong"
+        },
+        {
+         "id": 100,
+         "name": "Water and Aqueous Solutions"
+        }
+       ]
+      },
+      {
+       "id": "VINYL-POLYMER",
+       "name": "vinyl-functional silicone polymer",
+       "epa_groups": [],
+       "cameo_groups": [
+        {
+         "id": 58,
+         "name": "Siloxanes"
+        }
+       ]
+      }
+     ],
+     "pairs": [],
+     "no_groups": [
+      "VINYL-POLYMER"
+     ],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:31697cf8d9bedeb9:reactivity_lookup:e1017aad0b3aa7fe",
+   "position": 62,
+   "record": {
+    "id": "tc:step:31697cf8d9bedeb9:reactivity_lookup:e1017aad0b3aa7fe",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:31697cf8d9bedeb9",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "PT-CATALYST",
+     "chemical_b": "VINYL-POLYMER"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "PT-CATALYST",
+       "name": "platinum catalyst solution",
+       "epa_groups": [],
+       "cameo_groups": [
+        {
+         "id": 99,
+         "name": "Insufficient Information for Classification"
+        }
+       ]
+      },
+      {
+       "id": "VINYL-POLYMER",
+       "name": "vinyl-functional silicone polymer",
+       "epa_groups": [],
+       "cameo_groups": [
+        {
+         "id": 58,
+         "name": "Siloxanes"
+        }
+       ]
+      }
+     ],
+     "pairs": [],
+     "no_groups": [
+      "PT-CATALYST",
+      "VINYL-POLYMER"
+     ],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:33d9c8eb539ba888:reactivity_lookup:d6837cfa63310a30",
+   "position": 49,
+   "record": {
+    "id": "tc:step:33d9c8eb539ba888:reactivity_lookup:d6837cfa63310a30",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:33d9c8eb539ba888",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "KOH-EMULSIFIER",
+     "chemical_b": "PDMS"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "KOH-EMULSIFIER",
+       "name": "emulsifier solution containing potassium hydroxide",
+       "epa_groups": [
+        10,
+        106
+       ],
+       "cameo_groups": [
+        {
+         "id": 10,
+         "name": "Bases, Strong"
+        },
+        {
+         "id": 100,
+         "name": "Water and Aqueous Solutions"
+        }
+       ]
+      },
+      {
+       "id": "PDMS",
+       "name": "polydimethylsiloxane fluids (several viscosities)",
+       "epa_groups": [],
+       "cameo_groups": [
+        {
+         "id": 58,
+         "name": "Siloxanes"
+        }
+       ]
+      }
+     ],
+     "pairs": [],
+     "no_groups": [
+      "PDMS"
+     ],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:37bbd3308cfe9a83:reactivity_lookup:50ee964372c31dc0",
+   "position": 69,
+   "record": {
+    "id": "tc:step:37bbd3308cfe9a83:reactivity_lookup:50ee964372c31dc0",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:37bbd3308cfe9a83",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "ACETIC-ACID",
+     "chemical_b": "BIOCIDE"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "ACETIC-ACID",
+       "name": "acetic acid (for pH adjustment)",
+       "epa_groups": [
+        3
+       ],
+       "cameo_groups": [
+        {
+         "id": 3,
+         "name": "Acids, Carboxylic"
+        }
+       ]
+      },
+      {
+       "id": "BIOCIDE",
+       "name": "biocide",
+       "epa_groups": [],
+       "cameo_groups": [
+        {
+         "id": 99,
+         "name": "Insufficient Information for Classification"
+        }
+       ]
+      }
+     ],
+     "pairs": [],
+     "no_groups": [
+      "BIOCIDE"
+     ],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:3843d806f93943db:reactivity_lookup:190faf74b56e06bf",
+   "position": 39,
+   "record": {
+    "id": "tc:step:3843d806f93943db:reactivity_lookup:190faf74b56e06bf",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:3843d806f93943db",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "DI-WATER",
+     "chemical_b": "VINYL-POLYMER"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "DI-WATER",
+       "name": "deionised water (from the plant system)",
+       "epa_groups": [
+        106
+       ],
+       "cameo_groups": [
+        {
+         "id": 100,
+         "name": "Water and Aqueous Solutions"
+        }
+       ]
+      },
+      {
+       "id": "VINYL-POLYMER",
+       "name": "vinyl-functional silicone polymer",
+       "epa_groups": [],
+       "cameo_groups": [
+        {
+         "id": 58,
+         "name": "Siloxanes"
+        }
+       ]
+      }
+     ],
+     "pairs": [],
+     "no_groups": [
+      "VINYL-POLYMER"
+     ],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:38ce686abf6d08f7:reactivity_lookup:d1af53dc86b546b6",
+   "position": 11,
+   "record": {
+    "id": "tc:step:38ce686abf6d08f7:reactivity_lookup:d1af53dc86b546b6",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:38ce686abf6d08f7",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "DI-WATER",
+     "chemical_b": "water"
+    },
+    "result": null,
+    "refused_reason": "water is not a chemical in this plant",
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:394d1b7ebbdebb6d:reactivity_lookup:71f1a62238a4e582",
+   "position": 31,
+   "record": {
+    "id": "tc:step:394d1b7ebbdebb6d:reactivity_lookup:71f1a62238a4e582",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:394d1b7ebbdebb6d",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "BIOCIDE",
+     "chemical_b": "SURFACTANTS"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "BIOCIDE",
+       "name": "biocide",
+       "epa_groups": [],
+       "cameo_groups": [
+        {
+         "id": 99,
+         "name": "Insufficient Information for Classification"
+        }
+       ]
+      },
+      {
+       "id": "SURFACTANTS",
+       "name": "non-ionic surfactants",
+       "epa_groups": [],
+       "cameo_groups": [
+        {
+         "id": 99,
+         "name": "Insufficient Information for Classification"
+        }
+       ]
+      }
+     ],
+     "pairs": [],
+     "no_groups": [
+      "BIOCIDE",
+      "SURFACTANTS"
+     ],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:3d8e294b79d6fa60:web_research:089788c0e617b9c5",
+   "position": 111,
+   "record": {
+    "id": "tc:step:3d8e294b79d6fa60:web_research:089788c0e617b9c5",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:3d8e294b79d6fa60",
+    "tool": "web_research",
+    "arguments": {
+     "query": "incorrect feed or cross contamination introducing an unintended chemical into the filling line as well composition other",
+     "max_results": 5
+    },
+    "result": {
+     "cache_key": "72e5bdbc0b7c4ef4",
+     "cache_hit": true,
+     "urls": [
+      "https://www.gmpsop.com/whats-cross-contamination-in-pharmaceutical-industry",
+      "https://gmpinsiders.com/contamination-cross-contamination-and-mix-ups-in-pharmaceutical-manufacturing",
+      "https://www.efsa.europa.eu/en/topics/topic/chemical-contaminants-food-feed",
+      "https://www.youtube.com/watch?v=horgGwEAm7s",
+      "https://tractian.com/en/blog/how-to-prevent-cross-contamination-in-food-industry"
+     ],
+     "blocked_results": 0
+    },
+    "refused_reason": null,
+    "source_urls": [
+     "https://www.gmpsop.com/whats-cross-contamination-in-pharmaceutical-industry",
+     "https://gmpinsiders.com/contamination-cross-contamination-and-mix-ups-in-pharmaceutical-manufacturing",
+     "https://www.efsa.europa.eu/en/topics/topic/chemical-contaminants-food-feed",
+     "https://www.youtube.com/watch?v=horgGwEAm7s",
+     "https://tractian.com/en/blog/how-to-prevent-cross-contamination-in-food-industry"
+    ],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:40e571a178a0e268:reactivity_lookup:9294caa1b182b090",
+   "position": 54,
+   "record": {
+    "id": "tc:step:40e571a178a0e268:reactivity_lookup:9294caa1b182b090",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:40e571a178a0e268",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "KOH-EMULSIFIER",
+     "chemical_b": "SURFACTANTS"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "KOH-EMULSIFIER",
+       "name": "emulsifier solution containing potassium hydroxide",
+       "epa_groups": [
+        10,
+        106
+       ],
+       "cameo_groups": [
+        {
+         "id": 10,
+         "name": "Bases, Strong"
+        },
+        {
+         "id": 100,
+         "name": "Water and Aqueous Solutions"
+        }
+       ]
+      },
+      {
+       "id": "SURFACTANTS",
+       "name": "non-ionic surfactants",
+       "epa_groups": [],
+       "cameo_groups": [
+        {
+         "id": 99,
+         "name": "Insufficient Information for Classification"
+        }
+       ]
+      }
+     ],
+     "pairs": [],
+     "no_groups": [
+      "SURFACTANTS"
+     ],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:41048bdd1508ce47:reactivity_lookup:71a1ea1275388b95",
+   "position": 51,
+   "record": {
+    "id": "tc:step:41048bdd1508ce47:reactivity_lookup:71a1ea1275388b95",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:41048bdd1508ce47",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "KOH-EMULSIFIER",
+     "chemical_b": "SIH"
+    },
+    "result": null,
+    "refused_reason": "at most 2 tool calls per batch",
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:464231139f9e2c18:reactivity_lookup:bad5a4d39f2b6b60",
+   "position": 15,
+   "record": {
+    "id": "tc:step:464231139f9e2c18:reactivity_lookup:bad5a4d39f2b6b60",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:464231139f9e2c18",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "PT-CATALYST",
+     "chemical_b": "SIH"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "PT-CATALYST",
+       "name": "platinum catalyst solution",
+       "epa_groups": [],
+       "cameo_groups": [
+        {
+         "id": 99,
+         "name": "Insufficient Information for Classification"
+        }
+       ]
+      },
+      {
+       "id": "SIH",
+       "name": "methylhydrogen siloxane fluid (contains Si–H groups)",
+       "epa_groups": [
+        105
+       ],
+       "cameo_groups": [
+        {
+         "id": 58,
+         "name": "Siloxanes"
+        },
+        {
+         "id": 35,
+         "name": "Metal Hydrides, Metal Alkyls, Metal Aryls, and Silanes"
+        }
+       ]
+      }
+     ],
+     "pairs": [],
+     "no_groups": [
+      "PT-CATALYST"
+     ],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:49811b09c9d5fbf0:reactivity_lookup:132bd5d47d4b9a21",
+   "position": 44,
+   "record": {
+    "id": "tc:step:49811b09c9d5fbf0:reactivity_lookup:132bd5d47d4b9a21",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:49811b09c9d5fbf0",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "IPA",
+     "chemical_b": "PT-CATALYST"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "IPA",
+       "name": "isopropyl alcohol",
+       "epa_groups": [
+        4
+       ],
+       "cameo_groups": [
+        {
+         "id": 4,
+         "name": "Alcohols and Polyols"
+        }
+       ]
+      },
+      {
+       "id": "PT-CATALYST",
+       "name": "platinum catalyst solution",
+       "epa_groups": [],
+       "cameo_groups": [
+        {
+         "id": 99,
+         "name": "Insufficient Information for Classification"
+        }
+       ]
+      }
+     ],
+     "pairs": [],
+     "no_groups": [
+      "PT-CATALYST"
+     ],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:4ad9f2e7c6bf9921:search_precedent:8cd4e1cd92808291",
+   "position": 110,
+   "record": {
+    "id": "tc:step:4ad9f2e7c6bf9921:search_precedent:8cd4e1cd92808291",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:4ad9f2e7c6bf9921",
+    "tool": "search_precedent",
+    "arguments": {
+     "query": "incorrect feed or cross contamination introducing an unintended chemical into the filling line as well composition other",
+     "k": 5
+    },
+    "result": {
+     "candidates": [
+      "CSB-074",
+      "CSB-018",
+      "CSB-040",
+      "CSB-021",
+      "CSB-032"
+     ],
+     "scores": [
+      9.893442686758156,
+      7.806549941899964,
+      7.452700139193166,
+      7.414824361888813,
+      6.474188985363458
+     ],
+     "blocked_rows": 1,
+     "index_version": "14678fe5d063a968bb6c3557a2fc43dc2a48707ba1d7e796fb496baadd0671e1"
+    },
+    "refused_reason": null,
+    "source_urls": [
+     "https://www.csb.gov/indspec-chemical-corporation-oleum-release/",
+     "https://www.csb.gov/optima-belle-explosion-and-fire/",
+     "https://www.csb.gov/exxonmobil-baton-rouge-refinery-chemical-release-and-fire/",
+     "https://www.csb.gov/lyondellbasell-la-porte-fatal-chemical-release-/",
+     "https://www.csb.gov/aghorn-operating-inc-waterflood-station-hydrogen-sulfide-release-/"
+    ],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:4b5e069c81ea030a:reactivity_lookup:819a6463d5e88186",
+   "position": 52,
+   "record": {
+    "id": "tc:step:4b5e069c81ea030a:reactivity_lookup:819a6463d5e88186",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:4b5e069c81ea030a",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "KOH-EMULSIFIER",
+     "chemical_b": "PT-CATALYST"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "KOH-EMULSIFIER",
+       "name": "emulsifier solution containing potassium hydroxide",
+       "epa_groups": [
+        10,
+        106
+       ],
+       "cameo_groups": [
+        {
+         "id": 10,
+         "name": "Bases, Strong"
+        },
+        {
+         "id": 100,
+         "name": "Water and Aqueous Solutions"
+        }
+       ]
+      },
+      {
+       "id": "PT-CATALYST",
+       "name": "platinum catalyst solution",
+       "epa_groups": [],
+       "cameo_groups": [
+        {
+         "id": 99,
+         "name": "Insufficient Information for Classification"
+        }
+       ]
+      }
+     ],
+     "pairs": [],
+     "no_groups": [
+      "PT-CATALYST"
+     ],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:510a767f610e879a:reactivity_lookup:fc25016286fe795e",
+   "position": 41,
+   "record": {
+    "id": "tc:step:510a767f610e879a:reactivity_lookup:fc25016286fe795e",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:510a767f610e879a",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "IPA",
+     "chemical_b": "PDMS"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "IPA",
+       "name": "isopropyl alcohol",
+       "epa_groups": [
+        4
+       ],
+       "cameo_groups": [
+        {
+         "id": 4,
+         "name": "Alcohols and Polyols"
+        }
+       ]
+      },
+      {
+       "id": "PDMS",
+       "name": "polydimethylsiloxane fluids (several viscosities)",
+       "epa_groups": [],
+       "cameo_groups": [
+        {
+         "id": 58,
+         "name": "Siloxanes"
+        }
+       ]
+      }
+     ],
+     "pairs": [],
+     "no_groups": [
+      "PDMS"
+     ],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:5688b42a2ab27876:reactivity_lookup:c5e4d7619036030e",
+   "position": 10,
+   "record": {
+    "id": "tc:step:5688b42a2ab27876:reactivity_lookup:c5e4d7619036030e",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:5688b42a2ab27876",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "DI-WATER",
+     "chemical_b": "air"
+    },
+    "result": null,
+    "refused_reason": "air is not a chemical in this plant",
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:57b7d15496a3262e:reactivity_lookup:88d59d1c12749798",
+   "position": 4,
+   "record": {
+    "id": "tc:step:57b7d15496a3262e:reactivity_lookup:88d59d1c12749798",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:57b7d15496a3262e",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "BIOCIDE",
+     "chemical_b": "BIOCIDE"
+    },
+    "result": null,
+    "refused_reason": "reactivity_lookup needs two different chemicals",
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:5a33361d20e4c08e:dispatch_specialist:d928010f6a1536c1",
+   "position": 92,
+   "record": {
+    "id": "tc:step:5a33361d20e4c08e:dispatch_specialist:d928010f6a1536c1",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:5a33361d20e4c08e",
+    "tool": "dispatch_specialist",
+    "arguments": {
+     "reason": "Retry 32 process questions marked retry_at_hard at hard level: these failed previously and need stronger analysis",
+     "agent": "process",
+     "level": "hard"
+    },
+    "result": {
+     "summary": "process at hard: 22 answered, 10 failed, 25 findings",
+     "question_ids": [
+      "ai:S-L-HOSE-MX-4~PORTABLE-PUMP:53ede1a19f9a8012",
+      "m:S-MX-2:as_well_as:composition",
+      "m:S-MX-2:less:level",
+      "m:S-MX-2:less:mixing",
+      "m:S-MX-2:less:pressure",
+      "m:S-MX-2:less:temperature",
+      "m:S-MX-2:more:level",
+      "m:S-MX-2:more:mixing",
+      "m:S-MX-2:more:pressure",
+      "m:S-MX-2:more:reaction",
+      "m:S-MX-2:more:temperature",
+      "m:S-MX-2:no:mixing",
+      "m:S-MX-2:other_than:composition",
+      "m:S-MX-2:part_of:composition",
+      "m:S-MX-3:less:level",
+      "m:S-MX-3:less:pressure",
+      "m:S-MX-3:more:level",
+      "m:S-MX-3:more:mixing",
+      "m:S-MX-3:more:pressure",
+      "m:S-MX-3:more:reaction",
+      "m:S-MX-3:more:temperature",
+      "m:S-MX-4:as_well_as:composition",
+      "m:S-MX-4:less:level",
+      "m:S-MX-4:less:mixing",
+      "m:S-MX-4:less:pressure",
+      "m:S-MX-4:less:temperature",
+      "m:S-MX-4:more:level",
+      "m:S-MX-4:more:mixing",
+      "m:S-MX-4:more:pressure",
+      "m:S-MX-4:more:reaction",
+      "m:S-MX-4:more:temperature",
+      "m:S-PORTABLE-PUMP:more:pressure"
+     ],
+     "skipped": [],
+     "dropped_ids": []
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:5b1897a89897569c:reactivity_lookup:03a558b8e5df85d9",
+   "position": 35,
+   "record": {
+    "id": "tc:step:5b1897a89897569c:reactivity_lookup:03a558b8e5df85d9",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:5b1897a89897569c",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "DI-WATER",
+     "chemical_b": "SIH"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "DI-WATER",
+       "name": "deionised water (from the plant system)",
+       "epa_groups": [
+        106
+       ],
+       "cameo_groups": [
+        {
+         "id": 100,
+         "name": "Water and Aqueous Solutions"
+        }
+       ]
+      },
+      {
+       "id": "SIH",
+       "name": "methylhydrogen siloxane fluid (contains Si–H groups)",
+       "epa_groups": [
+        105
+       ],
+       "cameo_groups": [
+        {
+         "id": 58,
+         "name": "Siloxanes"
+        },
+        {
+         "id": 35,
+         "name": "Metal Hydrides, Metal Alkyls, Metal Aryls, and Silanes"
+        }
+       ]
+      }
+     ],
+     "pairs": [
+      {
+       "groups": [
+        106,
+        105
+       ],
+       "group_names": [
+        "Water and Mixtures Containing Water",
+        "Reducing Agents, Strong"
+       ],
+       "status": "listed",
+       "codes": [
+        {
+         "code": "GT",
+         "meaning": "toxic gas"
+        },
+        {
+         "code": "GF",
+         "meaning": "flammable gas"
+        }
+       ],
+       "source": "US EPA, A Method for Determining the Compatibility of Hazardous Wastes, EPA-600/2-80-076 (Hatayama et al., April 1980), compatibility chart; one-page reproduction EPA80chemcompatibility1 (2000), transcribed 2026-10-11"
+      }
+     ],
+     "no_groups": [],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:5b371147a0201fd5:reactivity_lookup:012ab7c3f1e5c2ed",
+   "position": 61,
+   "record": {
+    "id": "tc:step:5b371147a0201fd5:reactivity_lookup:012ab7c3f1e5c2ed",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:5b371147a0201fd5",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "SIH",
+     "chemical_b": "SURFACTANTS"
+    },
+    "result": null,
+    "refused_reason": "at most 2 tool calls per batch",
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:5bfbbee4edbfc328:reactivity_lookup:20ae49b70ad4dbc4",
+   "position": 2,
+   "record": {
+    "id": "tc:step:5bfbbee4edbfc328:reactivity_lookup:20ae49b70ad4dbc4",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:5bfbbee4edbfc328",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "ACETIC-ACID",
+     "chemical_b": "water"
+    },
+    "result": null,
+    "refused_reason": "water is not a chemical in this plant",
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:5ca344b606a3de1b:reactivity_lookup:d08f76da68329016",
+   "position": 79,
+   "record": {
+    "id": "tc:step:5ca344b606a3de1b:reactivity_lookup:d08f76da68329016",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:5ca344b606a3de1b",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "IPA",
+     "chemical_b": "SIH"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "IPA",
+       "name": "isopropyl alcohol",
+       "epa_groups": [
+        4
+       ],
+       "cameo_groups": [
+        {
+         "id": 4,
+         "name": "Alcohols and Polyols"
+        }
+       ]
+      },
+      {
+       "id": "SIH",
+       "name": "methylhydrogen siloxane fluid (contains Si–H groups)",
+       "epa_groups": [
+        105
+       ],
+       "cameo_groups": [
+        {
+         "id": 58,
+         "name": "Siloxanes"
+        },
+        {
+         "id": 35,
+         "name": "Metal Hydrides, Metal Alkyls, Metal Aryls, and Silanes"
+        }
+       ]
+      }
+     ],
+     "pairs": [
+      {
+       "groups": [
+        4,
+        105
+       ],
+       "group_names": [
+        "Alcohols and Glycols",
+        "Reducing Agents, Strong"
+       ],
+       "status": "listed",
+       "codes": [
+        {
+         "code": "H",
+         "meaning": "heat"
+        },
+        {
+         "code": "F",
+         "meaning": "fire"
+        },
+        {
+         "code": "GF",
+         "meaning": "flammable gas"
+        }
+       ],
+       "source": "US EPA, A Method for Determining the Compatibility of Hazardous Wastes, EPA-600/2-80-076 (Hatayama et al., April 1980), compatibility chart; one-page reproduction EPA80chemcompatibility1 (2000), transcribed 2026-10-11"
+      }
+     ],
+     "no_groups": [],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:5d2691860dcbcc3a:reactivity_lookup:e82af95ee6f32a86",
+   "position": 20,
+   "record": {
+    "id": "tc:step:5d2691860dcbcc3a:reactivity_lookup:e82af95ee6f32a86",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:5d2691860dcbcc3a",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "ACETIC-ACID",
+     "chemical_b": "IPA"
+    },
+    "result": null,
+    "refused_reason": "at most 2 tool calls per batch",
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:5e958510636cf23e:dispatch_specialist:141e6e5807f1ba93",
+   "position": 95,
+   "record": {
+    "id": "tc:step:5e958510636cf23e:dispatch_specialist:141e6e5807f1ba93",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:5e958510636cf23e",
+    "tool": "dispatch_specialist",
+    "arguments": {
+     "reason": "Address 9 open process questions for S-TOTES section (level, pressure, temperature, composition, phase deviations)",
+     "agent": "process",
+     "level": "bulk"
+    },
+    "result": {
+     "summary": "process at bulk: 4 answered, 5 failed, 5 findings",
+     "question_ids": [
+      "m:S-TOTES:less:pressure",
+      "m:S-TOTES:less:temperature",
+      "m:S-TOTES:more:level",
+      "m:S-TOTES:more:pressure",
+      "m:S-TOTES:more:temperature",
+      "m:S-TOTES:no:level",
+      "m:S-TOTES:other_than:composition",
+      "m:S-TOTES:other_than:phase",
+      "m:S-TOTES:part_of:composition"
+     ],
+     "skipped": [],
+     "dropped_ids": []
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:601b745e3159af9b:reactivity_lookup:132bd5d47d4b9a21",
+   "position": 76,
+   "record": {
+    "id": "tc:step:601b745e3159af9b:reactivity_lookup:132bd5d47d4b9a21",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:601b745e3159af9b",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "IPA",
+     "chemical_b": "PT-CATALYST"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "IPA",
+       "name": "isopropyl alcohol",
+       "epa_groups": [
+        4
+       ],
+       "cameo_groups": [
+        {
+         "id": 4,
+         "name": "Alcohols and Polyols"
+        }
+       ]
+      },
+      {
+       "id": "PT-CATALYST",
+       "name": "platinum catalyst solution",
+       "epa_groups": [],
+       "cameo_groups": [
+        {
+         "id": 99,
+         "name": "Insufficient Information for Classification"
+        }
+       ]
+      }
+     ],
+     "pairs": [],
+     "no_groups": [
+      "PT-CATALYST"
+     ],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:606def94666dd3c9:reactivity_lookup:8a154b294f81ee24",
+   "position": 33,
+   "record": {
+    "id": "tc:step:606def94666dd3c9:reactivity_lookup:8a154b294f81ee24",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:606def94666dd3c9",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "DI-WATER",
+     "chemical_b": "IPA"
+    },
+    "result": null,
+    "refused_reason": "at most 2 tool calls per batch",
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:60e6fd59d36d3e4e:reactivity_lookup:30f8886af1c41096",
+   "position": 24,
+   "record": {
+    "id": "tc:step:60e6fd59d36d3e4e:reactivity_lookup:30f8886af1c41096",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:60e6fd59d36d3e4e",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "BIOCIDE",
+     "chemical_b": "IPA"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "BIOCIDE",
+       "name": "biocide",
+       "epa_groups": [],
+       "cameo_groups": [
+        {
+         "id": 99,
+         "name": "Insufficient Information for Classification"
+        }
+       ]
+      },
+      {
+       "id": "IPA",
+       "name": "isopropyl alcohol",
+       "epa_groups": [
+        4
+       ],
+       "cameo_groups": [
+        {
+         "id": 4,
+         "name": "Alcohols and Polyols"
+        }
+       ]
+      }
+     ],
+     "pairs": [],
+     "no_groups": [
+      "BIOCIDE"
+     ],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:64329eb716a2d297:reactivity_lookup:819a6463d5e88186",
+   "position": 80,
+   "record": {
+    "id": "tc:step:64329eb716a2d297:reactivity_lookup:819a6463d5e88186",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:64329eb716a2d297",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "KOH-EMULSIFIER",
+     "chemical_b": "PT-CATALYST"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "KOH-EMULSIFIER",
+       "name": "emulsifier solution containing potassium hydroxide",
+       "epa_groups": [
+        10,
+        106
+       ],
+       "cameo_groups": [
+        {
+         "id": 10,
+         "name": "Bases, Strong"
+        },
+        {
+         "id": 100,
+         "name": "Water and Aqueous Solutions"
+        }
+       ]
+      },
+      {
+       "id": "PT-CATALYST",
+       "name": "platinum catalyst solution",
+       "epa_groups": [],
+       "cameo_groups": [
+        {
+         "id": 99,
+         "name": "Insufficient Information for Classification"
+        }
+       ]
+      }
+     ],
+     "pairs": [],
+     "no_groups": [
+      "PT-CATALYST"
+     ],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:6509ca787bbf54f7:reactivity_lookup:423fbeb6cd265978",
+   "position": 83,
+   "record": {
+    "id": "tc:step:6509ca787bbf54f7:reactivity_lookup:423fbeb6cd265978",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:6509ca787bbf54f7",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "PDMS",
+     "chemical_b": "SIH"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "PDMS",
+       "name": "polydimethylsiloxane fluids (several viscosities)",
+       "epa_groups": [],
+       "cameo_groups": [
+        {
+         "id": 58,
+         "name": "Siloxanes"
+        }
+       ]
+      },
+      {
+       "id": "SIH",
+       "name": "methylhydrogen siloxane fluid (contains Si–H groups)",
+       "epa_groups": [
+        105
+       ],
+       "cameo_groups": [
+        {
+         "id": 58,
+         "name": "Siloxanes"
+        },
+        {
+         "id": 35,
+         "name": "Metal Hydrides, Metal Alkyls, Metal Aryls, and Silanes"
+        }
+       ]
+      }
+     ],
+     "pairs": [],
+     "no_groups": [
+      "PDMS"
+     ],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:68f047ff708ae6ba:reactivity_lookup:afc7df0a1b4a791a",
+   "position": 36,
+   "record": {
+    "id": "tc:step:68f047ff708ae6ba:reactivity_lookup:afc7df0a1b4a791a",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:68f047ff708ae6ba",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "DI-WATER",
+     "chemical_b": "SURFACTANTS"
+    },
+    "result": null,
+    "refused_reason": "at most 2 tool calls per batch",
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:69897f35277e6407:reactivity_lookup:50237d5ff197b805",
+   "position": 34,
+   "record": {
+    "id": "tc:step:69897f35277e6407:reactivity_lookup:50237d5ff197b805",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:69897f35277e6407",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "DI-WATER",
+     "chemical_b": "PT-CATALYST"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "DI-WATER",
+       "name": "deionised water (from the plant system)",
+       "epa_groups": [
+        106
+       ],
+       "cameo_groups": [
+        {
+         "id": 100,
+         "name": "Water and Aqueous Solutions"
+        }
+       ]
+      },
+      {
+       "id": "PT-CATALYST",
+       "name": "platinum catalyst solution",
+       "epa_groups": [],
+       "cameo_groups": [
+        {
+         "id": 99,
+         "name": "Insufficient Information for Classification"
+        }
+       ]
+      }
+     ],
+     "pairs": [],
+     "no_groups": [
+      "PT-CATALYST"
+     ],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:6ab47235de0d8363:reactivity_lookup:4824e8e4bc15ed4c",
+   "position": 82,
+   "record": {
+    "id": "tc:step:6ab47235de0d8363:reactivity_lookup:4824e8e4bc15ed4c",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:6ab47235de0d8363",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "PDMS",
+     "chemical_b": "PT-CATALYST"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "PDMS",
+       "name": "polydimethylsiloxane fluids (several viscosities)",
+       "epa_groups": [],
+       "cameo_groups": [
+        {
+         "id": 58,
+         "name": "Siloxanes"
+        }
+       ]
+      },
+      {
+       "id": "PT-CATALYST",
+       "name": "platinum catalyst solution",
+       "epa_groups": [],
+       "cameo_groups": [
+        {
+         "id": 99,
+         "name": "Insufficient Information for Classification"
+        }
+       ]
+      }
+     ],
+     "pairs": [],
+     "no_groups": [
+      "PDMS",
+      "PT-CATALYST"
+     ],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:6c72c92f9bde1d5b:search_precedent:3e778f22f11c5855",
+   "position": 101,
+   "record": {
+    "id": "tc:step:6c72c92f9bde1d5b:search_precedent:3e778f22f11c5855",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:6c72c92f9bde1d5b",
+    "tool": "search_precedent",
+    "arguments": {
+     "query": "contact between biocide and water during charging transfer or cleaning external fire near the equipment more pressure tank polydimethylsiloxane fluids several viscosities methylhydrogen siloxane fluid contains si h groups vinyl functional silicone polymer platinum catalyst solution non ionic surfactants emulsifier containing potassium hydroxide acetic acid for ph adjustment isopropyl alcohol heat exposure to chemical in hot surface tote heating",
+     "k": 5
+    },
+    "result": {
+     "candidates": [
+      "CSB-021",
+      "CSB-118",
+      "CSB-056",
+      "CSB-009",
+      "CSB-074"
+     ],
+     "scores": [
+      19.33652065285342,
+      18.175879288932173,
+      13.174499818654851,
+      12.135339653199754,
+      12.077843582325604
+     ],
+     "blocked_rows": 1,
+     "index_version": "14678fe5d063a968bb6c3557a2fc43dc2a48707ba1d7e796fb496baadd0671e1"
+    },
+    "refused_reason": null,
+    "source_urls": [
+     "https://www.csb.gov/lyondellbasell-la-porte-fatal-chemical-release-/",
+     "https://www.csb.gov/concept-sciences-hydroxylamine-explosion/",
+     "https://www.csb.gov/tesoro-anacortes-refinery-fatal-explosion-and-fire-/",
+     "https://www.csb.gov/honeywell-geismar-chlorine-and-hydrogen-fluoride-releases/",
+     "https://www.csb.gov/indspec-chemical-corporation-oleum-release/"
+    ],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:6d522ae038bbcc7a:reactivity_lookup:20ae49b70ad4dbc4",
+   "position": 1,
+   "record": {
+    "id": "tc:step:6d522ae038bbcc7a:reactivity_lookup:20ae49b70ad4dbc4",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:6d522ae038bbcc7a",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "ACETIC-ACID",
+     "chemical_b": "water"
+    },
+    "result": null,
+    "refused_reason": "water is not a chemical in this plant",
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:6fb75caa045724ce:reactivity_lookup:71d69304ae98799d",
+   "position": 65,
+   "record": {
+    "id": "tc:step:6fb75caa045724ce:reactivity_lookup:71d69304ae98799d",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:6fb75caa045724ce",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "SURFACTANTS",
+     "chemical_b": "VINYL-POLYMER"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "SURFACTANTS",
+       "name": "non-ionic surfactants",
+       "epa_groups": [],
+       "cameo_groups": [
+        {
+         "id": 99,
+         "name": "Insufficient Information for Classification"
+        }
+       ]
+      },
+      {
+       "id": "VINYL-POLYMER",
+       "name": "vinyl-functional silicone polymer",
+       "epa_groups": [],
+       "cameo_groups": [
+        {
+         "id": 58,
+         "name": "Siloxanes"
+        }
+       ]
+      }
+     ],
+     "pairs": [],
+     "no_groups": [
+      "SURFACTANTS",
+      "VINYL-POLYMER"
+     ],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:76fa9861c2d4a936:finish:b775d37d8defe859",
+   "position": 99,
+   "record": {
+    "id": "tc:step:76fa9861c2d4a936:finish:b775d37d8defe859",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:76fa9861c2d4a936",
+    "tool": "finish",
+    "arguments": {
+     "reason": "All questions have been answered or failed their final attempts. No open questions remain. 16 failed questions (process deviations for S-L-HOSE-MX-3, S-MX-2, S-MX-3 and chemistry env SURFACTANTS:air),"
+    },
+    "result": {
+     "summary": "accepted: every question answered, not credible or failed"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:7b4996b0c62f7a21:reactivity_lookup:4c17f8ef023bca64",
+   "position": 22,
+   "record": {
+    "id": "tc:step:7b4996b0c62f7a21:reactivity_lookup:4c17f8ef023bca64",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:7b4996b0c62f7a21",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "ACETIC-ACID",
+     "chemical_b": "SIH"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "ACETIC-ACID",
+       "name": "acetic acid (for pH adjustment)",
+       "epa_groups": [
+        3
+       ],
+       "cameo_groups": [
+        {
+         "id": 3,
+         "name": "Acids, Carboxylic"
+        }
+       ]
+      },
+      {
+       "id": "SIH",
+       "name": "methylhydrogen siloxane fluid (contains Si–H groups)",
+       "epa_groups": [
+        105
+       ],
+       "cameo_groups": [
+        {
+         "id": 58,
+         "name": "Siloxanes"
+        },
+        {
+         "id": 35,
+         "name": "Metal Hydrides, Metal Alkyls, Metal Aryls, and Silanes"
+        }
+       ]
+      }
+     ],
+     "pairs": [
+      {
+       "groups": [
+        3,
+        105
+       ],
+       "group_names": [
+        "Acids, Organic",
+        "Reducing Agents, Strong"
+       ],
+       "status": "listed",
+       "codes": [
+        {
+         "code": "H",
+         "meaning": "heat"
+        },
+        {
+         "code": "GF",
+         "meaning": "flammable gas"
+        }
+       ],
+       "source": "US EPA, A Method for Determining the Compatibility of Hazardous Wastes, EPA-600/2-80-076 (Hatayama et al., April 1980), compatibility chart; one-page reproduction EPA80chemcompatibility1 (2000), transcribed 2026-10-11"
+      }
+     ],
+     "no_groups": [],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:8302ecbd912f7a55:reactivity_lookup:136d961e0811875e",
+   "position": 74,
+   "record": {
+    "id": "tc:step:8302ecbd912f7a55:reactivity_lookup:136d961e0811875e",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:8302ecbd912f7a55",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "ACETIC-ACID",
+     "chemical_b": "PDMS"
+    },
+    "result": null,
+    "refused_reason": "at most 2 tool calls per batch",
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:83cf545b232cc286:dispatch_specialist:00d84cac86278dc8",
+   "position": 93,
+   "record": {
+    "id": "tc:step:83cf545b232cc286:dispatch_specialist:00d84cac86278dc8",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:83cf545b232cc286",
+    "tool": "dispatch_specialist",
+    "arguments": {
+     "reason": "Procedures: 20 open questions for P-G-CHARGE section, completely unaddressed (0 checked), the largest open list",
+     "agent": "procedures",
+     "level": "bulk"
+    },
+    "result": {
+     "summary": "procedures at bulk: 0 answered, 20 failed, 0 findings",
+     "question_ids": [
+      "proc:P-G-CHARGE-1:early",
+      "proc:P-G-CHARGE-1:late",
+      "proc:P-G-CHARGE-1:out_of_order",
+      "proc:P-G-CHARGE-1:skipped",
+      "proc:P-G-CHARGE-1:wrong",
+      "proc:P-G-CHARGE-2:early",
+      "proc:P-G-CHARGE-2:late",
+      "proc:P-G-CHARGE-2:out_of_order",
+      "proc:P-G-CHARGE-2:skipped",
+      "proc:P-G-CHARGE-2:wrong",
+      "proc:P-G-CHARGE-3:early",
+      "proc:P-G-CHARGE-3:late",
+      "proc:P-G-CHARGE-3:out_of_order",
+      "proc:P-G-CHARGE-3:skipped",
+      "proc:P-G-CHARGE-3:wrong",
+      "proc:P-G-CHARGE-4:early",
+      "proc:P-G-CHARGE-4:late",
+      "proc:P-G-CHARGE-4:out_of_order",
+      "proc:P-G-CHARGE-4:skipped",
+      "proc:P-G-CHARGE-4:wrong"
+     ],
+     "skipped": [],
+     "dropped_ids": []
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:83d2d297efe198ad:reactivity_lookup:31dde0907408b349",
+   "position": 28,
+   "record": {
+    "id": "tc:step:83d2d297efe198ad:reactivity_lookup:31dde0907408b349",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:83d2d297efe198ad",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "BIOCIDE",
+     "chemical_b": "PDMS"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "BIOCIDE",
+       "name": "biocide",
+       "epa_groups": [],
+       "cameo_groups": [
+        {
+         "id": 99,
+         "name": "Insufficient Information for Classification"
+        }
+       ]
+      },
+      {
+       "id": "PDMS",
+       "name": "polydimethylsiloxane fluids (several viscosities)",
+       "epa_groups": [],
+       "cameo_groups": [
+        {
+         "id": 58,
+         "name": "Siloxanes"
+        }
+       ]
+      }
+     ],
+     "pairs": [],
+     "no_groups": [
+      "BIOCIDE",
+      "PDMS"
+     ],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:84160edc81d6804e:reactivity_lookup:ab37b689409f5b0c",
+   "position": 47,
+   "record": {
+    "id": "tc:step:84160edc81d6804e:reactivity_lookup:ab37b689409f5b0c",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:84160edc81d6804e",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "IPA",
+     "chemical_b": "VINYL-POLYMER"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "IPA",
+       "name": "isopropyl alcohol",
+       "epa_groups": [
+        4
+       ],
+       "cameo_groups": [
+        {
+         "id": 4,
+         "name": "Alcohols and Polyols"
+        }
+       ]
+      },
+      {
+       "id": "VINYL-POLYMER",
+       "name": "vinyl-functional silicone polymer",
+       "epa_groups": [],
+       "cameo_groups": [
+        {
+         "id": 58,
+         "name": "Siloxanes"
+        }
+       ]
+      }
+     ],
+     "pairs": [],
+     "no_groups": [
+      "VINYL-POLYMER"
+     ],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:8573b9e751024898:reactivity_lookup:4824e8e4bc15ed4c",
+   "position": 13,
+   "record": {
+    "id": "tc:step:8573b9e751024898:reactivity_lookup:4824e8e4bc15ed4c",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:8573b9e751024898",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "PDMS",
+     "chemical_b": "PT-CATALYST"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "PDMS",
+       "name": "polydimethylsiloxane fluids (several viscosities)",
+       "epa_groups": [],
+       "cameo_groups": [
+        {
+         "id": 58,
+         "name": "Siloxanes"
+        }
+       ]
+      },
+      {
+       "id": "PT-CATALYST",
+       "name": "platinum catalyst solution",
+       "epa_groups": [],
+       "cameo_groups": [
+        {
+         "id": 99,
+         "name": "Insufficient Information for Classification"
+        }
+       ]
+      }
+     ],
+     "pairs": [],
+     "no_groups": [
+      "PDMS",
+      "PT-CATALYST"
+     ],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:85c65f3516c23897:reactivity_lookup:7e8303928e040651",
+   "position": 58,
+   "record": {
+    "id": "tc:step:85c65f3516c23897:reactivity_lookup:7e8303928e040651",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:85c65f3516c23897",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "PDMS",
+     "chemical_b": "SURFACTANTS"
+    },
+    "result": null,
+    "refused_reason": "at most 2 tool calls per batch",
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:8fc55e6241d6f88d:reactivity_lookup:03a558b8e5df85d9",
+   "position": 37,
+   "record": {
+    "id": "tc:step:8fc55e6241d6f88d:reactivity_lookup:03a558b8e5df85d9",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:8fc55e6241d6f88d",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "DI-WATER",
+     "chemical_b": "SIH"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "DI-WATER",
+       "name": "deionised water (from the plant system)",
+       "epa_groups": [
+        106
+       ],
+       "cameo_groups": [
+        {
+         "id": 100,
+         "name": "Water and Aqueous Solutions"
+        }
+       ]
+      },
+      {
+       "id": "SIH",
+       "name": "methylhydrogen siloxane fluid (contains Si–H groups)",
+       "epa_groups": [
+        105
+       ],
+       "cameo_groups": [
+        {
+         "id": 58,
+         "name": "Siloxanes"
+        },
+        {
+         "id": 35,
+         "name": "Metal Hydrides, Metal Alkyls, Metal Aryls, and Silanes"
+        }
+       ]
+      }
+     ],
+     "pairs": [
+      {
+       "groups": [
+        106,
+        105
+       ],
+       "group_names": [
+        "Water and Mixtures Containing Water",
+        "Reducing Agents, Strong"
+       ],
+       "status": "listed",
+       "codes": [
+        {
+         "code": "GT",
+         "meaning": "toxic gas"
+        },
+        {
+         "code": "GF",
+         "meaning": "flammable gas"
+        }
+       ],
+       "source": "US EPA, A Method for Determining the Compatibility of Hazardous Wastes, EPA-600/2-80-076 (Hatayama et al., April 1980), compatibility chart; one-page reproduction EPA80chemcompatibility1 (2000), transcribed 2026-10-11"
+      }
+     ],
+     "no_groups": [],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:91ce1989db889349:reactivity_lookup:d08f76da68329016",
+   "position": 43,
+   "record": {
+    "id": "tc:step:91ce1989db889349:reactivity_lookup:d08f76da68329016",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:91ce1989db889349",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "IPA",
+     "chemical_b": "SIH"
+    },
+    "result": null,
+    "refused_reason": "at most 2 tool calls per batch",
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:9269fdec105f2456:reactivity_lookup:29f43316bf992385",
+   "position": 21,
+   "record": {
+    "id": "tc:step:9269fdec105f2456:reactivity_lookup:29f43316bf992385",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:9269fdec105f2456",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "ACETIC-ACID",
+     "chemical_b": "PT-CATALYST"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "ACETIC-ACID",
+       "name": "acetic acid (for pH adjustment)",
+       "epa_groups": [
+        3
+       ],
+       "cameo_groups": [
+        {
+         "id": 3,
+         "name": "Acids, Carboxylic"
+        }
+       ]
+      },
+      {
+       "id": "PT-CATALYST",
+       "name": "platinum catalyst solution",
+       "epa_groups": [],
+       "cameo_groups": [
+        {
+         "id": 99,
+         "name": "Insufficient Information for Classification"
+        }
+       ]
+      }
+     ],
+     "pairs": [],
+     "no_groups": [
+      "PT-CATALYST"
+     ],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:994203bb1b61ee45:dispatch_specialist:a16e9637fd37cfa0",
+   "position": 67,
+   "record": {
+    "id": "tc:step:994203bb1b61ee45:dispatch_specialist:a16e9637fd37cfa0",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:994203bb1b61ee45",
+    "tool": "dispatch_specialist",
+    "arguments": {
+     "reason": "Process deviations: 188 open questions, the largest open list by far",
+     "agent": "process",
+     "level": "bulk"
+    },
+    "result": {
+     "summary": "process at bulk: 19 answered, 41 failed, 28 findings",
+     "question_ids": [
+      "m:S-FILLING-LINE:as_well_as:composition",
+      "m:S-FILLING-LINE:less:flow",
+      "m:S-FILLING-LINE:less:pressure",
+      "m:S-FILLING-LINE:less:temperature",
+      "m:S-FILLING-LINE:more:flow",
+      "m:S-FILLING-LINE:more:pressure",
+      "m:S-FILLING-LINE:more:temperature",
+      "m:S-FILLING-LINE:no:flow",
+      "m:S-FILLING-LINE:other_than:composition",
+      "m:S-FILLING-LINE:part_of:composition",
+      "m:S-FILLING-LINE:reverse:flow",
+      "m:S-HOMOGENISER:as_well_as:composition",
+      "m:S-HOMOGENISER:less:flow",
+      "m:S-HOMOGENISER:less:pressure",
+      "m:S-HOMOGENISER:less:temperature",
+      "m:S-HOMOGENISER:more:flow",
+      "m:S-HOMOGENISER:more:pressure",
+      "m:S-HOMOGENISER:more:temperature",
+      "m:S-HOMOGENISER:no:flow",
+      "m:S-HOMOGENISER:other_than:composition",
+      "m:S-HOMOGENISER:part_of:composition",
+      "m:S-HOMOGENISER:reverse:flow",
+      "m:S-L-HOSE-MX-1:as_well_as:composition",
+      "m:S-L-HOSE-MX-1:less:flow",
+      "m:S-L-HOSE-MX-1:less:pressure",
+      "m:S-L-HOSE-MX-1:less:temperature",
+      "m:S-L-HOSE-MX-1:more:flow",
+      "m:S-L-HOSE-MX-1:more:pressure",
+      "m:S-L-HOSE-MX-1:more:temperature",
+      "m:S-L-HOSE-MX-1:no:flow",
+      "m:S-L-HOSE-MX-1:other_than:composition",
+      "m:S-L-HOSE-MX-1:other_than:phase",
+      "m:S-L-HOSE-MX-1:part_of:composition",
+      "m:S-L-HOSE-MX-1:reverse:flow",
+      "m:S-L-HOSE-MX-1~PORTABLE-PUMP:as_well_as:composition",
+      "m:S-L-HOSE-MX-1~PORTABLE-PUMP:less:flow",
+      "m:S-L-HOSE-MX-1~PORTABLE-PUMP:less:pressure",
+      "m:S-L-HOSE-MX-1~PORTABLE-PUMP:less:temperature",
+      "m:S-L-HOSE-MX-1~PORTABLE-PUMP:more:flow",
+      "m:S-L-HOSE-MX-1~PORTABLE-PUMP:more:pressure",
+      "m:S-L-HOSE-MX-1~PORTABLE-PUMP:more:temperature",
+      "m:S-L-HOSE-MX-1~PORTABLE-PUMP:no:flow",
+      "m:S-L-HOSE-MX-1~PORTABLE-PUMP:other_than:composition",
+      "m:S-L-HOSE-MX-1~PORTABLE-PUMP:other_than:phase",
+      "m:S-L-HOSE-MX-1~PORTABLE-PUMP:part_of:composition",
+      "m:S-L-HOSE-MX-1~PORTABLE-PUMP:reverse:flow",
+      "m:S-L-HOSE-MX-2:as_well_as:composition",
+      "m:S-L-HOSE-MX-2:less:flow",
+      "m:S-L-HOSE-MX-2:less:pressure",
+      "m:S-L-HOSE-MX-2:less:temperature",
+      "m:S-L-HOSE-MX-2:more:flow",
+      "m:S-L-HOSE-MX-2:more:pressure",
+      "m:S-L-HOSE-MX-2:more:temperature",
+      "m:S-L-HOSE-MX-2:no:flow",
+      "m:S-L-HOSE-MX-2:other_than:composition",
+      "m:S-L-HOSE-MX-2:other_than:phase",
+      "m:S-L-HOSE-MX-2:part_of:composition",
+      "m:S-L-HOSE-MX-2:reverse:flow",
+      "m:S-L-HOSE-MX-2~PORTABLE-PUMP:as_well_as:composition",
+      "m:S-L-HOSE-MX-2~PORTABLE-PUMP:less:flow"
+     ],
+     "skipped": [],
+     "dropped_ids": []
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:9c2e682b051b1829:web_research:05d59d2a538328ea",
+   "position": 108,
+   "record": {
+    "id": "tc:step:9c2e682b051b1829:web_research:05d59d2a538328ea",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:9c2e682b051b1829",
+    "tool": "web_research",
+    "arguments": {
+     "query": "external fire near the equipment more pressure tank polydimethylsiloxane fluids several viscosities methylhydrogen siloxane fluid contains si h groups vinyl functional silicone polymer platinum catalyst solution non ionic surfactants emulsifier containing potassium hydroxide acetic acid for ph adjustment isopropyl alcohol biocide",
+     "max_results": 5
+    },
+    "result": {
+     "cache_key": "24905fb598f4fbc4",
+     "cache_hit": true,
+     "urls": [
+      "https://www.sinosil.com/uploads/file/sisib-silicone-fluids-2025.pdf",
+      "https://www.powerchemical.com/silicone_fluid/methyl_vinyl_silicone_fluid_VF6030-80.html",
+      "https://www.simtec-silicone.com/blogs/silicone-rubber-platinum-based-catalysts",
+      "https://rawsource.com/vinyl-terminated-pdms-addition-cure-silicone-rubber",
+      "https://rqbindustry.com/emulsifiers-metalworking-fluids-guide"
+     ],
+     "blocked_results": 0
+    },
+    "refused_reason": null,
+    "source_urls": [
+     "https://www.sinosil.com/uploads/file/sisib-silicone-fluids-2025.pdf",
+     "https://www.powerchemical.com/silicone_fluid/methyl_vinyl_silicone_fluid_VF6030-80.html",
+     "https://www.simtec-silicone.com/blogs/silicone-rubber-platinum-based-catalysts",
+     "https://rawsource.com/vinyl-terminated-pdms-addition-cure-silicone-rubber",
+     "https://rqbindustry.com/emulsifiers-metalworking-fluids-guide"
+    ],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:9d172cc8df9a03af:reactivity_lookup:de5f42a8710aa71e",
+   "position": 7,
+   "record": {
+    "id": "tc:step:9d172cc8df9a03af:reactivity_lookup:de5f42a8710aa71e",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:9d172cc8df9a03af",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "BIOCIDE",
+     "chemical_b": "DI-WATER"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "BIOCIDE",
+       "name": "biocide",
+       "epa_groups": [],
+       "cameo_groups": [
+        {
+         "id": 99,
+         "name": "Insufficient Information for Classification"
+        }
+       ]
+      },
+      {
+       "id": "DI-WATER",
+       "name": "deionised water (from the plant system)",
+       "epa_groups": [
+        106
+       ],
+       "cameo_groups": [
+        {
+         "id": 100,
+         "name": "Water and Aqueous Solutions"
+        }
+       ]
+      }
+     ],
+     "pairs": [],
+     "no_groups": [
+      "BIOCIDE"
+     ],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:a1f69d4fc3887869:reactivity_lookup:93be3f34a7547997",
+   "position": 32,
+   "record": {
+    "id": "tc:step:a1f69d4fc3887869:reactivity_lookup:93be3f34a7547997",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:a1f69d4fc3887869",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "BIOCIDE",
+     "chemical_b": "VINYL-POLYMER"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "BIOCIDE",
+       "name": "biocide",
+       "epa_groups": [],
+       "cameo_groups": [
+        {
+         "id": 99,
+         "name": "Insufficient Information for Classification"
+        }
+       ]
+      },
+      {
+       "id": "VINYL-POLYMER",
+       "name": "vinyl-functional silicone polymer",
+       "epa_groups": [],
+       "cameo_groups": [
+        {
+         "id": 58,
+         "name": "Siloxanes"
+        }
+       ]
+      }
+     ],
+     "pairs": [],
+     "no_groups": [
+      "BIOCIDE",
+      "VINYL-POLYMER"
+     ],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:a7161df456894744:reactivity_lookup:36026d2cb0de8f98",
+   "position": 46,
+   "record": {
+    "id": "tc:step:a7161df456894744:reactivity_lookup:36026d2cb0de8f98",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:a7161df456894744",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "IPA",
+     "chemical_b": "SURFACTANTS"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "IPA",
+       "name": "isopropyl alcohol",
+       "epa_groups": [
+        4
+       ],
+       "cameo_groups": [
+        {
+         "id": 4,
+         "name": "Alcohols and Polyols"
+        }
+       ]
+      },
+      {
+       "id": "SURFACTANTS",
+       "name": "non-ionic surfactants",
+       "epa_groups": [],
+       "cameo_groups": [
+        {
+         "id": 99,
+         "name": "Insufficient Information for Classification"
+        }
+       ]
+      }
+     ],
+     "pairs": [],
+     "no_groups": [
+      "SURFACTANTS"
+     ],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:aaa2c9190d19102d:reactivity_lookup:35593281bfc470a8",
+   "position": 72,
+   "record": {
+    "id": "tc:step:aaa2c9190d19102d:reactivity_lookup:35593281bfc470a8",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:aaa2c9190d19102d",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "ACETIC-ACID",
+     "chemical_b": "KOH-EMULSIFIER"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "ACETIC-ACID",
+       "name": "acetic acid (for pH adjustment)",
+       "epa_groups": [
+        3
+       ],
+       "cameo_groups": [
+        {
+         "id": 3,
+         "name": "Acids, Carboxylic"
+        }
+       ]
+      },
+      {
+       "id": "KOH-EMULSIFIER",
+       "name": "emulsifier solution containing potassium hydroxide",
+       "epa_groups": [
+        10,
+        106
+       ],
+       "cameo_groups": [
+        {
+         "id": 10,
+         "name": "Bases, Strong"
+        },
+        {
+         "id": 100,
+         "name": "Water and Aqueous Solutions"
+        }
+       ]
+      }
+     ],
+     "pairs": [
+      {
+       "groups": [
+        3,
+        10
+       ],
+       "group_names": [
+        "Acids, Organic",
+        "Caustics"
+       ],
+       "status": "listed",
+       "codes": [
+        {
+         "code": "H",
+         "meaning": "heat"
+        }
+       ],
+       "source": "US EPA, A Method for Determining the Compatibility of Hazardous Wastes, EPA-600/2-80-076 (Hatayama et al., April 1980), compatibility chart; one-page reproduction EPA80chemcompatibility1 (2000), transcribed 2026-10-11"
+      },
+      {
+       "groups": [
+        3,
+        106
+       ],
+       "group_names": [
+        "Acids, Organic",
+        "Water and Mixtures Containing Water"
+       ],
+       "status": "not_listed",
+       "codes": [],
+       "source": "no row in reactive_pairs.csv"
+      }
+     ],
+     "no_groups": [],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:b0d9a52639f122c6:reactivity_lookup:98f0f5f193e3b40b",
+   "position": 6,
+   "record": {
+    "id": "tc:step:b0d9a52639f122c6:reactivity_lookup:98f0f5f193e3b40b",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:b0d9a52639f122c6",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "BIOCIDE",
+     "chemical_b": "water"
+    },
+    "result": null,
+    "refused_reason": "at most 2 tool calls per batch",
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:b12d43c1f9d48564:reactivity_lookup:a7a2e9f5c8e7963c",
+   "position": 14,
+   "record": {
+    "id": "tc:step:b12d43c1f9d48564:reactivity_lookup:a7a2e9f5c8e7963c",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:b12d43c1f9d48564",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "PT-CATALYST",
+     "chemical_b": "PDMS"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "PT-CATALYST",
+       "name": "platinum catalyst solution",
+       "epa_groups": [],
+       "cameo_groups": [
+        {
+         "id": 99,
+         "name": "Insufficient Information for Classification"
+        }
+       ]
+      },
+      {
+       "id": "PDMS",
+       "name": "polydimethylsiloxane fluids (several viscosities)",
+       "epa_groups": [],
+       "cameo_groups": [
+        {
+         "id": 58,
+         "name": "Siloxanes"
+        }
+       ]
+      }
+     ],
+     "pairs": [],
+     "no_groups": [
+      "PT-CATALYST",
+      "PDMS"
+     ],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:b215bfaac5b120ea:search_precedent:36e3f98a50e45082",
+   "position": 104,
+   "record": {
+    "id": "tc:step:b215bfaac5b120ea:search_precedent:36e3f98a50e45082",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:b215bfaac5b120ea",
+    "tool": "search_precedent",
+    "arguments": {
+     "query": "external fire near the equipment more pressure tank polydimethylsiloxane fluids several viscosities methylhydrogen siloxane fluid contains si h groups vinyl functional silicone polymer platinum catalyst solution non ionic surfactants emulsifier containing potassium hydroxide acetic acid for ph adjustment isopropyl alcohol biocide vehicle or mobile impact less hot surface tote heating heat exposure to chemical in",
+     "k": 5
+    },
+    "result": {
+     "candidates": [
+      "CSB-118",
+      "CSB-021",
+      "CSB-009",
+      "CSB-096",
+      "CSB-039"
+     ],
+     "scores": [
+      17.72001961426702,
+      17.32650708669604,
+      11.736487558716826,
+      10.689179370606094,
+      10.653856957459642
+     ],
+     "blocked_rows": 1,
+     "index_version": "14678fe5d063a968bb6c3557a2fc43dc2a48707ba1d7e796fb496baadd0671e1"
+    },
+    "refused_reason": null,
+    "source_urls": [
+     "https://www.csb.gov/concept-sciences-hydroxylamine-explosion/",
+     "https://www.csb.gov/lyondellbasell-la-porte-fatal-chemical-release-/",
+     "https://www.csb.gov/honeywell-geismar-chlorine-and-hydrogen-fluoride-releases/",
+     "https://www.csb.gov/marcus-oil-and-chemical-tank-explosion/",
+     "https://www.csb.gov/mgpi-processing-inc-toxic-chemical-release-/"
+    ],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:b4416cd18e409bbe:reactivity_lookup:4824e8e4bc15ed4c",
+   "position": 56,
+   "record": {
+    "id": "tc:step:b4416cd18e409bbe:reactivity_lookup:4824e8e4bc15ed4c",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:b4416cd18e409bbe",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "PDMS",
+     "chemical_b": "PT-CATALYST"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "PDMS",
+       "name": "polydimethylsiloxane fluids (several viscosities)",
+       "epa_groups": [],
+       "cameo_groups": [
+        {
+         "id": 58,
+         "name": "Siloxanes"
+        }
+       ]
+      },
+      {
+       "id": "PT-CATALYST",
+       "name": "platinum catalyst solution",
+       "epa_groups": [],
+       "cameo_groups": [
+        {
+         "id": 99,
+         "name": "Insufficient Information for Classification"
+        }
+       ]
+      }
+     ],
+     "pairs": [],
+     "no_groups": [
+      "PDMS",
+      "PT-CATALYST"
+     ],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:b5500867d7159fd5:reactivity_lookup:0e758d685c588601",
+   "position": 18,
+   "record": {
+    "id": "tc:step:b5500867d7159fd5:reactivity_lookup:0e758d685c588601",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:b5500867d7159fd5",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "VINYL-POLYMER",
+     "chemical_b": "SURFACTANTS"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "VINYL-POLYMER",
+       "name": "vinyl-functional silicone polymer",
+       "epa_groups": [],
+       "cameo_groups": [
+        {
+         "id": 58,
+         "name": "Siloxanes"
+        }
+       ]
+      },
+      {
+       "id": "SURFACTANTS",
+       "name": "non-ionic surfactants",
+       "epa_groups": [],
+       "cameo_groups": [
+        {
+         "id": 99,
+         "name": "Insufficient Information for Classification"
+        }
+       ]
+      }
+     ],
+     "pairs": [],
+     "no_groups": [
+      "VINYL-POLYMER",
+      "SURFACTANTS"
+     ],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:b56c5f9140af9671:dispatch_specialist:d810e63206bf0e52",
+   "position": 98,
+   "record": {
+    "id": "tc:step:b56c5f9140af9671:dispatch_specialist:d810e63206bf0e52",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:b56c5f9140af9671",
+    "tool": "dispatch_specialist",
+    "arguments": {
+     "reason": "Retry the failed chemistry environment question for SURFACTANTS with air at hard level (1 of 16 failed)",
+     "agent": "chemistry",
+     "level": "hard",
+     "question_ids": [
+      "env:SURFACTANTS:air"
+     ]
+    },
+    "result": {
+     "summary": "all already answered; stored results used",
+     "skipped": [
+      "env:SURFACTANTS:air"
+     ]
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:b64f7a271b3af886:reactivity_lookup:012ab7c3f1e5c2ed",
+   "position": 63,
+   "record": {
+    "id": "tc:step:b64f7a271b3af886:reactivity_lookup:012ab7c3f1e5c2ed",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:b64f7a271b3af886",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "SIH",
+     "chemical_b": "SURFACTANTS"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "SIH",
+       "name": "methylhydrogen siloxane fluid (contains Si–H groups)",
+       "epa_groups": [
+        105
+       ],
+       "cameo_groups": [
+        {
+         "id": 58,
+         "name": "Siloxanes"
+        },
+        {
+         "id": 35,
+         "name": "Metal Hydrides, Metal Alkyls, Metal Aryls, and Silanes"
+        }
+       ]
+      },
+      {
+       "id": "SURFACTANTS",
+       "name": "non-ionic surfactants",
+       "epa_groups": [],
+       "cameo_groups": [
+        {
+         "id": 99,
+         "name": "Insufficient Information for Classification"
+        }
+       ]
+      }
+     ],
+     "pairs": [],
+     "no_groups": [
+      "SURFACTANTS"
+     ],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:b7c80332504d410b:reactivity_lookup:4b2270dd6da95eb3",
+   "position": 12,
+   "record": {
+    "id": "tc:step:b7c80332504d410b:reactivity_lookup:4b2270dd6da95eb3",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:b7c80332504d410b",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "IPA",
+     "chemical_b": "KOH-EMULSIFIER"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "IPA",
+       "name": "isopropyl alcohol",
+       "epa_groups": [
+        4
+       ],
+       "cameo_groups": [
+        {
+         "id": 4,
+         "name": "Alcohols and Polyols"
+        }
+       ]
+      },
+      {
+       "id": "KOH-EMULSIFIER",
+       "name": "emulsifier solution containing potassium hydroxide",
+       "epa_groups": [
+        10,
+        106
+       ],
+       "cameo_groups": [
+        {
+         "id": 10,
+         "name": "Bases, Strong"
+        },
+        {
+         "id": 100,
+         "name": "Water and Aqueous Solutions"
+        }
+       ]
+      }
+     ],
+     "pairs": [
+      {
+       "groups": [
+        4,
+        10
+       ],
+       "group_names": [
+        "Alcohols and Glycols",
+        "Caustics"
+       ],
+       "status": "not_listed",
+       "codes": [],
+       "source": "no row in reactive_pairs.csv"
+      },
+      {
+       "groups": [
+        4,
+        106
+       ],
+       "group_names": [
+        "Alcohols and Glycols",
+        "Water and Mixtures Containing Water"
+       ],
+       "status": "not_listed",
+       "codes": [],
+       "source": "no row in reactive_pairs.csv"
+      }
+     ],
+     "no_groups": [],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:bced00167c33e324:reactivity_lookup:9294caa1b182b090",
+   "position": 81,
+   "record": {
+    "id": "tc:step:bced00167c33e324:reactivity_lookup:9294caa1b182b090",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:bced00167c33e324",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "KOH-EMULSIFIER",
+     "chemical_b": "SURFACTANTS"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "KOH-EMULSIFIER",
+       "name": "emulsifier solution containing potassium hydroxide",
+       "epa_groups": [
+        10,
+        106
+       ],
+       "cameo_groups": [
+        {
+         "id": 10,
+         "name": "Bases, Strong"
+        },
+        {
+         "id": 100,
+         "name": "Water and Aqueous Solutions"
+        }
+       ]
+      },
+      {
+       "id": "SURFACTANTS",
+       "name": "non-ionic surfactants",
+       "epa_groups": [],
+       "cameo_groups": [
+        {
+         "id": 99,
+         "name": "Insufficient Information for Classification"
+        }
+       ]
+      }
+     ],
+     "pairs": [],
+     "no_groups": [
+      "SURFACTANTS"
+     ],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:bced8f4039dad9ac:reactivity_lookup:e82af95ee6f32a86",
+   "position": 71,
+   "record": {
+    "id": "tc:step:bced8f4039dad9ac:reactivity_lookup:e82af95ee6f32a86",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:bced8f4039dad9ac",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "ACETIC-ACID",
+     "chemical_b": "IPA"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "ACETIC-ACID",
+       "name": "acetic acid (for pH adjustment)",
+       "epa_groups": [
+        3
+       ],
+       "cameo_groups": [
+        {
+         "id": 3,
+         "name": "Acids, Carboxylic"
+        }
+       ]
+      },
+      {
+       "id": "IPA",
+       "name": "isopropyl alcohol",
+       "epa_groups": [
+        4
+       ],
+       "cameo_groups": [
+        {
+         "id": 4,
+         "name": "Alcohols and Polyols"
+        }
+       ]
+      }
+     ],
+     "pairs": [
+      {
+       "groups": [
+        3,
+        4
+       ],
+       "group_names": [
+        "Acids, Organic",
+        "Alcohols and Glycols"
+       ],
+       "status": "listed",
+       "codes": [
+        {
+         "code": "H",
+         "meaning": "heat"
+        },
+        {
+         "code": "P",
+         "meaning": "violent polymerisation"
+        }
+       ],
+       "source": "US EPA, A Method for Determining the Compatibility of Hazardous Wastes, EPA-600/2-80-076 (Hatayama et al., April 1980), compatibility chart; one-page reproduction EPA80chemcompatibility1 (2000), transcribed 2026-10-11"
+      }
+     ],
+     "no_groups": [],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:bed3c69fde9f17ac:reactivity_lookup:4d2f762d6495e299",
+   "position": 16,
+   "record": {
+    "id": "tc:step:bed3c69fde9f17ac:reactivity_lookup:4d2f762d6495e299",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:bed3c69fde9f17ac",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "PT-CATALYST",
+     "chemical_b": "SURFACTANTS"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "PT-CATALYST",
+       "name": "platinum catalyst solution",
+       "epa_groups": [],
+       "cameo_groups": [
+        {
+         "id": 99,
+         "name": "Insufficient Information for Classification"
+        }
+       ]
+      },
+      {
+       "id": "SURFACTANTS",
+       "name": "non-ionic surfactants",
+       "epa_groups": [],
+       "cameo_groups": [
+        {
+         "id": 99,
+         "name": "Insufficient Information for Classification"
+        }
+       ]
+      }
+     ],
+     "pairs": [],
+     "no_groups": [
+      "PT-CATALYST",
+      "SURFACTANTS"
+     ],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:bf9c3d98ad65b9fd:reactivity_lookup:819a6463d5e88186",
+   "position": 50,
+   "record": {
+    "id": "tc:step:bf9c3d98ad65b9fd:reactivity_lookup:819a6463d5e88186",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:bf9c3d98ad65b9fd",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "KOH-EMULSIFIER",
+     "chemical_b": "PT-CATALYST"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "KOH-EMULSIFIER",
+       "name": "emulsifier solution containing potassium hydroxide",
+       "epa_groups": [
+        10,
+        106
+       ],
+       "cameo_groups": [
+        {
+         "id": 10,
+         "name": "Bases, Strong"
+        },
+        {
+         "id": 100,
+         "name": "Water and Aqueous Solutions"
+        }
+       ]
+      },
+      {
+       "id": "PT-CATALYST",
+       "name": "platinum catalyst solution",
+       "epa_groups": [],
+       "cameo_groups": [
+        {
+         "id": 99,
+         "name": "Insufficient Information for Classification"
+        }
+       ]
+      }
+     ],
+     "pairs": [],
+     "no_groups": [
+      "PT-CATALYST"
+     ],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:bfe54d7045e7c8af:dispatch_specialist:8b583c83f1856a0f",
+   "position": 89,
+   "record": {
+    "id": "tc:step:bfe54d7045e7c8af:dispatch_specialist:8b583c83f1856a0f",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:bfe54d7045e7c8af",
+    "tool": "dispatch_specialist",
+    "arguments": {
+     "reason": "Process deviations: 130 open questions across hose and portable pump sections, the largest open list",
+     "agent": "process",
+     "level": "bulk"
+    },
+    "result": {
+     "summary": "process at bulk: 23 answered, 37 failed, 35 findings",
+     "question_ids": [
+      "m:S-L-HOSE-MX-2~PORTABLE-PUMP:less:pressure",
+      "m:S-L-HOSE-MX-2~PORTABLE-PUMP:less:temperature",
+      "m:S-L-HOSE-MX-2~PORTABLE-PUMP:more:flow",
+      "m:S-L-HOSE-MX-2~PORTABLE-PUMP:more:pressure",
+      "m:S-L-HOSE-MX-2~PORTABLE-PUMP:more:temperature",
+      "m:S-L-HOSE-MX-2~PORTABLE-PUMP:no:flow",
+      "m:S-L-HOSE-MX-2~PORTABLE-PUMP:other_than:composition",
+      "m:S-L-HOSE-MX-2~PORTABLE-PUMP:other_than:phase",
+      "m:S-L-HOSE-MX-2~PORTABLE-PUMP:part_of:composition",
+      "m:S-L-HOSE-MX-2~PORTABLE-PUMP:reverse:flow",
+      "m:S-L-HOSE-MX-3:as_well_as:composition",
+      "m:S-L-HOSE-MX-3:less:flow",
+      "m:S-L-HOSE-MX-3:less:pressure",
+      "m:S-L-HOSE-MX-3:less:temperature",
+      "m:S-L-HOSE-MX-3:more:flow",
+      "m:S-L-HOSE-MX-3:more:pressure",
+      "m:S-L-HOSE-MX-3:more:temperature",
+      "m:S-L-HOSE-MX-3:no:flow",
+      "m:S-L-HOSE-MX-3:other_than:composition",
+      "m:S-L-HOSE-MX-3:other_than:phase",
+      "m:S-L-HOSE-MX-3:part_of:composition",
+      "m:S-L-HOSE-MX-3:reverse:flow",
+      "m:S-L-HOSE-MX-3~PORTABLE-PUMP:as_well_as:composition",
+      "m:S-L-HOSE-MX-3~PORTABLE-PUMP:less:flow",
+      "m:S-L-HOSE-MX-3~PORTABLE-PUMP:less:pressure",
+      "m:S-L-HOSE-MX-3~PORTABLE-PUMP:less:temperature",
+      "m:S-L-HOSE-MX-3~PORTABLE-PUMP:more:flow",
+      "m:S-L-HOSE-MX-3~PORTABLE-PUMP:more:pressure",
+      "m:S-L-HOSE-MX-3~PORTABLE-PUMP:more:temperature",
+      "m:S-L-HOSE-MX-3~PORTABLE-PUMP:no:flow",
+      "m:S-L-HOSE-MX-3~PORTABLE-PUMP:other_than:composition",
+      "m:S-L-HOSE-MX-3~PORTABLE-PUMP:other_than:phase",
+      "m:S-L-HOSE-MX-3~PORTABLE-PUMP:part_of:composition",
+      "m:S-L-HOSE-MX-3~PORTABLE-PUMP:reverse:flow",
+      "m:S-L-HOSE-MX-4:as_well_as:composition",
+      "m:S-L-HOSE-MX-4:less:flow",
+      "m:S-L-HOSE-MX-4:less:pressure",
+      "m:S-L-HOSE-MX-4:less:temperature",
+      "m:S-L-HOSE-MX-4:more:flow",
+      "m:S-L-HOSE-MX-4:more:pressure",
+      "m:S-L-HOSE-MX-4:more:temperature",
+      "m:S-L-HOSE-MX-4:no:flow",
+      "m:S-L-HOSE-MX-4:other_than:composition",
+      "m:S-L-HOSE-MX-4:other_than:phase",
+      "m:S-L-HOSE-MX-4:part_of:composition",
+      "m:S-L-HOSE-MX-4:reverse:flow",
+      "m:S-L-HOSE-MX-4~PORTABLE-PUMP:as_well_as:composition",
+      "m:S-L-HOSE-MX-4~PORTABLE-PUMP:less:flow",
+      "m:S-L-HOSE-MX-4~PORTABLE-PUMP:less:pressure",
+      "m:S-L-HOSE-MX-4~PORTABLE-PUMP:less:temperature",
+      "m:S-L-HOSE-MX-4~PORTABLE-PUMP:more:flow",
+      "m:S-L-HOSE-MX-4~PORTABLE-PUMP:more:pressure",
+      "m:S-L-HOSE-MX-4~PORTABLE-PUMP:more:temperature",
+      "m:S-L-HOSE-MX-4~PORTABLE-PUMP:no:flow",
+      "m:S-L-HOSE-MX-4~PORTABLE-PUMP:other_than:composition",
+      "m:S-L-HOSE-MX-4~PORTABLE-PUMP:other_than:phase",
+      "m:S-L-HOSE-MX-4~PORTABLE-PUMP:part_of:composition",
+      "m:S-L-HOSE-MX-4~PORTABLE-PUMP:reverse:flow",
+      "m:S-MX-1:as_well_as:composition",
+      "m:S-MX-1:less:level"
+     ],
+     "skipped": [],
+     "dropped_ids": []
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:c021359e20dab5c6:physics_calc:414e9a6df59e5b22",
+   "position": 103,
+   "record": {
+    "id": "tc:step:c021359e20dab5c6:physics_calc:414e9a6df59e5b22",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:c021359e20dab5c6",
+    "tool": "physics_calc",
+    "arguments": {
+     "calculation": "blocked_in_heating",
+     "equipment_id": "TOTES"
+    },
+    "result": {
+     "calculation": "blocked_in_heating",
+     "equipment_id": "TOTES",
+     "verdict": "none",
+     "value": null,
+     "unit": "x_design",
+     "fact_ids": [],
+     "missing_fact_ids": [
+      "TOTES.heat_sources",
+      "TOTES.design_pressure_kpa"
+     ],
+     "flags": [
+      "pure-component vapour pressure; liquid-full thermal expansion not modelled; real pressure can be higher"
+     ],
+     "failed": [],
+     "detail": {}
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": [
+     "ev:ch:f:env:ACETIC-ACID:heat:lightning:4e4cfd6b63f35ea2:ed67bd729cf1411f+f:env:SIH:heat:super:8292e1a1a4753ac1:ed67bd729cf1411f+f:m:S-TOTES:less:pressure:super:C23:ed67bd729cf1411f+f:m:S-TOTES:more:pressure:super:C22:ed67bd729cf1411f:calculation:blocked_in_heating-TOTES"
+    ]
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:c1eabdb1c12758a2:reactivity_lookup:30f8886af1c41096",
+   "position": 9,
+   "record": {
+    "id": "tc:step:c1eabdb1c12758a2:reactivity_lookup:30f8886af1c41096",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:c1eabdb1c12758a2",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "BIOCIDE",
+     "chemical_b": "IPA"
+    },
+    "result": null,
+    "refused_reason": "at most 2 tool calls per batch",
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:c285b329ab3b389c:reactivity_lookup:03a558b8e5df85d9",
+   "position": 73,
+   "record": {
+    "id": "tc:step:c285b329ab3b389c:reactivity_lookup:03a558b8e5df85d9",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:c285b329ab3b389c",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "DI-WATER",
+     "chemical_b": "SIH"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "DI-WATER",
+       "name": "deionised water (from the plant system)",
+       "epa_groups": [
+        106
+       ],
+       "cameo_groups": [
+        {
+         "id": 100,
+         "name": "Water and Aqueous Solutions"
+        }
+       ]
+      },
+      {
+       "id": "SIH",
+       "name": "methylhydrogen siloxane fluid (contains Si–H groups)",
+       "epa_groups": [
+        105
+       ],
+       "cameo_groups": [
+        {
+         "id": 58,
+         "name": "Siloxanes"
+        },
+        {
+         "id": 35,
+         "name": "Metal Hydrides, Metal Alkyls, Metal Aryls, and Silanes"
+        }
+       ]
+      }
+     ],
+     "pairs": [
+      {
+       "groups": [
+        106,
+        105
+       ],
+       "group_names": [
+        "Water and Mixtures Containing Water",
+        "Reducing Agents, Strong"
+       ],
+       "status": "listed",
+       "codes": [
+        {
+         "code": "GT",
+         "meaning": "toxic gas"
+        },
+        {
+         "code": "GF",
+         "meaning": "flammable gas"
+        }
+       ],
+       "source": "US EPA, A Method for Determining the Compatibility of Hazardous Wastes, EPA-600/2-80-076 (Hatayama et al., April 1980), compatibility chart; one-page reproduction EPA80chemcompatibility1 (2000), transcribed 2026-10-11"
+      }
+     ],
+     "no_groups": [],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:c66a0e5ebbe6a99f:dispatch_specialist:13b57fc2e793c9da",
+   "position": 86,
+   "record": {
+    "id": "tc:step:c66a0e5ebbe6a99f:dispatch_specialist:13b57fc2e793c9da",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:c66a0e5ebbe6a99f",
+    "tool": "dispatch_specialist",
+    "arguments": {
+     "reason": "Retry failed chemistry questions at hard level: 33 questions marked for retry_at_hard",
+     "agent": "chemistry",
+     "level": "hard"
+    },
+    "result": {
+     "summary": "chemistry at hard: 33 answered, 0 failed, 46 findings",
+     "question_ids": [
+      "env:BIOCIDE:air",
+      "env:DI-WATER:heat",
+      "env:PDMS:air",
+      "env:PDMS:heat",
+      "env:PDMS:water",
+      "env:PT-CATALYST:air",
+      "env:PT-CATALYST:heat",
+      "env:PT-CATALYST:water",
+      "env:SIH:air",
+      "env:SIH:heat",
+      "env:SIH:water",
+      "env:SURFACTANTS:air",
+      "pair:ACETIC-ACID:BIOCIDE",
+      "pair:ACETIC-ACID:DI-WATER",
+      "pair:ACETIC-ACID:IPA",
+      "pair:ACETIC-ACID:KOH-EMULSIFIER",
+      "pair:ACETIC-ACID:PDMS",
+      "pair:BIOCIDE:PDMS",
+      "pair:DI-WATER:SIH",
+      "pair:DI-WATER:VINYL-POLYMER",
+      "pair:IPA:KOH-EMULSIFIER",
+      "pair:IPA:PT-CATALYST",
+      "pair:IPA:SIH",
+      "pair:KOH-EMULSIFIER:PT-CATALYST",
+      "pair:KOH-EMULSIFIER:SURFACTANTS",
+      "pair:PDMS:PT-CATALYST",
+      "pair:PDMS:SIH",
+      "pair:PDMS:SURFACTANTS",
+      "pair:PDMS:VINYL-POLYMER",
+      "pair:PT-CATALYST:SIH",
+      "pair:SIH:SURFACTANTS",
+      "pair:SIH:VINYL-POLYMER",
+      "pair:SURFACTANTS:VINYL-POLYMER"
+     ],
+     "skipped": [],
+     "dropped_ids": []
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:ca767717e5e1cfcb:reactivity_lookup:6453f47ce2de246e",
+   "position": 29,
+   "record": {
+    "id": "tc:step:ca767717e5e1cfcb:reactivity_lookup:6453f47ce2de246e",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:ca767717e5e1cfcb",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "BIOCIDE",
+     "chemical_b": "PT-CATALYST"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "BIOCIDE",
+       "name": "biocide",
+       "epa_groups": [],
+       "cameo_groups": [
+        {
+         "id": 99,
+         "name": "Insufficient Information for Classification"
+        }
+       ]
+      },
+      {
+       "id": "PT-CATALYST",
+       "name": "platinum catalyst solution",
+       "epa_groups": [],
+       "cameo_groups": [
+        {
+         "id": 99,
+         "name": "Insufficient Information for Classification"
+        }
+       ]
+      }
+     ],
+     "pairs": [],
+     "no_groups": [
+      "BIOCIDE",
+      "PT-CATALYST"
+     ],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:cba86d00c023c61d:dispatch_specialist:9bd432671982245d",
+   "position": 66,
+   "record": {
+    "id": "tc:step:cba86d00c023c61d:dispatch_specialist:9bd432671982245d",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:cba86d00c023c61d",
+    "tool": "dispatch_specialist",
+    "arguments": {
+     "reason": "Continue chemistry bulk: 38 open questions remain, largest open list",
+     "agent": "chemistry",
+     "level": "bulk"
+    },
+    "result": {
+     "summary": "chemistry at bulk: 10 answered, 5 failed, 6 findings",
+     "question_ids": [
+      "pair:KOH-EMULSIFIER:PDMS",
+      "pair:KOH-EMULSIFIER:PT-CATALYST",
+      "pair:KOH-EMULSIFIER:SIH",
+      "pair:KOH-EMULSIFIER:SURFACTANTS",
+      "pair:KOH-EMULSIFIER:VINYL-POLYMER",
+      "pair:PDMS:PT-CATALYST",
+      "pair:PDMS:SIH",
+      "pair:PDMS:SURFACTANTS",
+      "pair:PDMS:VINYL-POLYMER",
+      "pair:PT-CATALYST:SIH",
+      "pair:PT-CATALYST:SURFACTANTS",
+      "pair:PT-CATALYST:VINYL-POLYMER",
+      "pair:SIH:SURFACTANTS",
+      "pair:SIH:VINYL-POLYMER",
+      "pair:SURFACTANTS:VINYL-POLYMER"
+     ],
+     "skipped": [],
+     "dropped_ids": []
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:cca392b77a52c7b7:dispatch_specialist:9c8bff402e3c3769",
+   "position": 90,
+   "record": {
+    "id": "tc:step:cca392b77a52c7b7:dispatch_specialist:9c8bff402e3c3769",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:cca392b77a52c7b7",
+    "tool": "dispatch_specialist",
+    "arguments": {
+     "reason": "Retry 40 failed process questions at hard level from retry_at_hard list",
+     "agent": "process",
+     "level": "hard"
+    },
+    "result": {
+     "summary": "process at hard: 35 answered, 5 failed, 106 findings, 1 questions added",
+     "question_ids": [
+      "m:S-L-HOSE-MX-2~PORTABLE-PUMP:as_well_as:composition",
+      "m:S-L-HOSE-MX-2~PORTABLE-PUMP:less:flow",
+      "m:S-L-HOSE-MX-3:as_well_as:composition",
+      "m:S-L-HOSE-MX-3:less:flow",
+      "m:S-L-HOSE-MX-3:less:pressure",
+      "m:S-L-HOSE-MX-3:less:temperature",
+      "m:S-L-HOSE-MX-3:more:flow",
+      "m:S-L-HOSE-MX-3:more:pressure",
+      "m:S-L-HOSE-MX-3:more:temperature",
+      "m:S-L-HOSE-MX-3:no:flow",
+      "m:S-L-HOSE-MX-3:other_than:composition",
+      "m:S-L-HOSE-MX-3:other_than:phase",
+      "m:S-L-HOSE-MX-3~PORTABLE-PUMP:as_well_as:composition",
+      "m:S-L-HOSE-MX-3~PORTABLE-PUMP:less:flow",
+      "m:S-L-HOSE-MX-3~PORTABLE-PUMP:less:pressure",
+      "m:S-L-HOSE-MX-3~PORTABLE-PUMP:less:temperature",
+      "m:S-L-HOSE-MX-3~PORTABLE-PUMP:more:flow",
+      "m:S-L-HOSE-MX-3~PORTABLE-PUMP:other_than:composition",
+      "m:S-L-HOSE-MX-4:as_well_as:composition",
+      "m:S-L-HOSE-MX-4:less:flow",
+      "m:S-L-HOSE-MX-4:less:pressure",
+      "m:S-L-HOSE-MX-4:less:temperature",
+      "m:S-L-HOSE-MX-4:more:flow",
+      "m:S-L-HOSE-MX-4:more:pressure",
+      "m:S-L-HOSE-MX-4:more:temperature",
+      "m:S-L-HOSE-MX-4:no:flow",
+      "m:S-L-HOSE-MX-4:other_than:composition",
+      "m:S-L-HOSE-MX-4:other_than:phase",
+      "m:S-L-HOSE-MX-4~PORTABLE-PUMP:as_well_as:composition",
+      "m:S-L-HOSE-MX-4~PORTABLE-PUMP:less:flow",
+      "m:S-L-HOSE-MX-4~PORTABLE-PUMP:less:pressure",
+      "m:S-L-HOSE-MX-4~PORTABLE-PUMP:less:temperature",
+      "m:S-L-HOSE-MX-4~PORTABLE-PUMP:more:flow",
+      "m:S-L-HOSE-MX-4~PORTABLE-PUMP:more:pressure",
+      "m:S-L-HOSE-MX-4~PORTABLE-PUMP:more:temperature",
+      "m:S-L-HOSE-MX-4~PORTABLE-PUMP:no:flow",
+      "m:S-L-HOSE-MX-4~PORTABLE-PUMP:other_than:composition",
+      "m:S-L-HOSE-MX-4~PORTABLE-PUMP:other_than:phase",
+      "m:S-L-HOSE-MX-4~PORTABLE-PUMP:part_of:composition",
+      "m:S-L-HOSE-MX-4~PORTABLE-PUMP:reverse:flow"
+     ],
+     "skipped": [],
+     "dropped_ids": []
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:ce4de69bc789bbb1:dispatch_specialist:9863867354ef8c3e",
+   "position": 88,
+   "record": {
+    "id": "tc:step:ce4de69bc789bbb1:dispatch_specialist:9863867354ef8c3e",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:ce4de69bc789bbb1",
+    "tool": "dispatch_specialist",
+    "arguments": {
+     "reason": "Retry 22 failed process questions at hard level from retry_at_hard list",
+     "agent": "process",
+     "level": "hard",
+     "question_ids": [
+      "m:S-L-HOSE-MX-1:more:flow",
+      "m:S-L-HOSE-MX-1:more:pressure",
+      "m:S-L-HOSE-MX-1:more:temperature",
+      "m:S-L-HOSE-MX-1:no:flow",
+      "m:S-L-HOSE-MX-1:other_than:composition",
+      "m:S-L-HOSE-MX-1:other_than:phase",
+      "m:S-L-HOSE-MX-1~PORTABLE-PUMP:part_of:composition",
+      "m:S-L-HOSE-MX-1~PORTABLE-PUMP:reverse:flow",
+      "m:S-L-HOSE-MX-2:as_well_as:composition",
+      "m:S-L-HOSE-MX-2:less:flow",
+      "m:S-L-HOSE-MX-2:less:pressure",
+      "m:S-L-HOSE-MX-2:less:temperature",
+      "m:S-L-HOSE-MX-2:more:flow",
+      "m:S-L-HOSE-MX-2:more:pressure",
+      "m:S-L-HOSE-MX-2:more:temperature",
+      "m:S-L-HOSE-MX-2:no:flow",
+      "m:S-L-HOSE-MX-2:other_than:composition",
+      "m:S-L-HOSE-MX-2:other_than:phase",
+      "m:S-L-HOSE-MX-2:part_of:composition",
+      "m:S-L-HOSE-MX-2:reverse:flow"
+     ]
+    },
+    "result": {
+     "summary": "process at hard: 20 answered, 0 failed, 65 findings",
+     "question_ids": [
+      "m:S-L-HOSE-MX-1:more:flow",
+      "m:S-L-HOSE-MX-1:more:pressure",
+      "m:S-L-HOSE-MX-1:more:temperature",
+      "m:S-L-HOSE-MX-1:no:flow",
+      "m:S-L-HOSE-MX-1:other_than:composition",
+      "m:S-L-HOSE-MX-1:other_than:phase",
+      "m:S-L-HOSE-MX-1~PORTABLE-PUMP:part_of:composition",
+      "m:S-L-HOSE-MX-1~PORTABLE-PUMP:reverse:flow",
+      "m:S-L-HOSE-MX-2:as_well_as:composition",
+      "m:S-L-HOSE-MX-2:less:flow",
+      "m:S-L-HOSE-MX-2:less:pressure",
+      "m:S-L-HOSE-MX-2:less:temperature",
+      "m:S-L-HOSE-MX-2:more:flow",
+      "m:S-L-HOSE-MX-2:more:pressure",
+      "m:S-L-HOSE-MX-2:more:temperature",
+      "m:S-L-HOSE-MX-2:no:flow",
+      "m:S-L-HOSE-MX-2:other_than:composition",
+      "m:S-L-HOSE-MX-2:other_than:phase",
+      "m:S-L-HOSE-MX-2:part_of:composition",
+      "m:S-L-HOSE-MX-2:reverse:flow"
+     ],
+     "skipped": [],
+     "dropped_ids": []
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:cfb9e64f85011b4b:search_precedent:5c18f5c95634ea73",
+   "position": 109,
+   "record": {
+    "id": "tc:step:cfb9e64f85011b4b:search_precedent:5c18f5c95634ea73",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:cfb9e64f85011b4b",
+    "tool": "search_precedent",
+    "arguments": {
+     "query": "external fire or hot surface near tote heating the methylhydrogen siloxane fluid contains si h groups",
+     "k": 5
+    },
+    "result": {
+     "candidates": [
+      "CSB-038",
+      "CSB-087",
+      "CSB-028",
+      "CSB-031",
+      "CSB-063"
+     ],
+     "scores": [
+      6.916611312905118,
+      6.807783222633586,
+      5.5606443464308635,
+      5.273417549081863,
+      4.533158731441606
+     ],
+     "blocked_rows": 1,
+     "index_version": "14678fe5d063a968bb6c3557a2fc43dc2a48707ba1d7e796fb496baadd0671e1"
+    },
+    "refused_reason": null,
+    "source_urls": [
+     "https://www.csb.gov/packaging-corporation-of-america-hot-work-explosion-/",
+     "https://www.csb.gov/universal-form-clamp-co-explosion-and-fire/",
+     "https://www.csb.gov/sunoco-logistics-partners-flash-fire/",
+     "https://www.csb.gov/evergreen-packaging-paper-mill---fire-during-hot-work/",
+     "https://www.csb.gov/oil-tank-safety-study/"
+    ],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:d358a572bbeeb8cf:reactivity_lookup:afc7df0a1b4a791a",
+   "position": 38,
+   "record": {
+    "id": "tc:step:d358a572bbeeb8cf:reactivity_lookup:afc7df0a1b4a791a",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:d358a572bbeeb8cf",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "DI-WATER",
+     "chemical_b": "SURFACTANTS"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "DI-WATER",
+       "name": "deionised water (from the plant system)",
+       "epa_groups": [
+        106
+       ],
+       "cameo_groups": [
+        {
+         "id": 100,
+         "name": "Water and Aqueous Solutions"
+        }
+       ]
+      },
+      {
+       "id": "SURFACTANTS",
+       "name": "non-ionic surfactants",
+       "epa_groups": [],
+       "cameo_groups": [
+        {
+         "id": 99,
+         "name": "Insufficient Information for Classification"
+        }
+       ]
+      }
+     ],
+     "pairs": [],
+     "no_groups": [
+      "SURFACTANTS"
+     ],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:d46aceb1e4933e09:dispatch_specialist:cd1813579396cbe2",
+   "position": 94,
+   "record": {
+    "id": "tc:step:d46aceb1e4933e09:dispatch_specialist:cd1813579396cbe2",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:d46aceb1e4933e09",
+    "tool": "dispatch_specialist",
+    "arguments": {
+     "reason": "Retry 20 failed procedure questions for P-G-CHARGE at hard level (all failed at bulk)",
+     "agent": "procedures",
+     "level": "hard"
+    },
+    "result": {
+     "summary": "procedures at hard: 20 answered, 0 failed, 20 findings",
+     "question_ids": [
+      "proc:P-G-CHARGE-1:early",
+      "proc:P-G-CHARGE-1:late",
+      "proc:P-G-CHARGE-1:out_of_order",
+      "proc:P-G-CHARGE-1:skipped",
+      "proc:P-G-CHARGE-1:wrong",
+      "proc:P-G-CHARGE-2:early",
+      "proc:P-G-CHARGE-2:late",
+      "proc:P-G-CHARGE-2:out_of_order",
+      "proc:P-G-CHARGE-2:skipped",
+      "proc:P-G-CHARGE-2:wrong",
+      "proc:P-G-CHARGE-3:early",
+      "proc:P-G-CHARGE-3:late",
+      "proc:P-G-CHARGE-3:out_of_order",
+      "proc:P-G-CHARGE-3:skipped",
+      "proc:P-G-CHARGE-3:wrong",
+      "proc:P-G-CHARGE-4:early",
+      "proc:P-G-CHARGE-4:late",
+      "proc:P-G-CHARGE-4:out_of_order",
+      "proc:P-G-CHARGE-4:skipped",
+      "proc:P-G-CHARGE-4:wrong"
+     ],
+     "skipped": [],
+     "dropped_ids": []
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:d4e1e5da7448eea9:reactivity_lookup:4b2270dd6da95eb3",
+   "position": 40,
+   "record": {
+    "id": "tc:step:d4e1e5da7448eea9:reactivity_lookup:4b2270dd6da95eb3",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:d4e1e5da7448eea9",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "IPA",
+     "chemical_b": "KOH-EMULSIFIER"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "IPA",
+       "name": "isopropyl alcohol",
+       "epa_groups": [
+        4
+       ],
+       "cameo_groups": [
+        {
+         "id": 4,
+         "name": "Alcohols and Polyols"
+        }
+       ]
+      },
+      {
+       "id": "KOH-EMULSIFIER",
+       "name": "emulsifier solution containing potassium hydroxide",
+       "epa_groups": [
+        10,
+        106
+       ],
+       "cameo_groups": [
+        {
+         "id": 10,
+         "name": "Bases, Strong"
+        },
+        {
+         "id": 100,
+         "name": "Water and Aqueous Solutions"
+        }
+       ]
+      }
+     ],
+     "pairs": [
+      {
+       "groups": [
+        4,
+        10
+       ],
+       "group_names": [
+        "Alcohols and Glycols",
+        "Caustics"
+       ],
+       "status": "not_listed",
+       "codes": [],
+       "source": "no row in reactive_pairs.csv"
+      },
+      {
+       "groups": [
+        4,
+        106
+       ],
+       "group_names": [
+        "Alcohols and Glycols",
+        "Water and Mixtures Containing Water"
+       ],
+       "status": "not_listed",
+       "codes": [],
+       "source": "no row in reactive_pairs.csv"
+      }
+     ],
+     "no_groups": [],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:d9e9fba9e84e1329:reactivity_lookup:bd64cc2b40ca893c",
+   "position": 23,
+   "record": {
+    "id": "tc:step:d9e9fba9e84e1329:reactivity_lookup:bd64cc2b40ca893c",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:d9e9fba9e84e1329",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "ACETIC-ACID",
+     "chemical_b": "SURFACTANTS"
+    },
+    "result": null,
+    "refused_reason": "at most 2 tool calls per batch",
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:db4e24188288f593:reactivity_lookup:423fbeb6cd265978",
+   "position": 57,
+   "record": {
+    "id": "tc:step:db4e24188288f593:reactivity_lookup:423fbeb6cd265978",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:db4e24188288f593",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "PDMS",
+     "chemical_b": "SIH"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "PDMS",
+       "name": "polydimethylsiloxane fluids (several viscosities)",
+       "epa_groups": [],
+       "cameo_groups": [
+        {
+         "id": 58,
+         "name": "Siloxanes"
+        }
+       ]
+      },
+      {
+       "id": "SIH",
+       "name": "methylhydrogen siloxane fluid (contains Si–H groups)",
+       "epa_groups": [
+        105
+       ],
+       "cameo_groups": [
+        {
+         "id": 58,
+         "name": "Siloxanes"
+        },
+        {
+         "id": 35,
+         "name": "Metal Hydrides, Metal Alkyls, Metal Aryls, and Silanes"
+        }
+       ]
+      }
+     ],
+     "pairs": [],
+     "no_groups": [
+      "PDMS"
+     ],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:dcee61e889e005cc:reactivity_lookup:2e81c55bfeff2920",
+   "position": 85,
+   "record": {
+    "id": "tc:step:dcee61e889e005cc:reactivity_lookup:2e81c55bfeff2920",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:dcee61e889e005cc",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "SIH",
+     "chemical_b": "VINYL-POLYMER"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "SIH",
+       "name": "methylhydrogen siloxane fluid (contains Si–H groups)",
+       "epa_groups": [
+        105
+       ],
+       "cameo_groups": [
+        {
+         "id": 58,
+         "name": "Siloxanes"
+        },
+        {
+         "id": 35,
+         "name": "Metal Hydrides, Metal Alkyls, Metal Aryls, and Silanes"
+        }
+       ]
+      },
+      {
+       "id": "VINYL-POLYMER",
+       "name": "vinyl-functional silicone polymer",
+       "epa_groups": [],
+       "cameo_groups": [
+        {
+         "id": 58,
+         "name": "Siloxanes"
+        }
+       ]
+      }
+     ],
+     "pairs": [],
+     "no_groups": [
+      "VINYL-POLYMER"
+     ],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:df8c2d70b3aecef7:reactivity_lookup:132bd5d47d4b9a21",
+   "position": 78,
+   "record": {
+    "id": "tc:step:df8c2d70b3aecef7:reactivity_lookup:132bd5d47d4b9a21",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:df8c2d70b3aecef7",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "IPA",
+     "chemical_b": "PT-CATALYST"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "IPA",
+       "name": "isopropyl alcohol",
+       "epa_groups": [
+        4
+       ],
+       "cameo_groups": [
+        {
+         "id": 4,
+         "name": "Alcohols and Polyols"
+        }
+       ]
+      },
+      {
+       "id": "PT-CATALYST",
+       "name": "platinum catalyst solution",
+       "epa_groups": [],
+       "cameo_groups": [
+        {
+         "id": 99,
+         "name": "Insufficient Information for Classification"
+        }
+       ]
+      }
+     ],
+     "pairs": [],
+     "no_groups": [
+      "PT-CATALYST"
+     ],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:e2b00691dcd11c0d:reactivity_lookup:c008aeade2330954",
+   "position": 27,
+   "record": {
+    "id": "tc:step:e2b00691dcd11c0d:reactivity_lookup:c008aeade2330954",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:e2b00691dcd11c0d",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "BIOCIDE",
+     "chemical_b": "KOH-EMULSIFIER"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "BIOCIDE",
+       "name": "biocide",
+       "epa_groups": [],
+       "cameo_groups": [
+        {
+         "id": 99,
+         "name": "Insufficient Information for Classification"
+        }
+       ]
+      },
+      {
+       "id": "KOH-EMULSIFIER",
+       "name": "emulsifier solution containing potassium hydroxide",
+       "epa_groups": [
+        10,
+        106
+       ],
+       "cameo_groups": [
+        {
+         "id": 10,
+         "name": "Bases, Strong"
+        },
+        {
+         "id": 100,
+         "name": "Water and Aqueous Solutions"
+        }
+       ]
+      }
+     ],
+     "pairs": [],
+     "no_groups": [
+      "BIOCIDE"
+     ],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:e397d9766fec682b:search_precedent:b1e3ec5816685a0d",
+   "position": 107,
+   "record": {
+    "id": "tc:step:e397d9766fec682b:search_precedent:b1e3ec5816685a0d",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:e397d9766fec682b",
+    "tool": "search_precedent",
+    "arguments": {
+     "query": "external fire near the equipment more pressure tank polydimethylsiloxane fluids several viscosities methylhydrogen siloxane fluid contains si h groups vinyl functional silicone polymer platinum catalyst solution non ionic surfactants emulsifier containing potassium hydroxide acetic acid for ph adjustment isopropyl alcohol biocide",
+     "k": 5
+    },
+    "result": {
+     "candidates": [
+      "CSB-118",
+      "CSB-021",
+      "CSB-025",
+      "CSB-109",
+      "CSB-096"
+     ],
+     "scores": [
+      16.71633517109924,
+      11.173466154274658,
+      9.72624366010908,
+      7.7987404505715086,
+      7.743957654464269
+     ],
+     "blocked_rows": 1,
+     "index_version": "14678fe5d063a968bb6c3557a2fc43dc2a48707ba1d7e796fb496baadd0671e1"
+    },
+    "refused_reason": null,
+    "source_urls": [
+     "https://www.csb.gov/concept-sciences-hydroxylamine-explosion/",
+     "https://www.csb.gov/lyondellbasell-la-porte-fatal-chemical-release-/",
+     "https://www.csb.gov/kuraray-pasadena-release-and-fire/",
+     "https://www.csb.gov/first-chemical-corp-reactive-chemical-explosion/",
+     "https://www.csb.gov/marcus-oil-and-chemical-tank-explosion/"
+    ],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:e5ea7af421898d58:web_research:52e3481dbecb1b16",
+   "position": 105,
+   "record": {
+    "id": "tc:step:e5ea7af421898d58:web_research:52e3481dbecb1b16",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:e5ea7af421898d58",
+    "tool": "web_research",
+    "arguments": {
+     "query": "external fire near the equipment more pressure tank polydimethylsiloxane fluids several viscosities methylhydrogen siloxane fluid contains si h groups vinyl functional silicone polymer platinum catalyst solution non ionic surfactants emulsifier containing potassium hydroxide acetic acid for ph adjustment isopropyl alcohol biocide vehicle or mobile impact less hot surface tote heating heat exposure to chemical in",
+     "max_results": 5
+    },
+    "result": {
+     "cache_key": "ca8a242896508b6a",
+     "cache_hit": true,
+     "urls": [
+      "https://www.powerchemical.com/silicone_fluid/methyl_vinyl_silicone_fluid_VF6030-80.html",
+      "https://silicorex.com/wp-content/uploads/2025/04/Silico-Silicone-Fluids.pdf",
+      "https://en.wikipedia.org/wiki/Polydimethylsiloxane",
+      "https://gwunitedsilicones.com/polydimethylsiloxane",
+      "https://www.antala.uk/Files/Catalogos/Dow%20Corning/9-%20Guia%20de%20seguridad%20de%20los%20productos%20que%20contienen%20SiH.pdf"
+     ],
+     "blocked_results": 0
+    },
+    "refused_reason": null,
+    "source_urls": [
+     "https://www.powerchemical.com/silicone_fluid/methyl_vinyl_silicone_fluid_VF6030-80.html",
+     "https://silicorex.com/wp-content/uploads/2025/04/Silico-Silicone-Fluids.pdf",
+     "https://en.wikipedia.org/wiki/Polydimethylsiloxane",
+     "https://gwunitedsilicones.com/polydimethylsiloxane",
+     "https://www.antala.uk/Files/Catalogos/Dow%20Corning/9-%20Guia%20de%20seguridad%20de%20los%20productos%20que%20contienen%20SiH.pdf"
+    ],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:e912b4d805c5d3b6:reactivity_lookup:71a1ea1275388b95",
+   "position": 53,
+   "record": {
+    "id": "tc:step:e912b4d805c5d3b6:reactivity_lookup:71a1ea1275388b95",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:e912b4d805c5d3b6",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "KOH-EMULSIFIER",
+     "chemical_b": "SIH"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "KOH-EMULSIFIER",
+       "name": "emulsifier solution containing potassium hydroxide",
+       "epa_groups": [
+        10,
+        106
+       ],
+       "cameo_groups": [
+        {
+         "id": 10,
+         "name": "Bases, Strong"
+        },
+        {
+         "id": 100,
+         "name": "Water and Aqueous Solutions"
+        }
+       ]
+      },
+      {
+       "id": "SIH",
+       "name": "methylhydrogen siloxane fluid (contains Si–H groups)",
+       "epa_groups": [
+        105
+       ],
+       "cameo_groups": [
+        {
+         "id": 58,
+         "name": "Siloxanes"
+        },
+        {
+         "id": 35,
+         "name": "Metal Hydrides, Metal Alkyls, Metal Aryls, and Silanes"
+        }
+       ]
+      }
+     ],
+     "pairs": [
+      {
+       "groups": [
+        10,
+        105
+       ],
+       "group_names": [
+        "Caustics",
+        "Reducing Agents, Strong"
+       ],
+       "status": "not_listed",
+       "codes": [],
+       "source": "no row in reactive_pairs.csv"
+      },
+      {
+       "groups": [
+        106,
+        105
+       ],
+       "group_names": [
+        "Water and Mixtures Containing Water",
+        "Reducing Agents, Strong"
+       ],
+       "status": "listed",
+       "codes": [
+        {
+         "code": "GT",
+         "meaning": "toxic gas"
+        },
+        {
+         "code": "GF",
+         "meaning": "flammable gas"
+        }
+       ],
+       "source": "US EPA, A Method for Determining the Compatibility of Hazardous Wastes, EPA-600/2-80-076 (Hatayama et al., April 1980), compatibility chart; one-page reproduction EPA80chemcompatibility1 (2000), transcribed 2026-10-11"
+      }
+     ],
+     "no_groups": [],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:ec344d223118baca:dispatch_specialist:2c1e3b25f78d2279",
+   "position": 91,
+   "record": {
+    "id": "tc:step:ec344d223118baca:dispatch_specialist:2c1e3b25f78d2279",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:ec344d223118baca",
+    "tool": "dispatch_specialist",
+    "arguments": {
+     "reason": "Process deviations: 69 open questions remain, the largest open list across mixers, hoses, portable pump and totes sections",
+     "agent": "process",
+     "level": "bulk"
+    },
+    "result": {
+     "summary": "process at bulk: 31 answered, 29 failed, 22 findings",
+     "question_ids": [
+      "ai:S-L-HOSE-MX-4~PORTABLE-PUMP:53ede1a19f9a8012",
+      "m:S-MX-1:less:mixing",
+      "m:S-MX-1:less:pressure",
+      "m:S-MX-1:less:temperature",
+      "m:S-MX-1:more:level",
+      "m:S-MX-1:more:mixing",
+      "m:S-MX-1:more:pressure",
+      "m:S-MX-1:more:reaction",
+      "m:S-MX-1:more:temperature",
+      "m:S-MX-1:no:mixing",
+      "m:S-MX-1:other_than:composition",
+      "m:S-MX-1:part_of:composition",
+      "m:S-MX-2:as_well_as:composition",
+      "m:S-MX-2:less:level",
+      "m:S-MX-2:less:mixing",
+      "m:S-MX-2:less:pressure",
+      "m:S-MX-2:less:temperature",
+      "m:S-MX-2:more:level",
+      "m:S-MX-2:more:mixing",
+      "m:S-MX-2:more:pressure",
+      "m:S-MX-2:more:reaction",
+      "m:S-MX-2:more:temperature",
+      "m:S-MX-2:no:mixing",
+      "m:S-MX-2:other_than:composition",
+      "m:S-MX-2:part_of:composition",
+      "m:S-MX-3:as_well_as:composition",
+      "m:S-MX-3:less:level",
+      "m:S-MX-3:less:mixing",
+      "m:S-MX-3:less:pressure",
+      "m:S-MX-3:less:temperature",
+      "m:S-MX-3:more:level",
+      "m:S-MX-3:more:mixing",
+      "m:S-MX-3:more:pressure",
+      "m:S-MX-3:more:reaction",
+      "m:S-MX-3:more:temperature",
+      "m:S-MX-3:no:mixing",
+      "m:S-MX-3:other_than:composition",
+      "m:S-MX-3:part_of:composition",
+      "m:S-MX-4:as_well_as:composition",
+      "m:S-MX-4:less:level",
+      "m:S-MX-4:less:mixing",
+      "m:S-MX-4:less:pressure",
+      "m:S-MX-4:less:temperature",
+      "m:S-MX-4:more:level",
+      "m:S-MX-4:more:mixing",
+      "m:S-MX-4:more:pressure",
+      "m:S-MX-4:more:reaction",
+      "m:S-MX-4:more:temperature",
+      "m:S-MX-4:no:mixing",
+      "m:S-MX-4:other_than:composition",
+      "m:S-MX-4:part_of:composition",
+      "m:S-PORTABLE-PUMP:less:flow",
+      "m:S-PORTABLE-PUMP:less:pressure",
+      "m:S-PORTABLE-PUMP:more:flow",
+      "m:S-PORTABLE-PUMP:more:pressure",
+      "m:S-PORTABLE-PUMP:more:temperature",
+      "m:S-PORTABLE-PUMP:no:flow",
+      "m:S-PORTABLE-PUMP:reverse:flow",
+      "m:S-TOTES:as_well_as:composition",
+      "m:S-TOTES:less:level"
+     ],
+     "skipped": [],
+     "dropped_ids": []
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:ee277f6ff558df65:reactivity_lookup:132bd5d47d4b9a21",
+   "position": 42,
+   "record": {
+    "id": "tc:step:ee277f6ff558df65:reactivity_lookup:132bd5d47d4b9a21",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:ee277f6ff558df65",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "IPA",
+     "chemical_b": "PT-CATALYST"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "IPA",
+       "name": "isopropyl alcohol",
+       "epa_groups": [
+        4
+       ],
+       "cameo_groups": [
+        {
+         "id": 4,
+         "name": "Alcohols and Polyols"
+        }
+       ]
+      },
+      {
+       "id": "PT-CATALYST",
+       "name": "platinum catalyst solution",
+       "epa_groups": [],
+       "cameo_groups": [
+        {
+         "id": 99,
+         "name": "Insufficient Information for Classification"
+        }
+       ]
+      }
+     ],
+     "pairs": [],
+     "no_groups": [
+      "PT-CATALYST"
+     ],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:ef7b5e8b1ed3c882:reactivity_lookup:71d69304ae98799d",
+   "position": 17,
+   "record": {
+    "id": "tc:step:ef7b5e8b1ed3c882:reactivity_lookup:71d69304ae98799d",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:ef7b5e8b1ed3c882",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "SURFACTANTS",
+     "chemical_b": "VINYL-POLYMER"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "SURFACTANTS",
+       "name": "non-ionic surfactants",
+       "epa_groups": [],
+       "cameo_groups": [
+        {
+         "id": 99,
+         "name": "Insufficient Information for Classification"
+        }
+       ]
+      },
+      {
+       "id": "VINYL-POLYMER",
+       "name": "vinyl-functional silicone polymer",
+       "epa_groups": [],
+       "cameo_groups": [
+        {
+         "id": 58,
+         "name": "Siloxanes"
+        }
+       ]
+      }
+     ],
+     "pairs": [],
+     "no_groups": [
+      "SURFACTANTS",
+      "VINYL-POLYMER"
+     ],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:f211c8e3e19da753:dispatch_specialist:9b602bd83e03621b",
+   "position": 97,
+   "record": {
+    "id": "tc:step:f211c8e3e19da753:dispatch_specialist:9b602bd83e03621b",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:f211c8e3e19da753",
+    "tool": "dispatch_specialist",
+    "arguments": {
+     "reason": "Retry 15 failed process questions for S-L-HOSE-MX-3, S-MX-2, S-MX-3 at hard level (all failed at bulk)",
+     "agent": "process",
+     "level": "hard",
+     "question_ids": [
+      "m:S-L-HOSE-MX-3:as_well_as:composition",
+      "m:S-L-HOSE-MX-3:less:flow",
+      "m:S-L-HOSE-MX-3:less:pressure",
+      "m:S-L-HOSE-MX-3:less:temperature",
+      "m:S-L-HOSE-MX-3:more:flow",
+      "m:S-MX-2:as_well_as:composition",
+      "m:S-MX-2:less:level",
+      "m:S-MX-2:less:mixing",
+      "m:S-MX-2:less:pressure",
+      "m:S-MX-2:less:temperature",
+      "m:S-MX-3:less:level",
+      "m:S-MX-3:less:pressure",
+      "m:S-MX-3:more:level",
+      "m:S-MX-3:more:mixing",
+      "m:S-MX-3:more:pressure"
+     ]
+    },
+    "result": {
+     "summary": "all already answered; stored results used",
+     "skipped": [
+      "m:S-L-HOSE-MX-3:as_well_as:composition",
+      "m:S-L-HOSE-MX-3:less:flow",
+      "m:S-L-HOSE-MX-3:less:pressure",
+      "m:S-L-HOSE-MX-3:less:temperature",
+      "m:S-L-HOSE-MX-3:more:flow",
+      "m:S-MX-2:as_well_as:composition",
+      "m:S-MX-2:less:level",
+      "m:S-MX-2:less:mixing",
+      "m:S-MX-2:less:pressure",
+      "m:S-MX-2:less:temperature",
+      "m:S-MX-3:less:level",
+      "m:S-MX-3:less:pressure",
+      "m:S-MX-3:more:level",
+      "m:S-MX-3:more:mixing",
+      "m:S-MX-3:more:pressure"
+     ]
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:f977a61a0fed404a:reactivity_lookup:d08f76da68329016",
+   "position": 45,
+   "record": {
+    "id": "tc:step:f977a61a0fed404a:reactivity_lookup:d08f76da68329016",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:f977a61a0fed404a",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "IPA",
+     "chemical_b": "SIH"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "IPA",
+       "name": "isopropyl alcohol",
+       "epa_groups": [
+        4
+       ],
+       "cameo_groups": [
+        {
+         "id": 4,
+         "name": "Alcohols and Polyols"
+        }
+       ]
+      },
+      {
+       "id": "SIH",
+       "name": "methylhydrogen siloxane fluid (contains Si–H groups)",
+       "epa_groups": [
+        105
+       ],
+       "cameo_groups": [
+        {
+         "id": 58,
+         "name": "Siloxanes"
+        },
+        {
+         "id": 35,
+         "name": "Metal Hydrides, Metal Alkyls, Metal Aryls, and Silanes"
+        }
+       ]
+      }
+     ],
+     "pairs": [
+      {
+       "groups": [
+        4,
+        105
+       ],
+       "group_names": [
+        "Alcohols and Glycols",
+        "Reducing Agents, Strong"
+       ],
+       "status": "listed",
+       "codes": [
+        {
+         "code": "H",
+         "meaning": "heat"
+        },
+        {
+         "code": "F",
+         "meaning": "fire"
+        },
+        {
+         "code": "GF",
+         "meaning": "flammable gas"
+        }
+       ],
+       "source": "US EPA, A Method for Determining the Compatibility of Hazardous Wastes, EPA-600/2-80-076 (Hatayama et al., April 1980), compatibility chart; one-page reproduction EPA80chemcompatibility1 (2000), transcribed 2026-10-11"
+      }
+     ],
+     "no_groups": [],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:fba3a12f96086c34:dispatch_specialist:19093d98c924762c",
+   "position": 96,
+   "record": {
+    "id": "tc:step:fba3a12f96086c34:dispatch_specialist:19093d98c924762c",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:fba3a12f96086c34",
+    "tool": "dispatch_specialist",
+    "arguments": {
+     "reason": "Retry 5 open process questions for S-TOTES (level, pressure, temperature deviations) at hard level - these failed at bulk and block finish",
+     "agent": "process",
+     "level": "hard",
+     "question_ids": [
+      "m:S-TOTES:less:pressure",
+      "m:S-TOTES:less:temperature",
+      "m:S-TOTES:more:level",
+      "m:S-TOTES:more:pressure",
+      "m:S-TOTES:more:temperature"
+     ]
+    },
+    "result": {
+     "summary": "process at hard: 5 answered, 0 failed, 12 findings",
+     "question_ids": [
+      "m:S-TOTES:less:pressure",
+      "m:S-TOTES:less:temperature",
+      "m:S-TOTES:more:level",
+      "m:S-TOTES:more:pressure",
+      "m:S-TOTES:more:temperature"
+     ],
+     "skipped": [],
+     "dropped_ids": []
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:fd694c10bd7d8130:reactivity_lookup:cb3694a30df40939",
+   "position": 68,
+   "record": {
+    "id": "tc:step:fd694c10bd7d8130:reactivity_lookup:cb3694a30df40939",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:fd694c10bd7d8130",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "SIH",
+     "chemical_b": "DI-WATER"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "SIH",
+       "name": "methylhydrogen siloxane fluid (contains Si–H groups)",
+       "epa_groups": [
+        105
+       ],
+       "cameo_groups": [
+        {
+         "id": 58,
+         "name": "Siloxanes"
+        },
+        {
+         "id": 35,
+         "name": "Metal Hydrides, Metal Alkyls, Metal Aryls, and Silanes"
+        }
+       ]
+      },
+      {
+       "id": "DI-WATER",
+       "name": "deionised water (from the plant system)",
+       "epa_groups": [
+        106
+       ],
+       "cameo_groups": [
+        {
+         "id": 100,
+         "name": "Water and Aqueous Solutions"
+        }
+       ]
+      }
+     ],
+     "pairs": [
+      {
+       "groups": [
+        105,
+        106
+       ],
+       "group_names": [
+        "Reducing Agents, Strong",
+        "Water and Mixtures Containing Water"
+       ],
+       "status": "listed",
+       "codes": [
+        {
+         "code": "GT",
+         "meaning": "toxic gas"
+        },
+        {
+         "code": "GF",
+         "meaning": "flammable gas"
+        }
+       ],
+       "source": "US EPA, A Method for Determining the Compatibility of Hazardous Wastes, EPA-600/2-80-076 (Hatayama et al., April 1980), compatibility chart; one-page reproduction EPA80chemcompatibility1 (2000), transcribed 2026-10-11"
+      }
+     ],
+     "no_groups": [],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:ff85052ef952e4cd:reactivity_lookup:e1017aad0b3aa7fe",
+   "position": 60,
+   "record": {
+    "id": "tc:step:ff85052ef952e4cd:reactivity_lookup:e1017aad0b3aa7fe",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:ff85052ef952e4cd",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "PT-CATALYST",
+     "chemical_b": "VINYL-POLYMER"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "PT-CATALYST",
+       "name": "platinum catalyst solution",
+       "epa_groups": [],
+       "cameo_groups": [
+        {
+         "id": 99,
+         "name": "Insufficient Information for Classification"
+        }
+       ]
+      },
+      {
+       "id": "VINYL-POLYMER",
+       "name": "vinyl-functional silicone polymer",
+       "epa_groups": [],
+       "cameo_groups": [
+        {
+         "id": 58,
+         "name": "Siloxanes"
+        }
+       ]
+      }
+     ],
+     "pairs": [],
+     "no_groups": [
+      "PT-CATALYST",
+      "VINYL-POLYMER"
+     ],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:dbaab5578fbff8f3",
+   "id": "tc:step:ffceda4acc7b807e:reactivity_lookup:88d59d1c12749798",
+   "position": 5,
+   "record": {
+    "id": "tc:step:ffceda4acc7b807e:reactivity_lookup:88d59d1c12749798",
+    "run_id": "run:dbaab5578fbff8f3",
+    "agent_step_id": "step:ffceda4acc7b807e",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "BIOCIDE",
+     "chemical_b": "BIOCIDE"
+    },
+    "result": null,
+    "refused_reason": "reactivity_lookup needs two different chemicals",
+    "source_urls": [],
+    "record_ids": []
+   }
+  }
+ ]
+}
