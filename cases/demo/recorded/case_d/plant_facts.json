@@ -1,0 +1,1007 @@
+{
+ "table": "plant_facts",
+ "rows": [
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "ACETYLENES.cameo_groups",
+   "value": [
+    63
+   ],
+   "source": "assumed"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "ACETYLENES.epa_groups",
+   "value": [
+    28
+   ],
+   "source": "assumed"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "ACETYLENES.name",
+   "value": "acetylenes (traces)",
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "ANTIFOAM.cameo_groups",
+   "value": [
+    99
+   ],
+   "source": "assumed"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "ANTIFOAM.name",
+   "value": "antifoam",
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "BUTADIENE.cameo_groups",
+   "value": [
+    65,
+    76
+   ],
+   "source": "assumed"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "BUTADIENE.epa_groups",
+   "value": [
+    28,
+    103
+   ],
+   "source": "assumed"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "BUTADIENE.name",
+   "value": "1,3-butadiene",
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "BUTANES.cameo_groups",
+   "value": [
+    29
+   ],
+   "source": "assumed"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "BUTANES.epa_groups",
+   "value": [
+    29
+   ],
+   "source": "assumed"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "BUTANES.name",
+   "value": "butanes",
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "BUTENES.cameo_groups",
+   "value": [
+    28
+   ],
+   "source": "assumed"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "BUTENES.epa_groups",
+   "value": [
+    28
+   ],
+   "source": "assumed"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "BUTENES.name",
+   "value": "butenes",
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "BV-P104B-DIS.kind",
+   "value": "block",
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "BV-P104B-DIS.normal_position",
+   "value": "closed",
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "BV-P104B-DIS.on_line_id",
+   "value": "L-P104B-DIS",
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "BV-P104B-SUC.kind",
+   "value": "block",
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "BV-P104B-SUC.normal_position",
+   "value": "closed",
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "BV-P104B-SUC.on_line_id",
+   "value": "L-P104B-SUC",
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "C-101.contents",
+   "value": [
+    "BUTANES",
+    "BUTENES",
+    "BUTADIENE",
+    "NMP"
+   ],
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "C-101.heat_sources",
+   "value": [
+    {
+     "medium": "steam",
+     "via_line_id": null,
+     "isolating_valve_ids": []
+    }
+   ],
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "C-101.injection_points",
+   "value": [
+    {
+     "chemical_id": "ANTIFOAM"
+    }
+   ],
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "C-101.type",
+   "value": "column",
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "C-102.contents",
+   "value": [
+    "BUTANES",
+    "BUTENES",
+    "BUTADIENE",
+    "NMP"
+   ],
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "C-102.heat_sources",
+   "value": [
+    {
+     "medium": "steam",
+     "via_line_id": null,
+     "isolating_valve_ids": []
+    }
+   ],
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "C-102.type",
+   "value": "column",
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "C-103.contents",
+   "value": [
+    "NMP"
+   ],
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "C-103.operating.temperature.normal",
+   "value": 150,
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "C-103.type",
+   "value": "column",
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "C-104.contents",
+   "value": [
+    "BUTADIENE"
+   ],
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "C-104.operating.pressure.normal",
+   "value": 500,
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "C-104.type",
+   "value": "column",
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "E-104.heat_sources",
+   "value": [
+    {
+     "medium": "low-pressure steam",
+     "via_line_id": null,
+     "isolating_valve_ids": []
+    }
+   ],
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "E-104.type",
+   "value": "heat_exchanger",
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "E-105.type",
+   "value": "heat_exchanger",
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "E-106.type",
+   "value": "heat_exchanger",
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "FLARE-HEADER.type",
+   "value": "other",
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "HEAVIES.cameo_groups",
+   "value": [
+    99
+   ],
+   "source": "assumed"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "HEAVIES.name",
+   "value": "heavies",
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "L-E106-BYPASS.contents",
+   "value": [
+    "BUTADIENE"
+   ],
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "L-E106-BYPASS.from_id",
+   "value": "LOC-D-UNSTATED",
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "L-E106-BYPASS.no_flow",
+   "value": [
+    "normally_closed"
+   ],
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "L-E106-BYPASS.size_mm",
+   "value": 76.2,
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "L-E106-BYPASS.to_id",
+   "value": "LOC-D-UNSTATED",
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "L-FEED.contents",
+   "value": [
+    "BUTANES",
+    "BUTENES",
+    "BUTADIENE",
+    "ACETYLENES",
+    "WATER"
+   ],
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "L-FEED.from_id",
+   "value": "LOC-D-OLEFINS",
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "L-FEED.to_id",
+   "value": "V-101",
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "L-HEAVIES.contents",
+   "value": [
+    "HEAVIES"
+   ],
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "L-HEAVIES.from_id",
+   "value": "LOC-D-UNSTATED",
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "L-HEAVIES.to_id",
+   "value": "LOC-D-FUEL",
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "L-OFFSPEC.from_id",
+   "value": "LOC-D-UNSTATED",
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "L-OFFSPEC.no_flow",
+   "value": [
+    "normally_closed"
+   ],
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "L-OFFSPEC.size_mm",
+   "value": 101.6,
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "L-OFFSPEC.to_id",
+   "value": "TK-OFFSPEC",
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "L-P104B-DIS.components",
+   "value": [
+    "BV-P104B-DIS"
+   ],
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "L-P104B-DIS.from_id",
+   "value": "P-104B",
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "L-P104B-DIS.no_flow",
+   "value": [
+    "normally_closed"
+   ],
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "L-P104B-DIS.to_id",
+   "value": "LOC-D-UNSTATED",
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "L-P104B-SUC.components",
+   "value": [
+    "BV-P104B-SUC"
+   ],
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "L-P104B-SUC.from_id",
+   "value": "LOC-D-UNSTATED",
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "L-P104B-SUC.no_flow",
+   "value": [
+    "normally_closed"
+   ],
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "L-P104B-SUC.to_id",
+   "value": "P-104B",
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "L-RAFFINATE.contents",
+   "value": [
+    "BUTANES",
+    "BUTENES"
+   ],
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "L-RAFFINATE.from_id",
+   "value": "LOC-D-UNSTATED",
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "L-RAFFINATE.to_id",
+   "value": "LOC-D-PIPELINE",
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "L-RUNDOWN.components",
+   "value": [
+    "E-106"
+   ],
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "L-RUNDOWN.contents",
+   "value": [
+    "BUTADIENE"
+   ],
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "L-RUNDOWN.from_id",
+   "value": "LOC-D-UNSTATED",
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "L-RUNDOWN.length_m",
+   "value": 400,
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "L-RUNDOWN.size_mm",
+   "value": 152.4,
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "L-RUNDOWN.to_id",
+   "value": "LOC-D-SPHERES",
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "L-STARTUP-RECYCLE.from_id",
+   "value": "P-104A",
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "L-STARTUP-RECYCLE.no_flow",
+   "value": [
+    "normally_closed",
+    "startup_only"
+   ],
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "L-STARTUP-RECYCLE.size_mm",
+   "value": 50.8,
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "L-STARTUP-RECYCLE.to_id",
+   "value": "C-104",
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "LOC-D-FUEL.description",
+   "value": "fuel (destination of the heavies)",
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "LOC-D-OLEFINS.description",
+   "value": "olefins plant (source of the crude C4 feed)",
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "LOC-D-PIPELINE.description",
+   "value": "raffinate pipeline",
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "LOC-D-RESIDENTIAL.description",
+   "value": "residential area",
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "LOC-D-RESIDENTIAL.distance_m",
+   "value": 1000,
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "LOC-D-SITE-BOUNDARY.description",
+   "value": "site boundary",
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "LOC-D-SITE-BOUNDARY.distance_m",
+   "value": 300,
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "LOC-D-SPHERES.description",
+   "value": "storage spheres TK-201/202",
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "LOC-D-UNSTATED.description",
+   "value": "endpoint not stated in the package",
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "NMP.cameo_groups",
+   "value": [
+    6
+   ],
+   "source": "assumed"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "NMP.epa_groups",
+   "value": [
+    6
+   ],
+   "source": "assumed"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "NMP.name",
+   "value": "N-methylpyrrolidone",
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "P-104A.type",
+   "value": "pump",
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "P-104B.type",
+   "value": "pump",
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "RV-C101.discharge",
+   "value": {
+    "kind": "flare",
+    "location_id": null,
+    "elevation_m": null
+   },
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "RV-C101.kind",
+   "value": "prv",
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "RV-C101.protects_id",
+   "value": "C-101",
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "RV-C102.discharge",
+   "value": {
+    "kind": "flare",
+    "location_id": null,
+    "elevation_m": null
+   },
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "RV-C102.kind",
+   "value": "prv",
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "RV-C102.protects_id",
+   "value": "C-102",
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "RV-C103.discharge",
+   "value": {
+    "kind": "flare",
+    "location_id": null,
+    "elevation_m": null
+   },
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "RV-C103.kind",
+   "value": "prv",
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "RV-C103.protects_id",
+   "value": "C-103",
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "RV-C104.discharge",
+   "value": {
+    "kind": "flare",
+    "location_id": null,
+    "elevation_m": null
+   },
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "RV-C104.kind",
+   "value": "prv",
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "RV-C104.protects_id",
+   "value": "C-104",
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "RV-P104A.discharge",
+   "value": {
+    "kind": "flare",
+    "location_id": null,
+    "elevation_m": null
+   },
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "RV-P104A.kind",
+   "value": "prv",
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "RV-P104A.protects_id",
+   "value": "P-104A",
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "RV-P104B.discharge",
+   "value": {
+    "kind": "flare",
+    "location_id": null,
+    "elevation_m": null
+   },
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "RV-P104B.kind",
+   "value": "prv",
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "RV-P104B.protects_id",
+   "value": "P-104B",
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "RV-V101.discharge",
+   "value": {
+    "kind": "flare",
+    "location_id": null,
+    "elevation_m": null
+   },
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "RV-V101.kind",
+   "value": "prv",
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "RV-V101.protects_id",
+   "value": "V-101",
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "RV-V104.discharge",
+   "value": {
+    "kind": "flare",
+    "location_id": null,
+    "elevation_m": null
+   },
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "RV-V104.kind",
+   "value": "prv",
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "RV-V104.protects_id",
+   "value": "V-104",
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "SG-D-BPCS.description",
+   "value": "Basic process control system",
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "SG-D-DELUGE.description",
+   "value": "Fire water deluge on the spheres.",
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "SG-D-DELUGE.protects_id",
+   "value": "LOC-D-SPHERES",
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "SG-D-GAS-DETECTORS.description",
+   "value": "Hydrocarbon gas detectors at the pump area and the column base.",
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "SG-D-LEVEL-ALARMS.description",
+   "value": "high/low level alarms on all drums",
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "SG-D-PRESSURE-ALARMS.description",
+   "value": "high-pressure alarms on columns",
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "TBC.cameo_groups",
+   "value": [
+    31
+   ],
+   "source": "assumed"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "TBC.epa_groups",
+   "value": [
+    31
+   ],
+   "source": "assumed"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "TBC.name",
+   "value": "tert-butylcatechol",
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "TK-201.contents",
+   "value": [
+    "BUTADIENE"
+   ],
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "TK-201.location_id",
+   "value": "LOC-D-SPHERES",
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "TK-201.type",
+   "value": "tank",
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "TK-202.contents",
+   "value": [
+    "BUTADIENE"
+   ],
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "TK-202.location_id",
+   "value": "LOC-D-SPHERES",
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "TK-202.type",
+   "value": "tank",
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "TK-OFFSPEC.type",
+   "value": "tank",
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "UT-D-CW.kind",
+   "value": "cooling_water",
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "UT-D-LP-STEAM.kind",
+   "value": "steam",
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "UT-D-STEAM.kind",
+   "value": "steam",
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "V-101.contents",
+   "value": [
+    "BUTANES",
+    "BUTENES",
+    "BUTADIENE",
+    "ACETYLENES",
+    "WATER"
+   ],
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "V-101.operating.pressure.normal",
+   "value": 400,
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "V-101.type",
+   "value": "vessel",
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "V-104.contents",
+   "value": [
+    "BUTADIENE"
+   ],
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "V-104.injection_points",
+   "value": [
+    {
+     "chemical_id": "TBC"
+    }
+   ],
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "V-104.type",
+   "value": "vessel",
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "WATER.cameo_groups",
+   "value": [
+    100
+   ],
+   "source": "assumed"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "WATER.epa_groups",
+   "value": [
+    106
+   ],
+   "source": "assumed"
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "WATER.name",
+   "value": "water (traces)",
+   "source": "cases/dev/source/case_d_c4_unit.md"
+  }
+ ]
+}

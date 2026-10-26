@@ -1,0 +1,112 @@
+{
+ "table": "chains",
+ "rows": [
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "ch:L-E106-BYPASS.no_flow+f:m:S-L-RUNDOWN~E-106:more:flow:super:505f6d45279a79f3:3c1edd904cd63b1b+f:nf:L-E106-BYPASS:super:8d5dae7fe44aa245:0bf756b21029355a",
+   "position": 0,
+   "record": {
+    "id": "ch:L-E106-BYPASS.no_flow+f:m:S-L-RUNDOWN~E-106:more:flow:super:505f6d45279a79f3:3c1edd904cd63b1b+f:nf:L-E106-BYPASS:super:8d5dae7fe44aa245:0bf756b21029355a",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "links": [
+     "f:nf:L-E106-BYPASS:super:8d5dae7fe44aa245:0bf756b21029355a",
+     "f:m:S-L-RUNDOWN~E-106:more:flow:super:505f6d45279a79f3:3c1edd904cd63b1b",
+     "L-E106-BYPASS.no_flow"
+    ],
+    "description": "Butadiene stagnates in the normally closed E-106 bypass line (L20) and polymerizes into solids. If the bypass valve is later opened (L25), the solids are swept into the main rundown line, potentially blocking the cooler E-106 or reaching the storage spheres and causing overpressure or rupture.",
+    "reason": "L20 creates the hazardous condition (solid accumulation) in the bypass line which is normally closed per P27. L25 provides the triggering event (valve opening) that mobilizes the solids into the flowing system. Neither alone causes the downstream blockage and overpressure combination.",
+    "multi_failure": true,
+    "flags": [],
+    "model_call_id": "mc:73b9ae3dd894435e",
+    "severity_class": "S3",
+    "severity_reason": "Butadiene polymerization in bypass line (L-E106-BYPASS) plus later valve opening could block cooler E-106 or reach storage spheres (LOC-D-SPHERES), causing overpressure/rupture and significant flammable release, fire/explosion risking on-site personnel."
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "ch:L-RUNDOWN.components+L-RUNDOWN.contents+f:m:S-L-RUNDOWN:more:pressure:super:5cb1891d5ddd986d:415735ddaa7e1dea+f:m:S-L-RUNDOWN:more:pressure:super:7dfee843bf7791ec:3c1edd904cd63b1b",
+   "position": 2,
+   "record": {
+    "id": "ch:L-RUNDOWN.components+L-RUNDOWN.contents+f:m:S-L-RUNDOWN:more:pressure:super:5cb1891d5ddd986d:415735ddaa7e1dea+f:m:S-L-RUNDOWN:more:pressure:super:7dfee843bf7791ec:3c1edd904cd63b1b",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "links": [
+     "f:m:S-L-RUNDOWN:more:pressure:super:5cb1891d5ddd986d:415735ddaa7e1dea",
+     "f:m:S-L-RUNDOWN:more:pressure:super:7dfee843bf7791ec:3c1edd904cd63b1b",
+     "L-RUNDOWN.components",
+     "L-RUNDOWN.contents"
+    ],
+    "description": "Loss of cooling water to E-106 heats the butadiene in the 400 m insulated rundown line (L9), raising its vapor pressure toward design limits. A simultaneous internal blockage (L34) prevents pressure relief by forward flow, so the heated, trapped fluid rapidly overpressures the line to rupture.",
+    "reason": "L9 adds heat (via lost cooling) to a long inventory of butadiene (P51, P52). L34 removes the pressure relief path (forward flow). Together they produce rapid pressure escalation that neither achieves alone: heating without blockage relieves by flow; blockage without heating gives only normal vapor压力",
+    "multi_failure": true,
+    "flags": [],
+    "model_call_id": "mc:73b9ae3dd894435e",
+    "severity_class": "S3",
+    "severity_reason": "Loss of cooling water (UT-D-CW) heats butadiene in 400m rundown line (L-RUNDOWN) while blockage traps fluid, causing rapid overpressure and line rupture with significant flammable butadiene release, fire/explosion risking on-site personnel."
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "ch:L-RUNDOWN.to_id+f:m:S-L-RUNDOWN:more:flow:super:3bcb4046fff8c6a1:3c1edd904cd63b1b+f:m:S-L-RUNDOWN:reverse:flow:super:afa55c2170b8804b:3c1edd904cd63b1b",
+   "position": 1,
+   "record": {
+    "id": "ch:L-RUNDOWN.to_id+f:m:S-L-RUNDOWN:more:flow:super:3bcb4046fff8c6a1:3c1edd904cd63b1b+f:m:S-L-RUNDOWN:reverse:flow:super:afa55c2170b8804b:3c1edd904cd63b1b",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "links": [
+     "f:m:S-L-RUNDOWN:more:flow:super:3bcb4046fff8c6a1:3c1edd904cd63b1b",
+     "f:m:S-L-RUNDOWN:reverse:flow:super:afa55c2170b8804b:3c1edd904cd63b1b",
+     "L-RUNDOWN.to_id"
+    ],
+    "description": "An upstream pump or valve failure increases flow into the rundown line (L24), overfilling and overpressuring the storage spheres at LOC-D-SPHERES. The resulting high sphere pressure then drives reverse flow back up the rundown line (L35), overpressuring upstream equipment that is not designed for it",
+    "reason": "L24 creates the downstream overpressure condition in the spheres (P56 confirms spheres are the rundown destination). L35 requires exactly that condition (downstream pressure exceeding upstream) to initiate reverse flow. The chain turns a forward overfill event into a backward overpressure event.",
+    "multi_failure": true,
+    "flags": [],
+    "model_call_id": "mc:73b9ae3dd894435e",
+    "severity_class": "S3",
+    "severity_reason": "Upstream failure overfills/overpressures spheres (LOC-D-SPHERES) releasing butadiene; reverse flow overpressures upstream equipment causing second release. Significant butadiene release, fire/explosion risking on-site personnel."
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "ch:V-101.contents+V-101.operating.pressure.normal+f:m:S-V-101:as_well_as:composition:lightning:C07:415735ddaa7e1dea+f:m:S-V-101:more:level:super:08411b0b7092decf:d386c56b3154574d",
+   "position": 3,
+   "record": {
+    "id": "ch:V-101.contents+V-101.operating.pressure.normal+f:m:S-V-101:as_well_as:composition:lightning:C07:415735ddaa7e1dea+f:m:S-V-101:more:level:super:08411b0b7092decf:d386c56b3154574d",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "links": [
+     "f:m:S-V-101:as_well_as:composition:lightning:C07:415735ddaa7e1dea",
+     "f:m:S-V-101:more:level:super:08411b0b7092decf:d386c56b3154574d",
+     "V-101.contents",
+     "V-101.operating.pressure.normal"
+    ],
+    "description": "Loss of cooling water (L3) stops heat removal from V-101 while an external fire (L19) adds heat directly to the vessel. The combined heat input and blocked removal cause rapid temperature and pressure rise plus liquid thermal expansion in the surge drum, potentially overwhelming its relief valve (RV",
+    "reason": "L3 eliminates cooling capacity; L19 adds a major heat source. V-101 contains a large liquid inventory (P100) at 4 bar g normal pressure (P101). The two independent heat-path failures act on the same vessel simultaneously, multiplying the pressure rise rate beyond what either could do alone.",
+    "multi_failure": true,
+    "flags": [],
+    "model_call_id": "mc:73b9ae3dd894435e",
+    "severity_class": "S4",
+    "severity_reason": "Loss of cooling water (UT-D-CW) plus external fire (LOC-D-OLEFINS) on V-101 causes rapid pressure/temperature rise and liquid expansion, overwhelming relief valve; rupture of surge drum releasing large flammable mixture (BUTANES, BUTENES, BUTADIENE, ACETYLENES) causing multiple on-site fatalities."
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "ch:V-101.operating.pressure.normal+f:m:S-L-FEED:more:pressure:lightning:C22:d386c56b3154574d+f:m:S-V-101:as_well_as:composition:lightning:C07:415735ddaa7e1dea",
+   "position": 4,
+   "record": {
+    "id": "ch:V-101.operating.pressure.normal+f:m:S-L-FEED:more:pressure:lightning:C22:d386c56b3154574d+f:m:S-V-101:as_well_as:composition:lightning:C07:415735ddaa7e1dea",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "links": [
+     "f:m:S-L-FEED:more:pressure:lightning:C22:d386c56b3154574d",
+     "f:m:S-V-101:as_well_as:composition:lightning:C07:415735ddaa7e1dea",
+     "V-101.operating.pressure.normal"
+    ],
+    "description": "An external fire on the olefins feed line and V-101 (L6) raises pressure in the surge drum while a concurrent loss of cooling water (L3) prevents the drum from rejecting that heat. The drum pressure rises faster than the relief valve can vent, risking rupture at the 4 bar g design limit (P1",
+    "reason": "L6 applies external fire heat to the feed pipe and V-101. L3 removes the internal cooling that would normally counteract temperature rise. Both act on V-101 (design pressure 400 kPa per P101) at the same time, creating a combined heat load the single relief valve may not handle.",
+    "multi_failure": true,
+    "flags": [],
+    "model_call_id": "mc:73b9ae3dd894435e",
+    "severity_class": "S4",
+    "severity_reason": "External fire (LOC-D-OLEFINS) on feed line and V-101 plus loss of cooling water (UT-D-CW) causes pressure to exceed 4 bar g design limit faster than relief can vent, risking rupture of V-101 and feed line with massive flammable release, multiple on-site fatalities."
+   }
+  }
+ ]
+}

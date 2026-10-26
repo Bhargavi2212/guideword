@@ -1,0 +1,5349 @@
+{
+ "table": "tool_calls",
+ "rows": [
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:01eb508ba5deeace:dispatch_specialist:5801445e4a2b013c",
+   "position": 80,
+   "record": {
+    "id": "tc:step:01eb508ba5deeace:dispatch_specialist:5801445e4a2b013c",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:01eb508ba5deeace",
+    "tool": "dispatch_specialist",
+    "arguments": {
+     "reason": "Process bulk exhausted; 65 process questions remain open and marked for hard retry. Sending next batch at hard level.",
+     "agent": "process",
+     "level": "hard"
+    },
+    "result": {
+     "summary": "process at hard: 51 answered, 0 failed, 76 findings, 2 questions added, 9 questions deferred for spend (still open)",
+     "question_ids": [
+      "m:S-L-P104B-SUC:more:flow",
+      "m:S-L-RAFFINATE:as_well_as:composition",
+      "m:S-L-RAFFINATE:less:flow",
+      "m:S-L-RAFFINATE:less:pressure",
+      "m:S-L-RAFFINATE:less:temperature",
+      "m:S-L-RAFFINATE:more:flow",
+      "m:S-L-RUNDOWN:as_well_as:composition",
+      "m:S-L-RUNDOWN:less:flow",
+      "m:S-L-RUNDOWN:less:pressure",
+      "m:S-L-RUNDOWN:less:temperature",
+      "m:S-L-RUNDOWN:more:flow",
+      "m:S-L-RUNDOWN:more:pressure",
+      "m:S-L-RUNDOWN:more:temperature",
+      "m:S-L-RUNDOWN:no:flow",
+      "m:S-L-RUNDOWN:other_than:composition",
+      "m:S-L-RUNDOWN:other_than:phase",
+      "m:S-L-RUNDOWN:part_of:composition",
+      "m:S-L-RUNDOWN:reverse:flow",
+      "m:S-L-RUNDOWN~E-106:as_well_as:composition",
+      "m:S-L-RUNDOWN~E-106:less:flow",
+      "m:S-L-RUNDOWN~E-106:less:pressure",
+      "m:S-L-RUNDOWN~E-106:less:temperature",
+      "m:S-L-RUNDOWN~E-106:more:flow",
+      "m:S-L-RUNDOWN~E-106:more:pressure",
+      "m:S-L-RUNDOWN~E-106:more:temperature",
+      "m:S-L-RUNDOWN~E-106:no:flow",
+      "m:S-L-RUNDOWN~E-106:other_than:composition",
+      "m:S-L-RUNDOWN~E-106:other_than:phase",
+      "m:S-L-RUNDOWN~E-106:part_of:composition",
+      "m:S-L-RUNDOWN~E-106:reverse:flow",
+      "m:S-L-STARTUP-RECYCLE:as_well_as:composition",
+      "m:S-L-STARTUP-RECYCLE:less:flow",
+      "m:S-L-STARTUP-RECYCLE:less:pressure",
+      "m:S-L-STARTUP-RECYCLE:less:temperature",
+      "m:S-L-STARTUP-RECYCLE:more:flow",
+      "m:S-L-STARTUP-RECYCLE:more:temperature",
+      "m:S-L-STARTUP-RECYCLE:other_than:phase",
+      "m:S-L-STARTUP-RECYCLE:reverse:flow",
+      "m:S-P-104A:less:flow",
+      "m:S-P-104A:less:pressure",
+      "m:S-P-104A:more:flow",
+      "m:S-P-104A:more:pressure",
+      "m:S-P-104A:more:temperature",
+      "m:S-P-104B:no:flow",
+      "m:S-P-104B:reverse:flow",
+      "m:S-TK-202:part_of:composition",
+      "m:S-TK-OFFSPEC:as_well_as:composition",
+      "m:S-TK-OFFSPEC:less:level",
+      "m:S-TK-OFFSPEC:less:pressure",
+      "m:S-TK-OFFSPEC:less:temperature",
+      "m:S-TK-OFFSPEC:more:level",
+      "m:S-V-101:less:level",
+      "m:S-V-101:more:level",
+      "m:S-V-101:no:level",
+      "m:S-V-104:as_well_as:composition",
+      "m:S-V-104:less:level",
+      "m:S-V-104:less:pressure",
+      "m:S-V-104:less:temperature",
+      "m:S-V-104:more:level",
+      "m:S-V-104:more:pressure"
+     ],
+     "skipped": [],
+     "dropped_ids": []
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:05c4e212ff069373:reactivity_lookup:761cf42778ad08e6",
+   "position": 17,
+   "record": {
+    "id": "tc:step:05c4e212ff069373:reactivity_lookup:761cf42778ad08e6",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:05c4e212ff069373",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "TBC",
+     "chemical_b": "water"
+    },
+    "result": null,
+    "refused_reason": "water is not a chemical in this plant",
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:08219d5812ec658f:reactivity_lookup:b4dc774b93829eb2",
+   "position": 3,
+   "record": {
+    "id": "tc:step:08219d5812ec658f:reactivity_lookup:b4dc774b93829eb2",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:08219d5812ec658f",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "ACETYLENES",
+     "chemical_b": "ANTIFOAM"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "ACETYLENES",
+       "name": "acetylenes (traces)",
+       "epa_groups": [
+        28
+       ],
+       "cameo_groups": [
+        {
+         "id": 63,
+         "name": "Alkynes, with Acetylenic Hydrogen"
+        }
+       ]
+      },
+      {
+       "id": "ANTIFOAM",
+       "name": "antifoam",
+       "epa_groups": [],
+       "cameo_groups": [
+        {
+         "id": 99,
+         "name": "Insufficient Information for Classification"
+        }
+       ]
+      }
+     ],
+     "pairs": [],
+     "no_groups": [
+      "ANTIFOAM"
+     ],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:0a3383733710e502:dispatch_specialist:de20c2ebba36bc36",
+   "position": 89,
+   "record": {
+    "id": "tc:step:0a3383733710e502:dispatch_specialist:de20c2ebba36bc36",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:0a3383733710e502",
+    "tool": "dispatch_specialist",
+    "arguments": {
+     "reason": "3 open process questions blocking finish; previous hard dispatch refused claiming already answered but they remain open. Trying bulk dispatch with explicit IDs.",
+     "agent": "process",
+     "level": "bulk",
+     "question_ids": [
+      "ai:S-L-RUNDOWN:0f85879d1a028f7a",
+      "ai:S-L-RUNDOWN~E-106:28f50813b71147a8",
+      "ai:S-V-104:bb8ebc710d39e6bc"
+     ]
+    },
+    "result": {
+     "summary": "process at bulk: 2 answered, 1 failed, 5 findings",
+     "question_ids": [
+      "ai:S-L-RUNDOWN:0f85879d1a028f7a",
+      "ai:S-L-RUNDOWN~E-106:28f50813b71147a8",
+      "ai:S-V-104:bb8ebc710d39e6bc"
+     ],
+     "skipped": [],
+     "dropped_ids": []
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:0ec43c6dd30d002b:dispatch_specialist:42272622ca355abb",
+   "position": 83,
+   "record": {
+    "id": "tc:step:0ec43c6dd30d002b:dispatch_specialist:42272622ca355abb",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:0ec43c6dd30d002b",
+    "tool": "dispatch_specialist",
+    "arguments": {
+     "reason": "Process agent has 14 questions marked for hard retry (retry_at_hard). Dispatching them at hard level to resolve.",
+     "agent": "process",
+     "level": "hard"
+    },
+    "result": {
+     "summary": "process at hard: 14 answered, 0 failed, 13 findings, 1 questions added",
+     "question_ids": [
+      "m:S-V-101:less:level",
+      "m:S-V-101:more:level",
+      "m:S-V-101:no:level",
+      "m:S-V-104:as_well_as:composition",
+      "m:S-V-104:less:level",
+      "m:S-V-104:less:pressure",
+      "m:S-V-104:less:temperature",
+      "m:S-V-104:more:level",
+      "m:S-V-104:more:pressure",
+      "m:S-V-104:more:temperature",
+      "m:S-V-104:no:level",
+      "m:S-V-104:other_than:composition",
+      "m:S-V-104:other_than:phase",
+      "relief:RV-C101"
+     ],
+     "skipped": [],
+     "dropped_ids": []
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:193e518e34ef82c4:dispatch_specialist:14e34425bbe5ad59",
+   "position": 68,
+   "record": {
+    "id": "tc:step:193e518e34ef82c4:dispatch_specialist:14e34425bbe5ad59",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:193e518e34ef82c4",
+    "tool": "dispatch_specialist",
+    "arguments": {
+     "reason": "Process questions remain the largest open set (209 open). Dispatching next bulk batch of 60 to process agent.",
+     "agent": "process",
+     "level": "bulk"
+    },
+    "result": {
+     "summary": "process at bulk: 28 answered, 32 failed, 38 findings",
+     "question_ids": [
+      "m:S-L-FEED:other_than:phase",
+      "m:S-L-FEED:part_of:composition",
+      "m:S-L-FEED:reverse:flow",
+      "m:S-L-HEAVIES:as_well_as:composition",
+      "m:S-L-HEAVIES:less:flow",
+      "m:S-L-HEAVIES:less:pressure",
+      "m:S-L-HEAVIES:less:temperature",
+      "m:S-L-HEAVIES:more:flow",
+      "m:S-L-HEAVIES:more:pressure",
+      "m:S-L-HEAVIES:more:temperature",
+      "m:S-L-HEAVIES:no:flow",
+      "m:S-L-HEAVIES:other_than:composition",
+      "m:S-L-HEAVIES:other_than:phase",
+      "m:S-L-HEAVIES:part_of:composition",
+      "m:S-L-HEAVIES:reverse:flow",
+      "m:S-L-OFFSPEC:as_well_as:composition",
+      "m:S-L-OFFSPEC:less:flow",
+      "m:S-L-OFFSPEC:less:pressure",
+      "m:S-L-OFFSPEC:less:temperature",
+      "m:S-L-OFFSPEC:more:flow",
+      "m:S-L-OFFSPEC:more:pressure",
+      "m:S-L-OFFSPEC:more:temperature",
+      "m:S-L-OFFSPEC:no:flow",
+      "m:S-L-OFFSPEC:other_than:composition",
+      "m:S-L-OFFSPEC:other_than:phase",
+      "m:S-L-OFFSPEC:part_of:composition",
+      "m:S-L-OFFSPEC:reverse:flow",
+      "m:S-L-P104B-DIS:as_well_as:composition",
+      "m:S-L-P104B-DIS:less:flow",
+      "m:S-L-P104B-DIS:less:pressure",
+      "m:S-L-P104B-DIS:less:temperature",
+      "m:S-L-P104B-DIS:more:flow",
+      "m:S-L-P104B-DIS:more:pressure",
+      "m:S-L-P104B-DIS:more:temperature",
+      "m:S-L-P104B-DIS:no:flow",
+      "m:S-L-P104B-DIS:other_than:composition",
+      "m:S-L-P104B-DIS:other_than:phase",
+      "m:S-L-P104B-DIS:part_of:composition",
+      "m:S-L-P104B-DIS:reverse:flow",
+      "m:S-L-P104B-SUC:as_well_as:composition",
+      "m:S-L-P104B-SUC:less:flow",
+      "m:S-L-P104B-SUC:less:pressure",
+      "m:S-L-P104B-SUC:less:temperature",
+      "m:S-L-P104B-SUC:more:flow",
+      "m:S-L-P104B-SUC:more:pressure",
+      "m:S-L-P104B-SUC:more:temperature",
+      "m:S-L-P104B-SUC:no:flow",
+      "m:S-L-P104B-SUC:other_than:composition",
+      "m:S-L-P104B-SUC:other_than:phase",
+      "m:S-L-P104B-SUC:part_of:composition",
+      "m:S-L-P104B-SUC:reverse:flow",
+      "m:S-L-RAFFINATE:as_well_as:composition",
+      "m:S-L-RAFFINATE:less:flow",
+      "m:S-L-RAFFINATE:less:pressure",
+      "m:S-L-RAFFINATE:less:temperature",
+      "m:S-L-RAFFINATE:more:flow",
+      "m:S-L-RAFFINATE:more:pressure",
+      "m:S-L-RAFFINATE:more:temperature",
+      "m:S-L-RAFFINATE:no:flow",
+      "m:S-L-RAFFINATE:other_than:composition"
+     ],
+     "skipped": [],
+     "dropped_ids": []
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:1975beb80bda77a2:reactivity_lookup:f8f0d2206f124734",
+   "position": 43,
+   "record": {
+    "id": "tc:step:1975beb80bda77a2:reactivity_lookup:f8f0d2206f124734",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:1975beb80bda77a2",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "BUTENES",
+     "chemical_b": "TBC"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "BUTENES",
+       "name": "butenes",
+       "epa_groups": [
+        28
+       ],
+       "cameo_groups": [
+        {
+         "id": 28,
+         "name": "Hydrocarbons, Aliphatic Unsaturated"
+        }
+       ]
+      },
+      {
+       "id": "TBC",
+       "name": "tert-butylcatechol",
+       "epa_groups": [
+        31
+       ],
+       "cameo_groups": [
+        {
+         "id": 31,
+         "name": "Phenols and Cresols"
+        }
+       ]
+      }
+     ],
+     "pairs": [
+      {
+       "groups": [
+        28,
+        31
+       ],
+       "group_names": [
+        "Hydrocarbons, Aliphatic, Unsaturated",
+        "Phenols and Cresols"
+       ],
+       "status": "not_listed",
+       "codes": [],
+       "source": "no row in reactive_pairs.csv"
+      }
+     ],
+     "no_groups": [],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:1a6e3e4183eab1af:dispatch_specialist:ce0b5e864a56b3b3",
+   "position": 85,
+   "record": {
+    "id": "tc:step:1a6e3e4183eab1af:dispatch_specialist:ce0b5e864a56b3b3",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:1a6e3e4183eab1af",
+    "tool": "dispatch_specialist",
+    "arguments": {
+     "reason": "14 failed chemistry questions (12 chemical pairs + 2 chemical environments) need hard retry. Dispatching to chemistry agent at hard level.",
+     "agent": "chemistry",
+     "level": "hard"
+    },
+    "result": null,
+    "refused_reason": "nothing to dispatch to chemistry at level hard",
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:2031fcb0f583c796:reactivity_lookup:b4dc774b93829eb2",
+   "position": 2,
+   "record": {
+    "id": "tc:step:2031fcb0f583c796:reactivity_lookup:b4dc774b93829eb2",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:2031fcb0f583c796",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "ACETYLENES",
+     "chemical_b": "ANTIFOAM"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "ACETYLENES",
+       "name": "acetylenes (traces)",
+       "epa_groups": [
+        28
+       ],
+       "cameo_groups": [
+        {
+         "id": 63,
+         "name": "Alkynes, with Acetylenic Hydrogen"
+        }
+       ]
+      },
+      {
+       "id": "ANTIFOAM",
+       "name": "antifoam",
+       "epa_groups": [],
+       "cameo_groups": [
+        {
+         "id": 99,
+         "name": "Insufficient Information for Classification"
+        }
+       ]
+      }
+     ],
+     "pairs": [],
+     "no_groups": [
+      "ANTIFOAM"
+     ],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:263eb2ef800c84e1:reactivity_lookup:3c29a99d4c85bd5e",
+   "position": 56,
+   "record": {
+    "id": "tc:step:263eb2ef800c84e1:reactivity_lookup:3c29a99d4c85bd5e",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:263eb2ef800c84e1",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "BUTADIENE",
+     "chemical_b": "NMP"
+    },
+    "result": null,
+    "refused_reason": "at most 2 tool calls per batch",
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:264b922e765cf04b:search_precedent:8a619f2bd3d34303",
+   "position": 102,
+   "record": {
+    "id": "tc:step:264b922e765cf04b:search_precedent:8a619f2bd3d34303",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:264b922e765cf04b",
+    "tool": "search_precedent",
+    "arguments": {
+     "query": "external fire near the equipment as well composition",
+     "k": 5
+    },
+    "result": {
+     "candidates": [
+      "CSB-081",
+      "CSB-032",
+      "CSB-035",
+      "CSB-018",
+      "CSB-012"
+     ],
+     "scores": [
+      6.66260739612438,
+      6.476743775561479,
+      6.297336912943019,
+      6.246420359865877,
+      5.538486091023683
+     ],
+     "blocked_rows": 1,
+     "index_version": "14678fe5d063a968bb6c3557a2fc43dc2a48707ba1d7e796fb496baadd0671e1"
+    },
+    "refused_reason": null,
+    "source_urls": [
+     "https://www.csb.gov/barton-solvents-explosions-and-fire/",
+     "https://www.csb.gov/aghorn-operating-inc-waterflood-station-hydrogen-sulfide-release-/",
+     "https://www.csb.gov/pryor-trust-fatal-gas-well-blowout-and-fire/",
+     "https://www.csb.gov/optima-belle-explosion-and-fire/",
+     "https://www.csb.gov/wendland-1h-well-fatal-explosion-/"
+    ],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:2a320d652956fb5c:reactivity_lookup:3f6d9a90391da6a5",
+   "position": 54,
+   "record": {
+    "id": "tc:step:2a320d652956fb5c:reactivity_lookup:3f6d9a90391da6a5",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:2a320d652956fb5c",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "ANTIFOAM",
+     "chemical_b": "NMP"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "ANTIFOAM",
+       "name": "antifoam",
+       "epa_groups": [],
+       "cameo_groups": [
+        {
+         "id": 99,
+         "name": "Insufficient Information for Classification"
+        }
+       ]
+      },
+      {
+       "id": "NMP",
+       "name": "N-methylpyrrolidone",
+       "epa_groups": [
+        6
+       ],
+       "cameo_groups": [
+        {
+         "id": 6,
+         "name": "Amides and Imides"
+        }
+       ]
+      }
+     ],
+     "pairs": [],
+     "no_groups": [
+      "ANTIFOAM"
+     ],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:2b37b8dae45c01e5:dispatch_specialist:ae16978d00213069",
+   "position": 88,
+   "record": {
+    "id": "tc:step:2b37b8dae45c01e5:dispatch_specialist:ae16978d00213069",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:2b37b8dae45c01e5",
+    "tool": "dispatch_specialist",
+    "arguments": {
+     "reason": "Three process questions remain open (ai:S-L-RUNDOWN:0f85879d1a028f7a, ai:S-L-RUNDOWN~E-106:28f50813b71147a8, ai:S-V-104:bb8ebc710d39e6bc). Sending them at hard level to resolve.",
+     "agent": "process",
+     "level": "hard"
+    },
+    "result": null,
+    "refused_reason": "nothing to dispatch to process at level hard",
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:3232a6629d7b4059:reactivity_lookup:5715b475d06b25fb",
+   "position": 40,
+   "record": {
+    "id": "tc:step:3232a6629d7b4059:reactivity_lookup:5715b475d06b25fb",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:3232a6629d7b4059",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "BUTANES",
+     "chemical_b": "NMP"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "BUTANES",
+       "name": "butanes",
+       "epa_groups": [
+        29
+       ],
+       "cameo_groups": [
+        {
+         "id": 29,
+         "name": "Hydrocarbons, Aliphatic Saturated"
+        }
+       ]
+      },
+      {
+       "id": "NMP",
+       "name": "N-methylpyrrolidone",
+       "epa_groups": [
+        6
+       ],
+       "cameo_groups": [
+        {
+         "id": 6,
+         "name": "Amides and Imides"
+        }
+       ]
+      }
+     ],
+     "pairs": [
+      {
+       "groups": [
+        29,
+        6
+       ],
+       "group_names": [
+        "Hydrocarbons, Aliphatic, Saturated",
+        "Amides"
+       ],
+       "status": "not_listed",
+       "codes": [],
+       "source": "no row in reactive_pairs.csv"
+      }
+     ],
+     "no_groups": [],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:326bfa95d6c8b755:reactivity_lookup:adfdb6ccc0be77f2",
+   "position": 15,
+   "record": {
+    "id": "tc:step:326bfa95d6c8b755:reactivity_lookup:adfdb6ccc0be77f2",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:326bfa95d6c8b755",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "TBC",
+     "chemical_b": "TBC"
+    },
+    "result": null,
+    "refused_reason": "reactivity_lookup needs two different chemicals",
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:39fb54f419349424:reactivity_lookup:adfdb6ccc0be77f2",
+   "position": 14,
+   "record": {
+    "id": "tc:step:39fb54f419349424:reactivity_lookup:adfdb6ccc0be77f2",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:39fb54f419349424",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "TBC",
+     "chemical_b": "TBC"
+    },
+    "result": null,
+    "refused_reason": "reactivity_lookup needs two different chemicals",
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:3bcbc1ba70e68810:reactivity_lookup:2a56dabf0b48d250",
+   "position": 24,
+   "record": {
+    "id": "tc:step:3bcbc1ba70e68810:reactivity_lookup:2a56dabf0b48d250",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:3bcbc1ba70e68810",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "ANTIFOAM",
+     "chemical_b": "BUTANES"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "ANTIFOAM",
+       "name": "antifoam",
+       "epa_groups": [],
+       "cameo_groups": [
+        {
+         "id": 99,
+         "name": "Insufficient Information for Classification"
+        }
+       ]
+      },
+      {
+       "id": "BUTANES",
+       "name": "butanes",
+       "epa_groups": [
+        29
+       ],
+       "cameo_groups": [
+        {
+         "id": 29,
+         "name": "Hydrocarbons, Aliphatic Saturated"
+        }
+       ]
+      }
+     ],
+     "pairs": [],
+     "no_groups": [
+      "ANTIFOAM"
+     ],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:3c9076b9e597adaf:reactivity_lookup:7a06d873a304699e",
+   "position": 4,
+   "record": {
+    "id": "tc:step:3c9076b9e597adaf:reactivity_lookup:7a06d873a304699e",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:3c9076b9e597adaf",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "ANTIFOAM",
+     "chemical_b": "BUTADIENE"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "ANTIFOAM",
+       "name": "antifoam",
+       "epa_groups": [],
+       "cameo_groups": [
+        {
+         "id": 99,
+         "name": "Insufficient Information for Classification"
+        }
+       ]
+      },
+      {
+       "id": "BUTADIENE",
+       "name": "1,3-butadiene",
+       "epa_groups": [
+        28,
+        103
+       ],
+       "cameo_groups": [
+        {
+         "id": 65,
+         "name": "Conjugated Dienes"
+        },
+        {
+         "id": 76,
+         "name": "Polymerizable Compounds"
+        }
+       ]
+      }
+     ],
+     "pairs": [],
+     "no_groups": [
+      "ANTIFOAM"
+     ],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:405114dec143365e:reactivity_lookup:fe40b9b5121bbe59",
+   "position": 61,
+   "record": {
+    "id": "tc:step:405114dec143365e:reactivity_lookup:fe40b9b5121bbe59",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:405114dec143365e",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "BUTANES",
+     "chemical_b": "BUTENES"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "BUTANES",
+       "name": "butanes",
+       "epa_groups": [
+        29
+       ],
+       "cameo_groups": [
+        {
+         "id": 29,
+         "name": "Hydrocarbons, Aliphatic Saturated"
+        }
+       ]
+      },
+      {
+       "id": "BUTENES",
+       "name": "butenes",
+       "epa_groups": [
+        28
+       ],
+       "cameo_groups": [
+        {
+         "id": 28,
+         "name": "Hydrocarbons, Aliphatic Unsaturated"
+        }
+       ]
+      }
+     ],
+     "pairs": [
+      {
+       "groups": [
+        29,
+        28
+       ],
+       "group_names": [
+        "Hydrocarbons, Aliphatic, Saturated",
+        "Hydrocarbons, Aliphatic, Unsaturated"
+       ],
+       "status": "not_listed",
+       "codes": [],
+       "source": "no row in reactive_pairs.csv"
+      }
+     ],
+     "no_groups": [],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:45c5ee9360d5f746:reactivity_lookup:2d58af0543654ba5",
+   "position": 41,
+   "record": {
+    "id": "tc:step:45c5ee9360d5f746:reactivity_lookup:2d58af0543654ba5",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:45c5ee9360d5f746",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "BUTANES",
+     "chemical_b": "TBC"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "BUTANES",
+       "name": "butanes",
+       "epa_groups": [
+        29
+       ],
+       "cameo_groups": [
+        {
+         "id": 29,
+         "name": "Hydrocarbons, Aliphatic Saturated"
+        }
+       ]
+      },
+      {
+       "id": "TBC",
+       "name": "tert-butylcatechol",
+       "epa_groups": [
+        31
+       ],
+       "cameo_groups": [
+        {
+         "id": 31,
+         "name": "Phenols and Cresols"
+        }
+       ]
+      }
+     ],
+     "pairs": [
+      {
+       "groups": [
+        29,
+        31
+       ],
+       "group_names": [
+        "Hydrocarbons, Aliphatic, Saturated",
+        "Phenols and Cresols"
+       ],
+       "status": "not_listed",
+       "codes": [],
+       "source": "no row in reactive_pairs.csv"
+      }
+     ],
+     "no_groups": [],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:471c09bc36859417:reactivity_lookup:76037d5d25fa1fdd",
+   "position": 8,
+   "record": {
+    "id": "tc:step:471c09bc36859417:reactivity_lookup:76037d5d25fa1fdd",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:471c09bc36859417",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "HEAVIES",
+     "chemical_b": "NMP"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "HEAVIES",
+       "name": "heavies",
+       "epa_groups": [],
+       "cameo_groups": [
+        {
+         "id": 99,
+         "name": "Insufficient Information for Classification"
+        }
+       ]
+      },
+      {
+       "id": "NMP",
+       "name": "N-methylpyrrolidone",
+       "epa_groups": [
+        6
+       ],
+       "cameo_groups": [
+        {
+         "id": 6,
+         "name": "Amides and Imides"
+        }
+       ]
+      }
+     ],
+     "pairs": [],
+     "no_groups": [
+      "HEAVIES"
+     ],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:4b442be20b6b6a83:reactivity_lookup:13b6a3adfa417e94",
+   "position": 39,
+   "record": {
+    "id": "tc:step:4b442be20b6b6a83:reactivity_lookup:13b6a3adfa417e94",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:4b442be20b6b6a83",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "BUTADIENE",
+     "chemical_b": "WATER"
+    },
+    "result": null,
+    "refused_reason": "at most 2 tool calls per batch",
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:4bf083aab1f166ac:reactivity_lookup:632b11f67691e6ef",
+   "position": 55,
+   "record": {
+    "id": "tc:step:4bf083aab1f166ac:reactivity_lookup:632b11f67691e6ef",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:4bf083aab1f166ac",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "BUTADIENE",
+     "chemical_b": "BUTENES"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "BUTADIENE",
+       "name": "1,3-butadiene",
+       "epa_groups": [
+        28,
+        103
+       ],
+       "cameo_groups": [
+        {
+         "id": 65,
+         "name": "Conjugated Dienes"
+        },
+        {
+         "id": 76,
+         "name": "Polymerizable Compounds"
+        }
+       ]
+      },
+      {
+       "id": "BUTENES",
+       "name": "butenes",
+       "epa_groups": [
+        28
+       ],
+       "cameo_groups": [
+        {
+         "id": 28,
+         "name": "Hydrocarbons, Aliphatic Unsaturated"
+        }
+       ]
+      }
+     ],
+     "pairs": [
+      {
+       "groups": [
+        28,
+        28
+       ],
+       "group_names": [
+        "Hydrocarbons, Aliphatic, Unsaturated",
+        "Hydrocarbons, Aliphatic, Unsaturated"
+       ],
+       "status": "not_listed",
+       "codes": [],
+       "source": "no row in reactive_pairs.csv"
+      },
+      {
+       "groups": [
+        103,
+        28
+       ],
+       "group_names": [
+        "Polymerizable Compounds",
+        "Hydrocarbons, Aliphatic, Unsaturated"
+       ],
+       "status": "not_listed",
+       "codes": [],
+       "source": "no row in reactive_pairs.csv"
+      }
+     ],
+     "no_groups": [],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:4f75d3ec79c90695:reactivity_lookup:2c7fe11e990b9ae7",
+   "position": 22,
+   "record": {
+    "id": "tc:step:4f75d3ec79c90695:reactivity_lookup:2c7fe11e990b9ae7",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:4f75d3ec79c90695",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "ACETYLENES",
+     "chemical_b": "HEAVIES"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "ACETYLENES",
+       "name": "acetylenes (traces)",
+       "epa_groups": [
+        28
+       ],
+       "cameo_groups": [
+        {
+         "id": 63,
+         "name": "Alkynes, with Acetylenic Hydrogen"
+        }
+       ]
+      },
+      {
+       "id": "HEAVIES",
+       "name": "heavies",
+       "epa_groups": [],
+       "cameo_groups": [
+        {
+         "id": 99,
+         "name": "Insufficient Information for Classification"
+        }
+       ]
+      }
+     ],
+     "pairs": [],
+     "no_groups": [
+      "HEAVIES"
+     ],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:524ab02c506e8cf9:reactivity_lookup:2a56dabf0b48d250",
+   "position": 52,
+   "record": {
+    "id": "tc:step:524ab02c506e8cf9:reactivity_lookup:2a56dabf0b48d250",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:524ab02c506e8cf9",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "ANTIFOAM",
+     "chemical_b": "BUTANES"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "ANTIFOAM",
+       "name": "antifoam",
+       "epa_groups": [],
+       "cameo_groups": [
+        {
+         "id": 99,
+         "name": "Insufficient Information for Classification"
+        }
+       ]
+      },
+      {
+       "id": "BUTANES",
+       "name": "butanes",
+       "epa_groups": [
+        29
+       ],
+       "cameo_groups": [
+        {
+         "id": 29,
+         "name": "Hydrocarbons, Aliphatic Saturated"
+        }
+       ]
+      }
+     ],
+     "pairs": [],
+     "no_groups": [
+      "ANTIFOAM"
+     ],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:582af7ca0443266a:reactivity_lookup:4c32773503d55f85",
+   "position": 19,
+   "record": {
+    "id": "tc:step:582af7ca0443266a:reactivity_lookup:4c32773503d55f85",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:582af7ca0443266a",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "ACETYLENES",
+     "chemical_b": "BUTADIENE"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "ACETYLENES",
+       "name": "acetylenes (traces)",
+       "epa_groups": [
+        28
+       ],
+       "cameo_groups": [
+        {
+         "id": 63,
+         "name": "Alkynes, with Acetylenic Hydrogen"
+        }
+       ]
+      },
+      {
+       "id": "BUTADIENE",
+       "name": "1,3-butadiene",
+       "epa_groups": [
+        28,
+        103
+       ],
+       "cameo_groups": [
+        {
+         "id": 65,
+         "name": "Conjugated Dienes"
+        },
+        {
+         "id": 76,
+         "name": "Polymerizable Compounds"
+        }
+       ]
+      }
+     ],
+     "pairs": [
+      {
+       "groups": [
+        28,
+        28
+       ],
+       "group_names": [
+        "Hydrocarbons, Aliphatic, Unsaturated",
+        "Hydrocarbons, Aliphatic, Unsaturated"
+       ],
+       "status": "not_listed",
+       "codes": [],
+       "source": "no row in reactive_pairs.csv"
+      },
+      {
+       "groups": [
+        28,
+        103
+       ],
+       "group_names": [
+        "Hydrocarbons, Aliphatic, Unsaturated",
+        "Polymerizable Compounds"
+       ],
+       "status": "not_listed",
+       "codes": [],
+       "source": "no row in reactive_pairs.csv"
+      }
+     ],
+     "no_groups": [],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:5a17a23793e7a04a:reactivity_lookup:3c29a99d4c85bd5e",
+   "position": 37,
+   "record": {
+    "id": "tc:step:5a17a23793e7a04a:reactivity_lookup:3c29a99d4c85bd5e",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:5a17a23793e7a04a",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "BUTADIENE",
+     "chemical_b": "NMP"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "BUTADIENE",
+       "name": "1,3-butadiene",
+       "epa_groups": [
+        28,
+        103
+       ],
+       "cameo_groups": [
+        {
+         "id": 65,
+         "name": "Conjugated Dienes"
+        },
+        {
+         "id": 76,
+         "name": "Polymerizable Compounds"
+        }
+       ]
+      },
+      {
+       "id": "NMP",
+       "name": "N-methylpyrrolidone",
+       "epa_groups": [
+        6
+       ],
+       "cameo_groups": [
+        {
+         "id": 6,
+         "name": "Amides and Imides"
+        }
+       ]
+      }
+     ],
+     "pairs": [
+      {
+       "groups": [
+        28,
+        6
+       ],
+       "group_names": [
+        "Hydrocarbons, Aliphatic, Unsaturated",
+        "Amides"
+       ],
+       "status": "not_listed",
+       "codes": [],
+       "source": "no row in reactive_pairs.csv"
+      },
+      {
+       "groups": [
+        103,
+        6
+       ],
+       "group_names": [
+        "Polymerizable Compounds",
+        "Amides"
+       ],
+       "status": "not_listed",
+       "codes": [],
+       "source": "no row in reactive_pairs.csv"
+      }
+     ],
+     "no_groups": [],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:5ad562490918e939:check_coverage:bba1f5ddc455bc70",
+   "position": 92,
+   "record": {
+    "id": "tc:step:5ad562490918e939:check_coverage:bba1f5ddc455bc70",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:5ad562490918e939",
+    "tool": "check_coverage",
+    "arguments": {
+     "reason": "Understand current state of failed chemistry questions and why hard dispatch was refused"
+    },
+    "result": {
+     "summary": "0 open, 24 failed",
+     "lines": [
+      {
+       "list": "sections",
+       "total": 25,
+       "checked": 22,
+       "unsure": 25,
+       "failed": 3
+      },
+      {
+       "list": "matrix",
+       "total": 286,
+       "checked": 280,
+       "unsure": 172,
+       "failed": 6
+      },
+      {
+       "list": "chemical_pair",
+       "total": 36,
+       "checked": 24,
+       "unsure": 13,
+       "failed": 12
+      },
+      {
+       "list": "chemical_environment",
+       "total": 27,
+       "checked": 22,
+       "unsure": 11,
+       "failed": 5
+      },
+      {
+       "list": "no_flow_line",
+       "total": 5,
+       "checked": 4,
+       "unsure": 1,
+       "failed": 1
+      },
+      {
+       "list": "procedure_step",
+       "total": 0,
+       "checked": 0,
+       "unsure": 0,
+       "failed": 0
+      },
+      {
+       "list": "planned_work",
+       "total": 0,
+       "checked": 0,
+       "unsure": 0,
+       "failed": 0
+      },
+      {
+       "list": "dust",
+       "total": 0,
+       "checked": 0,
+       "unsure": 0,
+       "failed": 0
+      },
+      {
+       "list": "relief_discharge",
+       "total": 8,
+       "checked": 8,
+       "unsure": 2,
+       "failed": 0
+      },
+      {
+       "list": "added_by_ai",
+       "total": 8,
+       "checked": 8,
+       "unsure": 1,
+       "failed": 0
+      },
+      {
+       "list": "engineer",
+       "total": 0,
+       "checked": 0,
+       "unsure": 0,
+       "failed": 0
+      }
+     ],
+     "failed": [
+      "m:S-C-102:as_well_as:composition",
+      "m:S-C-102:less:flow",
+      "m:S-C-102:less:level",
+      "m:S-C-102:less:pressure",
+      "m:S-C-102:less:temperature",
+      "m:S-FLARE-HEADER:reverse:flow",
+      "pair:ACETYLENES:NMP",
+      "pair:ANTIFOAM:BUTENES",
+      "pair:ANTIFOAM:HEAVIES",
+      "pair:ANTIFOAM:NMP",
+      "pair:ANTIFOAM:WATER",
+      "pair:BUTADIENE:BUTENES",
+      "pair:BUTADIENE:NMP",
+      "pair:BUTADIENE:TBC",
+      "pair:BUTANES:HEAVIES",
+      "pair:NMP:TBC",
+      "pair:NMP:WATER",
+      "pair:TBC:WATER",
+      "env:ACETYLENES:air",
+      "env:ACETYLENES:heat",
+      "env:ACETYLENES:water",
+      "env:ANTIFOAM:air",
+      "env:ANTIFOAM:heat",
+      "nf:L-P104B-DIS"
+     ]
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:5b99ad90a00157e7:reactivity_lookup:1250c5db0d82ec15",
+   "position": 31,
+   "record": {
+    "id": "tc:step:5b99ad90a00157e7:reactivity_lookup:1250c5db0d82ec15",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:5b99ad90a00157e7",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "ANTIFOAM",
+     "chemical_b": "WATER"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "ANTIFOAM",
+       "name": "antifoam",
+       "epa_groups": [],
+       "cameo_groups": [
+        {
+         "id": 99,
+         "name": "Insufficient Information for Classification"
+        }
+       ]
+      },
+      {
+       "id": "WATER",
+       "name": "water (traces)",
+       "epa_groups": [
+        106
+       ],
+       "cameo_groups": [
+        {
+         "id": 100,
+         "name": "Water and Aqueous Solutions"
+        }
+       ]
+      }
+     ],
+     "pairs": [],
+     "no_groups": [
+      "ANTIFOAM"
+     ],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:5c8a8f4d61918851:search_precedent:abf5da0f0143f609",
+   "position": 98,
+   "record": {
+    "id": "tc:step:5c8a8f4d61918851:search_precedent:abf5da0f0143f609",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:5c8a8f4d61918851",
+    "tool": "search_precedent",
+    "arguments": {
+     "query": "upstream pressure increase forcing higher flow into the line more",
+     "k": 5
+    },
+    "result": {
+     "candidates": [
+      "CSB-004",
+      "CSB-029",
+      "CSB-040",
+      "CSB-052",
+      "CSB-119"
+     ],
+     "scores": [
+      7.48693166414166,
+      7.147322724963596,
+      5.428658121019935,
+      4.5120997335025,
+      4.1470835869172005
+     ],
+     "blocked_rows": 1,
+     "index_version": "14678fe5d063a968bb6c3557a2fc43dc2a48707ba1d7e796fb496baadd0671e1"
+    },
+    "refused_reason": null,
+    "source_urls": [
+     "https://www.csb.gov/givaudan-sense-colour-explosion-/",
+     "https://www.csb.gov/loy-lange-box-company-pressure-vessel-explosion-/",
+     "https://www.csb.gov/exxonmobil-baton-rouge-refinery-chemical-release-and-fire/",
+     "https://www.csb.gov/millard-refrigerated-services-ammonia-release/",
+     "https://www.csb.gov/bethlehem-steel-corporation-gas-condensate-fire/"
+    ],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:5f0a18c19e8412e3:finish:9f5d7b9b59fd8d90",
+   "position": 93,
+   "record": {
+    "id": "tc:step:5f0a18c19e8412e3:finish:9f5d7b9b59fd8d90",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:5f0a18c19e8412e3",
+    "tool": "finish",
+    "arguments": {
+     "reason": "All questions answered or failed - 0 open, 24 failed (6 process, 12 chemical pairs, 6 chemical environments). No open questions remain to block finish."
+    },
+    "result": {
+     "summary": "accepted: every question answered, not credible or failed"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:601da0469a918b58:reactivity_lookup:76037d5d25fa1fdd",
+   "position": 45,
+   "record": {
+    "id": "tc:step:601da0469a918b58:reactivity_lookup:76037d5d25fa1fdd",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:601da0469a918b58",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "HEAVIES",
+     "chemical_b": "NMP"
+    },
+    "result": null,
+    "refused_reason": "at most 2 tool calls per batch",
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:626cdd5e7a8223b5:reactivity_lookup:b9c470f4cd478c29",
+   "position": 69,
+   "record": {
+    "id": "tc:step:626cdd5e7a8223b5:reactivity_lookup:b9c470f4cd478c29",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:626cdd5e7a8223b5",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "NMP",
+     "chemical_b": "TBC"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "NMP",
+       "name": "N-methylpyrrolidone",
+       "epa_groups": [
+        6
+       ],
+       "cameo_groups": [
+        {
+         "id": 6,
+         "name": "Amides and Imides"
+        }
+       ]
+      },
+      {
+       "id": "TBC",
+       "name": "tert-butylcatechol",
+       "epa_groups": [
+        31
+       ],
+       "cameo_groups": [
+        {
+         "id": 31,
+         "name": "Phenols and Cresols"
+        }
+       ]
+      }
+     ],
+     "pairs": [
+      {
+       "groups": [
+        6,
+        31
+       ],
+       "group_names": [
+        "Amides",
+        "Phenols and Cresols"
+       ],
+       "status": "not_listed",
+       "codes": [],
+       "source": "no row in reactive_pairs.csv"
+      }
+     ],
+     "no_groups": [],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:62d1bbe6e0c61814:reactivity_lookup:0915f5d2926a9fb2",
+   "position": 20,
+   "record": {
+    "id": "tc:step:62d1bbe6e0c61814:reactivity_lookup:0915f5d2926a9fb2",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:62d1bbe6e0c61814",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "ACETYLENES",
+     "chemical_b": "BUTANES"
+    },
+    "result": null,
+    "refused_reason": "at most 2 tool calls per batch",
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:63f301bd85158550:reactivity_lookup:5c7671a1f21a5288",
+   "position": 13,
+   "record": {
+    "id": "tc:step:63f301bd85158550:reactivity_lookup:5c7671a1f21a5288",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:63f301bd85158550",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "TBC",
+     "chemical_b": "air"
+    },
+    "result": null,
+    "refused_reason": "air is not a chemical in this plant",
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:641b319f61ad0c4a:reactivity_lookup:bb54430b91e90870",
+   "position": 53,
+   "record": {
+    "id": "tc:step:641b319f61ad0c4a:reactivity_lookup:bb54430b91e90870",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:641b319f61ad0c4a",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "ANTIFOAM",
+     "chemical_b": "BUTENES"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "ANTIFOAM",
+       "name": "antifoam",
+       "epa_groups": [],
+       "cameo_groups": [
+        {
+         "id": 99,
+         "name": "Insufficient Information for Classification"
+        }
+       ]
+      },
+      {
+       "id": "BUTENES",
+       "name": "butenes",
+       "epa_groups": [
+        28
+       ],
+       "cameo_groups": [
+        {
+         "id": 28,
+         "name": "Hydrocarbons, Aliphatic Unsaturated"
+        }
+       ]
+      }
+     ],
+     "pairs": [],
+     "no_groups": [
+      "ANTIFOAM"
+     ],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:6a306d3d63c56eaf:reactivity_lookup:13b6a3adfa417e94",
+   "position": 58,
+   "record": {
+    "id": "tc:step:6a306d3d63c56eaf:reactivity_lookup:13b6a3adfa417e94",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:6a306d3d63c56eaf",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "BUTADIENE",
+     "chemical_b": "WATER"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "BUTADIENE",
+       "name": "1,3-butadiene",
+       "epa_groups": [
+        28,
+        103
+       ],
+       "cameo_groups": [
+        {
+         "id": 65,
+         "name": "Conjugated Dienes"
+        },
+        {
+         "id": 76,
+         "name": "Polymerizable Compounds"
+        }
+       ]
+      },
+      {
+       "id": "WATER",
+       "name": "water (traces)",
+       "epa_groups": [
+        106
+       ],
+       "cameo_groups": [
+        {
+         "id": 100,
+         "name": "Water and Aqueous Solutions"
+        }
+       ]
+      }
+     ],
+     "pairs": [
+      {
+       "groups": [
+        28,
+        106
+       ],
+       "group_names": [
+        "Hydrocarbons, Aliphatic, Unsaturated",
+        "Water and Mixtures Containing Water"
+       ],
+       "status": "not_listed",
+       "codes": [],
+       "source": "no row in reactive_pairs.csv"
+      },
+      {
+       "groups": [
+        103,
+        106
+       ],
+       "group_names": [
+        "Polymerizable Compounds",
+        "Water and Mixtures Containing Water"
+       ],
+       "status": "not_listed",
+       "codes": [],
+       "source": "no row in reactive_pairs.csv"
+      }
+     ],
+     "no_groups": [],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:6e4cd20fd80d8e4f:dispatch_specialist:649ad349cc036723",
+   "position": 84,
+   "record": {
+    "id": "tc:step:6e4cd20fd80d8e4f:dispatch_specialist:649ad349cc036723",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:6e4cd20fd80d8e4f",
+    "tool": "dispatch_specialist",
+    "arguments": {
+     "reason": "Three process questions remain open (deferred for spend from previous hard dispatch). Sending them at hard level to resolve.",
+     "agent": "process",
+     "level": "hard",
+     "question_ids": [
+      "ai:S-L-RUNDOWN:0f85879d1a028f7a",
+      "ai:S-L-RUNDOWN~E-106:28f50813b71147a8",
+      "ai:S-V-104:bb8ebc710d39e6bc"
+     ]
+    },
+    "result": {
+     "summary": "all already answered; stored results used",
+     "skipped": [
+      "ai:S-L-RUNDOWN:0f85879d1a028f7a",
+      "ai:S-L-RUNDOWN~E-106:28f50813b71147a8",
+      "ai:S-V-104:bb8ebc710d39e6bc"
+     ]
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:6e77a4f273805e43:dispatch_specialist:7e02e1fe1edc6384",
+   "position": 86,
+   "record": {
+    "id": "tc:step:6e77a4f273805e43:dispatch_specialist:7e02e1fe1edc6384",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:6e77a4f273805e43",
+    "tool": "dispatch_specialist",
+    "arguments": {
+     "reason": "Three process questions remain open (deferred from previous hard dispatch). Sending them at hard level to resolve.",
+     "agent": "process",
+     "level": "hard",
+     "question_ids": [
+      "ai:S-L-RUNDOWN:0f85879d1a028f7a",
+      "ai:S-L-RUNDOWN~E-106:28f50813b71147a8",
+      "ai:S-V-104:bb8ebc710d39e6bc"
+     ]
+    },
+    "result": {
+     "summary": "all already answered; stored results used",
+     "skipped": [
+      "ai:S-L-RUNDOWN:0f85879d1a028f7a",
+      "ai:S-L-RUNDOWN~E-106:28f50813b71147a8",
+      "ai:S-V-104:bb8ebc710d39e6bc"
+     ]
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:7073805e4ad73479:dispatch_specialist:a85a352f4dc5b06b",
+   "position": 75,
+   "record": {
+    "id": "tc:step:7073805e4ad73479:dispatch_specialist:a85a352f4dc5b06b",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:7073805e4ad73479",
+    "tool": "dispatch_specialist",
+    "arguments": {
+     "reason": "Retry the 3 failed chemistry questions (chemical pairs with water) at hard level after bulk failures",
+     "agent": "chemistry",
+     "level": "hard",
+     "question_ids": [
+      "pair:NMP:TBC",
+      "pair:NMP:WATER",
+      "pair:TBC:WATER"
+     ]
+    },
+    "result": {
+     "summary": "chemistry at hard: 0 answered, 3 failed, 0 findings",
+     "question_ids": [
+      "pair:NMP:TBC",
+      "pair:NMP:WATER",
+      "pair:TBC:WATER"
+     ],
+     "skipped": [],
+     "dropped_ids": []
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:712b89891e2a12f8:reactivity_lookup:b4dc774b93829eb2",
+   "position": 48,
+   "record": {
+    "id": "tc:step:712b89891e2a12f8:reactivity_lookup:b4dc774b93829eb2",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:712b89891e2a12f8",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "ACETYLENES",
+     "chemical_b": "ANTIFOAM"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "ACETYLENES",
+       "name": "acetylenes (traces)",
+       "epa_groups": [
+        28
+       ],
+       "cameo_groups": [
+        {
+         "id": 63,
+         "name": "Alkynes, with Acetylenic Hydrogen"
+        }
+       ]
+      },
+      {
+       "id": "ANTIFOAM",
+       "name": "antifoam",
+       "epa_groups": [],
+       "cameo_groups": [
+        {
+         "id": 99,
+         "name": "Insufficient Information for Classification"
+        }
+       ]
+      }
+     ],
+     "pairs": [],
+     "no_groups": [
+      "ANTIFOAM"
+     ],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:72446f4ee14e1eb0:dispatch_specialist:80ab5bcb6d667c08",
+   "position": 77,
+   "record": {
+    "id": "tc:step:72446f4ee14e1eb0:dispatch_specialist:80ab5bcb6d667c08",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:72446f4ee14e1eb0",
+    "tool": "dispatch_specialist",
+    "arguments": {
+     "reason": "Process questions remain the largest open set (123). Dispatching next bulk batch of 60 to process agent.",
+     "agent": "process",
+     "level": "bulk"
+    },
+    "result": {
+     "summary": "process at bulk: 24 answered, 36 failed, 31 findings",
+     "question_ids": [
+      "ai:S-E-104:359147668271dd8c",
+      "m:S-L-RAFFINATE:other_than:phase",
+      "m:S-L-RAFFINATE:part_of:composition",
+      "m:S-L-RAFFINATE:reverse:flow",
+      "m:S-L-RUNDOWN:as_well_as:composition",
+      "m:S-L-RUNDOWN:less:flow",
+      "m:S-L-RUNDOWN:less:pressure",
+      "m:S-L-RUNDOWN:less:temperature",
+      "m:S-L-RUNDOWN:more:flow",
+      "m:S-L-RUNDOWN:more:pressure",
+      "m:S-L-RUNDOWN:more:temperature",
+      "m:S-L-RUNDOWN:no:flow",
+      "m:S-L-RUNDOWN:other_than:composition",
+      "m:S-L-RUNDOWN:other_than:phase",
+      "m:S-L-RUNDOWN:part_of:composition",
+      "m:S-L-RUNDOWN:reverse:flow",
+      "m:S-L-RUNDOWN~E-106:as_well_as:composition",
+      "m:S-L-RUNDOWN~E-106:less:flow",
+      "m:S-L-RUNDOWN~E-106:less:pressure",
+      "m:S-L-RUNDOWN~E-106:less:temperature",
+      "m:S-L-RUNDOWN~E-106:more:flow",
+      "m:S-L-RUNDOWN~E-106:more:pressure",
+      "m:S-L-RUNDOWN~E-106:more:temperature",
+      "m:S-L-RUNDOWN~E-106:no:flow",
+      "m:S-L-RUNDOWN~E-106:other_than:composition",
+      "m:S-L-RUNDOWN~E-106:other_than:phase",
+      "m:S-L-RUNDOWN~E-106:part_of:composition",
+      "m:S-L-RUNDOWN~E-106:reverse:flow",
+      "m:S-L-STARTUP-RECYCLE:as_well_as:composition",
+      "m:S-L-STARTUP-RECYCLE:less:flow",
+      "m:S-L-STARTUP-RECYCLE:less:pressure",
+      "m:S-L-STARTUP-RECYCLE:less:temperature",
+      "m:S-L-STARTUP-RECYCLE:more:flow",
+      "m:S-L-STARTUP-RECYCLE:more:pressure",
+      "m:S-L-STARTUP-RECYCLE:more:temperature",
+      "m:S-L-STARTUP-RECYCLE:no:flow",
+      "m:S-L-STARTUP-RECYCLE:other_than:composition",
+      "m:S-L-STARTUP-RECYCLE:other_than:phase",
+      "m:S-L-STARTUP-RECYCLE:part_of:composition",
+      "m:S-L-STARTUP-RECYCLE:reverse:flow",
+      "m:S-P-104A:less:flow",
+      "m:S-P-104A:less:pressure",
+      "m:S-P-104A:more:flow",
+      "m:S-P-104A:more:pressure",
+      "m:S-P-104A:more:temperature",
+      "m:S-P-104A:no:flow",
+      "m:S-P-104A:reverse:flow",
+      "m:S-P-104B:less:flow",
+      "m:S-P-104B:less:pressure",
+      "m:S-P-104B:more:flow",
+      "m:S-P-104B:more:pressure",
+      "m:S-P-104B:more:temperature",
+      "m:S-P-104B:no:flow",
+      "m:S-P-104B:reverse:flow",
+      "m:S-TK-201:as_well_as:composition",
+      "m:S-TK-201:less:level",
+      "m:S-TK-201:less:pressure",
+      "m:S-TK-201:less:temperature",
+      "m:S-TK-201:more:level",
+      "m:S-TK-201:more:pressure"
+     ],
+     "skipped": [],
+     "dropped_ids": []
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:72f4576870549d68:reactivity_lookup:761cf42778ad08e6",
+   "position": 18,
+   "record": {
+    "id": "tc:step:72f4576870549d68:reactivity_lookup:761cf42778ad08e6",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:72f4576870549d68",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "TBC",
+     "chemical_b": "water"
+    },
+    "result": null,
+    "refused_reason": "water is not a chemical in this plant",
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:764dd74115025bc3:reactivity_lookup:5715b475d06b25fb",
+   "position": 62,
+   "record": {
+    "id": "tc:step:764dd74115025bc3:reactivity_lookup:5715b475d06b25fb",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:764dd74115025bc3",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "BUTANES",
+     "chemical_b": "NMP"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "BUTANES",
+       "name": "butanes",
+       "epa_groups": [
+        29
+       ],
+       "cameo_groups": [
+        {
+         "id": 29,
+         "name": "Hydrocarbons, Aliphatic Saturated"
+        }
+       ]
+      },
+      {
+       "id": "NMP",
+       "name": "N-methylpyrrolidone",
+       "epa_groups": [
+        6
+       ],
+       "cameo_groups": [
+        {
+         "id": 6,
+         "name": "Amides and Imides"
+        }
+       ]
+      }
+     ],
+     "pairs": [
+      {
+       "groups": [
+        29,
+        6
+       ],
+       "group_names": [
+        "Hydrocarbons, Aliphatic, Saturated",
+        "Amides"
+       ],
+       "status": "not_listed",
+       "codes": [],
+       "source": "no row in reactive_pairs.csv"
+      }
+     ],
+     "no_groups": [],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:768403f71063dade:reactivity_lookup:adfdb6ccc0be77f2",
+   "position": 16,
+   "record": {
+    "id": "tc:step:768403f71063dade:reactivity_lookup:adfdb6ccc0be77f2",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:768403f71063dade",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "TBC",
+     "chemical_b": "TBC"
+    },
+    "result": null,
+    "refused_reason": "at most 2 tool calls per batch",
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:7dfc474149955a09:dispatch_specialist:906722f84f284bf1",
+   "position": 46,
+   "record": {
+    "id": "tc:step:7dfc474149955a09:dispatch_specialist:906722f84f284bf1",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:7dfc474149955a09",
+    "tool": "dispatch_specialist",
+    "arguments": {
+     "reason": "Chemistry questions are a complete untouched list (63 open). Dispatching first bulk batch to chemistry agent.",
+     "agent": "chemistry",
+     "level": "bulk"
+    },
+    "result": {
+     "summary": "chemistry at bulk: 15 answered, 45 failed, 4 findings",
+     "question_ids": [
+      "env:ACETYLENES:air",
+      "env:ACETYLENES:heat",
+      "env:ACETYLENES:water",
+      "env:ANTIFOAM:air",
+      "env:ANTIFOAM:heat",
+      "env:ANTIFOAM:water",
+      "env:BUTADIENE:air",
+      "env:BUTADIENE:heat",
+      "env:BUTADIENE:water",
+      "env:BUTANES:air",
+      "env:BUTANES:heat",
+      "env:BUTANES:water",
+      "env:BUTENES:air",
+      "env:BUTENES:heat",
+      "env:BUTENES:water",
+      "env:HEAVIES:air",
+      "env:HEAVIES:heat",
+      "env:HEAVIES:water",
+      "env:NMP:air",
+      "env:NMP:heat",
+      "env:NMP:water",
+      "env:TBC:air",
+      "env:TBC:heat",
+      "env:TBC:water",
+      "env:WATER:air",
+      "env:WATER:heat",
+      "env:WATER:water",
+      "pair:ACETYLENES:ANTIFOAM",
+      "pair:ACETYLENES:BUTADIENE",
+      "pair:ACETYLENES:BUTANES",
+      "pair:ACETYLENES:BUTENES",
+      "pair:ACETYLENES:HEAVIES",
+      "pair:ACETYLENES:NMP",
+      "pair:ACETYLENES:TBC",
+      "pair:ACETYLENES:WATER",
+      "pair:ANTIFOAM:BUTADIENE",
+      "pair:ANTIFOAM:BUTANES",
+      "pair:ANTIFOAM:BUTENES",
+      "pair:ANTIFOAM:HEAVIES",
+      "pair:ANTIFOAM:NMP",
+      "pair:ANTIFOAM:TBC",
+      "pair:ANTIFOAM:WATER",
+      "pair:BUTADIENE:BUTANES",
+      "pair:BUTADIENE:BUTENES",
+      "pair:BUTADIENE:HEAVIES",
+      "pair:BUTADIENE:NMP",
+      "pair:BUTADIENE:TBC",
+      "pair:BUTADIENE:WATER",
+      "pair:BUTANES:BUTENES",
+      "pair:BUTANES:HEAVIES",
+      "pair:BUTANES:NMP",
+      "pair:BUTANES:TBC",
+      "pair:BUTANES:WATER",
+      "pair:BUTENES:HEAVIES",
+      "pair:BUTENES:NMP",
+      "pair:BUTENES:TBC",
+      "pair:BUTENES:WATER",
+      "pair:HEAVIES:NMP",
+      "pair:HEAVIES:TBC",
+      "pair:HEAVIES:WATER"
+     ],
+     "skipped": [],
+     "dropped_ids": []
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:7fb43643b85665a9:reactivity_lookup:88683c7ee86deb83",
+   "position": 70,
+   "record": {
+    "id": "tc:step:7fb43643b85665a9:reactivity_lookup:88683c7ee86deb83",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:7fb43643b85665a9",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "NMP",
+     "chemical_b": "WATER"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "NMP",
+       "name": "N-methylpyrrolidone",
+       "epa_groups": [
+        6
+       ],
+       "cameo_groups": [
+        {
+         "id": 6,
+         "name": "Amides and Imides"
+        }
+       ]
+      },
+      {
+       "id": "WATER",
+       "name": "water (traces)",
+       "epa_groups": [
+        106
+       ],
+       "cameo_groups": [
+        {
+         "id": 100,
+         "name": "Water and Aqueous Solutions"
+        }
+       ]
+      }
+     ],
+     "pairs": [
+      {
+       "groups": [
+        6,
+        106
+       ],
+       "group_names": [
+        "Amides",
+        "Water and Mixtures Containing Water"
+       ],
+       "status": "not_listed",
+       "codes": [],
+       "source": "no row in reactive_pairs.csv"
+      }
+     ],
+     "no_groups": [],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:8126aa3a5dee73cb:dispatch_specialist:9c52621788ae8cfc",
+   "position": 67,
+   "record": {
+    "id": "tc:step:8126aa3a5dee73cb:dispatch_specialist:9c52621788ae8cfc",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:8126aa3a5dee73cb",
+    "tool": "dispatch_specialist",
+    "arguments": {
+     "reason": "Process questions remain the largest open set (236). Dispatching next bulk batch of 60 to process agent.",
+     "agent": "process",
+     "level": "bulk"
+    },
+    "result": {
+     "summary": "process at bulk: 27 answered, 33 failed, 35 findings",
+     "question_ids": [
+      "ai:S-C-103:38c777ceff69217d",
+      "ai:S-C-103:9932e58d1d115c36",
+      "m:S-E-104:more:flow",
+      "m:S-E-104:more:pressure",
+      "m:S-E-104:more:temperature",
+      "m:S-E-104:no:flow",
+      "m:S-E-104:other_than:composition",
+      "m:S-E-104:reverse:flow",
+      "m:S-E-105:as_well_as:composition",
+      "m:S-E-105:less:flow",
+      "m:S-E-105:less:pressure",
+      "m:S-E-105:less:temperature",
+      "m:S-E-105:more:flow",
+      "m:S-E-105:more:pressure",
+      "m:S-E-105:more:temperature",
+      "m:S-E-105:no:flow",
+      "m:S-E-105:other_than:composition",
+      "m:S-E-105:reverse:flow",
+      "m:S-E-106:as_well_as:composition",
+      "m:S-E-106:less:flow",
+      "m:S-E-106:less:pressure",
+      "m:S-E-106:less:temperature",
+      "m:S-E-106:more:flow",
+      "m:S-E-106:more:pressure",
+      "m:S-E-106:more:temperature",
+      "m:S-E-106:no:flow",
+      "m:S-E-106:other_than:composition",
+      "m:S-E-106:reverse:flow",
+      "m:S-FLARE-HEADER:as_well_as:composition",
+      "m:S-FLARE-HEADER:less:flow",
+      "m:S-FLARE-HEADER:less:pressure",
+      "m:S-FLARE-HEADER:less:temperature",
+      "m:S-FLARE-HEADER:more:flow",
+      "m:S-FLARE-HEADER:more:pressure",
+      "m:S-FLARE-HEADER:more:temperature",
+      "m:S-FLARE-HEADER:no:flow",
+      "m:S-FLARE-HEADER:other_than:composition",
+      "m:S-FLARE-HEADER:part_of:composition",
+      "m:S-FLARE-HEADER:reverse:flow",
+      "m:S-L-E106-BYPASS:as_well_as:composition",
+      "m:S-L-E106-BYPASS:less:flow",
+      "m:S-L-E106-BYPASS:less:pressure",
+      "m:S-L-E106-BYPASS:less:temperature",
+      "m:S-L-E106-BYPASS:more:flow",
+      "m:S-L-E106-BYPASS:more:pressure",
+      "m:S-L-E106-BYPASS:more:temperature",
+      "m:S-L-E106-BYPASS:no:flow",
+      "m:S-L-E106-BYPASS:other_than:composition",
+      "m:S-L-E106-BYPASS:other_than:phase",
+      "m:S-L-E106-BYPASS:part_of:composition",
+      "m:S-L-E106-BYPASS:reverse:flow",
+      "m:S-L-FEED:as_well_as:composition",
+      "m:S-L-FEED:less:flow",
+      "m:S-L-FEED:less:pressure",
+      "m:S-L-FEED:less:temperature",
+      "m:S-L-FEED:more:flow",
+      "m:S-L-FEED:more:pressure",
+      "m:S-L-FEED:more:temperature",
+      "m:S-L-FEED:no:flow",
+      "m:S-L-FEED:other_than:composition"
+     ],
+     "skipped": [],
+     "dropped_ids": []
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:81edb6d67cfeaf1b:reactivity_lookup:2a207a5e44513788",
+   "position": 57,
+   "record": {
+    "id": "tc:step:81edb6d67cfeaf1b:reactivity_lookup:2a207a5e44513788",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:81edb6d67cfeaf1b",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "BUTADIENE",
+     "chemical_b": "TBC"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "BUTADIENE",
+       "name": "1,3-butadiene",
+       "epa_groups": [
+        28,
+        103
+       ],
+       "cameo_groups": [
+        {
+         "id": 65,
+         "name": "Conjugated Dienes"
+        },
+        {
+         "id": 76,
+         "name": "Polymerizable Compounds"
+        }
+       ]
+      },
+      {
+       "id": "TBC",
+       "name": "tert-butylcatechol",
+       "epa_groups": [
+        31
+       ],
+       "cameo_groups": [
+        {
+         "id": 31,
+         "name": "Phenols and Cresols"
+        }
+       ]
+      }
+     ],
+     "pairs": [
+      {
+       "groups": [
+        28,
+        31
+       ],
+       "group_names": [
+        "Hydrocarbons, Aliphatic, Unsaturated",
+        "Phenols and Cresols"
+       ],
+       "status": "not_listed",
+       "codes": [],
+       "source": "no row in reactive_pairs.csv"
+      },
+      {
+       "groups": [
+        103,
+        31
+       ],
+       "group_names": [
+        "Polymerizable Compounds",
+        "Phenols and Cresols"
+       ],
+       "status": "listed",
+       "codes": [
+        {
+         "code": "H",
+         "meaning": "heat"
+        },
+        {
+         "code": "P",
+         "meaning": "violent polymerisation"
+        }
+       ],
+       "source": "US EPA, A Method for Determining the Compatibility of Hazardous Wastes, EPA-600/2-80-076 (Hatayama et al., April 1980), compatibility chart; one-page reproduction EPA80chemcompatibility1 (2000), transcribed 2026-10-11"
+      }
+     ],
+     "no_groups": [],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:85eaef691557835a:dispatch_specialist:e86b36d5b0a87ad6",
+   "position": 72,
+   "record": {
+    "id": "tc:step:85eaef691557835a:dispatch_specialist:e86b36d5b0a87ad6",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:85eaef691557835a",
+    "tool": "dispatch_specialist",
+    "arguments": {
+     "reason": "Clear the last 3 open chemistry questions (chemical pairs with water)",
+     "agent": "chemistry",
+     "level": "bulk",
+     "question_ids": [
+      "pair:NMP:TBC",
+      "pair:NMP:WATER",
+      "pair:TBC:WATER"
+     ]
+    },
+    "result": {
+     "summary": "chemistry at bulk: 0 answered, 3 failed, 0 findings",
+     "question_ids": [
+      "pair:NMP:TBC",
+      "pair:NMP:WATER",
+      "pair:TBC:WATER"
+     ],
+     "skipped": [],
+     "dropped_ids": []
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:894a4ee021ed132e:dispatch_specialist:7b92af9edda147d9",
+   "position": 79,
+   "record": {
+    "id": "tc:step:894a4ee021ed132e:dispatch_specialist:7b92af9edda147d9",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:894a4ee021ed132e",
+    "tool": "dispatch_specialist",
+    "arguments": {
+     "reason": "Process questions remain the largest open set (65). Dispatching next bulk batch of 60 to process agent.",
+     "agent": "process",
+     "level": "bulk"
+    },
+    "result": null,
+    "refused_reason": "nothing to dispatch to process at level bulk",
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:8c5c5c50e9ea9346:reactivity_lookup:88683c7ee86deb83",
+   "position": 10,
+   "record": {
+    "id": "tc:step:8c5c5c50e9ea9346:reactivity_lookup:88683c7ee86deb83",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:8c5c5c50e9ea9346",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "NMP",
+     "chemical_b": "WATER"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "NMP",
+       "name": "N-methylpyrrolidone",
+       "epa_groups": [
+        6
+       ],
+       "cameo_groups": [
+        {
+         "id": 6,
+         "name": "Amides and Imides"
+        }
+       ]
+      },
+      {
+       "id": "WATER",
+       "name": "water (traces)",
+       "epa_groups": [
+        106
+       ],
+       "cameo_groups": [
+        {
+         "id": 100,
+         "name": "Water and Aqueous Solutions"
+        }
+       ]
+      }
+     ],
+     "pairs": [
+      {
+       "groups": [
+        6,
+        106
+       ],
+       "group_names": [
+        "Amides",
+        "Water and Mixtures Containing Water"
+       ],
+       "status": "not_listed",
+       "codes": [],
+       "source": "no row in reactive_pairs.csv"
+      }
+     ],
+     "no_groups": [],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:8f076dc0daa15cab:dispatch_specialist:6263d75ad9195ca1",
+   "position": 76,
+   "record": {
+    "id": "tc:step:8f076dc0daa15cab:dispatch_specialist:6263d75ad9195ca1",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:8f076dc0daa15cab",
+    "tool": "dispatch_specialist",
+    "arguments": {
+     "reason": "Retry 66 failed process questions at hard level (marked for retry in view)",
+     "agent": "process",
+     "level": "hard",
+     "question_ids": [
+      "m:S-E-104:more:flow",
+      "m:S-E-104:more:pressure",
+      "m:S-E-104:more:temperature",
+      "m:S-E-104:no:flow",
+      "m:S-E-104:other_than:composition",
+      "m:S-FLARE-HEADER:as_well_as:composition",
+      "m:S-FLARE-HEADER:less:flow",
+      "m:S-FLARE-HEADER:less:pressure",
+      "m:S-FLARE-HEADER:less:temperature",
+      "m:S-FLARE-HEADER:more:flow",
+      "m:S-FLARE-HEADER:more:pressure",
+      "m:S-FLARE-HEADER:more:temperature",
+      "m:S-FLARE-HEADER:no:flow",
+      "m:S-FLARE-HEADER:other_than:composition",
+      "m:S-FLARE-HEADER:part_of:composition",
+      "m:S-FLARE-HEADER:reverse:flow",
+      "m:S-L-E106-BYPASS:as_well_as:composition",
+      "m:S-L-E106-BYPASS:less:flow",
+      "m:S-L-E106-BYPASS:less:pressure",
+      "m:S-L-E106-BYPASS:less:temperature",
+      "m:S-L-E106-BYPASS:more:flow",
+      "m:S-L-E106-BYPASS:more:pressure",
+      "m:S-L-E106-BYPASS:more:temperature",
+      "m:S-L-E106-BYPASS:no:flow",
+      "m:S-L-E106-BYPASS:other_than:composition",
+      "m:S-L-E106-BYPASS:other_than:phase",
+      "m:S-L-E106-BYPASS:part_of:composition",
+      "m:S-L-E106-BYPASS:reverse:flow",
+      "m:S-L-FEED:as_well_as:composition",
+      "m:S-L-FEED:less:flow",
+      "m:S-L-FEED:less:pressure",
+      "m:S-L-FEED:less:temperature",
+      "m:S-L-FEED:more:flow",
+      "m:S-L-HEAVIES:reverse:flow",
+      "m:S-L-OFFSPEC:as_well_as:composition",
+      "m:S-L-OFFSPEC:less:flow",
+      "m:S-L-OFFSPEC:less:pressure",
+      "m:S-L-OFFSPEC:less:temperature",
+      "m:S-L-OFFSPEC:more:flow",
+      "m:S-L-OFFSPEC:more:pressure",
+      "m:S-L-OFFSPEC:more:temperature",
+      "m:S-L-OFFSPEC:no:flow",
+      "m:S-L-OFFSPEC:other_than:composition",
+      "m:S-L-OFFSPEC:other_than:phase",
+      "m:S-L-OFFSPEC:part_of:composition",
+      "m:S-L-OFFSPEC:reverse:flow",
+      "m:S-L-P104B-DIS:as_well_as:composition",
+      "m:S-L-P104B-DIS:less:flow",
+      "m:S-L-P104B-DIS:less:pressure",
+      "m:S-L-P104B-DIS:less:temperature",
+      "m:S-L-P104B-DIS:more:flow",
+      "m:S-L-P104B-DIS:more:pressure",
+      "m:S-L-P104B-DIS:more:temperature",
+      "m:S-L-P104B-DIS:no:flow",
+      "m:S-L-P104B-DIS:other_than:composition",
+      "m:S-L-P104B-DIS:other_than:phase",
+      "m:S-L-P104B-SUC:as_well_as:composition",
+      "m:S-L-P104B-SUC:less:flow",
+      "m:S-L-P104B-SUC:less:pressure",
+      "m:S-L-P104B-SUC:less:temperature"
+     ]
+    },
+    "result": {
+     "summary": "process at hard: 59 answered, 1 failed, 70 findings, 3 questions added",
+     "question_ids": [
+      "m:S-E-104:more:flow",
+      "m:S-E-104:more:pressure",
+      "m:S-E-104:more:temperature",
+      "m:S-E-104:no:flow",
+      "m:S-E-104:other_than:composition",
+      "m:S-FLARE-HEADER:as_well_as:composition",
+      "m:S-FLARE-HEADER:less:flow",
+      "m:S-FLARE-HEADER:less:pressure",
+      "m:S-FLARE-HEADER:less:temperature",
+      "m:S-FLARE-HEADER:more:flow",
+      "m:S-FLARE-HEADER:more:pressure",
+      "m:S-FLARE-HEADER:more:temperature",
+      "m:S-FLARE-HEADER:no:flow",
+      "m:S-FLARE-HEADER:other_than:composition",
+      "m:S-FLARE-HEADER:part_of:composition",
+      "m:S-FLARE-HEADER:reverse:flow",
+      "m:S-L-E106-BYPASS:as_well_as:composition",
+      "m:S-L-E106-BYPASS:less:flow",
+      "m:S-L-E106-BYPASS:less:pressure",
+      "m:S-L-E106-BYPASS:less:temperature",
+      "m:S-L-E106-BYPASS:more:flow",
+      "m:S-L-E106-BYPASS:more:pressure",
+      "m:S-L-E106-BYPASS:more:temperature",
+      "m:S-L-E106-BYPASS:no:flow",
+      "m:S-L-E106-BYPASS:other_than:composition",
+      "m:S-L-E106-BYPASS:other_than:phase",
+      "m:S-L-E106-BYPASS:part_of:composition",
+      "m:S-L-E106-BYPASS:reverse:flow",
+      "m:S-L-FEED:as_well_as:composition",
+      "m:S-L-FEED:less:flow",
+      "m:S-L-FEED:less:pressure",
+      "m:S-L-FEED:less:temperature",
+      "m:S-L-FEED:more:flow",
+      "m:S-L-HEAVIES:reverse:flow",
+      "m:S-L-OFFSPEC:as_well_as:composition",
+      "m:S-L-OFFSPEC:less:flow",
+      "m:S-L-OFFSPEC:less:pressure",
+      "m:S-L-OFFSPEC:less:temperature",
+      "m:S-L-OFFSPEC:more:flow",
+      "m:S-L-OFFSPEC:more:pressure",
+      "m:S-L-OFFSPEC:more:temperature",
+      "m:S-L-OFFSPEC:no:flow",
+      "m:S-L-OFFSPEC:other_than:composition",
+      "m:S-L-OFFSPEC:other_than:phase",
+      "m:S-L-OFFSPEC:part_of:composition",
+      "m:S-L-OFFSPEC:reverse:flow",
+      "m:S-L-P104B-DIS:as_well_as:composition",
+      "m:S-L-P104B-DIS:less:flow",
+      "m:S-L-P104B-DIS:less:pressure",
+      "m:S-L-P104B-DIS:less:temperature",
+      "m:S-L-P104B-DIS:more:flow",
+      "m:S-L-P104B-DIS:more:pressure",
+      "m:S-L-P104B-DIS:more:temperature",
+      "m:S-L-P104B-DIS:no:flow",
+      "m:S-L-P104B-DIS:other_than:composition",
+      "m:S-L-P104B-DIS:other_than:phase",
+      "m:S-L-P104B-SUC:as_well_as:composition",
+      "m:S-L-P104B-SUC:less:flow",
+      "m:S-L-P104B-SUC:less:pressure",
+      "m:S-L-P104B-SUC:less:temperature"
+     ],
+     "skipped": [],
+     "dropped_ids": []
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:918bf438f5b50f19:reactivity_lookup:3f6d9a90391da6a5",
+   "position": 29,
+   "record": {
+    "id": "tc:step:918bf438f5b50f19:reactivity_lookup:3f6d9a90391da6a5",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:918bf438f5b50f19",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "ANTIFOAM",
+     "chemical_b": "NMP"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "ANTIFOAM",
+       "name": "antifoam",
+       "epa_groups": [],
+       "cameo_groups": [
+        {
+         "id": 99,
+         "name": "Insufficient Information for Classification"
+        }
+       ]
+      },
+      {
+       "id": "NMP",
+       "name": "N-methylpyrrolidone",
+       "epa_groups": [
+        6
+       ],
+       "cameo_groups": [
+        {
+         "id": 6,
+         "name": "Amides and Imides"
+        }
+       ]
+      }
+     ],
+     "pairs": [],
+     "no_groups": [
+      "ANTIFOAM"
+     ],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:9395c7c61910efad:reactivity_lookup:2a56dabf0b48d250",
+   "position": 26,
+   "record": {
+    "id": "tc:step:9395c7c61910efad:reactivity_lookup:2a56dabf0b48d250",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:9395c7c61910efad",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "ANTIFOAM",
+     "chemical_b": "BUTANES"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "ANTIFOAM",
+       "name": "antifoam",
+       "epa_groups": [],
+       "cameo_groups": [
+        {
+         "id": 99,
+         "name": "Insufficient Information for Classification"
+        }
+       ]
+      },
+      {
+       "id": "BUTANES",
+       "name": "butanes",
+       "epa_groups": [
+        29
+       ],
+       "cameo_groups": [
+        {
+         "id": 29,
+         "name": "Hydrocarbons, Aliphatic Saturated"
+        }
+       ]
+      }
+     ],
+     "pairs": [],
+     "no_groups": [
+      "ANTIFOAM"
+     ],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:944670d6e1f7c563:reactivity_lookup:2d58af0543654ba5",
+   "position": 64,
+   "record": {
+    "id": "tc:step:944670d6e1f7c563:reactivity_lookup:2d58af0543654ba5",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:944670d6e1f7c563",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "BUTANES",
+     "chemical_b": "TBC"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "BUTANES",
+       "name": "butanes",
+       "epa_groups": [
+        29
+       ],
+       "cameo_groups": [
+        {
+         "id": 29,
+         "name": "Hydrocarbons, Aliphatic Saturated"
+        }
+       ]
+      },
+      {
+       "id": "TBC",
+       "name": "tert-butylcatechol",
+       "epa_groups": [
+        31
+       ],
+       "cameo_groups": [
+        {
+         "id": 31,
+         "name": "Phenols and Cresols"
+        }
+       ]
+      }
+     ],
+     "pairs": [
+      {
+       "groups": [
+        29,
+        31
+       ],
+       "group_names": [
+        "Hydrocarbons, Aliphatic, Saturated",
+        "Phenols and Cresols"
+       ],
+       "status": "not_listed",
+       "codes": [],
+       "source": "no row in reactive_pairs.csv"
+      }
+     ],
+     "no_groups": [],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:9567622100cdcbb3:reactivity_lookup:cb8484ab390e5753",
+   "position": 23,
+   "record": {
+    "id": "tc:step:9567622100cdcbb3:reactivity_lookup:cb8484ab390e5753",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:9567622100cdcbb3",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "ACETYLENES",
+     "chemical_b": "NMP"
+    },
+    "result": null,
+    "refused_reason": "at most 2 tool calls per batch",
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:95800b090c0b3f62:reactivity_lookup:4c32773503d55f85",
+   "position": 49,
+   "record": {
+    "id": "tc:step:95800b090c0b3f62:reactivity_lookup:4c32773503d55f85",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:95800b090c0b3f62",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "ACETYLENES",
+     "chemical_b": "BUTADIENE"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "ACETYLENES",
+       "name": "acetylenes (traces)",
+       "epa_groups": [
+        28
+       ],
+       "cameo_groups": [
+        {
+         "id": 63,
+         "name": "Alkynes, with Acetylenic Hydrogen"
+        }
+       ]
+      },
+      {
+       "id": "BUTADIENE",
+       "name": "1,3-butadiene",
+       "epa_groups": [
+        28,
+        103
+       ],
+       "cameo_groups": [
+        {
+         "id": 65,
+         "name": "Conjugated Dienes"
+        },
+        {
+         "id": 76,
+         "name": "Polymerizable Compounds"
+        }
+       ]
+      }
+     ],
+     "pairs": [
+      {
+       "groups": [
+        28,
+        28
+       ],
+       "group_names": [
+        "Hydrocarbons, Aliphatic, Unsaturated",
+        "Hydrocarbons, Aliphatic, Unsaturated"
+       ],
+       "status": "not_listed",
+       "codes": [],
+       "source": "no row in reactive_pairs.csv"
+      },
+      {
+       "groups": [
+        28,
+        103
+       ],
+       "group_names": [
+        "Hydrocarbons, Aliphatic, Unsaturated",
+        "Polymerizable Compounds"
+       ],
+       "status": "not_listed",
+       "codes": [],
+       "source": "no row in reactive_pairs.csv"
+      }
+     ],
+     "no_groups": [],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:9a4711a0c3ab14c6:dispatch_specialist:e8ad588674651340",
+   "position": 81,
+   "record": {
+    "id": "tc:step:9a4711a0c3ab14c6:dispatch_specialist:e8ad588674651340",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:9a4711a0c3ab14c6",
+    "tool": "dispatch_specialist",
+    "arguments": {
+     "reason": "Piping questions for 7 no-flow lines have never been attempted (checked: 0). Dispatching all to piping agent.",
+     "agent": "piping",
+     "level": "bulk"
+    },
+    "result": {
+     "summary": "piping at bulk: 2 answered, 5 failed, 3 findings",
+     "question_ids": [
+      "ai:S-L-OFFSPEC:337779054e64c2cb",
+      "ai:S-L-OFFSPEC:e0049f7ef77f3bb4",
+      "nf:L-E106-BYPASS",
+      "nf:L-OFFSPEC",
+      "nf:L-P104B-DIS",
+      "nf:L-P104B-SUC",
+      "nf:L-STARTUP-RECYCLE"
+     ],
+     "skipped": [],
+     "dropped_ids": []
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:9c6896e6e1f1e998:reactivity_lookup:5c7671a1f21a5288",
+   "position": 12,
+   "record": {
+    "id": "tc:step:9c6896e6e1f1e998:reactivity_lookup:5c7671a1f21a5288",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:9c6896e6e1f1e998",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "TBC",
+     "chemical_b": "air"
+    },
+    "result": null,
+    "refused_reason": "air is not a chemical in this plant",
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:9c8b32fec91e20e4:web_research:cad3f98afc11dbb9",
+   "position": 97,
+   "record": {
+    "id": "tc:step:9c8b32fec91e20e4:web_research:cad3f98afc11dbb9",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:9c8b32fec91e20e4",
+    "tool": "web_research",
+    "arguments": {
+     "query": "external fire near the equipment more pressure",
+     "max_results": 5
+    },
+    "result": {
+     "cache_key": "1c10bb132fa4022e",
+     "cache_hit": false,
+     "urls": [
+      "https://www.reddit.com/r/ChemicalEngineering/comments/1n44o1v/external_fire_relief_scenario_for_equipment_indoor",
+      "https://www.nist.gov/el/fire-research-division-73300/firegov-fire-service/positive-pressure-ventilation",
+      "https://www.facebook.com/SmithCountyTexas/posts/check-out-these-fire-safety-tips-when-working-with-heavy-equipment/1492973216199488",
+      "https://asmedigitalcollection.asme.org/pressurevesseltech/article/128/1/122/462520/Fire-Versus-Non-Fire-Contingencies-A-Study-of",
+      "https://www.readyforwildfire.org/prevent-wildfire/equipment-vehicle-use"
+     ],
+     "blocked_results": 0
+    },
+    "refused_reason": null,
+    "source_urls": [
+     "https://www.reddit.com/r/ChemicalEngineering/comments/1n44o1v/external_fire_relief_scenario_for_equipment_indoor",
+     "https://www.nist.gov/el/fire-research-division-73300/firegov-fire-service/positive-pressure-ventilation",
+     "https://www.facebook.com/SmithCountyTexas/posts/check-out-these-fire-safety-tips-when-working-with-heavy-equipment/1492973216199488",
+     "https://asmedigitalcollection.asme.org/pressurevesseltech/article/128/1/122/462520/Fire-Versus-Non-Fire-Contingencies-A-Study-of",
+     "https://www.readyforwildfire.org/prevent-wildfire/equipment-vehicle-use"
+    ],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:9fac0439db6fab43:reactivity_lookup:4101836514e436a8",
+   "position": 28,
+   "record": {
+    "id": "tc:step:9fac0439db6fab43:reactivity_lookup:4101836514e436a8",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:9fac0439db6fab43",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "ANTIFOAM",
+     "chemical_b": "HEAVIES"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "ANTIFOAM",
+       "name": "antifoam",
+       "epa_groups": [],
+       "cameo_groups": [
+        {
+         "id": 99,
+         "name": "Insufficient Information for Classification"
+        }
+       ]
+      },
+      {
+       "id": "HEAVIES",
+       "name": "heavies",
+       "epa_groups": [],
+       "cameo_groups": [
+        {
+         "id": 99,
+         "name": "Insufficient Information for Classification"
+        }
+       ]
+      }
+     ],
+     "pairs": [],
+     "no_groups": [
+      "ANTIFOAM",
+      "HEAVIES"
+     ],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:9fe981552e538515:reactivity_lookup:2a207a5e44513788",
+   "position": 38,
+   "record": {
+    "id": "tc:step:9fe981552e538515:reactivity_lookup:2a207a5e44513788",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:9fe981552e538515",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "BUTADIENE",
+     "chemical_b": "TBC"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "BUTADIENE",
+       "name": "1,3-butadiene",
+       "epa_groups": [
+        28,
+        103
+       ],
+       "cameo_groups": [
+        {
+         "id": 65,
+         "name": "Conjugated Dienes"
+        },
+        {
+         "id": 76,
+         "name": "Polymerizable Compounds"
+        }
+       ]
+      },
+      {
+       "id": "TBC",
+       "name": "tert-butylcatechol",
+       "epa_groups": [
+        31
+       ],
+       "cameo_groups": [
+        {
+         "id": 31,
+         "name": "Phenols and Cresols"
+        }
+       ]
+      }
+     ],
+     "pairs": [
+      {
+       "groups": [
+        28,
+        31
+       ],
+       "group_names": [
+        "Hydrocarbons, Aliphatic, Unsaturated",
+        "Phenols and Cresols"
+       ],
+       "status": "not_listed",
+       "codes": [],
+       "source": "no row in reactive_pairs.csv"
+      },
+      {
+       "groups": [
+        103,
+        31
+       ],
+       "group_names": [
+        "Polymerizable Compounds",
+        "Phenols and Cresols"
+       ],
+       "status": "listed",
+       "codes": [
+        {
+         "code": "H",
+         "meaning": "heat"
+        },
+        {
+         "code": "P",
+         "meaning": "violent polymerisation"
+        }
+       ],
+       "source": "US EPA, A Method for Determining the Compatibility of Hazardous Wastes, EPA-600/2-80-076 (Hatayama et al., April 1980), compatibility chart; one-page reproduction EPA80chemcompatibility1 (2000), transcribed 2026-10-11"
+      }
+     ],
+     "no_groups": [],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:a0e56bf13b2d1c13:reactivity_lookup:3f17eb5418b16d92",
+   "position": 21,
+   "record": {
+    "id": "tc:step:a0e56bf13b2d1c13:reactivity_lookup:3f17eb5418b16d92",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:a0e56bf13b2d1c13",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "ACETYLENES",
+     "chemical_b": "BUTENES"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "ACETYLENES",
+       "name": "acetylenes (traces)",
+       "epa_groups": [
+        28
+       ],
+       "cameo_groups": [
+        {
+         "id": 63,
+         "name": "Alkynes, with Acetylenic Hydrogen"
+        }
+       ]
+      },
+      {
+       "id": "BUTENES",
+       "name": "butenes",
+       "epa_groups": [
+        28
+       ],
+       "cameo_groups": [
+        {
+         "id": 28,
+         "name": "Hydrocarbons, Aliphatic Unsaturated"
+        }
+       ]
+      }
+     ],
+     "pairs": [
+      {
+       "groups": [
+        28,
+        28
+       ],
+       "group_names": [
+        "Hydrocarbons, Aliphatic, Unsaturated",
+        "Hydrocarbons, Aliphatic, Unsaturated"
+       ],
+       "status": "not_listed",
+       "codes": [],
+       "source": "no row in reactive_pairs.csv"
+      }
+     ],
+     "no_groups": [],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:a10520a9bc6da2ea:reactivity_lookup:4c24b8e13d53cf3d",
+   "position": 65,
+   "record": {
+    "id": "tc:step:a10520a9bc6da2ea:reactivity_lookup:4c24b8e13d53cf3d",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:a10520a9bc6da2ea",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "BUTENES",
+     "chemical_b": "WATER"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "BUTENES",
+       "name": "butenes",
+       "epa_groups": [
+        28
+       ],
+       "cameo_groups": [
+        {
+         "id": 28,
+         "name": "Hydrocarbons, Aliphatic Unsaturated"
+        }
+       ]
+      },
+      {
+       "id": "WATER",
+       "name": "water (traces)",
+       "epa_groups": [
+        106
+       ],
+       "cameo_groups": [
+        {
+         "id": 100,
+         "name": "Water and Aqueous Solutions"
+        }
+       ]
+      }
+     ],
+     "pairs": [
+      {
+       "groups": [
+        28,
+        106
+       ],
+       "group_names": [
+        "Hydrocarbons, Aliphatic, Unsaturated",
+        "Water and Mixtures Containing Water"
+       ],
+       "status": "not_listed",
+       "codes": [],
+       "source": "no row in reactive_pairs.csv"
+      }
+     ],
+     "no_groups": [],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:a196f770e8ccd40b:reactivity_lookup:adbd7b46cce687c2",
+   "position": 51,
+   "record": {
+    "id": "tc:step:a196f770e8ccd40b:reactivity_lookup:adbd7b46cce687c2",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:a196f770e8ccd40b",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "ACETYLENES",
+     "chemical_b": "WATER"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "ACETYLENES",
+       "name": "acetylenes (traces)",
+       "epa_groups": [
+        28
+       ],
+       "cameo_groups": [
+        {
+         "id": 63,
+         "name": "Alkynes, with Acetylenic Hydrogen"
+        }
+       ]
+      },
+      {
+       "id": "WATER",
+       "name": "water (traces)",
+       "epa_groups": [
+        106
+       ],
+       "cameo_groups": [
+        {
+         "id": 100,
+         "name": "Water and Aqueous Solutions"
+        }
+       ]
+      }
+     ],
+     "pairs": [
+      {
+       "groups": [
+        28,
+        106
+       ],
+       "group_names": [
+        "Hydrocarbons, Aliphatic, Unsaturated",
+        "Water and Mixtures Containing Water"
+       ],
+       "status": "not_listed",
+       "codes": [],
+       "source": "no row in reactive_pairs.csv"
+      }
+     ],
+     "no_groups": [],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:a61962b295e42d68:reactivity_lookup:13b6a3adfa417e94",
+   "position": 60,
+   "record": {
+    "id": "tc:step:a61962b295e42d68:reactivity_lookup:13b6a3adfa417e94",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:a61962b295e42d68",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "BUTADIENE",
+     "chemical_b": "WATER"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "BUTADIENE",
+       "name": "1,3-butadiene",
+       "epa_groups": [
+        28,
+        103
+       ],
+       "cameo_groups": [
+        {
+         "id": 65,
+         "name": "Conjugated Dienes"
+        },
+        {
+         "id": 76,
+         "name": "Polymerizable Compounds"
+        }
+       ]
+      },
+      {
+       "id": "WATER",
+       "name": "water (traces)",
+       "epa_groups": [
+        106
+       ],
+       "cameo_groups": [
+        {
+         "id": 100,
+         "name": "Water and Aqueous Solutions"
+        }
+       ]
+      }
+     ],
+     "pairs": [
+      {
+       "groups": [
+        28,
+        106
+       ],
+       "group_names": [
+        "Hydrocarbons, Aliphatic, Unsaturated",
+        "Water and Mixtures Containing Water"
+       ],
+       "status": "not_listed",
+       "codes": [],
+       "source": "no row in reactive_pairs.csv"
+      },
+      {
+       "groups": [
+        103,
+        106
+       ],
+       "group_names": [
+        "Polymerizable Compounds",
+        "Water and Mixtures Containing Water"
+       ],
+       "status": "not_listed",
+       "codes": [],
+       "source": "no row in reactive_pairs.csv"
+      }
+     ],
+     "no_groups": [],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:a67d0daaae0ee646:dispatch_specialist:bb56a66526555b4c",
+   "position": 0,
+   "record": {
+    "id": "tc:step:a67d0daaae0ee646:dispatch_specialist:bb56a66526555b4c",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:a67d0daaae0ee646",
+    "tool": "dispatch_specialist",
+    "arguments": {
+     "reason": "Process questions are the largest open set (294). Dispatching first bulk batch of 60 to process agent.",
+     "agent": "process",
+     "level": "bulk"
+    },
+    "result": {
+     "summary": "process at bulk: 26 answered, 34 failed, 37 findings",
+     "question_ids": [
+      "m:S-C-101:as_well_as:composition",
+      "m:S-C-101:less:flow",
+      "m:S-C-101:less:level",
+      "m:S-C-101:less:pressure",
+      "m:S-C-101:less:temperature",
+      "m:S-C-101:more:flow",
+      "m:S-C-101:more:level",
+      "m:S-C-101:more:pressure",
+      "m:S-C-101:more:temperature",
+      "m:S-C-101:no:flow",
+      "m:S-C-101:no:level",
+      "m:S-C-101:other_than:composition",
+      "m:S-C-101:other_than:phase",
+      "m:S-C-101:part_of:composition",
+      "m:S-C-102:as_well_as:composition",
+      "m:S-C-102:less:flow",
+      "m:S-C-102:less:level",
+      "m:S-C-102:less:pressure",
+      "m:S-C-102:less:temperature",
+      "m:S-C-102:more:flow",
+      "m:S-C-102:more:level",
+      "m:S-C-102:more:pressure",
+      "m:S-C-102:more:temperature",
+      "m:S-C-102:no:flow",
+      "m:S-C-102:no:level",
+      "m:S-C-102:other_than:composition",
+      "m:S-C-102:other_than:phase",
+      "m:S-C-102:part_of:composition",
+      "m:S-C-103:as_well_as:composition",
+      "m:S-C-103:less:flow",
+      "m:S-C-103:less:level",
+      "m:S-C-103:less:pressure",
+      "m:S-C-103:less:temperature",
+      "m:S-C-103:more:flow",
+      "m:S-C-103:more:level",
+      "m:S-C-103:more:pressure",
+      "m:S-C-103:more:temperature",
+      "m:S-C-103:no:flow",
+      "m:S-C-103:no:level",
+      "m:S-C-103:other_than:composition",
+      "m:S-C-103:other_than:phase",
+      "m:S-C-103:part_of:composition",
+      "m:S-C-104:as_well_as:composition",
+      "m:S-C-104:less:flow",
+      "m:S-C-104:less:level",
+      "m:S-C-104:less:pressure",
+      "m:S-C-104:less:temperature",
+      "m:S-C-104:more:flow",
+      "m:S-C-104:more:level",
+      "m:S-C-104:more:pressure",
+      "m:S-C-104:more:temperature",
+      "m:S-C-104:no:flow",
+      "m:S-C-104:no:level",
+      "m:S-C-104:other_than:composition",
+      "m:S-C-104:other_than:phase",
+      "m:S-C-104:part_of:composition",
+      "m:S-E-104:as_well_as:composition",
+      "m:S-E-104:less:flow",
+      "m:S-E-104:less:pressure",
+      "m:S-E-104:less:temperature"
+     ],
+     "skipped": [],
+     "dropped_ids": []
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:a982a255ce94eaa4:reactivity_lookup:aa4d6bc1ea7c682f",
+   "position": 30,
+   "record": {
+    "id": "tc:step:a982a255ce94eaa4:reactivity_lookup:aa4d6bc1ea7c682f",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:a982a255ce94eaa4",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "ANTIFOAM",
+     "chemical_b": "TBC"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "ANTIFOAM",
+       "name": "antifoam",
+       "epa_groups": [],
+       "cameo_groups": [
+        {
+         "id": 99,
+         "name": "Insufficient Information for Classification"
+        }
+       ]
+      },
+      {
+       "id": "TBC",
+       "name": "tert-butylcatechol",
+       "epa_groups": [
+        31
+       ],
+       "cameo_groups": [
+        {
+         "id": 31,
+         "name": "Phenols and Cresols"
+        }
+       ]
+      }
+     ],
+     "pairs": [],
+     "no_groups": [
+      "ANTIFOAM"
+     ],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:aa0232fd193480be:reactivity_lookup:2a207a5e44513788",
+   "position": 59,
+   "record": {
+    "id": "tc:step:aa0232fd193480be:reactivity_lookup:2a207a5e44513788",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:aa0232fd193480be",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "BUTADIENE",
+     "chemical_b": "TBC"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "BUTADIENE",
+       "name": "1,3-butadiene",
+       "epa_groups": [
+        28,
+        103
+       ],
+       "cameo_groups": [
+        {
+         "id": 65,
+         "name": "Conjugated Dienes"
+        },
+        {
+         "id": 76,
+         "name": "Polymerizable Compounds"
+        }
+       ]
+      },
+      {
+       "id": "TBC",
+       "name": "tert-butylcatechol",
+       "epa_groups": [
+        31
+       ],
+       "cameo_groups": [
+        {
+         "id": 31,
+         "name": "Phenols and Cresols"
+        }
+       ]
+      }
+     ],
+     "pairs": [
+      {
+       "groups": [
+        28,
+        31
+       ],
+       "group_names": [
+        "Hydrocarbons, Aliphatic, Unsaturated",
+        "Phenols and Cresols"
+       ],
+       "status": "not_listed",
+       "codes": [],
+       "source": "no row in reactive_pairs.csv"
+      },
+      {
+       "groups": [
+        103,
+        31
+       ],
+       "group_names": [
+        "Polymerizable Compounds",
+        "Phenols and Cresols"
+       ],
+       "status": "listed",
+       "codes": [
+        {
+         "code": "H",
+         "meaning": "heat"
+        },
+        {
+         "code": "P",
+         "meaning": "violent polymerisation"
+        }
+       ],
+       "source": "US EPA, A Method for Determining the Compatibility of Hazardous Wastes, EPA-600/2-80-076 (Hatayama et al., April 1980), compatibility chart; one-page reproduction EPA80chemcompatibility1 (2000), transcribed 2026-10-11"
+      }
+     ],
+     "no_groups": [],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:aaaacf6cede48e14:search_precedent:c052d126f525100a",
+   "position": 100,
+   "record": {
+    "id": "tc:step:aaaacf6cede48e14:search_precedent:c052d126f525100a",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:aaaacf6cede48e14",
+    "tool": "search_precedent",
+    "arguments": {
+     "query": "external fire near the equipment more pressure",
+     "k": 5
+    },
+    "result": {
+     "candidates": [
+      "CSB-121",
+      "CSB-029",
+      "CSB-052",
+      "CSB-004",
+      "CSB-112"
+     ],
+     "scores": [
+      7.510086300469904,
+      4.538706201328435,
+      4.5120997335025,
+      4.476311233839505,
+      3.5815432109818937
+     ],
+     "blocked_rows": 1,
+     "index_version": "14678fe5d063a968bb6c3557a2fc43dc2a48707ba1d7e796fb496baadd0671e1"
+    },
+    "refused_reason": null,
+    "source_urls": [
+     "https://www.csb.gov/sonat-exploration-co-catastrophic-vessel-overpressurization/",
+     "https://www.csb.gov/loy-lange-box-company-pressure-vessel-explosion-/",
+     "https://www.csb.gov/millard-refrigerated-services-ammonia-release/",
+     "https://www.csb.gov/givaudan-sense-colour-explosion-/",
+     "https://www.csb.gov/blsr-operating-ltd-vapor-cloud-fire/"
+    ],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:acff6b527b9b89b0:reactivity_lookup:88683c7ee86deb83",
+   "position": 73,
+   "record": {
+    "id": "tc:step:acff6b527b9b89b0:reactivity_lookup:88683c7ee86deb83",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:acff6b527b9b89b0",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "NMP",
+     "chemical_b": "WATER"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "NMP",
+       "name": "N-methylpyrrolidone",
+       "epa_groups": [
+        6
+       ],
+       "cameo_groups": [
+        {
+         "id": 6,
+         "name": "Amides and Imides"
+        }
+       ]
+      },
+      {
+       "id": "WATER",
+       "name": "water (traces)",
+       "epa_groups": [
+        106
+       ],
+       "cameo_groups": [
+        {
+         "id": 100,
+         "name": "Water and Aqueous Solutions"
+        }
+       ]
+      }
+     ],
+     "pairs": [
+      {
+       "groups": [
+        6,
+        106
+       ],
+       "group_names": [
+        "Amides",
+        "Water and Mixtures Containing Water"
+       ],
+       "status": "not_listed",
+       "codes": [],
+       "source": "no row in reactive_pairs.csv"
+      }
+     ],
+     "no_groups": [],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:af1475b12e03e346:reactivity_lookup:4fd406304baf249e",
+   "position": 5,
+   "record": {
+    "id": "tc:step:af1475b12e03e346:reactivity_lookup:4fd406304baf249e",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:af1475b12e03e346",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "BUTADIENE",
+     "chemical_b": "BUTADIENE"
+    },
+    "result": null,
+    "refused_reason": "reactivity_lookup needs two different chemicals",
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:af4df8c29675a2c4:reactivity_lookup:bb54430b91e90870",
+   "position": 25,
+   "record": {
+    "id": "tc:step:af4df8c29675a2c4:reactivity_lookup:bb54430b91e90870",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:af4df8c29675a2c4",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "ANTIFOAM",
+     "chemical_b": "BUTENES"
+    },
+    "result": null,
+    "refused_reason": "at most 2 tool calls per batch",
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:afe19f576b125336:web_research:d4f8861dbdd6c9d3",
+   "position": 95,
+   "record": {
+    "id": "tc:step:afe19f576b125336:web_research:d4f8861dbdd6c9d3",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:afe19f576b125336",
+    "tool": "web_research",
+    "arguments": {
+     "query": "external fire near the equipment 1 3 butadiene",
+     "max_results": 5
+    },
+    "result": {
+     "cache_key": "8d8575987e45baad",
+     "cache_hit": false,
+     "urls": [
+      "https://www.carexcanada.ca/profile/13-butadiene",
+      "https://cameochemicals.noaa.gov/chemical/4891",
+      "https://www.airgas.com/msds/001008.pdf",
+      "https://wwwn.cdc.gov/tsp/PHS/PHS.aspx?phsid=457&toxid=81",
+      "https://www.inchem.org/documents/icsc/icsc/eics0017.htm"
+     ],
+     "blocked_results": 0
+    },
+    "refused_reason": null,
+    "source_urls": [
+     "https://www.carexcanada.ca/profile/13-butadiene",
+     "https://cameochemicals.noaa.gov/chemical/4891",
+     "https://www.airgas.com/msds/001008.pdf",
+     "https://wwwn.cdc.gov/tsp/PHS/PHS.aspx?phsid=457&toxid=81",
+     "https://www.inchem.org/documents/icsc/icsc/eics0017.htm"
+    ],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:ba4ecdbfa3909c28:reactivity_lookup:5c7671a1f21a5288",
+   "position": 11,
+   "record": {
+    "id": "tc:step:ba4ecdbfa3909c28:reactivity_lookup:5c7671a1f21a5288",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:ba4ecdbfa3909c28",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "TBC",
+     "chemical_b": "air"
+    },
+    "result": null,
+    "refused_reason": "at most 2 tool calls per batch",
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:bacc4bd33b69e86f:dispatch_specialist:bd54706b492d2b4b",
+   "position": 87,
+   "record": {
+    "id": "tc:step:bacc4bd33b69e86f:dispatch_specialist:bd54706b492d2b4b",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:bacc4bd33b69e86f",
+    "tool": "dispatch_specialist",
+    "arguments": {
+     "reason": "12 failed chemical pairs and 5 failed chemical environments need answers; chemistry hard dispatch was refused, trying bulk level first",
+     "agent": "chemistry",
+     "level": "bulk"
+    },
+    "result": null,
+    "refused_reason": "nothing to dispatch to chemistry at level bulk",
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:bfb41e8004583f32:reactivity_lookup:daa0782152d4a123",
+   "position": 34,
+   "record": {
+    "id": "tc:step:bfb41e8004583f32:reactivity_lookup:daa0782152d4a123",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:bfb41e8004583f32",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "BUTADIENE",
+     "chemical_b": "BUTANES"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "BUTADIENE",
+       "name": "1,3-butadiene",
+       "epa_groups": [
+        28,
+        103
+       ],
+       "cameo_groups": [
+        {
+         "id": 65,
+         "name": "Conjugated Dienes"
+        },
+        {
+         "id": 76,
+         "name": "Polymerizable Compounds"
+        }
+       ]
+      },
+      {
+       "id": "BUTANES",
+       "name": "butanes",
+       "epa_groups": [
+        29
+       ],
+       "cameo_groups": [
+        {
+         "id": 29,
+         "name": "Hydrocarbons, Aliphatic Saturated"
+        }
+       ]
+      }
+     ],
+     "pairs": [
+      {
+       "groups": [
+        28,
+        29
+       ],
+       "group_names": [
+        "Hydrocarbons, Aliphatic, Unsaturated",
+        "Hydrocarbons, Aliphatic, Saturated"
+       ],
+       "status": "not_listed",
+       "codes": [],
+       "source": "no row in reactive_pairs.csv"
+      },
+      {
+       "groups": [
+        103,
+        29
+       ],
+       "group_names": [
+        "Polymerizable Compounds",
+        "Hydrocarbons, Aliphatic, Saturated"
+       ],
+       "status": "not_listed",
+       "codes": [],
+       "source": "no row in reactive_pairs.csv"
+      }
+     ],
+     "no_groups": [],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:bfbb2f567ec727a8:dispatch_specialist:729b2e690b5643dc",
+   "position": 66,
+   "record": {
+    "id": "tc:step:bfbb2f567ec727a8:dispatch_specialist:729b2e690b5643dc",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:bfbb2f567ec727a8",
+    "tool": "dispatch_specialist",
+    "arguments": {
+     "reason": "Chemistry bulk run had 45 failures. Retrying those at hard level for stronger analysis.",
+     "agent": "chemistry",
+     "level": "hard"
+    },
+    "result": {
+     "summary": "chemistry at hard: 44 answered, 10 failed, 30 findings",
+     "question_ids": [
+      "env:ACETYLENES:air",
+      "env:ACETYLENES:heat",
+      "env:ACETYLENES:water",
+      "env:ANTIFOAM:air",
+      "env:ANTIFOAM:heat",
+      "env:ANTIFOAM:water",
+      "env:BUTADIENE:air",
+      "env:BUTADIENE:heat",
+      "env:BUTADIENE:water",
+      "env:BUTANES:air",
+      "env:BUTANES:heat",
+      "env:BUTANES:water",
+      "env:BUTENES:air",
+      "env:BUTENES:heat",
+      "env:BUTENES:water",
+      "env:HEAVIES:air",
+      "env:HEAVIES:heat",
+      "env:HEAVIES:water",
+      "env:NMP:air",
+      "env:NMP:heat",
+      "env:TBC:air",
+      "env:TBC:heat",
+      "env:TBC:water",
+      "env:WATER:heat",
+      "env:WATER:water",
+      "pair:ACETYLENES:ANTIFOAM",
+      "pair:ACETYLENES:BUTADIENE",
+      "pair:ACETYLENES:BUTANES",
+      "pair:ACETYLENES:BUTENES",
+      "pair:ACETYLENES:HEAVIES",
+      "pair:ACETYLENES:NMP",
+      "pair:ACETYLENES:TBC",
+      "pair:ACETYLENES:WATER",
+      "pair:ANTIFOAM:BUTANES",
+      "pair:ANTIFOAM:BUTENES",
+      "pair:ANTIFOAM:HEAVIES",
+      "pair:ANTIFOAM:NMP",
+      "pair:ANTIFOAM:WATER",
+      "pair:BUTADIENE:BUTENES",
+      "pair:BUTADIENE:NMP",
+      "pair:BUTADIENE:TBC",
+      "pair:BUTADIENE:WATER",
+      "pair:BUTANES:BUTENES",
+      "pair:BUTANES:HEAVIES",
+      "pair:BUTANES:NMP",
+      "pair:BUTANES:TBC",
+      "pair:BUTANES:WATER",
+      "pair:BUTENES:HEAVIES",
+      "pair:BUTENES:NMP",
+      "pair:BUTENES:TBC",
+      "pair:BUTENES:WATER",
+      "pair:HEAVIES:NMP",
+      "pair:HEAVIES:TBC",
+      "pair:HEAVIES:WATER"
+     ],
+     "skipped": [],
+     "dropped_ids": []
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:c8a06a9af062a1be:web_research:bd4c1153c2b1df99",
+   "position": 103,
+   "record": {
+    "id": "tc:step:c8a06a9af062a1be:web_research:bd4c1153c2b1df99",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:c8a06a9af062a1be",
+    "tool": "web_research",
+    "arguments": {
+     "query": "external fire near the equipment as well composition",
+     "max_results": 5
+    },
+    "result": {
+     "cache_key": "74daf3252d7b5da3",
+     "cache_hit": false,
+     "urls": [
+      "https://www.haspod.com/blog/fire/classes-of-fire",
+      "https://www.greatamericaninsurancegroup.com/content-hub/loss-control/details/protect-your-construction-equipment-from-fire",
+      "https://en.wikipedia.org/wiki/Fire",
+      "https://www.facebook.com/OregonOhioFireandRescueDepartment/posts/fire-terminology-sides-abcd-divisions-and-exposuressides-a-b-c-and-d-designation/833822866672123",
+      "https://www.ontario.ca/laws/regulation/070213"
+     ],
+     "blocked_results": 0
+    },
+    "refused_reason": null,
+    "source_urls": [
+     "https://www.haspod.com/blog/fire/classes-of-fire",
+     "https://www.greatamericaninsurancegroup.com/content-hub/loss-control/details/protect-your-construction-equipment-from-fire",
+     "https://en.wikipedia.org/wiki/Fire",
+     "https://www.facebook.com/OregonOhioFireandRescueDepartment/posts/fire-terminology-sides-abcd-divisions-and-exposuressides-a-b-c-and-d-designation/833822866672123",
+     "https://www.ontario.ca/laws/regulation/070213"
+    ],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:c9883f56e57656ab:dispatch_specialist:3020d05c017d2f1c",
+   "position": 1,
+   "record": {
+    "id": "tc:step:c9883f56e57656ab:dispatch_specialist:3020d05c017d2f1c",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:c9883f56e57656ab",
+    "tool": "dispatch_specialist",
+    "arguments": {
+     "reason": "Retry the 36 process questions that failed at bulk level, now at hard level for stronger analysis",
+     "agent": "process",
+     "level": "hard",
+     "question_ids": [
+      "m:S-C-101:as_well_as:composition",
+      "m:S-C-101:less:flow",
+      "m:S-C-101:less:level",
+      "m:S-C-101:less:pressure",
+      "m:S-C-101:less:temperature",
+      "m:S-C-101:more:flow",
+      "m:S-C-101:more:level",
+      "m:S-C-101:more:pressure",
+      "m:S-C-101:more:temperature",
+      "m:S-C-101:no:flow",
+      "m:S-C-102:as_well_as:composition",
+      "m:S-C-102:less:flow",
+      "m:S-C-102:less:level",
+      "m:S-C-102:less:pressure",
+      "m:S-C-102:less:temperature",
+      "m:S-C-102:part_of:composition",
+      "m:S-C-103:as_well_as:composition",
+      "m:S-C-103:less:flow",
+      "m:S-C-103:less:level",
+      "m:S-C-103:less:pressure",
+      "m:S-C-103:less:temperature",
+      "m:S-C-103:no:level",
+      "m:S-C-103:other_than:composition",
+      "m:S-C-103:other_than:phase",
+      "m:S-C-103:part_of:composition",
+      "m:S-C-104:as_well_as:composition",
+      "m:S-C-104:less:flow",
+      "m:S-C-104:less:level",
+      "m:S-C-104:less:pressure",
+      "m:S-C-104:less:temperature",
+      "m:S-C-104:more:flow",
+      "m:S-C-104:more:level",
+      "m:S-C-104:more:pressure",
+      "m:S-C-104:more:temperature",
+      "m:S-C-104:no:flow",
+      "m:S-C-104:part_of:composition"
+     ]
+    },
+    "result": {
+     "summary": "process at hard: 31 answered, 5 failed, 33 findings, 2 questions added",
+     "question_ids": [
+      "m:S-C-101:as_well_as:composition",
+      "m:S-C-101:less:flow",
+      "m:S-C-101:less:level",
+      "m:S-C-101:less:pressure",
+      "m:S-C-101:less:temperature",
+      "m:S-C-101:more:flow",
+      "m:S-C-101:more:level",
+      "m:S-C-101:more:pressure",
+      "m:S-C-101:more:temperature",
+      "m:S-C-101:no:flow",
+      "m:S-C-102:as_well_as:composition",
+      "m:S-C-102:less:flow",
+      "m:S-C-102:less:level",
+      "m:S-C-102:less:pressure",
+      "m:S-C-102:less:temperature",
+      "m:S-C-102:part_of:composition",
+      "m:S-C-103:as_well_as:composition",
+      "m:S-C-103:less:flow",
+      "m:S-C-103:less:level",
+      "m:S-C-103:less:pressure",
+      "m:S-C-103:less:temperature",
+      "m:S-C-103:no:level",
+      "m:S-C-103:other_than:composition",
+      "m:S-C-103:other_than:phase",
+      "m:S-C-103:part_of:composition",
+      "m:S-C-104:as_well_as:composition",
+      "m:S-C-104:less:flow",
+      "m:S-C-104:less:level",
+      "m:S-C-104:less:pressure",
+      "m:S-C-104:less:temperature",
+      "m:S-C-104:more:flow",
+      "m:S-C-104:more:level",
+      "m:S-C-104:more:pressure",
+      "m:S-C-104:more:temperature",
+      "m:S-C-104:no:flow",
+      "m:S-C-104:part_of:composition"
+     ],
+     "skipped": [],
+     "dropped_ids": []
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:cb6e511ef8b0d768:reactivity_lookup:bb54430b91e90870",
+   "position": 27,
+   "record": {
+    "id": "tc:step:cb6e511ef8b0d768:reactivity_lookup:bb54430b91e90870",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:cb6e511ef8b0d768",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "ANTIFOAM",
+     "chemical_b": "BUTENES"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "ANTIFOAM",
+       "name": "antifoam",
+       "epa_groups": [],
+       "cameo_groups": [
+        {
+         "id": 99,
+         "name": "Insufficient Information for Classification"
+        }
+       ]
+      },
+      {
+       "id": "BUTENES",
+       "name": "butenes",
+       "epa_groups": [
+        28
+       ],
+       "cameo_groups": [
+        {
+         "id": 28,
+         "name": "Hydrocarbons, Aliphatic Unsaturated"
+        }
+       ]
+      }
+     ],
+     "pairs": [],
+     "no_groups": [
+      "ANTIFOAM"
+     ],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:cb9313cb0a5f1605:reactivity_lookup:510e051ff655a9f0",
+   "position": 47,
+   "record": {
+    "id": "tc:step:cb9313cb0a5f1605:reactivity_lookup:510e051ff655a9f0",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:cb9313cb0a5f1605",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "TBC",
+     "chemical_b": "WATER"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "TBC",
+       "name": "tert-butylcatechol",
+       "epa_groups": [
+        31
+       ],
+       "cameo_groups": [
+        {
+         "id": 31,
+         "name": "Phenols and Cresols"
+        }
+       ]
+      },
+      {
+       "id": "WATER",
+       "name": "water (traces)",
+       "epa_groups": [
+        106
+       ],
+       "cameo_groups": [
+        {
+         "id": 100,
+         "name": "Water and Aqueous Solutions"
+        }
+       ]
+      }
+     ],
+     "pairs": [
+      {
+       "groups": [
+        31,
+        106
+       ],
+       "group_names": [
+        "Phenols and Cresols",
+        "Water and Mixtures Containing Water"
+       ],
+       "status": "not_listed",
+       "codes": [],
+       "source": "no row in reactive_pairs.csv"
+      }
+     ],
+     "no_groups": [],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:cdfbcc0e7564178a:reactivity_lookup:9785653418683ad7",
+   "position": 36,
+   "record": {
+    "id": "tc:step:cdfbcc0e7564178a:reactivity_lookup:9785653418683ad7",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:cdfbcc0e7564178a",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "BUTADIENE",
+     "chemical_b": "HEAVIES"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "BUTADIENE",
+       "name": "1,3-butadiene",
+       "epa_groups": [
+        28,
+        103
+       ],
+       "cameo_groups": [
+        {
+         "id": 65,
+         "name": "Conjugated Dienes"
+        },
+        {
+         "id": 76,
+         "name": "Polymerizable Compounds"
+        }
+       ]
+      },
+      {
+       "id": "HEAVIES",
+       "name": "heavies",
+       "epa_groups": [],
+       "cameo_groups": [
+        {
+         "id": 99,
+         "name": "Insufficient Information for Classification"
+        }
+       ]
+      }
+     ],
+     "pairs": [],
+     "no_groups": [
+      "HEAVIES"
+     ],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:d1626e4f20a884b4:reactivity_lookup:fe40b9b5121bbe59",
+   "position": 7,
+   "record": {
+    "id": "tc:step:d1626e4f20a884b4:reactivity_lookup:fe40b9b5121bbe59",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:d1626e4f20a884b4",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "BUTANES",
+     "chemical_b": "BUTENES"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "BUTANES",
+       "name": "butanes",
+       "epa_groups": [
+        29
+       ],
+       "cameo_groups": [
+        {
+         "id": 29,
+         "name": "Hydrocarbons, Aliphatic Saturated"
+        }
+       ]
+      },
+      {
+       "id": "BUTENES",
+       "name": "butenes",
+       "epa_groups": [
+        28
+       ],
+       "cameo_groups": [
+        {
+         "id": 28,
+         "name": "Hydrocarbons, Aliphatic Unsaturated"
+        }
+       ]
+      }
+     ],
+     "pairs": [
+      {
+       "groups": [
+        29,
+        28
+       ],
+       "group_names": [
+        "Hydrocarbons, Aliphatic, Saturated",
+        "Hydrocarbons, Aliphatic, Unsaturated"
+       ],
+       "status": "not_listed",
+       "codes": [],
+       "source": "no row in reactive_pairs.csv"
+      }
+     ],
+     "no_groups": [],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:d25553dc1a8bf259:reactivity_lookup:632b11f67691e6ef",
+   "position": 35,
+   "record": {
+    "id": "tc:step:d25553dc1a8bf259:reactivity_lookup:632b11f67691e6ef",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:d25553dc1a8bf259",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "BUTADIENE",
+     "chemical_b": "BUTENES"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "BUTADIENE",
+       "name": "1,3-butadiene",
+       "epa_groups": [
+        28,
+        103
+       ],
+       "cameo_groups": [
+        {
+         "id": 65,
+         "name": "Conjugated Dienes"
+        },
+        {
+         "id": 76,
+         "name": "Polymerizable Compounds"
+        }
+       ]
+      },
+      {
+       "id": "BUTENES",
+       "name": "butenes",
+       "epa_groups": [
+        28
+       ],
+       "cameo_groups": [
+        {
+         "id": 28,
+         "name": "Hydrocarbons, Aliphatic Unsaturated"
+        }
+       ]
+      }
+     ],
+     "pairs": [
+      {
+       "groups": [
+        28,
+        28
+       ],
+       "group_names": [
+        "Hydrocarbons, Aliphatic, Unsaturated",
+        "Hydrocarbons, Aliphatic, Unsaturated"
+       ],
+       "status": "not_listed",
+       "codes": [],
+       "source": "no row in reactive_pairs.csv"
+      },
+      {
+       "groups": [
+        103,
+        28
+       ],
+       "group_names": [
+        "Polymerizable Compounds",
+        "Hydrocarbons, Aliphatic, Unsaturated"
+       ],
+       "status": "not_listed",
+       "codes": [],
+       "source": "no row in reactive_pairs.csv"
+      }
+     ],
+     "no_groups": [],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:d4bf4588549d222f:dispatch_specialist:c0bb34ee79a2a35a",
+   "position": 90,
+   "record": {
+    "id": "tc:step:d4bf4588549d222f:dispatch_specialist:c0bb34ee79a2a35a",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:d4bf4588549d222f",
+    "tool": "dispatch_specialist",
+    "arguments": {
+     "reason": "One open process question remains (ai:S-V-104:bb8ebc710d39e6bc) and is marked for hard retry. Sending it explicitly at hard level.",
+     "agent": "process",
+     "level": "hard",
+     "question_ids": [
+      "ai:S-V-104:bb8ebc710d39e6bc"
+     ]
+    },
+    "result": {
+     "summary": "process at hard: 1 answered, 0 failed, 1 findings",
+     "question_ids": [
+      "ai:S-V-104:bb8ebc710d39e6bc"
+     ],
+     "skipped": [],
+     "dropped_ids": []
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:d59d4f9b814ecee7:dispatch_specialist:e81d201bcdd455ae",
+   "position": 78,
+   "record": {
+    "id": "tc:step:d59d4f9b814ecee7:dispatch_specialist:e81d201bcdd455ae",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:d59d4f9b814ecee7",
+    "tool": "dispatch_specialist",
+    "arguments": {
+     "reason": "Process questions remain the largest open set (102). Dispatching next bulk batch of 60 to process agent.",
+     "agent": "process",
+     "level": "bulk"
+    },
+    "result": {
+     "summary": "process at bulk: 40 answered, 17 failed, 75 findings",
+     "question_ids": [
+      "m:S-TK-201:more:temperature",
+      "m:S-TK-201:no:level",
+      "m:S-TK-201:other_than:composition",
+      "m:S-TK-201:other_than:phase",
+      "m:S-TK-201:part_of:composition",
+      "m:S-TK-202:as_well_as:composition",
+      "m:S-TK-202:less:level",
+      "m:S-TK-202:less:pressure",
+      "m:S-TK-202:less:temperature",
+      "m:S-TK-202:more:level",
+      "m:S-TK-202:more:pressure",
+      "m:S-TK-202:more:temperature",
+      "m:S-TK-202:no:level",
+      "m:S-TK-202:other_than:composition",
+      "m:S-TK-202:other_than:phase",
+      "m:S-TK-202:part_of:composition",
+      "m:S-TK-OFFSPEC:as_well_as:composition",
+      "m:S-TK-OFFSPEC:less:level",
+      "m:S-TK-OFFSPEC:less:pressure",
+      "m:S-TK-OFFSPEC:less:temperature",
+      "m:S-TK-OFFSPEC:more:level",
+      "m:S-TK-OFFSPEC:more:pressure",
+      "m:S-TK-OFFSPEC:more:temperature",
+      "m:S-TK-OFFSPEC:no:level",
+      "m:S-TK-OFFSPEC:other_than:composition",
+      "m:S-TK-OFFSPEC:other_than:phase",
+      "m:S-TK-OFFSPEC:part_of:composition",
+      "m:S-V-101:as_well_as:composition",
+      "m:S-V-101:less:level",
+      "m:S-V-101:less:pressure",
+      "m:S-V-101:less:temperature",
+      "m:S-V-101:more:level",
+      "m:S-V-101:more:pressure",
+      "m:S-V-101:more:temperature",
+      "m:S-V-101:no:level",
+      "m:S-V-101:other_than:composition",
+      "m:S-V-101:other_than:phase",
+      "m:S-V-101:part_of:composition",
+      "m:S-V-104:as_well_as:composition",
+      "m:S-V-104:less:level",
+      "m:S-V-104:less:pressure",
+      "m:S-V-104:less:temperature",
+      "m:S-V-104:more:level",
+      "m:S-V-104:more:pressure",
+      "m:S-V-104:more:temperature",
+      "m:S-V-104:no:level",
+      "m:S-V-104:other_than:composition",
+      "m:S-V-104:other_than:phase",
+      "m:S-V-104:part_of:composition",
+      "relief:RV-C101",
+      "relief:RV-C102",
+      "relief:RV-C103",
+      "relief:RV-C104",
+      "relief:RV-P104A",
+      "relief:RV-P104B",
+      "relief:RV-V101",
+      "relief:RV-V104"
+     ],
+     "skipped": [],
+     "dropped_ids": []
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:d60ab4d36ad0ba9b:web_research:814f3e233b72b15d",
+   "position": 99,
+   "record": {
+    "id": "tc:step:d60ab4d36ad0ba9b:web_research:814f3e233b72b15d",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:d60ab4d36ad0ba9b",
+    "tool": "web_research",
+    "arguments": {
+     "query": "upstream pressure increase forcing higher flow into the line more",
+     "max_results": 5
+    },
+    "result": {
+     "cache_key": "d65ae38a236e9efc",
+     "cache_hit": false,
+     "urls": [
+      "https://atlas-scientific.com/blog/relationship-between-flow-and-pressure",
+      "https://en.wikipedia.org/wiki/Bernoulli%27s_principle",
+      "https://www.princeton.edu/~asmits/Bicycle_web/Bernoulli.html",
+      "https://www.weather.gov/source/zhu/ZHU_Training_Page/Miscellaneous/Divergence/divergence.html",
+      "https://www.youtube.com/watch?v=fq8zqRRBEEY"
+     ],
+     "blocked_results": 0
+    },
+    "refused_reason": null,
+    "source_urls": [
+     "https://atlas-scientific.com/blog/relationship-between-flow-and-pressure",
+     "https://en.wikipedia.org/wiki/Bernoulli%27s_principle",
+     "https://www.princeton.edu/~asmits/Bicycle_web/Bernoulli.html",
+     "https://www.weather.gov/source/zhu/ZHU_Training_Page/Miscellaneous/Divergence/divergence.html",
+     "https://www.youtube.com/watch?v=fq8zqRRBEEY"
+    ],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:dcb4b75fcb07960a:reactivity_lookup:adbd7b46cce687c2",
+   "position": 50,
+   "record": {
+    "id": "tc:step:dcb4b75fcb07960a:reactivity_lookup:adbd7b46cce687c2",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:dcb4b75fcb07960a",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "ACETYLENES",
+     "chemical_b": "WATER"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "ACETYLENES",
+       "name": "acetylenes (traces)",
+       "epa_groups": [
+        28
+       ],
+       "cameo_groups": [
+        {
+         "id": 63,
+         "name": "Alkynes, with Acetylenic Hydrogen"
+        }
+       ]
+      },
+      {
+       "id": "WATER",
+       "name": "water (traces)",
+       "epa_groups": [
+        106
+       ],
+       "cameo_groups": [
+        {
+         "id": 100,
+         "name": "Water and Aqueous Solutions"
+        }
+       ]
+      }
+     ],
+     "pairs": [
+      {
+       "groups": [
+        28,
+        106
+       ],
+       "group_names": [
+        "Hydrocarbons, Aliphatic, Unsaturated",
+        "Water and Mixtures Containing Water"
+       ],
+       "status": "not_listed",
+       "codes": [],
+       "source": "no row in reactive_pairs.csv"
+      }
+     ],
+     "no_groups": [],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:dde0cdf8556ccdfc:dispatch_specialist:f04509356b9a143f",
+   "position": 91,
+   "record": {
+    "id": "tc:step:dde0cdf8556ccdfc:dispatch_specialist:f04509356b9a143f",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:dde0cdf8556ccdfc",
+    "tool": "dispatch_specialist",
+    "arguments": {
+     "reason": "17 failed chemistry questions (12 pairs + 5 environments) need hard retry; dispatching them to chemistry at hard level",
+     "agent": "chemistry",
+     "level": "hard"
+    },
+    "result": null,
+    "refused_reason": "nothing to dispatch to chemistry at level hard",
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:debae8d4c851fb01:reactivity_lookup:510e051ff655a9f0",
+   "position": 71,
+   "record": {
+    "id": "tc:step:debae8d4c851fb01:reactivity_lookup:510e051ff655a9f0",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:debae8d4c851fb01",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "TBC",
+     "chemical_b": "WATER"
+    },
+    "result": null,
+    "refused_reason": "at most 2 tool calls per batch",
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:e4c8a69dd5d8316e:reactivity_lookup:b9c470f4cd478c29",
+   "position": 74,
+   "record": {
+    "id": "tc:step:e4c8a69dd5d8316e:reactivity_lookup:b9c470f4cd478c29",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:e4c8a69dd5d8316e",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "NMP",
+     "chemical_b": "TBC"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "NMP",
+       "name": "N-methylpyrrolidone",
+       "epa_groups": [
+        6
+       ],
+       "cameo_groups": [
+        {
+         "id": 6,
+         "name": "Amides and Imides"
+        }
+       ]
+      },
+      {
+       "id": "TBC",
+       "name": "tert-butylcatechol",
+       "epa_groups": [
+        31
+       ],
+       "cameo_groups": [
+        {
+         "id": 31,
+         "name": "Phenols and Cresols"
+        }
+       ]
+      }
+     ],
+     "pairs": [
+      {
+       "groups": [
+        6,
+        31
+       ],
+       "group_names": [
+        "Amides",
+        "Phenols and Cresols"
+       ],
+       "status": "not_listed",
+       "codes": [],
+       "source": "no row in reactive_pairs.csv"
+      }
+     ],
+     "no_groups": [],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:e5c710ad177468c8:web_research:cad3f98afc11dbb9",
+   "position": 101,
+   "record": {
+    "id": "tc:step:e5c710ad177468c8:web_research:cad3f98afc11dbb9",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:e5c710ad177468c8",
+    "tool": "web_research",
+    "arguments": {
+     "query": "external fire near the equipment more pressure",
+     "max_results": 5
+    },
+    "result": {
+     "cache_key": "1c10bb132fa4022e",
+     "cache_hit": true,
+     "urls": [
+      "https://www.reddit.com/r/ChemicalEngineering/comments/1n44o1v/external_fire_relief_scenario_for_equipment_indoor",
+      "https://www.nist.gov/el/fire-research-division-73300/firegov-fire-service/positive-pressure-ventilation",
+      "https://www.facebook.com/SmithCountyTexas/posts/check-out-these-fire-safety-tips-when-working-with-heavy-equipment/1492973216199488",
+      "https://asmedigitalcollection.asme.org/pressurevesseltech/article/128/1/122/462520/Fire-Versus-Non-Fire-Contingencies-A-Study-of",
+      "https://www.readyforwildfire.org/prevent-wildfire/equipment-vehicle-use"
+     ],
+     "blocked_results": 0
+    },
+    "refused_reason": null,
+    "source_urls": [
+     "https://www.reddit.com/r/ChemicalEngineering/comments/1n44o1v/external_fire_relief_scenario_for_equipment_indoor",
+     "https://www.nist.gov/el/fire-research-division-73300/firegov-fire-service/positive-pressure-ventilation",
+     "https://www.facebook.com/SmithCountyTexas/posts/check-out-these-fire-safety-tips-when-working-with-heavy-equipment/1492973216199488",
+     "https://asmedigitalcollection.asme.org/pressurevesseltech/article/128/1/122/462520/Fire-Versus-Non-Fire-Contingencies-A-Study-of",
+     "https://www.readyforwildfire.org/prevent-wildfire/equipment-vehicle-use"
+    ],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:e62cf01bc7eddaeb:reactivity_lookup:b2bae29d41435bce",
+   "position": 42,
+   "record": {
+    "id": "tc:step:e62cf01bc7eddaeb:reactivity_lookup:b2bae29d41435bce",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:e62cf01bc7eddaeb",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "BUTANES",
+     "chemical_b": "WATER"
+    },
+    "result": null,
+    "refused_reason": "at most 2 tool calls per batch",
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:e65531153596e87f:reactivity_lookup:4c24b8e13d53cf3d",
+   "position": 44,
+   "record": {
+    "id": "tc:step:e65531153596e87f:reactivity_lookup:4c24b8e13d53cf3d",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:e65531153596e87f",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "BUTENES",
+     "chemical_b": "WATER"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "BUTENES",
+       "name": "butenes",
+       "epa_groups": [
+        28
+       ],
+       "cameo_groups": [
+        {
+         "id": 28,
+         "name": "Hydrocarbons, Aliphatic Unsaturated"
+        }
+       ]
+      },
+      {
+       "id": "WATER",
+       "name": "water (traces)",
+       "epa_groups": [
+        106
+       ],
+       "cameo_groups": [
+        {
+         "id": 100,
+         "name": "Water and Aqueous Solutions"
+        }
+       ]
+      }
+     ],
+     "pairs": [
+      {
+       "groups": [
+        28,
+        106
+       ],
+       "group_names": [
+        "Hydrocarbons, Aliphatic, Unsaturated",
+        "Water and Mixtures Containing Water"
+       ],
+       "status": "not_listed",
+       "codes": [],
+       "source": "no row in reactive_pairs.csv"
+      }
+     ],
+     "no_groups": [],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:e9b6b4e64068fda2:reactivity_lookup:b2bae29d41435bce",
+   "position": 63,
+   "record": {
+    "id": "tc:step:e9b6b4e64068fda2:reactivity_lookup:b2bae29d41435bce",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:e9b6b4e64068fda2",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "BUTANES",
+     "chemical_b": "WATER"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "BUTANES",
+       "name": "butanes",
+       "epa_groups": [
+        29
+       ],
+       "cameo_groups": [
+        {
+         "id": 29,
+         "name": "Hydrocarbons, Aliphatic Saturated"
+        }
+       ]
+      },
+      {
+       "id": "WATER",
+       "name": "water (traces)",
+       "epa_groups": [
+        106
+       ],
+       "cameo_groups": [
+        {
+         "id": 100,
+         "name": "Water and Aqueous Solutions"
+        }
+       ]
+      }
+     ],
+     "pairs": [
+      {
+       "groups": [
+        29,
+        106
+       ],
+       "group_names": [
+        "Hydrocarbons, Aliphatic, Saturated",
+        "Water and Mixtures Containing Water"
+       ],
+       "status": "not_listed",
+       "codes": [],
+       "source": "no row in reactive_pairs.csv"
+      }
+     ],
+     "no_groups": [],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:ed546c58073662bb:reactivity_lookup:30f18e8023d415f2",
+   "position": 9,
+   "record": {
+    "id": "tc:step:ed546c58073662bb:reactivity_lookup:30f18e8023d415f2",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:ed546c58073662bb",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "NMP",
+     "chemical_b": "water"
+    },
+    "result": null,
+    "refused_reason": "water is not a chemical in this plant",
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:ee116a35583f169b:reactivity_lookup:1250c5db0d82ec15",
+   "position": 33,
+   "record": {
+    "id": "tc:step:ee116a35583f169b:reactivity_lookup:1250c5db0d82ec15",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:ee116a35583f169b",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "ANTIFOAM",
+     "chemical_b": "WATER"
+    },
+    "result": {
+     "chemicals": [
+      {
+       "id": "ANTIFOAM",
+       "name": "antifoam",
+       "epa_groups": [],
+       "cameo_groups": [
+        {
+         "id": 99,
+         "name": "Insufficient Information for Classification"
+        }
+       ]
+      },
+      {
+       "id": "WATER",
+       "name": "water (traces)",
+       "epa_groups": [
+        106
+       ],
+       "cameo_groups": [
+        {
+         "id": 100,
+         "name": "Water and Aqueous Solutions"
+        }
+       ]
+      }
+     ],
+     "pairs": [],
+     "no_groups": [
+      "ANTIFOAM"
+     ],
+     "table": "reactive_pairs.csv"
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:ef94528f60803bae:dispatch_specialist:48c8005872aebc2c",
+   "position": 82,
+   "record": {
+    "id": "tc:step:ef94528f60803bae:dispatch_specialist:48c8005872aebc2c",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:ef94528f60803bae",
+    "tool": "dispatch_specialist",
+    "arguments": {
+     "reason": "Piping questions for 5 no-flow lines failed at bulk level (5 failed). Dispatching them at hard level to resolve.",
+     "agent": "piping",
+     "level": "hard"
+    },
+    "result": {
+     "summary": "piping at hard: 4 answered, 1 failed, 4 findings",
+     "question_ids": [
+      "ai:S-L-OFFSPEC:337779054e64c2cb",
+      "ai:S-L-OFFSPEC:e0049f7ef77f3bb4",
+      "nf:L-E106-BYPASS",
+      "nf:L-OFFSPEC",
+      "nf:L-P104B-DIS"
+     ],
+     "skipped": [],
+     "dropped_ids": []
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:f3c5db3dc9ed5698:reactivity_lookup:2a56dabf0b48d250",
+   "position": 6,
+   "record": {
+    "id": "tc:step:f3c5db3dc9ed5698:reactivity_lookup:2a56dabf0b48d250",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:f3c5db3dc9ed5698",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "ANTIFOAM",
+     "chemical_b": "BUTANES"
+    },
+    "result": null,
+    "refused_reason": "at most 2 tool calls per batch",
+    "source_urls": [],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:f4c9e8e48c5881b2:search_precedent:c052d126f525100a",
+   "position": 96,
+   "record": {
+    "id": "tc:step:f4c9e8e48c5881b2:search_precedent:c052d126f525100a",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:f4c9e8e48c5881b2",
+    "tool": "search_precedent",
+    "arguments": {
+     "query": "external fire near the equipment more pressure",
+     "k": 5
+    },
+    "result": {
+     "candidates": [
+      "CSB-121",
+      "CSB-029",
+      "CSB-052",
+      "CSB-004",
+      "CSB-112"
+     ],
+     "scores": [
+      7.510086300469904,
+      4.538706201328435,
+      4.5120997335025,
+      4.476311233839505,
+      3.5815432109818937
+     ],
+     "blocked_rows": 1,
+     "index_version": "14678fe5d063a968bb6c3557a2fc43dc2a48707ba1d7e796fb496baadd0671e1"
+    },
+    "refused_reason": null,
+    "source_urls": [
+     "https://www.csb.gov/sonat-exploration-co-catastrophic-vessel-overpressurization/",
+     "https://www.csb.gov/loy-lange-box-company-pressure-vessel-explosion-/",
+     "https://www.csb.gov/millard-refrigerated-services-ammonia-release/",
+     "https://www.csb.gov/givaudan-sense-colour-explosion-/",
+     "https://www.csb.gov/blsr-operating-ltd-vapor-cloud-fire/"
+    ],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:ff1059ebc1c4aa87:search_precedent:0ce41321712d6a7d",
+   "position": 94,
+   "record": {
+    "id": "tc:step:ff1059ebc1c4aa87:search_precedent:0ce41321712d6a7d",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:ff1059ebc1c4aa87",
+    "tool": "search_precedent",
+    "arguments": {
+     "query": "external fire near the equipment 1 3 butadiene",
+     "k": 5
+    },
+    "result": {
+     "candidates": [
+      "CSB-121",
+      "CSB-114",
+      "CSB-030",
+      "CSB-068",
+      "CSB-037"
+     ],
+     "scores": [
+      6.113400827169459,
+      5.281517444288773,
+      5.055969699510133,
+      3.8255760992327277,
+      3.8130376140371847
+     ],
+     "blocked_rows": 1,
+     "index_version": "14678fe5d063a968bb6c3557a2fc43dc2a48707ba1d7e796fb496baadd0671e1"
+    },
+    "refused_reason": null,
+    "source_urls": [
+     "https://www.csb.gov/sonat-exploration-co-catastrophic-vessel-overpressurization/",
+     "https://www.csb.gov/third-coast-industries-petroleum-products-facility-fire/",
+     "https://www.csb.gov/ab-specialty-silicones-llc/",
+     "https://www.csb.gov/xcel-energy-company-hydroelectric-tunnel-fire/",
+     "https://www.csb.gov/arkema-inc-chemical-plant-fire-/"
+    ],
+    "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:fede2ad2fa5d90f7:2",
+   "id": "tc:step:ff466b718ddcfe64:reactivity_lookup:daa0782152d4a123",
+   "position": 32,
+   "record": {
+    "id": "tc:step:ff466b718ddcfe64:reactivity_lookup:daa0782152d4a123",
+    "run_id": "run:fede2ad2fa5d90f7:2",
+    "agent_step_id": "step:ff466b718ddcfe64",
+    "tool": "reactivity_lookup",
+    "arguments": {
+     "chemical_a": "BUTADIENE",
+     "chemical_b": "BUTANES"
+    },
+    "result": null,
+    "refused_reason": "at most 2 tool calls per batch",
+    "source_urls": [],
+    "record_ids": []
+   }
+  }
+ ]
+}

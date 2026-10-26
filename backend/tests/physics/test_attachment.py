@@ -229,9 +229,9 @@ def _wg() -> Plant:
 
 
 def test_the_wg_shortlist_names_what_each_stored_calculation_card_is_attached_through() -> None:
-    """Read time, same rule: #2's stored EA-425B check is attached through its valves and step.
-    A stored card the rule no longer gives (#1's, until R2 re-attaches it) has none; a
-    precedent card has none."""
+    """Read time, same rule, on the re-attached export (R5): #2's EA-425B check is attached
+    through its valves and step, #4's through its step, and every calculation card on the top
+    five names its via; #1 keeps only its heat-up card; a precedent card has none."""
     from urllib.parse import quote
 
     from fastapi.testclient import TestClient
@@ -266,6 +266,8 @@ def test_the_wg_shortlist_names_what_each_stored_calculation_card_is_attached_th
         if link.startswith("f:proc:P-REB-START-2:early")
         or link.split(".")[0] in {"HV-B-SIN", "HV-B-SOUT", "HV-QW-B-IN", "HV-QW-B-OUT"}
     ]
-    assert via[(1, "blocked_in_heating-EA-425B")] == []
+    assert (1, "blocked_in_heating-EA-425B") not in via
     assert via[(1, "heat_up_rate-EA-425B")] == [items[0]["target_id"]]
+    assert via[(4, "blocked_in_heating-EA-425B")] == [items[3]["target_id"]]
+    assert all(v for (_, key), v in via.items() if key.startswith(("blocked", "heat")))
     assert all(v == [] for (_, key), v in via.items() if not key.startswith(("blocked", "heat")))

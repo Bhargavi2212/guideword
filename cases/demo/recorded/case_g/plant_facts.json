@@ -1,0 +1,580 @@
+{
+ "table": "plant_facts",
+ "rows": [
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "ACETIC-ACID.cameo_groups",
+   "value": [
+    3
+   ],
+   "source": "assumed"
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "ACETIC-ACID.epa_groups",
+   "value": [
+    3
+   ],
+   "source": "assumed"
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "ACETIC-ACID.name",
+   "value": "acetic acid (for pH adjustment)",
+   "source": "cases/dev/source/case_g_batch_plant.md"
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "BIOCIDE.cameo_groups",
+   "value": [
+    99
+   ],
+   "source": "assumed"
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "BIOCIDE.name",
+   "value": "biocide",
+   "source": "cases/dev/source/case_g_batch_plant.md"
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "DI-WATER.cameo_groups",
+   "value": [
+    100
+   ],
+   "source": "assumed"
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "DI-WATER.epa_groups",
+   "value": [
+    106
+   ],
+   "source": "assumed"
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "DI-WATER.name",
+   "value": "deionised water (from the plant system)",
+   "source": "cases/dev/source/case_g_batch_plant.md"
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "FILLING-LINE.location_id",
+   "value": "LOC-G-BUILDING",
+   "source": "cases/dev/source/case_g_batch_plant.md"
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "FILLING-LINE.type",
+   "value": "other",
+   "source": "cases/dev/source/case_g_batch_plant.md"
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "HOMOGENISER.location_id",
+   "value": "LOC-G-BUILDING",
+   "source": "cases/dev/source/case_g_batch_plant.md"
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "HOMOGENISER.type",
+   "value": "other",
+   "source": "cases/dev/source/case_g_batch_plant.md"
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "IPA.cameo_groups",
+   "value": [
+    4
+   ],
+   "source": "assumed"
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "IPA.epa_groups",
+   "value": [
+    4
+   ],
+   "source": "assumed"
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "IPA.name",
+   "value": "isopropyl alcohol",
+   "source": "cases/dev/source/case_g_batch_plant.md"
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "KOH-EMULSIFIER.cameo_groups",
+   "value": [
+    10,
+    100
+   ],
+   "source": "assumed"
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "KOH-EMULSIFIER.epa_groups",
+   "value": [
+    10,
+    106
+   ],
+   "source": "assumed"
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "KOH-EMULSIFIER.name",
+   "value": "emulsifier solution containing potassium hydroxide",
+   "source": "cases/dev/source/case_g_batch_plant.md"
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "L-HOSE-MX-1.components",
+   "value": [
+    "PORTABLE-PUMP"
+   ],
+   "source": "cases/dev/source/case_g_batch_plant.md"
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "L-HOSE-MX-1.from_id",
+   "value": "LOC-G-WAREHOUSE",
+   "source": "cases/dev/source/case_g_batch_plant.md"
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "L-HOSE-MX-1.is_hose",
+   "value": true,
+   "source": "cases/dev/source/case_g_batch_plant.md"
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "L-HOSE-MX-1.to_id",
+   "value": "MX-1",
+   "source": "cases/dev/source/case_g_batch_plant.md"
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "L-HOSE-MX-2.components",
+   "value": [
+    "PORTABLE-PUMP"
+   ],
+   "source": "cases/dev/source/case_g_batch_plant.md"
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "L-HOSE-MX-2.from_id",
+   "value": "LOC-G-WAREHOUSE",
+   "source": "cases/dev/source/case_g_batch_plant.md"
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "L-HOSE-MX-2.is_hose",
+   "value": true,
+   "source": "cases/dev/source/case_g_batch_plant.md"
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "L-HOSE-MX-2.to_id",
+   "value": "MX-2",
+   "source": "cases/dev/source/case_g_batch_plant.md"
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "L-HOSE-MX-3.components",
+   "value": [
+    "PORTABLE-PUMP"
+   ],
+   "source": "cases/dev/source/case_g_batch_plant.md"
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "L-HOSE-MX-3.from_id",
+   "value": "LOC-G-WAREHOUSE",
+   "source": "cases/dev/source/case_g_batch_plant.md"
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "L-HOSE-MX-3.is_hose",
+   "value": true,
+   "source": "cases/dev/source/case_g_batch_plant.md"
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "L-HOSE-MX-3.to_id",
+   "value": "MX-3",
+   "source": "cases/dev/source/case_g_batch_plant.md"
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "L-HOSE-MX-4.components",
+   "value": [
+    "PORTABLE-PUMP"
+   ],
+   "source": "cases/dev/source/case_g_batch_plant.md"
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "L-HOSE-MX-4.from_id",
+   "value": "LOC-G-WAREHOUSE",
+   "source": "cases/dev/source/case_g_batch_plant.md"
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "L-HOSE-MX-4.is_hose",
+   "value": true,
+   "source": "cases/dev/source/case_g_batch_plant.md"
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "L-HOSE-MX-4.to_id",
+   "value": "MX-4",
+   "source": "cases/dev/source/case_g_batch_plant.md"
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "LOC-G-BUILDING.description",
+   "value": "single enclosed production building, ~2,000 m²",
+   "source": "cases/dev/source/case_g_batch_plant.md"
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "LOC-G-BUILDING.indoor",
+   "value": true,
+   "source": "cases/dev/source/case_g_batch_plant.md"
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "LOC-G-WAREHOUSE.description",
+   "value": "warehouse bay next to production",
+   "source": "cases/dev/source/case_g_batch_plant.md"
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "MX-1.heat_sources",
+   "value": [
+    {
+     "medium": "jacket heating/cooling",
+     "via_line_id": null,
+     "isolating_valve_ids": []
+    }
+   ],
+   "source": "cases/dev/source/case_g_batch_plant.md"
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "MX-1.location_id",
+   "value": "LOC-G-BUILDING",
+   "source": "cases/dev/source/case_g_batch_plant.md"
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "MX-1.type",
+   "value": "mixer",
+   "source": "cases/dev/source/case_g_batch_plant.md"
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "MX-1.volume_m3",
+   "value": 10,
+   "source": "cases/dev/source/case_g_batch_plant.md"
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "MX-2.heat_sources",
+   "value": [
+    {
+     "medium": "jacket heating/cooling",
+     "via_line_id": null,
+     "isolating_valve_ids": []
+    }
+   ],
+   "source": "cases/dev/source/case_g_batch_plant.md"
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "MX-2.location_id",
+   "value": "LOC-G-BUILDING",
+   "source": "cases/dev/source/case_g_batch_plant.md"
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "MX-2.type",
+   "value": "mixer",
+   "source": "cases/dev/source/case_g_batch_plant.md"
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "MX-2.volume_m3",
+   "value": 10,
+   "source": "cases/dev/source/case_g_batch_plant.md"
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "MX-3.heat_sources",
+   "value": [
+    {
+     "medium": "jacket heating/cooling",
+     "via_line_id": null,
+     "isolating_valve_ids": []
+    }
+   ],
+   "source": "cases/dev/source/case_g_batch_plant.md"
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "MX-3.location_id",
+   "value": "LOC-G-BUILDING",
+   "source": "cases/dev/source/case_g_batch_plant.md"
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "MX-3.type",
+   "value": "mixer",
+   "source": "cases/dev/source/case_g_batch_plant.md"
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "MX-3.volume_m3",
+   "value": 10,
+   "source": "cases/dev/source/case_g_batch_plant.md"
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "MX-4.heat_sources",
+   "value": [
+    {
+     "medium": "jacket heating/cooling",
+     "via_line_id": null,
+     "isolating_valve_ids": []
+    }
+   ],
+   "source": "cases/dev/source/case_g_batch_plant.md"
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "MX-4.location_id",
+   "value": "LOC-G-BUILDING",
+   "source": "cases/dev/source/case_g_batch_plant.md"
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "MX-4.type",
+   "value": "mixer",
+   "source": "cases/dev/source/case_g_batch_plant.md"
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "MX-4.volume_m3",
+   "value": 10,
+   "source": "cases/dev/source/case_g_batch_plant.md"
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "P-G-CHARGE-1.text",
+   "value": "The operator reads the paper batch sheet",
+   "source": "cases/dev/source/case_g_batch_plant.md"
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "P-G-CHARGE-2.equipment_ids",
+   "value": [
+    "TOTES"
+   ],
+   "source": "cases/dev/source/case_g_batch_plant.md"
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "P-G-CHARGE-2.text",
+   "value": "collects the listed tote from the warehouse with a forklift",
+   "source": "cases/dev/source/case_g_batch_plant.md"
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "P-G-CHARGE-3.equipment_ids",
+   "value": [
+    "PORTABLE-PUMP",
+    "MX-1",
+    "MX-2",
+    "MX-3",
+    "MX-4"
+   ],
+   "source": "cases/dev/source/case_g_batch_plant.md"
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "P-G-CHARGE-3.text",
+   "value": "connects the hose and pumps the contents into the mixing tank",
+   "source": "cases/dev/source/case_g_batch_plant.md"
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "P-G-CHARGE-4.text",
+   "value": "then signs the batch sheet",
+   "source": "cases/dev/source/case_g_batch_plant.md"
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "P-G-CHARGE.kind",
+   "value": "charging",
+   "source": "cases/dev/source/case_g_batch_plant.md"
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "PDMS.cameo_groups",
+   "value": [
+    58
+   ],
+   "source": "assumed"
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "PDMS.name",
+   "value": "polydimethylsiloxane fluids (several viscosities)",
+   "source": "cases/dev/source/case_g_batch_plant.md"
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "PORTABLE-PUMP.type",
+   "value": "pump",
+   "source": "cases/dev/source/case_g_batch_plant.md"
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "PT-CATALYST.cameo_groups",
+   "value": [
+    99
+   ],
+   "source": "assumed"
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "PT-CATALYST.name",
+   "value": "platinum catalyst solution",
+   "source": "cases/dev/source/case_g_batch_plant.md"
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "SG-G-EXHAUST.description",
+   "value": "general exhaust fans on the roof",
+   "source": "cases/dev/source/case_g_batch_plant.md"
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "SG-G-EXHAUST.protects_id",
+   "value": "LOC-G-BUILDING",
+   "source": "cases/dev/source/case_g_batch_plant.md"
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "SG-G-JACKET-TEMP.description",
+   "value": "Jacket temperature control with a high-temperature alarm on each mixing tank.",
+   "source": "cases/dev/source/case_g_batch_plant.md"
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "SG-G-PPE.description",
+   "value": "Personal protective equipment: gloves, goggles, chemical aprons.",
+   "source": "cases/dev/source/case_g_batch_plant.md"
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "SG-G-SMOKE-SPRINKLER.description",
+   "value": "Smoke detectors and a sprinkler system.",
+   "source": "cases/dev/source/case_g_batch_plant.md"
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "SG-G-SMOKE-SPRINKLER.protects_id",
+   "value": "LOC-G-BUILDING",
+   "source": "cases/dev/source/case_g_batch_plant.md"
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "SIH.cameo_groups",
+   "value": [
+    58,
+    35
+   ],
+   "source": "assumed"
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "SIH.epa_groups",
+   "value": [
+    105
+   ],
+   "source": "assumed"
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "SIH.name",
+   "value": "methylhydrogen siloxane fluid (contains Si–H groups)",
+   "source": "cases/dev/source/case_g_batch_plant.md"
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "SURFACTANTS.cameo_groups",
+   "value": [
+    99
+   ],
+   "source": "assumed"
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "SURFACTANTS.name",
+   "value": "non-ionic surfactants",
+   "source": "cases/dev/source/case_g_batch_plant.md"
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "TOTES.contents",
+   "value": [
+    "PDMS",
+    "SIH",
+    "VINYL-POLYMER",
+    "PT-CATALYST",
+    "SURFACTANTS",
+    "KOH-EMULSIFIER",
+    "ACETIC-ACID",
+    "IPA",
+    "BIOCIDE"
+   ],
+   "source": "cases/dev/source/case_g_batch_plant.md"
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "TOTES.location_id",
+   "value": "LOC-G-WAREHOUSE",
+   "source": "cases/dev/source/case_g_batch_plant.md"
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "TOTES.type",
+   "value": "tank",
+   "source": "cases/dev/source/case_g_batch_plant.md"
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "TOTES.volume_m3",
+   "value": 1,
+   "source": "cases/dev/source/case_g_batch_plant.md"
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "VINYL-POLYMER.cameo_groups",
+   "value": [
+    58
+   ],
+   "source": "assumed"
+  },
+  {
+   "plant_record_id": "plant:case_g:456398a194e2ec0a",
+   "id": "VINYL-POLYMER.name",
+   "value": "vinyl-functional silicone polymer",
+   "source": "cases/dev/source/case_g_batch_plant.md"
+  }
+ ]
+}

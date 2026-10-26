@@ -376,6 +376,41 @@
   {
    "run_id": "run:76f8ee0b5d1f078e",
    "kind": "evidence",
+   "id": "ev:ch:HV-A-SIN.normal_position+HV-A-SOUT.normal_position+RV-PATH-EA425A.inlet_valve_ids+SV-421QA.protects_id+SV-421QB.protects_id+f:m:S-EA-425B:more:temperature:super:C22:e53bce019995581b+f:m:S-L-A-SOUT:reverse:flow:super:d96e945a65e57280:e8d47871d4a47f89+f:m:S-L-QW-A-IN:more:pressure:lightning:C22:e53bce019995581b:calculation:blocked_in_heating-EA-425B",
+   "pass_seq": 851,
+   "superseded_seq": 925,
+   "position": 5,
+   "record": {
+    "id": "ev:ch:HV-A-SIN.normal_position+HV-A-SOUT.normal_position+RV-PATH-EA425A.inlet_valve_ids+SV-421QA.protects_id+SV-421QB.protects_id+f:m:S-EA-425B:more:temperature:super:C22:e53bce019995581b+f:m:S-L-A-SOUT:reverse:flow:super:d96e945a65e57280:e8d47871d4a47f89+f:m:S-L-QW-A-IN:more:pressure:lightning:C22:e53bce019995581b:calculation:blocked_in_heating-EA-425B",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "target_id": "ch:HV-A-SIN.normal_position+HV-A-SOUT.normal_position+RV-PATH-EA425A.inlet_valve_ids+SV-421QA.protects_id+SV-421QB.protects_id+f:m:S-EA-425B:more:temperature:super:C22:e53bce019995581b+f:m:S-L-A-SOUT:reverse:flow:super:d96e945a65e57280:e8d47871d4a47f89+f:m:S-L-QW-A-IN:more:pressure:lightning:C22:e53bce019995581b",
+    "kind": "calculation",
+    "verdict": "confirmed",
+    "summary": "Blocked-in heating check: if EA-425B is isolated while hot quench water stays on, vapour pressure reaches at least 1.6× design (lowest of the listed chemicals: PROPANE)",
+    "tool_call_id": "tc:step:2c463b9127198404:physics_calc:703c235cf61df72b",
+    "fact_ids": [
+     "HV-B-SIN.normal_position",
+     "HV-B-SOUT.normal_position",
+     "HV-QW-B-IN.locked",
+     "HV-QW-B-OUT.locked",
+     "EA-425B.design_pressure_kpa",
+     "L-QW-B-IN.operating.temperature.normal",
+     "PROPANE.vapor_pressure_points",
+     "PROPYLENE.vapor_pressure_points"
+    ],
+    "sources": [],
+    "model_call_id": null,
+    "missing_fact_ids": [],
+    "flags": [
+     "pure-component vapour pressure; liquid-full thermal expansion not modelled; real pressure can be higher",
+     "heating-medium temperature from normal (no design_max)",
+     "no data: C4-HEAVIES; bound covers listed chemicals only"
+    ]
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "kind": "evidence",
    "id": "ev:ch:HV-A-SIN.normal_position+HV-A-SOUT.normal_position+RV-PATH-EA425A.inlet_valve_ids+SV-421QA.protects_id+SV-421QB.protects_id+f:m:S-EA-425B:more:temperature:super:C22:e53bce019995581b+f:m:S-L-A-SOUT:reverse:flow:super:d96e945a65e57280:e8d47871d4a47f89+f:m:S-L-QW-A-IN:more:pressure:lightning:C22:e53bce019995581b:calculation:heat_up_rate-EA-425B",
    "pass_seq": 725,
    "superseded_seq": 851,
@@ -467,6 +502,41 @@
   {
    "run_id": "run:76f8ee0b5d1f078e",
    "kind": "evidence",
+   "id": "ev:f:m:S-EA-425A:more:flow:super:C22:e53bce019995581b:calculation:blocked_in_heating-EA-425A",
+   "pass_seq": 851,
+   "superseded_seq": 925,
+   "position": 9,
+   "record": {
+    "id": "ev:f:m:S-EA-425A:more:flow:super:C22:e53bce019995581b:calculation:blocked_in_heating-EA-425A",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "target_id": "f:m:S-EA-425A:more:flow:super:C22:e53bce019995581b",
+    "kind": "calculation",
+    "verdict": "none",
+    "summary": "Blocked-in heating check: if EA-425A is isolated while hot quench water stays on, vapour pressure reaches at least 1.6× design (lowest of the listed chemicals: PROPANE); not confirmed: not blocked in",
+    "tool_call_id": "tc:step:c0ae7d4a02af0ea6:physics_calc:f7c9a37580de6109",
+    "fact_ids": [
+     "HV-A-SIN.normal_position",
+     "HV-A-SOUT.normal_position",
+     "HV-QW-A-IN.locked",
+     "HV-QW-A-OUT.locked",
+     "EA-425A.design_pressure_kpa",
+     "L-QW-A-IN.operating.temperature.normal",
+     "PROPANE.vapor_pressure_points",
+     "PROPYLENE.vapor_pressure_points"
+    ],
+    "sources": [],
+    "model_call_id": null,
+    "missing_fact_ids": [],
+    "flags": [
+     "pure-component vapour pressure; liquid-full thermal expansion not modelled; real pressure can be higher",
+     "heating-medium temperature from normal (no design_max)",
+     "no data: C4-HEAVIES; bound covers listed chemicals only"
+    ]
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "kind": "evidence",
    "id": "ev:f:m:S-EA-425A:more:flow:super:C22:e53bce019995581b:precedent:none",
    "pass_seq": 725,
    "superseded_seq": 851,
@@ -492,6 +562,41 @@
    "id": "ev:f:m:S-EA-425B:more:temperature:super:C22:e53bce019995581b:calculation:blocked_in_heating-EA-425B",
    "pass_seq": 725,
    "superseded_seq": 851,
+   "position": 0,
+   "record": {
+    "id": "ev:f:m:S-EA-425B:more:temperature:super:C22:e53bce019995581b:calculation:blocked_in_heating-EA-425B",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "target_id": "f:m:S-EA-425B:more:temperature:super:C22:e53bce019995581b",
+    "kind": "calculation",
+    "verdict": "confirmed",
+    "summary": "Blocked-in heating check: if EA-425B is isolated while hot quench water stays on, vapour pressure reaches at least 1.6× design (lowest of the listed chemicals: PROPANE)",
+    "tool_call_id": "tc:step:7c0fd4cb3932defa:physics_calc:703c235cf61df72b",
+    "fact_ids": [
+     "HV-B-SIN.normal_position",
+     "HV-B-SOUT.normal_position",
+     "HV-QW-B-IN.locked",
+     "HV-QW-B-OUT.locked",
+     "EA-425B.design_pressure_kpa",
+     "L-QW-B-IN.operating.temperature.normal",
+     "PROPANE.vapor_pressure_points",
+     "PROPYLENE.vapor_pressure_points"
+    ],
+    "sources": [],
+    "model_call_id": null,
+    "missing_fact_ids": [],
+    "flags": [
+     "pure-component vapour pressure; liquid-full thermal expansion not modelled; real pressure can be higher",
+     "heating-medium temperature from normal (no design_max)",
+     "no data: C4-HEAVIES; bound covers listed chemicals only"
+    ]
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "kind": "evidence",
+   "id": "ev:f:m:S-EA-425B:more:temperature:super:C22:e53bce019995581b:calculation:blocked_in_heating-EA-425B",
+   "pass_seq": 851,
+   "superseded_seq": 925,
    "position": 0,
    "record": {
     "id": "ev:f:m:S-EA-425B:more:temperature:super:C22:e53bce019995581b:calculation:blocked_in_heating-EA-425B",

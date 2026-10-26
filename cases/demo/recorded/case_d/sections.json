@@ -1,0 +1,483 @@
+{
+ "table": "sections",
+ "rows": [
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "S-C-101",
+   "position": 0,
+   "record": {
+    "id": "S-C-101",
+    "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+    "kind": "equipment",
+    "section_type": "column",
+    "name": "C-101 (column)",
+    "purpose": null,
+    "object_ids": [
+     "C-101"
+    ],
+    "flagged_no_flow": false,
+    "drawn_by": "rule",
+    "suggestion_reason": null
+   }
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "S-C-102",
+   "position": 1,
+   "record": {
+    "id": "S-C-102",
+    "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+    "kind": "equipment",
+    "section_type": "column",
+    "name": "C-102 (column)",
+    "purpose": null,
+    "object_ids": [
+     "C-102"
+    ],
+    "flagged_no_flow": false,
+    "drawn_by": "rule",
+    "suggestion_reason": null
+   }
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "S-C-103",
+   "position": 2,
+   "record": {
+    "id": "S-C-103",
+    "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+    "kind": "equipment",
+    "section_type": "column",
+    "name": "C-103 (column)",
+    "purpose": null,
+    "object_ids": [
+     "C-103"
+    ],
+    "flagged_no_flow": false,
+    "drawn_by": "rule",
+    "suggestion_reason": null
+   }
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "S-C-104",
+   "position": 3,
+   "record": {
+    "id": "S-C-104",
+    "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+    "kind": "equipment",
+    "section_type": "column",
+    "name": "C-104 (column)",
+    "purpose": null,
+    "object_ids": [
+     "C-104"
+    ],
+    "flagged_no_flow": false,
+    "drawn_by": "rule",
+    "suggestion_reason": null
+   }
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "S-E-104",
+   "position": 4,
+   "record": {
+    "id": "S-E-104",
+    "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+    "kind": "equipment",
+    "section_type": "heat_exchanger",
+    "name": "E-104 (heat_exchanger)",
+    "purpose": null,
+    "object_ids": [
+     "E-104"
+    ],
+    "flagged_no_flow": false,
+    "drawn_by": "rule",
+    "suggestion_reason": null
+   }
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "S-E-105",
+   "position": 5,
+   "record": {
+    "id": "S-E-105",
+    "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+    "kind": "equipment",
+    "section_type": "heat_exchanger",
+    "name": "E-105 (heat_exchanger)",
+    "purpose": null,
+    "object_ids": [
+     "E-105"
+    ],
+    "flagged_no_flow": false,
+    "drawn_by": "rule",
+    "suggestion_reason": null
+   }
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "S-E-106",
+   "position": 6,
+   "record": {
+    "id": "S-E-106",
+    "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+    "kind": "equipment",
+    "section_type": "heat_exchanger",
+    "name": "E-106 (heat_exchanger)",
+    "purpose": null,
+    "object_ids": [
+     "E-106"
+    ],
+    "flagged_no_flow": false,
+    "drawn_by": "rule",
+    "suggestion_reason": null
+   }
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "S-FLARE-HEADER",
+   "position": 7,
+   "record": {
+    "id": "S-FLARE-HEADER",
+    "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+    "kind": "equipment",
+    "section_type": "other",
+    "name": "FLARE-HEADER (other)",
+    "purpose": null,
+    "object_ids": [
+     "FLARE-HEADER"
+    ],
+    "flagged_no_flow": false,
+    "drawn_by": "rule",
+    "suggestion_reason": null
+   }
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "S-L-E106-BYPASS",
+   "position": 8,
+   "record": {
+    "id": "S-L-E106-BYPASS",
+    "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+    "kind": "no_flow_line",
+    "section_type": "pipe",
+    "name": "L-E106-BYPASS (no-flow line)",
+    "purpose": null,
+    "object_ids": [
+     "L-E106-BYPASS"
+    ],
+    "flagged_no_flow": true,
+    "drawn_by": "rule",
+    "suggestion_reason": null
+   }
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "S-L-FEED",
+   "position": 9,
+   "record": {
+    "id": "S-L-FEED",
+    "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+    "kind": "line",
+    "section_type": "pipe",
+    "name": "L-FEED (pipe)",
+    "purpose": null,
+    "object_ids": [
+     "L-FEED"
+    ],
+    "flagged_no_flow": false,
+    "drawn_by": "rule",
+    "suggestion_reason": null
+   }
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "S-L-HEAVIES",
+   "position": 10,
+   "record": {
+    "id": "S-L-HEAVIES",
+    "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+    "kind": "line",
+    "section_type": "pipe",
+    "name": "L-HEAVIES (pipe)",
+    "purpose": null,
+    "object_ids": [
+     "L-HEAVIES"
+    ],
+    "flagged_no_flow": false,
+    "drawn_by": "rule",
+    "suggestion_reason": null
+   }
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "S-L-OFFSPEC",
+   "position": 11,
+   "record": {
+    "id": "S-L-OFFSPEC",
+    "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+    "kind": "no_flow_line",
+    "section_type": "pipe",
+    "name": "L-OFFSPEC (no-flow line)",
+    "purpose": null,
+    "object_ids": [
+     "L-OFFSPEC"
+    ],
+    "flagged_no_flow": true,
+    "drawn_by": "rule",
+    "suggestion_reason": null
+   }
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "S-L-P104B-DIS",
+   "position": 12,
+   "record": {
+    "id": "S-L-P104B-DIS",
+    "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+    "kind": "no_flow_line",
+    "section_type": "pipe",
+    "name": "L-P104B-DIS (no-flow line)",
+    "purpose": null,
+    "object_ids": [
+     "L-P104B-DIS",
+     "BV-P104B-DIS"
+    ],
+    "flagged_no_flow": true,
+    "drawn_by": "rule",
+    "suggestion_reason": null
+   }
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "S-L-P104B-SUC",
+   "position": 13,
+   "record": {
+    "id": "S-L-P104B-SUC",
+    "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+    "kind": "no_flow_line",
+    "section_type": "pipe",
+    "name": "L-P104B-SUC (no-flow line)",
+    "purpose": null,
+    "object_ids": [
+     "L-P104B-SUC",
+     "BV-P104B-SUC"
+    ],
+    "flagged_no_flow": true,
+    "drawn_by": "rule",
+    "suggestion_reason": null
+   }
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "S-L-RAFFINATE",
+   "position": 14,
+   "record": {
+    "id": "S-L-RAFFINATE",
+    "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+    "kind": "line",
+    "section_type": "pipe",
+    "name": "L-RAFFINATE (pipe)",
+    "purpose": null,
+    "object_ids": [
+     "L-RAFFINATE"
+    ],
+    "flagged_no_flow": false,
+    "drawn_by": "rule",
+    "suggestion_reason": null
+   }
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "S-L-RUNDOWN",
+   "position": 15,
+   "record": {
+    "id": "S-L-RUNDOWN",
+    "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+    "kind": "line",
+    "section_type": "pipe",
+    "name": "L-RUNDOWN (pipe)",
+    "purpose": null,
+    "object_ids": [
+     "L-RUNDOWN"
+    ],
+    "flagged_no_flow": false,
+    "drawn_by": "rule",
+    "suggestion_reason": null
+   }
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "S-L-RUNDOWN~E-106",
+   "position": 16,
+   "record": {
+    "id": "S-L-RUNDOWN~E-106",
+    "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+    "kind": "line",
+    "section_type": "pipe",
+    "name": "L-RUNDOWN from E-106 (pipe)",
+    "purpose": null,
+    "object_ids": [
+     "L-RUNDOWN",
+     "E-106"
+    ],
+    "flagged_no_flow": false,
+    "drawn_by": "rule",
+    "suggestion_reason": null
+   }
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "S-L-STARTUP-RECYCLE",
+   "position": 17,
+   "record": {
+    "id": "S-L-STARTUP-RECYCLE",
+    "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+    "kind": "no_flow_line",
+    "section_type": "pipe",
+    "name": "L-STARTUP-RECYCLE (no-flow line)",
+    "purpose": null,
+    "object_ids": [
+     "L-STARTUP-RECYCLE"
+    ],
+    "flagged_no_flow": true,
+    "drawn_by": "rule",
+    "suggestion_reason": null
+   }
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "S-P-104A",
+   "position": 18,
+   "record": {
+    "id": "S-P-104A",
+    "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+    "kind": "equipment",
+    "section_type": "pump",
+    "name": "P-104A (pump)",
+    "purpose": null,
+    "object_ids": [
+     "P-104A"
+    ],
+    "flagged_no_flow": false,
+    "drawn_by": "rule",
+    "suggestion_reason": null
+   }
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "S-P-104B",
+   "position": 19,
+   "record": {
+    "id": "S-P-104B",
+    "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+    "kind": "equipment",
+    "section_type": "pump",
+    "name": "P-104B (pump)",
+    "purpose": null,
+    "object_ids": [
+     "P-104B"
+    ],
+    "flagged_no_flow": false,
+    "drawn_by": "rule",
+    "suggestion_reason": null
+   }
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "S-TK-201",
+   "position": 20,
+   "record": {
+    "id": "S-TK-201",
+    "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+    "kind": "equipment",
+    "section_type": "tank",
+    "name": "TK-201 (tank)",
+    "purpose": null,
+    "object_ids": [
+     "TK-201"
+    ],
+    "flagged_no_flow": false,
+    "drawn_by": "rule",
+    "suggestion_reason": null
+   }
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "S-TK-202",
+   "position": 21,
+   "record": {
+    "id": "S-TK-202",
+    "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+    "kind": "equipment",
+    "section_type": "tank",
+    "name": "TK-202 (tank)",
+    "purpose": null,
+    "object_ids": [
+     "TK-202"
+    ],
+    "flagged_no_flow": false,
+    "drawn_by": "rule",
+    "suggestion_reason": null
+   }
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "S-TK-OFFSPEC",
+   "position": 22,
+   "record": {
+    "id": "S-TK-OFFSPEC",
+    "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+    "kind": "equipment",
+    "section_type": "tank",
+    "name": "TK-OFFSPEC (tank)",
+    "purpose": null,
+    "object_ids": [
+     "TK-OFFSPEC"
+    ],
+    "flagged_no_flow": false,
+    "drawn_by": "rule",
+    "suggestion_reason": null
+   }
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "S-V-101",
+   "position": 23,
+   "record": {
+    "id": "S-V-101",
+    "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+    "kind": "equipment",
+    "section_type": "vessel",
+    "name": "V-101 (vessel)",
+    "purpose": null,
+    "object_ids": [
+     "V-101"
+    ],
+    "flagged_no_flow": false,
+    "drawn_by": "rule",
+    "suggestion_reason": null
+   }
+  },
+  {
+   "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+   "id": "S-V-104",
+   "position": 24,
+   "record": {
+    "id": "S-V-104",
+    "plant_record_id": "plant:case_d:88c2cdaec62b7ce0",
+    "kind": "equipment",
+    "section_type": "vessel",
+    "name": "V-104 (vessel)",
+    "purpose": null,
+    "object_ids": [
+     "V-104"
+    ],
+    "flagged_no_flow": false,
+    "drawn_by": "rule",
+    "suggestion_reason": null
+   }
+  }
+ ]
+}

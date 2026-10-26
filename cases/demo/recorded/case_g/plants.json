@@ -1,0 +1,479 @@
+{
+ "table": "plants",
+ "rows": [
+  {
+   "id": "plant:case_g:456398a194e2ec0a",
+   "plant_id": "case_g",
+   "status": "sections_confirmed",
+   "plant_file": {
+    "plant_id": "case_g",
+    "schema_version": "1.0",
+    "notes": [
+     {
+      "text": "Silicone emulsions, release coatings and lubricant blends, made in batches of 2–8 tonnes.",
+      "source": "cases/dev/source/case_g_batch_plant.md"
+     },
+     {
+      "text": "Raw materials kept on site (all arrive in 1,000-litre IBC totes or drums)",
+      "source": "cases/dev/source/case_g_batch_plant.md"
+     },
+     {
+      "text": "Electrical area classification: unclassified, general-purpose equipment throughout.",
+      "source": "cases/dev/source/case_g_batch_plant.md"
+     },
+     {
+      "text": "Personal protective equipment: gloves, goggles, chemical aprons.",
+      "source": "cases/dev/source/case_g_batch_plant.md"
+     }
+    ],
+    "locations": [
+     {
+      "id": "LOC-G-BUILDING",
+      "description": "single enclosed production building, ~2,000 m²",
+      "indoor": true,
+      "notes": [
+       {
+        "text": "Single enclosed production building, ~2,000 m², general exhaust fans on the roof.",
+        "source": "cases/dev/source/case_g_batch_plant.md"
+       },
+       {
+        "text": "Electrical area classification: unclassified, general-purpose equipment throughout.",
+        "source": "cases/dev/source/case_g_batch_plant.md"
+       }
+      ]
+     },
+     {
+      "id": "LOC-G-WAREHOUSE",
+      "description": "warehouse bay next to production",
+      "notes": [
+       {
+        "text": "Totes are stored in a warehouse bay next to production.",
+        "source": "cases/dev/source/case_g_batch_plant.md"
+       }
+      ]
+     }
+    ],
+    "equipment": [
+     {
+      "id": "TOTES",
+      "type": "tank",
+      "location_id": "LOC-G-WAREHOUSE",
+      "volume_m3": 1,
+      "contents": [
+       "PDMS",
+       "SIH",
+       "VINYL-POLYMER",
+       "PT-CATALYST",
+       "SURFACTANTS",
+       "KOH-EMULSIFIER",
+       "ACETIC-ACID",
+       "IPA",
+       "BIOCIDE"
+      ],
+      "notes": [
+       {
+        "text": "all arrive in 1,000-litre IBC totes or drums",
+        "source": "cases/dev/source/case_g_batch_plant.md"
+       },
+       {
+        "text": "Some material is re-packaged into totes on site and labelled by hand.",
+        "source": "cases/dev/source/case_g_batch_plant.md"
+       }
+      ]
+     },
+     {
+      "id": "MX-1",
+      "type": "mixer",
+      "location_id": "LOC-G-BUILDING",
+      "volume_m3": 10,
+      "heat_sources": [
+       {
+        "medium": "jacket heating/cooling"
+       }
+      ],
+      "notes": [
+       {
+        "text": "Four stainless-steel mixing tanks (MX-1 to MX-4), 10 m³, with agitators, jacket heating/cooling, and loose lids with a manway.",
+        "source": "cases/dev/source/case_g_batch_plant.md"
+       }
+      ]
+     },
+     {
+      "id": "MX-2",
+      "type": "mixer",
+      "location_id": "LOC-G-BUILDING",
+      "volume_m3": 10,
+      "heat_sources": [
+       {
+        "medium": "jacket heating/cooling"
+       }
+      ],
+      "notes": [
+       {
+        "text": "Four stainless-steel mixing tanks (MX-1 to MX-4), 10 m³, with agitators, jacket heating/cooling, and loose lids with a manway.",
+        "source": "cases/dev/source/case_g_batch_plant.md"
+       }
+      ]
+     },
+     {
+      "id": "MX-3",
+      "type": "mixer",
+      "location_id": "LOC-G-BUILDING",
+      "volume_m3": 10,
+      "heat_sources": [
+       {
+        "medium": "jacket heating/cooling"
+       }
+      ],
+      "notes": [
+       {
+        "text": "Four stainless-steel mixing tanks (MX-1 to MX-4), 10 m³, with agitators, jacket heating/cooling, and loose lids with a manway.",
+        "source": "cases/dev/source/case_g_batch_plant.md"
+       }
+      ]
+     },
+     {
+      "id": "MX-4",
+      "type": "mixer",
+      "location_id": "LOC-G-BUILDING",
+      "volume_m3": 10,
+      "heat_sources": [
+       {
+        "medium": "jacket heating/cooling"
+       }
+      ],
+      "notes": [
+       {
+        "text": "Four stainless-steel mixing tanks (MX-1 to MX-4), 10 m³, with agitators, jacket heating/cooling, and loose lids with a manway.",
+        "source": "cases/dev/source/case_g_batch_plant.md"
+       }
+      ]
+     },
+     {
+      "id": "PORTABLE-PUMP",
+      "type": "pump",
+      "notes": [
+       {
+        "text": "A portable air-operated diaphragm pump and hoses used to charge tank contents.",
+        "source": "cases/dev/source/case_g_batch_plant.md"
+       }
+      ]
+     },
+     {
+      "id": "HOMOGENISER",
+      "type": "other",
+      "location_id": "LOC-G-BUILDING",
+      "notes": [
+       {
+        "text": "A homogeniser and a filling line for drums and pails.",
+        "source": "cases/dev/source/case_g_batch_plant.md"
+       }
+      ]
+     },
+     {
+      "id": "FILLING-LINE",
+      "type": "other",
+      "location_id": "LOC-G-BUILDING",
+      "notes": [
+       {
+        "text": "A homogeniser and a filling line for drums and pails.",
+        "source": "cases/dev/source/case_g_batch_plant.md"
+       }
+      ]
+     }
+    ],
+    "lines": [
+     {
+      "id": "L-HOSE-MX-1",
+      "from_id": "LOC-G-WAREHOUSE",
+      "to_id": "MX-1",
+      "components": [
+       "PORTABLE-PUMP"
+      ],
+      "is_hose": true,
+      "notes": [
+       {
+        "text": "connects the hose and pumps the contents into the mixing tank",
+        "source": "cases/dev/source/case_g_batch_plant.md"
+       }
+      ]
+     },
+     {
+      "id": "L-HOSE-MX-2",
+      "from_id": "LOC-G-WAREHOUSE",
+      "to_id": "MX-2",
+      "components": [
+       "PORTABLE-PUMP"
+      ],
+      "is_hose": true,
+      "notes": [
+       {
+        "text": "connects the hose and pumps the contents into the mixing tank",
+        "source": "cases/dev/source/case_g_batch_plant.md"
+       }
+      ]
+     },
+     {
+      "id": "L-HOSE-MX-3",
+      "from_id": "LOC-G-WAREHOUSE",
+      "to_id": "MX-3",
+      "components": [
+       "PORTABLE-PUMP"
+      ],
+      "is_hose": true,
+      "notes": [
+       {
+        "text": "connects the hose and pumps the contents into the mixing tank",
+        "source": "cases/dev/source/case_g_batch_plant.md"
+       }
+      ]
+     },
+     {
+      "id": "L-HOSE-MX-4",
+      "from_id": "LOC-G-WAREHOUSE",
+      "to_id": "MX-4",
+      "components": [
+       "PORTABLE-PUMP"
+      ],
+      "is_hose": true,
+      "notes": [
+       {
+        "text": "connects the hose and pumps the contents into the mixing tank",
+        "source": "cases/dev/source/case_g_batch_plant.md"
+       }
+      ]
+     }
+    ],
+    "safeguards": [
+     {
+      "id": "SG-G-EXHAUST",
+      "description": "general exhaust fans on the roof",
+      "protects_id": "LOC-G-BUILDING"
+     },
+     {
+      "id": "SG-G-SMOKE-SPRINKLER",
+      "description": "Smoke detectors and a sprinkler system.",
+      "protects_id": "LOC-G-BUILDING"
+     },
+     {
+      "id": "SG-G-JACKET-TEMP",
+      "description": "Jacket temperature control with a high-temperature alarm on each mixing tank."
+     },
+     {
+      "id": "SG-G-PPE",
+      "description": "Personal protective equipment: gloves, goggles, chemical aprons."
+     }
+    ],
+    "chemicals": [
+     {
+      "id": "PDMS",
+      "name": "polydimethylsiloxane fluids (several viscosities)",
+      "source": "cases/dev/source/case_g_batch_plant.md",
+      "cameo_groups": [
+       58
+      ]
+     },
+     {
+      "id": "SIH",
+      "name": "methylhydrogen siloxane fluid (contains Si–H groups)",
+      "source": "cases/dev/source/case_g_batch_plant.md",
+      "epa_groups": [
+       105
+      ],
+      "cameo_groups": [
+       58,
+       35
+      ]
+     },
+     {
+      "id": "VINYL-POLYMER",
+      "name": "vinyl-functional silicone polymer",
+      "source": "cases/dev/source/case_g_batch_plant.md",
+      "cameo_groups": [
+       58
+      ]
+     },
+     {
+      "id": "PT-CATALYST",
+      "name": "platinum catalyst solution",
+      "source": "cases/dev/source/case_g_batch_plant.md",
+      "cameo_groups": [
+       99
+      ]
+     },
+     {
+      "id": "SURFACTANTS",
+      "name": "non-ionic surfactants",
+      "source": "cases/dev/source/case_g_batch_plant.md",
+      "cameo_groups": [
+       99
+      ]
+     },
+     {
+      "id": "KOH-EMULSIFIER",
+      "name": "emulsifier solution containing potassium hydroxide",
+      "source": "cases/dev/source/case_g_batch_plant.md",
+      "epa_groups": [
+       10,
+       106
+      ],
+      "cameo_groups": [
+       10,
+       100
+      ]
+     },
+     {
+      "id": "ACETIC-ACID",
+      "name": "acetic acid (for pH adjustment)",
+      "source": "cases/dev/source/case_g_batch_plant.md",
+      "epa_groups": [
+       3
+      ],
+      "cameo_groups": [
+       3
+      ]
+     },
+     {
+      "id": "IPA",
+      "name": "isopropyl alcohol",
+      "source": "cases/dev/source/case_g_batch_plant.md",
+      "epa_groups": [
+       4
+      ],
+      "cameo_groups": [
+       4
+      ]
+     },
+     {
+      "id": "BIOCIDE",
+      "name": "biocide",
+      "source": "cases/dev/source/case_g_batch_plant.md",
+      "cameo_groups": [
+       99
+      ]
+     },
+     {
+      "id": "DI-WATER",
+      "name": "deionised water (from the plant system)",
+      "source": "cases/dev/source/case_g_batch_plant.md",
+      "epa_groups": [
+       106
+      ],
+      "cameo_groups": [
+       100
+      ]
+     }
+    ],
+    "procedures": [
+     {
+      "id": "P-G-CHARGE",
+      "kind": "charging",
+      "notes": [
+       {
+        "text": "The operator reads the paper batch sheet, collects the listed tote from the warehouse with a forklift, connects the hose and pumps the contents into the mixing tank, then signs the batch sheet.",
+        "source": "cases/dev/source/case_g_batch_plant.md"
+       }
+      ],
+      "steps": [
+       {
+        "id": "P-G-CHARGE-1",
+        "text": "The operator reads the paper batch sheet"
+       },
+       {
+        "id": "P-G-CHARGE-2",
+        "text": "collects the listed tote from the warehouse with a forklift",
+        "equipment_ids": [
+         "TOTES"
+        ]
+       },
+       {
+        "id": "P-G-CHARGE-3",
+        "text": "connects the hose and pumps the contents into the mixing tank",
+        "equipment_ids": [
+         "PORTABLE-PUMP",
+         "MX-1",
+         "MX-2",
+         "MX-3",
+         "MX-4"
+        ]
+       },
+       {
+        "id": "P-G-CHARGE-4",
+        "text": "then signs the batch sheet"
+       }
+      ]
+     }
+    ],
+    "provenance": {
+     "ACETIC-ACID": "cases/dev/source/case_g_batch_plant.md",
+     "ACETIC-ACID.cameo_groups": "assumed",
+     "ACETIC-ACID.epa_groups": "assumed",
+     "BIOCIDE": "cases/dev/source/case_g_batch_plant.md",
+     "BIOCIDE.cameo_groups": "assumed",
+     "DI-WATER": "cases/dev/source/case_g_batch_plant.md",
+     "DI-WATER.cameo_groups": "assumed",
+     "DI-WATER.epa_groups": "assumed",
+     "FILLING-LINE": "cases/dev/source/case_g_batch_plant.md",
+     "HOMOGENISER": "cases/dev/source/case_g_batch_plant.md",
+     "IPA": "cases/dev/source/case_g_batch_plant.md",
+     "IPA.cameo_groups": "assumed",
+     "IPA.epa_groups": "assumed",
+     "KOH-EMULSIFIER": "cases/dev/source/case_g_batch_plant.md",
+     "KOH-EMULSIFIER.cameo_groups": "assumed",
+     "KOH-EMULSIFIER.epa_groups": "assumed",
+     "L-HOSE-MX-1": "cases/dev/source/case_g_batch_plant.md",
+     "L-HOSE-MX-2": "cases/dev/source/case_g_batch_plant.md",
+     "L-HOSE-MX-3": "cases/dev/source/case_g_batch_plant.md",
+     "L-HOSE-MX-4": "cases/dev/source/case_g_batch_plant.md",
+     "LOC-G-BUILDING": "cases/dev/source/case_g_batch_plant.md",
+     "LOC-G-WAREHOUSE": "cases/dev/source/case_g_batch_plant.md",
+     "MX-1": "cases/dev/source/case_g_batch_plant.md",
+     "MX-2": "cases/dev/source/case_g_batch_plant.md",
+     "MX-3": "cases/dev/source/case_g_batch_plant.md",
+     "MX-4": "cases/dev/source/case_g_batch_plant.md",
+     "P-G-CHARGE": "cases/dev/source/case_g_batch_plant.md",
+     "P-G-CHARGE-1": "cases/dev/source/case_g_batch_plant.md",
+     "P-G-CHARGE-2": "cases/dev/source/case_g_batch_plant.md",
+     "P-G-CHARGE-3": "cases/dev/source/case_g_batch_plant.md",
+     "P-G-CHARGE-4": "cases/dev/source/case_g_batch_plant.md",
+     "PDMS": "cases/dev/source/case_g_batch_plant.md",
+     "PDMS.cameo_groups": "assumed",
+     "PORTABLE-PUMP": "cases/dev/source/case_g_batch_plant.md",
+     "PT-CATALYST": "cases/dev/source/case_g_batch_plant.md",
+     "PT-CATALYST.cameo_groups": "assumed",
+     "SG-G-EXHAUST": "cases/dev/source/case_g_batch_plant.md",
+     "SG-G-JACKET-TEMP": "cases/dev/source/case_g_batch_plant.md",
+     "SG-G-PPE": "cases/dev/source/case_g_batch_plant.md",
+     "SG-G-SMOKE-SPRINKLER": "cases/dev/source/case_g_batch_plant.md",
+     "SIH": "cases/dev/source/case_g_batch_plant.md",
+     "SIH.cameo_groups": "assumed",
+     "SIH.epa_groups": "assumed",
+     "SURFACTANTS": "cases/dev/source/case_g_batch_plant.md",
+     "SURFACTANTS.cameo_groups": "assumed",
+     "TOTES": "cases/dev/source/case_g_batch_plant.md",
+     "VINYL-POLYMER": "cases/dev/source/case_g_batch_plant.md",
+     "VINYL-POLYMER.cameo_groups": "assumed"
+    }
+   },
+   "confirmed_section_ids": [
+    "S-FILLING-LINE",
+    "S-HOMOGENISER",
+    "S-L-HOSE-MX-1",
+    "S-L-HOSE-MX-1~PORTABLE-PUMP",
+    "S-L-HOSE-MX-2",
+    "S-L-HOSE-MX-2~PORTABLE-PUMP",
+    "S-L-HOSE-MX-3",
+    "S-L-HOSE-MX-3~PORTABLE-PUMP",
+    "S-L-HOSE-MX-4",
+    "S-L-HOSE-MX-4~PORTABLE-PUMP",
+    "S-MX-1",
+    "S-MX-2",
+    "S-MX-3",
+    "S-MX-4",
+    "S-P-G-CHARGE",
+    "S-PORTABLE-PUMP",
+    "S-TOTES"
+   ]
+  }
+ ]
+}

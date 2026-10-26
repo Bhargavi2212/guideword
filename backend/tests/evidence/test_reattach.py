@@ -1,15 +1,22 @@
 """Re-attaching a stored run's calculation cards under the approved rule (review plan R2, Q5).
 
-Run on the committed WG export, loaded into memory: its cards came from Phase 4's rule. Code only
-and $0: no model call, no search. The cards the rule no longer gives are superseded, the ones it
-now gives are added, and one `calculations_reattached` event, written last, names both.
+Run on the WG run as it was recorded, before its re-attach: the committed export holds the
+re-attached run (R5), and `_before_reattach` rebuilds the export as it was, exactly, from it. A
+re-attach only appends records and moves the cards it supersedes to `superseded_records`, so
+undoing it is mechanical; `test_the_rebuilt_export_is_the_one_recorded` checks the rebuilt
+files against the export as committed before R5. Code only and $0: no model call, no search.
+The cards the rule no longer gives are superseded, the ones it now gives are added, and one
+`calculations_reattached` event, written last, names both.
 """
 
 import json
+import shutil
 import sqlite3
+import subprocess
 from collections import Counter
 from datetime import UTC, date, datetime
 from pathlib import Path
+from typing import Any
 
 import export_recorded
 import pytest
@@ -17,7 +24,7 @@ import reattach_calculations
 from sqlalchemy.orm import Session, sessionmaker
 
 from guideword.config import load_config
-from guideword.evidence.reattach import ReattachRefused, reattach
+from guideword.evidence.reattach import STEP_REASON, ReattachRefused, reattach
 from guideword.runs.plants import PlantRepository
 from guideword.runs.recorded import load_recorded
 from guideword.runs.store import RunRepository
@@ -31,10 +38,90 @@ COMMIT = "76586aa"
 BLOCKED = "calculation:blocked_in_heating-"
 
 
+# the last commit whose WG export is the run as recorded, before its re-attach
+RECORDED_COMMIT = "0478505"
+REATTACHED = "calculations_reattached"
+
+
+def _table(folder: Path, name: str) -> list[dict[str, Any]]:
+    rows: list[dict[str, Any]] = json.loads((folder / f"{name}.json").read_text("utf-8"))["rows"]
+    return rows
+
+
+def _put(folder: Path, name: str, rows: list[dict[str, Any]]) -> None:
+    text = json.dumps({"table": name, "rows": rows}, indent=1, ensure_ascii=False, default=str)
+    (folder / f"{name}.json").write_text(text + "\n", encoding="utf-8", newline="\n")
+
+
+def _before_reattach(out: Path) -> Path:
+    """The WG export as recorded, rebuilt from the committed (re-attached) one."""
+    shutil.copytree(WG_EXPORT, out)
+    events = _table(out, "events")
+    first = next(
+        n
+        for n, e in enumerate(events)
+        if e["type"] == REATTACHED
+        or (e["type"] == "agent_decision" and e["record"]["payload"].get("reason") == STEP_REASON)
+    )
+    [event] = [e for e in events if e["type"] == REATTACHED]
+    payload, seq = event["record"]["payload"], event["seq"]
+    steps = {
+        e["record"]["payload"]["step_id"] for e in events[first:] if e["type"] == "agent_decision"
+    }
+    _put(out, "events", events[:first])
+    _put(out, "agent_steps", [r for r in _table(out, "agent_steps") if r["id"] not in steps])
+    _put(
+        out,
+        "tool_calls",
+        [r for r in _table(out, "tool_calls") if r["record"]["agent_step_id"] not in steps],
+    )
+    superseded = _table(out, "superseded_records")
+    back = [
+        {k: r[k] for k in ("run_id", "id", "position", "record")}
+        for r in superseded
+        if r["superseded_seq"] == seq and r["kind"] == "evidence"
+    ]
+    kept = [r for r in _table(out, "evidence") if r["id"] not in payload["added_ids"]]
+    # the export orders rows by primary key
+    _put(out, "evidence", sorted([*kept, *back], key=lambda r: (r["run_id"], r["id"])))
+    _put(out, "superseded_records", [r for r in superseded if r["superseded_seq"] != seq])
+    runs = _table(out, "runs")
+    label = runs[0]["record"]["label"]
+    label["note"] = label["note"].split("; calculations re-attached")[0]
+    _put(out, "runs", runs)
+    return out
+
+
+@pytest.fixture(scope="module")
+def recorded(tmp_path_factory: pytest.TempPathFactory) -> Path:
+    return _before_reattach(tmp_path_factory.mktemp("wg") / "williams_geismar")
+
+
 @pytest.fixture
-def store() -> tuple[sessionmaker[Session], RunRepository]:
-    sessions = load_recorded(WG_EXPORT)
+def store(recorded: Path) -> tuple[sessionmaker[Session], RunRepository]:
+    sessions = load_recorded(recorded)
     return sessions, RunRepository(sessions, clock=lambda: NOW)
+
+
+def test_the_rebuilt_export_is_the_one_recorded(recorded: Path) -> None:
+    """Every file equals the WG export as committed before R5 re-exported it."""
+    for path in sorted(recorded.glob("*.json")):
+        relative = (WG_EXPORT / path.name).relative_to(ROOT).as_posix()
+        committed = subprocess.run(
+            ["git", "show", f"{RECORDED_COMMIT}:{relative}"],
+            cwd=ROOT,
+            capture_output=True,
+            check=True,
+        ).stdout
+        assert path.read_bytes() == committed, path.name
+
+
+def test_the_committed_export_is_the_re_attached_run() -> None:
+    """R5: the site serves the run after its re-attach, which a second pass leaves alone."""
+    sessions = load_recorded(WG_EXPORT)
+    runs = RunRepository(sessions, clock=lambda: NOW)
+    assert runs.events(WG_RUN)[-1].type == EventType.CALCULATIONS_REATTACHED
+    assert _run((sessions, runs)) == []
 
 
 def _run(store: tuple[sessionmaker[Session], RunRepository]) -> list[str]:

@@ -96,3 +96,47 @@ def test_the_function_requirements_are_the_backends_pins() -> None:
         }
 
     assert pins(REPO / "requirements.txt") == pins(REPO / "backend" / "requirements.txt")
+
+
+# --- review plan R5: D and G on the site ---------------------------------------------------------
+
+
+def test_the_site_offers_wg_then_d_then_g_and_serves_each_with_no_key(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    entry = _entry(monkeypatch)
+    client = TestClient(entry.app)
+    demo = api.DemoResponse.model_validate(client.get("/demo").json())
+    wanted = [r["run_id"] for r in SITE["env"]["GUIDEWORD_DEMO_RUNS"]]
+    assert [r.run_id for r in demo.runs] == wanted and len(wanted) == 3
+    assert demo.run.run.id == wanted[0]  # WG stays first and the default
+    for run in demo.runs:
+        path = f"/runs/{quote(run.run_id, safe='')}"
+        for rest in ("", "/shortlist", "/events", "/worksheet", "/coverage", "/sections"):
+            assert client.get(path + rest).status_code == 200, (run.run_id, rest)
+        detail = api.RunDetail.model_validate(client.get(path).json())
+        assert detail.label.kind == "recorded"
+        refused = client.post(
+            f"{path}/overrides",
+            json={
+                "target_id": "x",
+                "action": "accept",
+                "new_value": None,
+                "reason": "r",
+                "by": "B",
+            },
+        )
+        assert refused.status_code == 403
+
+
+def test_d_and_g_have_their_banners_and_no_start_line_or_found_text(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    entry = _entry(monkeypatch)
+    demo = api.DemoResponse.model_validate(TestClient(entry.app).get("/demo").json())
+    by_plant = {r.plant_id: r for r in demo.runs}
+    for plant in ("case_d", "case_g"):
+        run = by_plant[plant]
+        assert run.start_target_id is None
+        assert run.banner and "development case" in run.banner
+        assert "found" not in run.banner.lower() and "accident" not in run.banner.lower()

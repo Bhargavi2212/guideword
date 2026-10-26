@@ -1177,6 +1177,122 @@
   },
   {
    "run_id": "run:76f8ee0b5d1f078e",
+   "id": "tc:step:9fa7f4a3421cbb50:physics_calc:703c235cf61df72b",
+   "position": 48,
+   "record": {
+    "id": "tc:step:9fa7f4a3421cbb50:physics_calc:703c235cf61df72b",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "agent_step_id": "step:9fa7f4a3421cbb50",
+    "tool": "physics_calc",
+    "arguments": {
+     "calculation": "blocked_in_heating",
+     "equipment_id": "EA-425B"
+    },
+    "result": {
+     "calculation": "blocked_in_heating",
+     "equipment_id": "EA-425B",
+     "verdict": "confirmed",
+     "value": 1.6125604448742747,
+     "unit": "x_design",
+     "fact_ids": [
+      "HV-B-SIN.normal_position",
+      "HV-B-SOUT.normal_position",
+      "HV-QW-B-IN.locked",
+      "HV-QW-B-OUT.locked",
+      "EA-425B.design_pressure_kpa",
+      "L-QW-B-IN.operating.temperature.normal",
+      "PROPANE.vapor_pressure_points",
+      "PROPYLENE.vapor_pressure_points"
+     ],
+     "missing_fact_ids": [],
+     "flags": [
+      "pure-component vapour pressure; liquid-full thermal expansion not modelled; real pressure can be higher",
+      "heating-medium temperature from normal (no design_max)",
+      "no data: C4-HEAVIES; bound covers listed chemicals only"
+     ],
+     "failed": [],
+     "detail": {
+      "chemical": "PROPANE",
+      "heat_source": "hot quench water",
+      "temperature_c": 85.0,
+      "pressures_kpaa": {
+       "PROPANE": 3436.1,
+       "PROPYLENE": 4078.8
+      },
+      "multiples": {
+       "PROPANE": 1.6125604448742747,
+       "PROPYLENE": 1.9233438104448743
+      }
+     }
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": [
+     "ev:f:proc:P-REB-START-2:early:super:C16:126a45a4b13afa1b:calculation:blocked_in_heating-EA-425B"
+    ]
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "tc:step:9fa7f4a3421cbb50:physics_calc:f7c9a37580de6109",
+   "position": 47,
+   "record": {
+    "id": "tc:step:9fa7f4a3421cbb50:physics_calc:f7c9a37580de6109",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "agent_step_id": "step:9fa7f4a3421cbb50",
+    "tool": "physics_calc",
+    "arguments": {
+     "calculation": "blocked_in_heating",
+     "equipment_id": "EA-425A"
+    },
+    "result": {
+     "calculation": "blocked_in_heating",
+     "equipment_id": "EA-425A",
+     "verdict": "none",
+     "value": 1.6125604448742747,
+     "unit": "x_design",
+     "fact_ids": [
+      "HV-A-SIN.normal_position",
+      "HV-A-SOUT.normal_position",
+      "HV-QW-A-IN.locked",
+      "HV-QW-A-OUT.locked",
+      "EA-425A.design_pressure_kpa",
+      "L-QW-A-IN.operating.temperature.normal",
+      "PROPANE.vapor_pressure_points",
+      "PROPYLENE.vapor_pressure_points"
+     ],
+     "missing_fact_ids": [],
+     "flags": [
+      "pure-component vapour pressure; liquid-full thermal expansion not modelled; real pressure can be higher",
+      "heating-medium temperature from normal (no design_max)",
+      "no data: C4-HEAVIES; bound covers listed chemicals only"
+     ],
+     "failed": [
+      "not blocked in"
+     ],
+     "detail": {
+      "chemical": "PROPANE",
+      "heat_source": "hot quench water",
+      "temperature_c": 85.0,
+      "pressures_kpaa": {
+       "PROPANE": 3436.1,
+       "PROPYLENE": 4078.8
+      },
+      "multiples": {
+       "PROPANE": 1.6125604448742747,
+       "PROPYLENE": 1.9233438104448743
+      }
+     }
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": [
+     "ev:f:proc:P-REB-START-2:early:super:C16:126a45a4b13afa1b:calculation:blocked_in_heating-EA-425A"
+    ]
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
    "id": "tc:step:a254b7950552fe77:web_research:7322da0f3d1b3292",
    "position": 42,
    "record": {
@@ -1251,6 +1367,65 @@
      "https://www.csb.gov/giant-industries-refinery-explosions-and-fire/"
     ],
     "record_ids": []
+   }
+  },
+  {
+   "run_id": "run:76f8ee0b5d1f078e",
+   "id": "tc:step:ba495dc08672b940:physics_calc:f7c9a37580de6109",
+   "position": 46,
+   "record": {
+    "id": "tc:step:ba495dc08672b940:physics_calc:f7c9a37580de6109",
+    "run_id": "run:76f8ee0b5d1f078e",
+    "agent_step_id": "step:ba495dc08672b940",
+    "tool": "physics_calc",
+    "arguments": {
+     "calculation": "blocked_in_heating",
+     "equipment_id": "EA-425A"
+    },
+    "result": {
+     "calculation": "blocked_in_heating",
+     "equipment_id": "EA-425A",
+     "verdict": "none",
+     "value": 1.6125604448742747,
+     "unit": "x_design",
+     "fact_ids": [
+      "HV-A-SIN.normal_position",
+      "HV-A-SOUT.normal_position",
+      "HV-QW-A-IN.locked",
+      "HV-QW-A-OUT.locked",
+      "EA-425A.design_pressure_kpa",
+      "L-QW-A-IN.operating.temperature.normal",
+      "PROPANE.vapor_pressure_points",
+      "PROPYLENE.vapor_pressure_points"
+     ],
+     "missing_fact_ids": [],
+     "flags": [
+      "pure-component vapour pressure; liquid-full thermal expansion not modelled; real pressure can be higher",
+      "heating-medium temperature from normal (no design_max)",
+      "no data: C4-HEAVIES; bound covers listed chemicals only"
+     ],
+     "failed": [
+      "not blocked in"
+     ],
+     "detail": {
+      "chemical": "PROPANE",
+      "heat_source": "hot quench water",
+      "temperature_c": 85.0,
+      "pressures_kpaa": {
+       "PROPANE": 3436.1,
+       "PROPYLENE": 4078.8
+      },
+      "multiples": {
+       "PROPANE": 1.6125604448742747,
+       "PROPYLENE": 1.9233438104448743
+      }
+     }
+    },
+    "refused_reason": null,
+    "source_urls": [],
+    "record_ids": [
+     "ev:ch:EA-425B.design_pressure_kpa+EA-425B.heat_sources+HV-B-SIN.normal_position+HV-B-SOUT.normal_position+HV-QW-B-IN.normal_position+HV-QW-B-OUT.normal_position+RV-PATH-EA425B.inlet_valve_ids+f:m:S-EA-425B:as_well_as:composition:super:C12:b3d32268f909ddb3+f:proc:P-REB-START-2:early:super:C16:126a45a4b13afa1b:calculation:blocked_in_heating-EA-425A"
+    ]
    }
   },
   {
