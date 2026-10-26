@@ -89,6 +89,12 @@ def prepare_plant(
     return record
 
 
+# Phase 6 (spec P6-13): jobs that run outside any run (the probe, baseline B). Their routing,
+# prompt and max_tokens entries never reach a run's hash, so adding them moved no run ID.
+# (`test5a` predates this and stays hashed: taking it out would move every stored run's ID.)
+OUTSIDE_RUN_JOBS = frozenset({"probe", "baseline_plain"})
+
+
 def run_settings(config: Config) -> RunSettings:
     """A new run's hashed inputs. The post-step prompts and caps are left out (connector/v2
     plan, Q5), and so are the post-step jobs' routing and `max_tokens` (Phase 4 plan, Q3):
@@ -96,9 +102,14 @@ def run_settings(config: Config) -> RunSettings:
     The evidence settings are outside the hashed caps altogether (P4-9). The hash covers what a
     run stores, so older runs (D–G store `lopa_top_n` and the post jobs) keep their IDs."""
     caps = {k: v for k, v in config.caps.run_input_caps().items() if k not in POST_HASH_FREE_CAPS}
-    caps["max_tokens"] = {k: v for k, v in caps["max_tokens"].items() if k not in POST_JOBS}
-    prompts = {k: v for k, v in config.routing.prompts.items() if k not in POST_PROMPTS}
-    jobs: dict[str, str] = {k: v for k, v in config.routing.jobs.items() if k not in POST_JOBS}
+    free = POST_JOBS | OUTSIDE_RUN_JOBS
+    caps["max_tokens"] = {k: v for k, v in caps["max_tokens"].items() if k not in free}
+    prompts = {
+        k: v
+        for k, v in config.routing.prompts.items()
+        if k not in POST_PROMPTS and k not in OUTSIDE_RUN_JOBS
+    }
+    jobs: dict[str, str] = {k: v for k, v in config.routing.jobs.items() if k not in free}
     return RunSettings(jobs, caps, prompts)
 
 

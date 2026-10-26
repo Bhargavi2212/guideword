@@ -108,6 +108,9 @@ def test_phase_2_run_caps(shipped: Config) -> None:
         "chain_severity": 12288,
         # Phase 4 (plan PR 5b): the precedent judge on Super
         "precedent_judge": 6144,
+        # Phase 6 (P6-13): outside any run, never hashed
+        "probe": 8192,
+        "baseline_plain": 8192,
     }
     assert run.specialist_batch_size == {
         Tier.LIGHTNING: 5,
@@ -183,6 +186,8 @@ def test_prompt_versions_name_existing_files(shipped: Config) -> None:
         "severity_chain": "v2",
         # Phase 4 (plan PR 4); v2 on 2026-10-22: an incident and the same mechanism
         "precedent_judge": "v2",
+        "probe": "v1",
+        "baseline_plain": "v1",
         **{
             f"specialists/{a}": "v2"
             for a in ("process", "chemistry", "piping", "procedures", "maintenance", "dust")
