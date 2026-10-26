@@ -172,3 +172,50 @@ def test_require_benchmark_makes_every_check(repo: Path, tmp_path: Path) -> None
             ledger=_ledger(repo / "budget" / "ledger.jsonl"),
             **files,
         )
+
+
+# --- check_freeze_diff (plan G2) ---------------------------------------------------------------
+
+
+def _later_tag(repo: Path, path: str, tag: str = "phase6-freeze-2") -> None:
+    target = repo / path
+    target.parent.mkdir(parents=True, exist_ok=True)
+    target.write_text("changed", encoding="utf-8")
+    _git(repo, "add", ".")
+    _git(repo, "commit", "-q", "-m", f"change {path}")
+    _git(repo, "tag", tag)
+
+
+@pytest.mark.parametrize("path", ["backend/guideword/bench/runner.py", "scripts/run_benchmark.py"])
+def test_a_later_tag_changing_only_bench_and_scripts_passes(repo: Path, path: str) -> None:
+    import check_freeze_diff
+
+    _later_tag(repo, path)
+    assert check_freeze_diff.main(["phase6-freeze-2"], root=repo) == 0
+
+
+@pytest.mark.parametrize(
+    "path",
+    [
+        "backend/guideword/api/app.py",
+        "backend/guideword/export/xlsx.py",
+        "backend/guideword/runs/case.py",
+        "prompts/probe/v1.md",
+        "config/routing.yaml",
+    ],
+)
+def test_a_later_tag_changing_anything_else_is_refused(
+    repo: Path, path: str, capsys: pytest.CaptureFixture[str]
+) -> None:
+    import check_freeze_diff
+
+    _later_tag(repo, path)
+    assert check_freeze_diff.main(["phase6-freeze-2"], root=repo) == 1
+    assert path in capsys.readouterr().out
+
+
+def test_a_tag_not_named_phase6_freeze_is_refused(repo: Path) -> None:
+    import check_freeze_diff
+
+    _later_tag(repo, "scripts/x.py", tag="fix-1")
+    assert check_freeze_diff.main(["fix-1"], root=repo) == 1

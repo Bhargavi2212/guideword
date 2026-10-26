@@ -107,6 +107,7 @@ def run_probe(
         "cost_usd": result.cost_usd,
         "cache_hit": result.cache_hit,
         "seconds": sum(c.latency_ms for c in result.model_calls) / 1000,
+        "model_call_ids": [c.id for c in result.model_calls],
         "answer": answer.model_dump() if isinstance(answer, ProbeAnswer) else None,
     }
     _write(out_root / FOLDER / f"case_{letter}.json", record)
