@@ -131,6 +131,7 @@ def run_baseline(
         "cost_usd": result.cost_usd,
         "cache_hit": result.cache_hit,
         "seconds": sum(c.latency_ms for c in result.model_calls) / 1000,
+        "model_call_ids": [c.id for c in result.model_calls],
         "hazards": [h.model_dump() for h in answer.hazards] if answer is not None else [],
     }
     _write(out_root / baseline.folder / ANSWER_FILE.format(letter=letter), record)

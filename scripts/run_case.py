@@ -8,6 +8,10 @@ full ranked list to bench/test5/5b/<case>.json (R11). Every call passes the gate
 budget guard; live calls need the keys set. The run store is `settings.database_url`
 (guideword.db by default): keep it between runs, since it holds the response cache, and a
 re-run after a code change then costs nothing.
+
+Phase 6 (spec 6.4, acceptance 3): `--use benchmark` needs `--store` and `--ledger` and runs only
+from a clean `phase6-freeze*` worktree, never on `guideword.db` or `guideword-demo.db`
+(`guideword/bench/freeze.py`); the held-out cases run through `scripts/run_benchmark.py`.
 """
 
 import argparse
@@ -18,10 +22,12 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
+import guideword
+from guideword.bench.freeze import FreezeRefused, require_benchmark
 from guideword.config import Config, load_config
 from guideword.gateway.cache import ResponseCache
 from guideword.gateway.client import Gateway
-from guideword.gateway.ledgers import Ledger, ledger_for
+from guideword.gateway.ledgers import LaptopLedger, Ledger, ledger_for
 from guideword.gateway.transport import OpenAITransport, Transport
 from guideword.logs import configure
 from guideword.reference import load_reference_set
@@ -59,8 +65,13 @@ def default_out_dir(plant: Path) -> Path:
     return DEMO_OUT if plant.resolve().is_relative_to(DEMO_PLANTS.resolve()) else OUT
 
 
-# Phase 4 plan Q7, G7: the final demo run uses video (laptop)
-USES = (BudgetUse.DEVELOPMENT.value, BudgetUse.TEST_5.value, BudgetUse.VIDEO.value)
+# Phase 4 plan Q7, G7: the final demo run uses video (laptop); Phase 6: benchmark, checked
+USES = (
+    BudgetUse.DEVELOPMENT.value,
+    BudgetUse.TEST_5.value,
+    BudgetUse.VIDEO.value,
+    BudgetUse.BENCHMARK.value,
+)
 
 
 def _arguments(argv: Sequence[str] | None) -> argparse.Namespace:
@@ -88,6 +99,8 @@ def _arguments(argv: Sequence[str] | None) -> argparse.Namespace:
         action="store_true",
         help="skip the evidence step (it is always off for use test_5 or benchmark)",
     )
+    parser.add_argument("--store", type=Path, help="the store (required with --use benchmark)")
+    parser.add_argument("--ledger", type=Path, help="the ledger (required with --use benchmark)")
     return parser.parse_args(argv)
 
 
@@ -169,13 +182,33 @@ def main(
 ) -> int:
     args = _arguments(argv)
     configure()
+    if args.use == BudgetUse.BENCHMARK.value:
+        if args.store is None or args.ledger is None:
+            print("refused: --use benchmark needs --store and --ledger", file=sys.stderr)
+            return 1
+        try:
+            require_benchmark(
+                REPO,
+                store=args.store,
+                ledger=args.ledger,
+                package_file=Path(guideword.__file__),
+                script_file=Path(__file__),
+            )
+        except FreezeRefused as refused:
+            print(f"refused: {refused}", file=sys.stderr)
+            return 1
+        ledger = LaptopLedger(args.ledger)
     settings = settings if settings is not None else Settings()
     config = (
         config if config is not None else load_config(global_budget_usd=settings.global_budget_usd)
     )
     clock = clock if clock is not None else (lambda: datetime.now(UTC))
     ref = load_reference_set()
-    sessions = make_session_factory(settings.database_url)
+    sessions = make_session_factory(
+        settings.database_url
+        if args.store is None
+        else f"sqlite:///{args.store.resolve().as_posix()}"
+    )
     plants = PlantRepository(sessions)
     runs = RunRepository(sessions, clock)
     raw = json.loads(args.plant.read_text(encoding="utf-8"))

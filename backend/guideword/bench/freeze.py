@@ -95,3 +95,16 @@ def require_benchmark(
     check_store(store)
     check_ledger(ledger, root)
     return check_checkout(root, package_file=package_file, script_file=script_file)
+
+
+# what a later phase6-freeze* tag may change, compared with phase6-freeze (plan G2): the
+# benchmark tooling only, never the pipeline, its API or its exports
+ALLOWED_AFTER_FREEZE = ("backend/guideword/bench/", "scripts/")
+
+
+def freeze_diff(root: Path, new_tag: str, base_tag: str = FREEZE_TAG) -> list[str]:
+    """The paths `new_tag` changes compared with `base_tag` that a later freeze tag may not."""
+    if not new_tag.startswith(FREEZE_TAG):
+        raise FreezeRefused(f"{new_tag} is not a {FREEZE_TAG}* tag")
+    changed = _git(root, "diff", "--name-only", f"{base_tag}..{new_tag}").splitlines()
+    return sorted(p for p in changed if p and not p.startswith(ALLOWED_AFTER_FREEZE))

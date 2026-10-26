@@ -726,8 +726,10 @@ def test_run_case_and_extend_run_accept_use_video_and_the_evidence_flags() -> No
         ).rerun_from
         == "evidence"
     )
-    with pytest.raises(SystemExit):
-        run_case._arguments(["plant.json", "--use", "benchmark"])
+    # Phase 6 (spec 6.4): benchmark is a choice, but runs only with a store, a ledger and a
+    # clean freeze checkout (tests/bench/test_runner.py)
+    assert run_case._arguments(["plant.json", "--use", "benchmark"]).use == "benchmark"
+    assert run_case.main(["plant.json", "--use", "benchmark"]) == 1
 
 
 def test_api_runs_charge_phase_5() -> None:
