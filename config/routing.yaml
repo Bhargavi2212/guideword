@@ -19,6 +19,10 @@ jobs:
   chain_severity: ultra
   # Phase 4 (spec 4.3 step 4): the precedent judge, one call per evidence line
   precedent_judge: super
+  # Phase 6 (spec P6-4, P6-5): the memorisation probe and baseline B, outside any run; kept
+  # out of every run's hash (P6-13, runs/case.py OUTSIDE_RUN_JOBS)
+  probe: ultra
+  baseline_plain: ultra
 # prompt name -> version; a change is a new prompts/<name>/<version>.md plus this entry (R19)
 prompts:
   orchestrator: v2
@@ -40,4 +44,7 @@ prompts:
   # Phase 4 (plan PR 4); drafted by Claude Code, reviewed by Bhargavi. v2 (2026-10-22): an
   # incident and the same mechanism, each with its reason
   precedent_judge: v2
+  # Phase 6: drafted by Claude Code, reviewed by Bhargavi before the freeze
+  probe: v1
+  baseline_plain: v1
 fallback_order: [nano, lightning, super, ultra]
