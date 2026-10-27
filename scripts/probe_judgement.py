@@ -12,6 +12,7 @@ correctly, whatever its own yes/no says. No call, no cost.
 """
 
 import argparse
+import json
 import sys
 from collections.abc import Sequence
 from pathlib import Path
@@ -40,7 +41,8 @@ def main(argv: Sequence[str] | None = None) -> int:
             recognised = "yes" if row.probe["recognised"] else "no"
             said = f"recognised: {recognised}; {named or 'named nothing'}"
         print(f"case {row.case}: {said}")
-        print(f"  key source: {row.source if row.source is not None else '(no key)'}")
+        source = row.source if isinstance(row.source, str) else json.dumps(row.source)
+        print(f"  key source: {source if row.source is not None else '(no key)'}")
     try:
         write_judgement(rows, args.csv)
     except JudgementRefused as refused:

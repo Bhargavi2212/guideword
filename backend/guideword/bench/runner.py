@@ -225,6 +225,8 @@ class GuidewordParts:
     config: Config
     gateway: Gateway
     evidence: EvidenceTools
+    # the final shortlist the product shows, as JSON items (the API's), for the scorer (P6-9)
+    shortlist_of: Callable[[str], list[dict[str, Any]]]
 
 
 def guideword_config(parts: GuidewordParts, out: Path) -> RunConfig:
@@ -272,10 +274,22 @@ def guideword_config(parts: GuidewordParts, out: Path) -> RunConfig:
         report = case_report(
             parts.runs, run_id, plant, parts.ref, parts.config.caps, f"case_{case.letter}"
         )
-        target = out / f"case_{case.letter}" / "guideword.json"
-        target.parent.mkdir(parents=True, exist_ok=True)
-        target.write_text(
+        folder = out / f"case_{case.letter}"
+        folder.mkdir(parents=True, exist_ok=True)
+        (folder / "guideword.json").write_text(
             json.dumps(report, indent=1, ensure_ascii=False) + "\n", encoding="utf-8", newline="\n"
+        )
+        shortlist = {
+            "run_id": run_id,
+            "items": parts.shortlist_of(run_id),
+            "finding_components": {
+                f.id: list(f.failing_component_ids) for f in parts.runs.findings(run_id)
+            },
+        }
+        (folder / "shortlist.json").write_text(
+            json.dumps(shortlist, indent=1, ensure_ascii=False) + "\n",
+            encoding="utf-8",
+            newline="\n",
         )
         return {
             "run_id": run_id,

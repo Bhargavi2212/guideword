@@ -9,6 +9,7 @@ from typing import Any
 
 import pytest
 
+from guideword.api.live import LiveRuns
 from guideword.bench.runner import Case, GuidewordParts, guideword_config
 from guideword.config import Config, load_config
 from guideword.gateway.cache import ResponseCache
@@ -61,8 +62,18 @@ class World:
             index=PrecedentIndex((), "benchmark-evidence-off"),
         )
         self.runs = RunRepository(sessions, clock)
+        ref = load_reference_set()
+        live = LiveRuns(
+            sessions, config=config, ref=ref, gateway_factory=lambda s, u: gateway, clock=clock
+        )
         self.parts = GuidewordParts(
-            PlantRepository(sessions), self.runs, load_reference_set(), config, gateway, tools
+            PlantRepository(sessions),
+            self.runs,
+            ref,
+            config,
+            gateway,
+            tools,
+            shortlist_of=lambda run_id: [i.model_dump(mode="json") for i in live.shortlist(run_id)],
         )
         self.out = tmp_path / "out"
         folder = tmp_path / "heldout"
@@ -94,6 +105,10 @@ def test_a_new_case_starts_marks_then_drives_a_benchmark_run(
     assert (run.spend_cap_usd, run.post_spend_cap_usd) == (bench.run_cap_usd, bench.post_cap_usd)
     report = json.loads((world.out / "case_k" / "guideword.json").read_text(encoding="utf-8"))
     assert report["run_id"] == run_id and report["hybrid"]
+    shortlist = json.loads((world.out / "case_k" / "shortlist.json").read_text(encoding="utf-8"))
+    assert shortlist["run_id"] == run_id and shortlist["items"]
+    assert shortlist["items"][0]["rank"] == 1
+    assert set(shortlist["finding_components"]) == {f.id for f in world.runs.findings(run_id)}
 
 
 def test_evidence_is_off_and_says_use_benchmark(
@@ -135,3 +150,5 @@ def test_a_run_stopped_at_its_cap_keeps_its_ranked_list_and_open_questions(
     assert result["questions_open"] > 0
     report = json.loads((world.out / "case_k" / "guideword.json").read_text(encoding="utf-8"))
     assert report["status"] == "stopped_cap" and report["ranked"]
+    shortlist = json.loads((world.out / "case_k" / "shortlist.json").read_text(encoding="utf-8"))
+    assert shortlist["items"]  # the partial list is scored too (P6-6)

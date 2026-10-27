@@ -26,6 +26,7 @@ from datetime import UTC, datetime
 from pathlib import Path
 
 import guideword
+from guideword.api.live import LiveRuns
 from guideword.bench.freeze import FreezeRefused, require_benchmark
 from guideword.bench.probe import JudgementRefused, read_judgement
 from guideword.bench.runner import (
@@ -128,8 +129,17 @@ def main(
         index=NO_INDEX,
     )
     ref = load_reference_set()
+    live = LiveRuns(
+        sessions, config=config, ref=ref, gateway_factory=lambda s, u: gateway, clock=clock
+    )
     parts = GuidewordParts(
-        PlantRepository(sessions), RunRepository(sessions, clock), ref, config, gateway, tools
+        PlantRepository(sessions),
+        RunRepository(sessions, clock),
+        ref,
+        config,
+        gateway,
+        tools,
+        shortlist_of=lambda run_id: [i.model_dump(mode="json") for i in live.shortlist(run_id)],
     )
     out: Path = args.out
     allowance = config.caps.uses[BudgetUse.BENCHMARK].allowance_usd
