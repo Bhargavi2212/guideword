@@ -1,7 +1,7 @@
 // The shortlist as cards (spec 5.1): pure functions, no formatting of any number. The server
 // orders the lines (R50: tiers, then the hypothesis rank or the gap); nothing here re-sorts.
 
-import type { Evidence, ShortlistItem } from "../api/schema";
+import type { ShortlistEvidence, ShortlistItem } from "../api/schema";
 
 export type Tier = ShortlistItem["tier"];
 export const TIERS: readonly Tier[] = [
@@ -43,6 +43,6 @@ export function severityOf(item: ShortlistItem): string | null {
   return item.chain?.severity_class ?? item.finding?.severity_class ?? null;
 }
 
-export function shownEvidence(item: ShortlistItem): Evidence[] {
+export function shownEvidence(item: ShortlistItem): ShortlistEvidence[] {
   return (item.evidence ?? []).slice(0, EVIDENCE_SHOWN);
 }

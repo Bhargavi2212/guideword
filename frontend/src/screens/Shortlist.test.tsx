@@ -9,6 +9,9 @@ import { buildHash } from "../app/router";
 import { fakeFetch } from "../test/fakeFetch";
 import { fixture } from "../test/fixtures";
 import { isSkipped, shownFlag, skippedLine } from "../model/evidence";
+import { keyName } from "../model/names";
+import { gapWords, lopaLine, severityText } from "../model/technical";
+import { lineTitle } from "../model/titles";
 import { must } from "../test/must";
 import { Shortlist } from "./Shortlist";
 
@@ -70,13 +73,61 @@ describe("Shortlist (spec 5.1)", () => {
     }
   });
 
-  it("shows the gap as the server wrote it, and no LOPA as no LOPA", async () => {
+  it("shows the gap as N times over the risk limit, and no LOPA as no LOPA (Q10)", async () => {
     await shortlist();
     for (const item of data.items) {
       const text = card(item.target_id).textContent ?? "";
-      if (item.gap_text) expect(text).toContain(item.gap_text);
-      else expect(text).toContain("no LOPA");
+      expect(text).toContain(gapWords(item));
     }
+    const pair = must(
+      data.items.find((i) => i.target_id.startsWith("f:pair:")),
+    );
+    expect(card(pair.target_id).textContent).toContain(
+      "1,000× over the risk limit",
+    );
+  });
+
+  it("puts a plain title on top and the technical layer below it (R3)", async () => {
+    await shortlist();
+    for (const item of data.items) {
+      const el = card(item.target_id);
+      expect(el.querySelector(".card-title")?.textContent).toBe(
+        lineTitle(item),
+      );
+      if (item.lopa)
+        expect(el.querySelector(".card-lopa")?.textContent).toBe(
+          lopaLine(item.lopa),
+        );
+      const severity =
+        item.chain?.severity_class ?? item.finding?.severity_class;
+      if (severity)
+        expect(el.querySelector(".card-severity")?.textContent).toBe(
+          severityText(severity, data.severity_classes),
+        );
+    }
+  });
+
+  it("shows no raw record key in a card's title or lead text (Q7)", async () => {
+    await shortlist();
+    for (const item of data.items) {
+      const el = card(item.target_id);
+      for (const part of [".card-title", ".card-lead"]) {
+        expect(el.querySelector(part)?.textContent ?? "").not.toMatch(
+          /\b(?:f|m|ch|proc|pair|env|hyp):\S/,
+        );
+      }
+    }
+  });
+
+  it("says what each calculation card is on and what it is attached through", async () => {
+    await shortlist();
+    const chain = must(data.items.find((i) => i.target_kind === "chain"));
+    const calc = must(
+      (chain.evidence ?? []).find((e) => e.kind === "calculation"),
+    );
+    const text = card(chain.target_id).textContent ?? "";
+    expect(text).toContain("calculation on MX-1 · via ");
+    for (const via of calc.via_ids ?? []) expect(text).toContain(keyName(via));
   });
 
   it("shows up to three evidence chips with their summaries", async () => {

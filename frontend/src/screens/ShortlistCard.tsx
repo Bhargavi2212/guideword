@@ -1,19 +1,33 @@
-// One shortlist line as a card (spec 5.1). Every number, ID and claim on it is traced (P5-6);
-// the gap and the evidence are shown as the server wrote them (P5-5).
+// One shortlist line as a card (spec 5.1). Every number, ID and claim on it is traced (P5-6).
+// Two layers, both visible (review plan R3): a plain title on top, one fixed template per line
+// kind; below it the technical layer: the tags, the LOPA line, the severity code with the
+// table's definition, and the gap as "N× over the risk limit" (Q10). Record keys in the text
+// show as names, the raw key on hover and in the drawer (Q7). Evidence is shown as written.
 
 import { useEffect, useRef, type KeyboardEvent } from "react";
 
-import type { ShortlistItem } from "../api/schema";
+import type { Shortlist, ShortlistItem } from "../api/schema";
 import { buildHash } from "../app/router";
-import { isSkipped, shownFlag, skippedLine } from "../model/evidence";
+import {
+  calculationOf,
+  isSkipped,
+  shownFlag,
+  skippedLine,
+} from "../model/evidence";
+import { keyName } from "../model/names";
 import { leadText, severityOf, shownEvidence } from "../model/shortlist";
+import { gapWords, lineTags, lopaLine, severityText } from "../model/technical";
+import { lineTitle } from "../model/titles";
 import { Chip } from "../ui/Chip";
 import { Flags } from "../ui/Flags";
+import { NamedText } from "../ui/NamedText";
 import { Traced } from "../ui/Traced";
 
 type Props = {
   runId: string;
   item: ShortlistItem;
+  // the reference table the severity codes are read against (contract v1.11)
+  severityClasses?: Shortlist["severity_classes"];
   // the demo moment: the line the landing marks "start here" (deploy plan D3)
   start?: boolean;
   onKeyDown: (event: KeyboardEvent<HTMLAnchorElement>) => void;
@@ -22,6 +36,7 @@ type Props = {
 export function ShortlistCard({
   runId,
   item,
+  severityClasses = [],
   start = false,
   onKeyDown,
 }: Props) {
@@ -32,6 +47,7 @@ export function ShortlistCard({
     if (start) card.current?.scrollIntoView({ block: "center" });
   }, [start]);
   const evidence = shownEvidence(item);
+  const tags = lineTags(item);
   const recommendations = item.recommendations ?? [];
   const firstRecommendation = recommendations[0];
   return (
@@ -67,16 +83,37 @@ export function ShortlistCard({
           </Traced>
         ) : null}
       </header>
+      <h4 className="card-title">
+        <Traced id={item.target_id}>{lineTitle(item)}</Traced>
+      </h4>
       <p className="card-lead">
-        <Traced id={item.target_id}>{leadText(item)}</Traced>
+        <NamedText text={leadText(item)} traceId={item.target_id} />
       </p>
+      <div className="card-tech">
+        {tags.length > 0 ? (
+          <p className="card-tags">
+            <span className="tech-label">Tags</span>{" "}
+            <Traced id={item.target_id}>{tags.join(", ")}</Traced>
+          </p>
+        ) : null}
+        {item.lopa ? (
+          <p className="card-lopa">
+            <Traced id={item.lopa.id}>{lopaLine(item.lopa)}</Traced>
+          </p>
+        ) : null}
+        {severity !== null ? (
+          <p className="card-severity">
+            <Traced id={item.target_id}>
+              {severityText(severity, severityClasses)}
+            </Traced>
+          </p>
+        ) : null}
+      </div>
       <p className="card-gap">
-        {item.gap_text && item.lopa ? (
-          <Traced id={item.lopa.id}>{item.gap_text}</Traced>
-        ) : item.gap_text ? (
-          <Traced id={item.target_id}>{item.gap_text}</Traced>
+        {item.lopa ? (
+          <Traced id={item.lopa.id}>{gapWords(item)}</Traced>
         ) : (
-          "no LOPA"
+          gapWords(item)
         )}
       </p>
       {evidence.length > 0 ? (
@@ -84,6 +121,17 @@ export function ShortlistCard({
           {evidence.map((e) => (
             <li key={e.id}>
               <Chip kind="verdict" value={e.verdict} />{" "}
+              {calculationOf(e) !== null ? (
+                <span className="card-calc">
+                  <Traced id={e.id}>
+                    {`calculation on ${calculationOf(e)?.equipment_id ?? ""}`}
+                    {(e.via_ids ?? []).length > 0
+                      ? ` · via ${(e.via_ids ?? []).map(keyName).join(", ")}`
+                      : ""}
+                  </Traced>
+                  {": "}
+                </span>
+              ) : null}
               <Traced id={e.id}>
                 {isSkipped(e) ? skippedLine(e) : e.summary}
               </Traced>

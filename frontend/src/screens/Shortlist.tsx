@@ -68,6 +68,7 @@ export function Shortlist({ runId }: { runId: string }) {
                 key={item.target_id}
                 runId={runId}
                 item={item}
+                severityClasses={shortlist.data?.severity_classes ?? []}
                 start={item.target_id === start}
                 onKeyDown={move}
               />

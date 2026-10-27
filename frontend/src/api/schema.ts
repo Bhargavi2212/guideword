@@ -30,5 +30,6 @@ export type RunLabel = S["RunLabel"];
 export type RunList = S["RunList"];
 export type Shortlist = S["Shortlist"];
 export type ShortlistItem = S["ShortlistItem"];
+export type ShortlistEvidence = S["ShortlistEvidence"];
 export type ToolCall = S["ToolCall"];
 export type UseBudget = S["UseBudget"];
