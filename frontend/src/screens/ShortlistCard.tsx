@@ -16,11 +16,12 @@ import {
 } from "../model/evidence";
 import { keyName } from "../model/names";
 import { leadText, severityOf, shownEvidence } from "../model/shortlist";
-import { gapWords, lineTags, lopaLine, severityText } from "../model/technical";
+import { gapWords } from "../model/technical";
 import { lineTitle } from "../model/titles";
 import { Chip } from "../ui/Chip";
 import { Flags } from "../ui/Flags";
 import { NamedText } from "../ui/NamedText";
+import { TechnicalLayer } from "../ui/TechnicalLayer";
 import { Traced } from "../ui/Traced";
 
 type Props = {
@@ -47,7 +48,6 @@ export function ShortlistCard({
     if (start) card.current?.scrollIntoView({ block: "center" });
   }, [start]);
   const evidence = shownEvidence(item);
-  const tags = lineTags(item);
   const recommendations = item.recommendations ?? [];
   const firstRecommendation = recommendations[0];
   return (
@@ -89,26 +89,7 @@ export function ShortlistCard({
       <p className="card-lead">
         <NamedText text={leadText(item)} traceId={item.target_id} />
       </p>
-      <div className="card-tech">
-        {tags.length > 0 ? (
-          <p className="card-tags">
-            <span className="tech-label">Tags</span>{" "}
-            <Traced id={item.target_id}>{tags.join(", ")}</Traced>
-          </p>
-        ) : null}
-        {item.lopa ? (
-          <p className="card-lopa">
-            <Traced id={item.lopa.id}>{lopaLine(item.lopa)}</Traced>
-          </p>
-        ) : null}
-        {severity !== null ? (
-          <p className="card-severity">
-            <Traced id={item.target_id}>
-              {severityText(severity, severityClasses)}
-            </Traced>
-          </p>
-        ) : null}
-      </div>
+      <TechnicalLayer item={item} severityClasses={severityClasses} />
       <p className="card-gap">
         {item.lopa ? (
           <Traced id={item.lopa.id}>{gapWords(item)}</Traced>

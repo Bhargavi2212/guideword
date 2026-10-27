@@ -10,6 +10,7 @@ import { fakeFetch, type FakeResponse } from "../test/fakeFetch";
 import { fixture } from "../test/fixtures";
 import demoJson from "../test/fixtures/wg_demo_item.json";
 import { calculationOf, isSkipped, skippedLine } from "../model/evidence";
+import { nameKeys, undoNames } from "../model/names";
 import { must } from "../test/must";
 import { Detail } from "./Detail";
 
@@ -420,11 +421,24 @@ describe("the demo moment on the WG final run (C2)", () => {
     expect(row.classList.contains("refused")).toBe(true);
   });
 
-  it("shows the description as stored, its unexpected character flagged", async () => {
+  it("shows the description as stored, keys named, its unexpected character flagged", async () => {
+    // Q7 (2026-10-25): the stored text, its record keys shown as names (raw on hover); undoing
+    // every name gives the stored text back, so nothing of the model's words is cleaned (C2)
     demoDetail(() => ({ body: {} }));
     const description = must(demo.item.chain?.description);
     expect(description.endsWith("that互")).toBe(true);
-    expect(await screen.findByText(description)).toBeDefined();
+    const named = nameKeys(description);
+    expect(undoNames(named)).toBe(description);
+    const shown = await screen.findByText(
+      (_, el) => el?.classList.contains("description") === true,
+    );
+    expect(shown.textContent).toBe(named.text);
+    expect(shown.textContent?.endsWith("that互")).toBe(true);
+    const keys = Array.from(shown.querySelectorAll("[data-record-id]")).map(
+      (b) => b.getAttribute("data-record-id"),
+    );
+    for (const part of named.parts)
+      if (part.key) expect(keys).toContain(part.key);
     expect(
       screen.getByText(
         "unexpected character in model text: U+4E92 (chain description)",

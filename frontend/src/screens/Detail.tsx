@@ -6,12 +6,22 @@ import { useState } from "react";
 
 import { ApiError, errorMessage, overrideBlockedReason } from "../api/client";
 import { useResource } from "../api/hooks";
-import type { Shortlist, ShortlistItem } from "../api/schema";
+import type {
+  PlantDetail,
+  RunDetail,
+  Shortlist,
+  ShortlistItem,
+} from "../api/schema";
 import { useApp } from "../app/context";
 import { shownFlag } from "../model/evidence";
+import { keyName } from "../model/names";
 import { leadText, severityOf } from "../model/shortlist";
+import { questionTitle } from "../model/titles";
+import { lineTitle } from "../model/titles";
 import { Chip } from "../ui/Chip";
 import { Flags } from "../ui/Flags";
+import { NamedText } from "../ui/NamedText";
+import { TechnicalLayer } from "../ui/TechnicalLayer";
 import { Traced } from "../ui/Traced";
 import { EvidenceCards } from "./EvidenceCards";
 import { LopaTable } from "./LopaTable";
@@ -25,6 +35,15 @@ export function Detail({ runId, targetId }: Props) {
     `/runs/${encodeURIComponent(runId)}/shortlist`,
   );
   const [sendError, setSendError] = useState<string | null>(null);
+  // the plant's facts, so a calculation card shows the values it used (review plan R3)
+  const run = useResource<RunDetail>(`/runs/${encodeURIComponent(runId)}`);
+  const plantId = run.data?.run.plant_record_id ?? null;
+  const plant = useResource<PlantDetail>(
+    plantId === null ? null : `/plants/${encodeURIComponent(plantId)}`,
+  );
+  const factValues = Object.fromEntries(
+    (plant.data?.facts ?? []).map((f) => [f.id, f.value]),
+  );
   const item =
     shortlist.data?.items.find((i) => i.target_id === targetId) ?? null;
 
@@ -85,8 +104,14 @@ export function Detail({ runId, targetId }: Props) {
   return (
     <article className="detail" data-target-id={item.target_id}>
       <h2>
-        {kindTitle(item)} <Traced id={item.target_id}>#{item.rank}</Traced>
+        <span className="detail-kind">{kindTitle(item)}</span>{" "}
+        <Traced id={item.target_id}>#{item.rank}</Traced>{" "}
+        <span className="detail-title">{lineTitle(item)}</span>
       </h2>
+      <TechnicalLayer
+        item={item}
+        severityClasses={shortlist.data.severity_classes ?? []}
+      />
       <What item={item} />
       <Flags
         flags={(item.flags ?? []).map(shownFlag)}
@@ -115,7 +140,7 @@ export function Detail({ runId, targetId }: Props) {
       )}
       <section>
         <h3>Evidence</h3>
-        <EvidenceCards evidence={item.evidence ?? []} />
+        <EvidenceCards evidence={item.evidence ?? []} factValues={factValues} />
       </section>
       <section>
         <h3>Recommendations</h3>
@@ -197,14 +222,16 @@ function ChainWhat({ item }: { item: ShortlistItem }) {
     <>
       {/* shown as stored: no cleaning of model text (C2) */}
       <p className="description">
-        <Traced id={chain.id}>{chain.description}</Traced>
+        <NamedText text={chain.description} traceId={chain.id} />
       </p>
       <p className="reason">{chain.reason}</p>
       <h3 id="links-title">Links</h3>
       <ol aria-labelledby="links-title" className="links">
         {chain.links.map((id) => (
           <li key={id}>
-            <Traced id={id}>{id}</Traced>
+            <Traced id={id}>
+              {id.startsWith("f:") ? questionTitle(id.slice(2)) : keyName(id)}
+            </Traced>
           </li>
         ))}
       </ol>
@@ -219,7 +246,9 @@ function FindingWhat({ item }: { item: ShortlistItem }) {
     <dl>
       <dt>Question</dt>
       <dd>
-        <Traced id={finding.question_id}>{finding.question_id}</Traced>
+        <Traced id={finding.question_id}>
+          {questionTitle(finding.question_id)}
+        </Traced>
       </dd>
       <dt>Cause</dt>
       <dd>
@@ -236,7 +265,7 @@ function FindingWhat({ item }: { item: ShortlistItem }) {
       </dd>
       <dt>Consequence</dt>
       <dd>
-        <Traced id={finding.id}>{finding.consequence}</Traced>
+        <NamedText text={finding.consequence} traceId={finding.id} />
       </dd>
       <dt>Safeguards</dt>
       <dd>
