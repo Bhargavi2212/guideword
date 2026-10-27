@@ -5,8 +5,11 @@ this repo's tests (CLAUDE.md §5). What it reports names files, counts and field
 never a line of any file:
 
 - **Seals.** `SEALS.txt` lists each file's SHA-256 in `sha256sum`'s format (`<hex>  <path>`, or
-  `<hex> *<path>`). Every listed file is hashed again; a missing, unlisted or changed file fails.
-  The folder's own `.git/` and `SEALS.txt` are not files of the cases.
+  `<hex> *<path>`). Every listed file is hashed again; a missing or changed file fails, and so
+  does an unlisted package or key or any unlisted file inside `cases/` or `keys/`. Plant files
+  made after sealing (P6-12) are listed apart and frozen, never sealed; any other unlisted file
+  outside `cases/` and `keys/` is reported, not checked (2026-10-26). The folder's own `.git/`
+  and `SEALS.txt` are not files of the cases.
 - **Inventory.** Each sealed file is classified by its name (plan G9): a package
   `case_<letter>_*.md`, a plant file `case_<letter>*.json`, the keys `keys/answer_keys.json` or
   one file per case, `keys/case_<letter>*.json`;
@@ -47,10 +50,16 @@ class SealCheck:
     listed: int
     ok: int
     missing: list[str] = field(default_factory=list)
+    # unlisted packages or keys, or any unlisted file inside cases/ or keys/: these fail
     unlisted: list[str] = field(default_factory=list)
     mismatched: list[str] = field(default_factory=list)
     # line numbers in SEALS.txt that are not a seal (their text is never shown)
     bad_lines: list[int] = field(default_factory=list)
+    # plant files made after sealing (P6-12): validated and frozen apart, never sealed
+    unsealed_plants: list[str] = field(default_factory=list)
+    # other files outside cases/ and keys/ (the folder's README, template, seal script, log):
+    # reported, not checked, not a failure (Bhargavi, 2026-10-26)
+    unsealed_other: list[str] = field(default_factory=list)
 
     @property
     def passed(self) -> bool:
@@ -85,7 +94,10 @@ def read_seals(text: str) -> tuple[dict[str, str], list[int]]:
     return seals, bad
 
 
-def _case_files(folder: Path) -> list[str]:
+SEALED_FOLDERS = ("cases/", "keys/")
+
+
+def case_files(folder: Path) -> list[str]:
     return sorted(
         path.relative_to(folder).as_posix()
         for path in folder.rglob("*")
@@ -100,12 +112,19 @@ def check_seals(folder: Path) -> SealCheck:
     if not seals_path.is_file():
         raise FileNotFoundError(f"no {SEALS_FILE} in the folder")
     seals, bad = read_seals(seals_path.read_text(encoding="utf-8"))
-    present = set(_case_files(folder))
+    present = set(case_files(folder))
     missing = sorted(p for p in seals if p not in present)
-    unlisted = sorted(p for p in present if p not in seals)
+    extra = sorted(p for p in present if p not in seals)
+    plants = [p for p in extra if classify(p) == "plant"]
+    unlisted = [
+        p
+        for p in extra
+        if p not in plants and (classify(p) != "unclassified" or p.startswith(SEALED_FOLDERS))
+    ]
+    other = [p for p in extra if p not in plants and p not in unlisted]
     mismatched = sorted(p for p in seals if p in present and _sha256(folder / p) != seals[p])
     ok = len(seals) - len(missing) - len(mismatched)
-    return SealCheck(len(seals), ok, missing, unlisted, mismatched, bad)
+    return SealCheck(len(seals), ok, missing, unlisted, mismatched, bad, plants, other)
 
 
 def classify(path: str) -> Kind:
