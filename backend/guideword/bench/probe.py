@@ -55,7 +55,8 @@ class _KeySource(BaseModel):
     model_config = ConfigDict(extra="ignore")
 
     case_id: str
-    source: str
+    # the template gives an object (kind, reference, pages); a plain string is accepted too
+    source: Any
 
 
 class JudgementRefused(ValueError):
@@ -66,7 +67,7 @@ class JudgementRefused(ValueError):
 class JudgementRow:
     case: str
     probe: dict[str, Any] | None
-    source: str | None
+    source: Any
 
 
 def _write(path: Path, value: Any) -> None:
@@ -124,7 +125,7 @@ def run_probe(
     return record
 
 
-def _key_sources(keys_path: Path) -> dict[str, str]:
+def _key_sources(keys_path: Path) -> dict[str, Any]:
     data = json.loads(keys_path.read_text(encoding="utf-8"))
     records: Iterable[Any]
     if isinstance(data, list):
@@ -133,7 +134,7 @@ def _key_sources(keys_path: Path) -> dict[str, str]:
         records = data.values()
     else:
         raise JudgementRefused("the keys file is neither a list nor a mapping of key records")
-    sources: dict[str, str] = {}
+    sources: dict[str, Any] = {}
     for record in records:
         key = _KeySource.model_validate(record)
         sources[case_letter(f"case_{key.case_id.lower().removeprefix('case_')}")] = key.source

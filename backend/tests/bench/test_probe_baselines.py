@@ -345,3 +345,18 @@ def test_the_judgement_script_prints_the_source_and_nothing_else_of_the_key(
     out = capsys.readouterr().out
     assert "key source: A public investigation report" in out and SECRET not in out
     assert target.is_file()
+
+
+def test_the_judgement_reads_the_templates_source_object(tmp_path: Path) -> None:
+    """`docs/case-template.md` §4 gives `source` as an object (kind, reference, pages)."""
+    import re as regex
+
+    text = (Path(__file__).resolve().parents[3] / "docs" / "case-template.md").read_text("utf-8")
+    block = regex.search(r"```json\n(.*?)\n```", text.split("## 4. The answer key", 1)[1], regex.S)
+    assert block is not None
+    key = json.loads(block.group(1)) | {"root_cause": SECRET}
+    keys = tmp_path / "keys.json"
+    keys.write_text(json.dumps([key]), encoding="utf-8")
+    [row] = judgement_rows(_probes(tmp_path / "out"), keys)
+    assert row.case == "k" and row.source["kind"] == "public investigation report"
+    assert SECRET not in repr(row)
