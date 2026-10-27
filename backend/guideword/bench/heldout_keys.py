@@ -50,8 +50,16 @@ def _records(data: Any) -> Iterable[Any]:
     if isinstance(data, list):
         return data
     if isinstance(data, Mapping):
-        return data.values()
+        # one record, or a mapping of case to record
+        return [data] if "case_id" in data else data.values()
     raise KeyFieldsMissing("the keys file is neither a list nor a mapping of key records")
+
+
+def key_records(path: Path) -> list[Any]:
+    """The key records in a keys file, or in every `*.json` file of a keys folder (one key per
+    case, as the held-out folder has them), in file order."""
+    files = sorted(path.glob("*.json")) if path.is_dir() else [path]
+    return [r for f in files for r in _records(json.loads(f.read_text(encoding="utf-8")))]
 
 
 def letter_of(case_id: str) -> str:
@@ -62,7 +70,7 @@ def letter_of(case_id: str) -> str:
 
 def load_heldout_keys(path: Path) -> dict[str, HeldoutKey]:
     keys: dict[str, HeldoutKey] = {}
-    for record in _records(json.loads(path.read_text(encoding="utf-8"))):
+    for record in key_records(path):
         found = sorted(record) if isinstance(record, Mapping) else []
         missing = [f for f in FIELDS if f not in found]
         if missing:

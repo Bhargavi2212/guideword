@@ -15,13 +15,14 @@ company, the site or the accident correctly, whatever its own `recognised` says 
 
 import csv
 import json
-from collections.abc import Iterable, Mapping
+from collections.abc import Iterable
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Annotated, Any
 
 from pydantic import BaseModel, ConfigDict, StringConstraints
 
+from guideword.bench.heldout_keys import key_records
 from guideword.bench.scoring import case_letter
 from guideword.bench.test5a import package_for
 from guideword.config import Config
@@ -126,16 +127,9 @@ def run_probe(
 
 
 def _key_sources(keys_path: Path) -> dict[str, Any]:
-    data = json.loads(keys_path.read_text(encoding="utf-8"))
-    records: Iterable[Any]
-    if isinstance(data, list):
-        records = data
-    elif isinstance(data, Mapping):
-        records = data.values()
-    else:
-        raise JudgementRefused("the keys file is neither a list nor a mapping of key records")
+    """Case letter -> the key's `source`, from a keys file or a keys folder; nothing else."""
     sources: dict[str, Any] = {}
-    for record in records:
+    for record in key_records(keys_path):
         key = _KeySource.model_validate(record)
         sources[case_letter(f"case_{key.case_id.lower().removeprefix('case_')}")] = key.source
     return sources

@@ -120,7 +120,7 @@ def test_files_are_classified_by_pattern() -> None:
     assert classify("case_k.json") == "plant"
     assert classify("plants/case_m_plant.json") == "plant"
     assert classify("keys/answer_keys.json") == "keys"
-    assert classify("keys/case_k.json") == "unclassified"
+    assert classify("keys/notes.json") == "unclassified"
     assert classify("README.md") == "unclassified"
 
 
@@ -220,3 +220,42 @@ def test_the_output_never_holds_a_files_contents(
         if path.is_file() and path.suffix == ".md":
             for line in path.read_text(encoding="utf-8").splitlines()[1:]:
                 assert line not in out
+
+
+# --- the real folder's layout (2026-10-26): a date column, per-case keys --------------------
+
+
+def _dated_folder(tmp_path: Path) -> Path:
+    """The layout the held-out folder has: packages in cases/, one key per case in keys/, and
+    SEALS.txt lines with a third column, the seal date."""
+    folder = tmp_path / "dated"
+    (folder / "cases").mkdir(parents=True)
+    (folder / "keys").mkdir()
+    (folder / "cases" / "case_k_batch-unit.md").write_text(f"# K\n{SECRET}\n", encoding="utf-8")
+    (folder / "cases" / "case_l_tank-farm.md").write_text(f"# L\n{SECRET}\n", encoding="utf-8")
+    for x in "kl":
+        key = {"case_id": f"case_{x}", "root_cause": SECRET, "source": {"reference": SECRET}}
+        (folder / "keys" / f"case_{x}.json").write_text(json.dumps(key), encoding="utf-8")
+    files = sorted(p for p in folder.rglob("*") if p.is_file())
+    lines = [f"{_sha(p)}  {p.relative_to(folder).as_posix()}  2026-10-14" for p in files]
+    (folder / "SEALS.txt").write_text("\n".join(lines) + "\n", encoding="utf-8")
+    return folder
+
+
+def test_a_seal_line_with_a_date_column_reads_its_path_only() -> None:
+    seals, bad = read_seals(f"{'a' * 64}  cases/case_k_batch-unit.md  2026-10-14\n")
+    assert seals == {"cases/case_k_batch-unit.md": "a" * 64} and bad == []
+
+
+def test_a_dated_sealed_folder_passes(tmp_path: Path) -> None:
+    check = check_seals(_dated_folder(tmp_path))
+    assert check.passed and (check.listed, check.ok) == (4, 4)
+
+
+def test_per_case_key_files_are_keys_and_their_fields_are_listed(tmp_path: Path) -> None:
+    folder = _dated_folder(tmp_path)
+    assert classify("keys/case_k.json") == "keys"
+    found = inventory(folder, read_seals((folder / "SEALS.txt").read_text("utf-8"))[0])
+    assert found.counts == {"package": 2, "plant": 0, "keys": 2, "unclassified": 0}
+    assert found.key_fields == ["case_id", "root_cause", "source"]
+    assert SECRET not in repr(found)

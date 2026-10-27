@@ -8,7 +8,8 @@ never a line of any file:
   `<hex> *<path>`). Every listed file is hashed again; a missing, unlisted or changed file fails.
   The folder's own `.git/` and `SEALS.txt` are not files of the cases.
 - **Inventory.** Each sealed file is classified by its name (plan G9): a package
-  `case_<letter>_*.md`, a plant file `case_<letter>*.json`, the keys `keys/answer_keys.json`;
+  `case_<letter>_*.md`, a plant file `case_<letter>*.json`, the keys `keys/answer_keys.json` or
+  one file per case, `keys/case_<letter>*.json`;
   anything else is "unclassified". The keys' field names are listed, never their values.
 - **Plant files.** Each goes through `schema.validate.validate_plant`, whose issues name an
   object ID and a field. When every seal matches and every plant file validates, the plant files'
@@ -29,8 +30,11 @@ from guideword.schema.validate import Issue, validate_plant
 
 SEALS_FILE = "SEALS.txt"
 KEYS_FILE = "keys/answer_keys.json"
-# `sha256sum` writes "<hex>  <path>" (text mode) or "<hex> *<path>" (binary mode)
+# `sha256sum` writes "<hex>  <path>" (text mode) or "<hex> *<path>" (binary mode); the held-out
+# folder's lines add a third column, the seal date, after a tab or two spaces
 _SEAL_LINE = re.compile(r"^([0-9a-fA-F]{64}) [ *](.+)$")
+_COLUMN = re.compile(r"\t|\s{2,}")
+_KEY_FILE = re.compile(r"^keys/case_[a-z][^/]*\.json$", re.IGNORECASE)
 _PACKAGE = re.compile(r"^case_[a-z]_.+\.md$", re.IGNORECASE)
 _PLANT = re.compile(r"^case_[a-z][^/]*\.json$", re.IGNORECASE)
 
@@ -76,9 +80,8 @@ def read_seals(text: str) -> tuple[dict[str, str], list[int]]:
         if match is None:
             bad.append(number)
             continue
-        seals[PurePosixPath(match.group(2).strip().replace("\\", "/")).as_posix()] = match.group(
-            1
-        ).lower()
+        path = _COLUMN.split(match.group(2).strip())[0]
+        seals[PurePosixPath(path.replace("\\", "/")).as_posix()] = match.group(1).lower()
     return seals, bad
 
 
@@ -106,7 +109,7 @@ def check_seals(folder: Path) -> SealCheck:
 
 
 def classify(path: str) -> Kind:
-    if path == KEYS_FILE:
+    if path == KEYS_FILE or _KEY_FILE.match(path):
         return "keys"
     name = PurePosixPath(path).name
     if _PACKAGE.match(name):
@@ -131,10 +134,11 @@ def _key_fields(data: Any) -> list[str]:
 def inventory(folder: Path, seals: Mapping[str, str]) -> Inventory:
     kinds = {path: classify(path) for path in seals}
     counts: dict[str, int] = {kind: sum(1 for k in kinds.values() if k == kind) for kind in KINDS}
-    fields: list[str] = []
-    keys = folder / KEYS_FILE
-    if KEYS_FILE in seals and keys.is_file():
-        fields = _key_fields(json.loads(keys.read_text(encoding="utf-8")))
+    names: set[str] = set()
+    for path in sorted(p for p, k in kinds.items() if k == "keys"):
+        if (folder / path).is_file():
+            names |= set(_key_fields(json.loads((folder / path).read_text(encoding="utf-8"))))
+    fields = sorted(names)
     unclassified = sorted(p for p, k in kinds.items() if k == "unclassified")
     return Inventory(counts, unclassified, fields)
 
