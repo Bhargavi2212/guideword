@@ -498,3 +498,43 @@ select {
   color: var(--warn);
   font-size: 13px;
 }
+
+/* review plan R3: the plain title on top, the technical layer below it */
+.card-title {
+  margin: 4px 0 2px;
+  font-size: 17px;
+}
+
+.card-tech {
+  display: grid;
+  gap: 2px;
+  margin: 4px 0;
+  font-size: 13px;
+  color: var(--ink-soft);
+}
+
+.card-tech p {
+  margin: 0;
+}
+
+.tech-label {
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.via {
+  color: var(--ink-soft);
+}
+
+.demo-banner {
+  border-left: 3px solid var(--ink-soft);
+  padding: 6px 12px;
+  margin: 8px 0 12px;
+}
+
+.plant-picker {
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  margin: 4px 0;
+}

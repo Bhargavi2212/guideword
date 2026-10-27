@@ -1,5 +1,5 @@
 import { fireEvent, render, screen, within } from "@testing-library/react";
-import { describe, expect, it, vi } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 
 import shortlistJson from "../../../contract/fixtures/shortlist.json";
 import { ApiClient } from "../api/client";
@@ -9,6 +9,9 @@ import { buildHash } from "../app/router";
 import { fakeFetch } from "../test/fakeFetch";
 import { fixture } from "../test/fixtures";
 import { isSkipped, shownFlag, skippedLine } from "../model/evidence";
+import { keyName } from "../model/names";
+import { gapWords, lopaLine, severityText } from "../model/technical";
+import { lineTitle } from "../model/titles";
 import { must } from "../test/must";
 import { Shortlist } from "./Shortlist";
 
@@ -70,13 +73,61 @@ describe("Shortlist (spec 5.1)", () => {
     }
   });
 
-  it("shows the gap as the server wrote it, and no LOPA as no LOPA", async () => {
+  it("shows the gap as N times over the risk limit, and no LOPA as no LOPA (Q10)", async () => {
     await shortlist();
     for (const item of data.items) {
       const text = card(item.target_id).textContent ?? "";
-      if (item.gap_text) expect(text).toContain(item.gap_text);
-      else expect(text).toContain("no LOPA");
+      expect(text).toContain(gapWords(item));
     }
+    const pair = must(
+      data.items.find((i) => i.target_id.startsWith("f:pair:")),
+    );
+    expect(card(pair.target_id).textContent).toContain(
+      "1,000× over the risk limit",
+    );
+  });
+
+  it("puts a plain title on top and the technical layer below it (R3)", async () => {
+    await shortlist();
+    for (const item of data.items) {
+      const el = card(item.target_id);
+      expect(el.querySelector(".card-title")?.textContent).toBe(
+        lineTitle(item),
+      );
+      if (item.lopa)
+        expect(el.querySelector(".card-lopa")?.textContent).toBe(
+          lopaLine(item.lopa),
+        );
+      const severity =
+        item.chain?.severity_class ?? item.finding?.severity_class;
+      if (severity)
+        expect(el.querySelector(".card-severity")?.textContent).toBe(
+          severityText(severity, data.severity_classes),
+        );
+    }
+  });
+
+  it("shows no raw record key in a card's title or lead text (Q7)", async () => {
+    await shortlist();
+    for (const item of data.items) {
+      const el = card(item.target_id);
+      for (const part of [".card-title", ".card-lead"]) {
+        expect(el.querySelector(part)?.textContent ?? "").not.toMatch(
+          /\b(?:f|m|ch|proc|pair|env|hyp):\S/,
+        );
+      }
+    }
+  });
+
+  it("says what each calculation card is on and what it is attached through", async () => {
+    await shortlist();
+    const chain = must(data.items.find((i) => i.target_kind === "chain"));
+    const calc = must(
+      (chain.evidence ?? []).find((e) => e.kind === "calculation"),
+    );
+    const text = card(chain.target_id).textContent ?? "";
+    expect(text).toContain("calculation on MX-1 · via ");
+    for (const via of calc.via_ids ?? []) expect(text).toContain(keyName(via));
   });
 
   it("shows up to three evidence chips with their summaries", async () => {
@@ -183,9 +234,15 @@ describe("Shortlist (spec 5.1)", () => {
 describe("the demo moment's card (deploy plan D3)", () => {
   async function withDemo(startTargetId: string | null) {
     const demo = await import("../../../contract/fixtures/demo_response.json");
+    // contract v1.11: each run's own entry names its start line
+    const runs = demo.default.runs.map((r) =>
+      r.run_id === RUN ? { ...r, start_target_id: startTargetId } : r,
+    );
     const fake = fakeFetch({
       [`/runs/${encodeURIComponent(RUN)}/shortlist`]: { body: data },
-      "/demo": { body: { ...demo.default, start_target_id: startTargetId } },
+      "/demo": {
+        body: { ...demo.default, start_target_id: startTargetId, runs },
+      },
     });
     render(
       <AppProvider client={new ApiClient("", fake.impl)}>
@@ -220,6 +277,84 @@ describe("the demo moment's card (deploy plan D3)", () => {
 
   it("is not marked when the demo names none", async () => {
     await withDemo(null);
+    expect(screen.queryByText("start here")).toBeNull();
+  });
+});
+
+describe("the site's runs: banner and plant picker (review plan R3)", () => {
+  const OTHER = "run:0123456789abcdef";
+  const BANNER =
+    "Rebuilt from a public report. Line #2 is the accident Guideword found.";
+
+  async function site(kind: "recorded" | "mock", runId: string = RUN) {
+    const demo = await import("../../../contract/fixtures/demo_response.json");
+    const runs = [
+      {
+        run_id: RUN,
+        plant_id: "williams_geismar",
+        banner: BANNER,
+        start_target_id: null,
+      },
+      {
+        run_id: OTHER,
+        plant_id: "case_d",
+        banner: "Unit D: a development case.",
+        start_target_id: null,
+      },
+    ];
+    const label = { ...data.label, kind };
+    const fake = fakeFetch({
+      [`/runs/${encodeURIComponent(runId)}/shortlist`]: {
+        body: { ...data, run_id: runId, label },
+      },
+      "/demo": { body: { ...demo.default, runs } },
+    });
+    render(
+      <AppProvider client={new ApiClient("", fake.impl)}>
+        <Shortlist runId={runId} />
+      </AppProvider>,
+    );
+    await screen.findAllByRole("article");
+  }
+
+  afterEach(() => {
+    window.location.hash = "";
+  });
+
+  it("shows the run's own banner on a recorded run", async () => {
+    await site("recorded");
+    expect((await screen.findByRole("note")).textContent).toBe(BANNER);
+  });
+
+  it("shows no banner on a run that isn't recorded", async () => {
+    await site("mock");
+    await screen.findByLabelText("Plant");
+    expect(screen.queryByRole("note")).toBeNull();
+  });
+
+  it("shows D's banner on D, with none of WG's words", async () => {
+    await site("recorded", OTHER);
+    const note = await screen.findByRole("note");
+    expect(note.textContent).toBe("Unit D: a development case.");
+    expect(note.textContent).not.toContain("found");
+  });
+
+  it("offers the site's runs in the server's order, WG first, and opens the one chosen", async () => {
+    await site("recorded");
+    const picker = (await screen.findByLabelText("Plant")) as HTMLSelectElement;
+    expect(Array.from(picker.options).map((o) => o.textContent)).toEqual([
+      "williams_geismar",
+      "case_d",
+    ]);
+    expect(picker.value).toBe(RUN);
+    fireEvent.change(picker, { target: { value: OTHER } });
+    expect(window.location.hash).toBe(
+      buildHash({ name: "shortlist", runId: OTHER }),
+    );
+  });
+
+  it("marks no line 'start here' on a run whose entry names none", async () => {
+    await site("recorded", OTHER);
     expect(screen.queryByText("start here")).toBeNull();
   });
 });
