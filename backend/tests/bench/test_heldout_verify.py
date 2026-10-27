@@ -124,15 +124,17 @@ def test_the_script_validates_and_freezes_new_plant_files(
 ) -> None:
     folder = _dated_folder(tmp_path)
     (folder / "plants").mkdir()
-    (folder / "plants" / "case_k.json").write_text(EXAMPLE_PLANT.read_text("utf-8"), "utf-8")
+    for x in "kl":
+        (folder / "plants" / f"case_{x}.json").write_text(EXAMPLE_PLANT.read_text("utf-8"), "utf-8")
     (folder / "README.md").write_text("tooling", encoding="utf-8")
     frozen = tmp_path / "heldout-frozen.txt"
     assert heldout_verify.main([str(folder), "--frozen-out", str(frozen)]) == 0
-    assert frozen.read_text(encoding="utf-8") == frozen_lines(folder, ["plants/case_k.json"])
+    plants = ["plants/case_k.json", "plants/case_l.json"]
+    assert frozen.read_text(encoding="utf-8") == frozen_lines(folder, plants)
     out = capsys.readouterr().out
     assert "new plant file (frozen separately): plants/case_k.json" in out
     assert "not a case file (not sealed, not checked): README.md" in out
-    assert "inventory: package 2, plant 1, keys 2, unclassified 0" in out
+    assert "inventory: package 2, plant 2, keys 2, unclassified 0" in out
 
 
 def test_a_git_folder_is_not_counted_as_unlisted(tmp_path: Path) -> None:
@@ -221,11 +223,16 @@ def test_the_script_passes_and_writes_the_frozen_hashes(
     tmp_path: Path, capsys: pytest.CaptureFixture[str]
 ) -> None:
     folder = _folder(tmp_path)
+    # every package has its plant file before freezing
+    (folder / "case_l.json").write_text((folder / "case_k.json").read_text("utf-8"), "utf-8")
+    _seal(folder)
     frozen = tmp_path / "heldout-frozen.txt"
     assert heldout_verify.main([str(folder), "--frozen-out", str(frozen)]) == 0
-    assert frozen.read_text(encoding="utf-8") == frozen_lines(folder, ["case_k.json"])
+    assert frozen.read_text(encoding="utf-8") == frozen_lines(
+        folder, ["case_k.json", "case_l.json"]
+    )
     out = capsys.readouterr().out
-    assert "4 of 4 files match" in out and SECRET not in out
+    assert "5 of 5 files match" in out and SECRET not in out
 
 
 def test_the_script_fails_on_a_mismatch_and_writes_nothing(
@@ -302,3 +309,35 @@ def test_per_case_key_files_are_keys_and_their_fields_are_listed(tmp_path: Path)
     assert found.counts == {"package": 2, "plant": 0, "keys": 2, "unclassified": 0}
     assert found.key_fields == ["case_id", "root_cause", "source"]
     assert SECRET not in repr(found)
+
+
+# --- no plant files yet (2026-10-26) -----------------------------------------------------------
+
+
+def test_with_no_plant_files_a_seal_check_passes_and_says_so(
+    tmp_path: Path, capsys: pytest.CaptureFixture[str]
+) -> None:
+    folder = _dated_folder(tmp_path)
+    assert heldout_verify.main([str(folder), "--seal-info"]) == 0
+    assert "no plant files yet: convert the packages (P6-12)" in capsys.readouterr().out
+
+
+def test_freezing_with_no_plant_files_stops_and_writes_nothing(
+    tmp_path: Path, capsys: pytest.CaptureFixture[str]
+) -> None:
+    folder = _dated_folder(tmp_path)
+    frozen = tmp_path / "heldout-frozen.txt"
+    assert heldout_verify.main([str(folder), "--frozen-out", str(frozen)]) == 1
+    assert "STOP" in capsys.readouterr().out and not frozen.exists()
+
+
+def test_freezing_stops_while_a_package_has_no_plant_file(
+    tmp_path: Path, capsys: pytest.CaptureFixture[str]
+) -> None:
+    folder = _dated_folder(tmp_path)
+    (folder / "plants").mkdir()
+    (folder / "plants" / "case_k.json").write_text(EXAMPLE_PLANT.read_text("utf-8"), "utf-8")
+    frozen = tmp_path / "heldout-frozen.txt"
+    assert heldout_verify.main([str(folder), "--frozen-out", str(frozen)]) == 1
+    out = capsys.readouterr().out
+    assert "no plant file for case l" in out and not frozen.exists()

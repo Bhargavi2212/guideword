@@ -11,14 +11,16 @@ until Bhargavi decides (P6-1). No call, no cost.
 """
 
 import argparse
+import re
 import sys
 from collections.abc import Sequence
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 
 from guideword.bench.heldout import (
     SEALS_FILE,
     case_files,
     check_seals,
+    classify,
     frozen_lines,
     inventory,
     plant_files,
@@ -26,6 +28,13 @@ from guideword.bench.heldout import (
     validate_plants,
 )
 from guideword.reference import load_reference_set
+
+_CASE = re.compile(r"^case_([a-z])", re.IGNORECASE)
+
+
+def _letter(path: str) -> str:
+    match = _CASE.match(PurePosixPath(path).name)
+    return match.group(1).lower() if match else path
 
 
 def _arguments(argv: Sequence[str] | None) -> argparse.Namespace:
@@ -71,8 +80,19 @@ def main(argv: Sequence[str] | None = None) -> int:
         for issue in issues:
             print(f"{path}: {issue.code}: {issue.message}")
         invalid += bool(issues)
+    # every package needs its plant file before anything is frozen (P6-12)
+    letters = {_letter(p) for p in present if classify(p) == "package"}
+    without = sorted(letters - {_letter(p) for p in plants})
+    if not plants:
+        print("no plant files yet: convert the packages (P6-12) before freezing")
+    else:
+        for letter in without:
+            print(f"no plant file for case {letter}")
     if not check.passed or invalid:
         print("STOP: Phase 6 waits on Bhargavi's decision (P6-1, P6-12); nothing was written")
+        return 1
+    if args.frozen_out is not None and (not plants or without):
+        print("STOP: every package needs a valid plant file before freezing; nothing was written")
         return 1
     if args.frozen_out is not None:
         args.frozen_out.write_text(frozen_lines(folder, plants), encoding="utf-8", newline="\n")
