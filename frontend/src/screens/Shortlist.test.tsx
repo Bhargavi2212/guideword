@@ -1,5 +1,5 @@
 import { fireEvent, render, screen, within } from "@testing-library/react";
-import { describe, expect, it, vi } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 
 import shortlistJson from "../../../contract/fixtures/shortlist.json";
 import { ApiClient } from "../api/client";
@@ -234,9 +234,15 @@ describe("Shortlist (spec 5.1)", () => {
 describe("the demo moment's card (deploy plan D3)", () => {
   async function withDemo(startTargetId: string | null) {
     const demo = await import("../../../contract/fixtures/demo_response.json");
+    // contract v1.11: each run's own entry names its start line
+    const runs = demo.default.runs.map((r) =>
+      r.run_id === RUN ? { ...r, start_target_id: startTargetId } : r,
+    );
     const fake = fakeFetch({
       [`/runs/${encodeURIComponent(RUN)}/shortlist`]: { body: data },
-      "/demo": { body: { ...demo.default, start_target_id: startTargetId } },
+      "/demo": {
+        body: { ...demo.default, start_target_id: startTargetId, runs },
+      },
     });
     render(
       <AppProvider client={new ApiClient("", fake.impl)}>
@@ -271,6 +277,84 @@ describe("the demo moment's card (deploy plan D3)", () => {
 
   it("is not marked when the demo names none", async () => {
     await withDemo(null);
+    expect(screen.queryByText("start here")).toBeNull();
+  });
+});
+
+describe("the site's runs: banner and plant picker (review plan R3)", () => {
+  const OTHER = "run:0123456789abcdef";
+  const BANNER =
+    "Rebuilt from a public report. Line #2 is the accident Guideword found.";
+
+  async function site(kind: "recorded" | "mock", runId: string = RUN) {
+    const demo = await import("../../../contract/fixtures/demo_response.json");
+    const runs = [
+      {
+        run_id: RUN,
+        plant_id: "williams_geismar",
+        banner: BANNER,
+        start_target_id: null,
+      },
+      {
+        run_id: OTHER,
+        plant_id: "case_d",
+        banner: "Unit D: a development case.",
+        start_target_id: null,
+      },
+    ];
+    const label = { ...data.label, kind };
+    const fake = fakeFetch({
+      [`/runs/${encodeURIComponent(runId)}/shortlist`]: {
+        body: { ...data, run_id: runId, label },
+      },
+      "/demo": { body: { ...demo.default, runs } },
+    });
+    render(
+      <AppProvider client={new ApiClient("", fake.impl)}>
+        <Shortlist runId={runId} />
+      </AppProvider>,
+    );
+    await screen.findAllByRole("article");
+  }
+
+  afterEach(() => {
+    window.location.hash = "";
+  });
+
+  it("shows the run's own banner on a recorded run", async () => {
+    await site("recorded");
+    expect((await screen.findByRole("note")).textContent).toBe(BANNER);
+  });
+
+  it("shows no banner on a run that isn't recorded", async () => {
+    await site("mock");
+    await screen.findByLabelText("Plant");
+    expect(screen.queryByRole("note")).toBeNull();
+  });
+
+  it("shows D's banner on D, with none of WG's words", async () => {
+    await site("recorded", OTHER);
+    const note = await screen.findByRole("note");
+    expect(note.textContent).toBe("Unit D: a development case.");
+    expect(note.textContent).not.toContain("found");
+  });
+
+  it("offers the site's runs in the server's order, WG first, and opens the one chosen", async () => {
+    await site("recorded");
+    const picker = (await screen.findByLabelText("Plant")) as HTMLSelectElement;
+    expect(Array.from(picker.options).map((o) => o.textContent)).toEqual([
+      "williams_geismar",
+      "case_d",
+    ]);
+    expect(picker.value).toBe(RUN);
+    fireEvent.change(picker, { target: { value: OTHER } });
+    expect(window.location.hash).toBe(
+      buildHash({ name: "shortlist", runId: OTHER }),
+    );
+  });
+
+  it("marks no line 'start here' on a run whose entry names none", async () => {
+    await site("recorded", OTHER);
     expect(screen.queryByText("start here")).toBeNull();
   });
 });

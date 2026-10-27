@@ -1,8 +1,12 @@
-// The deployed site's landing (deploy plan D3): an empty hash opens the demo run's shortlist,
-// with its demo moment marked "start here". F3's PR moves the landing to the replay.
+// The deployed site's landing (deploy plan D3; review plan R3, Q9): an empty hash opens the
+// default run's shortlist (the picker's first, WG), with its demo moment marked "start here".
+// A plant picker offers the site's other recorded runs in the server's order, and each run
+// shows its own banner, written by Bhargavi; only a run with a start line has "start here".
 
 import type { DemoResponse } from "../api/schema";
 import type { Route } from "./router";
+
+export type DemoRun = DemoResponse["runs"][number];
 
 const EMPTY = new Set(["", "#", "#/"]);
 
@@ -15,11 +19,36 @@ export function landingRoute(
   return { name: "shortlist", runId: demo.run.run.id };
 }
 
-/** The line marked "start here" on this run's shortlist, if this is the demo run. */
+/** The picker's runs, in the server's order (the default first). */
+export function pickerRuns(demo: DemoResponse | null): DemoRun[] {
+  return demo?.runs ?? [];
+}
+
+/** This run's entry in the site's runs, if the site offers it. */
+export function demoRun(
+  demo: DemoResponse | null,
+  runId: string,
+): DemoRun | null {
+  return pickerRuns(demo).find((r) => r.run_id === runId) ?? null;
+}
+
+/** The line marked "start here" on this run's shortlist, if the site names one. */
 export function startTarget(
   demo: DemoResponse | null,
   runId: string,
 ): string | null {
-  if (demo === null || demo.run.run.id !== runId) return null;
+  if (demo === null) return null;
+  const entry = demoRun(demo, runId);
+  if (entry !== null) return entry.start_target_id ?? null;
+  // a response from before contract v1.11: the default run only
+  if (demo.run.run.id !== runId) return null;
   return demo.start_target_id ?? null;
+}
+
+/** The banner Bhargavi wrote for this run, if any. */
+export function bannerFor(
+  demo: DemoResponse | null,
+  runId: string,
+): string | null {
+  return demoRun(demo, runId)?.banner ?? null;
 }

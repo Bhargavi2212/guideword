@@ -26,11 +26,18 @@ describe("the landing (deploy plan D3)", () => {
 });
 
 describe("the start line", () => {
-  it("is the demo's, on the demo run only", () => {
-    const named = { ...demo, start_target_id: "ch:x" };
+  it("is the run's own entry's, on that run only (contract v1.11)", () => {
+    const runs = demo.runs.map((r) => ({ ...r, start_target_id: "ch:x" }));
+    const named = { ...demo, start_target_id: "ch:x", runs };
     expect(startTarget(named, RUN)).toBe("ch:x");
     expect(startTarget(named, "run:other")).toBeNull();
     expect(startTarget({ ...demo, start_target_id: null }, RUN)).toBeNull();
     expect(startTarget(null, RUN)).toBeNull();
+  });
+
+  it("falls back to the response's own start line before v1.11 (no runs list)", () => {
+    const older = { ...demo, start_target_id: "ch:x", runs: [] };
+    expect(startTarget(older, RUN)).toBe("ch:x");
+    expect(startTarget(older, "run:other")).toBeNull();
   });
 });

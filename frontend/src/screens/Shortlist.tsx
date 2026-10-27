@@ -5,7 +5,8 @@ import { useRef, type KeyboardEvent } from "react";
 import { errorMessage } from "../api/client";
 import { useResource } from "../api/hooks";
 import type { DemoResponse, Shortlist as ShortlistData } from "../api/schema";
-import { startTarget } from "../app/landing";
+import { bannerFor, pickerRuns, startTarget } from "../app/landing";
+import { buildHash } from "../app/router";
 import { groupByTier } from "../model/shortlist";
 import { ShortlistCard } from "./ShortlistCard";
 
@@ -17,6 +18,8 @@ export function Shortlist({ runId }: { runId: string }) {
   // on the deployed site, the demo moment's card is marked "start here" (deploy plan D3)
   const demo = useResource<DemoResponse>("/demo");
   const start = startTarget(demo.data, runId);
+  const banner = bannerFor(demo.data, runId);
+  const offered = pickerRuns(demo.data);
 
   // the arrow keys move between the cards' links, in the order shown
   function move(event: KeyboardEvent<HTMLAnchorElement>): void {
@@ -56,6 +59,31 @@ export function Shortlist({ runId }: { runId: string }) {
   return (
     <section>
       <h2>Shortlist</h2>
+      {offered.length > 1 && offered.some((r) => r.run_id === runId) ? (
+        <label className="plant-picker">
+          Plant
+          <select
+            value={runId}
+            onChange={(e) => {
+              window.location.hash = buildHash({
+                name: "shortlist",
+                runId: e.target.value,
+              });
+            }}
+          >
+            {offered.map((r) => (
+              <option key={r.run_id} value={r.run_id}>
+                {r.plant_id}
+              </option>
+            ))}
+          </select>
+        </label>
+      ) : null}
+      {banner !== null && shortlist.data.label.kind === "recorded" ? (
+        <p className="demo-banner" role="note">
+          {banner}
+        </p>
+      ) : null}
       <div ref={list} className="tiers">
         {groupByTier(shortlist.data.items).map((group) => (
           <section key={group.tier} className="tier">
