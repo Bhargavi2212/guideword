@@ -360,3 +360,13 @@ def test_the_judgement_reads_the_templates_source_object(tmp_path: Path) -> None
     [row] = judgement_rows(_probes(tmp_path / "out"), keys)
     assert row.case == "k" and row.source["kind"] == "public investigation report"
     assert SECRET not in repr(row)
+
+
+def test_the_judgement_reads_a_keys_folder_of_one_file_per_case(tmp_path: Path) -> None:
+    folder = tmp_path / "keys"
+    folder.mkdir()
+    key = {"case_id": "case_k", "source": {"reference": "a report"}, "root_cause": SECRET}
+    (folder / "case_k.json").write_text(json.dumps(key), encoding="utf-8")
+    [row] = judgement_rows(_probes(tmp_path / "out"), folder)
+    assert row.case == "k" and row.source == {"reference": "a report"}
+    assert SECRET not in repr(row)

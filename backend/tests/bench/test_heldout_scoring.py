@@ -180,3 +180,12 @@ def test_baseline_lines_name_their_equipment_and_text() -> None:
     assert line.text == "V-1 left closed" and line.components == ["Tank T-1"]
     # a baseline names a component in its equipment or its text
     assert line_auto_matches(line, ["V-1"], ["left closed"])
+
+
+def test_a_keys_folder_of_one_file_per_case_loads(tmp_path: Path) -> None:
+    folder = tmp_path / "keys"
+    folder.mkdir()
+    for x in "kl":
+        key = _template_key() | {"case_id": f"case_{x}"}
+        (folder / f"case_{x}.json").write_text(json.dumps(key), encoding="utf-8")
+    assert sorted(load_heldout_keys(folder)) == ["k", "l"]

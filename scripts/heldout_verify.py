@@ -17,11 +17,11 @@ from pathlib import Path
 
 from guideword.bench.heldout import (
     SEALS_FILE,
+    case_files,
     check_seals,
     frozen_lines,
     inventory,
     plant_files,
-    read_seals,
     seal_info,
     validate_plants,
 )
@@ -54,13 +54,17 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(f"unlisted: {path}")
     for path in check.mismatched:
         print(f"mismatch: {path}")
-    seals, _ = read_seals((folder / SEALS_FILE).read_text(encoding="utf-8"))
-    found = inventory(folder, seals)
+    for path in check.unsealed_plants:
+        print(f"new plant file (frozen separately): {path}")
+    for path in check.unsealed_other:
+        print(f"not a case file (not sealed, not checked): {path}")
+    present = [p for p in case_files(folder) if p not in check.unsealed_other]
+    found = inventory(folder, dict.fromkeys(present, ""))
     print("inventory: " + ", ".join(f"{k} {n}" for k, n in found.counts.items()))
     for path in found.unclassified:
         print(f"unclassified: {path}")
     print("key fields: " + (", ".join(found.key_fields) or "none"))
-    plants = plant_files(seals)
+    plants = plant_files(dict.fromkeys(present, ""))
     invalid = 0
     for path, issues in validate_plants(folder, plants, load_reference_set()).items():
         print(f"{path}: {'valid' if not issues else f'{len(issues)} errors'}")
