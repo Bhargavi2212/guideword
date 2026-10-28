@@ -84,7 +84,21 @@ export function Shortlist({ runId }: { runId: string }) {
       ) : null}
       {banner !== null && shortlist.data.label.kind === "recorded" ? (
         <p className="demo-banner" role="note">
-          {banner}
+          <BannerText
+            banner={banner}
+            startRank={
+              shortlist.data.items.find((i) => i.target_id === start)?.rank ??
+              null
+            }
+            onLine={() => {
+              // the page opens at the top; the banner's line number goes to the card (F6)
+              Array.from(
+                list.current?.querySelectorAll<HTMLElement>("article") ?? [],
+              )
+                .find((a) => a.dataset.targetId === start)
+                ?.scrollIntoView({ block: "center" });
+            }}
+          />
         </p>
       ) : null}
       <div ref={list} className="tiers">
@@ -109,5 +123,32 @@ export function Shortlist({ runId }: { runId: string }) {
         ))}
       </div>
     </section>
+  );
+}
+
+/** The banner as written, with its "Line #N" a link to the start card when N is that card's
+ * rank; otherwise the banner as plain text. */
+function BannerText({
+  banner,
+  startRank,
+  onLine,
+}: {
+  banner: string;
+  startRank: number | null;
+  onLine: () => void;
+}) {
+  const line = startRank === null ? null : `Line #${String(startRank)}`;
+  const at = line === null ? -1 : banner.indexOf(line);
+  // "Line #2" must not match the start of "Line #20"
+  const whole = at >= 0 && !/\d/.test(banner.charAt(at + (line?.length ?? 0)));
+  if (line === null || !whole) return <>{banner}</>;
+  return (
+    <>
+      {banner.slice(0, at)}
+      <button type="button" className="link-button" onClick={onLine}>
+        {line}
+      </button>
+      {banner.slice(at + line.length)}
+    </>
   );
 }

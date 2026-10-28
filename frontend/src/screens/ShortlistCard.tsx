@@ -4,7 +4,7 @@
 // table's definition, and the gap as "N× over the risk limit" (Q10). Record keys in the text
 // show as names, the raw key on hover and in the drawer (Q7). Evidence is shown as written.
 
-import { useEffect, useRef, type KeyboardEvent } from "react";
+import type { KeyboardEvent } from "react";
 
 import type { Shortlist, ShortlistItem } from "../api/schema";
 import { buildHash } from "../app/router";
@@ -52,17 +52,11 @@ export function ShortlistCard({
   onKeyDown,
 }: Props) {
   const severity = severityOf(item);
-  // the landing opens with the demo moment in view (Bhargavi's review, 2026-10-25)
-  const card = useRef<HTMLElement>(null);
-  useEffect(() => {
-    if (start) card.current?.scrollIntoView({ block: "center" });
-  }, [start]);
   const evidence = shownEvidence(item);
   const recommendations = item.recommendations ?? [];
   const firstRecommendation = recommendations[0];
   return (
     <article
-      ref={card}
       className={`card tier-${item.tier}`}
       data-target-id={item.target_id}
     >

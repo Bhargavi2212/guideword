@@ -244,14 +244,19 @@ describe("Shortlist (spec 5.1)", () => {
 });
 
 describe("the demo moment's card (deploy plan D3)", () => {
-  async function withDemo(startTargetId: string | null) {
+  async function withDemo(startTargetId: string | null, banner?: string) {
     const demo = await import("../../../contract/fixtures/demo_response.json");
     // contract v1.11: each run's own entry names its start line
     const runs = demo.default.runs.map((r) =>
-      r.run_id === RUN ? { ...r, start_target_id: startTargetId } : r,
+      r.run_id === RUN
+        ? { ...r, start_target_id: startTargetId, banner: banner ?? r.banner }
+        : r,
     );
+    const label = { ...data.label, kind: "recorded" };
     const fake = fakeFetch({
-      [`/runs/${encodeURIComponent(RUN)}/shortlist`]: { body: data },
+      [`/runs/${encodeURIComponent(RUN)}/shortlist`]: {
+        body: { ...data, label },
+      },
       "/demo": {
         body: { ...demo.default, start_target_id: startTargetId, runs },
       },
@@ -273,7 +278,7 @@ describe("the demo moment's card (deploy plan D3)", () => {
     expect(screen.getAllByText("start here")).toHaveLength(1);
   });
 
-  it("is scrolled into view when the shortlist opens", async () => {
+  it("opens at the top: no card is scrolled into view (F6)", async () => {
     const scrolled: Element[] = [];
     const spy = vi
       .spyOn(Element.prototype, "scrollIntoView")
@@ -283,8 +288,36 @@ describe("the demo moment's card (deploy plan D3)", () => {
     const chain = must(data.items.find((i) => i.target_kind === "chain"));
     await withDemo(chain.target_id);
     await within(card(chain.target_id)).findByText("start here");
+    expect(scrolled).toEqual([]);
+    spy.mockRestore();
+  });
+
+  it("makes the banner's 'Line #N' a link that scrolls to the start card (F6)", async () => {
+    const scrolled: Element[] = [];
+    const spy = vi
+      .spyOn(Element.prototype, "scrollIntoView")
+      .mockImplementation(function (this: Element) {
+        scrolled.push(this);
+      });
+    const chain = must(data.items.find((i) => i.target_kind === "chain"));
+    const banner = `Rebuilt from a report. Line #${String(chain.rank)} is the accident.`;
+    await withDemo(chain.target_id, banner);
+    const note = await screen.findByRole("note");
+    expect(note.textContent).toBe(banner);
+    fireEvent.click(
+      within(note).getByRole("button", { name: `Line #${String(chain.rank)}` }),
+    );
     expect(scrolled).toEqual([card(chain.target_id)]);
     spy.mockRestore();
+  });
+
+  it("leaves the banner plain when its line number is not the start card's", async () => {
+    const chain = must(data.items.find((i) => i.target_kind === "chain"));
+    const banner = `Line #${String(chain.rank + 1)} is something else.`;
+    await withDemo(chain.target_id, banner);
+    const note = await screen.findByRole("note");
+    expect(note.textContent).toBe(banner);
+    expect(within(note).queryByRole("button")).toBeNull();
   });
 
   it("is not marked when the demo names none", async () => {
