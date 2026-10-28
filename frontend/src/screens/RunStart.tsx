@@ -186,6 +186,9 @@ export function RunStart() {
                   </a>{" "}
                   <a href={buildHash({ name: "shortlist", runId: run.id })}>
                     Shortlist
+                  </a>{" "}
+                  <a href={buildHash({ name: "coverage", runId: run.id })}>
+                    Coverage
                   </a>
                 </td>
               </tr>

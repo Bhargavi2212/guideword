@@ -5,6 +5,7 @@ import type { components } from "./types";
 
 type S = components["schemas"];
 
+export type AddQuestionRequest = S["AddQuestionRequest"];
 export type Budget = S["Budget"];
 export type Chain = S["Chain"];
 export type Coverage = S["Coverage"];
@@ -23,13 +24,18 @@ export type PlantDetail = S["PlantDetail"];
 export type PlantFact = S["PlantFact"];
 export type PlantList = S["PlantList"];
 export type PlantSummary = S["PlantSummary"];
+export type Question = S["Question"];
+export type QuestionCreated = S["QuestionCreated"];
+export type QuestionList = S["QuestionList"];
 export type Recommendation = S["Recommendation"];
 export type RecordDetail = S["RecordDetail"];
 export type Run = S["Run"];
 export type RunDetail = S["RunDetail"];
 export type RunLabel = S["RunLabel"];
 export type RunList = S["RunList"];
+export type RunSections = S["RunSections"];
 export type RunStatusResult = S["RunStatusResult"];
+export type Section = S["Section"];
 export type Shortlist = S["Shortlist"];
 export type ShortlistItem = S["ShortlistItem"];
 export type ShortlistEvidence = S["ShortlistEvidence"];

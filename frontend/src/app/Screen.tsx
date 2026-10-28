@@ -1,6 +1,7 @@
 // The screen a route names. F0 ships the shell; each screen arrives in its own PR (spec 5.1–5.7),
 // so until then a route shows its name and which PR builds it.
 
+import { Coverage } from "../screens/Coverage";
 import { Detail } from "../screens/Detail";
 import { Live } from "../screens/Live";
 import { RunStart } from "../screens/RunStart";
@@ -31,6 +32,7 @@ export function Screen({ route }: { route: Route }) {
   if (route.name === "runs") return <RunStart />;
   if (route.name === "live") return <Live runId={route.runId} />;
   if (route.name === "shortlist") return <Shortlist runId={route.runId} />;
+  if (route.name === "coverage") return <Coverage runId={route.runId} />;
   if (route.name === "item")
     return <Detail runId={route.runId} targetId={route.targetId} />;
   const [title, pr] = TITLES[route.name];
