@@ -59,6 +59,21 @@ describe("one plain title per line kind, written in code (review plan R3)", () =
     );
   });
 
+  it("names a repeated question once in a chain's title (D #6)", () => {
+    const chain = must(items.find((i) => i.target_kind === "chain"));
+    const twice = "f:m:S-L-RUNDOWN:more:pressure:super:C01:0123456789abcdef";
+    const again = "f:m:S-L-RUNDOWN:more:pressure:super:C02:fedcba9876543210";
+    const item = {
+      ...chain,
+      chain: {
+        ...must(chain.chain),
+        links: [twice, "V-1.normal_position", again],
+      },
+    };
+    const one = questionTitle(findingQuestion(twice));
+    expect(lineTitle(item)).toBe(`2 failures together: ${one}`);
+  });
+
   it("titles a hypothesis by its rank", () => {
     const item = must(items.find((i) => i.target_kind === "hypothesis"));
     expect(lineTitle(item)).toBe(
