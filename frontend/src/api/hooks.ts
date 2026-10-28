@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 
 import { useApp } from "../app/context";
 import { ApiError } from "./client";
+import type { PlantDetail, RunDetail } from "./schema";
 
 export type Resource<T> = {
   data: T | null;
@@ -67,4 +68,17 @@ export function usePolling<T>(
     return () => window.clearInterval(timer);
   }, [active, everyMs, path, reload]);
   return resource;
+}
+
+/** The run's plant facts by ID, so a line shows the values it names (review plan R3, R4); empty
+ * until they load. */
+export function useFactValues(runId: string): Record<string, unknown> {
+  const run = useResource<RunDetail>(`/runs/${encodeURIComponent(runId)}`);
+  const plantId = run.data?.run.plant_record_id ?? null;
+  const plant = useResource<PlantDetail>(
+    plantId === null ? null : `/plants/${encodeURIComponent(plantId)}`,
+  );
+  return Object.fromEntries(
+    (plant.data?.facts ?? []).map((f) => [f.id, f.value]),
+  );
 }

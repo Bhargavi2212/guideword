@@ -41,14 +41,18 @@ export function lineTags(item: ShortlistItem): string[] {
 }
 
 /** "1,000× over the risk limit"; "within the risk limit" at 1 or under (Q10). */
-export function gapWords(item: ShortlistItem): string {
-  if (!item.lopa) return "no LOPA";
-  const gap = item.gap ?? item.lopa.gap ?? null;
+export function gapTimes(gap: number | null | undefined): string {
   if (gap === null || gap === undefined)
     return "gap unknown: the LOPA is incomplete";
   if (gap <= 1) return "within the risk limit";
   const times = Number(gap.toPrecision(2)).toLocaleString("en-US");
   return `${times}× over the risk limit`;
+}
+
+/** The line's gap in words, from its LOPA. */
+export function gapWords(item: ShortlistItem): string {
+  if (!item.lopa) return "no LOPA";
+  return gapTimes(item.gap ?? item.lopa.gap ?? null);
 }
 
 /** "initiating event IE-X at 0.1 /yr · 1 of 2 layers credited · mitigated … against tolerable …". */

@@ -5,21 +5,17 @@
 import { useState } from "react";
 
 import { ApiError, errorMessage, overrideBlockedReason } from "../api/client";
-import { useResource } from "../api/hooks";
-import type {
-  PlantDetail,
-  RunDetail,
-  Shortlist,
-  ShortlistItem,
-} from "../api/schema";
+import { useFactValues, useResource } from "../api/hooks";
+import type { Shortlist, ShortlistItem } from "../api/schema";
 import { useApp } from "../app/context";
 import { shownFlag } from "../model/evidence";
-import { keyName } from "../model/names";
 import { chainHandleFlag, leadText, severityOf } from "../model/shortlist";
 import { questionTitle } from "../model/titles";
 import { lineTitle } from "../model/titles";
+import { ChainFlow } from "../ui/ChainFlow";
 import { Chip } from "../ui/Chip";
 import { Flags } from "../ui/Flags";
+import { LopaBar } from "../ui/LopaBar";
 import { NamedText } from "../ui/NamedText";
 import { TechnicalLayer } from "../ui/TechnicalLayer";
 import { Traced } from "../ui/Traced";
@@ -35,15 +31,9 @@ export function Detail({ runId, targetId }: Props) {
     `/runs/${encodeURIComponent(runId)}/shortlist`,
   );
   const [sendError, setSendError] = useState<string | null>(null);
-  // the plant's facts, so a calculation card shows the values it used (review plan R3)
-  const run = useResource<RunDetail>(`/runs/${encodeURIComponent(runId)}`);
-  const plantId = run.data?.run.plant_record_id ?? null;
-  const plant = useResource<PlantDetail>(
-    plantId === null ? null : `/plants/${encodeURIComponent(plantId)}`,
-  );
-  const factValues = Object.fromEntries(
-    (plant.data?.facts ?? []).map((f) => [f.id, f.value]),
-  );
+  // the plant's facts, so a calculation card and the chain flow show the values they used
+  // (review plan R3, R4)
+  const factValues = useFactValues(runId);
   const item =
     shortlist.data?.items.find((i) => i.target_id === targetId) ?? null;
 
@@ -112,7 +102,7 @@ export function Detail({ runId, targetId }: Props) {
         item={item}
         severityClasses={shortlist.data.severity_classes ?? []}
       />
-      <What item={item} />
+      <What item={item} factValues={factValues} />
       <Flags
         flags={[
           ...(item.flags ?? []).map(shownFlag),
@@ -132,6 +122,7 @@ export function Detail({ runId, targetId }: Props) {
           </ul>
         </section>
       ) : null}
+      {item.lopa ? <LopaBar lopa={item.lopa} /> : null}
       {item.lopa ? (
         <LopaTable
           lopa={item.lopa}
@@ -182,7 +173,13 @@ function kindTitle(item: ShortlistItem): string {
   ];
 }
 
-function What({ item }: { item: ShortlistItem }) {
+function What({
+  item,
+  factValues,
+}: {
+  item: ShortlistItem;
+  factValues: Record<string, unknown>;
+}) {
   const severity = severityOf(item);
   return (
     <section className="what">
@@ -193,7 +190,7 @@ function What({ item }: { item: ShortlistItem }) {
           </Traced>
         </p>
       ) : null}
-      {item.chain ? <ChainWhat item={item} /> : null}
+      {item.chain ? <ChainWhat item={item} factValues={factValues} /> : null}
       {item.finding ? <FindingWhat item={item} /> : null}
       {item.hypothesis ? (
         <>
@@ -218,7 +215,13 @@ function What({ item }: { item: ShortlistItem }) {
   );
 }
 
-function ChainWhat({ item }: { item: ShortlistItem }) {
+function ChainWhat({
+  item,
+  factValues,
+}: {
+  item: ShortlistItem;
+  factValues: Record<string, unknown>;
+}) {
   const chain = item.chain;
   if (!chain) return null;
   return (
@@ -228,16 +231,13 @@ function ChainWhat({ item }: { item: ShortlistItem }) {
         <NamedText text={chain.description} traceId={chain.id} />
       </p>
       <p className="reason">{chain.reason}</p>
-      <h3 id="links-title">Links</h3>
-      <ol aria-labelledby="links-title" className="links">
-        {chain.links.map((id) => (
-          <li key={id}>
-            <Traced id={id}>
-              {id.startsWith("f:") ? questionTitle(id.slice(2)) : keyName(id)}
-            </Traced>
-          </li>
-        ))}
-      </ol>
+      <h3>Links</h3>
+      <ChainFlow
+        links={chain.links}
+        factValues={factValues}
+        evidence={item.evidence ?? []}
+        label="Links"
+      />
     </>
   );
 }

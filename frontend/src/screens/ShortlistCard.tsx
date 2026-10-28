@@ -23,8 +23,10 @@ import {
 } from "../model/shortlist";
 import { gapWords } from "../model/technical";
 import { lineTitle } from "../model/titles";
+import { ChainFlow } from "../ui/ChainFlow";
 import { Chip } from "../ui/Chip";
 import { Flags } from "../ui/Flags";
+import { LopaBar } from "../ui/LopaBar";
 import { NamedText } from "../ui/NamedText";
 import { TechnicalLayer } from "../ui/TechnicalLayer";
 import { Traced } from "../ui/Traced";
@@ -34,6 +36,8 @@ type Props = {
   item: ShortlistItem;
   // the reference table the severity codes are read against (contract v1.11)
   severityClasses?: Shortlist["severity_classes"];
+  // the plant's facts by ID, for the chain flow's stored values (review plan R4)
+  factValues?: Record<string, unknown>;
   // the demo moment: the line the landing marks "start here" (deploy plan D3)
   start?: boolean;
   onKeyDown: (event: KeyboardEvent<HTMLAnchorElement>) => void;
@@ -43,6 +47,7 @@ export function ShortlistCard({
   runId,
   item,
   severityClasses = [],
+  factValues = {},
   start = false,
   onKeyDown,
 }: Props) {
@@ -95,6 +100,14 @@ export function ShortlistCard({
         <NamedText text={leadText(item)} traceId={item.target_id} />
       </p>
       <TechnicalLayer item={item} severityClasses={severityClasses} />
+      {item.chain ? (
+        <ChainFlow
+          links={item.chain.links}
+          factValues={factValues}
+          evidence={item.evidence ?? []}
+        />
+      ) : null}
+      {item.lopa ? <LopaBar lopa={item.lopa} /> : null}
       <p className="card-gap">
         {item.lopa ? (
           <Traced id={item.lopa.id}>{gapWords(item)}</Traced>

@@ -3,7 +3,7 @@
 import { useRef, type KeyboardEvent } from "react";
 
 import { errorMessage } from "../api/client";
-import { useResource } from "../api/hooks";
+import { useFactValues, useResource } from "../api/hooks";
 import type { DemoResponse, Shortlist as ShortlistData } from "../api/schema";
 import { bannerFor, pickerRuns, startTarget } from "../app/landing";
 import { buildHash } from "../app/router";
@@ -18,6 +18,7 @@ export function Shortlist({ runId }: { runId: string }) {
   // on the deployed site, the demo moment's card is marked "start here" (deploy plan D3)
   const demo = useResource<DemoResponse>("/demo");
   const start = startTarget(demo.data, runId);
+  const factValues = useFactValues(runId);
   const banner = bannerFor(demo.data, runId);
   const offered = pickerRuns(demo.data);
 
@@ -97,6 +98,7 @@ export function Shortlist({ runId }: { runId: string }) {
                 runId={runId}
                 item={item}
                 severityClasses={shortlist.data?.severity_classes ?? []}
+                factValues={factValues}
                 start={item.target_id === start}
                 onKeyDown={move}
               />
