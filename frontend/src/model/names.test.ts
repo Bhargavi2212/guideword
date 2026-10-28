@@ -1,6 +1,12 @@
 import { describe, expect, it } from "vitest";
 
-import { keyName, nameKeys, undoNames } from "./names";
+import {
+  handleFlag,
+  keyName,
+  nameKeys,
+  undoNames,
+  unresolvedHandles,
+} from "./names";
 
 const FINDING = "f:m:S-EA-425B:more:pressure:super:C22:e53bce019995581b";
 const CHAIN =
@@ -55,5 +61,26 @@ describe("record keys in displayed text become names (review plan Q7)", () => {
       { text: "EA-425B more pressure", key: FINDING },
       { text: "." },
     ]);
+  });
+});
+
+describe("connector handles the names can't resolve (decisions row 251)", () => {
+  it("are found in a chain's own words, after naming", () => {
+    expect(
+      unresolvedHandles(["L9 and L34 meet", "per P51, P52 and L9 again"]),
+    ).toEqual(["L9", "L34", "P51", "P52"]);
+  });
+
+  it("are none in text whose keys all name", () => {
+    expect(
+      unresolvedHandles([`see ${FINDING}`, "EA-425B more pressure"]),
+    ).toEqual([]);
+  });
+
+  it("make the flag Bhargavi wrote, with the card's own numbers", () => {
+    expect(handleFlag(["L9", "P51"])).toBe(
+      "Line and step numbers (L9, P51) from the chain-finder’s prompt; not resolved to plant tags in this development run.",
+    );
+    expect(handleFlag([])).toBeNull();
   });
 });

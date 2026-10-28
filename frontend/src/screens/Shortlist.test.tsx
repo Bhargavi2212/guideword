@@ -358,3 +358,26 @@ describe("the site's runs: banner and plant picker (review plan R3)", () => {
     expect(screen.queryByText("start here")).toBeNull();
   });
 });
+
+describe("a chain with the chain-finder's own handles (D and G, decisions row 251)", () => {
+  it("is flagged with its numbers, in Bhargavi's words", async () => {
+    const chain = must(data.items.find((i) => i.target_kind === "chain"));
+    const flagged = {
+      ...chain,
+      chain: { ...must(chain.chain), description: "L9 heats P51 through L34" },
+    };
+    const items = data.items.map((i) =>
+      i.target_id === chain.target_id ? flagged : i,
+    );
+    await shortlist({ ...data, items });
+    expect(card(chain.target_id).textContent).toContain(
+      "Line and step numbers (L9, P51, L34) from the chain-finder’s prompt; not resolved to plant tags in this development run.",
+    );
+  });
+
+  it("is not flagged when no handle is left", async () => {
+    await shortlist();
+    for (const item of data.items)
+      expect(card(item.target_id).textContent).not.toContain("chain-finder");
+  });
+});

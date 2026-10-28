@@ -1,6 +1,6 @@
-// Text with its record keys shown as the names they stand for (review plan Q7). Each named span
-// is traced to its key: the raw key is on hover and one click opens it in the drawer; the rest
-// of the text is traced to the record it came from.
+// Text with its record keys shown as the names they stand for (review plan Q7). The whole text
+// is one traced span, so it wraps as a sentence and one click opens the record it came from;
+// each named key is an <abbr> whose title is the raw key, shown on hover.
 
 import { nameKeys } from "../model/names";
 import { Traced } from "./Traced";
@@ -13,22 +13,17 @@ export function NamedText({
   traceId: string;
 }) {
   const named = nameKeys(text);
-  if (named.parts.every((p) => p.key === undefined)) {
-    return <Traced id={traceId}>{text}</Traced>;
-  }
   return (
-    <>
+    <Traced id={traceId}>
       {named.parts.map((part, n) =>
         part.key === undefined ? (
-          <Traced key={n} id={traceId}>
-            {part.text}
-          </Traced>
+          part.text
         ) : (
-          <Traced key={n} id={part.key}>
+          <abbr key={n} className="named-key" title={part.key}>
             {part.text}
-          </Traced>
+          </abbr>
         ),
       )}
-    </>
+    </Traced>
   );
 }

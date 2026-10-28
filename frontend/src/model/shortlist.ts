@@ -2,6 +2,7 @@
 // orders the lines (R50: tiers, then the hypothesis rank or the gap); nothing here re-sorts.
 
 import type { ShortlistEvidence, ShortlistItem } from "../api/schema";
+import { handleFlag, unresolvedHandles } from "./names";
 
 export type Tier = ShortlistItem["tier"];
 export const TIERS: readonly Tier[] = [
@@ -45,4 +46,11 @@ export function severityOf(item: ShortlistItem): string | null {
 
 export function shownEvidence(item: ShortlistItem): ShortlistEvidence[] {
   return (item.evidence ?? []).slice(0, EVIDENCE_SHOWN);
+}
+
+/** A chain's handle flag, when its own words keep the chain-finder's handles (row 251). */
+export function chainHandleFlag(item: ShortlistItem): string | null {
+  const chain = item.chain;
+  if (!chain) return null;
+  return handleFlag(unresolvedHandles([chain.description, chain.reason ?? ""]));
 }

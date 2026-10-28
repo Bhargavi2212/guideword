@@ -90,3 +90,20 @@ export function nameKeys(text: string): Named {
 export function undoNames(named: Named): string {
   return named.parts.map((p) => p.key ?? p.text).join("");
 }
+
+// a connector handle: `L<n>` (a line sent in the chain-finder's prompt) or `P<n>` (a fact)
+const HANDLE = /\b[LP]\d+\b/g;
+
+/** The chain-finder's own handles left in these texts once their keys are named, each once,
+ * in order. They meant something only inside that one prompt, so nothing here can name them
+ * (decisions row 251); the card flags them instead. */
+export function unresolvedHandles(texts: readonly string[]): string[] {
+  const found = texts.flatMap((t) => nameKeys(t).text.match(HANDLE) ?? []);
+  return found.filter((h, n) => found.indexOf(h) === n);
+}
+
+/** The flag Bhargavi wrote for them (2026-10-27), with this card's own numbers. */
+export function handleFlag(handles: readonly string[]): string | null {
+  if (handles.length === 0) return null;
+  return `Line and step numbers (${handles.join(", ")}) from the chain-finder’s prompt; not resolved to plant tags in this development run.`;
+}

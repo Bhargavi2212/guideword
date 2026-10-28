@@ -434,8 +434,10 @@ describe("the demo moment on the WG final run (C2)", () => {
     );
     expect(shown.textContent).toBe(named.text);
     expect(shown.textContent?.endsWith("that互")).toBe(true);
-    const keys = Array.from(shown.querySelectorAll("[data-record-id]")).map(
-      (b) => b.getAttribute("data-record-id"),
+    // one traced span, so the text wraps as a sentence; each named key keeps its raw key on hover
+    expect(shown.querySelectorAll("button.traced")).toHaveLength(1);
+    const keys = Array.from(shown.querySelectorAll("abbr.named-key")).map((a) =>
+      a.getAttribute("title"),
     );
     for (const part of named.parts)
       if (part.key) expect(keys).toContain(part.key);

@@ -15,7 +15,12 @@ import {
   skippedLine,
 } from "../model/evidence";
 import { keyName } from "../model/names";
-import { leadText, severityOf, shownEvidence } from "../model/shortlist";
+import {
+  chainHandleFlag,
+  leadText,
+  severityOf,
+  shownEvidence,
+} from "../model/shortlist";
 import { gapWords } from "../model/technical";
 import { lineTitle } from "../model/titles";
 import { Chip } from "../ui/Chip";
@@ -130,7 +135,10 @@ export function ShortlistCard({
         </p>
       ) : null}
       <Flags
-        flags={(item.flags ?? []).map(shownFlag)}
+        flags={[
+          ...(item.flags ?? []).map(shownFlag),
+          ...[chainHandleFlag(item)].filter((f): f is string => f !== null),
+        ]}
         traceId={item.target_id}
       />
     </article>
