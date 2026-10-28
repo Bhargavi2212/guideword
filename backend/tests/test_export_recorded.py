@@ -3,6 +3,7 @@ labelled recorded, with no page text and no key; the store it came from never ch
 
 import hashlib
 import json
+from concurrent.futures import ThreadPoolExecutor
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
@@ -80,6 +81,25 @@ def test_the_loaded_copy_serves_the_run_as_its_store_does(
     assert loaded.runs.findings(run_id) == stored.runs.findings(run_id)
     for item in stored.shortlist(run_id):
         assert loaded.record(run_id, item.target_id) == stored.record(run_id, item.target_id)
+
+
+def test_the_loaded_copy_serves_concurrent_requests(
+    source: tuple[Path, str, list[SpendEntry]], exported: tuple[Path, Any]
+) -> None:
+    """The API answers requests on worker threads, several at once (a page asks for the
+    shortlist, the demo and the worksheet together). One connection shared by every thread
+    failed with "bad parameter or other API misuse" (F6, 2026-10-28)."""
+    _, run_id, _ = source
+    out, _ = exported
+    live = _live(load_recorded(out))
+    expected = (live.shortlist(run_id), live.runs.findings(run_id), live.events(run_id))
+
+    def read(_: int) -> tuple[Any, ...]:
+        return (live.shortlist(run_id), live.runs.findings(run_id), live.events(run_id))
+
+    with ThreadPoolExecutor(max_workers=8) as pool:
+        results = list(pool.map(read, range(48)))
+    assert all(r == expected for r in results)
 
 
 def test_the_copy_is_labelled_recorded_with_the_ledger_cost_and_a_note(
