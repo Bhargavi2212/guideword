@@ -8,6 +8,7 @@ import type { DemoResponse, Shortlist as ShortlistData } from "../api/schema";
 import { bannerFor, pickerRuns, startTarget } from "../app/landing";
 import { buildHash } from "../app/router";
 import { groupByTier } from "../model/shortlist";
+import { ExportLinks } from "../ui/ExportLinks";
 import { ShortlistCard } from "./ShortlistCard";
 
 export function Shortlist({ runId }: { runId: string }) {
@@ -60,6 +61,7 @@ export function Shortlist({ runId }: { runId: string }) {
   return (
     <section>
       <h2>Shortlist</h2>
+      <ExportLinks runId={runId} />
       {offered.length > 1 && offered.some((r) => r.run_id === runId) ? (
         <label className="plant-picker">
           Plant

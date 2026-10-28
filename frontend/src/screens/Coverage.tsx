@@ -23,6 +23,7 @@ import {
   listName,
   SECTIONS,
 } from "../model/coverage";
+import { ExportLinks } from "../ui/ExportLinks";
 import { Traced } from "../ui/Traced";
 
 export function Coverage({ runId }: { runId: string }) {
@@ -53,6 +54,7 @@ export function Coverage({ runId }: { runId: string }) {
   return (
     <section className="coverage">
       <h2>Coverage</h2>
+      <ExportLinks runId={runId} />
       <p className="coverage-total" data-testid="coverage-total">
         {`Checked ${String(totals.questions.checked)} of ${String(totals.questions.total)} questions`}
         {totals.sections
