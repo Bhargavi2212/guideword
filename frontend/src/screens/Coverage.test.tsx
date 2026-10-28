@@ -80,6 +80,16 @@ describe("the coverage table (spec 5.4)", () => {
     expect(bar.getAttribute("max")).toBe("1");
   });
 
+  it("offers the worksheet and the run record for download", async () => {
+    mount();
+    const exports = await screen.findByRole("list", { name: "Export" });
+    expect(
+      within(exports)
+        .getAllByRole("link")
+        .map((a) => a.getAttribute("href")),
+    ).toEqual([`${base}/export.xlsx`, `${base}/export/run.json`]);
+  });
+
   it("totals the questions at the top, and the sections apart", async () => {
     mount();
     expect((await screen.findByTestId("coverage-total")).textContent).toBe(

@@ -943,3 +943,12 @@ h3 {
   padding-left: 16px;
   font-size: var(--fs-xs);
 }
+.export-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin: 0 0 12px;
+  padding: 0;
+  list-style: none;
+  font-size: var(--fs-sm);
+}

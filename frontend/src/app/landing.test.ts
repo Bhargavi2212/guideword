@@ -1,9 +1,10 @@
 import { describe, expect, it } from "vitest";
 
 import demoJson from "../../../contract/fixtures/demo_response.json";
-import type { DemoResponse } from "../api/schema";
+import runListJson from "../../../contract/fixtures/run_list.json";
+import type { DemoResponse, RunList } from "../api/schema";
 import { fixture } from "../test/fixtures";
-import { landingRoute, startTarget } from "./landing";
+import { landingRoute, plantRoute, startTarget } from "./landing";
 
 const demo = fixture<DemoResponse>(demoJson);
 const RUN = demo.run.run.id;
@@ -39,5 +40,24 @@ describe("the start line", () => {
     const older = { ...demo, start_target_id: "ch:x", runs: [] };
     expect(startTarget(older, RUN)).toBe("ch:x");
     expect(startTarget(older, "run:other")).toBeNull();
+  });
+});
+
+describe("a plant chosen in the header", () => {
+  const runs = fixture<RunList>(runListJson).runs;
+
+  it("opens the plant's first run in the runs list", () => {
+    const first = runs[0];
+    if (first === undefined) throw new Error("no runs");
+    expect(plantRoute(first.plant_record_id, runs)).toEqual({
+      name: "shortlist",
+      runId: first.id,
+    });
+  });
+
+  it("opens the runs list for a plant with no run", () => {
+    expect(plantRoute("plant:other:0123456789abcdef", runs)).toEqual({
+      name: "runs",
+    });
   });
 });

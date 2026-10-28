@@ -62,16 +62,21 @@ describe("Shell header", () => {
     expect(window.location.hash).toBe(
       buildHash({ name: "shortlist", runId: other }),
     );
+    // plant input is not on the site yet, so a plant opens its first run's shortlist
+    const plant = must(plants.plants[0]).plant_record_id;
+    const first = must(runs.runs.find((r) => r.plant_record_id === plant));
     const plantSelect = await screen.findByLabelText("Plant");
-    fireEvent.change(plantSelect, {
-      target: { value: must(plants.plants[0]).plant_record_id },
-    });
+    fireEvent.change(plantSelect, { target: { value: plant } });
     expect(window.location.hash).toBe(
-      buildHash({
-        name: "plant",
-        plantId: must(plants.plants[0]).plant_record_id,
-      }),
+      buildHash({ name: "shortlist", runId: first.id }),
     );
+  });
+
+  it("links the brand to the runs list, never to a screen not yet built", () => {
+    shell();
+    expect(
+      screen.getByRole("link", { name: "Guideword" }).getAttribute("href"),
+    ).toBe(buildHash({ name: "runs" }));
   });
 
   it("shows the run's label, status, step and its spend against its cap, traced", async () => {

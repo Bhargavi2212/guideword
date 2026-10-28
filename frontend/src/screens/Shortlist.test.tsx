@@ -45,6 +45,18 @@ describe("Shortlist (spec 5.1)", () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
+  it("offers the worksheet and the run record for download", async () => {
+    await shortlist();
+    expect(
+      within(screen.getByRole("list", { name: "Export" }))
+        .getAllByRole("link")
+        .map((a) => a.getAttribute("href")),
+    ).toEqual([
+      `/runs/${encodeURIComponent(RUN)}/export.xlsx`,
+      `/runs/${encodeURIComponent(RUN)}/export/run.json`,
+    ]);
+  });
+
   it("shows the three tiers in order, each card where the server put it", async () => {
     await shortlist();
     const headings = screen
