@@ -102,13 +102,14 @@ export function Shell({
             ) : null}
           </>
         ) : null}
-        {budget.data !== null && !recorded ? (
+        {budget.data !== null && budget.data.live_run_available && !recorded ? (
           <span className="budget" aria-label="Budget">
-            {budget.data.uses
-              .filter((u) => budget.data?.api_run_uses.includes(u.use))
-              .map((u) => `${u.use} ${money(u.remaining_usd)} left`)
-              .join(" · ")}
-            {` · phase ${budget.data.api_run_phase.phase} ${money(budget.data.api_run_phase.remaining_usd)} left`}
+            {[
+              ...budget.data.uses
+                .filter((u) => budget.data?.api_run_uses.includes(u.use))
+                .map((u) => `${u.use} ${money(u.remaining_usd)} left`),
+              `phase ${budget.data.api_run_phase.phase} ${money(budget.data.api_run_phase.remaining_usd)} left`,
+            ].join(" · ")}
           </span>
         ) : null}
         {recorded ? null : (

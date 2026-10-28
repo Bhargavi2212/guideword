@@ -196,16 +196,24 @@ export function RunStart() {
           </tbody>
         </table>
       ) : null}
-      <h3>Start a run</h3>
+      {/* where live runs are off (the public site), there is no start form at all (F6) */}
       {budget.error !== null || plants.error !== null ? (
-        <p role="alert">
-          {`The start form could not be loaded: ${(budget.error ?? plants.error)?.detail ?? ""}`}
-        </p>
-      ) : budget.data !== null && plants.data !== null ? (
-        <StartForm budget={budget.data} plants={plants.data} />
-      ) : (
-        <p className="muted">Loading…</p>
-      )}
+        <>
+          <h3>Start a run</h3>
+          <p role="alert">
+            {`The start form could not be loaded: ${(budget.error ?? plants.error)?.detail ?? ""}`}
+          </p>
+        </>
+      ) : budget.data?.live_run_available === true ? (
+        <>
+          <h3>Start a run</h3>
+          {plants.data !== null ? (
+            <StartForm budget={budget.data} plants={plants.data} />
+          ) : (
+            <p className="muted">Loading…</p>
+          )}
+        </>
+      ) : null}
     </section>
   );
 }

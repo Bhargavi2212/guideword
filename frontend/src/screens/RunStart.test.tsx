@@ -1,4 +1,11 @@
-import { fireEvent, render, screen, within } from "@testing-library/react";
+import {
+  act,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+  within,
+} from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 
 import budgetJson from "../../../contract/fixtures/budget.json";
@@ -135,11 +142,29 @@ describe("the start form (C6, C7, C13, G5–G7)", () => {
     ).toBe(buildHash({ name: "live", runId: startJson.run_id }));
   });
 
-  it("is refused with the server's reason where live runs are off", async () => {
-    await mount(budget);
-    fireEvent.change(field("Spend cap (USD)"), { target: { value: "0.1" } });
-    fireEvent.change(field("Post cap (USD)"), { target: { value: "0.1" } });
-    expect(refusals()).toEqual(["Mock mode: no live runs."]);
-    expect(startButton()).toHaveProperty("disabled", true);
+  it("is hidden, with its heading, where live runs are off (F6)", async () => {
+    const fake = fakeFetch({
+      "/runs": { body: runs },
+      "/budget": { body: budget },
+      "/plants": { body: plants },
+    });
+    render(
+      <AppProvider client={new ApiClient("", fake.impl)}>
+        <RunStart />
+      </AppProvider>,
+    );
+    await screen.findAllByRole("link", { name: "Replay" });
+    await waitFor(() =>
+      expect(fake.calls.map((c) => c.path)).toEqual(
+        expect.arrayContaining(["/budget", "/plants"]),
+      ),
+    );
+    // let both answers land before looking
+    await act(async () => {
+      await new Promise((r) => setTimeout(r, 0));
+    });
+    expect(screen.queryByRole("form", { name: "Start a run" })).toBeNull();
+    expect(screen.queryByText("Start a run")).toBeNull();
+    expect(screen.queryByText("Loading…")).toBeNull();
   });
 });

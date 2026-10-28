@@ -1,4 +1,11 @@
-import { act, fireEvent, render, screen, within } from "@testing-library/react";
+import {
+  act,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+  within,
+} from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
 import budget from "../../../contract/fixtures/budget.json";
@@ -19,13 +26,22 @@ const plants = fixture<PlantList>(plantList);
 const runs = fixture<RunList>(runList);
 const detail = fixture<RunDetail>(runDetail);
 const RUN = detail.run.id;
+// the fixture is mock mode, live runs off; the header's budget shows only where they are on
+const LIVE: Budget = {
+  ...fixture<Budget>(budget),
+  live_run_available: true,
+  message: null,
+};
 
-function shell(route = { name: "shortlist" as const, runId: RUN }) {
+function shell(
+  route = { name: "shortlist" as const, runId: RUN },
+  served: Budget = LIVE,
+) {
   const fake = fakeFetch({
     "/plants": { body: plants },
     "/runs": { body: runs },
     [`/runs/${encodeURIComponent(RUN)}`]: { body: detail },
-    "/budget": { body: fixture<Budget>(budget) },
+    "/budget": { body: served },
   });
   render(
     <AppProvider client={new ApiClient("", fake.impl)}>
@@ -99,6 +115,25 @@ describe("Shell header", () => {
     expect(lines.textContent).toContain("development $5.00 left");
     expect(lines.textContent).toContain("video $2.00 left");
     expect(lines.textContent).toContain("phase 5 $0.50 left");
+  });
+
+  it("hides the budget where live runs are off (F6)", async () => {
+    shell(undefined, fixture<Budget>(budget));
+    await screen.findByRole("status");
+    await screen.findByLabelText("Engineer");
+    await waitFor(() =>
+      expect(document.querySelector(".brand")).not.toBeNull(),
+    );
+    await act(async () => {
+      await new Promise((r) => setTimeout(r, 0));
+    });
+    expect(screen.queryByLabelText("Budget")).toBeNull();
+  });
+
+  it("starts the budget with no stray separator when no use is offered (F6)", async () => {
+    shell(undefined, { ...LIVE, api_run_uses: [] });
+    const lines = await screen.findByLabelText("Budget");
+    expect(lines.textContent).toBe("phase 5 $0.50 left");
   });
 });
 
