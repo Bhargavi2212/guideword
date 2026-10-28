@@ -5,7 +5,7 @@
 import type { CoverageLine, Question } from "../api/schema";
 
 // the `sections` line counts sections; every other line counts questions (backend coverage.py)
-const SECTIONS = "sections";
+export const SECTIONS = "sections";
 
 const NAMES: Record<string, string> = {
   sections: "Sections",

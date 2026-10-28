@@ -45,7 +45,7 @@ const refusals = () =>
     .map((li) => li.textContent);
 
 describe("the runs list", () => {
-  it("opens each run's replay and shortlist", async () => {
+  it("opens each run's replay, shortlist and coverage", async () => {
     await mount();
     const hrefs = (name: string) =>
       screen.getAllByRole("link", { name }).map((a) => a.getAttribute("href"));
@@ -54,6 +54,9 @@ describe("the runs list", () => {
     );
     expect(hrefs("Shortlist")).toEqual(
       runs.runs.map((r) => buildHash({ name: "shortlist", runId: r.id })),
+    );
+    expect(hrefs("Coverage")).toEqual(
+      runs.runs.map((r) => buildHash({ name: "coverage", runId: r.id })),
     );
   });
 });

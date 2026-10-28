@@ -86,6 +86,47 @@ describe("the coverage table (spec 5.4)", () => {
       "Checked 97 of 99 questions · 7 of 9 sections",
     );
   });
+
+  it("opens a list's own questions from its count, each traced (C12)", async () => {
+    const matrix = questions.questions.filter((q) => q.kind === "matrix");
+    const fake = mount({
+      [`${base}/questions?kind=matrix`]: {
+        body: { ...questions, questions: matrix },
+      },
+    });
+    const count = await screen.findByRole("button", {
+      name: "79 of 79 matrix questions",
+    });
+    expect(count.getAttribute("aria-expanded")).toBe("false");
+    fireEvent.click(count);
+    const list = await screen.findByRole("list", { name: "Matrix questions" });
+    await within(list).findAllByRole("button");
+    expect(
+      within(list)
+        .getAllByRole("button")
+        .map((b) => b.getAttribute("data-record-id")),
+    ).toEqual(matrix.map((q) => q.id));
+    expect(count.getAttribute("aria-expanded")).toBe("true");
+    expect(
+      fake.calls.some((c) => c.path === `${base}/questions?kind=matrix`),
+    ).toBe(true);
+    fireEvent.click(count);
+    expect(screen.queryByRole("list", { name: "Matrix questions" })).toBeNull();
+  });
+
+  it("opens the sections line to the run's sections, each traced", async () => {
+    mount();
+    fireEvent.click(
+      await screen.findByRole("button", { name: "7 of 9 sections" }),
+    );
+    const list = await screen.findByRole("list", { name: "Sections" });
+    await within(list).findAllByRole("button");
+    expect(
+      within(list)
+        .getAllByRole("button")
+        .map((b) => b.getAttribute("data-record-id")),
+    ).toEqual(sections.sections.map((s) => s.id));
+  });
 });
 
 describe("failed questions", () => {

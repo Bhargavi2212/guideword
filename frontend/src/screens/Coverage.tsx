@@ -9,6 +9,7 @@ import { useResource } from "../api/hooks";
 import type {
   AddQuestionRequest,
   Coverage as CoverageBody,
+  CoverageLine,
   Question,
   QuestionCreated,
   QuestionList,
@@ -16,7 +17,12 @@ import type {
   RunSections,
 } from "../api/schema";
 import { useApp } from "../app/context";
-import { coverageTotals, failedRows, listName } from "../model/coverage";
+import {
+  coverageTotals,
+  failedRows,
+  listName,
+  SECTIONS,
+} from "../model/coverage";
 import { Traced } from "../ui/Traced";
 
 export function Coverage({ runId }: { runId: string }) {
@@ -64,17 +70,7 @@ export function Coverage({ runId }: { runId: string }) {
         </thead>
         <tbody>
           {lists.map((l) => (
-            <tr key={l.list} data-list={l.list}>
-              <th scope="row">{listName(l.list)}</th>
-              <td>
-                <meter min={0} max={Math.max(l.total, 1)} value={l.checked} />{" "}
-                {`${String(l.checked)} of ${String(l.total)}`}
-              </td>
-              <td>{String(l.unsure)}</td>
-              <td className={l.failed > 0 ? "bad" : undefined}>
-                {String(l.failed)}
-              </td>
-            </tr>
+            <ListRow key={l.list} line={l} base={base} />
           ))}
         </tbody>
       </table>
@@ -99,6 +95,95 @@ export function Coverage({ runId }: { runId: string }) {
         onChange={coverage.reload}
       />
     </section>
+  );
+}
+
+// a count opens its list's own records (C12): the sections line its sections, any other line
+// the questions of that kind
+function ListRow({ line, base }: { line: CoverageLine; base: string }) {
+  const [open, setOpen] = useState(false);
+  const name = listName(line.list);
+  const counted =
+    line.list === SECTIONS ? "sections" : `${name.toLowerCase()} questions`;
+  return (
+    <>
+      <tr data-list={line.list}>
+        <th scope="row">{name}</th>
+        <td>
+          <meter min={0} max={Math.max(line.total, 1)} value={line.checked} />{" "}
+          <button
+            type="button"
+            className="count-link"
+            aria-expanded={open}
+            aria-label={`${String(line.checked)} of ${String(line.total)} ${counted}`}
+            onClick={() => setOpen((o) => !o)}
+          >
+            {`${String(line.checked)} of ${String(line.total)}`}
+          </button>
+        </td>
+        <td>{String(line.unsure)}</td>
+        <td className={line.failed > 0 ? "bad" : undefined}>
+          {String(line.failed)}
+        </td>
+      </tr>
+      {open ? (
+        <tr className="list-records">
+          <td colSpan={4}>
+            {line.list === SECTIONS ? (
+              <SectionRecords base={base} />
+            ) : (
+              <QuestionRecords base={base} list={line.list} name={name} />
+            )}
+          </td>
+        </tr>
+      ) : null}
+    </>
+  );
+}
+
+function QuestionRecords({
+  base,
+  list,
+  name,
+}: {
+  base: string;
+  list: string;
+  name: string;
+}) {
+  const served = useResource<QuestionList>(
+    `${base}/questions?kind=${encodeURIComponent(list)}`,
+  );
+  if (served.error !== null)
+    return <p className="error">{errorMessage(served.error)}</p>;
+  if (served.data === null) return <p>Loading…</p>;
+  if (served.data.questions.length === 0)
+    return <p className="muted">No questions in this list.</p>;
+  return (
+    <ul className="list-questions" aria-label={`${name} questions`}>
+      {served.data.questions.map((q) => (
+        <li key={q.id}>
+          <Traced id={q.id}>{q.id}</Traced>{" "}
+          <span className="question-status">{q.status}</span>{" "}
+          <span>{q.text}</span>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+function SectionRecords({ base }: { base: string }) {
+  const served = useResource<RunSections>(`${base}/sections`);
+  if (served.error !== null)
+    return <p className="error">{errorMessage(served.error)}</p>;
+  if (served.data === null) return <p>Loading…</p>;
+  return (
+    <ul className="list-questions" aria-label="Sections">
+      {served.data.sections.map((s) => (
+        <li key={s.id}>
+          <Traced id={s.id}>{s.id}</Traced> <span>{s.name}</span>
+        </li>
+      ))}
+    </ul>
   );
 }
 
