@@ -13,12 +13,14 @@ import {
   LONGEST_PAUSE_MS,
   MAX_STEP_MS,
   endState,
+  eventLine,
   eventsIn,
   findingsCount,
   gapBefore,
   groupTimeline,
   latestCoverage,
   modelMix,
+  recordIdOf,
   replayDelays,
   spentSoFar,
   tierChip,
@@ -275,5 +277,57 @@ describe("replay timing (P5-4)", () => {
     for (const mark of marks)
       expect(mark).toMatch(/^(\d+ h )?(\d+ min )?later$/);
     expect(gapBefore(page, 1)).toBeNull();
+  });
+});
+
+describe("eventLine and recordIdOf", () => {
+  const first = (events: readonly ApiEvent[], type: string) =>
+    events.find((e) => e.type === type) as ApiEvent;
+
+  it("says what each kind of event did, in one line", () => {
+    expect(eventLine(first(page, "run_started"))).toBe(
+      "Run started: attempt 1, 98 questions in 9 sections",
+    );
+    expect(eventLine(first(page, "dispatch"))).toMatch(
+      /^Dispatch to chemistry \(bulk\): 7 questions, selected by code/,
+    );
+    expect(eventLine(first(page, "hypothesis_dropped"))).toBe(
+      "Hypothesis #3 dropped: rank 3: TANK-9 not in this plant",
+    );
+    expect(eventLine(first(page, "cap_hit"))).toBe(
+      "Post cap hit: run run:eaf6f55e4d2a4a30 limit $0.00 would be exceeded",
+    );
+    expect(eventLine(first(page, "run_finished"))).toBe(
+      "Run finished: spent <$0.01",
+    );
+    expect(eventLine(first(failed, "run_failed"))).toBe(
+      "Run failed at the analysis step",
+    );
+  });
+
+  it("gives every event of every fixture a line", () => {
+    for (const events of [page, failed, ...LEGACY.map(([, e]) => e)])
+      for (const event of events) expect(eventLine(event)).not.toBe("");
+  });
+
+  it("names a payload the server could not read", () => {
+    const bad = {
+      ...(page[0] as ApiEvent),
+      payload: {},
+      payload_invalid: true,
+      payload_error: "missing attempt",
+    } as ApiEvent;
+    expect(eventLine(bad)).toBe(
+      "run_started: payload not readable (missing attempt)",
+    );
+  });
+
+  it("links an event to the record it made", () => {
+    expect(recordIdOf(first(page, "finding_added"))).toBe(
+      (first(page, "finding_added").payload as { finding_id: string })
+        .finding_id,
+    );
+    expect(recordIdOf(first(page, "model_call"))).toMatch(/^mc:/);
+    expect(recordIdOf(first(page, "run_started"))).toBeNull();
   });
 });

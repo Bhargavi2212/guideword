@@ -53,7 +53,12 @@ type Payloads = {
   run_failed: S["RunFailed"];
   hypothesis_added: S["HypothesisAdded"] | S["LegacyHypothesisAdded"];
   hypothesis_dropped: S["HypothesisDropped"];
-  run_extended: { step?: string; rerun_from?: string; evidence_only?: boolean };
+  run_extended: {
+    post_spend_cap_usd?: number;
+    step?: string;
+    rerun_from?: string;
+    evidence_only?: boolean;
+  };
   calculations_reattached: S["CalculationsReattached"];
 };
 export type EventType = keyof Payloads;
@@ -179,6 +184,141 @@ export function eventsIn(items: readonly TimelineItem[]): ApiEvent[] {
           ],
     )
     .sort((a, b) => a.seq - b.seq);
+}
+
+// ---- one line per event ------------------------------------------------------------------
+
+/** The record an event made or names, for the drawer; null for the run's own events. */
+export function recordIdOf(event: ApiEvent): string | null {
+  if (event.payload_invalid) return null;
+  const p = event.payload as Record<string, unknown>;
+  for (const key of RECORD_KEYS) {
+    const value = p[key];
+    if (typeof value === "string") return value;
+  }
+  return null;
+}
+
+const RECORD_KEYS = [
+  "finding_id",
+  "chain_id",
+  "lopa_id",
+  "evidence_id",
+  "hypothesis_id",
+  "model_call_id",
+  "tool_call_id",
+  "step_id",
+] as const;
+
+const plural = (n: number, one: string, many = `${one}s`) =>
+  `${String(n)} ${n === 1 ? one : many}`;
+
+/** What an event did, in one line, from its payload alone. */
+export function eventLine(event: ApiEvent): string {
+  if (event.payload_invalid)
+    return `${event.type}: payload not readable (${event.payload_error ?? "no reason given"})`;
+  switch (event.type) {
+    case "run_started": {
+      const p = event.payload as Payloads["run_started"];
+      return `Run started: attempt ${String(p.attempt)}, ${plural(p.questions, "question")} in ${plural(p.sections, "section")}`;
+    }
+    case "step_started":
+      return `Step ${(event.payload as Payloads["step_started"]).step}`;
+    case "step_finished": {
+      const p = event.payload as Payloads["step_finished"];
+      return p.status === "running"
+        ? `Step ${p.step} done; next: ${p.next_step}`
+        : `Step ${p.step} done; run ${p.status.replace(/_/g, " ")}`;
+    }
+    case "agent_decision": {
+      const p = event.payload as Payloads["agent_decision"];
+      return `${p.agent} → ${p.tool}: ${p.reason}`;
+    }
+    case "dispatch": {
+      const p = event.payload as Payloads["dispatch"];
+      const parts = [
+        plural(p.question_ids.length, "question"),
+        p.selected_by_code
+          ? "selected by code"
+          : "selected by the orchestrator",
+      ];
+      if (p.priority) parts.push("priority");
+      if (p.batches !== undefined)
+        parts.push(plural(p.batches, "batch", "batches"));
+      return `Dispatch to ${p.agent} (${p.level}): ${parts.join(", ")}`;
+    }
+    case "model_call": {
+      const p = event.payload as Payloads["model_call"];
+      const parts = [
+        p.job,
+        p.cache_hit ? "cache hit" : null,
+        money(p.cost_usd),
+      ];
+      if (p.outcome !== "ok") parts.push(p.outcome);
+      return parts.filter((x) => x !== null).join(" · ");
+    }
+    case "tool_call": {
+      const p = event.payload as Payloads["tool_call"];
+      return `Tool ${p.tool}${p.refused ? ": refused" : ""}`;
+    }
+    case "finding_added":
+      return `Finding on ${(event.payload as Payloads["finding_added"]).question_id}`;
+    case "chain_added":
+      return `Chain added: ${plural((event.payload as Payloads["chain_added"]).links, "link")}`;
+    case "lopa_done": {
+      const p = event.payload as Payloads["lopa_done"];
+      return `LOPA ${p.complete ? "complete" : "incomplete"} (${p.kind.replace(/_/g, " ")})`;
+    }
+    case "evidence_added": {
+      const p = event.payload as Payloads["evidence_added"];
+      return `Evidence (${p.kind}): ${p.verdict.replace(/_/g, " ")}`;
+    }
+    case "coverage_updated": {
+      const lines = (event.payload as Payloads["coverage_updated"]).lines;
+      const checked = lines.reduce((n, l) => n + l.checked, 0);
+      const total = lines.reduce((n, l) => n + l.total, 0);
+      return `Coverage: ${String(checked)} of ${String(total)} questions checked`;
+    }
+    case "cap_hit": {
+      const p = event.payload as Payloads["cap_hit"];
+      const name =
+        p.cap === "post"
+          ? "Post cap"
+          : p.cap === "analysis"
+            ? "Analysis cap"
+            : "Cap";
+      return `${name} hit: ${p.reason}`;
+    }
+    case "run_finished":
+      return `Run finished: spent ${money((event.payload as Payloads["run_finished"]).spent_usd)}`;
+    case "run_failed":
+      return `Run failed at the ${(event.payload as Payloads["run_failed"]).step} step`;
+    case "hypothesis_added":
+      return `Hypothesis #${String((event.payload as Payloads["hypothesis_added"]).rank)} added`;
+    case "hypothesis_dropped": {
+      const p = event.payload as Payloads["hypothesis_dropped"];
+      const rank = p.rank === null ? "" : ` #${String(p.rank)}`;
+      return `Hypothesis${rank} dropped: ${p.reason}`;
+    }
+    case "run_extended": {
+      const p = event.payload as Payloads["run_extended"];
+      const parts: string[] = [];
+      if (p.post_spend_cap_usd !== undefined)
+        parts.push(`post cap ${money(p.post_spend_cap_usd)}`);
+      if (p.rerun_from) parts.push(`rerun from ${p.rerun_from}`);
+      if (p.evidence_only) parts.push("evidence only");
+      return parts.length
+        ? `Run extended: ${parts.join(", ")}`
+        : "Run extended";
+    }
+    case "calculations_reattached": {
+      const p = event.payload as Payloads["calculations_reattached"];
+      return `Calculations re-attached ${p.date} (${p.commit}): ${String(p.superseded_ids.length)} superseded, ${String(p.added_ids.length)} added`;
+    }
+    default:
+      // a type a newer server sends that this build does not know
+      return (event as { type: string }).type;
+  }
 }
 
 // ---- side panel ---------------------------------------------------------------------------
