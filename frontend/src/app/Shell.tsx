@@ -12,6 +12,7 @@ import { LabelBanner } from "../ui/LabelBanner";
 import { RecordDrawer } from "../ui/RecordDrawer";
 import { Traced } from "../ui/Traced";
 import { useApp } from "./context";
+import { plantRoute } from "./landing";
 import { buildHash, type Route } from "./router";
 
 function runOf(route: Route): string | null {
@@ -48,13 +49,15 @@ export function Shell({
     <div className="shell">
       <header className="header">
         <h1 className="brand">
-          <a href={buildHash({ name: "plants" })}>Guideword</a>
+          <a href={buildHash({ name: "runs" })}>Guideword</a>
         </h1>
         <label>
           Plant
           <select
             value={plantId ?? ""}
-            onChange={(e) => go({ name: "plant", plantId: e.target.value })}
+            onChange={(e) =>
+              go(plantRoute(e.target.value, runs.data?.runs ?? []))
+            }
           >
             <option value="" disabled>
               choose a plant

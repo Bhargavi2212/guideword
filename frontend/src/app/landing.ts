@@ -52,3 +52,13 @@ export function bannerFor(
 ): string | null {
   return demoRun(demo, runId)?.banner ?? null;
 }
+
+/** Where a plant chosen in the header goes: its first run's shortlist in the runs list, or the
+ * runs list when it has none (plant input is not on the site yet; Bhargavi, 2026-10-27). */
+export function plantRoute(
+  plantId: string,
+  runs: readonly { id: string; plant_record_id: string }[],
+): Route {
+  const first = runs.find((r) => r.plant_record_id === plantId);
+  return first ? { name: "shortlist", runId: first.id } : { name: "runs" };
+}
