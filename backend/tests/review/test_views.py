@@ -434,3 +434,20 @@ def test_a_finding_with_an_unexpected_character_is_flagged(case: Case) -> None:
     assert "unexpected character in model text: U+6C34 (finding consequence)" in item.flags
     assert "unexpected character in model text: U+3002 (finding consequence)" in item.flags
     assert item.finding is not None and item.finding.consequence.endswith("水。")
+
+
+# --- model text with no closing punctuation (Bhargavi, 2026-10-28: F6 defect 7) ---------------
+
+
+def test_a_chain_cut_off_mid_sentence_is_flagged_and_kept_as_written(case: Case) -> None:
+    cut = case.chain.description.rstrip(".") + " and the"
+    case.chain = case.chain.model_copy(update={"description": cut})
+    item = next(i for i in case.items() if i.target_kind == "chain")
+    assert "text ends mid-sentence as stored (chain description)" in item.flags
+    assert item.chain is not None and item.chain.description == cut
+
+
+def test_a_chain_that_ends_its_sentence_has_no_such_flag(case: Case) -> None:
+    case.chain = case.chain.model_copy(update={"description": "The shell is isolated."})
+    item = next(i for i in case.items() if i.target_kind == "chain")
+    assert "text ends mid-sentence as stored (chain description)" not in item.flags

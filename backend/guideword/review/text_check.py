@@ -6,6 +6,10 @@ Such a character is named on the card by its code point; the text is never alter
 §3: model output is never edited in place).
 
 The expected scripts are the Unicode blocks below; anything else is flagged.
+
+Text the model writes as sentences that stops with no closing punctuation is flagged too
+(Bhargavi, 2026-10-28, F6 defect 7: G's chain text is cut off mid-word in the stored answer).
+A cause or a consequence is written as a phrase, so it is not checked.
 """
 
 from collections.abc import Iterable
@@ -47,4 +51,24 @@ def unexpected_flags(fields: Iterable[tuple[str, str | None]]) -> list[str]:
         for label, text in fields
         if text
         for code in unexpected_characters(text)
+    ]
+
+
+UNFINISHED_FLAG = "text ends mid-sentence as stored ({field})"
+# the closing punctuation a sentence ends on (the CJK full stop is flagged above on its own)
+SENTENCE_ENDS = (".", "!", "?", "…", "。")
+# closing brackets and quotes that may follow it: `(… kPa).` and `“closed.”` both end
+AFTER_END = ")]\"'”’"
+# fields written as phrases, never as sentences
+PHRASE_FIELDS = frozenset({"finding cause", "finding consequence", "hypothesis cause"})
+
+
+def unfinished_flags(fields: Iterable[tuple[str, str | None]]) -> list[str]:
+    """One flag per sentence field whose stored text has no closing punctuation."""
+    return [
+        UNFINISHED_FLAG.format(field=label)
+        for label, text in fields
+        if text
+        and label not in PHRASE_FIELDS
+        and not text.rstrip().rstrip(AFTER_END).endswith(SENTENCE_ENDS)
     ]

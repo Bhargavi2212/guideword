@@ -32,7 +32,7 @@ from guideword.review.overrides import (
     on_target,
     override_state,
 )
-from guideword.review.text_check import unexpected_flags
+from guideword.review.text_check import unexpected_flags, unfinished_flags
 from guideword.schema.enums import Confidence, EvidenceKind, Verdict
 from guideword.schema.plant import Plant
 from guideword.schema.records import (
@@ -231,7 +231,9 @@ def _item(line: ShortlistLine, rank: int, view: RunView, plant: Plant) -> api.Sh
     )
     flags += evidence_flags(evidence)
     via = _via(line, view, plant) if evidence else {}
-    flags += unexpected_flags(model_text(line, lead))
+    stored = model_text(line, lead)
+    flags += unexpected_flags(stored)
+    flags += unfinished_flags(stored)
     target = "chain" if chain is not None else "finding"
     if planned.target_kind != "hypothesis":
         flag = _state_flag(target, on_target(overrides, planned.target_id))
