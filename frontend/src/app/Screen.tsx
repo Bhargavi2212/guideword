@@ -2,6 +2,8 @@
 // so until then a route shows its name and which PR builds it.
 
 import { Detail } from "../screens/Detail";
+import { Live } from "../screens/Live";
+import { RunStart } from "../screens/RunStart";
 import { Shortlist } from "../screens/Shortlist";
 import type { Route } from "./router";
 
@@ -26,6 +28,8 @@ export function Screen({ route }: { route: Route }) {
       </section>
     );
   }
+  if (route.name === "runs") return <RunStart />;
+  if (route.name === "live") return <Live runId={route.runId} />;
   if (route.name === "shortlist") return <Shortlist runId={route.runId} />;
   if (route.name === "item")
     return <Detail runId={route.runId} targetId={route.targetId} />;

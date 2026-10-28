@@ -544,3 +544,141 @@ abbr.named-key {
   text-decoration: underline dotted;
   cursor: help;
 }
+
+/* the live run and its replay (spec 5.3, P5-4) */
+.replay-banner {
+  padding: 0.5rem 0.75rem;
+  border-left: 4px solid var(--ink-soft);
+  background: var(--accent-soft);
+}
+.replay-controls,
+.live-controls {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  margin: 0.5rem 0;
+}
+.replay-controls button[aria-pressed="true"] {
+  font-weight: 700;
+  outline: 2px solid currentColor;
+}
+.live-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 18rem;
+  gap: 1rem;
+  align-items: start;
+}
+@media (max-width: 800px) {
+  .live-body {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+.timeline {
+  max-height: 70vh;
+  overflow-y: auto;
+  margin: 0;
+  padding: 0 0.5rem 0 0;
+  list-style: none;
+  font-size: 0.875rem;
+}
+.timeline time {
+  margin-right: 0.5rem;
+  color: var(--ink-soft);
+  font-variant-numeric: tabular-nums;
+}
+.tl-step,
+.tl-event {
+  padding: 0.35rem 0;
+  border-bottom: 1px solid var(--line);
+}
+.tl-step-head {
+  font-weight: 600;
+}
+.tl-rows,
+.tl-calls ul,
+.tl-findings ul {
+  margin: 0.25rem 0 0 1.25rem;
+  padding: 0;
+  list-style: none;
+}
+.tl-calls {
+  margin: 0.25rem 0 0 1.25rem;
+}
+.tl-label,
+.tl-step-foot {
+  color: var(--ink-soft);
+}
+.tl-gap {
+  padding: 0.25rem 0;
+  text-align: center;
+  font-style: italic;
+  color: var(--ink-soft);
+}
+.chip-tier {
+  margin-right: 0.35rem;
+}
+.chip-tier-inferred,
+.chip-tier-unknown {
+  border-style: dashed;
+}
+.live-panel h3 {
+  margin: 0.75rem 0 0.25rem;
+  font-size: 0.9rem;
+}
+.coverage-bars {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.8rem;
+}
+.coverage-bars li {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0 0.5rem;
+  margin-bottom: 0.3rem;
+}
+.coverage-bars meter {
+  grid-column: 1 / -1;
+  width: 100%;
+}
+.coverage-bars .bar-count {
+  color: var(--ink-soft);
+}
+.model-mix {
+  font-size: 0.8rem;
+  border-collapse: collapse;
+}
+.model-mix td,
+.model-mix th {
+  padding: 0.1rem 0.5rem 0.1rem 0;
+  text-align: left;
+}
+.end-state {
+  margin-top: 1rem;
+  padding: 0.5rem 0.75rem;
+  border: 2px solid currentColor;
+  font-weight: 600;
+}
+.start-run {
+  display: grid;
+  gap: 0.5rem;
+  max-width: 32rem;
+}
+.start-run label {
+  display: grid;
+  gap: 0.15rem;
+}
+.refusals {
+  margin: 0;
+  padding-left: 1.25rem;
+}
+.run-list {
+  margin-bottom: 1.25rem;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+.run-list td,
+.run-list th {
+  padding: 0.2rem 0.75rem 0.2rem 0;
+  text-align: left;
+}
