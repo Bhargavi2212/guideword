@@ -305,6 +305,27 @@ describe("eventLine and recordIdOf", () => {
     );
   });
 
+  it("counts questions only in a coverage line; sections stand apart (F6)", () => {
+    const update = {
+      ...first(page, "coverage_updated"),
+      payload: {
+        lines: [
+          { list: "sections", checked: 7, total: 9 },
+          { list: "matrix", checked: 60, total: 79 },
+          { list: "chemical_pair", checked: 1, total: 84 },
+        ],
+      },
+    } as ApiEvent;
+    expect(eventLine(update)).toBe(
+      "Coverage: 61 of 163 questions checked · 7 of 9 sections",
+    );
+    const noSections = {
+      ...update,
+      payload: { lines: [{ list: "matrix", checked: 2, total: 3 }] },
+    } as ApiEvent;
+    expect(eventLine(noSections)).toBe("Coverage: 2 of 3 questions checked");
+  });
+
   it("gives every event of every fixture a line", () => {
     for (const events of [page, failed, ...LEGACY.map(([, e]) => e)])
       for (const event of events) expect(eventLine(event)).not.toBe("");

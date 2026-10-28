@@ -5,6 +5,7 @@
 import type { CoverageLine, EventsPage, Run } from "../api/schema";
 import type { components } from "../api/types";
 import { money } from "../format/number";
+import { coverageTotals } from "./coverage";
 
 type S = components["schemas"];
 
@@ -274,10 +275,13 @@ export function eventLine(event: ApiEvent): string {
       return `Evidence (${p.kind}): ${p.verdict.replace(/_/g, " ")}`;
     }
     case "coverage_updated": {
-      const lines = (event.payload as Payloads["coverage_updated"]).lines;
-      const checked = lines.reduce((n, l) => n + l.checked, 0);
-      const total = lines.reduce((n, l) => n + l.total, 0);
-      return `Coverage: ${String(checked)} of ${String(total)} questions checked`;
+      const { questions, sections } = coverageTotals(
+        (event.payload as Payloads["coverage_updated"]).lines,
+      );
+      const line = `Coverage: ${String(questions.checked)} of ${String(questions.total)} questions checked`;
+      return sections
+        ? `${line} · ${String(sections.checked)} of ${String(sections.total)} sections`
+        : line;
     }
     case "cap_hit": {
       const p = event.payload as Payloads["cap_hit"];
