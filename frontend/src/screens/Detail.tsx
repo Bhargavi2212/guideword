@@ -5,7 +5,7 @@
 import { useState } from "react";
 
 import { ApiError, errorMessage, overrideBlockedReason } from "../api/client";
-import { useFactValues, useResource } from "../api/hooks";
+import { useFactValues, useFindingCauses, useResource } from "../api/hooks";
 import type { Shortlist, ShortlistItem } from "../api/schema";
 import { useApp } from "../app/context";
 import { shownFlag } from "../model/evidence";
@@ -34,6 +34,7 @@ export function Detail({ runId, targetId }: Props) {
   // the plant's facts, so a calculation card and the chain flow show the values they used
   // (review plan R3, R4)
   const factValues = useFactValues(runId);
+  const causes = useFindingCauses(runId);
   const item =
     shortlist.data?.items.find((i) => i.target_id === targetId) ?? null;
 
@@ -102,7 +103,7 @@ export function Detail({ runId, targetId }: Props) {
         item={item}
         severityClasses={shortlist.data.severity_classes ?? []}
       />
-      <What item={item} factValues={factValues} />
+      <What item={item} factValues={factValues} causes={causes} />
       <Flags
         flags={[
           ...(item.flags ?? []).map(shownFlag),
@@ -176,9 +177,11 @@ function kindTitle(item: ShortlistItem): string {
 function What({
   item,
   factValues,
+  causes,
 }: {
   item: ShortlistItem;
   factValues: Record<string, unknown>;
+  causes: Record<string, string>;
 }) {
   const severity = severityOf(item);
   return (
@@ -190,8 +193,10 @@ function What({
           </Traced>
         </p>
       ) : null}
-      {item.chain ? <ChainWhat item={item} factValues={factValues} /> : null}
-      {item.finding ? <FindingWhat item={item} /> : null}
+      {item.chain ? (
+        <ChainWhat item={item} factValues={factValues} causes={causes} />
+      ) : null}
+      {item.finding ? <FindingWhat item={item} causes={causes} /> : null}
       {item.hypothesis ? (
         <>
           <p className="description">
@@ -218,9 +223,11 @@ function What({
 function ChainWhat({
   item,
   factValues,
+  causes,
 }: {
   item: ShortlistItem;
   factValues: Record<string, unknown>;
+  causes: Record<string, string>;
 }) {
   const chain = item.chain;
   if (!chain) return null;
@@ -238,13 +245,20 @@ function ChainWhat({
         links={chain.links}
         factValues={factValues}
         evidence={item.evidence ?? []}
+        causes={causes}
         label="Links"
       />
     </>
   );
 }
 
-function FindingWhat({ item }: { item: ShortlistItem }) {
+function FindingWhat({
+  item,
+  causes,
+}: {
+  item: ShortlistItem;
+  causes: Record<string, string>;
+}) {
   const finding = item.finding;
   if (!finding) return null;
   return (
@@ -257,8 +271,10 @@ function FindingWhat({ item }: { item: ShortlistItem }) {
       </dd>
       <dt>Cause</dt>
       <dd>
-        {finding.cause_id}
-        {finding.cause_text ? ` — ${finding.cause_text}` : ""}
+        {/* a library cause by the worksheet's words, never the bare code (F6) */}
+        {finding.cause_text
+          ? `${finding.cause_id} — ${finding.cause_text}`
+          : (causes[finding.id] ?? finding.cause_id)}
       </dd>
       <dt>Failing</dt>
       <dd>

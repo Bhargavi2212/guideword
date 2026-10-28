@@ -38,6 +38,8 @@ type Props = {
   severityClasses?: Shortlist["severity_classes"];
   // the plant's facts by ID, for the chain flow's stored values (review plan R4)
   factValues?: Record<string, unknown>;
+  // each finding's cause by ID, as the worksheet names it (F6)
+  causes?: Record<string, string>;
   // the demo moment: the line the landing marks "start here" (deploy plan D3)
   start?: boolean;
   onKeyDown: (event: KeyboardEvent<HTMLAnchorElement>) => void;
@@ -48,6 +50,7 @@ export function ShortlistCard({
   item,
   severityClasses = [],
   factValues = {},
+  causes = {},
   start = false,
   onKeyDown,
 }: Props) {
@@ -99,6 +102,7 @@ export function ShortlistCard({
           links={item.chain.links}
           factValues={factValues}
           evidence={item.evidence ?? []}
+          causes={causes}
         />
       ) : null}
       {item.lopa ? <LopaBar lopa={item.lopa} /> : null}

@@ -1,5 +1,5 @@
 // A chain as a flow (review plan R4): its links in stored order, boxes joined by arrows. Each
-// box shows its tag or step name and the fact's stored value; a valve stored closed is marked
+// box shows its tag or step name and the fact's stored value or the finding's cause; a valve stored closed is marked
 // "closed" in red; a calculation's result sits in the box on its equipment. Each box opens its
 // record (a finding, or a plant fact) in the drawer.
 
@@ -12,14 +12,17 @@ export function ChainFlow({
   links,
   factValues,
   evidence,
+  causes = {},
   label = "Chain flow",
 }: {
   links: readonly string[];
   factValues: Record<string, unknown>;
   evidence: readonly Evidence[];
+  // each finding's cause by ID, as the worksheet names it (F6)
+  causes?: Record<string, string>;
   label?: string;
 }) {
-  const boxes = chainFlow(links, factValues, evidence);
+  const boxes = chainFlow(links, factValues, evidence, causes);
   return (
     <ol className="chain-flow" aria-label={label}>
       {boxes.map((box) => (
@@ -32,6 +35,9 @@ export function ChainFlow({
             <span className="flow-name">{box.name}</span>
             {box.value !== null ? (
               <span className="flow-value">{box.value}</span>
+            ) : null}
+            {box.cause !== null ? (
+              <span className="flow-cause">{box.cause}</span>
             ) : null}
           </Traced>
           {box.calculations.map((c) => (

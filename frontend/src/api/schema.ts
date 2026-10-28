@@ -43,3 +43,4 @@ export type StartRunRequest = S["StartRunRequest"];
 export type StartRunResult = S["StartRunResult"];
 export type ToolCall = S["ToolCall"];
 export type UseBudget = S["UseBudget"];
+export type Worksheet = S["Worksheet"];

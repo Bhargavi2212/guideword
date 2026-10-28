@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 
 import { useApp } from "../app/context";
 import { ApiError } from "./client";
-import type { PlantDetail, RunDetail } from "./schema";
+import type { PlantDetail, RunDetail, Worksheet } from "./schema";
 
 export type Resource<T> = {
   data: T | null;
@@ -80,5 +80,18 @@ export function useFactValues(runId: string): Record<string, unknown> {
   );
   return Object.fromEntries(
     (plant.data?.facts ?? []).map((f) => [f.id, f.value]),
+  );
+}
+
+/** Each finding's cause as the run's worksheet names it (`C14 Wrong material charged … (P-1)`),
+ * by finding ID; empty until it loads (F6). */
+export function useFindingCauses(runId: string): Record<string, string> {
+  const sheet = useResource<Worksheet>(
+    `/runs/${encodeURIComponent(runId)}/worksheet`,
+  );
+  return Object.fromEntries(
+    (sheet.data?.rows ?? [])
+      .filter((r) => r.row_id.startsWith("f:"))
+      .map((r) => [r.row_id, r.causes]),
   );
 }

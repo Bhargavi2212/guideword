@@ -20,6 +20,8 @@ export type FlowBox = {
   value: string | null;
   /** a valve stored closed */
   closed: boolean;
+  /** a finding's cause as the worksheet names it; null for a fact or a cause not loaded */
+  cause: string | null;
   calculations: FlowCalculation[];
 };
 
@@ -67,12 +69,13 @@ export function factText(factId: string, value: unknown): string {
 
 const objectOf = (link: string) => link.split(".")[0] ?? link;
 
-/** The chain's links as boxes, in the stored order; each calculation in the first box on its
- * equipment. */
+/** The chain's links as boxes, in the stored order; each finding with its cause, and each
+ * calculation in the first box on its equipment. */
 export function chainFlow(
   links: readonly string[],
   factValues: Record<string, unknown>,
   evidence: readonly Evidence[],
+  causes: Record<string, string> = {},
 ): FlowBox[] {
   const boxes: FlowBox[] = links.map((link) => {
     const finding = link.startsWith("f:");
@@ -84,6 +87,7 @@ export function chainFlow(
       name: keyName(link),
       value: known ? factText(link, value) : null,
       closed: link.endsWith(".normal_position") && value === "closed",
+      cause: finding ? (causes[link] ?? null) : null,
       calculations: [],
     };
   });

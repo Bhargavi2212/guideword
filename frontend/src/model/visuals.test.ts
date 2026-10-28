@@ -74,6 +74,21 @@ describe("chainFlow (R4)", () => {
     ]);
   });
 
+  it("gives each finding box its cause as the worksheet names it (F6)", () => {
+    const [first, second] = chain.links.filter((l) => l.startsWith("f:"));
+    const causes = {
+      [must(first)]: "C16 Procedure step done early (P-REB-START-2)",
+    };
+    const shown = chainFlow(chain.links, facts, [], causes);
+    expect(shown.find((b) => b.id === first)?.cause).toBe(
+      "C16 Procedure step done early (P-REB-START-2)",
+    );
+    expect(shown.find((b) => b.id === second)?.cause).toBeNull();
+    for (const box of shown.filter((b) => b.kind === "fact"))
+      expect(box.cause).toBeNull();
+    expect(boxes.every((b) => b.cause === null)).toBe(true);
+  });
+
   it("shows no value for a link whose fact the plant doesn't hold", () => {
     expect(chainFlow(["Z-9.size_mm"], {}, [])[0]).toMatchObject({
       value: null,

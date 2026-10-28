@@ -48,6 +48,32 @@ describe("ChainFlow on the WG chain (R4)", () => {
       ).toBe(box.getAttribute("data-link"));
   });
 
+  it("writes each finding's cause in its box, inside the traced link (F6)", () => {
+    const findings = chain.links.filter((l) => l.startsWith("f:"));
+    const causes = Object.fromEntries(
+      findings.map((id, n) => [id, `C${String(n + 1)} cause ${String(n + 1)}`]),
+    );
+    show(
+      <ChainFlow
+        links={chain.links}
+        factValues={facts}
+        evidence={[]}
+        causes={causes}
+      />,
+    );
+    for (const id of findings) {
+      const box = must(document.querySelector(`[data-link="${id}"]`));
+      const cause = must(box.querySelector(".flow-cause"));
+      expect(cause.textContent).toBe(causes[id]);
+      expect(
+        cause.closest("[data-record-id]")?.getAttribute("data-record-id"),
+      ).toBe(id);
+    }
+    expect(document.querySelectorAll(".flow-cause")).toHaveLength(
+      findings.length,
+    );
+  });
+
   it("shows the four valves closed, in the closed style and in words", () => {
     show(<ChainFlow links={chain.links} factValues={facts} evidence={[]} />);
     const closed = Array.from(document.querySelectorAll(".flow-closed"));

@@ -848,6 +848,11 @@ h3 {
   font-family: var(--mono);
   color: var(--ink-soft);
 }
+.flow-cause {
+  display: block;
+  color: var(--ink-soft);
+  font-size: var(--fs-sm);
+}
 .flow-closed {
   border: 2px solid var(--bad);
   background: var(--bad-soft);

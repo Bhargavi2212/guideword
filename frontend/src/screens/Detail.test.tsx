@@ -1,7 +1,14 @@
-import { fireEvent, render, screen, within } from "@testing-library/react";
+import {
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+  within,
+} from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
 import shortlistJson from "../../../contract/fixtures/shortlist.json";
+import worksheetJson from "../../../contract/fixtures/worksheet.json";
 import { ApiClient } from "../api/client";
 import type { Shortlist, ShortlistItem } from "../api/schema";
 import { AppProvider } from "../app/context";
@@ -58,6 +65,7 @@ function mockDetail(prefix: string, list: Shortlist = mock) {
   const target = item(prefix).target_id;
   return detail(MOCK_RUN, target, {
     [`/runs/${enc(MOCK_RUN)}/shortlist`]: { body: list },
+    [`/runs/${enc(MOCK_RUN)}/worksheet`]: { body: worksheetJson },
     [`POST /runs/${enc(MOCK_RUN)}/overrides`]: {
       body: { override: {}, stored: true },
     },
@@ -191,6 +199,19 @@ describe("Detail (spec 5.2)", () => {
           .map((b) => b.getAttribute("data-record-id")),
       ).toEqual(pair.support_finding_ids);
     }
+  });
+
+  it("names a library cause by the worksheet's words, not its bare code (F6)", async () => {
+    const pair = item("f:pair:KOH:SIH:");
+    const finding = must(pair.finding);
+    expect(finding.cause_text).toBeNull();
+    const row = must(worksheetJson.rows.find((r) => r.row_id === finding.id));
+    mockDetail("f:pair:KOH:SIH:");
+    const term = await screen.findByText("Cause");
+    await waitFor(() =>
+      expect(term.nextElementSibling?.textContent).toBe(row.causes),
+    );
+    expect(row.causes.startsWith(`${finding.cause_id} `)).toBe(true);
   });
 
   it("titles each supporting finding, its raw key on hover (F6)", async () => {
