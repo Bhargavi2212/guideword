@@ -11,6 +11,7 @@ import { fixture } from "../test/fixtures";
 import demoJson from "../test/fixtures/wg_demo_item.json";
 import { calculationOf, isSkipped, skippedLine } from "../model/evidence";
 import { nameKeys, undoNames } from "../model/names";
+import { findingQuestion, questionTitle } from "../model/titles";
 import { must } from "../test/must";
 import { Detail } from "./Detail";
 
@@ -190,6 +191,22 @@ describe("Detail (spec 5.2)", () => {
           .map((b) => b.getAttribute("data-record-id")),
       ).toEqual(pair.support_finding_ids);
     }
+  });
+
+  it("titles each supporting finding, its raw key on hover (F6)", async () => {
+    const pair = item("f:pair:KOH:SIH:");
+    const ids = pair.support_finding_ids ?? [];
+    expect(ids.length).toBeGreaterThan(0);
+    mockDetail("f:pair:KOH:SIH:");
+    const list = await screen.findByRole("list", {
+      name: "Supporting findings",
+    });
+    const buttons = within(list).getAllByRole("button");
+    expect(buttons.map((b) => b.textContent)).toEqual(
+      ids.map((id) => questionTitle(findingQuestion(id))),
+    );
+    expect(buttons.map((b) => b.getAttribute("title"))).toEqual(ids);
+    expect(buttons[0]?.textContent).toBe("KOH and SIH mix");
   });
 });
 
@@ -447,6 +464,27 @@ describe("the demo moment on the WG final run (C2)", () => {
         "unexpected character in model text: U+4E92 (chain description)",
       ),
     ).toBeDefined();
+  });
+
+  it("shows the chain's reason with its keys named, raw on hover (F6)", async () => {
+    demoDetail(() => ({ body: {} }));
+    const reason = must(demo.item.chain?.reason);
+    const named = nameKeys(reason);
+    expect(undoNames(named)).toBe(reason);
+    const shown = must(
+      (
+        await screen.findAllByText(
+          (_, el) => el?.classList.contains("reason") === true,
+        )
+      ).find((el) => el.textContent.includes("creates heat input")),
+    );
+    expect(shown.textContent).toBe(named.text);
+    expect(shown.textContent).not.toContain("proc:P-REB-START-2:early");
+    const keys = Array.from(shown.querySelectorAll("abbr.named-key")).map((a) =>
+      a.getAttribute("title"),
+    );
+    expect(keys).toContain("proc:P-REB-START-2:early");
+    expect(keys).toContain("EA-425B.design_pressure_kpa");
   });
 
   it("opens HV-B-SIN.normal_position in the drawer with its value and source", async () => {

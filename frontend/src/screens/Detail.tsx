@@ -10,7 +10,7 @@ import type { Shortlist, ShortlistItem } from "../api/schema";
 import { useApp } from "../app/context";
 import { shownFlag } from "../model/evidence";
 import { chainHandleFlag, leadText, severityOf } from "../model/shortlist";
-import { questionTitle } from "../model/titles";
+import { findingQuestion, questionTitle } from "../model/titles";
 import { lineTitle } from "../model/titles";
 import { ChainFlow } from "../ui/ChainFlow";
 import { Chip } from "../ui/Chip";
@@ -116,7 +116,7 @@ export function Detail({ runId, targetId }: Props) {
           <ul aria-labelledby="support-title">
             {(item.support_finding_ids ?? []).map((id) => (
               <li key={id}>
-                <Traced id={id}>{id}</Traced>
+                <Traced id={id}>{questionTitle(findingQuestion(id))}</Traced>
               </li>
             ))}
           </ul>
@@ -230,7 +230,9 @@ function ChainWhat({
       <p className="description">
         <NamedText text={chain.description} traceId={chain.id} />
       </p>
-      <p className="reason">{chain.reason}</p>
+      <p className="reason">
+        <NamedText text={chain.reason} traceId={chain.id} />
+      </p>
       <h3>Links</h3>
       <ChainFlow
         links={chain.links}
