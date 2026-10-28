@@ -156,6 +156,10 @@ export function RunStart() {
   const runs = useResource<RunList>("/runs");
   const budget = useResource<Budget>("/budget");
   const plants = useResource<PlantList>("/plants");
+  // the plant's name in the runs list; its record ID on hover (F6)
+  const plantNames = new Map(
+    (plants.data?.plants ?? []).map((p) => [p.plant_record_id, p.plant_id]),
+  );
   return (
     <section>
       <h2>Runs</h2>
@@ -177,7 +181,11 @@ export function RunStart() {
             {runs.data.runs.map((run) => (
               <tr key={run.id}>
                 <td>{run.id}</td>
-                <td>{run.plant_record_id}</td>
+                <td>
+                  <abbr className="named-key" title={run.plant_record_id}>
+                    {plantNames.get(run.plant_record_id) ?? run.plant_record_id}
+                  </abbr>
+                </td>
                 <td>{run.status.replace(/_/g, " ")}</td>
                 <td>{money(run.spent_usd)}</td>
                 <td>

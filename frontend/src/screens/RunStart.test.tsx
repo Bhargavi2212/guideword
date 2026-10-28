@@ -18,6 +18,7 @@ import { AppProvider } from "../app/context";
 import { buildHash } from "../app/router";
 import { fakeFetch } from "../test/fakeFetch";
 import { fixture } from "../test/fixtures";
+import { must } from "../test/must";
 import { RunStart } from "./RunStart";
 
 const budget = fixture<Budget>(budgetJson);
@@ -65,6 +66,24 @@ describe("the runs list", () => {
     expect(hrefs("Coverage")).toEqual(
       runs.runs.map((r) => buildHash({ name: "coverage", runId: r.id })),
     );
+  });
+});
+
+describe("the runs list's plants (F6)", () => {
+  it("names each run's plant, its record ID on hover", async () => {
+    await mount();
+    const rows = screen.getAllByRole("row").slice(1);
+    const names = new Map(
+      plants.plants.map((p) => [p.plant_record_id, p.plant_id]),
+    );
+    expect(rows).toHaveLength(runs.runs.length);
+    runs.runs.forEach((run, n) => {
+      const cell = must(rows[n]).querySelectorAll("td")[1];
+      expect(cell?.textContent).toBe(names.get(run.plant_record_id));
+      expect(cell?.querySelector("[title]")?.getAttribute("title")).toBe(
+        run.plant_record_id,
+      );
+    });
   });
 });
 
