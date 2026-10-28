@@ -538,3 +538,9 @@ select {
   align-items: center;
   margin: 4px 0;
 }
+
+/* a named record key (Q7): the raw key on hover */
+abbr.named-key {
+  text-decoration: underline dotted;
+  cursor: help;
+}

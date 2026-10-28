@@ -15,7 +15,7 @@ import type {
 import { useApp } from "../app/context";
 import { shownFlag } from "../model/evidence";
 import { keyName } from "../model/names";
-import { leadText, severityOf } from "../model/shortlist";
+import { chainHandleFlag, leadText, severityOf } from "../model/shortlist";
 import { questionTitle } from "../model/titles";
 import { lineTitle } from "../model/titles";
 import { Chip } from "../ui/Chip";
@@ -114,7 +114,10 @@ export function Detail({ runId, targetId }: Props) {
       />
       <What item={item} />
       <Flags
-        flags={(item.flags ?? []).map(shownFlag)}
+        flags={[
+          ...(item.flags ?? []).map(shownFlag),
+          ...[chainHandleFlag(item)].filter((f): f is string => f !== null),
+        ]}
         traceId={item.target_id}
       />
       {(item.support_finding_ids ?? []).length > 0 ? (
