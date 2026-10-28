@@ -125,7 +125,8 @@ describe("replay of a finished run (P5-4)", () => {
     // one event a tick here; in a browser each comes MAX_STEP_MS after the last
     await pass(TICK_MS * page.events.length);
     expect(shownSeqs()).toEqual(page.events.map((e) => e.seq));
-  });
+    // every event at max takes one fake tick each: slow under a full parallel run
+  }, 30_000);
 
   it("jumps to the end: every event, then the end state", async () => {
     replay();

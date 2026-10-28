@@ -117,7 +117,10 @@ export function lineTitle(item: ShortlistItem): string {
     const findings = (item.chain?.links ?? []).filter((l) =>
       l.startsWith("f:"),
     );
-    const titles = findings.map((f) => questionTitle(findingQuestion(f)));
+    // two findings on one question read as one title, said once (D #6)
+    const titles = findings
+      .map((f) => questionTitle(findingQuestion(f)))
+      .filter((t, n, all) => all.indexOf(t) === n);
     return `${String(findings.length)} failures together: ${titles.join(" and ")}`;
   }
   return questionTitle(

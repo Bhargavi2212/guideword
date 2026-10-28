@@ -79,9 +79,10 @@ describe("Detail (spec 5.2)", () => {
     const chain = must(item("ch:").chain);
     mockDetail("ch:");
     const links = await screen.findByRole("list", { name: "Links" });
-    const traced = within(links)
-      .getAllByRole("button")
-      .map((b) => b.getAttribute("data-record-id"));
+    // each box's first traced span is its link (a calculation in a box is traced to itself)
+    const traced = Array.from(links.querySelectorAll(":scope > li")).map((li) =>
+      li.querySelector("[data-record-id]")?.getAttribute("data-record-id"),
+    );
     expect(traced).toEqual(chain.links);
   });
 
