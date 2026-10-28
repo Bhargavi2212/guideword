@@ -20,6 +20,19 @@
   --sans: "Segoe UI", system-ui, -apple-system, sans-serif;
   --radius: 4px;
   --gap: 12px;
+  /* the type scale (review plan R4): every size on the screens is one of these */
+  --fs-xs: 12px;
+  --fs-sm: 13px;
+  --fs-base: 15px;
+  --fs-md: 17px;
+  --fs-lg: 20px;
+  --fs-xl: 24px;
+  /* one severity scale, S1 (least) to S5 (worst); the code is always written too */
+  --sev-1: #4f6f5c;
+  --sev-2: #6b6a2a;
+  --sev-3: #9a5b00;
+  --sev-4: #b23a24;
+  --sev-5: #7f1418;
   color-scheme: light;
 }
 
@@ -38,6 +51,11 @@
     --bad-soft: #3d1d1f;
     --good: #8fd1ae;
     --good-soft: #193328;
+    --sev-1: #9cc5ab;
+    --sev-2: #c9c67a;
+    --sev-3: #f0b660;
+    --sev-4: #f08a6d;
+    --sev-5: #ff8f93;
     color-scheme: dark;
   }
 }
@@ -681,4 +699,191 @@ abbr.named-key {
 .run-list th {
   padding: 0.2rem 0.75rem 0.2rem 0;
   text-align: left;
+}
+
+/* --- review plan R4: the visual pass -------------------------------------------------- */
+
+h2 {
+  font-size: var(--fs-xl);
+}
+h3 {
+  font-size: var(--fs-lg);
+}
+.card-title,
+.detail .description {
+  font-size: var(--fs-md);
+}
+.card-lead {
+  font-size: var(--fs-base);
+}
+.chip,
+.badge,
+.card-tech,
+.card-evidence {
+  font-size: var(--fs-sm);
+}
+
+/* severity: the colour scale, with the border growing for S4 and S5 so it never rests on
+   colour alone */
+.chip-severity-S1 {
+  color: var(--sev-1);
+  border-color: var(--sev-1);
+}
+.chip-severity-S2 {
+  color: var(--sev-2);
+  border-color: var(--sev-2);
+}
+.chip-severity-S3 {
+  color: var(--sev-3);
+  border-color: var(--sev-3);
+}
+.chip-severity-S4 {
+  color: var(--sev-4);
+  border-color: var(--sev-4);
+}
+.chip-severity-S5 {
+  color: var(--sev-5);
+  border-color: var(--sev-5);
+  border-width: 3px;
+}
+
+.tiers {
+  gap: 28px;
+}
+.card {
+  display: grid;
+  gap: 8px;
+  padding: 14px 18px;
+  margin-bottom: 14px;
+}
+.card > * {
+  margin: 0;
+}
+
+/* the chain flow: boxes joined by arrows, in stored order */
+.chain-flow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 6px 26px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.flow-box {
+  position: relative;
+  display: grid;
+  align-content: start;
+  gap: 2px;
+  min-width: 8rem;
+  max-width: 16rem;
+  padding: 6px 10px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  font-size: var(--fs-sm);
+}
+.flow-box:not(:last-child)::after {
+  content: "→";
+  position: absolute;
+  right: -21px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--ink-soft);
+  font-size: var(--fs-md);
+}
+.flow-finding {
+  border-style: dashed;
+  border-color: var(--accent);
+}
+.flow-name {
+  display: block;
+  font-weight: 600;
+}
+.flow-value {
+  display: block;
+  font-family: var(--mono);
+  color: var(--ink-soft);
+}
+.flow-closed {
+  border: 2px solid var(--bad);
+  background: var(--bad-soft);
+}
+.flow-closed .flow-value {
+  color: var(--bad);
+  font-weight: 700;
+}
+.flow-calc {
+  display: block;
+  margin-top: 4px;
+  padding-top: 4px;
+  border-top: 1px solid var(--line);
+  font-size: var(--fs-xs);
+}
+
+/* the LOPA bar */
+.lopa-bar {
+  margin: 0;
+  max-width: 720px;
+}
+.lopa-bar svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  font-size: 11px;
+  fill: var(--ink-soft);
+}
+.lopa-bar .traced:has(svg) {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  text-decoration: none;
+}
+.lopa-tick line {
+  stroke: var(--line);
+}
+.lopa-stair {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 3;
+}
+.lopa-tolerable {
+  stroke: var(--good);
+  stroke-width: 2;
+  stroke-dasharray: 6 4;
+}
+.lopa-tolerable-label {
+  fill: var(--good);
+  font-weight: 600;
+}
+.lopa-pfd {
+  fill: var(--accent);
+  font-weight: 600;
+}
+.lopa-uncredited text {
+  fill: var(--ink-soft);
+  text-decoration: line-through;
+}
+.lopa-cross {
+  stroke: var(--bad);
+  stroke-width: 2;
+}
+.lopa-gap line {
+  stroke: var(--bad);
+  stroke-width: 3;
+}
+.lopa-gap text {
+  fill: var(--bad);
+  font-weight: 700;
+}
+.lopa-steps {
+  margin: 4px 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--fs-sm);
+}
+.lopa-steps .lopa-uncredited {
+  color: var(--ink-soft);
 }
