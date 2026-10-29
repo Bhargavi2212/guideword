@@ -55,7 +55,7 @@ def test_report_with_opening_balance() -> None:
     assert "Tavily searches: 1" in report
     assert re.search(r"laptop spent:\s+\$1\.32", report)
     assert re.search(r"laptop remaining:\s+\$17\.68 of \$19\.00", report)
-    assert re.search(r"development\s+spent \$1\.32\s+remaining \$3\.68 of \$5\.00", report)
+    assert re.search(r"development\s+spent \$1\.32\s+remaining \$2\.82 of \$4\.14", report)
     assert "GLOBAL_BUDGET_USD: $25.00" in report
     assert "reconcile" in report.lower()
 
@@ -66,8 +66,8 @@ def test_limits_come_from_caps_and_settings(tmp_path: Path) -> None:
     caps = config_dir / "caps.yaml"
     text = caps.read_text(encoding="utf-8")
     text = text.replace(
-        "development: {environment: laptop, allowance_usd: 5.00}",
-        "development: {environment: laptop, allowance_usd: 10.00}",
+        "development: {environment: laptop, allowance_usd: 4.14}",
+        "development: {environment: laptop, allowance_usd: 9.14}",
     )
     text = text.replace("laptop: {allowance_usd: 19.00}", "laptop: {allowance_usd: 24.00}")
     caps.write_text(text, encoding="utf-8", newline="\n")

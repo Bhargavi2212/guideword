@@ -84,10 +84,12 @@ plant:
 
 # allowance by use, each enforced in its own environment's ledger
 uses:
-  development: {environment: laptop, allowance_usd: 5.00}
+  # Phase 7 (Bhargavi, 2026-10-29): $0.86 of development moved into benchmark so one post-fix
+  # case (Q) can start under the stop rule; not a benchmark continuation (docs/decisions.md)
+  development: {environment: laptop, allowance_usd: 4.14}
   # Phase 6 (Bhargavi, 2026-10-25): test_5's unspent $0.69 moved into benchmark
   test_5: {environment: laptop, allowance_usd: 6.81}
-  benchmark: {environment: laptop, allowance_usd: 5.19}
+  benchmark: {environment: laptop, allowance_usd: 6.05}
   video: {environment: laptop, allowance_usd: 2.00}
   demo_recording: {environment: hosted, allowance_usd: 1.00}
   judging: {environment: hosted, allowance_usd: 3.00}
@@ -107,6 +109,9 @@ phase_caps_usd:
   "5": 0.50
   # Phase 6 (Bhargavi, 2026-10-25): the held-out benchmark, the whole benchmark allowance
   "6": 5.19
+  # Phase 7 (Bhargavi, 2026-10-29): one post-fix held-out case, Q: a run cap, a post cap and both
+  # baselines, with the usual rounding room
+  "7": 1.80
 
 # Phase 5 (plan H7): the uses a run started through the API may take; the start form lists
 # them. Outside the run block, so not hashed into a run ID.
