@@ -194,6 +194,8 @@ def _later_tag(repo: Path, path: str, tag: str = "phase6-freeze-2") -> None:
         # the tooling's own tests and the decisions log change nothing a run executes
         "backend/tests/bench/test_runner.py",
         "docs/decisions.md",
+        # the frozen plant files' hashes: the freeze's own output, read from the main checkout
+        "bench/heldout-frozen.txt",
     ],
 )
 def test_a_later_tag_changing_only_bench_and_scripts_passes(repo: Path, path: str) -> None:
@@ -214,6 +216,8 @@ def test_a_later_tag_changing_only_bench_and_scripts_passes(repo: Path, path: st
         "backend/guideword/review/text_check.py",
         "frontend/src/screens/Shortlist.tsx",
         "reference/causes.csv",
+        "bench/test5/results.md",
+        "bench/heldout-seals.txt",
     ],
 )
 def test_a_later_tag_changing_anything_else_is_refused(
