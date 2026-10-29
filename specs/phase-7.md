@@ -77,6 +77,6 @@ routing, applicability or schema change. The reference version hash changes, as 
 
 ## Done when
 
-- [ ] 7.1 rows merged with the source on every row; loaders pass.
-- [ ] 7.2 tests written first and green; full suite, ruff, mypy green.
-- [ ] 7.3 decisions rows and sources note merged; README text in the publish PR.
+- [x] 7.1 rows merged with the source on every row; loaders pass.
+- [x] 7.2 tests written first and green; full suite, ruff, mypy green.
+- [x] 7.3 decisions rows and sources note (this PR); [ ] README text in the publish PR.

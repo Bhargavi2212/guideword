@@ -24,6 +24,10 @@ Submission is today (2026-10-29). One PR, $0, no live calls, no schema change.
   Bhargavi. Merges after `phase-5/f6-defects` if that is still open (no overlap; order only matters
   for the deploy).
 - **Dependencies:** none new.
+- **Found in the build (2026-10-29):** `contract/fixtures/` is generated from a $0 fake run and
+  carries the reference version hashes, which change with `causes.csv`; the suite says so
+  (`test_regenerating_the_fixtures_gives_the_same_files`). Regenerated with
+  `scripts/make_fixtures.py` in the same PR. The schemas and `openapi.json` do not change.
 
 ### 7.3 Docs — same PR
 
