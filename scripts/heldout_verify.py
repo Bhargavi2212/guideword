@@ -1,13 +1,17 @@
 """Check the held-out folder against its seals before anyone reads it (Phase 6 spec 6.1).
 
   python scripts/heldout_verify.py D:\\Hackathon\\guideword\\guideword-heldout
-      --frozen-out bench/heldout-frozen.txt [--seal-info]
+      --frozen-out bench/heldout-frozen.txt [--only k,l,m,n,p] [--seal-info]
 
 Bhargavi runs it; Claude Code never does on the real folder (CLAUDE.md §5). It prints file names,
 counts and the keys' field names only, never a line of any file. Exit code 1 on any missing,
 unlisted or changed file, any line of SEALS.txt that isn't a seal, or any plant file that doesn't
 validate; the frozen hashes are written only when everything passes. Any mismatch stops Phase 6
 until Bhargavi decides (P6-1). No call, no cost.
+
+`--only` (decisions 2026-10-28) limits the plant-file check and `--frozen-out` to the cases it
+names; the seal check still covers every sealed file. Each named case needs a package and a
+valid plant file; the other plant files are listed, never checked or frozen.
 """
 
 import argparse
@@ -44,6 +48,9 @@ def _arguments(argv: Sequence[str] | None) -> argparse.Namespace:
     parser.add_argument(
         "--seal-info", action="store_true", help="print SEALS.txt's size and time (P6-1)"
     )
+    parser.add_argument(
+        "--only", help="comma-separated case letters: check and freeze only their plant files"
+    )
     return parser.parse_args(argv)
 
 
@@ -74,21 +81,32 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(f"unclassified: {path}")
     print("key fields: " + (", ".join(found.key_fields) or "none"))
     plants = plant_files(dict.fromkeys(present, ""))
+    letters = {_letter(p) for p in present if classify(p) == "package"}
+    unknown: list[str] = []
+    if args.only is not None:
+        only = {x.strip().lower() for x in args.only.split(",") if x.strip()}
+        unknown = sorted(only - letters)
+        for letter in unknown:
+            print(f"no package for case {letter}")
+        for path in plants:
+            if _letter(path) not in only:
+                print(f"not in --only (not checked, not frozen): {path}")
+        plants = [p for p in plants if _letter(p) in only]
+        letters &= only
     invalid = 0
     for path, issues in validate_plants(folder, plants, load_reference_set()).items():
         print(f"{path}: {'valid' if not issues else f'{len(issues)} errors'}")
         for issue in issues:
             print(f"{path}: {issue.code}: {issue.message}")
         invalid += bool(issues)
-    # every package needs its plant file before anything is frozen (P6-12)
-    letters = {_letter(p) for p in present if classify(p) == "package"}
+    # every package (each named one, with --only) needs its plant file before freezing (P6-12)
     without = sorted(letters - {_letter(p) for p in plants})
     if not plants:
         print("no plant files yet: convert the packages (P6-12) before freezing")
     else:
         for letter in without:
             print(f"no plant file for case {letter}")
-    if not check.passed or invalid:
+    if not check.passed or invalid or unknown:
         print("STOP: Phase 6 waits on Bhargavi's decision (P6-1, P6-12); nothing was written")
         return 1
     if args.frozen_out is not None and (not plants or without):

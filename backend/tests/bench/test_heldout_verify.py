@@ -341,3 +341,70 @@ def test_freezing_stops_while_a_package_has_no_plant_file(
     assert heldout_verify.main([str(folder), "--frozen-out", str(frozen)]) == 1
     out = capsys.readouterr().out
     assert "no plant file for case l" in out and not frozen.exists()
+
+
+# --- --only: freeze a subset of the cases (decisions 2026-10-28) -----------------------------
+
+
+def _subset_folder(tmp_path: Path) -> Path:
+    """Sealed packages k and l; k has a valid plant file, l an invalid one."""
+    folder = _dated_folder(tmp_path)
+    (folder / "plants").mkdir()
+    (folder / "plants" / "case_k.json").write_text(EXAMPLE_PLANT.read_text("utf-8"), "utf-8")
+    (folder / "plants" / "case_l.json").write_text("{}", encoding="utf-8")
+    return folder
+
+
+def test_only_freezes_and_checks_just_the_named_cases(
+    tmp_path: Path, capsys: pytest.CaptureFixture[str]
+) -> None:
+    folder = _subset_folder(tmp_path)
+    frozen = tmp_path / "heldout-frozen.txt"
+    assert heldout_verify.main([str(folder), "--only", "k", "--frozen-out", str(frozen)]) == 0
+    assert frozen.read_text(encoding="utf-8") == frozen_lines(folder, ["plants/case_k.json"])
+    out = capsys.readouterr().out
+    assert "plants/case_k.json: valid" in out
+    assert "plants/case_l.json: valid" not in out and "plants/case_l.json: 1" not in out
+    assert "not in --only (not checked, not frozen): plants/case_l.json" in out
+    assert "wrote the hashes of 1 plant files" in out
+
+
+def test_only_still_checks_every_seal(tmp_path: Path, capsys: pytest.CaptureFixture[str]) -> None:
+    folder = _subset_folder(tmp_path)
+    (folder / "cases" / "case_l_tank-farm.md").write_text("changed", encoding="utf-8")
+    frozen = tmp_path / "heldout-frozen.txt"
+    assert heldout_verify.main([str(folder), "--only", "k", "--frozen-out", str(frozen)]) == 1
+    out = capsys.readouterr().out
+    assert "seals: 3 of 4 files match" in out
+    assert "mismatch: cases/case_l_tank-farm.md" in out and not frozen.exists()
+
+
+def test_only_stops_when_a_named_case_has_no_valid_plant_file(
+    tmp_path: Path, capsys: pytest.CaptureFixture[str]
+) -> None:
+    folder = _subset_folder(tmp_path)
+    frozen = tmp_path / "heldout-frozen.txt"
+    assert heldout_verify.main([str(folder), "--only", "k,l", "--frozen-out", str(frozen)]) == 1
+    assert "STOP" in capsys.readouterr().out and not frozen.exists()
+    (folder / "plants" / "case_l.json").unlink()
+    assert heldout_verify.main([str(folder), "--only", "k,l", "--frozen-out", str(frozen)]) == 1
+    out = capsys.readouterr().out
+    assert "no plant file for case l" in out and not frozen.exists()
+
+
+def test_only_refuses_a_letter_with_no_package(
+    tmp_path: Path, capsys: pytest.CaptureFixture[str]
+) -> None:
+    folder = _subset_folder(tmp_path)
+    frozen = tmp_path / "heldout-frozen.txt"
+    assert heldout_verify.main([str(folder), "--only", "k,z", "--frozen-out", str(frozen)]) == 1
+    assert "no package for case z" in capsys.readouterr().out and not frozen.exists()
+
+
+def test_only_reads_letters_in_any_case_and_with_spaces(
+    tmp_path: Path, capsys: pytest.CaptureFixture[str]
+) -> None:
+    folder = _subset_folder(tmp_path)
+    frozen = tmp_path / "heldout-frozen.txt"
+    assert heldout_verify.main([str(folder), "--only", " K ", "--frozen-out", str(frozen)]) == 0
+    assert frozen.read_text(encoding="utf-8") == frozen_lines(folder, ["plants/case_k.json"])
