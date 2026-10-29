@@ -433,8 +433,8 @@ def test_budget_lists_each_use_and_the_api_run_phase_with_what_remains(app: Api)
     uses = {u.use: u for u in budget.uses}
     assert set(uses) == {"development", "test_5", "benchmark", "video"}  # laptop's only
     development = uses["development"]
-    assert (development.allowance_usd, development.spent_usd) == (5.0, 0.375)
-    assert development.remaining_usd == pytest.approx(4.625)
+    assert (development.allowance_usd, development.spent_usd) == (4.14, 0.375)
+    assert development.remaining_usd == pytest.approx(3.765)
     assert uses["video"].remaining_usd == pytest.approx(1.5)
     assert uses["test_5"].spent_usd == 0.0
     phase = budget.api_run_phase
