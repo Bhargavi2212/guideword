@@ -166,9 +166,9 @@ def test_call_over_laptop_allowance_is_refused(
     caller: live_call.LiveCaller, fake: FakeOpenAI
 ) -> None:
     # past spend leaves $0.40 on the laptop while development still has $1.00
-    caller.record_opening_balance(4.0, use="development")
+    caller.record_opening_balance(3.14, use="development")
     caller.record_opening_balance(4.6, use="test_5")
-    caller.record_opening_balance(8.0, use="benchmark")
+    caller.record_opening_balance(8.86, use="benchmark")
     caller.record_opening_balance(2.0, use="video")
     with pytest.raises(live_call.Refused, match="laptop"):
         _chat(caller, max_tokens=150_000)  # $0.45: under the phase cap and development's $1.00
