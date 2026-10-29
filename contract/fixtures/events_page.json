@@ -4,10 +4,10 @@
     "recorded_at": null,
     "cost_usd": null
   },
-  "run_id": "run:eaf6f55e4d2a4a30",
+  "run_id": "run:2f50be91de6062dd",
   "events": [
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 1,
       "type": "run_started",
       "payload": {
@@ -21,7 +21,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 2,
       "type": "step_started",
       "payload": {
@@ -33,11 +33,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 3,
       "type": "model_call",
       "payload": {
-        "model_call_id": "mc:feee39b7b34791cd",
+        "model_call_id": "mc:5cc44f355816aa3f",
         "job": "plant_screen",
         "model_id": "nvidia/Nemotron-3-Ultra-550b-a55b",
         "cache_hit": false,
@@ -53,11 +53,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 4,
       "type": "model_call",
       "payload": {
-        "model_call_id": "mc:3692a0440e517c8f",
+        "model_call_id": "mc:77a67fb21727ca19",
         "job": "plant_screen",
         "model_id": "nvidia/Nemotron-3-Ultra-550b-a55b",
         "cache_hit": false,
@@ -73,11 +73,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 5,
       "type": "model_call",
       "payload": {
-        "model_call_id": "mc:3b7275b5aec7a3c5",
+        "model_call_id": "mc:db87ba64ffe126ad",
         "job": "plant_screen",
         "model_id": "nvidia/Nemotron-3-Ultra-550b-a55b",
         "cache_hit": false,
@@ -93,11 +93,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 6,
       "type": "model_call",
       "payload": {
-        "model_call_id": "mc:d9c6d251288ef6e4",
+        "model_call_id": "mc:e1d393d6aa3994c9",
         "job": "plant_screen",
         "model_id": "nvidia/Nemotron-3-Ultra-550b-a55b",
         "cache_hit": false,
@@ -113,7 +113,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 7,
       "type": "hypothesis_dropped",
       "payload": {
@@ -126,7 +126,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 8,
       "type": "hypothesis_dropped",
       "payload": {
@@ -139,7 +139,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 9,
       "type": "hypothesis_added",
       "payload": {
@@ -152,7 +152,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 10,
       "type": "hypothesis_added",
       "payload": {
@@ -165,7 +165,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 11,
       "type": "step_finished",
       "payload": {
@@ -179,7 +179,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 12,
       "type": "step_started",
       "payload": {
@@ -191,7 +191,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 13,
       "type": "model_call",
       "payload": {
@@ -211,11 +211,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 14,
       "type": "agent_decision",
       "payload": {
-        "step_id": "step:eef53334bcaf1dfb",
+        "step_id": "step:43b9841386a430ec",
         "agent": "orchestrator",
         "tool": "dispatch_specialist",
         "reason": "next open list"
@@ -226,11 +226,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 15,
       "type": "agent_decision",
       "payload": {
-        "step_id": "step:1f45b03778a17301",
+        "step_id": "step:4da64e302ce842ec",
         "agent": "chemistry",
         "tool": "answer",
         "reason": "answered 5 of 5 questions"
@@ -241,11 +241,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 16,
       "type": "model_call",
       "payload": {
-        "model_call_id": "mc:fd2641d2497f530b",
+        "model_call_id": "mc:7f3eb08ed63fefac",
         "job": "specialist_bulk",
         "model_id": "nvidia/Nemotron-3_5-Lightning",
         "cache_hit": false,
@@ -261,11 +261,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 17,
       "type": "model_call",
       "payload": {
-        "model_call_id": "mc:a4ee420e5aaed551",
+        "model_call_id": "mc:88bd1d4605290e25",
         "job": "specialist_bulk",
         "model_id": "nvidia/Nemotron-3_5-Lightning",
         "cache_hit": false,
@@ -281,11 +281,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 18,
       "type": "agent_decision",
       "payload": {
-        "step_id": "step:b715fb4331b6cf9a",
+        "step_id": "step:04f49dce5ecb1470",
         "agent": "chemistry",
         "tool": "answer",
         "reason": "answered 2 of 2 questions"
@@ -296,11 +296,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 19,
       "type": "model_call",
       "payload": {
-        "model_call_id": "mc:e430aa3ae4e427ee",
+        "model_call_id": "mc:dfd1189a5ac6ef60",
         "job": "specialist_bulk",
         "model_id": "nvidia/Nemotron-3_5-Lightning",
         "cache_hit": false,
@@ -316,11 +316,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 20,
       "type": "model_call",
       "payload": {
-        "model_call_id": "mc:865f7bd7e2b77f15",
+        "model_call_id": "mc:9c2be7f17ddc572c",
         "job": "specialist_bulk",
         "model_id": "nvidia/Nemotron-3_5-Lightning",
         "cache_hit": false,
@@ -336,7 +336,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 21,
       "type": "finding_added",
       "payload": {
@@ -350,7 +350,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 22,
       "type": "dispatch",
       "payload": {
@@ -380,8 +380,8 @@
           "cap_spent_usd": 0.00125,
           "limit_usd": 0.2,
           "slices_usd": [
-            0.011974859999999999,
-            0.011935620000000001
+            0.012000059999999996,
+            0.011960819999999999
           ]
         },
         "deferred_at_admission": []
@@ -392,7 +392,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 23,
       "type": "coverage_updated",
       "payload": {
@@ -482,11 +482,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 24,
       "type": "tool_call",
       "payload": {
-        "tool_call_id": "tc:step:eef53334bcaf1dfb:dispatch_specialist:b7f1d6a2734336ba",
+        "tool_call_id": "tc:step:43b9841386a430ec:dispatch_specialist:b7f1d6a2734336ba",
         "tool": "dispatch_specialist",
         "refused": false
       },
@@ -496,7 +496,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 25,
       "type": "step_finished",
       "payload": {
@@ -510,7 +510,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 26,
       "type": "step_started",
       "payload": {
@@ -522,7 +522,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 27,
       "type": "model_call",
       "payload": {
@@ -542,11 +542,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 28,
       "type": "agent_decision",
       "payload": {
-        "step_id": "step:420b8ef9cb82a8c1",
+        "step_id": "step:062ee3adef8c4eed",
         "agent": "orchestrator",
         "tool": "dispatch_specialist",
         "reason": "next open list"
@@ -557,11 +557,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 29,
       "type": "model_call",
       "payload": {
-        "model_call_id": "mc:7a52946f26000496",
+        "model_call_id": "mc:394f6964b7a0abe4",
         "job": "specialist_bulk",
         "model_id": "nvidia/Nemotron-3_5-Lightning",
         "cache_hit": false,
@@ -577,11 +577,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 30,
       "type": "model_call",
       "payload": {
-        "model_call_id": "mc:7335bbeb2a811d29",
+        "model_call_id": "mc:498dce41ef87baba",
         "job": "specialist_bulk",
         "model_id": "nvidia/Nemotron-3_5-Lightning",
         "cache_hit": false,
@@ -597,7 +597,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 31,
       "type": "dispatch",
       "payload": {
@@ -629,7 +629,7 @@
           "cap_spent_usd": 0.001572,
           "limit_usd": 0.160942,
           "slices_usd": [
-            0.0070174799999999996
+            0.00702576
           ]
         },
         "deferred_at_admission": []
@@ -640,7 +640,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 32,
       "type": "coverage_updated",
       "payload": {
@@ -730,11 +730,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 33,
       "type": "tool_call",
       "payload": {
-        "tool_call_id": "tc:step:420b8ef9cb82a8c1:dispatch_specialist:4f48100fc584f4f2",
+        "tool_call_id": "tc:step:062ee3adef8c4eed:dispatch_specialist:4f48100fc584f4f2",
         "tool": "dispatch_specialist",
         "refused": false
       },
@@ -744,7 +744,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 34,
       "type": "step_finished",
       "payload": {
@@ -758,7 +758,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 35,
       "type": "step_started",
       "payload": {
@@ -770,7 +770,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 36,
       "type": "model_call",
       "payload": {
@@ -790,11 +790,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 37,
       "type": "agent_decision",
       "payload": {
-        "step_id": "step:1561b217e9f540bf",
+        "step_id": "step:69c25e02b65b8f03",
         "agent": "orchestrator",
         "tool": "dispatch_specialist",
         "reason": "next open list"
@@ -805,11 +805,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 38,
       "type": "model_call",
       "payload": {
-        "model_call_id": "mc:037a18a53af06824",
+        "model_call_id": "mc:fe6243d8e978c805",
         "job": "specialist_hard",
         "model_id": "nvidia/nemotron-3-super-120b-a12b",
         "cache_hit": false,
@@ -825,11 +825,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 39,
       "type": "model_call",
       "payload": {
-        "model_call_id": "mc:b8fde4d415050ecc",
+        "model_call_id": "mc:a1d9dd2bb29c4d93",
         "job": "specialist_hard",
         "model_id": "nvidia/nemotron-3-super-120b-a12b",
         "cache_hit": false,
@@ -845,7 +845,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 40,
       "type": "dispatch",
       "payload": {
@@ -877,7 +877,7 @@
           "cap_spent_usd": 0.001858,
           "limit_usd": 0.160942,
           "slices_usd": [
-            0.0277146
+            0.027756000000000003
           ]
         },
         "deferred_at_admission": []
@@ -888,7 +888,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 41,
       "type": "coverage_updated",
       "payload": {
@@ -978,11 +978,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 42,
       "type": "tool_call",
       "payload": {
-        "tool_call_id": "tc:step:1561b217e9f540bf:dispatch_specialist:f6c36aac31cbf6ea",
+        "tool_call_id": "tc:step:69c25e02b65b8f03:dispatch_specialist:f6c36aac31cbf6ea",
         "tool": "dispatch_specialist",
         "refused": false
       },
@@ -992,7 +992,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 43,
       "type": "step_finished",
       "payload": {
@@ -1006,7 +1006,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 44,
       "type": "step_started",
       "payload": {
@@ -1018,7 +1018,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 45,
       "type": "model_call",
       "payload": {
@@ -1038,11 +1038,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 46,
       "type": "agent_decision",
       "payload": {
-        "step_id": "step:cf6b0bbeaa5613bf",
+        "step_id": "step:1b66b3ac15319865",
         "agent": "orchestrator",
         "tool": "dispatch_specialist",
         "reason": "next open list"
@@ -1053,11 +1053,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 47,
       "type": "agent_decision",
       "payload": {
-        "step_id": "step:9759456a7e20472e",
+        "step_id": "step:d550dc495c6e8ccf",
         "agent": "procedures",
         "tool": "answer",
         "reason": "answered 5 of 5 questions"
@@ -1068,11 +1068,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 48,
       "type": "model_call",
       "payload": {
-        "model_call_id": "mc:46132e37fd498731",
+        "model_call_id": "mc:31ef06be63ab3973",
         "job": "specialist_bulk",
         "model_id": "nvidia/Nemotron-3_5-Lightning",
         "cache_hit": false,
@@ -1088,11 +1088,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 49,
       "type": "agent_decision",
       "payload": {
-        "step_id": "step:b97b9177128050a6",
+        "step_id": "step:ffc440e8b6b35663",
         "agent": "procedures",
         "tool": "answer",
         "reason": "answered 5 of 5 questions"
@@ -1103,11 +1103,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 50,
       "type": "model_call",
       "payload": {
-        "model_call_id": "mc:04e2a338ea10e7e9",
+        "model_call_id": "mc:40c1c57ad40fe364",
         "job": "specialist_bulk",
         "model_id": "nvidia/Nemotron-3_5-Lightning",
         "cache_hit": false,
@@ -1123,7 +1123,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 51,
       "type": "dispatch",
       "payload": {
@@ -1156,8 +1156,8 @@
           "cap_spent_usd": 0.0022580000000000005,
           "limit_usd": 0.160942,
           "slices_usd": [
-            0.007089,
-            0.007089
+            0.007097279999999999,
+            0.007097279999999999
           ]
         },
         "deferred_at_admission": []
@@ -1168,7 +1168,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 52,
       "type": "coverage_updated",
       "payload": {
@@ -1258,11 +1258,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 53,
       "type": "tool_call",
       "payload": {
-        "tool_call_id": "tc:step:cf6b0bbeaa5613bf:dispatch_specialist:f29b98b5d3b224ab",
+        "tool_call_id": "tc:step:1b66b3ac15319865:dispatch_specialist:f29b98b5d3b224ab",
         "tool": "dispatch_specialist",
         "refused": false
       },
@@ -1272,7 +1272,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 54,
       "type": "step_finished",
       "payload": {
@@ -1286,7 +1286,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 55,
       "type": "step_started",
       "payload": {
@@ -1298,7 +1298,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 56,
       "type": "model_call",
       "payload": {
@@ -1318,11 +1318,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 57,
       "type": "agent_decision",
       "payload": {
-        "step_id": "step:45ddb409bfa2a546",
+        "step_id": "step:9b73f4eba23cabe3",
         "agent": "orchestrator",
         "tool": "dispatch_specialist",
         "reason": "next open list"
@@ -1333,11 +1333,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 58,
       "type": "agent_decision",
       "payload": {
-        "step_id": "step:04bcaa3ddff19a4f",
+        "step_id": "step:b0f45564b4f59c16",
         "agent": "process",
         "tool": "answer",
         "reason": "answered 5 of 5 questions"
@@ -1348,11 +1348,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 59,
       "type": "model_call",
       "payload": {
-        "model_call_id": "mc:bb6220b404e85164",
+        "model_call_id": "mc:0bf55135a4086ec9",
         "job": "specialist_bulk",
         "model_id": "nvidia/Nemotron-3_5-Lightning",
         "cache_hit": false,
@@ -1368,11 +1368,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 60,
       "type": "agent_decision",
       "payload": {
-        "step_id": "step:bb8e04d70b21ca26",
+        "step_id": "step:6264acbfb27976ce",
         "agent": "process",
         "tool": "answer",
         "reason": "answered 5 of 5 questions"
@@ -1383,11 +1383,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 61,
       "type": "model_call",
       "payload": {
-        "model_call_id": "mc:9e59f2549b85e836",
+        "model_call_id": "mc:b6706fee0dc7d02d",
         "job": "specialist_bulk",
         "model_id": "nvidia/Nemotron-3_5-Lightning",
         "cache_hit": false,
@@ -1403,11 +1403,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 62,
       "type": "agent_decision",
       "payload": {
-        "step_id": "step:2e1bc75bc76868ea",
+        "step_id": "step:0d4fc537b4c3158c",
         "agent": "process",
         "tool": "answer",
         "reason": "answered 2 of 2 questions"
@@ -1418,11 +1418,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 63,
       "type": "model_call",
       "payload": {
-        "model_call_id": "mc:d7e5b1786d053345",
+        "model_call_id": "mc:a8134334c71e08db",
         "job": "specialist_bulk",
         "model_id": "nvidia/Nemotron-3_5-Lightning",
         "cache_hit": false,
@@ -1438,7 +1438,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 64,
       "type": "finding_added",
       "payload": {
@@ -1452,11 +1452,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 65,
       "type": "agent_decision",
       "payload": {
-        "step_id": "step:43898b95c16fe8fa",
+        "step_id": "step:55110f5870a0948d",
         "agent": "process",
         "tool": "answer",
         "reason": "answered 5 of 5 questions"
@@ -1467,11 +1467,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 66,
       "type": "model_call",
       "payload": {
-        "model_call_id": "mc:955660c87249a108",
+        "model_call_id": "mc:738dff0cc6d3137d",
         "job": "specialist_bulk",
         "model_id": "nvidia/Nemotron-3_5-Lightning",
         "cache_hit": false,
@@ -1487,11 +1487,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 67,
       "type": "agent_decision",
       "payload": {
-        "step_id": "step:ea4b7c4309e8044d",
+        "step_id": "step:3863d565a08b06bd",
         "agent": "process",
         "tool": "answer",
         "reason": "answered 5 of 5 questions"
@@ -1502,11 +1502,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 68,
       "type": "model_call",
       "payload": {
-        "model_call_id": "mc:52d026a97e3c38ec",
+        "model_call_id": "mc:b2c2588b4f2eb7b9",
         "job": "specialist_bulk",
         "model_id": "nvidia/Nemotron-3_5-Lightning",
         "cache_hit": false,
@@ -1522,11 +1522,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 69,
       "type": "agent_decision",
       "payload": {
-        "step_id": "step:b697c569f3ca53a1",
+        "step_id": "step:8f89049ab82e9505",
         "agent": "process",
         "tool": "answer",
         "reason": "answered 2 of 2 questions"
@@ -1537,11 +1537,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 70,
       "type": "model_call",
       "payload": {
-        "model_call_id": "mc:9088dfa7c8575d0d",
+        "model_call_id": "mc:3e4206c3bc51dc8d",
         "job": "specialist_bulk",
         "model_id": "nvidia/Nemotron-3_5-Lightning",
         "cache_hit": false,
@@ -1557,11 +1557,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 71,
       "type": "agent_decision",
       "payload": {
-        "step_id": "step:fc62bf4640de5bb5",
+        "step_id": "step:229153b4df514068",
         "agent": "process",
         "tool": "answer",
         "reason": "answered 5 of 5 questions"
@@ -1572,11 +1572,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 72,
       "type": "model_call",
       "payload": {
-        "model_call_id": "mc:39d20e850f41d972",
+        "model_call_id": "mc:118e9eab4b88cc92",
         "job": "specialist_bulk",
         "model_id": "nvidia/Nemotron-3_5-Lightning",
         "cache_hit": false,
@@ -1592,11 +1592,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 73,
       "type": "agent_decision",
       "payload": {
-        "step_id": "step:2d8861f633ebe6e6",
+        "step_id": "step:33eacb13219c989a",
         "agent": "process",
         "tool": "answer",
         "reason": "answered 5 of 5 questions"
@@ -1607,11 +1607,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 74,
       "type": "model_call",
       "payload": {
-        "model_call_id": "mc:d763e002da2f5b17",
+        "model_call_id": "mc:e142daab4147d24c",
         "job": "specialist_bulk",
         "model_id": "nvidia/Nemotron-3_5-Lightning",
         "cache_hit": false,
@@ -1627,11 +1627,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 75,
       "type": "agent_decision",
       "payload": {
-        "step_id": "step:6dcc948184e777e4",
+        "step_id": "step:235cd4979f660ce7",
         "agent": "process",
         "tool": "answer",
         "reason": "answered 2 of 2 questions"
@@ -1642,11 +1642,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 76,
       "type": "model_call",
       "payload": {
-        "model_call_id": "mc:3512f5dea5acc24b",
+        "model_call_id": "mc:b2956283c18751a5",
         "job": "specialist_bulk",
         "model_id": "nvidia/Nemotron-3_5-Lightning",
         "cache_hit": false,
@@ -1662,11 +1662,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 77,
       "type": "agent_decision",
       "payload": {
-        "step_id": "step:2940cc1367c21d55",
+        "step_id": "step:9f5d98000a8dfdec",
         "agent": "process",
         "tool": "answer",
         "reason": "answered 5 of 5 questions"
@@ -1677,11 +1677,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 78,
       "type": "model_call",
       "payload": {
-        "model_call_id": "mc:16e171bf2a337190",
+        "model_call_id": "mc:c321c1ed8574cb08",
         "job": "specialist_bulk",
         "model_id": "nvidia/Nemotron-3_5-Lightning",
         "cache_hit": false,
@@ -1697,11 +1697,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 79,
       "type": "agent_decision",
       "payload": {
-        "step_id": "step:943e187e6e772e4f",
+        "step_id": "step:b6ed4b0e777919a1",
         "agent": "process",
         "tool": "answer",
         "reason": "answered 5 of 5 questions"
@@ -1712,11 +1712,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 80,
       "type": "model_call",
       "payload": {
-        "model_call_id": "mc:fbef95d32d8a72bb",
+        "model_call_id": "mc:9d07983a049690b7",
         "job": "specialist_bulk",
         "model_id": "nvidia/Nemotron-3_5-Lightning",
         "cache_hit": false,
@@ -1732,11 +1732,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 81,
       "type": "agent_decision",
       "payload": {
-        "step_id": "step:6f3b1452261507cd",
+        "step_id": "step:48359068ca884d2a",
         "agent": "process",
         "tool": "answer",
         "reason": "answered 2 of 2 questions"
@@ -1747,11 +1747,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 82,
       "type": "model_call",
       "payload": {
-        "model_call_id": "mc:227aa58a6ed201ce",
+        "model_call_id": "mc:004111ca252ad1cb",
         "job": "specialist_bulk",
         "model_id": "nvidia/Nemotron-3_5-Lightning",
         "cache_hit": false,
@@ -1767,11 +1767,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 83,
       "type": "agent_decision",
       "payload": {
-        "step_id": "step:f08bbe50e39fdfd3",
+        "step_id": "step:5e15aa3b989b110e",
         "agent": "process",
         "tool": "answer",
         "reason": "answered 5 of 5 questions"
@@ -1782,11 +1782,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 84,
       "type": "model_call",
       "payload": {
-        "model_call_id": "mc:137b461c26300a6c",
+        "model_call_id": "mc:9e53016fcca69d6e",
         "job": "specialist_bulk",
         "model_id": "nvidia/Nemotron-3_5-Lightning",
         "cache_hit": false,
@@ -1802,11 +1802,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 85,
       "type": "agent_decision",
       "payload": {
-        "step_id": "step:7d79d0db879e3089",
+        "step_id": "step:116b21294d78f9b2",
         "agent": "process",
         "tool": "answer",
         "reason": "answered 5 of 5 questions"
@@ -1817,11 +1817,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 86,
       "type": "model_call",
       "payload": {
-        "model_call_id": "mc:6f78b7a94c49a14e",
+        "model_call_id": "mc:26d949694facfc5d",
         "job": "specialist_bulk",
         "model_id": "nvidia/Nemotron-3_5-Lightning",
         "cache_hit": false,
@@ -1837,7 +1837,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 87,
       "type": "finding_added",
       "payload": {
@@ -1851,11 +1851,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 88,
       "type": "agent_decision",
       "payload": {
-        "step_id": "step:3aeebc522f18dd01",
+        "step_id": "step:4b7fd6348f36c06c",
         "agent": "process",
         "tool": "answer",
         "reason": "answered 2 of 2 questions"
@@ -1866,11 +1866,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 89,
       "type": "model_call",
       "payload": {
-        "model_call_id": "mc:02d2d9eac4a197b0",
+        "model_call_id": "mc:dab223a738273d39",
         "job": "specialist_bulk",
         "model_id": "nvidia/Nemotron-3_5-Lightning",
         "cache_hit": false,
@@ -1886,7 +1886,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 90,
       "type": "dispatch",
       "payload": {
@@ -1969,21 +1969,21 @@
           "cap_spent_usd": 0.0025440000000000003,
           "limit_usd": 0.160942,
           "slices_usd": [
-            0.007265880000000001,
-            0.0072663599999999995,
-            0.007238400000000001,
-            0.0072705600000000006,
-            0.0072710399999999994,
-            0.007241279999999999,
-            0.0072346799999999985,
-            0.007235159999999999,
-            0.00720672,
-            0.00723888,
-            0.00723936,
-            0.00720876,
-            0.00725028,
-            0.007249439999999999,
-            0.007222320000000001
+            0.00729144,
+            0.00729192,
+            0.00726396,
+            0.00729612,
+            0.007296599999999999,
+            0.00726684,
+            0.007260239999999999,
+            0.00726072,
+            0.007232279999999999,
+            0.00726456,
+            0.00726504,
+            0.007234320000000001,
+            0.007267320000000001,
+            0.0072664800000000005,
+            0.00723936
           ]
         },
         "deferred_at_admission": []
@@ -1994,7 +1994,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 91,
       "type": "coverage_updated",
       "payload": {
@@ -2084,11 +2084,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 92,
       "type": "tool_call",
       "payload": {
-        "tool_call_id": "tc:step:45ddb409bfa2a546:dispatch_specialist:43fde6352d2d3c22",
+        "tool_call_id": "tc:step:9b73f4eba23cabe3:dispatch_specialist:43fde6352d2d3c22",
         "tool": "dispatch_specialist",
         "refused": false
       },
@@ -2098,7 +2098,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 93,
       "type": "step_finished",
       "payload": {
@@ -2112,7 +2112,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 94,
       "type": "step_started",
       "payload": {
@@ -2124,7 +2124,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 95,
       "type": "model_call",
       "payload": {
@@ -2144,11 +2144,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 96,
       "type": "agent_decision",
       "payload": {
-        "step_id": "step:eae955cc13be8883",
+        "step_id": "step:06e1ee027d1b3023",
         "agent": "orchestrator",
         "tool": "dispatch_specialist",
         "reason": "next open list"
@@ -2159,11 +2159,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 97,
       "type": "agent_decision",
       "payload": {
-        "step_id": "step:7a918a66cbe04928",
+        "step_id": "step:84854d7752396ef4",
         "agent": "process",
         "tool": "answer",
         "reason": "answered 2 of 2 questions"
@@ -2174,11 +2174,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 98,
       "type": "model_call",
       "payload": {
-        "model_call_id": "mc:5d23bcfcbe9cbdec",
+        "model_call_id": "mc:3de81eb4bddff581",
         "job": "specialist_bulk",
         "model_id": "nvidia/Nemotron-3_5-Lightning",
         "cache_hit": false,
@@ -2194,7 +2194,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 99,
       "type": "finding_added",
       "payload": {
@@ -2208,11 +2208,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 100,
       "type": "agent_decision",
       "payload": {
-        "step_id": "step:0e670cec1a03542b",
+        "step_id": "step:1d6170928b9c9eaf",
         "agent": "process",
         "tool": "answer",
         "reason": "answered 5 of 5 questions"
@@ -2223,7 +2223,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 101,
       "type": "model_call",
       "payload": {
@@ -2243,11 +2243,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 102,
       "type": "agent_decision",
       "payload": {
-        "step_id": "step:7cbfdde1e13984fe",
+        "step_id": "step:24b5eedfc4604030",
         "agent": "process",
         "tool": "answer",
         "reason": "answered 2 of 2 questions"
@@ -2258,7 +2258,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 103,
       "type": "model_call",
       "payload": {
@@ -2278,11 +2278,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 104,
       "type": "agent_decision",
       "payload": {
-        "step_id": "step:e4f888ef79f545cf",
+        "step_id": "step:3ad4d32f8c76ee31",
         "agent": "process",
         "tool": "answer",
         "reason": "answered 5 of 5 questions"
@@ -2293,11 +2293,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 105,
       "type": "model_call",
       "payload": {
-        "model_call_id": "mc:c36ed0a352957966",
+        "model_call_id": "mc:d72b60db2385f5bf",
         "job": "specialist_bulk",
         "model_id": "nvidia/Nemotron-3_5-Lightning",
         "cache_hit": false,
@@ -2313,11 +2313,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 106,
       "type": "agent_decision",
       "payload": {
-        "step_id": "step:5281aece70be82a7",
+        "step_id": "step:b0965b3f7aeeeb5b",
         "agent": "process",
         "tool": "answer",
         "reason": "answered 5 of 5 questions"
@@ -2328,11 +2328,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 107,
       "type": "model_call",
       "payload": {
-        "model_call_id": "mc:46d57fcf7aac2374",
+        "model_call_id": "mc:b19c87947973a81a",
         "job": "specialist_bulk",
         "model_id": "nvidia/Nemotron-3_5-Lightning",
         "cache_hit": false,
@@ -2348,11 +2348,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 108,
       "type": "agent_decision",
       "payload": {
-        "step_id": "step:bf854ff483b2a9dc",
+        "step_id": "step:7ebb72413a725e91",
         "agent": "process",
         "tool": "answer",
         "reason": "answered 1 of 1 questions"
@@ -2363,11 +2363,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 109,
       "type": "model_call",
       "payload": {
-        "model_call_id": "mc:d817bb7168dc078f",
+        "model_call_id": "mc:01658eade1ee41ec",
         "job": "specialist_bulk",
         "model_id": "nvidia/Nemotron-3_5-Lightning",
         "cache_hit": false,
@@ -2383,7 +2383,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 110,
       "type": "dispatch",
       "payload": {
@@ -2426,12 +2426,12 @@
           "cap_spent_usd": 0.0030639999999999973,
           "limit_usd": 0.160418,
           "slices_usd": [
-            0.00722304,
+            0.007240079999999999,
             0.00710064,
             0.0070732799999999995,
-            0.00727392,
-            0.007274279999999999,
-            0.00723588
+            0.007290959999999999,
+            0.0072913200000000004,
+            0.0072529199999999995
           ]
         },
         "deferred_at_admission": []
@@ -2442,7 +2442,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 111,
       "type": "coverage_updated",
       "payload": {
@@ -2532,11 +2532,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 112,
       "type": "tool_call",
       "payload": {
-        "tool_call_id": "tc:step:eae955cc13be8883:dispatch_specialist:43fde6352d2d3c22",
+        "tool_call_id": "tc:step:06e1ee027d1b3023:dispatch_specialist:43fde6352d2d3c22",
         "tool": "dispatch_specialist",
         "refused": false
       },
@@ -2546,7 +2546,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 113,
       "type": "step_finished",
       "payload": {
@@ -2560,7 +2560,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 114,
       "type": "step_started",
       "payload": {
@@ -2572,7 +2572,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 115,
       "type": "model_call",
       "payload": {
@@ -2592,11 +2592,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 116,
       "type": "agent_decision",
       "payload": {
-        "step_id": "step:63be4e28e8c8ae24",
+        "step_id": "step:6fa20fb77a49c436",
         "agent": "orchestrator",
         "tool": "dispatch_specialist",
         "reason": "next open list"
@@ -2607,11 +2607,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 117,
       "type": "agent_decision",
       "payload": {
-        "step_id": "step:7dc4ac302857feb6",
+        "step_id": "step:a8ffca6a92c086a6",
         "agent": "process",
         "tool": "answer",
         "reason": "answered 1 of 1 questions"
@@ -2622,11 +2622,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 118,
       "type": "model_call",
       "payload": {
-        "model_call_id": "mc:204e1670c7d39e76",
+        "model_call_id": "mc:192c41d58eff872b",
         "job": "unsure_answer",
         "model_id": "nvidia/Nemotron-3-Ultra-550b-a55b",
         "cache_hit": false,
@@ -2642,7 +2642,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 119,
       "type": "finding_added",
       "payload": {
@@ -2656,7 +2656,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 120,
       "type": "dispatch",
       "payload": {
@@ -2680,7 +2680,7 @@
           "cap_spent_usd": 0.0034219999999999962,
           "limit_usd": 0.16012,
           "slices_usd": [
-            0.052636
+            0.052919999999999995
           ]
         },
         "deferred_at_admission": []
@@ -2691,7 +2691,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 121,
       "type": "coverage_updated",
       "payload": {
@@ -2781,11 +2781,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 122,
       "type": "tool_call",
       "payload": {
-        "tool_call_id": "tc:step:63be4e28e8c8ae24:dispatch_specialist:ffd0fdc023d276d5",
+        "tool_call_id": "tc:step:6fa20fb77a49c436:dispatch_specialist:ffd0fdc023d276d5",
         "tool": "dispatch_specialist",
         "refused": false
       },
@@ -2795,7 +2795,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 123,
       "type": "step_finished",
       "payload": {
@@ -2809,7 +2809,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 124,
       "type": "step_started",
       "payload": {
@@ -2821,7 +2821,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 125,
       "type": "model_call",
       "payload": {
@@ -2841,11 +2841,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 126,
       "type": "agent_decision",
       "payload": {
-        "step_id": "step:76abd8c853063d5e",
+        "step_id": "step:1b5e1e359c514b05",
         "agent": "orchestrator",
         "tool": "finish",
         "reason": "next open list"
@@ -2856,11 +2856,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 127,
       "type": "tool_call",
       "payload": {
-        "tool_call_id": "tc:step:76abd8c853063d5e:finish:66969c6232bab539",
+        "tool_call_id": "tc:step:1b5e1e359c514b05:finish:66969c6232bab539",
         "tool": "finish",
         "refused": false
       },
@@ -2870,7 +2870,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 128,
       "type": "step_finished",
       "payload": {
@@ -2884,7 +2884,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 129,
       "type": "step_started",
       "payload": {
@@ -2896,7 +2896,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 130,
       "type": "model_call",
       "payload": {
@@ -2916,7 +2916,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 131,
       "type": "step_finished",
       "payload": {
@@ -2930,7 +2930,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 132,
       "type": "step_started",
       "payload": {
@@ -2942,7 +2942,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 133,
       "type": "step_finished",
       "payload": {
@@ -2956,7 +2956,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 134,
       "type": "step_started",
       "payload": {
@@ -2968,7 +2968,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 135,
       "type": "run_extended",
       "payload": {
@@ -3058,11 +3058,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 136,
       "type": "cap_hit",
       "payload": {
-        "reason": "run run:eaf6f55e4d2a4a30 limit $0.00 would be exceeded",
+        "reason": "run run:2f50be91de6062dd limit $0.00 would be exceeded",
         "status": "stopped_cap",
         "cap": "post"
       },
@@ -3072,7 +3072,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 137,
       "type": "step_finished",
       "payload": {
@@ -3086,7 +3086,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 138,
       "type": "run_extended",
       "payload": {
@@ -3176,7 +3176,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 139,
       "type": "step_started",
       "payload": {
@@ -3188,7 +3188,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 140,
       "type": "model_call",
       "payload": {
@@ -3208,7 +3208,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 141,
       "type": "chain_added",
       "payload": {
@@ -3221,7 +3221,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 142,
       "type": "step_finished",
       "payload": {
@@ -3242,7 +3242,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 143,
       "type": "step_started",
       "payload": {
@@ -3254,7 +3254,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 144,
       "type": "model_call",
       "payload": {
@@ -3274,7 +3274,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 145,
       "type": "step_finished",
       "payload": {
@@ -3297,7 +3297,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 146,
       "type": "step_started",
       "payload": {
@@ -3309,7 +3309,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 147,
       "type": "lopa_done",
       "payload": {
@@ -3323,7 +3323,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 148,
       "type": "lopa_done",
       "payload": {
@@ -3337,7 +3337,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 149,
       "type": "model_call",
       "payload": {
@@ -3357,7 +3357,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 150,
       "type": "lopa_done",
       "payload": {
@@ -3371,7 +3371,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 151,
       "type": "lopa_done",
       "payload": {
@@ -3385,7 +3385,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 152,
       "type": "lopa_done",
       "payload": {
@@ -3399,7 +3399,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 153,
       "type": "step_finished",
       "payload": {
@@ -3413,7 +3413,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 154,
       "type": "step_started",
       "payload": {
@@ -3425,7 +3425,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 155,
       "type": "step_finished",
       "payload": {
@@ -3439,7 +3439,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 156,
       "type": "step_started",
       "payload": {
@@ -3451,7 +3451,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 157,
       "type": "model_call",
       "payload": {
@@ -3471,7 +3471,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 158,
       "type": "step_finished",
       "payload": {
@@ -3485,7 +3485,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 159,
       "type": "step_started",
       "payload": {
@@ -3497,7 +3497,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 160,
       "type": "step_finished",
       "payload": {
@@ -3511,7 +3511,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 161,
       "type": "step_started",
       "payload": {
@@ -3523,7 +3523,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 162,
       "type": "model_call",
       "payload": {
@@ -3543,11 +3543,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 163,
       "type": "agent_decision",
       "payload": {
-        "step_id": "step:ae9899233c18f2a5",
+        "step_id": "step:3de914c3901dec50",
         "agent": "evidence",
         "tool": "search_precedent",
         "reason": "code: precedent index search"
@@ -3558,11 +3558,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 164,
       "type": "agent_decision",
       "payload": {
-        "step_id": "step:ba28b9dc7bb39981",
+        "step_id": "step:600f59eb64d69886",
         "agent": "evidence",
         "tool": "web_research",
         "reason": "code: web search"
@@ -3573,11 +3573,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 165,
       "type": "tool_call",
       "payload": {
-        "tool_call_id": "tc:step:ae9899233c18f2a5:search_precedent:9e9d176a184d4eb7",
+        "tool_call_id": "tc:step:3de914c3901dec50:search_precedent:9e9d176a184d4eb7",
         "tool": "search_precedent",
         "refused": false
       },
@@ -3587,11 +3587,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 166,
       "type": "tool_call",
       "payload": {
-        "tool_call_id": "tc:step:ba28b9dc7bb39981:web_research:ab4e5900fd05e6dc",
+        "tool_call_id": "tc:step:600f59eb64d69886:web_research:ab4e5900fd05e6dc",
         "tool": "web_research",
         "refused": false
       },
@@ -3601,7 +3601,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 167,
       "type": "evidence_added",
       "payload": {
@@ -3616,7 +3616,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 168,
       "type": "step_finished",
       "payload": {
@@ -3630,7 +3630,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 169,
       "type": "step_started",
       "payload": {
@@ -3642,7 +3642,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 170,
       "type": "model_call",
       "payload": {
@@ -3662,11 +3662,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 171,
       "type": "agent_decision",
       "payload": {
-        "step_id": "step:598170dbe22cc558",
+        "step_id": "step:1383d53e06f107e3",
         "agent": "evidence",
         "tool": "physics_calc",
         "reason": "code: physics calculations for this line"
@@ -3677,11 +3677,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 172,
       "type": "agent_decision",
       "payload": {
-        "step_id": "step:e38b0d5801913bba",
+        "step_id": "step:a9cbf432dd4f6ef5",
         "agent": "evidence",
         "tool": "search_precedent",
         "reason": "code: precedent index search"
@@ -3692,11 +3692,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 173,
       "type": "agent_decision",
       "payload": {
-        "step_id": "step:8da2a110dbd8b62b",
+        "step_id": "step:30f218a14d786978",
         "agent": "evidence",
         "tool": "web_research",
         "reason": "code: web search"
@@ -3707,11 +3707,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 174,
       "type": "tool_call",
       "payload": {
-        "tool_call_id": "tc:step:598170dbe22cc558:physics_calc:ed75cad20da58b17",
+        "tool_call_id": "tc:step:1383d53e06f107e3:physics_calc:ed75cad20da58b17",
         "tool": "physics_calc",
         "refused": false
       },
@@ -3721,11 +3721,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 175,
       "type": "tool_call",
       "payload": {
-        "tool_call_id": "tc:step:e38b0d5801913bba:search_precedent:08e1e368af7cdccd",
+        "tool_call_id": "tc:step:a9cbf432dd4f6ef5:search_precedent:08e1e368af7cdccd",
         "tool": "search_precedent",
         "refused": false
       },
@@ -3735,11 +3735,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 176,
       "type": "tool_call",
       "payload": {
-        "tool_call_id": "tc:step:8da2a110dbd8b62b:web_research:e4551acec3649d77",
+        "tool_call_id": "tc:step:30f218a14d786978:web_research:e4551acec3649d77",
         "tool": "web_research",
         "refused": false
       },
@@ -3749,7 +3749,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 177,
       "type": "evidence_added",
       "payload": {
@@ -3764,7 +3764,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 178,
       "type": "evidence_added",
       "payload": {
@@ -3779,7 +3779,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 179,
       "type": "step_finished",
       "payload": {
@@ -3793,7 +3793,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 180,
       "type": "step_started",
       "payload": {
@@ -3805,7 +3805,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 181,
       "type": "model_call",
       "payload": {
@@ -3825,11 +3825,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 182,
       "type": "agent_decision",
       "payload": {
-        "step_id": "step:0fd95822a03446a9",
+        "step_id": "step:015ed59c7fc78783",
         "agent": "evidence",
         "tool": "physics_calc",
         "reason": "code: physics calculations for this line"
@@ -3840,11 +3840,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 183,
       "type": "agent_decision",
       "payload": {
-        "step_id": "step:c5b7ce36d25873ea",
+        "step_id": "step:c940b317d57baf39",
         "agent": "evidence",
         "tool": "search_precedent",
         "reason": "code: precedent index search"
@@ -3855,11 +3855,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 184,
       "type": "agent_decision",
       "payload": {
-        "step_id": "step:bb683066bf72887a",
+        "step_id": "step:9a09251a274127d7",
         "agent": "evidence",
         "tool": "web_research",
         "reason": "code: web search"
@@ -3870,11 +3870,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 185,
       "type": "tool_call",
       "payload": {
-        "tool_call_id": "tc:step:0fd95822a03446a9:physics_calc:78d37907b9ecfbad",
+        "tool_call_id": "tc:step:015ed59c7fc78783:physics_calc:78d37907b9ecfbad",
         "tool": "physics_calc",
         "refused": false
       },
@@ -3884,11 +3884,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 186,
       "type": "tool_call",
       "payload": {
-        "tool_call_id": "tc:step:c5b7ce36d25873ea:search_precedent:23e24c06772f8265",
+        "tool_call_id": "tc:step:c940b317d57baf39:search_precedent:23e24c06772f8265",
         "tool": "search_precedent",
         "refused": false
       },
@@ -3898,11 +3898,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 187,
       "type": "tool_call",
       "payload": {
-        "tool_call_id": "tc:step:bb683066bf72887a:web_research:5aa00cf474707f7c",
+        "tool_call_id": "tc:step:9a09251a274127d7:web_research:5aa00cf474707f7c",
         "tool": "web_research",
         "refused": false
       },
@@ -3912,7 +3912,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 188,
       "type": "evidence_added",
       "payload": {
@@ -3927,7 +3927,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 189,
       "type": "evidence_added",
       "payload": {
@@ -3942,7 +3942,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 190,
       "type": "step_finished",
       "payload": {
@@ -3956,7 +3956,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 191,
       "type": "step_started",
       "payload": {
@@ -3968,7 +3968,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 192,
       "type": "model_call",
       "payload": {
@@ -3988,11 +3988,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 193,
       "type": "agent_decision",
       "payload": {
-        "step_id": "step:8b7f9dff639fdd4e",
+        "step_id": "step:bf02161a69e8db19",
         "agent": "evidence",
         "tool": "search_precedent",
         "reason": "code: precedent index search"
@@ -4003,11 +4003,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 194,
       "type": "agent_decision",
       "payload": {
-        "step_id": "step:0fec1cd6d5f8c046",
+        "step_id": "step:12960308e8a23c8d",
         "agent": "evidence",
         "tool": "web_research",
         "reason": "code: web search"
@@ -4018,11 +4018,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 195,
       "type": "tool_call",
       "payload": {
-        "tool_call_id": "tc:step:8b7f9dff639fdd4e:search_precedent:ad8c75f0fcffd297",
+        "tool_call_id": "tc:step:bf02161a69e8db19:search_precedent:ad8c75f0fcffd297",
         "tool": "search_precedent",
         "refused": false
       },
@@ -4032,11 +4032,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 196,
       "type": "tool_call",
       "payload": {
-        "tool_call_id": "tc:step:0fec1cd6d5f8c046:web_research:e23133658d3363d0",
+        "tool_call_id": "tc:step:12960308e8a23c8d:web_research:e23133658d3363d0",
         "tool": "web_research",
         "refused": false
       },
@@ -4046,7 +4046,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 197,
       "type": "evidence_added",
       "payload": {
@@ -4061,7 +4061,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 198,
       "type": "step_finished",
       "payload": {
@@ -4075,7 +4075,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 199,
       "type": "step_started",
       "payload": {
@@ -4087,7 +4087,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 200,
       "type": "model_call",
       "payload": {
@@ -4107,11 +4107,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 201,
       "type": "agent_decision",
       "payload": {
-        "step_id": "step:1470965e24a7551d",
+        "step_id": "step:3e816acc68bb6a3f",
         "agent": "evidence",
         "tool": "search_precedent",
         "reason": "code: precedent index search"
@@ -4122,11 +4122,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 202,
       "type": "agent_decision",
       "payload": {
-        "step_id": "step:310c438ea02a1c84",
+        "step_id": "step:8d68afe0b71be771",
         "agent": "evidence",
         "tool": "web_research",
         "reason": "code: web search"
@@ -4137,11 +4137,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 203,
       "type": "tool_call",
       "payload": {
-        "tool_call_id": "tc:step:1470965e24a7551d:search_precedent:06df157d01cbb52c",
+        "tool_call_id": "tc:step:3e816acc68bb6a3f:search_precedent:06df157d01cbb52c",
         "tool": "search_precedent",
         "refused": false
       },
@@ -4151,11 +4151,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 204,
       "type": "tool_call",
       "payload": {
-        "tool_call_id": "tc:step:310c438ea02a1c84:web_research:ca3b598bbfb72981",
+        "tool_call_id": "tc:step:8d68afe0b71be771:web_research:ca3b598bbfb72981",
         "tool": "web_research",
         "refused": false
       },
@@ -4165,7 +4165,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 205,
       "type": "evidence_added",
       "payload": {
@@ -4180,7 +4180,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 206,
       "type": "step_finished",
       "payload": {
@@ -4194,7 +4194,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 207,
       "type": "step_started",
       "payload": {
@@ -4206,7 +4206,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 208,
       "type": "step_finished",
       "payload": {
@@ -4256,7 +4256,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 209,
       "type": "step_started",
       "payload": {
@@ -4268,7 +4268,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 210,
       "type": "step_finished",
       "payload": {
@@ -4282,7 +4282,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "run_id": "run:2f50be91de6062dd",
       "seq": 211,
       "type": "run_finished",
       "payload": {

@@ -4,12 +4,12 @@
     "recorded_at": null,
     "cost_usd": null
   },
-  "run_id": "run:eaf6f55e4d2a4a30",
+  "run_id": "run:2f50be91de6062dd",
   "record_id": "h:1:3816f75bc6a4f1e1",
   "record_kind": "hypothesis",
   "record": {
     "id": "h:1:3816f75bc6a4f1e1",
-    "run_id": "run:eaf6f55e4d2a4a30",
+    "run_id": "run:2f50be91de6062dd",
     "rank": 1,
     "mechanism": "The wrong tote is charged and KOH meets the Si-H fluid in MX-1.",
     "component_ids": [
@@ -49,15 +49,15 @@
       "proc:P-CHARGE-1:skipped",
       "proc:P-CHARGE-1:wrong"
     ],
-    "model_call_id": "mc:3692a0440e517c8f"
+    "model_call_id": "mc:77a67fb21727ca19"
   },
   "parent_ids": [
-    "mc:3692a0440e517c8f"
+    "mc:77a67fb21727ca19"
   ],
   "model_calls": [
     {
-      "id": "mc:3692a0440e517c8f",
-      "run_id": "run:eaf6f55e4d2a4a30",
+      "id": "mc:77a67fb21727ca19",
+      "run_id": "run:2f50be91de6062dd",
       "model_id": "nvidia/Nemotron-3-Ultra-550b-a55b",
       "prompt_version": "plant_screen/v3",
       "job": "plant_screen",
