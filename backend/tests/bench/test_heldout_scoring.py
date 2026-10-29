@@ -125,6 +125,25 @@ def test_a_renamed_id_matches_through_the_fixes_map(tmp_path: Path) -> None:
     assert line_auto_matches(_line("V-01 left closed", ["V-01"]), components, PHRASES)
 
 
+def test_a_renamed_name_with_spaces_is_read_whole(tmp_path: Path) -> None:
+    """A package may name a part in words ("Tank A"); its plant ID can't hold a space, so the
+    conversion renames it, and the key still says "Tank A" (2026-10-28)."""
+    fixes = tmp_path / "fixes.md"
+    fixes.write_text(
+        "- rename: Tank A -> TANK-A\n"
+        "-  rename:  Feed  Pump 2-B   ->   FEED-PUMP-2-B  \n"
+        "- rename: V-1 -> V-01\n"
+        "- rename: no target ->\n"
+        "- rename: two words -> TWO WORDS\n",
+        encoding="utf-8",
+    )
+    assert read_renames(fixes) == {
+        "Tank A": "TANK-A",
+        "Feed  Pump 2-B": "FEED-PUMP-2-B",
+        "V-1": "V-01",
+    }
+
+
 def _shortlist() -> dict[str, Any]:
     finding = {
         "id": "f:m:S-T-1:no:flow:lightning:C15:aaaaaaaaaaaaaaaa",
