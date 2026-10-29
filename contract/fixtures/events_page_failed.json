@@ -4,10 +4,10 @@
     "recorded_at": null,
     "cost_usd": null
   },
-  "run_id": "run:eaf6f55e4d2a4a30:3",
+  "run_id": "run:2f50be91de6062dd:3",
   "events": [
     {
-      "run_id": "run:eaf6f55e4d2a4a30:3",
+      "run_id": "run:2f50be91de6062dd:3",
       "seq": 1,
       "type": "run_started",
       "payload": {
@@ -21,7 +21,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30:3",
+      "run_id": "run:2f50be91de6062dd:3",
       "seq": 2,
       "type": "step_started",
       "payload": {
@@ -33,11 +33,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30:3",
+      "run_id": "run:2f50be91de6062dd:3",
       "seq": 3,
       "type": "model_call",
       "payload": {
-        "model_call_id": "mc:feee39b7b34791cd",
+        "model_call_id": "mc:5cc44f355816aa3f",
         "job": "plant_screen",
         "model_id": "nvidia/Nemotron-3-Ultra-550b-a55b",
         "cache_hit": false,
@@ -53,11 +53,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30:3",
+      "run_id": "run:2f50be91de6062dd:3",
       "seq": 4,
       "type": "model_call",
       "payload": {
-        "model_call_id": "mc:3692a0440e517c8f",
+        "model_call_id": "mc:77a67fb21727ca19",
         "job": "plant_screen",
         "model_id": "nvidia/Nemotron-3-Ultra-550b-a55b",
         "cache_hit": false,
@@ -73,11 +73,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30:3",
+      "run_id": "run:2f50be91de6062dd:3",
       "seq": 5,
       "type": "model_call",
       "payload": {
-        "model_call_id": "mc:3b7275b5aec7a3c5",
+        "model_call_id": "mc:db87ba64ffe126ad",
         "job": "plant_screen",
         "model_id": "nvidia/Nemotron-3-Ultra-550b-a55b",
         "cache_hit": false,
@@ -93,11 +93,11 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30:3",
+      "run_id": "run:2f50be91de6062dd:3",
       "seq": 6,
       "type": "model_call",
       "payload": {
-        "model_call_id": "mc:d9c6d251288ef6e4",
+        "model_call_id": "mc:e1d393d6aa3994c9",
         "job": "plant_screen",
         "model_id": "nvidia/Nemotron-3-Ultra-550b-a55b",
         "cache_hit": false,
@@ -113,7 +113,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30:3",
+      "run_id": "run:2f50be91de6062dd:3",
       "seq": 7,
       "type": "hypothesis_dropped",
       "payload": {
@@ -126,7 +126,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30:3",
+      "run_id": "run:2f50be91de6062dd:3",
       "seq": 8,
       "type": "hypothesis_dropped",
       "payload": {
@@ -139,7 +139,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30:3",
+      "run_id": "run:2f50be91de6062dd:3",
       "seq": 9,
       "type": "hypothesis_added",
       "payload": {
@@ -152,7 +152,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30:3",
+      "run_id": "run:2f50be91de6062dd:3",
       "seq": 10,
       "type": "hypothesis_added",
       "payload": {
@@ -165,7 +165,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30:3",
+      "run_id": "run:2f50be91de6062dd:3",
       "seq": 11,
       "type": "step_finished",
       "payload": {
@@ -179,7 +179,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30:3",
+      "run_id": "run:2f50be91de6062dd:3",
       "seq": 12,
       "type": "step_started",
       "payload": {
@@ -191,7 +191,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30:3",
+      "run_id": "run:2f50be91de6062dd:3",
       "seq": 13,
       "type": "model_call",
       "payload": {
@@ -211,7 +211,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30:3",
+      "run_id": "run:2f50be91de6062dd:3",
       "seq": 14,
       "type": "model_call",
       "payload": {
@@ -231,7 +231,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30:3",
+      "run_id": "run:2f50be91de6062dd:3",
       "seq": 15,
       "type": "step_finished",
       "payload": {
@@ -245,7 +245,7 @@
       "payload_error": null
     },
     {
-      "run_id": "run:eaf6f55e4d2a4a30:3",
+      "run_id": "run:2f50be91de6062dd:3",
       "seq": 16,
       "type": "run_failed",
       "payload": {

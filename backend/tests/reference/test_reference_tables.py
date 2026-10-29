@@ -115,7 +115,7 @@ def test_procedure_rows_are_the_five_procedure_guidewords(ref: ReferenceSet) -> 
 
 def test_causes_reference_existing_events(ref: ReferenceSet) -> None:
     events = {e.id for e in ref.initiating_events}
-    assert len(ref.causes) == 26
+    assert len(ref.causes) == 29
     assert len({c.id for c in ref.causes}) == len(ref.causes)
     assert all(c.initiating_event_id in events for c in ref.causes)
     assert all(isinstance(c.failing_component_type, FailingComponentType) for c in ref.causes)

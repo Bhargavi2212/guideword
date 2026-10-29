@@ -5,7 +5,7 @@
     "cost_usd": null
   },
   "run": {
-    "id": "run:eaf6f55e4d2a4a30",
+    "id": "run:2f50be91de6062dd",
     "plant_record_id": "plant:mock_plant_a:be40872ede387491",
     "attempt": 1,
     "section_snapshot": [
@@ -29,7 +29,7 @@
     "use": "development",
     "reference_versions": {
       "applicability.csv": "d725cd824798c98e398362369d0e8c277caf8e49d720809aa9537705eaa899f6",
-      "causes.csv": "984049c70047943e47cefb79866a4de8f50e418be6b80ed70357956a0cc3da7b",
+      "causes.csv": "b6572101a6c2874a6b567e6896e3c90b9b7cb1d2b66e0e786d51f57d09e0fd55",
       "initiating_events.csv": "caa2f790c999b599e41e3bc055aa9a852a420f84d2cd18ac2e9b1e9d4ab35f16",
       "protection_layers.csv": "4646978f09898a34b8ac0972f79df2e7bf13568ab65a06af397036de9056b9d0",
       "modifiers.csv": "31660806e522d9ec12785c63a0afbef306558b1051ded4a1a4112a2f6b11a8d4",

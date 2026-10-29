@@ -20,3 +20,4 @@ Accessed 2026-10-11. Every row in every table names its source; this file lists 
 - **Modifier keys** in `modifiers.csv` (`release_phase`, `release_rate_kg_s_band`, `area_occupancy`, `event_type`, `operating_pattern`) are our indexing of the EGPC Annex C tables; the values are EGPC's.
 - **Outside-library causes** get the highest frequency among library causes with the same `failing_component_type`, else 0.1 per year, flagged "frequency assumed". This is a project rule, not a source value.
 
+- **C27–C29 in `causes.csv`** (added 2026-10-29, after the held-out benchmark; `docs/decisions.md`): internal corrosion or erosion thinning a pipe wall, a control valve passing when closed, and a process change made without a hazard review. The wording is ours; each maps to an existing EGPC/CCPS initiating-event row (IE-PIPE-LEAK-S, IE-BPCS, IE-HE-RARE) as a project default, approved by Bhargavi. They were never run or scored on a held-out case.
