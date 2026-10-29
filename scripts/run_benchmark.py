@@ -15,7 +15,9 @@ case the store's SHA-256 is printed, for the private repo (G1).
 
 It refuses to start unless it runs from a clean `phase6-freeze*` checkout with the package
 imported from it, the ledger is the main checkout's, the store is not `guideword.db` or
-`guideword-demo.db`, every plant file matches `--frozen`, and every case has a judgement row.
+`guideword-demo.db`, every frozen plant file matches `--frozen`, and every case it runs has a
+judgement row. A case with no frozen plant file is listed as "not converted: not run", never an
+error (decisions 2026-10-28).
 """
 
 import argparse
@@ -35,8 +37,7 @@ from guideword.bench.runner import (
     RunnerRefused,
     baseline_config,
     benchmark_remaining,
-    check_frozen,
-    find_cases,
+    converted_cases,
     guideword_config,
     run_benchmark,
 )
@@ -95,8 +96,8 @@ def main(
             package_file=Path(guideword.__file__),
             script_file=Path(__file__),
         )
-        cases = find_cases(args.folder)
-        check_frozen(args.folder, cases, args.frozen)
+        found = converted_cases(args.folder, args.frozen)
+        cases = found.cases
         judgement = read_judgement(args.judgement)
     except (FreezeRefused, RunnerRefused, JudgementRefused) as refused:
         print(f"refused: {refused}", file=sys.stderr)
@@ -162,6 +163,7 @@ def main(
             stop_below_usd=config.caps.benchmark.stop_below_usd,
             freeze=freeze,
             after_case=store_hash,
+            not_converted=found.not_converted,
         )
     except RunnerRefused as refused:
         print(f"refused: {refused}", file=sys.stderr)
@@ -171,6 +173,8 @@ def main(
     print(f"excluded by the probe: {', '.join(summary.excluded) or 'none'}")
     if summary.already_done:
         print(f"already run (not run again): {', '.join(summary.already_done)}")
+    if summary.not_converted:
+        print(f"not converted (not run): {', '.join(summary.not_converted)}")
     if summary.unrun:
         left = summary.stopped_with_usd or 0.0
         print(f"not run (stop rule, ${left:.2f} left): {', '.join(summary.unrun)}")

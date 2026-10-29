@@ -14,10 +14,12 @@ import pytest
 from guideword.bench.freeze import FreezeInfo
 from guideword.bench.runner import (
     CONFIGS,
+    NOT_CONVERTED_FILE,
     Case,
     RunnerRefused,
     benchmark_remaining,
     check_frozen,
+    converted_cases,
     find_cases,
     read_lines,
     run_benchmark,
@@ -283,3 +285,116 @@ def test_run_case_with_use_benchmark_needs_a_store_and_a_ledger(
 
     assert run_case.main(["x.json", "--use", "benchmark"]) == 1
     assert "--store and --ledger" in capsys.readouterr().err
+
+
+# --- a subset frozen (decisions 2026-10-28): a case with no frozen plant file is not run ------
+
+
+def _frozen_only(folder: Path, tmp_path: Path, letters: str) -> Path:
+    lines = [
+        f"{hashlib.sha256(p.read_bytes()).hexdigest()}  {p.relative_to(folder).as_posix()}\n"
+        for p in sorted((folder / "plants").glob("*.json"))
+        if p.stem[-1] in letters
+    ]
+    path = tmp_path / "heldout-frozen.txt"
+    path.write_text("".join(lines), encoding="utf-8")
+    return path
+
+
+def test_a_case_with_no_frozen_plant_file_is_not_converted_never_an_error(
+    tmp_path: Path,
+) -> None:
+    """k and l are frozen; m has a plant file that was never frozen; n has none."""
+    folder = _folder(tmp_path, "klmn")
+    (folder / "plants" / "case_n.json").unlink()
+    found = converted_cases(folder, _frozen_only(folder, tmp_path, "kl"))
+    assert [c.letter for c in found.cases] == ["k", "l"]
+    assert found.not_converted == ["m", "n"]
+
+
+def test_a_frozen_plant_file_that_is_missing_is_refused(tmp_path: Path) -> None:
+    folder = _folder(tmp_path, "kl")
+    frozen = _frozen_only(folder, tmp_path, "kl")
+    (folder / "plants" / "case_l.json").unlink()
+    with pytest.raises(RunnerRefused, match="case_l.json"):
+        converted_cases(folder, frozen)
+
+
+def test_a_frozen_plant_file_changed_since_is_still_refused(tmp_path: Path) -> None:
+    folder = _folder(tmp_path, "kl")
+    frozen = _frozen_only(folder, tmp_path, "kl")
+    (folder / "plants" / "case_k.json").write_text('{"plant_id": "edited"}', encoding="utf-8")
+    with pytest.raises(RunnerRefused, match="plants/case_k.json"):
+        converted_cases(folder, frozen)
+
+
+def test_a_plant_file_with_no_package_is_still_refused(tmp_path: Path) -> None:
+    folder = _folder(tmp_path, "kl")
+    (folder / "case_l_unit.md").unlink()
+    with pytest.raises(RunnerRefused, match="l"):
+        converted_cases(folder, _frozen_only(folder, tmp_path, "kl"))
+
+
+def test_not_converted_cases_are_listed_never_run_and_need_no_probe_row(
+    tmp_path: Path,
+) -> None:
+    folder = _folder(tmp_path, "klmn")
+    found = converted_cases(folder, _frozen_only(folder, tmp_path, "kl"))
+    stubs = Stubs()
+    out = tmp_path / "out"
+    summary = run_benchmark(
+        found.cases,
+        not_converted=found.not_converted,
+        judgement={"k": False, "l": False},
+        configs=stubs.configs(),
+        lines_path=out / "runs.jsonl",
+        remaining=lambda: 5.19,
+        stop_below_usd=STOP,
+        freeze=FREEZE,
+    )
+    assert summary.run == ["k", "l"] and summary.not_converted == ["m", "n"]
+    assert {letter for letter, _, _ in stubs.calls} == {"k", "l"}
+    assert {x["case"] for x in read_lines(out / "runs.jsonl")} == {"k", "l"}
+    record = json.loads((out / NOT_CONVERTED_FILE).read_text(encoding="utf-8"))
+    assert record == {
+        "cases": ["m", "n"],
+        "freeze_tag": FREEZE.tag,
+        "freeze_commit": FREEZE.commit,
+    }
+
+
+def test_the_stop_rule_never_lists_a_not_converted_case(tmp_path: Path) -> None:
+    folder = _folder(tmp_path, "klmn")
+    found = converted_cases(folder, _frozen_only(folder, tmp_path, "kl"))
+    summary = run_benchmark(
+        found.cases,
+        not_converted=found.not_converted,
+        judgement={"k": False, "l": False},
+        configs=Stubs().configs(),
+        lines_path=tmp_path / "out" / "runs.jsonl",
+        remaining=lambda: 1.0,
+        stop_below_usd=STOP,
+        freeze=FREEZE,
+    )
+    assert summary.unrun == ["k", "l"] and summary.not_converted == ["m", "n"]
+
+
+def test_a_later_start_rewrites_the_not_converted_record(tmp_path: Path) -> None:
+    """If the probe excludes enough cases, the next one is converted and frozen before the runs:
+    the record names only what is still unconverted."""
+    folder = _folder(tmp_path, "klmn")
+    out = tmp_path / "out"
+    for frozen_letters in ("kl", "klm"):
+        found = converted_cases(folder, _frozen_only(folder, tmp_path, frozen_letters))
+        run_benchmark(
+            found.cases,
+            not_converted=found.not_converted,
+            judgement=dict.fromkeys("klm", False),
+            configs=Stubs().configs(),
+            lines_path=out / "runs.jsonl",
+            remaining=lambda: 5.19,
+            stop_below_usd=STOP,
+            freeze=FREEZE,
+        )
+    assert json.loads((out / NOT_CONVERTED_FILE).read_text("utf-8"))["cases"] == ["n"]
+    assert {x["case"] for x in read_lines(out / "runs.jsonl")} == {"k", "l", "m"}

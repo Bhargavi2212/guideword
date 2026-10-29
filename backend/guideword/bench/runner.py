@@ -6,6 +6,10 @@ Bhargavi runs `scripts/run_benchmark.py`; this module is its logic, tested on sy
   file `case_<letter>*.json`, in letter order (P6-8). Each needs a row in the probe judgement;
   a case with none stops the runner before any call. Excluded cases are skipped (P6-5).
 - **The plant files.** Each must match its hash in `bench/heldout-frozen.txt` (G13).
+- **A subset frozen** (decisions 2026-10-28): a case whose plant file is not in the frozen list
+  (never converted, or converted but not frozen) is "not converted: not run": listed in
+  `<out>/not_converted.json`, never run and never an error. A frozen plant file that is
+  missing or changed still stops the runner.
 - **Per case:** baseline A, baseline B, then Guideword. Before a case starts, the stop rule
   (P6-7): if the benchmark allowance has less than `stop_below_usd` left, no further case
   starts, and the cases not run are listed by letter. A case already started is finished.
@@ -42,6 +46,8 @@ CONFIGS = ("baseline_a", "baseline_b", "guideword")
 # a run in these is driven on; any other status is reported as it stands
 UNFINISHED = frozenset({RunStatus.DRAFT, RunStatus.RUNNING})
 RUNS_FILE = "runs.jsonl"
+# the cases this start found with no frozen plant file; rewritten on every start
+NOT_CONVERTED_FILE = "not_converted.json"
 _LETTER = re.compile(r"^case_([a-z])", re.IGNORECASE)
 
 
@@ -56,9 +62,19 @@ class Case:
     plant: Path
 
 
+@dataclass(frozen=True)
+class Found:
+    """The cases to run (a package and a frozen plant file), and the letters with no frozen
+    plant file."""
+
+    cases: list[Case]
+    not_converted: list[str]
+
+
 @dataclass
 class Summary:
     run: list[str] = field(default_factory=list)
+    not_converted: list[str] = field(default_factory=list)
     excluded: list[str] = field(default_factory=list)
     already_done: list[str] = field(default_factory=list)
     # cases the stop rule left unrun, by letter, and the amount left when it stopped
@@ -90,6 +106,41 @@ def find_cases(folder: Path) -> list[Case]:
     if lonely:
         raise RunnerRefused(f"cases without both a package and a plant file: {', '.join(lonely)}")
     return [Case(x, packages[x], plants[x]) for x in letters]
+
+
+def converted_cases(folder: Path, frozen: Path) -> Found:
+    """Each package with a frozen plant file, in letter order, and the letters without one. A
+    plant file with no package, or a frozen plant file that is missing or changed, is refused."""
+    hashes, bad = read_seals(frozen.read_text(encoding="utf-8"))
+    if bad:
+        raise RunnerRefused(f"{frozen.name} has lines that are not hashes: {bad}")
+    packages: dict[str, Path] = {}
+    plants: dict[str, Path] = {}
+    for path in sorted(folder.rglob("case_*")):
+        if not path.is_file():
+            continue
+        kind = classify(path.relative_to(folder).as_posix())
+        if kind == "package":
+            packages.setdefault(_letter(path), path)
+        elif kind == "plant":
+            plants.setdefault(_letter(path), path)
+    lonely = sorted(x for x in plants if x not in packages)
+    if lonely:
+        raise RunnerRefused(f"plant files without a package: {', '.join(lonely)}")
+    present = {p.relative_to(folder).as_posix() for p in plants.values()}
+    gone = sorted(p for p in hashes if p not in present)
+    if gone:
+        raise RunnerRefused(f"frozen plant files missing from the folder: {', '.join(gone)}")
+    cases: list[Case] = []
+    not_converted: list[str] = []
+    for letter in sorted(packages):
+        plant = plants.get(letter)
+        if plant is None or plant.relative_to(folder).as_posix() not in hashes:
+            not_converted.append(letter)
+        else:
+            cases.append(Case(letter, packages[letter], plant))
+    check_frozen(folder, cases, frozen)
+    return Found(cases, not_converted)
 
 
 def check_frozen(folder: Path, cases: Sequence[Case], frozen: Path) -> None:
@@ -144,10 +195,15 @@ def run_benchmark(
     stop_below_usd: float,
     freeze: FreezeInfo,
     after_case: Callable[[Case], None] = lambda case: None,
+    not_converted: Sequence[str] = (),
 ) -> Summary:
     check_judgement(cases, judgement)
-    summary = Summary()
+    summary = Summary(not_converted=list(not_converted))
     stamp = {"freeze_tag": freeze.tag, "freeze_commit": freeze.commit}
+    lines_path.parent.mkdir(parents=True, exist_ok=True)
+    (lines_path.parent / NOT_CONVERTED_FILE).write_text(
+        json.dumps({"cases": summary.not_converted} | stamp) + "\n", encoding="utf-8"
+    )
     for n, case in enumerate(cases):
         if judgement[case.letter]:
             summary.excluded.append(case.letter)

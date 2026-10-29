@@ -1,9 +1,10 @@
 """`results.md`, generated from the run records and never edited by hand (Phase 6 spec 6.5, P6-6,
 P6-10, P6-11; acceptance 8).
 
-Reads `<out>/`: `runs.jsonl`, `probe_judgement.csv`, `auto_scores.json`, both graders' sheets
-(`sheets/`, `sheets_grader2/`), `blind_map.json` and each case's `guideword.json`. It refuses to
-render while any row of any sheet has no score (hit, partial or miss).
+Reads `<out>/`: `runs.jsonl`, `not_converted.json` (when the runner wrote one),
+`probe_judgement.csv`, `auto_scores.json`, both graders' sheets (`sheets/`, `sheets_grader2/`),
+`blind_map.json` and each case's `guideword.json`. It refuses to render while any row of any sheet
+has no score (hit, partial or miss).
 
 - **Headline** (Bhargavi's score, as PROJECT.md §13 says): per configuration, hits in the top 3
   out of n, with a Wilson interval at 0.95; the top 10 the same; partials shown, never counted. A
@@ -24,7 +25,7 @@ from collections.abc import Mapping
 from pathlib import Path
 from typing import Any
 
-from guideword.bench.runner import CONFIGS, read_lines
+from guideword.bench.runner import CONFIGS, NOT_CONVERTED_FILE, read_lines
 from guideword.bench.scoring import bucket
 from guideword.bench.stats import ALPHA, mcnemar_exact, smallest_one_way_discordant, wilson_95
 
@@ -40,6 +41,14 @@ DEV_RESULTS = "[bench/test5/results.md](../../bench/test5/results.md)"
 
 class ResultsRefused(ValueError):
     """A sheet row is unscored, or a record the results need is missing."""
+
+
+def _not_converted(out: Path) -> list[str]:
+    """The cases the runner found with no frozen plant file (decisions 2026-10-28)."""
+    path = out / NOT_CONVERTED_FILE
+    if not path.is_file():
+        return []
+    return sorted(json.loads(path.read_text(encoding="utf-8"))["cases"])
 
 
 def _judgement(out: Path) -> dict[str, dict[str, str]]:
@@ -80,7 +89,10 @@ def render_results(out: Path) -> str:
     done = {(x["case"], x["config"]): x for x in lines if x["state"] == "done"}
     run = sorted({c for c, _ in done if all((c, k) in done for k in CONFIGS)})
     excluded = sorted(c for c, row in judgement.items() if row["excluded"].strip().lower() == "yes")
-    unrun = sorted(c for c in judgement if c not in excluded and c not in run)
+    not_converted = _not_converted(out)
+    unrun = sorted(
+        c for c in judgement if c not in excluded and c not in run and c not in not_converted
+    )
     mapping: dict[str, dict[str, str]] = json.loads((out / "blind_map.json").read_text("utf-8"))
     graded: dict[str, dict[str, dict[str, list[tuple[int, str]]]]] = {}
     for folder, _ in GRADERS:
@@ -198,7 +210,9 @@ def render_results(out: Path) -> str:
     out_lines += ["", "Excluded by the probe (P6-5):"]
     out_lines += [f"- {c}: {judgement[c]['reason']}" for c in excluded] or ["- none"]
     out_lines += ["", "Not run:"]
-    out_lines += [f"- {c}: not run (stop rule)" for c in unrun] or ["- none"]
+    out_lines += [f"- {c}: not run (stop rule)" for c in unrun] + [
+        f"- {c}: not converted: not run" for c in not_converted
+    ] or ["- none"]
 
     agree, calls = 0, 0
     disagreements: list[str] = []

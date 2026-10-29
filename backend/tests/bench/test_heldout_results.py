@@ -177,3 +177,24 @@ def test_the_freeze_coverage_and_total_paid_are_stated(tmp_path: Path) -> None:
     assert "phase6-freeze" in text and "a" * 40 in text
     assert "90 / 100 checked, 3 unsure" in text
     assert "Total paid: $2.08" in text
+
+
+# --- cases never converted (decisions 2026-10-28) ---------------------------------------------
+
+
+def test_cases_never_converted_are_listed_as_not_run(tmp_path: Path) -> None:
+    out = _out(tmp_path)
+    record = {"cases": ["q", "r"]} | FREEZE
+    (out / "not_converted.json").write_text(json.dumps(record), encoding="utf-8")
+    with (out / "probe_judgement.csv").open("a", encoding="utf-8", newline="") as f:
+        csv.writer(f, lineterminator="\n").writerow(["q", "no", "no", "nothing named"])
+    text = render_results(out)
+    assert "q: not converted: not run" in text
+    assert "r: not converted: not run" in text  # listed even with no probe row
+    assert "q: not run (stop rule)" not in text
+    assert "n: not run (stop rule)" in text
+    assert "Cases run: 2 (k, l)" in text
+
+
+def test_with_no_record_no_case_is_called_not_converted(tmp_path: Path) -> None:
+    assert "not converted" not in render_results(_out(tmp_path))
