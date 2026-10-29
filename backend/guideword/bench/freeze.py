@@ -98,8 +98,9 @@ def require_benchmark(
 
 
 # what a later phase6-freeze* tag may change, compared with phase6-freeze (plan G2): the
-# benchmark tooling only, never the pipeline, its API or its exports
-ALLOWED_AFTER_FREEZE = ("backend/guideword/bench/", "scripts/")
+# benchmark tooling only, never the pipeline, its API or its exports. The tests and the docs
+# (the decisions log, the runbook) change nothing a run executes (decisions 2026-10-28).
+ALLOWED_AFTER_FREEZE = ("backend/guideword/bench/", "scripts/", "backend/tests/", "docs/")
 
 
 def freeze_diff(root: Path, new_tag: str, base_tag: str = FREEZE_TAG) -> list[str]:

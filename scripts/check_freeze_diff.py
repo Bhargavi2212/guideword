@@ -2,10 +2,10 @@
 
   python scripts/check_freeze_diff.py phase6-freeze-2
 
-A post-freeze tooling fix needs a new `phase6-freeze*` tag, and the tag counts only when every
-path it changes compared with `phase6-freeze` is under `backend/guideword/bench/` or `scripts/`:
-never the pipeline, its API (`api/`) or its exports (`export/`). Prints each path that isn't
-allowed; exit code 1 if there is any. No call, no cost.
+A post-freeze tooling fix needs a new `phase6-freeze*` tag, and the tag counts only when every path
+it changes compared with `phase6-freeze` is under `backend/guideword/bench/`, `scripts/`,
+`backend/tests/` or `docs/`: never the pipeline, its API (`api/`) or its exports (`export/`).
+Prints each path that isn't allowed; exit code 1 if there is any. No call, no cost.
 """
 
 import argparse

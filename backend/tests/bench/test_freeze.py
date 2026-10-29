@@ -186,7 +186,16 @@ def _later_tag(repo: Path, path: str, tag: str = "phase6-freeze-2") -> None:
     _git(repo, "tag", tag)
 
 
-@pytest.mark.parametrize("path", ["backend/guideword/bench/runner.py", "scripts/run_benchmark.py"])
+@pytest.mark.parametrize(
+    "path",
+    [
+        "backend/guideword/bench/runner.py",
+        "scripts/run_benchmark.py",
+        # the tooling's own tests and the decisions log change nothing a run executes
+        "backend/tests/bench/test_runner.py",
+        "docs/decisions.md",
+    ],
+)
 def test_a_later_tag_changing_only_bench_and_scripts_passes(repo: Path, path: str) -> None:
     import check_freeze_diff
 
@@ -202,6 +211,9 @@ def test_a_later_tag_changing_only_bench_and_scripts_passes(repo: Path, path: st
         "backend/guideword/runs/case.py",
         "prompts/probe/v1.md",
         "config/routing.yaml",
+        "backend/guideword/review/text_check.py",
+        "frontend/src/screens/Shortlist.tsx",
+        "reference/causes.csv",
     ],
 )
 def test_a_later_tag_changing_anything_else_is_refused(
