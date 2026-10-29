@@ -25,7 +25,8 @@ from typing import Any
 from guideword.bench.scoring import _norm
 
 DASH = " — "
-_RENAME = re.compile(r"^\s*-\s*rename:\s*(\S+)\s*->\s*(\S+)\s*$")
+# the old name is the key's, as written, and may hold spaces ("Tank A"); the new one is a plant ID
+_RENAME = re.compile(r"^\s*-\s*rename:\s*(\S(?:.*?\S)?)\s*->\s*(\S+)\s*$")
 
 
 @dataclass(frozen=True)
