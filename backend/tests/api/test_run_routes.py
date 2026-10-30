@@ -30,6 +30,18 @@ from guideword.schema.enums import BudgetUse, EventType, RunStatus
 from guideword.schema.records import SpendEntry
 from guideword.settings import Settings
 
+# Phase 9 (spec 9.1): the card every plant_screen/v4 hypothesis carries
+SCREEN_CARD: dict[str, Any] = {
+    "initiating_event": "test",
+    "enabling_condition": "test",
+    "propagation": "test",
+    "consequence_magnitude": None,
+    "operating_mode": "normal",
+    "mechanism_class": "other",
+    "fact_ids": [],
+}
+
+
 REPO = Path(__file__).resolve().parents[3]
 EXAMPLE = REPO / "backend" / "tests" / "schema" / "fixtures" / "example_mixing_unit.json"
 NOW = datetime(2026, 10, 17, 9, 0, tzinfo=UTC)
@@ -76,6 +88,7 @@ def script(job: str, request: dict[str, Any]) -> Reply:
             "cause_text": "something outside",
             "consequence": "a release",
             "reason": "test",
+            **SCREEN_CARD,
         }
         return reply({"hypotheses": [hypothesis]})
     if job == "orchestrator":

@@ -4,7 +4,7 @@
     "recorded_at": null,
     "cost_usd": null
   },
-  "run_id": "run:2f50be91de6062dd",
+  "run_id": "run:fab376d664e77604",
   "items": [
     {
       "rank": 1,
@@ -15,7 +15,7 @@
       "unsure": true,
       "finding": {
         "id": "f:pair:KOH:SIH:lightning:C14:541f633168214c61",
-        "run_id": "run:2f50be91de6062dd",
+        "run_id": "run:fab376d664e77604",
         "question_id": "pair:KOH:SIH",
         "tier": "lightning",
         "cause_id": "C14",
@@ -37,7 +37,7 @@
       "chain": null,
       "lopa": {
         "id": "lopa:f:pair:KOH:SIH:lightning:C14:541f633168214c61",
-        "run_id": "run:2f50be91de6062dd",
+        "run_id": "run:fab376d664e77604",
         "target_id": "f:pair:KOH:SIH:lightning:C14:541f633168214c61",
         "severity_class": "S3",
         "complete": true,
@@ -76,12 +76,12 @@
       "evidence": [
         {
           "id": "ev:f:pair:KOH:SIH:lightning:C14:541f633168214c61:precedent:none",
-          "run_id": "run:2f50be91de6062dd",
+          "run_id": "run:fab376d664e77604",
           "target_id": "f:pair:KOH:SIH:lightning:C14:541f633168214c61",
           "kind": "precedent",
           "verdict": "none",
           "summary": "no matching precedent found",
-          "tool_call_id": "tc:step:3de914c3901dec50:search_precedent:9e9d176a184d4eb7",
+          "tool_call_id": "tc:step:86caccb6568b52bd:search_precedent:9e9d176a184d4eb7",
           "fact_ids": [],
           "sources": [],
           "model_call_id": "mc:6ff3297fa5e9bc24",
@@ -93,7 +93,7 @@
       "recommendations": [
         {
           "id": "rec:f:pair:KOH:SIH:lightning:C14:541f633168214c61:90267bb6108708ed",
-          "run_id": "run:2f50be91de6062dd",
+          "run_id": "run:fab376d664e77604",
           "target_id": "f:pair:KOH:SIH:lightning:C14:541f633168214c61",
           "action": "Add a tote identity check before P-1 can start.",
           "reason": "The pair finding's gas is what PSV-1 vents.",
@@ -105,7 +105,7 @@
       "hypothesis_rank": 1,
       "hypothesis": {
         "id": "h:1:3816f75bc6a4f1e1",
-        "run_id": "run:2f50be91de6062dd",
+        "run_id": "run:fab376d664e77604",
         "rank": 1,
         "mechanism": "The wrong tote is charged and KOH meets the Si-H fluid in MX-1.",
         "component_ids": [
@@ -145,7 +145,18 @@
           "proc:P-CHARGE-1:skipped",
           "proc:P-CHARGE-1:wrong"
         ],
-        "model_call_id": "mc:77a67fb21727ca19"
+        "model_call_id": "mc:d1e37c640468dd54",
+        "initiating_event": "The operator connects the KOH tote at the charging point.",
+        "enabling_condition": "The charging step checks the label only, during a batch step.",
+        "propagation": "KOH enters MX-1, reacts with the Si-H fluid and hydrogen fills BLDG-1.",
+        "consequence_magnitude": null,
+        "operating_mode": "batch_step",
+        "mechanism_class": "wrong_material_or_contamination",
+        "fact_ids": [
+          "P-CHARGE-1",
+          "MX-1"
+        ],
+        "pass_number": 1
       },
       "support_finding_ids": [
         "f:pair:KOH:SIH:lightning:C14:541f633168214c61"
@@ -163,7 +174,7 @@
       "finding": null,
       "chain": {
         "id": "ch:MX-1.contents+XV-STM.fail_position+f:pair:KOH:SIH:lightning:C14:541f633168214c61+f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b",
-        "run_id": "run:2f50be91de6062dd",
+        "run_id": "run:fab376d664e77604",
         "links": [
           "f:pair:KOH:SIH:lightning:C14:541f633168214c61",
           "f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b",
@@ -174,13 +185,13 @@
         "reason": "The pair finding's gas is what PSV-1 vents.",
         "multi_failure": true,
         "flags": [],
-        "model_call_id": "mc:c820db4624d37dae",
+        "model_call_id": "mc:128b3f5d9cd1089e",
         "severity_class": "S3",
         "severity_reason": "The pair finding's gas is what PSV-1 vents."
       },
       "lopa": {
         "id": "lopa:ch:MX-1.contents+XV-STM.fail_position+f:pair:KOH:SIH:lightning:C14:541f633168214c61+f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b",
-        "run_id": "run:2f50be91de6062dd",
+        "run_id": "run:fab376d664e77604",
         "target_id": "ch:MX-1.contents+XV-STM.fail_position+f:pair:KOH:SIH:lightning:C14:541f633168214c61+f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b",
         "severity_class": "S3",
         "complete": true,
@@ -238,12 +249,12 @@
       "evidence": [
         {
           "id": "ev:ch:MX-1.contents+XV-STM.fail_position+f:pair:KOH:SIH:lightning:C14:541f633168214c61+f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b:calculation:blocked_in_heating-MX-1",
-          "run_id": "run:2f50be91de6062dd",
+          "run_id": "run:fab376d664e77604",
           "target_id": "ch:MX-1.contents+XV-STM.fail_position+f:pair:KOH:SIH:lightning:C14:541f633168214c61+f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b",
           "kind": "calculation",
           "verdict": "none",
           "summary": "Blocked-in heating check on MX-1 skipped: missing L-STM.operating.temperature.normal, SIH.vapor_pressure_points, KOH.vapor_pressure_points",
-          "tool_call_id": "tc:step:1383d53e06f107e3:physics_calc:ed75cad20da58b17",
+          "tool_call_id": "tc:step:0268443d067afbb5:physics_calc:ed75cad20da58b17",
           "fact_ids": [
             "HV-12.normal_position",
             "XV-STM.locked"
@@ -264,12 +275,12 @@
         },
         {
           "id": "ev:ch:MX-1.contents+XV-STM.fail_position+f:pair:KOH:SIH:lightning:C14:541f633168214c61+f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b:precedent:none",
-          "run_id": "run:2f50be91de6062dd",
+          "run_id": "run:fab376d664e77604",
           "target_id": "ch:MX-1.contents+XV-STM.fail_position+f:pair:KOH:SIH:lightning:C14:541f633168214c61+f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b",
           "kind": "precedent",
           "verdict": "none",
           "summary": "no matching precedent found",
-          "tool_call_id": "tc:step:a9cbf432dd4f6ef5:search_precedent:08e1e368af7cdccd",
+          "tool_call_id": "tc:step:56e2e3e228df57ea:search_precedent:08e1e368af7cdccd",
           "fact_ids": [],
           "sources": [],
           "model_call_id": "mc:ea559a4ae80db1ee",
@@ -281,7 +292,7 @@
       "recommendations": [
         {
           "id": "rec:ch:MX-1.contents+XV-STM.fail_position+f:pair:KOH:SIH:lightning:C14:541f633168214c61+f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b:90267bb6108708ed",
-          "run_id": "run:2f50be91de6062dd",
+          "run_id": "run:fab376d664e77604",
           "target_id": "ch:MX-1.contents+XV-STM.fail_position+f:pair:KOH:SIH:lightning:C14:541f633168214c61+f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b",
           "action": "Add a tote identity check before P-1 can start.",
           "reason": "The pair finding's gas is what PSV-1 vents.",
@@ -307,7 +318,7 @@
       "unsure": false,
       "finding": {
         "id": "f:m:S-MX-1:more:temperature:lightning:C01:a92ada9e786e565d",
-        "run_id": "run:2f50be91de6062dd",
+        "run_id": "run:fab376d664e77604",
         "question_id": "m:S-MX-1:more:temperature",
         "tier": "lightning",
         "cause_id": "C01",
@@ -329,7 +340,7 @@
       "chain": null,
       "lopa": {
         "id": "lopa:f:m:S-MX-1:more:temperature:lightning:C01:a92ada9e786e565d",
-        "run_id": "run:2f50be91de6062dd",
+        "run_id": "run:fab376d664e77604",
         "target_id": "f:m:S-MX-1:more:temperature:lightning:C01:a92ada9e786e565d",
         "severity_class": "S2",
         "complete": true,
@@ -385,12 +396,12 @@
       "evidence": [
         {
           "id": "ev:f:m:S-MX-1:more:temperature:lightning:C01:a92ada9e786e565d:calculation:heat_up_rate-MX-1",
-          "run_id": "run:2f50be91de6062dd",
+          "run_id": "run:fab376d664e77604",
           "target_id": "f:m:S-MX-1:more:temperature:lightning:C01:a92ada9e786e565d",
           "kind": "calculation",
           "verdict": "confirmed",
           "summary": "Heat-up time: at its 500 kW duty, MX-1 heats from 25 °C to its 80 °C limit in about 28 minutes",
-          "tool_call_id": "tc:step:015ed59c7fc78783:physics_calc:78d37907b9ecfbad",
+          "tool_call_id": "tc:step:baa1e70115d961bf:physics_calc:78d37907b9ecfbad",
           "fact_ids": [
             "MX-1.heat_duty_kw",
             "MX-1.volume_m3",
@@ -409,12 +420,12 @@
         },
         {
           "id": "ev:f:m:S-MX-1:more:temperature:lightning:C01:a92ada9e786e565d:precedent:a23c17c7ec668ed7",
-          "run_id": "run:2f50be91de6062dd",
+          "run_id": "run:fab376d664e77604",
           "target_id": "f:m:S-MX-1:more:temperature:lightning:C01:a92ada9e786e565d",
           "kind": "precedent",
           "verdict": "confirmed",
           "summary": "web result: Mock precedent: a steam control valve stuck open overheated a batch mixer: Same mechanism (mock): a steam control valve stuck open.",
-          "tool_call_id": "tc:step:9a09251a274127d7:web_research:5aa00cf474707f7c",
+          "tool_call_id": "tc:step:7adea7a1fb75e0ef:web_research:5aa00cf474707f7c",
           "fact_ids": [],
           "sources": [
             "Mock precedent: a steam control valve stuck open overheated a batch mixer",
@@ -429,7 +440,7 @@
       "recommendations": [
         {
           "id": "rec:f:m:S-MX-1:more:temperature:lightning:C01:a92ada9e786e565d:90267bb6108708ed",
-          "run_id": "run:2f50be91de6062dd",
+          "run_id": "run:fab376d664e77604",
           "target_id": "f:m:S-MX-1:more:temperature:lightning:C01:a92ada9e786e565d",
           "action": "Add a tote identity check before P-1 can start.",
           "reason": "The pair finding's gas is what PSV-1 vents.",
@@ -453,7 +464,7 @@
       "unsure": true,
       "finding": {
         "id": "f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b",
-        "run_id": "run:2f50be91de6062dd",
+        "run_id": "run:fab376d664e77604",
         "question_id": "relief:PSV-1",
         "tier": "lightning",
         "cause_id": "outside_library",
@@ -473,7 +484,7 @@
       "chain": null,
       "lopa": {
         "id": "lopa:f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b",
-        "run_id": "run:2f50be91de6062dd",
+        "run_id": "run:fab376d664e77604",
         "target_id": "f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b",
         "severity_class": "S3",
         "complete": true,
@@ -531,12 +542,12 @@
       "evidence": [
         {
           "id": "ev:f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b:precedent:none",
-          "run_id": "run:2f50be91de6062dd",
+          "run_id": "run:fab376d664e77604",
           "target_id": "f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b",
           "kind": "precedent",
           "verdict": "none",
           "summary": "no matching precedent found",
-          "tool_call_id": "tc:step:bf02161a69e8db19:search_precedent:ad8c75f0fcffd297",
+          "tool_call_id": "tc:step:82d5fcf2a5a6ce94:search_precedent:ad8c75f0fcffd297",
           "fact_ids": [],
           "sources": [],
           "model_call_id": "mc:0321edc9e80dfc4b",
@@ -548,7 +559,7 @@
       "recommendations": [
         {
           "id": "rec:f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b:90267bb6108708ed",
-          "run_id": "run:2f50be91de6062dd",
+          "run_id": "run:fab376d664e77604",
           "target_id": "f:relief:PSV-1:lightning:c3a972fb3946b3f6:f222cda333ff2d9b",
           "action": "Add a tote identity check before P-1 can start.",
           "reason": "The pair finding's gas is what PSV-1 vents.",
@@ -572,7 +583,7 @@
       "unsure": true,
       "finding": {
         "id": "f:m:S-L-12:reverse:flow:lightning:C20:2274a734f2fd0c60",
-        "run_id": "run:2f50be91de6062dd",
+        "run_id": "run:fab376d664e77604",
         "question_id": "m:S-L-12:reverse:flow",
         "tier": "lightning",
         "cause_id": "C20",
@@ -592,7 +603,7 @@
       "chain": null,
       "lopa": {
         "id": "lopa:f:m:S-L-12:reverse:flow:lightning:C20:2274a734f2fd0c60",
-        "run_id": "run:2f50be91de6062dd",
+        "run_id": "run:fab376d664e77604",
         "target_id": "f:m:S-L-12:reverse:flow:lightning:C20:2274a734f2fd0c60",
         "severity_class": "S4",
         "complete": false,
@@ -631,12 +642,12 @@
       "evidence": [
         {
           "id": "ev:f:m:S-L-12:reverse:flow:lightning:C20:2274a734f2fd0c60:precedent:none",
-          "run_id": "run:2f50be91de6062dd",
+          "run_id": "run:fab376d664e77604",
           "target_id": "f:m:S-L-12:reverse:flow:lightning:C20:2274a734f2fd0c60",
           "kind": "precedent",
           "verdict": "none",
           "summary": "no matching precedent found",
-          "tool_call_id": "tc:step:3e816acc68bb6a3f:search_precedent:06df157d01cbb52c",
+          "tool_call_id": "tc:step:979b2e8d63c10e92:search_precedent:06df157d01cbb52c",
           "fact_ids": [],
           "sources": [],
           "model_call_id": "mc:e29f6acd27e620a2",
@@ -673,7 +684,7 @@
       "hypothesis_rank": 2,
       "hypothesis": {
         "id": "h:2:8eb9ae798c74bbc8",
-        "run_id": "run:2f50be91de6062dd",
+        "run_id": "run:fab376d664e77604",
         "rank": 2,
         "mechanism": "A fire outside the building heats the roof vent line.",
         "component_ids": [
@@ -686,7 +697,17 @@
         "consequence": "A release at the roof.",
         "reason": "Hot work on the roof is planned.",
         "question_ids": [],
-        "model_call_id": "mc:77a67fb21727ca19"
+        "model_call_id": "mc:d1e37c640468dd54",
+        "initiating_event": "Hot work on the roof ignites material outside BLDG-1.",
+        "enabling_condition": "The planned roof job puts an ignition source next to the vent.",
+        "propagation": "Heat reaches the vent line and its contents are released at the roof.",
+        "consequence_magnitude": null,
+        "operating_mode": "maintenance",
+        "mechanism_class": "hot_work",
+        "fact_ids": [
+          "BLDG-1"
+        ],
+        "pass_number": 1
       },
       "support_finding_ids": [],
       "flags": [

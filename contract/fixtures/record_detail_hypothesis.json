@@ -4,12 +4,12 @@
     "recorded_at": null,
     "cost_usd": null
   },
-  "run_id": "run:2f50be91de6062dd",
+  "run_id": "run:fab376d664e77604",
   "record_id": "h:1:3816f75bc6a4f1e1",
   "record_kind": "hypothesis",
   "record": {
     "id": "h:1:3816f75bc6a4f1e1",
-    "run_id": "run:2f50be91de6062dd",
+    "run_id": "run:fab376d664e77604",
     "rank": 1,
     "mechanism": "The wrong tote is charged and KOH meets the Si-H fluid in MX-1.",
     "component_ids": [
@@ -49,17 +49,28 @@
       "proc:P-CHARGE-1:skipped",
       "proc:P-CHARGE-1:wrong"
     ],
-    "model_call_id": "mc:77a67fb21727ca19"
+    "model_call_id": "mc:d1e37c640468dd54",
+    "initiating_event": "The operator connects the KOH tote at the charging point.",
+    "enabling_condition": "The charging step checks the label only, during a batch step.",
+    "propagation": "KOH enters MX-1, reacts with the Si-H fluid and hydrogen fills BLDG-1.",
+    "consequence_magnitude": null,
+    "operating_mode": "batch_step",
+    "mechanism_class": "wrong_material_or_contamination",
+    "fact_ids": [
+      "P-CHARGE-1",
+      "MX-1"
+    ],
+    "pass_number": 1
   },
   "parent_ids": [
-    "mc:77a67fb21727ca19"
+    "mc:d1e37c640468dd54"
   ],
   "model_calls": [
     {
-      "id": "mc:77a67fb21727ca19",
-      "run_id": "run:2f50be91de6062dd",
+      "id": "mc:d1e37c640468dd54",
+      "run_id": "run:fab376d664e77604",
       "model_id": "nvidia/Nemotron-3-Ultra-550b-a55b",
-      "prompt_version": "plant_screen/v3",
+      "prompt_version": "plant_screen/v4",
       "job": "plant_screen",
       "cache_hit": false,
       "outcome": "invalid",
@@ -70,7 +81,7 @@
       "cost_usd": 0.00025,
       "cap_cost_usd": 0.00025,
       "attempts": 1,
-      "raw_response": "{\"fake\": true, \"content\": \"{\\\"hypotheses\\\": [{\\\"rank\\\": 1, \\\"mechanism\\\": \\\"The wrong tote is charged and KOH meets the Si-H fluid in MX-1.\\\", \\\"component_ids\\\": [\\\"P-CHARGE-1\\\"], \\\"chemical_ids\\\": [\\\"KOH\\\", \\\"SIH\\\"], \\\"failing_component_type\\\": \\\"operator\\\", \\\"cause_id\\\": \\\"C14\\\", \\\"cause_text\\\": \\\"wrong tote selected\\\", \\\"consequence\\\": \\\"Hydrogen in an occupied building.\\\", \\\"reason\\\": \\\"The charging step selects the tote by its label only.\\\"}, {\\\"rank\\\": 2, \\\"mechanism\\\": \\\"A fire outside the building heats the roof vent line.\\\", \\\"component_ids\\\": [\\\"BLDG-1\\\"], \\\"chemical_ids\\\": [], \\\"failing_component_type\\\": \\\"external\\\", \\\"cause_id\\\": \\\"C22\\\", \\\"cause_text\\\": \\\"external fire\\\", \\\"consequence\\\": \\\"A release at the roof.\\\", \\\"reason\\\": \\\"Hot work on the roof is planned.\\\"}, {\\\"rank\\\": 3, \\\"mechanism\\\": \\\"A tank that is not in the plant overflows.\\\", \\\"component_ids\\\": [\\\"TANK-9\\\"], \\\"chemical_ids\\\": [], \\\"failing_component_type\\\": \\\"tank\\\", \\\"cause_id\\\": \\\"C21\\\", \\\"cause_text\\\": \\\"overfill\\\", \\\"consequence\\\": \\\"A spill.\\\", \\\"reason\\\": \\\"Dropped by code: TANK-9 is not a plant object.\\\"}]}\"}",
+      "raw_response": "{\"fake\": true, \"content\": \"{\\\"hypotheses\\\": [{\\\"rank\\\": 1, \\\"mechanism\\\": \\\"The wrong tote is charged and KOH meets the Si-H fluid in MX-1.\\\", \\\"component_ids\\\": [\\\"P-CHARGE-1\\\"], \\\"chemical_ids\\\": [\\\"KOH\\\", \\\"SIH\\\"], \\\"failing_component_type\\\": \\\"operator\\\", \\\"cause_id\\\": \\\"C14\\\", \\\"cause_text\\\": \\\"wrong tote selected\\\", \\\"consequence\\\": \\\"Hydrogen in an occupied building.\\\", \\\"reason\\\": \\\"The charging step selects the tote by its label only.\\\", \\\"initiating_event\\\": \\\"The operator connects the KOH tote at the charging point.\\\", \\\"enabling_condition\\\": \\\"The charging step checks the label only, during a batch step.\\\", \\\"propagation\\\": \\\"KOH enters MX-1, reacts with the Si-H fluid and hydrogen fills BLDG-1.\\\", \\\"consequence_magnitude\\\": null, \\\"operating_mode\\\": \\\"batch_step\\\", \\\"mechanism_class\\\": \\\"wrong_material_or_contamination\\\", \\\"fact_ids\\\": [\\\"P-CHARGE-1\\\", \\\"MX-1\\\"]}, {\\\"rank\\\": 2, \\\"mechanism\\\": \\\"A fire outside the building heats the roof vent line.\\\", \\\"component_ids\\\": [\\\"BLDG-1\\\"], \\\"chemical_ids\\\": [], \\\"failing_component_type\\\": \\\"external\\\", \\\"cause_id\\\": \\\"C22\\\", \\\"cause_text\\\": \\\"external fire\\\", \\\"consequence\\\": \\\"A release at the roof.\\\", \\\"reason\\\": \\\"Hot work on the roof is planned.\\\", \\\"initiating_event\\\": \\\"Hot work on the roof ignites material outside BLDG-1.\\\", \\\"enabling_condition\\\": \\\"The planned roof job puts an ignition source next to the vent.\\\", \\\"propagation\\\": \\\"Heat reaches the vent line and its contents are released at the roof.\\\", \\\"consequence_magnitude\\\": null, \\\"operating_mode\\\": \\\"maintenance\\\", \\\"mechanism_class\\\": \\\"hot_work\\\", \\\"fact_ids\\\": [\\\"BLDG-1\\\"]}, {\\\"rank\\\": 3, \\\"mechanism\\\": \\\"A tank that is not in the plant overflows.\\\", \\\"component_ids\\\": [\\\"TANK-9\\\"], \\\"chemical_ids\\\": [], \\\"failing_component_type\\\": \\\"tank\\\", \\\"cause_id\\\": \\\"C21\\\", \\\"cause_text\\\": \\\"overfill\\\", \\\"consequence\\\": \\\"A spill.\\\", \\\"reason\\\": \\\"Dropped by code: TANK-9 is not a plant object.\\\", \\\"initiating_event\\\": \\\"A level control fails on a tank the plant does not have.\\\", \\\"enabling_condition\\\": \\\"None: the tank is not in the plant record.\\\", \\\"propagation\\\": \\\"None.\\\", \\\"consequence_magnitude\\\": null, \\\"operating_mode\\\": \\\"normal\\\", \\\"mechanism_class\\\": \\\"other\\\", \\\"fact_ids\\\": []}]}\"}",
       "reasoning_text": null,
       "tier": "ultra",
       "record_ids": []

@@ -64,6 +64,11 @@ def valid_cause_ids(
         types = {PROCEDURE}
     elif question.kind == QuestionKind.PLANNED_WORK:
         types = {PLANNED_WORK} | _target_types(ids.parse_question_id(question.id).parts[1], plant)
+    elif question.kind == QuestionKind.CHANGE:
+        # Phase 9 (spec 9.2): the causes of work and procedures, plus those of the changed objects
+        change_id = ids.parse_question_id(question.id).parts[0]
+        objects = next((c.object_ids for c in plant.changes if c.id == change_id), [])
+        types = {PLANNED_WORK, PROCEDURE}.union(*(_target_types(o, plant) for o in objects))
     else:
         section = sections.get(question.section_id) if question.section_id else None
         if section is None:

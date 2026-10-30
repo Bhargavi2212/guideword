@@ -7,7 +7,7 @@ import { AppProvider } from "./context";
 import { buildHash, type Route } from "./router";
 import { Screen } from "./Screen";
 
-const RUN = "run:2f50be91de6062dd";
+const RUN = "run:fab376d664e77604";
 const enc = encodeURIComponent;
 
 function show(route: Route) {

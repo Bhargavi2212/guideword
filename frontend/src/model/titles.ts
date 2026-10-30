@@ -12,6 +12,7 @@ export const TEMPLATES: Record<string, string> = {
   env: "{chemical} meets {water | air | heat}",
   nf: "No flow in line {line}",
   work: "Planned work {job} on {object}",
+  chg: "Change {change}",
   dust: "Dust at {object}",
   relief: "Where {device} discharges",
   ai: "Question added by the analysis on {object}",
@@ -96,6 +97,8 @@ export function questionTitle(question: string): string {
       return `No flow in line ${a}`;
     case "work":
       return `Planned work ${a} on ${b}`;
+    case "chg":
+      return `Change ${a}`;
     case "dust":
       return `Dust at ${a}`;
     case "relief":

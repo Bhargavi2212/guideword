@@ -19,6 +19,7 @@ describe("coverage lists (spec 5.4)", () => {
       "No-flow lines",
       "Procedure steps",
       "Planned work",
+      "Changes", // Phase 9 (spec 9.2)
       "Dust",
       "Relief discharge",
       "Added by AI",

@@ -149,6 +149,7 @@ SEVERITY = {
     "m:S-L-12:reverse:flow": ("S4", "Caustic splash on an operator at the charging point."),
     "relief:PSV-1": ("S3", "Ignition of a flammable release next to workers on the roof."),
 }
+# Phase 9 (spec 9.1): each mock hypothesis is a v4 card
 HYPOTHESES = [
     {
         "rank": 1,
@@ -160,6 +161,13 @@ HYPOTHESES = [
         "cause_text": "wrong tote selected",
         "consequence": "Hydrogen in an occupied building.",
         "reason": "The charging step selects the tote by its label only.",
+        "initiating_event": "The operator connects the KOH tote at the charging point.",
+        "enabling_condition": "The charging step checks the label only, during a batch step.",
+        "propagation": "KOH enters MX-1, reacts with the Si-H fluid and hydrogen fills BLDG-1.",
+        "consequence_magnitude": None,
+        "operating_mode": "batch_step",
+        "mechanism_class": "wrong_material_or_contamination",
+        "fact_ids": ["P-CHARGE-1", "MX-1"],
     },
     {
         "rank": 2,
@@ -171,6 +179,13 @@ HYPOTHESES = [
         "cause_text": "external fire",
         "consequence": "A release at the roof.",
         "reason": "Hot work on the roof is planned.",
+        "initiating_event": "Hot work on the roof ignites material outside BLDG-1.",
+        "enabling_condition": "The planned roof job puts an ignition source next to the vent.",
+        "propagation": "Heat reaches the vent line and its contents are released at the roof.",
+        "consequence_magnitude": None,
+        "operating_mode": "maintenance",
+        "mechanism_class": "hot_work",
+        "fact_ids": ["BLDG-1"],
     },
     {
         "rank": 3,
@@ -182,6 +197,13 @@ HYPOTHESES = [
         "cause_text": "overfill",
         "consequence": "A spill.",
         "reason": "Dropped by code: TANK-9 is not a plant object.",
+        "initiating_event": "A level control fails on a tank the plant does not have.",
+        "enabling_condition": "None: the tank is not in the plant record.",
+        "propagation": "None.",
+        "consequence_magnitude": None,
+        "operating_mode": "normal",
+        "mechanism_class": "other",
+        "fact_ids": [],
     },
 ]
 CHAIN = {

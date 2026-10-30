@@ -58,8 +58,9 @@ run:
   # run 2 (median 3145, p90 4688, max 6961); max_tokens.severity_reason stays the ceiling.
   # Re-measure after case G.
   severity_output_tokens_estimate: 4700
-  # hypotheses the whole-plant pass may propose (R50); it changes the model's input
-  plant_screen_max_hypotheses: 12
+  # hypotheses the whole-plant pass may propose (R50); it changes the model's input.
+  # Phase 9 (spec 9.1): 12 -> 20, diverse and specific; runs store the value they used
+  plant_screen_max_hypotheses: 20
   # fewer valid hypotheses than this: one fresh re-ask, then the best attempt is kept (R50 review)
   plant_screen_min_valid: 5
   # input size of one specialist call; steps and jobs are trimmed to fit, else the batch fails (R43)

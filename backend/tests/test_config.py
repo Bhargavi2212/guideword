@@ -129,7 +129,7 @@ def test_phase_2_run_caps(shipped: Config) -> None:
     assert run.severity_batch_size == 10
     # the severity reserve prices each call at this, under the max_tokens ceiling
     assert run.severity_output_tokens_estimate == 4700
-    assert run.plant_screen_max_hypotheses == 12
+    assert run.plant_screen_max_hypotheses == 20  # Phase 9 (spec 9.1): 12 -> 20
     assert run.plant_screen_min_valid == 5
     assert run.specialist_max_input_tokens == 24000
     assert shipped.caps.ranking.outside_library_default_frequency_per_year == 0.1
@@ -179,7 +179,7 @@ def test_prompt_versions_name_existing_files(shipped: Config) -> None:
         "section_suggestion": "v1",
         "severity": "v2",
         "test5a": "v1",
-        "plant_screen": "v3",
+        "plant_screen": "v4",  # Phase 9 (spec 9.1): the card
         # Phase 3 (plan PR 2, Q5)
         "connector": "v2",
         "lopa_argument": "v3",
@@ -191,8 +191,9 @@ def test_prompt_versions_name_existing_files(shipped: Config) -> None:
         "baseline_plain": "v1",
         **{
             f"specialists/{a}": "v2"
-            for a in ("process", "chemistry", "piping", "procedures", "maintenance", "dust")
+            for a in ("process", "chemistry", "piping", "procedures", "dust")
         },
+        "specialists/maintenance": "v3",  # Phase 9 (spec 9.2): change questions
     }
     assert shipped.routing.jobs["test5a"] == Tier.ULTRA
 

@@ -8,6 +8,7 @@
         "no_flow_line",
         "procedure_step",
         "planned_work",
+        "change",
         "dust",
         "relief_discharge",
         "added_by_ai",

@@ -3,6 +3,8 @@
 
 The first rule that refuses gives the reason:
 
+0. impaired (Phase 9 spec 9.2): the plant's `impairments` block names the layer as bypassed,
+   defeated, overdue or removed: "no credit — impaired: <impairment ID> (<state>)";
 1. not argued (code-only, or Ultra left the layer out): "not argued — no credit";
 2. Ultra says it does not apply: "does not apply: <Ultra's reason>";
 3. a safeguard with no `layer_type` (or a relief device with no `kind`): no row, no credit;
@@ -173,6 +175,10 @@ def credit(
         layer_type: str | None = row.id
     else:
         layer_type = None if isinstance(layer, ReliefDevice) else layer.layer_type
+    impaired = [i for i in plant.impairments if i.safeguard_id == layer.id]
+    if impaired:
+        named = ", ".join(f"{i.id} ({i.state.value})" for i in impaired)
+        return _refused(layer, layer_type, f"no credit — impaired: {named}", argument)
     if argument is None:
         return _refused(layer, layer_type, NOT_ARGUED, None)
     if not argument.applies:

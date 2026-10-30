@@ -1464,13 +1464,30 @@ export interface components {
             component_ids: string[];
             /** Consequence */
             consequence: string;
+            /** Consequence Magnitude */
+            consequence_magnitude?: string | null;
+            /** Enabling Condition */
+            enabling_condition?: string | null;
+            /** Fact Ids */
+            fact_ids?: string[];
             failing_component_type: components["schemas"]["FailingComponentType"];
             /** Id */
             id: string;
+            /** Initiating Event */
+            initiating_event?: string | null;
             /** Mechanism */
             mechanism: string;
+            mechanism_class?: components["schemas"]["MechanismClass"] | null;
             /** Model Call Id */
             model_call_id?: string | null;
+            operating_mode?: components["schemas"]["OperatingMode"] | null;
+            /**
+             * Pass Number
+             * @default 1
+             */
+            pass_number: number;
+            /** Propagation */
+            propagation?: string | null;
             /** Question Ids */
             question_ids?: string[];
             /** Rank */
@@ -1953,6 +1970,13 @@ export interface components {
             tolerable_per_year: number;
         };
         /**
+         * MechanismClass
+         * @description The class of mechanism a hypothesis describes (Phase 9 spec 9.1, 9.4): the classes the
+         *     accident-data priors name, plus `other`.
+         * @enum {string}
+         */
+        MechanismClass: "runaway_reaction" | "wrong_material_or_contamination" | "corrosion_erosion" | "isolation_or_blocked_in" | "defeated_safeguard" | "change_without_review" | "dust_explosion" | "hot_work" | "overpressure_other" | "loss_of_containment_other" | "other";
+        /**
          * ModelCall
          * @description Stored per (run_id, id): a cached response reused by another run is a second record.
          */
@@ -2103,6 +2127,13 @@ export interface components {
             /** Reason */
             reason: string;
         };
+        /**
+         * OperatingMode
+         * @description The plant's state a hypothesis assumes (Phase 9 spec 9.1); accident records cluster in
+         *     the non-normal ones.
+         * @enum {string}
+         */
+        OperatingMode: "normal" | "startup" | "shutdown" | "maintenance" | "idle_or_standby" | "batch_step" | "changeover" | "other";
         /** Override */
         Override: {
             action: components["schemas"]["OverrideAction"];
@@ -2252,7 +2283,7 @@ export interface components {
          * QuestionKind
          * @enum {string}
          */
-        QuestionKind: "matrix" | "chemical_pair" | "chemical_environment" | "no_flow_line" | "procedure_step" | "planned_work" | "dust" | "relief_discharge" | "added_by_ai" | "engineer";
+        QuestionKind: "matrix" | "chemical_pair" | "chemical_environment" | "no_flow_line" | "procedure_step" | "planned_work" | "change" | "dust" | "relief_discharge" | "added_by_ai" | "engineer";
         /** QuestionList */
         QuestionList: {
             label: components["schemas"]["RunLabel"];

@@ -8,6 +8,10 @@ attempt's hypotheses with a problem (Q6 as amended, R50 review), each with a
 `hypothesis_dropped` event. The survivors are stored once, with
 their question links (2b.2), and the run moves on to the analysis. With none left, the run
 goes on without hypotheses. A cap refusal stops the run like any other.
+
+Phase 9 (spec 9.1): the prompt version and the hypothesis limit are the run's own, stored when
+it started (`prompt_versions`, `caps`), so a stored run replays on the prompt it ran on and a
+new run takes the routing's. From `plant_screen/v4` each hypothesis is a card (`requires_card`).
 """
 
 from typing import Any
@@ -33,12 +37,14 @@ from guideword.screen.schema import (
     parse_answer,
     plant_for_screen,
     question_kinds,
+    requires_card,
     screen_causes,
 )
 
 JOB = "plant_screen"
 NEXT = "analysis"
 ASK = "Name the hazards to put in front of the HAZOP team first, in the required JSON schema."
+MAX_SETTING = "plant_screen_max_hypotheses"
 
 log = get_logger(__name__)
 
@@ -61,6 +67,17 @@ def check_plant_sent(messages: list[dict[str, Any]], plant: Plant) -> None:
         raise PlantNotSent(f"the <plant> block lacks {len(missing)} IDs: {', '.join(missing[:5])}")
 
 
+def screen_prompt(run: Run, config: Config) -> Prompt:
+    """The prompt the run started on, else the routing's (Phase 9: a replay reads its own)."""
+    return load_prompt(JOB, config, version=run.prompt_versions.get(JOB))
+
+
+def max_hypotheses_of(run: Run, config: Config) -> int:
+    """The hypothesis limit the run started with (hashed into its ID), else the routing's."""
+    stored = run.caps.get(MAX_SETTING)
+    return int(stored) if stored is not None else config.caps.run.plant_screen_max_hypotheses
+
+
 class PlantScreenStepper:
     def __init__(
         self,
@@ -78,10 +95,12 @@ class PlantScreenStepper:
         self.config = config
         self.ref = ref
         self.plant = plant
+        self.prompt_given = prompt
         self.prompt = prompt if prompt is not None else load_prompt(JOB, config)
         self.preamble = preamble
         self.max_hypotheses = config.caps.run.plant_screen_max_hypotheses
         self.min_valid = config.caps.run.plant_screen_min_valid
+        self.card_required = requires_card(self.prompt.version)
         self.reasked = False
         # every parsed attempt of the last call, and which was kept (for scripts/screen_check)
         self.attempts: list[ScreenAnswer] = []
@@ -105,10 +124,21 @@ class PlantScreenStepper:
             system = f"{marker}\n\n{system}"
         return [{"role": "system", "content": system}, {"role": "user", "content": ASK}]
 
+    def _settle(self, run: Run) -> None:
+        """The run's own prompt version and limit (Phase 9), unless a diagnostic prompt is set."""
+        if self.prompt_given is None:
+            self.prompt = screen_prompt(run, self.config)
+        self.max_hypotheses = max_hypotheses_of(run, self.config)
+        self.card_required = requires_card(self.prompt.version)
+
+    def _problem(self, h: ScreenHypothesis) -> str | None:
+        return hypothesis_problem(h, self.plant, self.ref, card_required=self.card_required)
+
     def __call__(self, run: Run, writer: StepWriter) -> StepResult:
         """One ask; with fewer than `plant_screen_min_valid` valid hypotheses, one fresh re-ask
         (a new conversation with its own marker, so neither cache can replay the first answer);
         then the attempt with the most valid hypotheses is kept (R50 review)."""
+        self._settle(run)
         questions = writer.questions()
         kinds = [q.kind.value for q in questions]
         self.attempts, self.kept_attempt, self.reasked = [], None, False
@@ -135,7 +165,7 @@ class PlantScreenStepper:
         kept: list[ScreenHypothesis] = []
         if chosen is not None:
             for h in self.attempts[chosen].hypotheses:
-                problem = hypothesis_problem(h, self.plant, self.ref)
+                problem = self._problem(h)
                 if problem is None:
                     kept.append(h)
                 else:
@@ -186,6 +216,13 @@ class PlantScreenStepper:
                         questions,
                     ),
                     model_call_id=call_id,
+                    initiating_event=h.initiating_event,
+                    enabling_condition=h.enabling_condition,
+                    propagation=h.propagation,
+                    consequence_magnitude=h.consequence_magnitude,
+                    operating_mode=h.operating_mode,
+                    mechanism_class=h.mechanism_class,
+                    fact_ids=list(h.fact_ids),
                 )
             )
         if chosen is not None and len(self.attempts) > 1:
@@ -214,7 +251,13 @@ class PlantScreenStepper:
         def validator(value: Any) -> None:
             if isinstance(value, ScreenAnswer):
                 self.attempts.append(value)
-            problems = every_problem(value, self.plant, self.ref, self.max_hypotheses)
+            problems = every_problem(
+                value,
+                self.plant,
+                self.ref,
+                self.max_hypotheses,
+                card_required=self.card_required,
+            )
             if problems:
                 raise ValueError("; ".join(problems))
 
@@ -239,11 +282,7 @@ class PlantScreenStepper:
     def _valid(self, index: int | None) -> int:
         if index is None:
             return 0
-        return sum(
-            1
-            for h in self.attempts[index].hypotheses
-            if hypothesis_problem(h, self.plant, self.ref) is None
-        )
+        return sum(1 for h in self.attempts[index].hypotheses if self._problem(h) is None)
 
     def _best_attempt(self) -> int | None:
         """The attempt with more hypotheses passing every check; a tie keeps the earlier one.
@@ -253,9 +292,7 @@ class PlantScreenStepper:
         for index, answer in enumerate(self.attempts):
             if answer_problems(answer, self.max_hypotheses):
                 continue
-            count = sum(
-                1 for h in answer.hypotheses if hypothesis_problem(h, self.plant, self.ref) is None
-            )
+            count = sum(1 for h in answer.hypotheses if self._problem(h) is None)
             if count > best_count:
                 best, best_count = index, count
         self.kept_attempt = best

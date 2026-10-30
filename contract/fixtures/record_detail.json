@@ -4,12 +4,12 @@
     "recorded_at": null,
     "cost_usd": null
   },
-  "run_id": "run:2f50be91de6062dd",
+  "run_id": "run:fab376d664e77604",
   "record_id": "f:pair:KOH:SIH:lightning:C14:541f633168214c61",
   "record_kind": "finding",
   "record": {
     "id": "f:pair:KOH:SIH:lightning:C14:541f633168214c61",
-    "run_id": "run:2f50be91de6062dd",
+    "run_id": "run:fab376d664e77604",
     "question_id": "pair:KOH:SIH",
     "tier": "lightning",
     "cause_id": "C14",
@@ -34,7 +34,7 @@
   "model_calls": [
     {
       "id": "mc:9c2be7f17ddc572c",
-      "run_id": "run:2f50be91de6062dd",
+      "run_id": "run:fab376d664e77604",
       "model_id": "nvidia/Nemotron-3_5-Lightning",
       "prompt_version": "specialists/chemistry/v2",
       "job": "specialist_bulk",

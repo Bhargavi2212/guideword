@@ -131,6 +131,8 @@ def _plant_objects(plant: Plant) -> list[tuple[str, BaseModel]]:
     objects += [("procedure", o) for o in plant.procedures]
     objects += [("procedure step", s) for p in plant.procedures for s in p.steps]
     objects += [("planned work", o) for o in plant.planned_work]
+    objects += [("change", o) for o in plant.changes]
+    objects += [("impairment", o) for o in plant.impairments]
     return objects
 
 
@@ -229,6 +231,18 @@ def _errors(plant: Plant, ref: ReferenceSet) -> list[Issue]:
         c.ref(work.id, "location_id", work.location_id, LOCATION)
         c.refs(work.id, "equipment_ids", work.equipment_ids, EQUIPMENT)
         c.refs(work.id, "line_ids", work.line_ids, LINE)
+    # Phase 9 (spec 9.2): a change may name any plant object; an impairment a safeguard or
+    # relief device
+    for change in plant.changes:
+        for object_id in change.object_ids:
+            if object_id not in c.by_id:
+                c.add(
+                    "bad_reference",
+                    change.id,
+                    f"{change.id}.object_ids: '{object_id}' is not a plant object",
+                )
+    for impairment in plant.impairments:
+        c.ref(impairment.id, "safeguard_id", impairment.safeguard_id, "safeguard", "relief device")
 
     # 3. values that must exist in the reference tables
     layers = {row.id for row in ref.protection_layers}

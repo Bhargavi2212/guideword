@@ -14,6 +14,18 @@ from guideword.gateway.fake import FakeTransport, catalog_for
 from guideword.gateway.ledgers import LaptopLedger
 from guideword.settings import Settings
 
+# Phase 9 (spec 9.1): the card every plant_screen/v4 hypothesis carries
+SCREEN_CARD: dict[str, Any] = {
+    "initiating_event": "test",
+    "enabling_condition": "test",
+    "propagation": "test",
+    "consequence_magnitude": None,
+    "operating_mode": "normal",
+    "mechanism_class": "other",
+    "fact_ids": [],
+}
+
+
 REPO = Path(__file__).resolve().parents[3]
 EXAMPLE = REPO / "backend" / "tests" / "schema" / "fixtures" / "example_mixing_unit.json"
 NOW = datetime(2026, 10, 15, 12, 0, tzinfo=UTC)
@@ -294,6 +306,7 @@ def test_a_supported_screen_hypothesis_heads_the_list_as_confirmed(
             "cause_text": "something outside",
             "consequence": "a release in the building",
             "reason": "test",
+            **SCREEN_CARD,
         }
     ]
     case.run(script_factory(screen_hypotheses=screen))
@@ -328,6 +341,7 @@ def test_case_d_end_to_end_on_the_fake_gateway_with_a_scripted_screen(
             "cause_text": "something outside",
             "consequence": "a release",
             "reason": "test",
+            **SCREEN_CARD,
         },
         {
             "rank": 2,
@@ -339,6 +353,7 @@ def test_case_d_end_to_end_on_the_fake_gateway_with_a_scripted_screen(
             "cause_text": "a pump stops",
             "consequence": "a loss of flow",
             "reason": "test",
+            **SCREEN_CARD,
         },
     ]
     transport = FakeTransport(

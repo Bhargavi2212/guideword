@@ -79,6 +79,21 @@ def _reach(plant: Plant, component_ids: Iterable[str]) -> set[str]:
     for job in plant.planned_work:
         if job.id in reach:
             reach |= set(job.equipment_ids)
+    # Phase 9 (spec 9.2): a change reaches its objects; an impairment what its safeguard protects
+    for change in plant.changes:
+        if change.id in reach:
+            reach |= set(change.object_ids)
+    guards = {g.id: g for g in plant.safeguards}
+    devices = {d.id: d for d in plant.relief_devices}
+    for impairment in plant.impairments:
+        if impairment.id in reach:
+            guard = guards.get(impairment.safeguard_id)
+            if guard is not None:
+                reach |= {guard.id, guard.protects_id or ""} | set(guard.component_ids)
+            device = devices.get(impairment.safeguard_id)
+            if device is not None:
+                reach |= {device.id, device.protects_id}
+    reach.discard("")
     return reach | _attached(plant, reach)
 
 

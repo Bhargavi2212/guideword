@@ -37,6 +37,18 @@ def config() -> Config:
     return load_config(global_budget_usd=25.0)
 
 
+# Phase 9 (spec 9.1): the card every v4 hypothesis carries; the routed prompt is v4
+CARD: dict[str, Any] = {
+    "initiating_event": "an initiating event",
+    "enabling_condition": "an enabling condition",
+    "propagation": "a path",
+    "consequence_magnitude": None,
+    "operating_mode": "normal",
+    "mechanism_class": "other",
+    "fact_ids": [],
+}
+
+
 def hyp(rank: int, components: list[str], kind: str, cause: str, **extra: Any) -> dict[str, Any]:
     return {
         "rank": rank,
@@ -48,6 +60,7 @@ def hyp(rank: int, components: list[str], kind: str, cause: str, **extra: Any) -
         "cause_text": extra.get("cause_text"),
         "consequence": f"consequence {rank}",
         "reason": f"reason {rank}",
+        **CARD,
     }
 
 

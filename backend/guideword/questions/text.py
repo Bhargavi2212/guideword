@@ -61,6 +61,14 @@ def planned_work(job: str, work_type: str, target: str) -> str:
     )
 
 
+def change(change_id: str) -> str:
+    """Phase 9 (spec 9.2): the ID only; the change's own words stay in the context."""
+    return (
+        f"Change {change_id}: what did it defeat or introduce, and were the safeguards, "
+        "procedures and operating limits it touches reviewed for it?"
+    )
+
+
 def dust(equipment: str, equipment_type: str) -> str:
     return (
         f"Dust and ignition in {equipment} ({_words(equipment_type)}): could a combustible dust "

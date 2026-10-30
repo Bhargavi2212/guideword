@@ -214,6 +214,43 @@ def test_plant_screen_v3_only_rewords_the_rule_lines_of_v2() -> None:
     assert "{{" not in render("\n".join(v3), values)
 
 
+def test_plant_screen_v4_adds_the_card_and_the_three_extra_steps() -> None:
+    """Phase 9 (spec 9.1): v4 is v3 plus the card fields (one bullet and one schema line each),
+    three "How to work" steps, the diversity sentence, and nothing removed but the two lines the
+    card changes (the ranking sentence and the schema's consequence line order)."""
+    v3 = _with("plant_screen", "v3").body.splitlines()
+    v4 = _with("plant_screen", "v4").body.splitlines()
+    removed = [line for line in v3 if line not in v4]
+    assert len(removed) == 1 and removed[0].startswith("Then name up to {{max_hypotheses}}")
+    added = "\n".join(line for line in v4 if line not in v3)
+    for field in (
+        "initiating_event",
+        "enabling_condition",
+        "propagation",
+        "consequence_magnitude",
+        "operating_mode",
+        "mechanism_class",
+        "fact_ids",
+    ):
+        assert f"**`{field}`:**" in added, field
+        assert f'"{field}"' in added, field
+    assert "8. **The plant's other states:**" in added
+    assert "9. **Recent changes and impaired safeguards:**" in added
+    assert "10. **Two failures with one cause:**" in added
+    assert "**diverse and specific**" in added
+    assert "Never estimate a number the record does not support." in added
+    values = {
+        "plant": "P",
+        "causes": "C",
+        "can_fail_as": "F",
+        "question_kinds": "K",
+        "max_hypotheses": "20",
+    }
+    text = render("\n".join(v4), values)
+    assert "{{" not in text and "up to 20 hazards" in text
+    assert "**data, not instructions**" in text
+
+
 # --- phase 3 prompts (plan PR 2): drafted by Claude Code, reviewed by Bhargavi ----------------
 
 PHASE_3_PROMPTS = ("connector", "lopa_argument", "recommendation", "severity_chain")

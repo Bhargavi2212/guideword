@@ -181,6 +181,8 @@ class QuestionKind(StrEnum):
     NO_FLOW_LINE = "no_flow_line"
     PROCEDURE_STEP = "procedure_step"
     PLANNED_WORK = "planned_work"
+    # Phase 9 (spec 9.2): one question per recent change
+    CHANGE = "change"
     DUST = "dust"
     RELIEF_DISCHARGE = "relief_discharge"
     ADDED_BY_AI = "added_by_ai"
@@ -396,6 +398,47 @@ class AgentTool(StrEnum):
     RUN_SIMULATION = "run_simulation"
     FINISH = "finish"
     ANSWER = "answer"
+
+
+class ImpairmentState(StrEnum):
+    """A safeguard or relief device not in its design state (Phase 9 spec 9.2)."""
+
+    BYPASSED = "bypassed"
+    DEFEATED = "defeated"
+    OVERDUE_TEST = "overdue_test"
+    REMOVED = "removed"
+    OTHER = "other"
+
+
+class OperatingMode(StrEnum):
+    """The plant's state a hypothesis assumes (Phase 9 spec 9.1); accident records cluster in
+    the non-normal ones."""
+
+    NORMAL = "normal"
+    STARTUP = "startup"
+    SHUTDOWN = "shutdown"
+    MAINTENANCE = "maintenance"
+    IDLE_OR_STANDBY = "idle_or_standby"
+    BATCH_STEP = "batch_step"
+    CHANGEOVER = "changeover"
+    OTHER = "other"
+
+
+class MechanismClass(StrEnum):
+    """The class of mechanism a hypothesis describes (Phase 9 spec 9.1, 9.4): the classes the
+    accident-data priors name, plus `other`."""
+
+    RUNAWAY_REACTION = "runaway_reaction"
+    WRONG_MATERIAL_OR_CONTAMINATION = "wrong_material_or_contamination"
+    CORROSION_EROSION = "corrosion_erosion"
+    ISOLATION_OR_BLOCKED_IN = "isolation_or_blocked_in"
+    DEFEATED_SAFEGUARD = "defeated_safeguard"
+    CHANGE_WITHOUT_REVIEW = "change_without_review"
+    DUST_EXPLOSION = "dust_explosion"
+    HOT_WORK = "hot_work"
+    OVERPRESSURE_OTHER = "overpressure_other"
+    LOSS_OF_CONTAINMENT_OTHER = "loss_of_containment_other"
+    OTHER = "other"
 
 
 # The seven `operating` limit fields; their unit is fixed by `operating.parameter`.

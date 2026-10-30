@@ -114,6 +114,18 @@ def build_questions(
                 text.planned_work(job.id, job.type.value, target),
             )
 
+    # 5b. every recent change (Phase 9 spec 9.2), in the lowest section holding one of its
+    # objects; none when no object is in a section
+    for change in plant.changes:
+        held = [section_of(o, set(SectionKind)) for o in change.object_ids]
+        found = [s for s in held if s is not None]
+        add(
+            ids.change_question_id(change.id),
+            QuestionKind.CHANGE,
+            min(found) if found else None,
+            text.change(change.id),
+        )
+
     # 6. dust and ignition, each equipment item once
     dusty = {c.id for c in plant.chemicals if c.combustible_dust}
     for equipment in plant.equipment:

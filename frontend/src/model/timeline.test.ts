@@ -295,7 +295,7 @@ describe("eventLine and recordIdOf", () => {
       "Hypothesis #3 dropped: rank 3: TANK-9 not in this plant",
     );
     expect(eventLine(first(page, "cap_hit"))).toBe(
-      "Post cap hit: run run:2f50be91de6062dd limit $0.00 would be exceeded",
+      "Post cap hit: run run:fab376d664e77604 limit $0.00 would be exceeded",
     );
     expect(eventLine(first(page, "run_finished"))).toBe(
       "Run finished: spent <$0.01",

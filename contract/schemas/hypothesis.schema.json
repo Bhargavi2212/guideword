@@ -22,6 +22,39 @@
       ],
       "title": "FailingComponentType",
       "type": "string"
+    },
+    "MechanismClass": {
+      "description": "The class of mechanism a hypothesis describes (Phase 9 spec 9.1, 9.4): the classes the\naccident-data priors name, plus `other`.",
+      "enum": [
+        "runaway_reaction",
+        "wrong_material_or_contamination",
+        "corrosion_erosion",
+        "isolation_or_blocked_in",
+        "defeated_safeguard",
+        "change_without_review",
+        "dust_explosion",
+        "hot_work",
+        "overpressure_other",
+        "loss_of_containment_other",
+        "other"
+      ],
+      "title": "MechanismClass",
+      "type": "string"
+    },
+    "OperatingMode": {
+      "description": "The plant's state a hypothesis assumes (Phase 9 spec 9.1); accident records cluster in\nthe non-normal ones.",
+      "enum": [
+        "normal",
+        "startup",
+        "shutdown",
+        "maintenance",
+        "idle_or_standby",
+        "batch_step",
+        "changeover",
+        "other"
+      ],
+      "title": "OperatingMode",
+      "type": "string"
     }
   },
   "additionalProperties": false,
@@ -62,6 +95,37 @@
       "title": "Consequence",
       "type": "string"
     },
+    "consequence_magnitude": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Consequence Magnitude"
+    },
+    "enabling_condition": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Enabling Condition"
+    },
+    "fact_ids": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Fact Ids",
+      "type": "array"
+    },
     "failing_component_type": {
       "$ref": "#/$defs/FailingComponentType"
     },
@@ -69,9 +133,32 @@
       "title": "Id",
       "type": "string"
     },
+    "initiating_event": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Initiating Event"
+    },
     "mechanism": {
       "title": "Mechanism",
       "type": "string"
+    },
+    "mechanism_class": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/MechanismClass"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
     },
     "model_call_id": {
       "anyOf": [
@@ -84,6 +171,35 @@
       ],
       "default": null,
       "title": "Model Call Id"
+    },
+    "operating_mode": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/OperatingMode"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "pass_number": {
+      "default": 1,
+      "minimum": 1,
+      "title": "Pass Number",
+      "type": "integer"
+    },
+    "propagation": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Propagation"
     },
     "question_ids": {
       "items": {

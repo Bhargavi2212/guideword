@@ -22,6 +22,7 @@ from guideword.schema.enums import (
     EquipmentType,
     FailPosition,
     HazopParameter,
+    ImpairmentState,
     InstrumentKind,
     NoFlow,
     OperatingParameter,
@@ -229,6 +230,29 @@ class PlannedWork(_PlantObject):
     lifts_per_year: float | None = None
 
 
+class Change(_PlantObject):
+    """A recent modification the record describes (Phase 9 spec 9.2): what changed, on which
+    objects, when, and whether a hazard review was done. `source` is the record that states
+    it: values come only from stated records (answer 6)."""
+
+    description: str
+    object_ids: list[str] = Field(default_factory=list)
+    date: datetime | None = None
+    hazard_review_done: bool | None = None
+    source: Annotated[str, Field(min_length=1)]
+
+
+class Impairment(_PlantObject):
+    """A safeguard or relief device not in its design state (Phase 9 spec 9.2): it gets no
+    LOPA credit and sits on the defeatable-protection list."""
+
+    safeguard_id: str
+    state: ImpairmentState
+    since: datetime | None = None
+    description: str | None = None
+    source: Annotated[str, Field(min_length=1)]
+
+
 class Plant(_Strict):
     plant_id: PlantObjectId
     schema_version: str
@@ -246,6 +270,9 @@ class Plant(_Strict):
     chemicals: list[Chemical] = Field(default_factory=list)
     procedures: list[Procedure] = Field(default_factory=list)
     planned_work: list[PlannedWork] = Field(default_factory=list)
+    # Phase 9 (spec 9.2): optional, empty by default, so every earlier plant file still loads
+    changes: list[Change] = Field(default_factory=list)
+    impairments: list[Impairment] = Field(default_factory=list)
     # fact ID or object ID -> source reference or "assumed"
     provenance: dict[str, str] = Field(default_factory=dict)
     notes: list[Note] = Field(default_factory=list)
@@ -273,5 +300,7 @@ PLANT_MODELS: list[type[BaseModel]] = [
     ProcedureStep,
     Procedure,
     PlannedWork,
+    Change,
+    Impairment,
     Plant,
 ]

@@ -45,6 +45,14 @@ def hyp(rank: int, components: list[str], **extra: Any) -> dict[str, Any]:
         "cause_text": "outside",
         "consequence": f"{WORDS} consequence",
         "reason": f"{WORDS} reason",
+        # Phase 9 (spec 9.1): the v4 card
+        "initiating_event": f"{WORDS} start",
+        "enabling_condition": f"{WORDS} condition",
+        "propagation": f"{WORDS} path",
+        "consequence_magnitude": None,
+        "operating_mode": "normal",
+        "mechanism_class": "other",
+        "fact_ids": [],
     }
 
 

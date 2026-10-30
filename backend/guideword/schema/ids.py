@@ -175,6 +175,7 @@ _QUESTION_PREFIX: dict[QuestionKind, tuple[str, int]] = {
     QuestionKind.NO_FLOW_LINE: ("nf", 1),
     QuestionKind.PROCEDURE_STEP: ("proc", 2),
     QuestionKind.PLANNED_WORK: ("work", 2),
+    QuestionKind.CHANGE: ("chg", 1),
     QuestionKind.DUST: ("dust", 1),
     QuestionKind.RELIEF_DISCHARGE: ("relief", 1),
     QuestionKind.ADDED_BY_AI: ("ai", 2),
@@ -240,6 +241,11 @@ def procedure_question_id(step: str, guideword: Guideword | str) -> str:
 def work_question_id(job: str, target: str) -> str:
     parts = (_object_id(job), _object_id(target))
     return build_question_id(ParsedQuestionId(QuestionKind.PLANNED_WORK, parts))
+
+
+def change_question_id(change: str) -> str:
+    """`chg:<change id>` (Phase 9 spec 9.2): one question per recent change."""
+    return build_question_id(ParsedQuestionId(QuestionKind.CHANGE, (_object_id(change),)))
 
 
 def dust_question_id(equipment: str) -> str:
@@ -336,15 +342,23 @@ def chain_id(links: Iterable[str]) -> str:
     return "ch:" + "+".join(unique)
 
 
-def hypothesis_id(rank: int, mechanism: str, component_ids: Iterable[str]) -> str:
+def hypothesis_id(
+    rank: int, mechanism: str, component_ids: Iterable[str], *, pass_number: int = 1
+) -> str:
     """`h:<rank>:<h(normalised mechanism, sorted component IDs)>` (R50); stored per run, so the
-    run is not part of the ID."""
+    run is not part of the ID. Phase 9 (spec 9.1, 9.3; answer 10): a hypothesis of a later
+    holistic pass is `h:<rank>:p<pass>:<h(..., pass)>`; pass 1 keeps the form above, so every
+    ID stored before Phase 9 is unchanged."""
     if rank < 1:
         raise ValueError("a hypothesis rank starts at 1")
+    if pass_number < 1:
+        raise ValueError("a holistic pass number starts at 1")
     components = sorted(component_ids)
     if not components:
         raise ValueError("a hypothesis names at least one component")
-    return f"h:{rank}:{h([normalise_text(mechanism), components])}"
+    if pass_number == 1:
+        return f"h:{rank}:{h([normalise_text(mechanism), components])}"
+    return f"h:{rank}:p{pass_number}:{h([normalise_text(mechanism), components, pass_number])}"
 
 
 def lopa_id(target_id: str) -> str:

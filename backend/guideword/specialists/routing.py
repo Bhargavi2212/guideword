@@ -13,6 +13,8 @@ BY_KIND: dict[QuestionKind, Agent] = {
     QuestionKind.NO_FLOW_LINE: Agent.PIPING,
     QuestionKind.PROCEDURE_STEP: Agent.PROCEDURES,
     QuestionKind.PLANNED_WORK: Agent.MAINTENANCE,
+    # Phase 9 (spec 9.2): a change is management-of-change work
+    QuestionKind.CHANGE: Agent.MAINTENANCE,
     QuestionKind.DUST: Agent.DUST,
 }
 

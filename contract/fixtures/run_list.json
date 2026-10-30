@@ -1,7 +1,7 @@
 {
   "runs": [
     {
-      "id": "run:2f50be91de6062dd",
+      "id": "run:fab376d664e77604",
       "plant_record_id": "plant:mock_plant_a:be40872ede387491",
       "attempt": 1,
       "section_snapshot": [
@@ -82,7 +82,7 @@
         },
         "severity_batch_size": 10,
         "severity_output_tokens_estimate": 4700,
-        "plant_screen_max_hypotheses": 12,
+        "plant_screen_max_hypotheses": 20,
         "plant_screen_min_valid": 5,
         "specialist_max_input_tokens": 24000,
         "post_spend_cap_usd": 0.3,
@@ -97,12 +97,12 @@
         "section_suggestion": "v1",
         "severity": "v2",
         "test5a": "v1",
-        "plant_screen": "v3",
+        "plant_screen": "v4",
         "specialists/process": "v2",
         "specialists/chemistry": "v2",
         "specialists/piping": "v2",
         "specialists/procedures": "v2",
-        "specialists/maintenance": "v2",
+        "specialists/maintenance": "v3",
         "specialists/dust": "v2"
       },
       "label": {
@@ -112,7 +112,7 @@
       }
     },
     {
-      "id": "run:2f50be91de6062dd:2",
+      "id": "run:fab376d664e77604:2",
       "plant_record_id": "plant:mock_plant_a:be40872ede387491",
       "attempt": 2,
       "section_snapshot": [
@@ -193,7 +193,7 @@
         },
         "severity_batch_size": 10,
         "severity_output_tokens_estimate": 4700,
-        "plant_screen_max_hypotheses": 12,
+        "plant_screen_max_hypotheses": 20,
         "plant_screen_min_valid": 5,
         "specialist_max_input_tokens": 24000,
         "post_spend_cap_usd": 0.3,
@@ -208,12 +208,12 @@
         "section_suggestion": "v1",
         "severity": "v2",
         "test5a": "v1",
-        "plant_screen": "v3",
+        "plant_screen": "v4",
         "specialists/process": "v2",
         "specialists/chemistry": "v2",
         "specialists/piping": "v2",
         "specialists/procedures": "v2",
-        "specialists/maintenance": "v2",
+        "specialists/maintenance": "v3",
         "specialists/dust": "v2"
       },
       "label": {
@@ -223,7 +223,7 @@
       }
     },
     {
-      "id": "run:2f50be91de6062dd:3",
+      "id": "run:fab376d664e77604:3",
       "plant_record_id": "plant:mock_plant_a:be40872ede387491",
       "attempt": 3,
       "section_snapshot": [
@@ -304,7 +304,7 @@
         },
         "severity_batch_size": 10,
         "severity_output_tokens_estimate": 4700,
-        "plant_screen_max_hypotheses": 12,
+        "plant_screen_max_hypotheses": 20,
         "plant_screen_min_valid": 5,
         "specialist_max_input_tokens": 24000,
         "post_spend_cap_usd": 0.3,
@@ -319,12 +319,12 @@
         "section_suggestion": "v1",
         "severity": "v2",
         "test5a": "v1",
-        "plant_screen": "v3",
+        "plant_screen": "v4",
         "specialists/process": "v2",
         "specialists/chemistry": "v2",
         "specialists/piping": "v2",
         "specialists/procedures": "v2",
-        "specialists/maintenance": "v2",
+        "specialists/maintenance": "v3",
         "specialists/dust": "v2"
       },
       "label": {

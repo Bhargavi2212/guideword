@@ -28,6 +28,7 @@ from guideword.schema import ids
 from guideword.schema.enums import Agent, QuestionKind, SectionKind
 from guideword.schema.plant import (
     Equipment,
+    Impairment,
     Line,
     PlannedWork,
     Plant,
@@ -73,10 +74,18 @@ def _dump(obj: BaseModel) -> dict[str, Any]:
     return {k: v for k, v in obj.model_dump(mode="json").items() if v is not None and v != []}
 
 
-def _safeguard(guard: Safeguard) -> dict[str, Any]:
+def _safeguard(guard: Safeguard, impairments: Sequence[Impairment] = ()) -> dict[str, Any]:
     dumped = _dump(guard)
     # shown even when empty: a safeguard with no layer type gets no LOPA credit
     dumped["layer_type"] = guard.layer_type
+    # Phase 9 (spec 9.2): an impaired safeguard says so, in every agent's context
+    impaired = [
+        {k: v for k, v in _dump(i).items() if k in ("id", "state", "since", "description")}
+        for i in impairments
+        if i.safeguard_id == guard.id
+    ]
+    if impaired:
+        dumped["impairments"] = impaired
     return dumped
 
 
@@ -102,6 +111,7 @@ class _Index:
         self.locations = {loc.id: loc for loc in plant.locations}
         self.relief = {d.id: d for d in plant.relief_devices}
         self.jobs = {w.id: w for w in plant.planned_work}
+        self.changes = {c.id: c for c in plant.changes}
         self.procedures = {p.id: p for p in plant.procedures}
         self.steps = {s.id: (p.id, s) for p in plant.procedures for s in p.steps}
 
@@ -161,7 +171,7 @@ def _packet(index: _Index, scope: set[str]) -> tuple[list[dict[str, Any]], list[
 def _safeguards(index: _Index, scope: set[str], locations: set[str]) -> list[dict[str, Any]]:
     wanted = scope | locations
     return [
-        _safeguard(g)
+        _safeguard(g, index.plant.impairments)
         for g in sorted(index.plant.safeguards, key=lambda g: g.id)
         if (g.protects_id is not None and g.protects_id in wanted) or wanted & set(g.component_ids)
     ]
@@ -191,6 +201,8 @@ def _context(
     if packet is None:
         packet = {s["id"] for s in data.get("procedure_steps", [])}
         packet |= {j["id"] for j in data.get("planned_jobs", [])}
+        # Phase 9 (spec 9.2): a change is in the packet, so an operator finding may name it
+        packet |= {c["id"] for c in data.get("changes", [])}
     return SpecialistContext(
         agent=agent,
         data=data,
@@ -464,6 +476,9 @@ def _maintenance(
 ) -> SpecialistContext:
     plant = index.plant
     job_ids = {_first_part(q) for q in questions if q.kind == QuestionKind.PLANNED_WORK}
+    # Phase 9 (spec 9.2): the changes this batch asks about, and their objects
+    change_ids = {_first_part(q) for q in questions if q.kind == QuestionKind.CHANGE}
+    change_ids = {c for c in change_ids if c in index.changes}
     for question in questions:
         section = _section(sections, question)
         if section is not None:
@@ -471,6 +486,8 @@ def _maintenance(
     reach: set[str] = set()
     for job_id in job_ids:
         reach |= set(within_reach(plant, index.jobs[job_id]))
+    for change_id in change_ids:
+        reach |= set(index.changes[change_id].object_ids)
     all_jobs = job_ids | {r for r in reach if r in index.jobs}
     equipment = _by_id(plant.equipment, reach)
     lines = _by_id(plant.lines, reach)
@@ -486,9 +503,19 @@ def _maintenance(
         "safeguards": guards,
         "chemicals": _chemical_names(index, [*equipment, *lines]),
     }
-    citable = reach | locations | all_jobs
+    if change_ids:
+        data["changes"] = [
+            {k: v for k, v in _dump(index.changes[c]).items() if k != "source"}
+            for c in sorted(change_ids)
+        ]
+    citable = reach | locations | all_jobs | change_ids
     return _context(
-        Agent.MAINTENANCE, data, citable, guards, [d.id for d in relief], packet=all_jobs
+        Agent.MAINTENANCE,
+        data,
+        citable,
+        guards,
+        [d.id for d in relief],
+        packet=all_jobs | change_ids,
     )
 
 

@@ -95,6 +95,7 @@ EXPECTED: list[tuple[type[StrEnum], set[str]]] = [
             "no_flow_line",
             "procedure_step",
             "planned_work",
+            "change",  # Phase 9 (spec 9.2)
             "dust",
             "relief_discharge",
             "added_by_ai",
@@ -221,6 +222,37 @@ EXPECTED: list[tuple[type[StrEnum], set[str]]] = [
             "answer",
         },
     ),
+    # Phase 9 (spec 9.1, 9.2)
+    (
+        e.OperatingMode,
+        {
+            "normal",
+            "startup",
+            "shutdown",
+            "maintenance",
+            "idle_or_standby",
+            "batch_step",
+            "changeover",
+            "other",
+        },
+    ),
+    (
+        e.MechanismClass,
+        {
+            "runaway_reaction",
+            "wrong_material_or_contamination",
+            "corrosion_erosion",
+            "isolation_or_blocked_in",
+            "defeated_safeguard",
+            "change_without_review",
+            "dust_explosion",
+            "hot_work",
+            "overpressure_other",
+            "loss_of_containment_other",
+            "other",
+        },
+    ),
+    (e.ImpairmentState, {"bypassed", "defeated", "overdue_test", "removed", "other"}),
 ]
 
 

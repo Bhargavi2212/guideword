@@ -29,12 +29,12 @@ prompts:
   section_suggestion: v1
   severity: v2
   test5a: v1
-  plant_screen: v3
+  plant_screen: v4
   specialists/process: v2
   specialists/chemistry: v2
   specialists/piping: v2
   specialists/procedures: v2
-  specialists/maintenance: v2
+  specialists/maintenance: v3
   specialists/dust: v2
   # Phase 3 post-analysis steps (plan PR 2); drafted by Claude Code, reviewed by Bhargavi
   connector: v2

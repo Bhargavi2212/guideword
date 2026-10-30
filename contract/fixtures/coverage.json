@@ -4,7 +4,7 @@
     "recorded_at": null,
     "cost_usd": null
   },
-  "run_id": "run:2f50be91de6062dd",
+  "run_id": "run:fab376d664e77604",
   "lists": [
     {
       "list": "sections",
@@ -54,6 +54,13 @@
       "checked": 0,
       "unsure": 0,
       "failed": 1
+    },
+    {
+      "list": "change",
+      "total": 0,
+      "checked": 0,
+      "unsure": 0,
+      "failed": 0
     },
     {
       "list": "dust",

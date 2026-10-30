@@ -15,6 +15,7 @@ const NAMES: Record<string, string> = {
   no_flow_line: "No-flow lines",
   procedure_step: "Procedure steps",
   planned_work: "Planned work",
+  change: "Changes",
   dust: "Dust",
   relief_discharge: "Relief discharge",
   added_by_ai: "Added by AI",

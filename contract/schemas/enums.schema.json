@@ -216,6 +216,17 @@
       "title": "HazopParameter",
       "type": "string"
     },
+    "ImpairmentState": {
+      "enum": [
+        "bypassed",
+        "defeated",
+        "overdue_test",
+        "removed",
+        "other"
+      ],
+      "title": "ImpairmentState",
+      "type": "string"
+    },
     "InstrumentKind": {
       "enum": [
         "sensor",
@@ -236,6 +247,23 @@
       "title": "LikelihoodClass",
       "type": "string"
     },
+    "MechanismClass": {
+      "enum": [
+        "runaway_reaction",
+        "wrong_material_or_contamination",
+        "corrosion_erosion",
+        "isolation_or_blocked_in",
+        "defeated_safeguard",
+        "change_without_review",
+        "dust_explosion",
+        "hot_work",
+        "overpressure_other",
+        "loss_of_containment_other",
+        "other"
+      ],
+      "title": "MechanismClass",
+      "type": "string"
+    },
     "NoFlow": {
       "enum": [
         "normally_closed",
@@ -244,6 +272,20 @@
         "startup_only"
       ],
       "title": "NoFlow",
+      "type": "string"
+    },
+    "OperatingMode": {
+      "enum": [
+        "normal",
+        "startup",
+        "shutdown",
+        "maintenance",
+        "idle_or_standby",
+        "batch_step",
+        "changeover",
+        "other"
+      ],
+      "title": "OperatingMode",
       "type": "string"
     },
     "OperatingParameter": {
@@ -309,6 +351,7 @@
         "no_flow_line",
         "procedure_step",
         "planned_work",
+        "change",
         "dust",
         "relief_discharge",
         "added_by_ai",

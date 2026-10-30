@@ -21,6 +21,8 @@ from guideword.schema.enums import (
     EventType,
     EvidenceKind,
     FailingComponentType,
+    MechanismClass,
+    OperatingMode,
     OverrideAction,
     PlantStatus,
     QuestionKind,
@@ -310,6 +312,17 @@ class Hypothesis(_Record):
     reason: str
     question_ids: list[QuestionId] = Field(default_factory=list)
     model_call_id: str | None = None
+    # Phase 9 (spec 9.1): the card, from plant_screen/v4; empty on hypotheses stored before it
+    initiating_event: str | None = None
+    enabling_condition: str | None = None
+    propagation: str | None = None
+    consequence_magnitude: str | None = None
+    operating_mode: OperatingMode | None = None
+    mechanism_class: MechanismClass | None = None
+    # plant object or fact IDs the hypothesis rests on, each checked against the plant
+    fact_ids: list[str] = Field(default_factory=list)
+    # Phase 9 (spec 9.3): which holistic pass proposed it; 1 for every hypothesis stored before
+    pass_number: Annotated[int, Field(ge=1)] = 1
 
     @model_validator(mode="after")
     def _outside_library_needs_text(self) -> "Hypothesis":

@@ -1,5 +1,71 @@
 {
   "$defs": {
+    "Change": {
+      "additionalProperties": false,
+      "description": "A recent modification the record describes (Phase 9 spec 9.2): what changed, on which\nobjects, when, and whether a hazard review was done. `source` is the record that states\nit: values come only from stated records (answer 6).",
+      "properties": {
+        "date": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Date"
+        },
+        "description": {
+          "title": "Description",
+          "type": "string"
+        },
+        "hazard_review_done": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Hazard Review Done"
+        },
+        "id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_-]*$",
+          "title": "Id",
+          "type": "string"
+        },
+        "notes": {
+          "items": {
+            "$ref": "#/$defs/Note"
+          },
+          "title": "Notes",
+          "type": "array"
+        },
+        "object_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Object Ids",
+          "type": "array"
+        },
+        "source": {
+          "minLength": 1,
+          "title": "Source",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "description",
+        "source"
+      ],
+      "title": "Change",
+      "type": "object"
+    },
     "Chemical": {
       "additionalProperties": false,
       "properties": {
@@ -484,6 +550,81 @@
       ],
       "title": "HeatSource",
       "type": "object"
+    },
+    "Impairment": {
+      "additionalProperties": false,
+      "description": "A safeguard or relief device not in its design state (Phase 9 spec 9.2): it gets no\nLOPA credit and sits on the defeatable-protection list.",
+      "properties": {
+        "description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Description"
+        },
+        "id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_-]*$",
+          "title": "Id",
+          "type": "string"
+        },
+        "notes": {
+          "items": {
+            "$ref": "#/$defs/Note"
+          },
+          "title": "Notes",
+          "type": "array"
+        },
+        "safeguard_id": {
+          "title": "Safeguard Id",
+          "type": "string"
+        },
+        "since": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Since"
+        },
+        "source": {
+          "minLength": 1,
+          "title": "Source",
+          "type": "string"
+        },
+        "state": {
+          "$ref": "#/$defs/ImpairmentState"
+        }
+      },
+      "required": [
+        "id",
+        "safeguard_id",
+        "state",
+        "source"
+      ],
+      "title": "Impairment",
+      "type": "object"
+    },
+    "ImpairmentState": {
+      "description": "A safeguard or relief device not in its design state (Phase 9 spec 9.2).",
+      "enum": [
+        "bypassed",
+        "defeated",
+        "overdue_test",
+        "removed",
+        "other"
+      ],
+      "title": "ImpairmentState",
+      "type": "string"
     },
     "InjectionPoint": {
       "additionalProperties": false,
@@ -1086,6 +1227,13 @@
     "Plant": {
       "additionalProperties": false,
       "properties": {
+        "changes": {
+          "items": {
+            "$ref": "#/$defs/Change"
+          },
+          "title": "Changes",
+          "type": "array"
+        },
         "chemicals": {
           "items": {
             "$ref": "#/$defs/Chemical"
@@ -1105,6 +1253,13 @@
             "$ref": "#/$defs/Equipment"
           },
           "title": "Equipment",
+          "type": "array"
+        },
+        "impairments": {
+          "items": {
+            "$ref": "#/$defs/Impairment"
+          },
+          "title": "Impairments",
           "type": "array"
         },
         "instruments": {

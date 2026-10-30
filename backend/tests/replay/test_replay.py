@@ -32,6 +32,18 @@ from guideword.schema.enums import BudgetUse, RunStatus
 from guideword.schema.records import ToolCall
 from guideword.tools.web import FakeSearch, ReplaySearch, WebSearch
 
+# Phase 9 (spec 9.1): the card every plant_screen/v4 hypothesis carries
+SCREEN_CARD: dict[str, Any] = {
+    "initiating_event": "test",
+    "enabling_condition": "test",
+    "propagation": "test",
+    "consequence_magnitude": None,
+    "operating_mode": "normal",
+    "mechanism_class": "other",
+    "fact_ids": [],
+}
+
+
 REPO = Path(__file__).resolve().parents[3]
 EXAMPLE = REPO / "backend" / "tests" / "schema" / "fixtures" / "example_mixing_unit.json"
 NOW = datetime(2026, 10, 15, 12, 0, tzinfo=UTC)
@@ -219,6 +231,7 @@ def test_replay_reproduces_hypotheses_links_tiers_and_stop_point(
             "cause_text": text,
             "consequence": "a release",
             "reason": "test",
+            **SCREEN_CARD,
         }
         for rank, mechanism, components, kind, cause, text in [
             (

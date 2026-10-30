@@ -41,10 +41,14 @@ def _body(text: str) -> str:
     return (body if found else text).lstrip("\n")
 
 
-def load_prompt(name: str, config: Config, prompts_dir: Path | None = None) -> Prompt:
-    version = config.routing.prompts[name]
+def load_prompt(
+    name: str, config: Config, prompts_dir: Path | None = None, *, version: str | None = None
+) -> Prompt:
+    """The routing's version of a prompt, or `version` (Phase 9: a stored run's own version,
+    so a replay reads the prompt it ran on)."""
+    chosen = version if version is not None else config.routing.prompts[name]
     root = prompts_dir if prompts_dir is not None else DEFAULT_PROMPTS_DIR
-    return Prompt(name, version, _body((root / name / f"{version}.md").read_text(encoding="utf-8")))
+    return Prompt(name, chosen, _body((root / name / f"{chosen}.md").read_text(encoding="utf-8")))
 
 
 def load_prompt_file(name: str, path: Path) -> Prompt:

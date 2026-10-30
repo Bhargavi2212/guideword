@@ -23,6 +23,7 @@ describe("one plain title per line kind, written in code (review plan R3)", () =
     ["env:C4-HEAVIES:water", "C4-HEAVIES meets water"],
     ["nf:L-RUNDOWN", "No flow in line L-RUNDOWN"],
     ["work:W-1:EA-425B", "Planned work W-1 on EA-425B"],
+    ["chg:CH-1", "Change CH-1"], // Phase 9 (spec 9.2)
     ["dust:SILO-1", "Dust at SILO-1"],
     ["relief:PSV-1", "Where PSV-1 discharges"],
     ["ai:S-MX-1:aaaaaaaaaaaaaaaa", "Question added by the analysis on MX-1"],
@@ -86,6 +87,7 @@ describe("one plain title per line kind, written in code (review plan R3)", () =
       [
         "ai",
         "chain",
+        "chg",
         "dust",
         "eng",
         "env",
