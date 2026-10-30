@@ -254,20 +254,32 @@ def test_the_wg_shortlist_names_what_each_stored_calculation_card_is_attached_th
         .get(f"/runs/{quote(run, safe='')}/shortlist")
         .json()["items"]
     )
+
+    # Phase 8 orders the confirmed tier by hypothesis rank, so the lines are found by what they
+    # are, not by rank: the blocked-in chain (#2), the "more temperature" finding that carries
+    # the heat-up card, and the start-up step finding
+    def rank_of(prefix: str) -> int:
+        return next(item["rank"] for item in items if item["target_id"].startswith(prefix))
+
+    chain_rank = rank_of("ch:EA-425B.design_pressure_kpa+EA-425B.heat_sources")
+    heat_rank = rank_of("f:m:S-EA-425B:more:temperature")
+    step_rank = rank_of("f:proc:P-REB-START-2:early")
+    assert chain_rank == 2
     via = {
         (item["rank"], ev["id"].rsplit(":", 1)[1]): ev["via_ids"]
-        for item in items[:5]
+        for item in items
+        if item["rank"] in {*range(1, 6), heat_rank, step_rank}
         for ev in item["evidence"]
     }
-    second = items[1]["chain"]["links"]
-    assert via[(2, "blocked_in_heating-EA-425B")] == [
+    second = items[chain_rank - 1]["chain"]["links"]
+    assert via[(chain_rank, "blocked_in_heating-EA-425B")] == [
         link
         for link in second
         if link.startswith("f:proc:P-REB-START-2:early")
         or link.split(".")[0] in {"HV-B-SIN", "HV-B-SOUT", "HV-QW-B-IN", "HV-QW-B-OUT"}
     ]
-    assert (1, "blocked_in_heating-EA-425B") not in via
-    assert via[(1, "heat_up_rate-EA-425B")] == [items[0]["target_id"]]
-    assert via[(4, "blocked_in_heating-EA-425B")] == [items[3]["target_id"]]
+    assert (heat_rank, "blocked_in_heating-EA-425B") not in via
+    assert via[(heat_rank, "heat_up_rate-EA-425B")] == [items[heat_rank - 1]["target_id"]]
+    assert via[(step_rank, "blocked_in_heating-EA-425B")] == [items[step_rank - 1]["target_id"]]
     assert all(v for (_, key), v in via.items() if key.startswith(("blocked", "heat")))
     assert all(v == [] for (_, key), v in via.items() if not key.startswith(("blocked", "heat")))
