@@ -1,0 +1,22 @@
+{
+ "case": "case_r",
+ "package": "case_r_wood-pellets.md",
+ "model_id": "nvidia/Nemotron-3-Ultra-550b-a55b",
+ "prompt_version": "probe/v1",
+ "outcome": "ok",
+ "error": null,
+ "cost_usd": 0.006186,
+ "cache_hit": false,
+ "seconds": 5.186001900001429,
+ "model_call_ids": [
+  "mc:67f1d7a0e33a3123"
+ ],
+ "answer": {
+  "recognised": true,
+  "company": null,
+  "site": null,
+  "year": null,
+  "accident_name": null,
+  "reason": "The package reads like a French BEA (Bureau d'Enquêtes sur les Accidents) investigation report summary: French regulatory terms (autorisation environnementale, REI 120, cogénération, zone périurbaine), French equipment tagging conventions (HM, CF, PR, CC, BE, MC, BC, SI), anonymised as 'Plant R',, 1"
+ }
+}

@@ -27,9 +27,6 @@ budget/ledger.jsonl
 logs/
 *.log
 
-# held-out benchmark (lives in the private repo until G3)
-bench/heldout/
-
 # frontend
 node_modules/
 frontend/dist/

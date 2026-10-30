@@ -1,0 +1,142 @@
+{
+ "case": "case_m",
+ "package": "case_m_gas-plant.md",
+ "model_id": "nvidia/Nemotron-3-Ultra-550b-a55b",
+ "prompt_version": "baseline_plain/v1",
+ "outcome": "ok",
+ "error": null,
+ "cost_usd": 0.017285,
+ "cache_hit": false,
+ "seconds": 17.22956869995687,
+ "model_call_ids": [
+  "mc:7ab720c4203282ba"
+ ],
+ "hazards": [
+  {
+   "rank": 1,
+   "hazard": "L-OVHD catastrophic rupture at or near WI-2 injection point and downstream bend due to internal corrosion/pitting — massive release of high-pressure H2S-containing flammable gas causing toxic dispersion, fire/explosion, harm to on-site personnel (185–800) and off-site communities (village 0.5 km, 1.",
+   "equipment": [
+    "L-OVHD",
+    "WI-2",
+    "C-1",
+    "E-1A",
+    "E-1B",
+    "D-2",
+    "corrosion probes",
+    "RBI study",
+    "WSE"
+   ],
+   "reason": "Package states: L-OVHD carbon steel, 7–8 mm original thickness, carries 90% C2–C4 + H2S at high pressure; pitting found at WI-2 point 7 years ago with frequent inspection recommended; bend downstream of WI-2 uninspected for ~20 years; E-1A corrosion probe shows high rate; D-2 sampling (best overhead"
+  },
+  {
+   "rank": 2,
+   "hazard": "E-1A or E-1B tube/shell failure due to corrosion/fouling — release of hydrocarbons/H2S to atmosphere or cooling water system, potential for fire, toxic release, or environmental contamination.",
+   "equipment": [
+    "E-1A",
+    "E-1B",
+    "C-1",
+    "WI-2",
+    "corrosion probes"
+   ],
+   "reason": "Package states: shells and tube baffles of both exchangers found badly corroded 7 years ago (attributed to inadequate water wash and draw) and replaced; WI-2 added to control fouling but installed without quill/dispersion; E-1A inlet corrosion probe shows high corrosion rate; root cause (water"
+  },
+  {
+   "rank": 3,
+   "hazard": "WI-2 injection connection mechanical failure (leak/rupture) due to erosion/corrosion/vibration from poor installation — high-pressure H2S gas leak at 9 m height, toxic/flammable cloud, difficult isolation.",
+   "equipment": [
+    "WI-2",
+    "L-OVHD",
+    "operating manual",
+    "management-of-change form"
+   ],
+   "reason": "Package states: WI-2 piped into existing 1-inch vent connection 670 mm upstream of 90° bend, no injection quill or dispersion device, installed without technical memorandum or multidisciplinary review; orifice size changed under MOC ~14 months ago with inaccurate original records; returned to"
+  },
+  {
+   "rank": 4,
+   "hazard": "D-2 reflux drum loss of containment or sour-water draw/sampling failure — loss of best corrosion monitoring indicator (D-2 samples) for 4 years plus potential hydrocarbon/H2S release from drum.",
+   "equipment": [
+    "D-2",
+    "C-1",
+    "sour-water sampling",
+    "corrosion probes"
+   ],
+   "reason": "Package states: D-2 samples recorded as best indicator of corrosion in C-1 overhead; no D-2 results recorded in last 4 years; D-2 has sour-water draw and sampling point; if drum fails or draws fail, loss of containment and loss of critical corrosion monitoring. Severity high (H2S,"
+  },
+  {
+   "rank": 5,
+   "hazard": "Systemic corrosion monitoring failure: D-2 sampling stopped 4 years, D-1 sampling stopped 3 years, corrosion engineer 75% diverted, RBI excluded WI-2, no WSE for injection points — undetected degradation of L-OVHD, E-1A/B, WI-2 leading to sudden failures.",
+   "equipment": [
+    "D-2",
+    "D-1",
+    "corrosion probes",
+    "RBI study",
+    "WSE",
+    "WI-2",
+    "L-OVHD",
+    "E-1A",
+    "E-1B"
+   ],
+   "reason": "Package states: D-2 sampling (best indicator) no results 4 years; D-1 sampling stopped 3 years, resumed last year; full-time corrosion engineer spent ~75% time on other projects 4 years; RBI study excluded WI-2 (coordinator believed line permanently isolated); WSE has no specific"
+  },
+  {
+   "rank": 6,
+   "hazard": "WI-1 wash-water injection point failure at L-FEED — leak of feed hydrocarbons/H2S at injection location with previous failure history.",
+   "equipment": [
+    "WI-1",
+    "L-FEED",
+    "D-1"
+   ],
+   "reason": "Package states: WI-1 part of original design, used continuously to remove corrosive agents; previous failure at this injection location; area inspected after that failure. Severity: feed contains H2S, high pressure; likelihood: known failure history, continuous use, but inspected after"
+  },
+  {
+   "rank": 7,
+   "hazard": "Operating manual and practice gap for WI-2: manual requires commission at start-up but no shutdown/intermittent procedure; staff believe WI-2 occasional/out of service — incorrect operation causing corrosion surges, water hammer, or uncontrolled injection.",
+   "equipment": [
+    "operating manual",
+    "WI-2",
+    "L-OVHD",
+    "E-1A",
+    "E-1B"
+   ],
+   "reason": "Package states: operating manual revised ~6 months ago says WI-2 to be commissioned at start-up; manual does not cover shutdown or intermittent use; staff outside operations generally understand WI-2 to be used only occasionally or to be out of service; switching done by operations. Human error"
+  },
+  {
+   "rank": 8,
+   "hazard": "Management-of-change failures for WI-2: orifice size changed with inaccurate records, returned to continuous use without MOC — actual configuration unknown, inspections/maintenance based on wrong data, corrosion rates unpredictable.",
+   "equipment": [
+    "management-of-change form",
+    "WI-2",
+    "L-OVHD",
+    "RBI study",
+    "WSE"
+   ],
+   "reason": "Package states: flow orifice size changed under MOC ~14 months ago (reduced flow; form showed original orifice size records inaccurate); returned to continuous use in last few months without MOC form; RBI excluded WI-2; water injection points not listed in WSE or piping inspection procedures. Config"
+  },
+  {
+   "rank": 9,
+   "hazard": "Risk-based inspection and WSE systemic gaps: WI-2 excluded from RBI, L-OVHD rated high risk but no acceptance criteria, water injection points not in WSE, 70 staff-week inspection backlog — deferred inspections on known high-risk components.",
+   "equipment": [
+    "RBI study",
+    "WSE",
+    "L-OVHD",
+    "WI-2",
+    "WI-1",
+    "piping inspection database"
+   ],
+   "reason": "Package states: RBI study first to include pipework, software inputs lacked inspection history; WI-2 excluded because coordinator believed line permanently isolated; L-OVHD rated high risk; no acceptance criteria defined; next inspection planned ~3 months; WSE generic interval 60 months, L-OVHD no"
+  },
+  {
+   "rank": 10,
+   "hazard": "C-1 de-ethaniser overpressure due to control/relief failure — overpressure of column containing light hydrocarbons/H2S, potential rupture of column or overhead line L-OVHD.",
+   "equipment": [
+    "C-1",
+    "L-OVHD",
+    "control valves",
+    "D-2",
+    "E-1A",
+    "E-1B"
+   ],
+   "reason": "Package states: C-1 removes methane, ethane, propane overhead at high pressure with H2S; control valves operable from central control room (can be switched to manual and closed); no mention of pressure relief devices or overpressure protection details. Severity: catastrophic if relief absent/fails;"
+  }
+ ]
+}

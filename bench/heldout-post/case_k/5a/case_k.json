@@ -1,0 +1,115 @@
+{
+ "case": "case_k",
+ "package": "case_k_batch-polymer.md",
+ "model_id": "nvidia/Nemotron-3-Ultra-550b-a55b",
+ "prompt_version": "test5a/v1",
+ "outcome": "ok",
+ "error": null,
+ "cost_usd": 0.020315,
+ "cache_hit": false,
+ "seconds": 17.1120037001092,
+ "model_call_ids": [
+  "mc:f367274ce5b036df"
+ ],
+ "hazards": [
+  {
+   "rank": 1,
+   "hazard": "E-1 reflux condenser fouling or flooding causes loss of solvent reflux cooling, leading to uncontrolled temperature rise, runaway polymerization, overpressure, and potential vessel rupture",
+   "equipment": [
+    "E-1 overhead reflux condenser",
+    "R-1 batch reactor",
+    "PSV-1 relief valve",
+    "R-1-MW manway"
+   ],
+   "reason": "E-1 water side never inspected in 30 years; design capacity unknown; previous batches pushed to near-flooding sight glass; current batch has 12% more monomer in Stage 1 and altered solvent blend; no high-temp alarm, no auto emergency cooling, no auto initiator shut-off; only sight glass monitoring"
+  },
+  {
+   "rank": 2,
+   "hazard": "PSV-1 relief valve set pressure not recorded and unverified; may fail to open at design pressure or open too late, leaving overpressure unrelieved",
+   "equipment": [
+    "PSV-1 relief valve",
+    "R-1 batch reactor"
+   ],
+   "reason": "Set pressure not recorded in available records; other site valves set at rated pressure but PSV-1 not confirmed; no testing or verification documented; if PSV-1 fails, only relief is small E-1 vent pipe and manway with 4/18 clamps"
+  },
+  {
+   "rank": 3,
+   "hazard": "R-1 manway secured with only 4 removable clamps versus 18 required for 75 psig; at overpressure manway opens releasing flammable vapors and polymer",
+   "equipment": [
+    "R-1-MW manway",
+    "R-1 batch reactor"
+   ],
+   "reason": "Manufacturer spec calls for 18 clamps for tight seal at 75 psig; only 4 used; clamps not permanently attached; manway carries no marking of required number; no high-pressure alarm to warn before manway failure"
+  },
+  {
+   "rank": 4,
+   "hazard": "E-1 tube leak admits cooling water into reactor; water alters boiling point, may quench then restart reaction, generates non-condensable pressure, or causes thermal shock",
+   "equipment": [
+    "E-1 overhead reflux condenser",
+    "R-1 batch reactor"
+   ],
+   "reason": "E-1 in service ~30 years; water side never opened for inspection or cleaning; fixed tubesheets prevent tube removal/inspection; cooling water is untreated; no leak detection on tube side"
+  },
+  {
+   "rank": 5,
+   "hazard": "Initiator feed pump adds excess initiator (mechanical failure or operator error); no automatic shut-off on high temperature; rapid polymerization exceeds cooling capacity",
+   "equipment": [
+    "Initiator feed line",
+    "R-1 batch reactor",
+    "E-1 overhead reflux condenser"
+   ],
+   "reason": "No automatic initiator-feed shut-off on high temperature or pressure; no remote short-stop injection; batch sheet gives no actions for loss of temperature control; operator watches sight glass only"
+  },
+  {
+   "rank": 6,
+   "hazard": "Solvent blend changed (aliphatic cut 12%, aromatic increased 6%) with 12% more monomer in Stage 1 charge; boiling point and reflux behavior differ from recipe basis, risking E-1 flooding or inadequate reflux",
+   "equipment": [
+    "R-1 batch reactor",
+    "E-1 overhead reflux condenser",
+    "Solvent storage",
+    "Batch sheet for Product K-7"
+   ],
+   "reason": "Chemist estimated only 1°C boiling point change but no reaction calorimetry; no management-of-change review; previous batch increases limited by E-1 near-flooding; this batch has both more monomer and lower-boiling solvent reduced"
+  },
+  {
+   "rank": 7,
+   "hazard": "Multi-shift batch preparation (day: solvents/initiator/part monomer; second: rest monomer; next day: heating/initiator) with inexperienced staff risks charging errors: wrong amounts, double charge, missed steps",
+   "equipment": [
+    "Batch sheet for Product K-7",
+    "Monomer feed line",
+    "Initiator feed line",
+    "Solvent storage"
+   ],
+   "reason": "Chemist 3 weeks, two second-shift operators 3 months, no polymer experience; senior operator returned from retirement; no written handover procedure; training informal; batch quantities set by superintendent not engineer; no MOC for recipe changes"
+  },
+  {
+   "rank": 8,
+   "hazard": "Cooling water supply failure to E-1 shell (pump, valve, pipe, fouling) stops condensation; reflux ceases; temperature control lost; manual emergency jacket cooling may be too late",
+   "equipment": [
+    "Cooling-water system",
+    "E-1 overhead reflux condenser",
+    "R-1 batch reactor"
+   ],
+   "reason": "Cooling water untreated, normally open to E-1; no low-flow alarm; emergency jacket cooling manual only; E-1 water side never cleaned in 30 years increasing fouling risk; no auto initiator stop on cooling loss"
+  },
+  {
+   "rank": 9,
+   "hazard": "E-1 vent line (small pipe to atmosphere) blocked by polymer, ice, or debris; eliminates only pressure relief path if PSV-1 fails, causing overpressure",
+   "equipment": [
+    "E-1 overhead reflux condenser",
+    "E-1 vent line",
+    "R-1 batch reactor"
+   ],
+   "reason": "Vent line small, not sized as relief device; normally open but unmonitored; PSV-1 set pressure unknown; manway only 4/18 clamps; no pressure alarm on R-1"
+  },
+  {
+   "rank": 10,
+   "hazard": "Silica dust explosion in powder conversion area during adsorption of liquid polymer onto silica; combustible dust cloud ignites",
+   "equipment": [
+    "Silica adsorption / powder conversion area",
+    "Silica (powder)"
+   ],
+   "reason": "Silica powder handled in conversion area; combustible dust explosion hazard standard for powder handling; no dust control measures described; area near manufacturing and warehouse"
+  }
+ ]
+}

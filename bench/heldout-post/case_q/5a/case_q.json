@@ -1,0 +1,138 @@
+{
+ "case": "case_q",
+ "package": "case_q_exchanger-opening.md",
+ "model_id": "nvidia/Nemotron-3-Ultra-550b-a55b",
+ "prompt_version": "test5a/v1",
+ "outcome": "ok",
+ "error": null,
+ "cost_usd": 0.01617,
+ "cache_hit": false,
+ "seconds": 13.770395999999892,
+ "model_call_ids": [
+  "mc:856582825df96c0d"
+ ],
+ "hazards": [
+  {
+   "rank": 1,
+   "hazard": "Chlorosilane polymer deposits in HX-B hydrolyse with residual/introduced moisture during opening, generating HCl and H2; air ingress through open channel covers creates flammable/explosive mixture ignited by polymer pyrophoricity or hot work",
+   "equipment": [
+    "HX-B",
+    "upper channel cover",
+    "lower channel cover",
+    "dry-nitrogen hoses",
+    "humidified-nitrogen supply",
+    "purge exhaust to NaOH scrubber"
+   ],
+   "reason": "Package states polymers 'known to be able to ignite'; 3 years ago a burn injury during exchanger dismantling (corrective actions not followed up); hydrolysis pre-treatment used only ~11 kg water over 20 winter days with no quantitative endpoint and a 9-day holiday interruption; opening exposes large"
+  },
+  {
+   "rank": 2,
+   "hazard": "High-pressure wash water and polymer residue drained to NaOH scrubber causes rapid hydrogen release and explosion, as occurred 2 years ago in drainage tank facility",
+   "equipment": [
+    "HX-B",
+    "high-pressure jet-water tank and pump",
+    "purge exhaust to NaOH scrubber",
+    "drainage tank facility",
+    "NaOH gas scrubber"
+   ],
+   "reason": "Package records explosion in drainage tank facility when NaOH contacted residue from gas-gas exchanger cleaning, 'attributed to fast hydrogen release from polymer plus alkali, and judged not possible without alkali'; today's wash water goes to same scrubber system with high-pressure jets driving"
+  },
+  {
+   "rank": 3,
+   "hazard": "Wrong valve sequence or incomplete closure of changeover valves A–G leaves HX-B connected to live process gas (TCS, STC, DCS, H2, HCl) at ~0.1 MPa during cover removal",
+   "equipment": [
+    "HX-B",
+    "exchanger changeover valves (A–G)",
+    "HX-A",
+    "HX-C",
+    "hydrogen recovery train (unit HR-6)"
+   ],
+   "reason": "Changeover requires 'open the standby line valves, close the valves on the line being removed, discharge the process gas from the isolated line'; production continues on standby line; no independent verification or interlocks described; hazard levels of non-routine work not classified; training does"
+  },
+  {
+   "rank": 4,
+   "hazard": "Nitrogen purge fails during channel cover removal (hose disconnection, compressor trip, scrubber blockage) losing inerting; air enters HX-B and mixes with H2 from ongoing polymer hydrolysis",
+   "equipment": [
+    "dry-nitrogen hoses",
+    "purge exhaust to NaOH scrubber",
+    "NaOH gas scrubber",
+    "upper channel cover",
+    "lower channel cover",
+    "HX-B"
+   ],
+   "reason": "Temporary hoses at 20 Nm³/h and 0.018 MPa; exhaust drawn to water tank and NaOH scrubber — if scrubber blocks, pressure builds in HX-B; if hose disconnects, air enters; no low-flow alarm or backup supply described; large workforce moving around hoses increases"
+  },
+  {
+   "rank": 5,
+   "hazard": "High-pressure wash water forces moisture deep into polymer deposits inside 28.2 mm ID tubes; trapped water continues exothermic hydrolysis after reassembly, generating HCl/H2 and pressure in service",
+   "equipment": [
+    "HX-B",
+    "high-pressure jet-water tank and pump",
+    "tubes (293, OD 34 mm, ID 28.2 mm, length 4,000 mm)",
+    "tubesheets"
+   ],
+   "reason": "Package describes high-pressure water wash of tubes; polymers deposit on tube inner walls narrowing flow path; no drying or verification step before return to service; 293 tubes × 4 m length gives large hidden surface area; hydrolytic HCl/H2 generation"
+  },
+  {
+   "rank": 6,
+   "hazard": "Crane truck drops 6,300 kg HX-B or 300 kg upper channel cover onto personnel, live process lines, activated carbon unit, or crude distillation column No. 2 pipe rack",
+   "equipment": [
+    "HX-B",
+    "upper channel cover",
+    "crane truck",
+    "activated carbon adsorption unit",
+    "crude distillation column No. 2 pipe rack",
+    "timber supports"
+   ],
+   "reason": "HX-B operating weight 6,300 kg; upper cover ~300 kg; crane truck operator with six contractor workers, seven production staff, three equipment staff, plus observers 'around the exchanger'; washing area 'near the activated carbon unit and the No. 2 crude distillation pipe rack'; timber supports"
+  },
+  {
+   "rank": 7,
+   "hazard": "Residual chlorosilanes, HCl and H2 remain in isolated HX-B after incomplete pre-opening purge (only 3 days dry N₂ blow, no verification), releasing toxic/flammable gas when covers are removed",
+   "equipment": [
+    "HX-B",
+    "dry nitrogen blow (pre-opening step 3)",
+    "humidified nitrogen blow (pre-opening step 4)",
+    "upper channel cover",
+    "lower channel cover"
+   ],
+   "reason": "Pre-opening standard: seven weeks ago cooling water drained and process side purged with dry N₂; next day moved; only three days of dry N₂ blow at 20 Nm³/h to 'remove residual chlorosilanes, HCl and H2'; then 20 days humidified N₂; nine-day holiday; final three days dry N₂; no quantitative endpoint"
+  },
+  {
+   "rank": 8,
+   "hazard": "Silicon powder dust explosion from fluidised-bed chlorination furnace or deposition area ignited by crane truck, floodlights, or hot work in open washing area",
+   "equipment": [
+    "fluidised-bed chlorination furnace",
+    "deposition reactors",
+    "heat-exchanger washing area",
+    "temporary floodlights",
+    "crane truck",
+    "timber supports"
+   ],
+   "reason": "Furnace operates at ~300 °C with 98% Si metallurgical powder; deposition reactors use vaporised TCS/H₂; washing area 'in the open within the plant' with temporary floodlights, timber supports, crane truck; silicon powder dust explosion risk in furnace and where dust"
+  },
+  {
+   "rank": 9,
+   "hazard": "Cooling water / process gas cross-contamination in HX-B if polymer deposits hide tube leaks; undetected during high-pressure wash, leading to future release of chlorosilanes/HCl into cooling water or water into process",
+   "equipment": [
+    "HX-B",
+    "tubes (293, SUS316L)",
+    "tubesheets",
+    "cooling water in at lower shell, out at upper shell",
+    "high-pressure jet-water tank and pump"
+   ],
+   "reason": "293 tubes, 4,000 mm long, polymer deposits on ID; no inspection method described for tube integrity; high-pressure water wash may not reveal leaks against shell-side pressure; shell and channel covers SUS304, tubes SUS316L; operating temperature/pressure not stated but"
+  },
+  {
+   "rank": 10,
+   "hazard": "Humidified nitrogen pre-treatment (0.8 vol% H₂O) over 20 winter days introduces ~11 kg water with no temperature control, causing uneven/excessive hydrolysis that generates HCl/H2 unpredictably and leaves reactive polymer surface",
+   "equipment": [
+    "HX-B",
+    "humidified-nitrogen supply",
+    "dry nitrogen blow (pre-opening step 6)",
+    "chlorosilane polymers"
+   ],
+   "reason": "Package: 'no temperature control (ambient, winter conditions)'; 'work standard gives no quantitative end-point for the hydrolysis step'; 9-day holiday interruption; only 11 kg total water for several hundred kg estimated polymer; final dry N₂ blow may not remove all generated HCl/H2; hydrolysis"
+  }
+ ]
+}

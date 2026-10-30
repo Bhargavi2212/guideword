@@ -1,0 +1,22 @@
+{
+ "case": "case_q",
+ "package": "case_q_exchanger-opening.md",
+ "model_id": "nvidia/Nemotron-3-Ultra-550b-a55b",
+ "prompt_version": "probe/v1",
+ "outcome": "ok",
+ "error": null,
+ "cost_usd": 0.00931,
+ "cache_hit": false,
+ "seconds": 8.402688000001945,
+ "model_call_ids": [
+  "mc:68d55656224e8e06"
+ ],
+ "answer": {
+  "recognised": false,
+  "company": null,
+  "site": null,
+  "year": null,
+  "accident_name": null,
+  "reason": "The package contains highly specific technical details (exchanger dimensions, pre-treatment steps, history of burn injury and drainage tank explosion) that suggest a real incident, but no combination of company, site, year, or accident name matches a publicly reported accident in my knowledge base. "
+ }
+}

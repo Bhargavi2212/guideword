@@ -1,0 +1,22 @@
+{
+ "case": "case_n",
+ "package": "case_n_hydrogenation.md",
+ "model_id": "nvidia/Nemotron-3-Ultra-550b-a55b",
+ "prompt_version": "probe/v1",
+ "outcome": "ok",
+ "error": null,
+ "cost_usd": 0.010127,
+ "cache_hit": false,
+ "seconds": 9.385395799996331,
+ "model_call_ids": [
+  "mc:c525e81ff7d4b393"
+ ],
+ "answer": {
+  "recognised": true,
+  "company": "Shell Nederland Chemie (Shell Chemicals Europe)",
+  "site": "Moerdijk (near Vlissingen/Oostburg, Netherlands, on the Western Scheldt estuary)",
+  "year": "2017",
+  "accident_name": "Explosion and fire in hydrogenation unit U-H of SM/PO plant N2 during start-up after catalyst change (29 May 2017)",
+  "reason": "Exact match of process (SM/PO with ethylbenzene/MPK/MPC hydrogenation in trickle-bed reactors R-1/R-2), catalyst change from A to B with higher Cr(VI), start-up parameters (50 vs 30 °C/h heating, 240 vs 475 kg/h N2), sister plant 685 °C excursion 4 years prior, 200 °C excursion 15 years prior, 'pit止"
+ }
+}

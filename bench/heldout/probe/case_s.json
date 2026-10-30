@@ -1,0 +1,22 @@
+{
+ "case": "case_s",
+ "package": "case_s_acid-tank-farm.md",
+ "model_id": "nvidia/Nemotron-3-Ultra-550b-a55b",
+ "prompt_version": "probe/v1",
+ "outcome": "ok",
+ "error": null,
+ "cost_usd": 0.008155,
+ "cache_hit": false,
+ "seconds": 5.861218600068241,
+ "model_call_ids": [
+  "mc:e5dc7d8b6aa6d43d"
+ ],
+ "answer": {
+  "recognised": true,
+  "company": "Tesoro (Tesoro Anacortes Refinery, formerly Shell Puget Sound Refinery)",
+  "site": "Anacortes, Washington",
+  "year": "2019",
+  "accident_name": "Tesoro Anacortes Refinery sulfuric acid tank explosion (November 22, 2019)",
+  "reason": "Exact match to CSB investigation details: six TK-1–TK-6 spent/fresh acid tanks, single RG-1 CO2 regulator serving TK-6 and TK-3 via 3/4-in hose through corroded nozzle hole, catwalk grating replacement with oxy-acetylene/air carbon arc, prior permit refusals for SO2 and LEL, UCR filed but not acted于"
+ }
+}

@@ -1,0 +1,9 @@
+case,recognised_by_probe,excluded,reason
+k,yes,no,"probe named a different company and site (T2 Laboratories, Roanoke VA); not this accident. Judged by Cowork at Bhargavi's request"
+l,yes,yes,"probe named the company and site correctly (DPC Enterprises, Festus MO). Judged by Cowork at Bhargavi's request"
+m,yes,no,probe named a different refinery in the same area (Total Lindsey); not this site. Judged by Cowork at Bhargavi's request
+n,yes,yes,"probe named the company and site correctly (Shell, Moerdijk); its year was wrong. Judged by Cowork at Bhargavi's request"
+p,yes,no,"probe named a different company and site (Bayer CropScience, Institute WV); its accident_name described a similar mechanism class, noted as a caveat. Judged by Cowork at Bhargavi's request"
+q,no,no,probe named nothing. Judged by Cowork at Bhargavi's request
+r,yes,no,"probe said recognised but named no company, site or accident. Judged by Cowork at Bhargavi's request"
+s,yes,no,probe named a different company and site (Tesoro Anacortes); not this accident. Judged by Cowork at Bhargavi's request

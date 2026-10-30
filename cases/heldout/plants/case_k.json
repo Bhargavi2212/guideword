@@ -1,0 +1,198 @@
+{
+  "plant_id": "case_k",
+  "schema_version": "1.0",
+  "notes": [
+    {"text": "Small specialty-chemical plant (single site of the operating company) making acrylic polymer additives for powder coatings and paints by free-radical polymerisation of acrylic monomers in flammable solvents.", "source": "case_k_batch-polymer.md"},
+    {"text": "Many liquid products are converted into free-flowing powders by adsorbing them onto silica. Liquid products are finished by stripping solvent, cooling, and packaging into drums.", "source": "case_k_batch-polymer.md"},
+    {"text": "No formal process hazard analysis of R-1 or its recipes. Recipe changes are not taken through a written management-of-change review. No reaction-calorimetry testing at this site (the parent company's sites abroad have reaction calorimetry).", "source": "case_k_batch-polymer.md"},
+    {"text": "Training is informal, on the job.", "source": "case_k_batch-polymer.md"},
+    {"text": "Emergency action plan does not cover plant evacuation; no drills; no emergency alarm.", "source": "case_k_batch-polymer.md"},
+    {"text": "Parent company does not audit the site.", "source": "case_k_batch-polymer.md"},
+    {"text": "17 employees, day shift and second shift, including a vice president running day-to-day operations. No chemical or other engineers on staff or under contract.", "source": "case_k_batch-polymer.md"},
+    {"text": "Time in post: manager 9 months; superintendent 8 months; vice president 5 months; two second-shift operators 3 months each; chemist 3 weeks. None has previous polymer experience. The senior operator has returned from retirement. The management team was replaced over the last two seasons.", "source": "case_k_batch-polymer.md"}
+  ],
+  "locations": [
+    {"id": "LOC-K-MFG", "description": "manufacturing area next to the warehouse",
+     "notes": [{"text": "R-1 is in the manufacturing area next to the warehouse.", "source": "case_k_batch-polymer.md"}]},
+    {"id": "LOC-K-WAREHOUSE", "description": "warehouse"},
+    {"id": "LOC-K-LAB", "description": "Laboratory on the lower level of the manufacturing building", "indoor": true,
+     "notes": [{"text": "Laboratory on the lower level of the manufacturing building; upper-level doorway to outside.", "source": "case_k_batch-polymer.md"}]},
+    {"id": "LOC-K-OFFICE-TRAILER", "description": "Office trailer on site for administrative staff",
+     "notes": [{"text": "Office trailer on site for administrative staff.", "source": "case_k_batch-polymer.md"}]},
+    {"id": "LOC-K-CHURCHES", "description": "Two church buildings",
+     "notes": [{"text": "Two church buildings and a house are near the plant; a public road passes the site.", "source": "case_k_batch-polymer.md"}]},
+    {"id": "LOC-K-HOUSE", "description": "a house",
+     "notes": [{"text": "Two church buildings and a house are near the plant; a public road passes the site.", "source": "case_k_batch-polymer.md"}]},
+    {"id": "LOC-K-ROAD", "description": "a public road",
+     "notes": [{"text": "Two church buildings and a house are near the plant; a public road passes the site.", "source": "case_k_batch-polymer.md"}]},
+    {"id": "LOC-K-ATMOSPHERE", "description": "atmosphere (E-1 vent discharge)"},
+    {"id": "LOC-K-UNSTATED", "description": "endpoint not stated in the package"}
+  ],
+  "utilities": [
+    {"id": "UT-K-CW", "kind": "cooling_water",
+     "notes": [{"text": "Cooling-water system: untreated water serving E-1 and the R-1 jacket.", "source": "case_k_batch-polymer.md"}]},
+    {"id": "UT-K-STEAM", "kind": "steam",
+     "notes": [{"text": "Steam supply to the R-1 jacket.", "source": "case_k_batch-polymer.md"}]}
+  ],
+  "equipment": [
+    {"id": "R-1", "type": "reactor", "location_id": "LOC-K-MFG",
+     "contents": ["ALIPHATIC-SOLVENT", "AROMATIC-SOLVENT", "MONOMER", "INITIATOR-SOLUTION", "PRODUCT-K-7"],
+     "design_pressure_kpa": 517.1,
+     "heat_sources": [{"medium": "steam", "via_line_id": "L-STEAM-JACKET", "isolating_valve_ids": ["HV-STEAM-JACKET"]}],
+     "notes": [
+       {"text": "R-1 batch reactor, 1,500 gal.", "source": "case_k_batch-polymer.md"},
+       {"text": "Maximum allowable working pressure 75 psig.", "source": "case_k_batch-polymer.md"},
+       {"text": "Normally operated very near atmospheric pressure.", "source": "case_k_batch-polymer.md"},
+       {"text": "Jacket supplied with steam for heating and with water for cooling.", "source": "case_k_batch-polymer.md"},
+       {"text": "Not installed on R-1: high-pressure alarm, automatic emergency cooling, automatic initiator-feed shut-off, automatic or remote short-stop injection, automatic or remote venting or dumping.", "source": "case_k_batch-polymer.md"}
+     ]},
+    {"id": "R-1-MW", "type": "other",
+     "notes": [{"text": "R-1-MW manway on top of R-1. Opened after every batch for cleaning, then closed with 4 removable clamps. The manufacturer's specification calls for 18 clamps for a tight seal at 75 psig. The clamps are not permanently attached and the manway carries no marking of the required number.", "source": "case_k_batch-polymer.md"}]},
+    {"id": "E-1", "type": "heat_exchanger",
+     "notes": [
+       {"text": "E-1 overhead reflux condenser on R-1: inclined shell-and-tube exchanger, TEMA type BEM with fixed tubesheets (tubes cannot be removed). Process vapour in the tubes, cooling water in the shell. Mounted only slightly above the reactor. Condensate returns to R-1 through a line with a sight glass. Vents to atmosphere through a small pipe. Design capacity not documented. In service about 30 years; the water side has not been opened for inspection or cleaning in that time.", "source": "case_k_batch-polymer.md"},
+       {"text": "Plant instruments cannot measure the E-1 cooling load.", "source": "case_k_batch-polymer.md"}
+     ]},
+    {"id": "V-K-INITIATOR", "type": "vessel", "contents": ["INITIATOR-SOLUTION"],
+     "notes": [{"text": "Initiator feed line from initiator solution vessel to R-1 by pump.", "source": "case_k_batch-polymer.md"}]},
+    {"id": "P-K-INITIATOR", "type": "pump",
+     "notes": [{"text": "Initiator feed line from initiator solution vessel to R-1 by pump.", "source": "case_k_batch-polymer.md"}]},
+    {"id": "P-K-MONOMER", "type": "pump",
+     "notes": [{"text": "Monomer feed line to R-1 by pump (used for the initial charge and the Stage 2 co-feed).", "source": "case_k_batch-polymer.md"}]},
+    {"id": "SOLVENT-STORAGE", "type": "tank", "contents": ["ALIPHATIC-SOLVENT", "AROMATIC-SOLVENT"],
+     "notes": [{"text": "Solvent storage for the aliphatic and aromatic solvents.", "source": "case_k_batch-polymer.md"}]},
+    {"id": "SILICA-ADSORPTION", "type": "solids_handler", "contents": ["SILICA"],
+     "notes": [{"text": "Silica adsorption / powder conversion area (converts liquid polymers into free-flowing powder).", "source": "case_k_batch-polymer.md"}]},
+    {"id": "STRIP-DRUM-STATION", "type": "other",
+     "notes": [{"text": "Solvent stripping and drum-filling station for finished liquid polymer.", "source": "case_k_batch-polymer.md"}]}
+  ],
+  "instruments": [
+    {"id": "SIGHT-GLASS-E1", "kind": "sensor", "measures": "flow", "on_id": "L-E1-CONDENSATE",
+     "notes": [{"text": "Reflux observed through the sight glass on the E-1 condensate return.", "source": "case_k_batch-polymer.md"}]}
+  ],
+  "valves": [
+    {"id": "HV-STEAM-JACKET", "kind": "manual", "on_line_id": "L-STEAM-JACKET",
+     "notes": [{"text": "Steam to R-1 jacket, manually opened and closed by the operator.", "source": "case_k_batch-polymer.md"}]}
+  ],
+  "lines": [
+    {"id": "L-STEAM-JACKET", "from_id": "UT-K-STEAM", "to_id": "R-1", "components": ["HV-STEAM-JACKET"], "no_flow": [],
+     "notes": [{"text": "Steam to R-1 jacket, manually opened and closed by the operator.", "source": "case_k_batch-polymer.md"}]},
+    {"id": "L-CW-JACKET", "from_id": "UT-K-CW", "to_id": "R-1", "components": [], "no_flow": [],
+     "notes": [{"text": "Cooling water to R-1 jacket (\"emergency jacket cooling\"), started manually by the operator.", "source": "case_k_batch-polymer.md"}]},
+    {"id": "L-CW-E1", "from_id": "UT-K-CW", "to_id": "E-1", "components": [], "no_flow": [],
+     "notes": [{"text": "Cooling water to E-1 shell side, normally open.", "source": "case_k_batch-polymer.md"}]},
+    {"id": "L-E1-CONDENSATE", "from_id": "E-1", "to_id": "R-1", "components": [], "no_flow": [],
+     "notes": [{"text": "E-1 condensate return to R-1 via sight glass, normally open during reaction.", "source": "case_k_batch-polymer.md"}]},
+    {"id": "L-E1-VENT", "from_id": "E-1", "to_id": "LOC-K-ATMOSPHERE", "components": [], "no_flow": [],
+     "notes": [{"text": "E-1 vent line (small pipe) to atmosphere, normally open.", "source": "case_k_batch-polymer.md"}]},
+    {"id": "L-INITIATOR-FEED", "from_id": "V-K-INITIATOR", "to_id": "R-1", "components": ["P-K-INITIATOR"], "no_flow": [],
+     "contents": ["INITIATOR-SOLUTION"],
+     "notes": [{"text": "Initiator feed line from initiator solution vessel to R-1 by pump.", "source": "case_k_batch-polymer.md"}]},
+    {"id": "L-MONOMER-FEED", "from_id": "LOC-K-UNSTATED", "to_id": "R-1", "components": ["P-K-MONOMER"], "no_flow": [],
+     "contents": ["MONOMER"],
+     "notes": [{"text": "Monomer feed line to R-1 by pump (used for the initial charge and the Stage 2 co-feed).", "source": "case_k_batch-polymer.md"}]}
+  ],
+  "safeguards": [
+    {"id": "SG-K-TEMP-SETPOINT", "description": "Temperature set point for steam heating set from the batch sheet.", "protects_id": "R-1", "component_ids": []},
+    {"id": "SG-K-REFLUX-SIGHT-GLASS", "description": "Reflux observed through the sight glass on the E-1 condensate return. Plant instruments cannot measure the E-1 cooling load.", "protects_id": "R-1", "component_ids": ["SIGHT-GLASS-E1"]}
+  ],
+  "relief_devices": [
+    {"id": "PSV-1", "protects_id": "R-1", "kind": "prv", "inlet_valve_ids": [],
+     "notes": [
+       {"text": "PSV-1 relief valve on R-1. Set pressure not recorded in the available records. Other relief valves on site are set at their rated pressures.", "source": "case_k_batch-polymer.md"}
+     ]}
+  ],
+  "chemicals": [
+    {"id": "MONOMER", "name": "acrylic monomer", "epa_groups": [103], "cameo_groups": [76], "physical_form": "liquid", "boiling_point_c": 147,
+     "notes": [{"text": "Acrylic monomer (liquid), normal boiling point 147 °C (297 °F); bought through a national distributor; kept in drums/storage on site.", "source": "case_k_batch-polymer.md"}]},
+    {"id": "ALIPHATIC-SOLVENT", "name": "aliphatic solvent", "epa_groups": [29], "cameo_groups": [29], "physical_form": "liquid", "boiling_point_c": 81,
+     "notes": [{"text": "Aliphatic solvent (liquid, flammable), normal boiling point 81 °C (178 °F); solvent storage.", "source": "case_k_batch-polymer.md"}]},
+    {"id": "AROMATIC-SOLVENT", "name": "aromatic solvent", "epa_groups": [16], "cameo_groups": [16], "physical_form": "liquid", "boiling_point_c": 111,
+     "notes": [{"text": "Aromatic solvent (liquid, flammable), normal boiling point 111 °C (234 °F); solvent storage.", "source": "case_k_batch-polymer.md"}]},
+    {"id": "INITIATOR-SOLUTION", "name": "initiator solution", "cameo_groups": [99], "physical_form": "liquid",
+     "notes": [{"text": "Initiator solution (made up on site from initiator and part of the solvent blend).", "source": "case_k_batch-polymer.md"}]},
+    {"id": "SILICA", "name": "silica", "cameo_groups": [98], "physical_form": "solid",
+     "notes": [{"text": "Silica (powder), for powder conversion.", "source": "case_k_batch-polymer.md"}]},
+    {"id": "PRODUCT-K-7", "name": "Product K-7 (liquid acrylic polymer)", "cameo_groups": [99], "physical_form": "liquid",
+     "notes": [{"text": "Product scheduled for the current batch: a liquid acrylic polymer (\"Product K-7\") made for an outside customer. The current customer order is 12% larger than the usual order; the batch target is 6,080 lb of polymer.", "source": "case_k_batch-polymer.md"}]}
+  ],
+  "procedures": [
+    {"id": "BATCH-SHEET-K-7", "kind": "other",
+     "notes": [
+       {"text": "Recipe structure (two stages): Stage 1, heat the initial charge (solvents plus part of the monomer) and add initiator over a short period; Stage 2, co-feed the remaining monomer and initiator over an extended period; then strip solvent, cool and drum.", "source": "case_k_batch-polymer.md"},
+       {"text": "The batch sheet is the primary operating control. It gives no actions for a release or for loss of temperature control.", "source": "case_k_batch-polymer.md"}
+     ],
+     "steps": [
+       {"id": "BATCH-SHEET-K-7-1", "text": "Blend the aliphatic and aromatic solvents. Use part of the blend to make the initiator solution; charge the rest to R-1.", "equipment_ids": ["V-K-INITIATOR", "R-1"]},
+       {"id": "BATCH-SHEET-K-7-2", "text": "Charge the initial portion of monomer to R-1; hold the rest back for Stage 2.", "equipment_ids": ["R-1", "P-K-MONOMER"]},
+       {"id": "BATCH-SHEET-K-7-3", "text": "Heat the charge with jacket steam to the batch-sheet set point (usually the expected boiling point of the mixture), then shut off the steam.", "equipment_ids": ["R-1"], "valve_ids": ["HV-STEAM-JACKET"]},
+       {"id": "BATCH-SHEET-K-7-4", "text": "Pump in the initiator solution. Temperature is then controlled by solvent reflux through E-1; the operator watches reflux in the sight glass.", "equipment_ids": ["R-1", "P-K-INITIATOR", "E-1"]},
+       {"id": "BATCH-SHEET-K-7-5", "text": "Stage 2: co-feed the remaining monomer and initiator over an extended period.", "equipment_ids": ["R-1", "P-K-MONOMER", "P-K-INITIATOR"]},
+       {"id": "BATCH-SHEET-K-7-6", "text": "Strip solvent, cool and package into drums.", "equipment_ids": []}
+     ]}
+  ],
+  "planned_work": [
+    {"id": "W-K-1", "type": "other", "location_id": "LOC-K-MFG", "equipment_ids": ["R-1"],
+     "notes": [
+       {"text": "Batch quantities for the 12% larger order were set by the superintendent the day before charging.", "source": "case_k_batch-polymer.md"},
+       {"text": "Monomer is increased by 12%; the extra monomer goes into the initial (Stage 1) charge.", "source": "case_k_batch-polymer.md"},
+       {"text": "There is not enough aliphatic solvent in storage, so the aliphatic solvent is cut by 12%; aromatic solvent is increased by 6%. Total solvent is slightly below the standard recipe.", "source": "case_k_batch-polymer.md"},
+       {"text": "The plant chemist estimated the effect of the solvent change on the mixture boiling point at about 1 °C (1.8 °F).", "source": "case_k_batch-polymer.md"},
+       {"text": "Previous batch-size increases on this product were made by enlarging batches until the E-1 sight glass showed near-flooding.", "source": "case_k_batch-polymer.md"},
+       {"text": "Solvent blend and initiator solution to be prepared and charged on the day shift; part of the monomer charged on the second shift; heating and initiator addition on the following day shift.", "source": "case_k_batch-polymer.md"}
+     ]}
+  ],
+  "provenance": {
+    "LOC-K-MFG": "case_k_batch-polymer.md",
+    "LOC-K-WAREHOUSE": "case_k_batch-polymer.md",
+    "LOC-K-LAB": "case_k_batch-polymer.md",
+    "LOC-K-OFFICE-TRAILER": "case_k_batch-polymer.md",
+    "LOC-K-CHURCHES": "case_k_batch-polymer.md",
+    "LOC-K-HOUSE": "case_k_batch-polymer.md",
+    "LOC-K-ROAD": "case_k_batch-polymer.md",
+    "LOC-K-ATMOSPHERE": "case_k_batch-polymer.md",
+    "UT-K-CW": "case_k_batch-polymer.md",
+    "UT-K-STEAM": "case_k_batch-polymer.md",
+    "R-1": "case_k_batch-polymer.md",
+    "R-1.design_pressure_kpa": "assumed",
+    "R-1-MW": "case_k_batch-polymer.md",
+    "E-1": "case_k_batch-polymer.md",
+    "V-K-INITIATOR": "case_k_batch-polymer.md",
+    "P-K-INITIATOR": "case_k_batch-polymer.md",
+    "P-K-MONOMER": "case_k_batch-polymer.md",
+    "SOLVENT-STORAGE": "case_k_batch-polymer.md",
+    "SILICA-ADSORPTION": "case_k_batch-polymer.md",
+    "STRIP-DRUM-STATION": "case_k_batch-polymer.md",
+    "SIGHT-GLASS-E1": "case_k_batch-polymer.md",
+    "HV-STEAM-JACKET": "case_k_batch-polymer.md",
+    "L-STEAM-JACKET": "case_k_batch-polymer.md",
+    "L-CW-JACKET": "case_k_batch-polymer.md",
+    "L-CW-E1": "case_k_batch-polymer.md",
+    "L-E1-CONDENSATE": "case_k_batch-polymer.md",
+    "L-E1-VENT": "case_k_batch-polymer.md",
+    "L-INITIATOR-FEED": "case_k_batch-polymer.md",
+    "L-MONOMER-FEED": "case_k_batch-polymer.md",
+    "SG-K-TEMP-SETPOINT": "case_k_batch-polymer.md",
+    "SG-K-REFLUX-SIGHT-GLASS": "case_k_batch-polymer.md",
+    "PSV-1": "case_k_batch-polymer.md",
+    "MONOMER": "case_k_batch-polymer.md",
+    "MONOMER.epa_groups": "assumed",
+    "MONOMER.cameo_groups": "assumed",
+    "ALIPHATIC-SOLVENT.epa_groups": "assumed",
+    "ALIPHATIC-SOLVENT.cameo_groups": "assumed",
+    "AROMATIC-SOLVENT.epa_groups": "assumed",
+    "AROMATIC-SOLVENT.cameo_groups": "assumed",
+    "INITIATOR-SOLUTION.cameo_groups": "assumed",
+    "INITIATOR-SOLUTION.physical_form": "assumed",
+    "PRODUCT-K-7.cameo_groups": "assumed",
+    "SILICA.cameo_groups": "assumed",
+    "SILICA.physical_form": "assumed",
+    "ALIPHATIC-SOLVENT": "case_k_batch-polymer.md",
+    "AROMATIC-SOLVENT": "case_k_batch-polymer.md",
+    "INITIATOR-SOLUTION": "case_k_batch-polymer.md",
+    "SILICA": "case_k_batch-polymer.md",
+    "PRODUCT-K-7": "case_k_batch-polymer.md",
+    "BATCH-SHEET-K-7": "case_k_batch-polymer.md",
+    "W-K-1": "case_k_batch-polymer.md"
+  }
+}

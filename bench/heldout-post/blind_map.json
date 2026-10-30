@@ -1,0 +1,22 @@
+{
+ "k": {
+  "X": "baseline_a",
+  "Y": "guideword",
+  "Z": "baseline_b"
+ },
+ "m": {
+  "X": "baseline_a",
+  "Y": "guideword",
+  "Z": "baseline_b"
+ },
+ "p": {
+  "X": "baseline_b",
+  "Y": "baseline_a",
+  "Z": "guideword"
+ },
+ "q": {
+  "X": "baseline_a",
+  "Y": "guideword",
+  "Z": "baseline_b"
+ }
+}

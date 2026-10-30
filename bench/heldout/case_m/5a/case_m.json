@@ -1,0 +1,134 @@
+{
+ "case": "case_m",
+ "package": "case_m_gas-plant.md",
+ "model_id": "nvidia/Nemotron-3-Ultra-550b-a55b",
+ "prompt_version": "test5a/v1",
+ "outcome": "ok",
+ "error": null,
+ "cost_usd": 0.020831,
+ "cache_hit": false,
+ "seconds": 18.98486630001571,
+ "model_call_ids": [
+  "mc:d7a6007b7d5df7ab"
+ ],
+ "hazards": [
+  {
+   "rank": 1,
+   "hazard": "Corrosion pitting at WI-2 injection point and downstream 90° bend on L-OVHD from poorly dispersed wash water — rupture of 6 in carbon steel line releasing high-pressure ethane/propane/butane/H2S gas near occupied buildings",
+   "equipment": [
+    "L-OVHD",
+    "WI-2",
+    "C-1",
+    "E-1A",
+    "E-1B"
+   ],
+   "reason": "Package states: pitting found at WI-2 point 7 years ago with frequent inspection recommended; bend downstream no inspection in ~20 years; WI-2 installed on 1-inch vent 670 mm upstream of bend with no quill; WI-2 history of intermittent/continuous cycling, orifice reduced 14 months ago without MOC,記録"
+  },
+  {
+   "rank": 2,
+   "hazard": "High corrosion rate at E-1A inlet probe — tube leaks in E-1A/B condensers mixing cooling water with hydrocarbons or releasing H2S/hydrocarbons to atmosphere",
+   "equipment": [
+    "E-1A",
+    "E-1B",
+    "C-1",
+    "L-OVHD"
+   ],
+   "reason": "Package states: E-1A probe shows high corrosion rate (installed 7 years ago); both condensers replaced 7 years ago after shells/tube baffles badly corroded from inadequate water wash and draw; corrosion engineer 75% on other projects for 4 years; no D-2 sampling for 4 years (best indicator)."
+  },
+  {
+   "rank": 3,
+   "hazard": "WI-2 operated intermittently/continuously without procedure for shutdown or flow control — wet/dry cycling accelerates corrosion; insufficient flow causes salt/hydrate fouling in E-1A/B leading to plugging and overpressure",
+   "equipment": [
+    "WI-2",
+    "L-OVHD",
+    "E-1A",
+    "E-1B",
+    "Operating manual"
+   ],
+   "reason": "Package states: operating manual (revised 6 months ago) covers WI-2 commissioning at start-up only, not shutdown/intermittent use; WI-2 history: continuous 14 yr, intermittent 5 yr, orifice changed 14 months ago (records inaccurate), returned continuous without MOC; staff think it occasional/out of服"
+  },
+  {
+   "rank": 4,
+   "hazard": "Corrosion monitoring gaps: no D-2 sampling for 4 years, D-1 sampling stopped 3 years, RBI excluded WI-2, WSE omits injection points — corrosion progresses undetected until sudden failure",
+   "equipment": [
+    "D-2",
+    "D-1",
+    "WI-2",
+    "L-OVHD",
+    "RBI study",
+    "WSE"
+   ],
+   "reason": "Package states: D-2 samples best indicator for C-1 overhead corrosion but no results recorded in 4 years; D-1 sampling stopped 3 years, resumed last year; RBI coordinator believed WI-2 line permanently isolated; WSE generic 60-month, no specific for L-OVHD, injection points not listed; corrosion"
+  },
+  {
+   "rank": 5,
+   "hazard": "WI-2 water injected via 1-inch vent without quill or dispersion device 670 mm upstream of 90° bend — uneven wetting causes localized corrosion at injection point and fouling in E-1A/B tubes",
+   "equipment": [
+    "WI-2",
+    "L-OVHD",
+    "E-1A",
+    "E-1B"
+   ],
+   "reason": "Package states: WI-2 installed by piping water into existing 1-inch vent connection, no injection quill or dispersion device; installed without technical memorandum or multidisciplinary review; technical bulletin 9 years ago warned carbon steel next to water injection points vulnerable."
+  },
+  {
+   "rank": 6,
+   "hazard": "Loss of containment from C-1 overhead system (L-OVHD, E-1A/B, D-2) releasing H2S and flammable gas — toxic exposure to personnel in occupied buildings within 400 m and village 1,100 at 0.5 km",
+   "equipment": [
+    "C-1",
+    "L-OVHD",
+    "E-1A",
+    "E-1B",
+    "D-2"
+   ],
+   "reason": "Package states: L-OVHD carries ~90% ethane/propane/butane with H2S; occupied buildings within 400 m; village 1,100 people 0.5 km west; off-site community alarm reserved for foreseen toxic releases; central control room windowless with TV monitors only."
+  },
+  {
+   "rank": 7,
+   "hazard": "Insufficient WI-2 flow (orifice reduced 14 months ago, records inaccurate) — salt/hydrate fouling in E-1A/B reduces condensation, causes overpressure in C-1/L-OVHD, possible relief discharge or rupture",
+   "equipment": [
+    "WI-2",
+    "E-1A",
+    "E-1B",
+    "C-1",
+    "L-OVHD"
+   ],
+   "reason": "Package states: orifice size changed under MOC 14 months ago reducing flow; original orifice size records inaccurate; returned to continuous use last few months without MOC; no safeguards described for verifying adequate dispersion or fouling detection."
+  },
+  {
+   "rank": 8,
+   "hazard": "Overpressure in C-1/L-OVHD from condenser fouling, valve misoperation, or blocked outlets — rupture or relief discharge to unsafe location",
+   "equipment": [
+    "C-1",
+    "L-OVHD",
+    "E-1A",
+    "E-1B",
+    "Control valves"
+   ],
+   "reason": "Package states: control valves operable from central control room (can switch to manual and close); slam-shut valves on FCC–cryogenic line not on this section; relief devices not described; no D-2 sampling for 4 years to detect fouling-related pressure rise."
+  },
+  {
+   "rank": 9,
+   "hazard": "Sour water draw/sampling failure at D-1 and D-2 — loss of corrosion monitoring data and potential sour water/H2S release to environment",
+   "equipment": [
+    "D-1",
+    "D-2",
+    "WI-1",
+    "WI-2"
+   ],
+   "reason": "Package states: D-2 sampling best indicator for C-1 overhead corrosion but no results in 4 years; D-1 sampling stopped 3 years, resumed last year; WI-1 area inspected after earlier failure at its injection location; sour water draws exist but monitoring lapsed."
+  },
+  {
+   "rank": 10,
+   "hazard": "Shift handover at 15:00 on public holiday with 185 staff (vs 800 normal) — misoperation of WI-2 or delayed response to C-1/L-OVHD abnormal conditions due to incomplete procedures",
+   "equipment": [
+    "WI-2",
+    "C-1",
+    "L-OVHD",
+    "Operating manual",
+    "Central control room"
+   ],
+   "reason": "Package states: public holiday, ~185 people on site; shift handover at 15:00; operating manual does not cover WI-2 shutdown/intermittent use; central control room windowless with TV monitors; reduced staffing increases human error likelihood during critical transition."
+  }
+ ]
+}

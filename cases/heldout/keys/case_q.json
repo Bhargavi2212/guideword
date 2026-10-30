@@ -1,0 +1,17 @@
+{
+  "case_id": "case_q",
+  "root_cause": "The humidified-nitrogen treatment hydrolysed the chlorosilane polymer deposits at low (uncontrolled winter) temperature, forming silanol/siloxane hydrolysis products that keep Si-Si bonds and are explosive and impact-sensitive; the following dry-nitrogen blows dried them, increasing their power and sensitivity. Impact or friction at the flange faces when the upper channel cover was opened ignited them. The hazard was unknown (no public literature), the procedure had no hydrolysis end-point or temperature criteria, and many bystanders stood around the exchanger.",
+  "component_ids": ["HX-B"],
+  "cause_ids": [],
+  "match_phrases": ["hydrolysis products explosive", "impact-sensitive deposits", "humidified nitrogen hydrolysis"],
+  "match_phrase_groups": [
+    ["hydrolys", "humidif", "moist nitrogen", "wet nitrogen", "water vapour", "water vapor", "reaction with water", "reacts with water", "moisture"],
+    ["shock-sensitive", "shock sensitive", "impact-sensitive", "impact sensitive", "friction-sensitive", "friction sensitive", "explosive", "detonat", "unstable"]
+  ],
+  "what_happened": "The lower cover was opened and washed without incident (the humid gas had not reached the lower end). A few seconds after the upper channel cover was opened (about 14:05) the deposits exploded; the 300 kg cover broke the crane wire and flew about 10 m, followed by a fireball of hot hydrogen and HCl-laden vapour.",
+  "consequence": "5 dead and 13 injured (workers and contractors, including bystanders); damage within about 30 m.",
+  "missed_by_original_review": "Risk assessment did not foresee an explosion of the deposits or their hydrolysis products; earlier events (burn injury, alkali explosion) not analysed deeply; work standard lacked objective criteria, hazard grading and review; no training on the hazard; non-workers allowed near the opening.",
+  "multi_failure": false,
+  "source": {"kind": "public investigation report", "reference": "Mitsubishi Materials Corporation Yokkaichi Plant Explosion/Fire Accident Investigation Committee, investigation report on the high-purity polycrystalline silicon production facility explosion (Japanese), 12 June 2014; English summary. https://www.mmc.co.jp/corporate/ja/news/press/2014/pdf/14-0612a.pdf ; https://www.mmc.co.jp/corporate/en/news/2014/pdf/news20140612_2.pdf", "pages": "chapters 1-5 (read via translation/extraction); chapter 6 onward and appendices not read"},
+  "memorisation_markers": ["Mitsubishi Materials", "Yokkaichi", "Mie", "Nippon Aerosil", "9 January 2014", "BH-HE-611", "No. 6 hydrogen purification", "No. 6B water-cooled heat exchanger", "chlorosilane polymer", "humidified nitrogen blow", "5 dead 13 injured", "frog in a well"]
+}

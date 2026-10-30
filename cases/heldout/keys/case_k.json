@@ -1,0 +1,17 @@
+{
+  "case_id": "case_k",
+  "root_cause": "The recipe was changed without any hazard review: a 12% larger batch with all the extra monomer put into the initial charge (and a changed solvent mix) raised the maximum reaction heat output to at least 2.3 times the standard recipe, beyond the capacity of the fouled reflux condenser, so the reaction ran away. Pressure rose and vapour leaked from the manway (closed with 4 of the 18 specified clamps, leaking at about 23 psig, far below the relief setting), forming a flammable vapour cloud.",
+  "component_ids": ["R-1", "E-1", "R-1-MW"],
+  "cause_ids": [],
+  "match_phrases": ["recipe change", "extra monomer in initial charge", "runaway", "condenser capacity exceeded"],
+  "match_phrase_groups": [
+    ["recipe", "batch size", "scale-up", "scale up", "scaled", "larger batch", "extra monomer", "more monomer", "initial charge", "monomer concentration", "monomer charge"],
+    ["runaway", "exotherm", "heat release", "heat of reaction", "heat generation", "condenser capacity", "insufficient cooling", "inadequate cooling", "cooling capacity", "loss of reflux", "overpressure", "pressure rise"]
+  ],
+  "what_happened": "Heated initial charge with the enlarged monomer charge; on initiator addition the reaction first lagged then reflux looked normal; minutes later vapour hissed out of the manway; operators evacuated, one went back to start emergency jacket cooling; the vapour cloud exploded under 30 s after he left.",
+  "consequence": "Vapour cloud explosion destroyed the plant: 1 death, 14 injured (including 2 passing motorists), two churches and a house condemned, glass broken up to one-third of a mile away.",
+  "missed_by_original_review": "No process hazard analysis or reactive-hazard testing; recipe changes not controlled by management of change; condenser capacity undocumented and its fouling unmanaged; no automatic safeguards; improper manway clamping; no emergency evacuation plan.",
+  "multi_failure": true,
+  "source": {"kind": "public investigation report", "reference": "US Chemical Safety Board, Case Study 'Runaway Chemical Reaction and Vapor Cloud Explosion', Synthron LLC, Morganton NC, January 31, 2006; Report No. 2006-04-I-NC, issued July 2007. https://www.csb.gov/assets/1/20/Synthron_Final_Report1.pdf", "pages": "whole case study"},
+  "memorisation_markers": ["Synthron", "Protex International", "Morganton", "Burke County", "North Carolina", "January 31, 2006", "Modarez MFP-BH", "reactor M1", "four of 18 manway clamps", "condenser fouled 30 years", "2.3 times heat output", "churches condemned", "2006-04-I-NC"]
+}

@@ -1,0 +1,22 @@
+{
+ "case": "case_p",
+ "package": "case_p_nitro-distillation.md",
+ "model_id": "nvidia/Nemotron-3-Ultra-550b-a55b",
+ "prompt_version": "probe/v1",
+ "outcome": "ok",
+ "error": null,
+ "cost_usd": 0.012493,
+ "cache_hit": false,
+ "seconds": 10.632919700001366,
+ "model_call_ids": [
+  "mc:404b607aa5622007"
+ ],
+ "answer": {
+  "recognised": true,
+  "company": "Bayer CropScience (formerly Monsanto)",
+  "site": "Institute, West Virginia",
+  "year": "{{YEAR:2008}}",
+  "accident_name": "No. 1 MNT still runaway reaction / explosion during restart of idle column",
+  "reason": "Technical details (C-1 No. 1 MNT still 7 ft×145 ft, steam stations SS-A/SS-B with FV-A/FV-B, B-310 batch still at 374 °F limit, PSV-1 15 psig, reflux cooler E-2 drained, nitrogen blanket, steam plant turnaround, DCS failures, control room 50 ft masonry/sheet-metal, 137+8 staff, 60-acre aniline/MNT 1"
+ }
+}

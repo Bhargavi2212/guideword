@@ -1,0 +1,17 @@
+{
+  "case_id": "case_r",
+  "root_cause": "Most likely an ignition source (a hot body or a loosened agglomerated-dust block with a hidden hot spot, between about 310 and 400 C) entered the mill while it ran empty with suction on, passed the spark detectors set at 400 C (above the 310 C self-ignition temperature of a dust layer), settled on the filter bags and ignited a wood-dust explosion in the cyclone bag filter. The vented fireball hit the main conveyor in the vent axis and secondary explosions followed in the elevators (unprotected decompression sleeve), with fire spread via combustible cladding and plastic conveyor covers. The exact ignition source was not proven.",
+  "component_ids": ["CF-1", "HM-1", "MC-1", "BE-1", "BE-2"],
+  "cause_ids": [],
+  "match_phrases": ["hot particle not detected", "spark detector threshold too high", "dust explosion in the filter"],
+  "match_phrase_groups": [
+    ["spark", "hot particle", "ember", "smoulder", "smolder", "glowing", "ignition source", "hot spot", "detection threshold", "detector threshold", "undetected"],
+    ["dust explosion", "explosion in the filter", "filter explosion", "bag filter explosion", "deflagration", "dust deflagration"]
+  ],
+  "what_happened": "Primary explosion in the filter about 2.5 h after the last bag-cleaning cycle; vent fireball ignited the main conveyor 10 m away; within 5 s a secondary explosion in elevator BE-1 and chain conveyor CC-2 and the timber cladding caught fire; the filter water extinction triggered only after 90 s; a third explosion in elevator BE-2 from accumulated pyrolysis gases; fire spread along the main conveyor, to belt conveyors and into silo SI-1; contained after about 5 hours, out the next day.",
+  "consequence": "Three explosions and a major fire destroying the pellet unit; 3 employees hospitalised for smoke inhalation; about EUR 3 M damage and EUR 2.5 M losses.",
+  "missed_by_original_review": "The hazard study had no scenario or domino study for the pellet unit; spark detection threshold above the dust-layer self-ignition temperature; equipment placed in the vent axis; combustible cladding and conveyor covers; missing hood on the elevator decompression sleeve.",
+  "multi_failure": true,
+  "source": {"kind": "public investigation report", "reference": "French Ministry of Ecological Transition, DGPR/BARPI, ARIA No. 64331 detailed sheet 'Explosion suivie d'un incendie dans une usine de travail du bois' (October 2025). https://www.aria.developpement-durable.gouv.fr/wp-content/files_mf/A64331_a64331_fiche_detaillee_001.pdf", "pages": "whole detailed sheet (French, read via extraction); modelling annex not read"},
+  "memorisation_markers": ["ARIA 64331", "Sainte-Florence", "Vendee", "13 April 2025", "cyclofiltre", "redler 2", "elevateur 1 manche de decompression", "convoyeur principal", "SDIS 85"]
+}
