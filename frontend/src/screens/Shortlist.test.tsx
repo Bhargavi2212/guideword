@@ -393,3 +393,29 @@ describe("a chain with the chain-finder's own handles (D and G, decisions row 25
       expect(card(item.target_id).textContent).not.toContain("chain-finder");
   });
 });
+
+describe("a confirmed card (Phase 8)", () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  it("leads with the hypothesis's mechanism and says which finding confirmed it", async () => {
+    await shortlist();
+    const confirmed = must(
+      data.items.find(
+        (i) =>
+          i.tier === "confirmed" && i.target_kind === "finding" && i.hypothesis,
+      ),
+    );
+    const article = card(confirmed.target_id);
+    expect(
+      within(article).getByText(must(confirmed.hypothesis).mechanism),
+    ).toBeTruthy();
+    const by = article.querySelector(".card-confirmed-by");
+    expect(by?.textContent).toContain("Confirmed by:");
+    expect(by?.textContent).toContain(must(confirmed.finding).consequence);
+    // an also-found card has no such line
+    const also = must(data.items.find((i) => i.tier === "also_found"));
+    expect(card(also.target_id).querySelector(".card-confirmed-by")).toBeNull();
+  });
+});

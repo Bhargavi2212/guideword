@@ -213,9 +213,14 @@ def _bucket(item) -> int:  # type: ignore[no-untyped-def]
 
 
 def _assert_ordered(items: list) -> None:
-    keys = [(TIERS.index(i.tier), _bucket(i)) for i in items]
+    """Tier first; the gap orders a tier's complete-LOPA lines except in the confirmed tier,
+    which keeps the hypothesis order (Phase 8)."""
+    tiers = [TIERS.index(i.tier) for i in items]
+    assert tiers == sorted(tiers)
+    rest = [i for i in items if i.tier != ShortlistTier.CONFIRMED]
+    keys = [(TIERS.index(i.tier), _bucket(i)) for i in rest]
     assert keys == sorted(keys)
-    for a, b in zip(items, items[1:], strict=False):
+    for a, b in zip(rest, rest[1:], strict=False):
         if (a.tier, _bucket(a)) == (b.tier, _bucket(b)) == (a.tier, 0):
             assert a.gap >= b.gap
 
@@ -434,3 +439,76 @@ def test_a_finding_with_an_unexpected_character_is_flagged(case: Case) -> None:
     assert "unexpected character in model text: U+6C34 (finding consequence)" in item.flags
     assert "unexpected character in model text: U+3002 (finding consequence)" in item.flags
     assert item.finding is not None and item.finding.consequence.endswith("水。")
+
+
+# --- Phase 8: the confirmed tier keeps Ultra's order ------------------------------------------
+
+
+def _hypothesis(rank: int, text: str, question_id: str) -> Hypothesis:
+    return Hypothesis(
+        id=ids.hypothesis_id(rank, text, ["BLDG-1"]),
+        run_id=RUN,
+        rank=rank,
+        mechanism=text,
+        component_ids=["BLDG-1"],
+        failing_component_type=FailingComponentType.EXTERNAL,
+        cause_id=OUTSIDE_LIBRARY,
+        cause_text=text,
+        consequence="c",
+        reason="r",
+        question_ids=[question_id],
+    )
+
+
+def test_the_confirmed_tier_keeps_the_hypothesis_order_not_the_gap(
+    plant: Plant, ref: ReferenceSet, config: Config
+) -> None:
+    """Phase 8: the rank-1 hypothesis stays first although the rank-2 hypothesis's lead has the
+    larger LOPA gap (S5 against S3); the also-found tier still goes by gap (S5 before S2)."""
+    first = finding("env:SIH:water", ["BLDG-1"], SeverityClass.S3, cause_text="first")
+    second = finding("env:KOH:water", ["BLDG-1"], SeverityClass.S5, cause_text="second")
+    big = finding("env:KOH:air", ["BLDG-1"], SeverityClass.S5, cause_text="big")
+    small = finding("pair:KOH:SIH", ["BLDG-1"], SeverityClass.S2, cause_text="small")
+    findings = [small, big, second, first]
+    questions = [question(f.question_id) for f in findings]
+    hypotheses = [
+        _hypothesis(1, "first", first.question_id),
+        _hypothesis(2, "second", second.question_id),
+    ]
+    lines = display_lines(findings, hypotheses, questions, [], plant, ref, config.caps)
+    plan = lopa_plan(lines, [], findings, questions, [], top_n=TOP_N)
+    records = [
+        r
+        for p in plan
+        if p.scenario is not None
+        for r in [
+            lopa_record(
+                p.scenario, run_id=RUN, plant=plant, ref=ref, caps=config.caps, arguments=None
+            )
+        ]
+        if isinstance(r, LopaRecord)
+    ]
+    view = RunView(
+        run_id=RUN,
+        top_n=TOP_N,
+        pre_r50=False,
+        records=RunRecords(
+            findings=findings,
+            chains=[],
+            lopa_records=records,
+            recommendations=[],
+            questions=questions,
+            sections=[],
+            overrides=[],
+        ),
+        hypotheses=hypotheses,
+        model_calls=[],
+    )
+    items = shortlist_items(view, plant, ref, config.caps)
+    confirmed = [i for i in items if i.tier == ShortlistTier.CONFIRMED]
+    assert [i.hypothesis_rank for i in confirmed] == [1, 2]
+    assert confirmed[0].gap is not None and confirmed[1].gap is not None
+    assert confirmed[0].gap < confirmed[1].gap  # the gap did not move it
+    also = [i for i in items if i.tier == ShortlistTier.ALSO_FOUND]
+    assert [i.target_id for i in also] == [big.id, small.id]
+    _assert_ordered(items)

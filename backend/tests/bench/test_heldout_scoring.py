@@ -189,6 +189,48 @@ def test_guideword_lines_read_findings_chains_and_hypotheses() -> None:
     assert lines[2].components == ["V-9"]
 
 
+def test_a_confirmed_line_reads_as_its_hypothesis() -> None:
+    """Phase 8: a finding line that stands for a confirmed hypothesis is shown, and scored, in
+    the hypothesis's own words, naming the finding's failing components and the hypothesis's."""
+    shortlist = _shortlist()
+    finding = dict(shortlist["items"][0]["finding"]) | {
+        "id": "f:m:S-L-1:no:flow:super:C20:bbbbbbbbbbbbbbbb",
+        "cause_id": "C20",
+        "consequence": "a release of H2S to atmosphere",
+        "failing_component_ids": ["L-1"],
+    }
+    shortlist["items"].append(
+        {
+            "rank": 4,
+            "target_id": finding["id"],
+            "target_kind": "finding",
+            "tier": "confirmed",
+            "hypothesis_id": "h:1:x",
+            "hypothesis_rank": 1,
+            "hypothesis": {
+                "id": "h:1:x",
+                "rank": 1,
+                "mechanism": "L-1 ruptures at the bend downstream of the V-1 injection point",
+                "consequence": "a large release of flammable gas",
+                "component_ids": ["L-1", "V-1"],
+            },
+            "finding": finding,
+        }
+    )
+    lines = guideword_lines(
+        shortlist, causes={"C15": "Valve closed in error", "C20": "Piping leak"}
+    )
+    line = lines[3]
+    assert line.text == (
+        "L-1 ruptures at the bend downstream of the V-1 injection point"
+        " — a large release of flammable gas"
+    )
+    assert line.components == ["L-1", "V-1"]
+    # the first finding line stands for no hypothesis and still reads as the finding
+    assert lines[0].text.startswith("Valve closed in error")
+    assert line_auto_matches(line, ["V-1"], ["injection point"])
+
+
 def test_baseline_lines_name_their_equipment_and_text() -> None:
     record = {
         "hazards": [
