@@ -13,10 +13,13 @@
 **A chain's tier** is the tier of its highest member line: the first line in display order
 that shows one of its finding links, as lead or folded (spec 3.1, 6.3).
 
-**The shortlist** (`shortlist`, spec 3.3): tier first (R50); within a tier, complete LOPA by
-gap (largest first), then incomplete LOPA (flagged), then lines with no LOPA, each in display
-order. Gap never crosses tiers. No line is ever dropped: a line with no LOPA keeps its reason,
-and an S4-S5 line with no LOPA is flagged on its card.
+**The shortlist** (`shortlist`, spec 3.3; Phase 8): tier first (R50). The confirmed tier keeps
+its display order, the hypothesis rank with each chain at its member line (Phase 8, decisions
+2026-10-29: the gap sort was hiding the whole-plant pass's own order on every held-out case).
+Within the other tiers, complete LOPA by gap (largest first), then incomplete LOPA (flagged),
+then lines with no LOPA, each in display order. Gap never crosses tiers. No line is ever
+dropped: a line with no LOPA keeps its reason, and an S4-S5 line with no LOPA is flagged on its
+card.
 """
 
 from collections.abc import Mapping, Sequence
@@ -326,6 +329,16 @@ def shortlist(
 
 
 def _order(item: ShortlistLine) -> tuple[int, int, float, int, str]:
+    tier = TIER_ORDER.index(item.planned.tier)
+    if item.planned.tier == ShortlistTier.CONFIRMED:
+        # Phase 8: the model's order (R50), never the gap; a chain follows the line it hangs on
+        return (
+            tier,
+            0,
+            0.0,
+            item.planned.position,
+            f"{int(item.planned.target_kind == 'chain')}{item.target_id}",
+        )
     record = item.lopa
     if record is not None and record.complete and record.gap is not None:
         bucket, gap = 0, record.gap
@@ -333,5 +346,4 @@ def _order(item: ShortlistLine) -> tuple[int, int, float, int, str]:
         bucket, gap = 1, 0.0
     else:
         bucket, gap = 2, 0.0
-    tier = TIER_ORDER.index(item.planned.tier)
     return (tier, bucket, -gap, item.planned.position, item.target_id)
