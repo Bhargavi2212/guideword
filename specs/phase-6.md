@@ -216,15 +216,14 @@ F3–F6) carries on in parallel in the frontend session.
 | Second grader | a Claude session, $0 of Token Factory credit |
 
 ## Done when
-- [ ] Seals committed, verified with no mismatch; `phase6-freeze` tagged; plant files frozen and
+- [x] Seals committed, verified with no mismatch; `phase6-freeze` tagged (runs from `phase6-freeze-3`); plant files frozen and
       hashed before any key was read.
-- [ ] Probe run on all 8; exclusions recorded with reasons.
-- [ ] Every case the stop rule allows run under all three configurations; unrun cases listed.
-- [ ] Auto-scored; both graders done blind; `results.md` generated and committed to the private
-      held-out repo.
-- [ ] G3 tagged; §5 PR merged; cases, keys, run dumps and `results.md` published; README results
-      section live.
-- [ ] Decisions rows for P6-1…P6-15 (including R26, R38 and §13 supersessions); PROJECT.md and
+- [x] Probe run on all 8; exclusions recorded with reasons (L, N).
+- [x] Every case the stop rule allows run under all three configurations (K, M, P); unrun cases listed (Q by the stop rule, later run post-fix; R, S not converted).
+- [x] Auto-scored; both graders done blind; `results.md` generated (committed here under `bench/heldout/`, not to the private repo, which holds the cases only).
+- [x] §5 updated in the publish PR (P6-14 folded in); cases, keys, run dumps and `results.md` published; README results
+      section live. G3 tag: Bhargavi tags `g3` on `main` after the publish PR merges.
+- [x] Decisions rows for P6-1…P6-15 (including R26, R38 and §13 supersessions); PROJECT.md and
       CLAUDE.md updated.
 
 ## Who writes what

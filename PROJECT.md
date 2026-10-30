@@ -557,11 +557,13 @@ Plus the four-tier comparison on 50 fixed questions. Hand-scored.
 - About 6–10 lesser-known accidents not used in any earlier test, from several countries (CSB plus ARIA, eMARS, Dutch Safety Board, UK HSE and national reports; aim for about half outside the US). Written by **a separate Claude session**, run once as a scheduled task on Oct 13 on Bhargavi's computer and instructed not to read this repo's code, prompts or specs, as the plant looked before the accident, with unrelated equipment mixed in. The cases and keys live in the `guideword-heldout` folder outside this repo, which Bhargavi owns and does not open before Phase 6 (an honour system, stated in the README); each file is sealed by SHA-256 in `SEALS.txt`, copied here as `bench/heldout-seals.txt`.
 - A case qualifies only if its source describes the plant in enough detail to rebuild it (equipment, chemicals, procedures, safeguards) and states the root cause. Famous accidents (Bhopal, Texas City, Flixborough, Seveso) are excluded: models recognise them, so they would test memory, not reasoning.
 - **Memorisation probe**: each model is first asked whether the case is a real accident it knows; a correctly named case is excluded for that model.
-- Configurations: Guideword on the routing chosen in test #5; baseline 1 = one big prompt; baseline 2 = plain checklist with no reasoning.
-- **Auto-score**: where the answer key's cause lands in the ranked shortlist (top 3 / top 10 / missed), after text normalisation.
-- **Human score**: Bhargavi scores every answer against the sealed keys (hit / partial / miss, with reason); disagreements with the auto-score are listed.
-- **Results table**: hits out of n with a 95% confidence interval per configuration, cost and time per run, every failure listed. Generated from run records, never typed by hand. Reported as "x of n", never a bare percentage.
-- After G3, held-out cases and keys are published in the repo so judges can rerun the benchmark.
+- Configurations, per case in a fixed order: Baseline A (one prompt plus a step-by-step checklist, Ultra), Baseline B (one plain prompt, Ultra), then Guideword on the frozen routing (`specs/phase-6.md` P6-7).
+- **Memorisation probe** on Ultra only (the whole-plant judge every configuration uses); a case the probe names correctly (company, site or accident) is excluded (P6-5: L and N excluded).
+- **Auto-score** (P6-9): the first line that names a key component and contains a key phrase, after text normalisation; reported as "automatic", never the headline.
+- **Human score**: two blind graders, Bhargavi and a separate Claude session, score the top 10 of every configuration from sheets that label the configurations X, Y and Z (P6-10); hit / partial / miss with a reason; a partial is shown and never counted. Bhargavi's score is the headline; the agreement count is reported.
+- **Statistics** (P6-11): hits out of n with a Wilson 95% interval per configuration; exact McNemar on the paired top-3 calls against each baseline; the power sentence states how many discordant cases n needs. Generated from run records by `scripts/heldout_results.py`, never typed by hand. Reported as "x of n", never a bare percentage.
+- **Published 2026-10-30** (spec 6.6): cases, keys and plant files under `cases/heldout/`, run records, sheets and `results.md` under `bench/heldout/` (the post-fix case Q under `bench/heldout-post/`), with a test that checks every case file against its seal. The README carries the headline table and the limits.
+- **G3 result (Oct 29): Guideword 0 of 3 in the top 3 (K, M, P); Baseline A 2 of 3; Baseline B 3 of 3.** The post-mortem (decisions 2026-10-29) found the whole-plant pass had the real mechanism at hypothesis rank 1 in every case; the cause library (Phase 7) and the confirmed tier's sort and wording (Phase 8) hid it. Reported in the README beside the measured table, labelled post-hoc.
 
 ### Headline claim
 "Found what the original hazard review missed, on real accidents it had never seen" — stated only with the measured x of n.
@@ -604,8 +606,10 @@ Each phase has a spec (`specs/phase-N.md`) written and approved before it starts
 | 3. Reasoning | Oct 18–20 | Chains (connector, ID validation), chain severity, LOPA engine (independence check), recommendations, as run steps after the analysis; shortlist. (Planned as orchestrator tools; moved to run steps, P3-1.) | Shortlist per dev case |
 | 4. Tools and evidence | Oct 22–24 | The evidence step after recommendations (P4-1): `physics_calc`, `search_precedent`, `web_research`, `run_simulation`; precedent index; simulator wrapper around the open-licence Tennessee Eastman package (gated) | Evidence on top findings |
 | 5. Frontend | Oct 22–28 (`specs/phase-5.md`, re-dated Oct 24; contract v1.9) | Seven screens on generated fixtures, then real API; UI-started laptop runs | Demo moment works on screen |
-| 6. Benchmark | Oct 22–24 | Memorisation probe, held-out runs, baselines, scoring, results table | **G3** |
-| 7. Ship | Oct 24–28 | Vercel deploy, demo mode, live-run button, README, feedback write-up, final video | **G4**; submit Oct 29 |
+| 6. Benchmark | Oct 25–29 (`specs/phase-6.md`) | Memorisation probe, held-out runs, baselines, scoring, results table; published Oct 30 | **G3** (Oct 29: 0 of 3, reported as measured) |
+| 7. Cause library | Oct 29 (`specs/phase-7.md`) | Three cause rows the held-out misses needed (C27–C29), after the benchmark; one post-fix case, Q | Q: a miss |
+| 8. Confirmed lines | Oct 29–30 (`specs/phase-8.md`) | The confirmed tier keeps the whole-plant pass's order and words; post-hoc re-render of the stored runs | Merged Oct 30 |
+| Ship | Oct 24–30 | Vercel deploy, demo mode, live-run button, README, feedback write-up, final video | **G4**; submit Oct 29–30 |
 
 ### Gates
 
@@ -614,7 +618,7 @@ Each phase has a spec (`specs/phase-N.md`) written and approved before it starts
 | G1 Foundations | Oct 14 (morning) | Smoke test passed per model (JSON schema, tool calling, reasoning on/off, cost per call); schema frozen; API contract frozen; LOPA source and CAMEO data confirmed; dev cases D–H validate; simulator and DEXPI feasibility decided; case writer started | Fall back per §16; only a missing schema or contract blocks Phase 1 |
 | G2 Architecture | Oct 17 (decided Oct 16: **failed**) | 5B (core) puts the real cause in the top 3 on cases D and G, hand-scored | Stop and rethink before building further; use 5A if it matches 5B |
 | G2b Hybrid | Oct 17–18 | The hybrid (R50) has a hit in the top 3 on at least one of E and F, and on as many cases as 5A, hand-scored | Stop; the pitch reports the finding honestly (the pipeline finds, the whole-plant pass ranks) and Phase 3 is re-planned |
-| G3 Proof | Oct 24 | Held-out benchmark run and hand-scored | Report honestly; pitch leans on coverage and LOPA |
+| G3 Proof | Oct 29 (was Oct 24) | Held-out benchmark run and hand-scored | **Failed as measured (0 of 3)**: reported honestly in the README with the cause and the fixes; the pitch leans on coverage, traceability and LOPA |
 | G4 Dry run | Oct 28 | Devpost draft saved; repo public with licence; demo works logged out; video under 3 min; feedback written | Cut the last unfinished feature, never the video |
 
 ### Feature dates (if a feature is not working by its date, it appears in the pitch as "next" and its time goes to the video)
