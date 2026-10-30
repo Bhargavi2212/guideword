@@ -58,7 +58,14 @@ def guideword_lines(shortlist: Mapping[str, Any], causes: Mapping[str, str]) -> 
     lines: list[Line] = []
     for item in shortlist["items"]:
         kind = item["target_kind"]
-        if kind == "finding":
+        hypothesis = item.get("hypothesis") if item.get("tier") == "confirmed" else None
+        if kind == "finding" and hypothesis is not None:
+            # Phase 8: a confirmed line reads as the hypothesis it stands for, as the card does
+            f = item["finding"]
+            text = f"{hypothesis['mechanism']}{DASH}{hypothesis.get('consequence', '')}"
+            components = list(f["failing_component_ids"])
+            components += [c for c in hypothesis.get("component_ids", []) if c not in components]
+        elif kind == "finding":
             f = item["finding"]
             cause = f.get("cause_text") or causes.get(f["cause_id"], f["cause_id"])
             text, components = f"{cause}{DASH}{f['consequence']}", list(f["failing_component_ids"])
