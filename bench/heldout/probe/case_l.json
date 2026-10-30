@@ -1,0 +1,22 @@
+{
+ "case": "case_l",
+ "package": "case_l_chlorine-repack.md",
+ "model_id": "nvidia/Nemotron-3-Ultra-550b-a55b",
+ "prompt_version": "probe/v1",
+ "outcome": "ok",
+ "error": null,
+ "cost_usd": 0.008456,
+ "cache_hit": false,
+ "seconds": 6.598883800092153,
+ "model_call_ids": [
+  "mc:f10eff336d4d96f2"
+ ],
+ "answer": {
+  "recognised": true,
+  "company": "DPC Enterprises (later Olin Chlorine)",
+  "site": "Festus, Missouri",
+  "year": "2003",
+  "accident_name": "DPC Enterprises chlorine release (August 14, 2003)",
+  "reason": "Plant L matches the CSB case study of the Festus, MO chlorine repackaging facility: 8-acre triangular site, mobile home park SW, businesses east across highway, farm north across RR, interstate <0.5 mi, creek 500 ft S, hospital/school/airport within 1 mi, 12 staff (4 packagers/ERT), volunteer FD/HAZ"
+ }
+}

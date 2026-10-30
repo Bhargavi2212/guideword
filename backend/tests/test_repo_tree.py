@@ -67,7 +67,7 @@ def test_every_package_has_init(package: str) -> None:
     assert (REPO / package / "__init__.py").is_file()
 
 
-def test_no_heldout_material() -> None:
-    assert not (REPO / "bench" / "heldout").exists()
-    ignored = (REPO / ".gitignore").read_text(encoding="utf-8").splitlines()
-    assert "bench/heldout/" in ignored
+def test_the_held_out_benchmark_is_published() -> None:
+    # published after G3 (spec 6.6); bench/test_heldout_published.py checks every file's seal
+    assert (REPO / "cases" / "heldout" / "SEALS.txt").is_file()
+    assert (REPO / "bench" / "heldout" / "results.md").is_file()

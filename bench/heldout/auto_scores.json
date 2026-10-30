@@ -1,0 +1,20 @@
+{
+ "k": {
+  "baseline_a": 1,
+  "baseline_b": 1,
+  "guideword": 9,
+  "guideword_found_anywhere": 9
+ },
+ "m": {
+  "baseline_a": null,
+  "baseline_b": null,
+  "guideword": null,
+  "guideword_found_anywhere": null
+ },
+ "p": {
+  "baseline_a": null,
+  "baseline_b": null,
+  "guideword": null,
+  "guideword_found_anywhere": null
+ }
+}

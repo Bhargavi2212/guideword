@@ -1,0 +1,150 @@
+{
+ "case": "case_p",
+ "package": "case_p_nitro-distillation.md",
+ "model_id": "nvidia/Nemotron-3-Ultra-550b-a55b",
+ "prompt_version": "baseline_plain/v1",
+ "outcome": "ok",
+ "error": null,
+ "cost_usd": 0.019125,
+ "cache_hit": false,
+ "seconds": 15.32755630009342,
+ "model_call_ids": [
+  "mc:c9c93208c4448630"
+ ],
+ "hazards": [
+  {
+   "rank": 1,
+   "hazard": "Steam leak-through past non-tight-shutoff FV-A/B or incompletely closed manual valves heats idle C-1 MNT above 374 °F decomposition temperature — explosive decomposition of 1,200 gal MNT",
+   "equipment": [
+    "C-1",
+    "E-1A",
+    "E-1B",
+    "SS-A",
+    "SS-B",
+    "FV-A",
+    "FV-B",
+    "inlet/outlet/bypass manual block valves",
+    "TI-B",
+    "TI-R",
+    "DCS"
+   ],
+   "reason": "Package states: MNT may decompose explosively above 374 °F (literature on file); explosions have occurred when overheated or held moderately hot; C-1 holds 1,200 gal MNT at atmospheric pressure; steam plant at 300 psig is back online; FV-A/B are DCS-operated and explicitly not tight-shutoff; outlet "
+  },
+  {
+   "rank": 2,
+   "hazard": "Restart initiated with E-2 drained, vacuum not re-established, and no high-temperature alarms/interlocks — runaway heating to explosive decomposition",
+   "equipment": [
+    "C-1",
+    "E-1A",
+    "E-1B",
+    "E-2",
+    "steam eductors",
+    "FV-A",
+    "FV-B",
+    "TI-B",
+    "TI-R",
+    "DCS",
+    "C-1 operating procedure"
+   ],
+   "reason": "Package states: E-2 drained 9 days ago for tube work; vacuum broken with nitrogen, column at atmospheric pressure; restart date not set but planned; operating procedure has no cautions or temperature limits; no high-temperature alarm or interlock on C-1; emergency shutdown does not cover this state;"
+  },
+  {
+   "rank": 3,
+   "hazard": "PSV-1 (3-inch, 15 psig, no design basis) unable to relieve decomposition-generated overpressure — vessel rupture and fragment projection",
+   "equipment": [
+    "PSV-1",
+    "C-1 overhead vapour line",
+    "C-1 vessel"
+   ],
+   "reason": "Package states: PSV-1 set at 15 psig on overhead; no design-basis records exist; C-1 nameplate design pressure 15 psig; literature documents explosions in fractional distillation when MNT overheated; decomposition gas generation rate unknown; relief capacity unverified for runaway reaction."
+  },
+  {
+   "rank": 4,
+   "hazard": "C-1 explosion projects blast/fragments to control room 50 ft away (masonry/sheet-metal/glass, never sited) — personnel injury/fatality in control room, locker room, offices, lab, breakroom",
+   "equipment": [
+    "C-1",
+    "Aniline/MNT control room"
+   ],
+   "reason": "Package states: control room 50 ft from C-1; masonry block with sheet-metal roof/sides, glass windows and door; houses locker room, offices, quality-control lab, breakroom; never evaluated for building siting; 137 employees plus 8 contractors on site; decomposition explosion credible from Hazards 1–"
+  },
+  {
+   "rank": 5,
+   "hazard": "DCS power loss and hard-drive loss in past week leave restart monitoring/control unreliable — undetected temperature rise or valve misoperation during restart",
+   "equipment": [
+    "DCS",
+    "FV-A",
+    "FV-B",
+    "TI-B",
+    "TI-R",
+    "steam flow indication",
+    "chimney-tray high-level alarm"
+   ],
+   "reason": "Package states: DCS had power loss and hard-drive loss in past week (both restored); DCS operates FV-A/B, displays seven working TIs (no alarms configured), steam flows, chimney-tray alarm; no independent high-temperature interlock exists; operators rely on DCS screens for restart."
+  },
+  {
+   "rank": 6,
+   "hazard": "No written procedure for temperature monitoring or de-inventorying idle C-1 — undetected heat-up from steam leak or other causes to decomposition temperature",
+   "equipment": [
+    "C-1",
+    "TI-B",
+    "TI-R",
+    "DCS",
+    "C-1 operating procedure",
+    "emergency shutdown procedure"
+   ],
+   "reason": "Package explicitly states: no written procedure for de-inventorying C-1 or for temperature monitoring while shut down; eight TIs (seven working) with no alarms configured; 1,200 gal MNT present; steam plant back online; FV-A/B not tight-shutoff; no LOTO on steam isolation."
+  },
+  {
+   "rank": 7,
+   "hazard": "Emergency shutdown procedure covers only loss of steam to eductors and loss of cooling water — no response for reboiler steam leak, decomposition detection, E-2 failure, or DCS failure",
+   "equipment": [
+    "emergency shutdown procedure",
+    "C-1",
+    "E-1A",
+    "E-1B",
+    "FV-A",
+    "FV-B",
+    "steam eductors",
+    "E-2"
+   ],
+   "reason": "Package states: emergency shutdown procedure covers only loss of steam to overhead eductors and loss of cooling water; on steam failure only says put reboiler steam control valves in manual/closed and block condensate return; current state has E-2 drained, vacuum broken, steam isolated manually, DCS"
+  },
+  {
+   "rank": 8,
+   "hazard": "Nitrogen blanketing at atmospheric pressure with unconfirmed pressure (gauge cannot confirm) — masks vapour leaks, alters boiling behavior, complicates PSV-1 operation",
+   "equipment": [
+    "C-1 overhead vapour line",
+    "nitrogen tubing connection",
+    "PSV-1",
+    "0–200 mmHg gauge",
+    "steam eductors"
+   ],
+   "reason": "Package states: vacuum broken by injecting nitrogen at top ~9 days ago; column at or slightly above atmospheric pressure; 0–200 mmHg gauge cannot confirm result; nitrogen flow/pressure not monitored; changes MNT boiling point vs vacuum; may mask vapour leaks or affect PSV-1 setpoint"
+  },
+  {
+   "rank": 9,
+   "hazard": "C-1 explosion escalates to T-PMNT (>2M lb MNT, 500 ft), T-NH3 (500k lb, pipe rack above), or neighboring refinery crude tanks — domino effect increasing off-site consequences",
+   "equipment": [
+    "C-1",
+    "T-PMNT",
+    "T-NH3",
+    "neighboring refinery crude tanks",
+    "fertiliser plant ammonia tank"
+   ],
+   "reason": "Package states: T-PMNT holds >2 million lb MNT 500 ft from C-1; T-NH3 holds 500,000 lb anhydrous ammonia with pipe rack above; refinery crude tanks (250,000 bbl) ~500 ft from fence line; fertiliser plant ammonia tank to south; ship channel 0.25 mile west with residences; domino effect credible if"
+  },
+  {
+   "rank": 10,
+   "hazard": "Steam isolation of idle C-1 uses only manual valves and non-tight-shutoff FV-A/B without LOTO, blinds, or double block/bleed — fundamental isolation integrity gap enabling hazards 1, 2, 3",
+   "equipment": [
+    "SS-A",
+    "SS-B",
+    "FV-A",
+    "FV-B",
+    "inlet/outlet/bypass manual block valves",
+    "site lockout/tagout programme"
+   ],
+   "reason": "Package states: site LOTO programme not applied to steam isolation of idle column that still contains material; double block and bleed or blinds not required on reboiler steam lines; FV-A/B not tight-shutoff; outlet manual valves closed 2 weeks ago but no LOTO; bypass valves closed but not verified;"
+  }
+ ]
+}

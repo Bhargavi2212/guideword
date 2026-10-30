@@ -1,0 +1,17 @@
+{
+  "case_id": "case_s",
+  "root_cause": "Sparks from hot work (air carbon arc gouging of catwalk grating, without spark containment or continuous gas monitoring) ignited flammable hydrocarbon vapour in the vapour space of a badly corroded spent-acid tank that had holes in its roof and shell and was inadequately inerted through a temporary hose; the internal deflagration tore the shell from the floor. Mechanical integrity deferrals, the unreviewed change to spent-acid service and the unacted unsafe-condition report allowed it.",
+  "component_ids": ["TK-3", "RG-1"],
+  "cause_ids": [],
+  "match_phrases": ["hot work ignites flammable vapour in tank", "inadequate inerting", "corroded tank with holes"],
+  "match_phrase_groups": [
+    ["hot work", "welding", "cutting", "spark", "gouging", "torch", "arc"],
+    ["flammable vapour", "flammable vapor", "hydrocarbon vapour", "hydrocarbon vapor", "vapour space", "vapor space", "headspace", "inerting", "inert gas", "flammable atmosphere", "explosive atmosphere", "combustible"]
+  ],
+  "what_happened": "After lunch the crew moved from TK-6 toward TK-3, gouging without a retest; with temperature reaching 85 F, at about 13:30 TK-3 exploded, lifted off its pad and fell, pulling down the catwalk; TK-6's withdrawal line broke; acid released and hydrocarbons burned for about half an hour.",
+  "consequence": "1 contractor killed and 8 injured; about 1.1 million gal of acid released, overwhelming the dike and sewers, with about 99,000 gal reaching the river and a fish kill.",
+  "missed_by_original_review": "Mechanical integrity: repeated internal-inspection recommendations deferred and known leak unrepaired; no MOC for the change to spent-acid service and undersized temporary inerting; hot work programme allowed work near tanks with holes and flammable vapour without monitoring; UCR not acted on; MSDS classed spent acid as non-combustible.",
+  "multi_failure": true,
+  "source": {"kind": "public investigation report", "reference": "US Chemical Safety Board, Investigation Report: Refinery Incident, Motiva Enterprises LLC, Delaware City Refinery, Delaware City, Delaware, July 17, 2001; Report No. 2001-05-I-DE, October 2002. https://www.csb.gov/assets/1/20/Motiva_Final_Report.pdf", "pages": "Executive summary and sections 1.0-3.9 (read via extraction)"},
+  "memorisation_markers": ["Motiva Enterprises", "Delaware City Refinery", "Washington Group International", "Jeffrey Davis", "PACE Local 2-898", "Red Lion Creek", "Delaware River", "July 17, 2001", "Tank 393", "Tank 396", "unsafe condition report", "1.1 million gallons", "Jeffrey Davis Aboveground Storage Tank Act"]
+}

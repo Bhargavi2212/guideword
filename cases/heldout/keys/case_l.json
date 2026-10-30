@@ -1,0 +1,17 @@
+{
+  "case_id": "case_l",
+  "root_cause": "One of the new transfer hoses had been fabricated with a 316L stainless-steel braid instead of the specified Hastelloy C-276; nobody verified the material (no positive material identification by supplier or site, paper-tag identification only). Chlorine and moisture permeated the PTFE liner, corroded the braid, and the hose ruptured after 59 days at normal pressure. The emergency shutdown valves then failed to close fully (ferric chloride build-up from moisture corrosion; the daily 'test' never checked closure), so the release continued for nearly 3 hours.",
+  "component_ids": ["H-3A", "ESD-2", "ESD-3", "ESD-4", "ESD-5", "AC-1"],
+  "cause_ids": [],
+  "match_phrases": ["wrong braid material", "stainless steel instead of Hastelloy", "material verification", "hose rupture"],
+  "match_phrase_groups": [
+    ["wrong material", "wrong alloy", "incorrect material", "material mix-up", "316", "stainless", "not hastelloy", "material verification", "positive material identification", "pmi", "nonconforming hose", "non-conforming hose", "wrong hose", "out of specification hose", "off-spec hose"],
+    ["rupture", "burst", "hose failure", "hose fails", "braid corrosion", "corroded braid", "hose leak"]
+  ],
+  "what_happened": "During the mid-morning break (standby, valves open) the liquid hose on valve A at station 3 ruptured about 3.5 ft from the car. ESD was pressed: ESD-1 closed but ESD-2 (pad air) stayed open, ESD-3 stayed 60% open and ESD-4/5 open, so chlorine back-flowed from valve C through the intact hose and plant piping out of the ruptured hose while pad air kept the car pressurised; flow (~16,000 lb/hr est.) was near the excess-flow set point and the excess flow valves did not trip. HAZMAT entry closed car valve C about 3 hours later.",
+  "consequence": "About 48,000 lb of chlorine released over nearly 3 hours; 63 people sought medical evaluation, 3 admitted overnight; highway and interstate closed, neighbourhood evacuated and sheltered in place.",
+  "missed_by_original_review": "No quality assurance to verify hose material before hazardous service; ESD testing did not verify valve closure; mechanical integrity programme did not address moisture corrosion of transfer and pad-air systems; deficient emergency notification and planning.",
+  "multi_failure": true,
+  "source": {"kind": "public investigation report", "reference": "US Chemical Safety Board, Investigation Report: Chlorine Release, DPC Enterprises L.P., Festus, Missouri, August 14, 2002; Report No. 2002-04-I-MO, May 2003. https://www.csb.gov/assets/1/20/DPC_Report.pdf", "pages": "Executive summary, sections 1-7, Appendices A-B.1 (read via extraction; Appendices B.2-F not read)"},
+  "memorisation_markers": ["DPC Enterprises", "DX Distribution Group", "Branham Corporation", "Crane-Resistoflex", "Festus", "Crystal City", "Jefferson County Missouri", "Blue Fountain mobile home park", "August 14, 2002", "48,000 lb", "63 people sought medical evaluation", "Hastelloy C-276 vs 316L braid", "59 days in service", "2002-04-I-MO"]
+}

@@ -1,0 +1,17 @@
+{
+  "case_id": "case_n",
+  "root_cause": "During the heating phase of the start-up after the catalyst change, too little nitrogen and a low, unstable ethylbenzene flow left the catalyst unevenly wetted with dry zones. Ethylbenzene absorbed in the pellets reacted with the catalyst's barium chromate (higher Cr(VI) content in the new catalyst) from about 90 C; hot spots formed and at about 180 C a gas-producing runaway with copper oxide followed. The flare discharge valve had been closed by the separator level trip and not reset, so pressure built up and R-2 and separator V-1 ruptured. The catalyst change and its composition change, and the assumption that ethylbenzene is inert, had never been assessed.",
+  "component_ids": ["R-1", "R-2", "V-1", "V-2", "PV-F"],
+  "cause_ids": [],
+  "match_phrases": ["dry zones in catalyst bed", "ethylbenzene reacts with catalyst", "runaway", "insufficient wetting"],
+  "match_phrase_groups": [
+    ["dry zone", "dry spot", "maldistribution", "uneven wetting", "insufficient wetting", "poor wetting", "incomplete wetting", "insufficient nitrogen", "low nitrogen", "channeling", "channelling", "hot spot", "hotspot", "catalyst reactivity", "reactive catalyst", "chromium", "chromate"],
+    ["runaway", "exotherm", "uncontrolled reaction", "reaction with ethylbenzene", "ethylbenzene reacts", "temperature excursion", "decomposition"]
+  ],
+  "what_happened": "Circulation started about 20:15 and heating at 50 C/h about 20:56; separator levels and R-2 flow fluctuated and R-2 flow twice dropped to near zero; heat was added manually; at 22:16 a V-2 high-high level closed the flare valve, which was not reset; gas-system pressure rose to 7.8 bar then past the collapse pressure within about 2 minutes; R-2 ruptured at 22:48:26 and V-1 about 20 s later; ethylbenzene fire.",
+  "consequence": "Two explosions and a large fire; fragments thrown about 250 m, debris up to 800 m; two contractors injured by blast and hot catalyst pellets.",
+  "missed_by_original_review": "Risks of the catalyst change and its later composition change were not identified; ethylbenzene was assumed inert on a decades-old test; heating phase never studied; design heating rate and nitrogen flow lost between design and operations; lessons from the earlier own and sister-plant excursions not learned.",
+  "multi_failure": true,
+  "source": {"kind": "public investigation report", "reference": "Dutch Safety Board (Onderzoeksraad voor Veiligheid), Explosions MSPO2 Shell Moerdijk, July 2015. https://onderzoeksraad.nl/wp-content/uploads/2023/11/823457063632interactief_shell_moerdijk_en.pdf", "pages": "pp. 1-57 (summary, consideration, ch. 1-2, 3.1); appendices not read"},
+  "memorisation_markers": ["Shell Moerdijk", "Shell Nederland Chemie", "BASF", "Moerdijk", "Hollands Diep", "3 June 2014", "MSPO2", "MSPO1", "unit 4800", "V4801", "V4802", "PRCA-013", "G22-2", "Cu-1808T", "Nanhai", "Seraya", "pit stop", "Dutch Safety Board"]
+}

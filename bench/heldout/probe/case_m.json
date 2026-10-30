@@ -1,0 +1,22 @@
+{
+ "case": "case_m",
+ "package": "case_m_gas-plant.md",
+ "model_id": "nvidia/Nemotron-3-Ultra-550b-a55b",
+ "prompt_version": "probe/v1",
+ "outcome": "ok",
+ "error": null,
+ "cost_usd": 0.011826,
+ "cache_hit": false,
+ "seconds": 10.635064800037071,
+ "model_call_ids": [
+  "mc:aa8c2ca4b97ebd16"
+ ],
+ "answer": {
+  "recognised": true,
+  "company": "Total (Total Lindsey Oil Refinery Ltd)",
+  "site": "Lindsey Oil Refinery, South Killingholme, North Lincolnshire, UK",
+  "year": "2015",
+  "accident_name": "Lindsey Oil Refinery explosion (HSE Plant M investigation)",
+  "reason": "The package matches the HSE 'Plant M' investigation report: coastal 225 kbd refinery on 480 acres split by dual carriageway; saturated gas fractionation with C-1 de-ethaniser, C-2 stabiliser, C-3 splitter; WI-2 injected into 1-inch vent 670 mm upstream of 90° bend 9 m above ground without memorandum"
+ }
+}

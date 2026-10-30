@@ -1,0 +1,17 @@
+{
+  "case_id": "case_m",
+  "root_cause": "The 6-inch carbon-steel de-ethaniser overhead line failed at the bend just downstream of the add-on wash-water injection point: the unquilled free jet of water stripped the protective iron sulphide layer and caused localised erosion-corrosion that thinned the wall from about 7-8 mm to 0.3 mm. The injection point and changes in its use (back to continuous) were never put through management of change, and it was missing from the inspection scheme and the RBI study, so the thinning was not found.",
+  "component_ids": ["L-OVHD", "WI-2"],
+  "cause_ids": [],
+  "match_phrases": ["erosion-corrosion downstream of water injection", "injection point corrosion", "wall thinning at the bend"],
+  "match_phrase_groups": [
+    ["injection", "wash water", "water wash", "injected water", "water jet"],
+    ["corrosion", "erosion", "thinning", "wall loss", "metal loss", "wall thickness"]
+  ],
+  "what_happened": "The bend on the overhead line ruptured; a gas jet ignited after 20-30 s causing an explosion and a fireball over 30 m high; a second release 10-15 minutes later and further fireballs as fire weakened other pipework; about 180 t of flammable hydrocarbons and over 0.5 t of H2S released before isolation.",
+  "consequence": "Vapour cloud explosion and fires that heavily damaged the gas plant and buildings up to 400 m away, with off-site damage to about 1 km; no serious injuries; refinery shut for weeks.",
+  "missed_by_original_review": "Injection point installed and its use changed without MOC; not in the written scheme of examination or the RBI study (believed isolated); downstream bend not inspected for about 20 years; corrosion monitoring and sampling lapsed; company bulletin on injection-point corrosion not applied to this point.",
+  "multi_failure": false,
+  "source": {"kind": "public investigation report", "reference": "UK Health and Safety Executive, Public Report of the Fire and Explosion at the ConocoPhillips Humber Refinery on 16 April 2001 (HSE, 2005). https://www.icheme.org/media/10687/public-report-of-the-fire-and-explosion-at-the-conocophillips-humber-refinery.pdf", "pages": "sections 1-11 (read via extraction)"},
+  "memorisation_markers": ["Conoco", "ConocoPhillips", "Humber Refinery", "South Killingholme", "Immingham", "North Lincolnshire", "Lindsey Oil Refinery", "Easter Monday 16 April 2001", "Saturate Gas Plant", "W413", "P4363", "D457", "670 mm upstream", "0.3 mm wall", "CREDO", "Hawkeye", "Project 570"]
+}

@@ -1,0 +1,22 @@
+{
+ "case": "case_k",
+ "package": "case_k_batch-polymer.md",
+ "model_id": "nvidia/Nemotron-3-Ultra-550b-a55b",
+ "prompt_version": "probe/v1",
+ "outcome": "ok",
+ "error": null,
+ "cost_usd": 0.005904,
+ "cache_hit": false,
+ "seconds": 5.032360500073992,
+ "model_call_ids": [
+  "mc:8e72a4030a8ee704"
+ ],
+ "answer": {
+  "recognised": true,
+  "company": "T2 Laboratories",
+  "site": "Roanoke, Virginia",
+  "year": "2006",
+  "accident_name": "T2 Laboratories runaway reaction and reactor explosion",
+  "reason": "The package matches the CSB-investigated 2006 T2 Laboratories incident: 1,500 gal batch reactor making acrylic polymer coatings; manway with 4 clamps vs 18 specified; overhead condenser (TEMA BEM) with untreated cooling water fouled for ~30 years; 12% larger batch with altered solvent ratio; no high"
+ }
+}

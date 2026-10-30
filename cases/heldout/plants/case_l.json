@@ -1,0 +1,346 @@
+{
+  "plant_id": "case_l",
+  "schema_version": "1.0",
+  "notes": [
+    {"text": "Bulk dry liquid chlorine arrives by rail in 90-ton (180,000 lb) tank cars and is repackaged into 150-lb cylinders and 1-ton containers for commercial, light-industrial and municipal customers.", "source": "case_l_chlorine-repack.md"},
+    {"text": "The site also cleans and prepares returned cylinders and containers, loads trucks, and runs a continuous sodium hypochlorite (bleach) production process.", "source": "case_l_chlorine-repack.md"},
+    {"text": "Site area 8 acres, triangular, fenced, gated main entrance off a highway. Operated by a chlorine repackager that is part of a network of distribution companies; technical support comes from the network's headquarters.", "source": "case_l_chlorine-repack.md"},
+    {"text": "12 full-time staff: 4 packagers (who are also the facility emergency response team, SCBA-trained), 4 truck drivers, 2 administrative, 1 sales representative, 1 operations manager.", "source": "case_l_chlorine-repack.md"},
+    {"text": "One shift, normally 6:00 am to 4:00 pm, Monday to Friday.", "source": "case_l_chlorine-repack.md"},
+    {"text": "The operations manager was hired about 9 months ago from outside the chlorine industry; the previous manager left about 15 months ago and the post was covered by corporate staff for about 6 months. Training covers how and when to do tasks.", "source": "case_l_chlorine-repack.md"},
+    {"text": "Offsite response: volunteer fire department; all-volunteer county HAZMAT team with a duty officer; county emergency plan relies on radio and TV alerts (no sirens).", "source": "case_l_chlorine-repack.md"},
+    {"text": "History: about 3.5 years ago a 1-ton container was dropped during truck loading, damaging its valves and releasing 1,500 lb of chlorine; 22 residents and 2 employees were evaluated.", "source": "case_l_chlorine-repack.md"}
+  ],
+  "locations": [
+    {"id": "LOC-L-STATION-1", "description": "Unloading station 1, north side of the repackaging building",
+     "notes": [
+       {"text": "Unloading stations 1, 2 and 3 along the north side of the repackaging building, each with three flexible transfer hoses connecting the tank car to fixed plant piping. No working platforms; packagers climb the car ladder.", "source": "case_l_chlorine-repack.md"},
+       {"text": "Most recent hose order: three hoses ordered by corporate purchasing, fabricated by the sole hose supplier (which buys raw hose from one bulk manufacturer and attaches fittings and guards) and shipped directly to the site. Two were installed at station 3 about two months ago; the third at station 1 about three weeks ago. Documents received with them (pressure test certificate, work order/bill of materials, invoice, shipping certification) all state Hastelloy C-276. Hoses are identified by paper tags only.", "source": "case_l_chlorine-repack.md"}
+     ]},
+    {"id": "LOC-L-STATION-2", "description": "Unloading station 2, north side of the repackaging building",
+     "notes": [
+       {"text": "Unloading stations 1, 2 and 3 along the north side of the repackaging building, each with three flexible transfer hoses connecting the tank car to fixed plant piping. No working platforms; packagers climb the car ladder.", "source": "case_l_chlorine-repack.md"},
+       {"text": "(and three at station 2)", "source": "case_l_chlorine-repack.md"}
+     ]},
+    {"id": "LOC-L-STATION-3", "description": "Unloading station 3, north side of the repackaging building",
+     "notes": [
+       {"text": "Unloading stations 1, 2 and 3 along the north side of the repackaging building, each with three flexible transfer hoses connecting the tank car to fixed plant piping. No working platforms; packagers climb the car ladder.", "source": "case_l_chlorine-repack.md"},
+       {"text": "liquid hose from valve A", "source": "case_l_chlorine-repack.md"},
+       {"text": "the pad-air hose", "source": "case_l_chlorine-repack.md"},
+       {"text": "the liquid hose from valve C", "source": "case_l_chlorine-repack.md"},
+       {"text": "Car liquid valve A → hose → ESD-1 → plant liquid header → ESD-4/5 → fill stations; normally open during production and standby.", "source": "case_l_chlorine-repack.md"},
+       {"text": "Car liquid valve C → hose → ESD-3 → same plant liquid header; normally open during production and standby.", "source": "case_l_chlorine-repack.md"},
+       {"text": "Pad air from AC-1 → hose → ESD-2 → car valve D into the car vapour space; normally open during production and standby.", "source": "case_l_chlorine-repack.md"},
+       {"text": "Most recent hose order: three hoses ordered by corporate purchasing, fabricated by the sole hose supplier (which buys raw hose from one bulk manufacturer and attaches fittings and guards) and shipped directly to the site. Two were installed at station 3 about two months ago; the third at station 1 about three weeks ago. Documents received with them (pressure test certificate, work order/bill of materials, invoice, shipping certification) all state Hastelloy C-276. Hoses are identified by paper tags only.", "source": "case_l_chlorine-repack.md"}
+     ]},
+    {"id": "LOC-L-REPACK-BLDG", "description": "repackaging building",
+     "notes": [{"text": "Four SCBA units and other emergency gear stored inside the repackaging building.", "source": "case_l_chlorine-repack.md"}]},
+    {"id": "LOC-L-COMPRESSOR-ROOM", "description": "compressor/dryer room"},
+    {"id": "LOC-L-BULK-TANKS", "description": "Bulk tanks east of the repackaging building"},
+    {"id": "LOC-L-HIGHWAY", "description": "highway (gated main entrance off a highway)"},
+    {"id": "LOC-L-MOBILE-HOME-PARK", "description": "Mobile home park adjoining to the southwest", "occupied": true,
+     "notes": [{"text": "Mobile home park adjoining to the southwest (about 100 homes, about 200 people).", "source": "case_l_chlorine-repack.md"}]},
+    {"id": "LOC-L-BUSINESSES", "description": "Two businesses about 100 ft east across the highway", "occupied": true, "distance_m": 30.48,
+     "notes": [{"text": "Two businesses about 100 ft east across the highway (about 18 employees each).", "source": "case_l_chlorine-repack.md"}]},
+    {"id": "LOC-L-FARM", "description": "Farm to the north across the railroad tracks",
+     "notes": [{"text": "Farm to the north across the railroad tracks; interstate highway less than 0.5 mile east; creek about 500 ft south.", "source": "case_l_chlorine-repack.md"}]},
+    {"id": "LOC-L-INTERSTATE", "description": "interstate highway less than 0.5 mile east",
+     "notes": [{"text": "Farm to the north across the railroad tracks; interstate highway less than 0.5 mile east; creek about 500 ft south.", "source": "case_l_chlorine-repack.md"}]},
+    {"id": "LOC-L-CREEK", "description": "creek about 500 ft south", "distance_m": 152.4,
+     "notes": [{"text": "Farm to the north across the railroad tracks; interstate highway less than 0.5 mile east; creek about 500 ft south.", "source": "case_l_chlorine-repack.md"}]},
+    {"id": "LOC-L-HOSPITAL", "description": "a hospital within 1 mile",
+     "notes": [{"text": "Within 1 mile: a hospital, a high school and an airport; about 1,500 people live or work within 1 mile.", "source": "case_l_chlorine-repack.md"}]},
+    {"id": "LOC-L-HIGH-SCHOOL", "description": "a high school within 1 mile",
+     "notes": [{"text": "Within 1 mile: a hospital, a high school and an airport; about 1,500 people live or work within 1 mile.", "source": "case_l_chlorine-repack.md"}]},
+    {"id": "LOC-L-AIRPORT", "description": "an airport within 1 mile",
+     "notes": [{"text": "Within 1 mile: a hospital, a high school and an airport; about 1,500 people live or work within 1 mile.", "source": "case_l_chlorine-repack.md"}]},
+    {"id": "LOC-L-UNSTATED", "description": "endpoint not stated in the package"}
+  ],
+  "utilities": [
+    {"id": "UT-L-INSTRUMENT-AIR", "kind": "instrument_air", "location_id": "LOC-L-COMPRESSOR-ROOM",
+     "notes": [{"text": "Supplies pad air to the tank car at about 175 psig and instrument/plant air (ESD actuators, sandblasting).", "source": "case_l_chlorine-repack.md"}]}
+  ],
+  "equipment": [
+    {"id": "TC-1", "type": "tank", "location_id": "LOC-L-STATION-3", "contents": ["CHLORINE"],
+     "notes": [
+       {"text": "TC-1 rail tank car (currently at station 3), DOT load limit 180,000 lb. Inside its protective dome: four manually operated angle valves and a spring-loaded pressure relief device. Valves A and C are liquid valves (with eduction pipes to the bottom of the car); valves B and D are vapour valves. Valve openings 1 in ID. An excess flow valve sits under each liquid valve and closes above 15,000 lb/hr. Valve D is used for pad air; valve B is not used. Contents at the start of the current shift: about 80,000 lb (by production records).", "source": "case_l_chlorine-repack.md"}
+     ]},
+    {"id": "PLANT-LIQUID-HEADER", "type": "other", "contents": ["CHLORINE"],
+     "notes": [
+       {"text": "Liquid and pad-air piping: carbon steel, replaced 4 years ago; wall thickness never measured, never inspected internally; inspection interval 5 years.", "source": "case_l_chlorine-repack.md"},
+       {"text": "Car liquid valve A → hose → ESD-1 → plant liquid header → ESD-4/5 → fill stations; normally open during production and standby.", "source": "case_l_chlorine-repack.md"},
+       {"text": "Car liquid valve C → hose → ESD-3 → same plant liquid header; normally open during production and standby.", "source": "case_l_chlorine-repack.md"}
+     ]},
+    {"id": "SPARE-PIPING-ASSEMBLIES", "type": "other",
+     "notes": [{"text": "A second, unused set of piping assemblies at one station.", "source": "case_l_chlorine-repack.md"}]},
+    {"id": "FILL-STATIONS", "type": "other",
+     "notes": [{"text": "Fill stations for 150-lb cylinders and 1-ton containers, fed from the process piping.", "source": "case_l_chlorine-repack.md"}]},
+    {"id": "CYLINDERS-150LB", "type": "vessel", "contents": ["CHLORINE"],
+     "notes": [{"text": "Liquid chlorine (dry; under 50 ppm water), in the tank car, process piping, cylinders and 1-ton containers.", "source": "case_l_chlorine-repack.md"}]},
+    {"id": "TON-CONTAINERS", "type": "vessel", "contents": ["CHLORINE"],
+     "notes": [{"text": "Liquid chlorine (dry; under 50 ppm water), in the tank car, process piping, cylinders and 1-ton containers.", "source": "case_l_chlorine-repack.md"}]},
+    {"id": "CLEANING-AREA", "type": "other",
+     "notes": [{"text": "Cylinder and container cleaning and preparation area (uses sandblasting equipment on plant air).", "source": "case_l_chlorine-repack.md"}]},
+    {"id": "TRUCK-LOADING", "type": "other",
+     "notes": [{"text": "Truck loading station.", "source": "case_l_chlorine-repack.md"}]},
+    {"id": "BLEACH-UNIT", "type": "other", "location_id": "LOC-L-REPACK-BLDG", "contents": ["SODIUM-HYPOCHLORITE"],
+     "notes": [{"text": "Bleach unit (continuous sodium hypochlorite production) inside the repackaging building.", "source": "case_l_chlorine-repack.md"}]},
+    {"id": "AC-1", "type": "compressor", "location_id": "LOC-L-COMPRESSOR-ROOM", "contents": ["AIR"],
+     "notes": [{"text": "AC-1 air compressor with twin-bed aluminium-silicate desiccant dryer (one bed on line, one regenerating) and a moisture analyzer, in the compressor/dryer room. Supplies pad air to the tank car at about 175 psig and instrument/plant air (ESD actuators, sandblasting). The dryer was upgraded earlier because moisture was clogging the sandblasting equipment. The moisture analyzer has shown identical readings for several months. Last dryer maintenance about one month ago.", "source": "case_l_chlorine-repack.md"}]},
+    {"id": "AC-1-DRYER", "type": "dryer", "location_id": "LOC-L-COMPRESSOR-ROOM", "contents": ["AIR"],
+     "notes": [
+       {"text": "twin-bed aluminium-silicate desiccant dryer (one bed on line, one regenerating)", "source": "case_l_chlorine-repack.md"},
+       {"text": "The dryer was upgraded earlier because moisture was clogging the sandblasting equipment.", "source": "case_l_chlorine-repack.md"},
+       {"text": "Last dryer maintenance about one month ago.", "source": "case_l_chlorine-repack.md"}
+     ]},
+    {"id": "TK-CAUSTIC", "type": "tank", "location_id": "LOC-L-BULK-TANKS", "contents": ["SODIUM-HYDROXIDE"],
+     "notes": [{"text": "Bulk tanks east of the repackaging building: sodium hydroxide (caustic soda), bleach, wastewater.", "source": "case_l_chlorine-repack.md"}]},
+    {"id": "TK-BLEACH", "type": "tank", "location_id": "LOC-L-BULK-TANKS", "contents": ["SODIUM-HYPOCHLORITE"],
+     "notes": [{"text": "Bulk tanks east of the repackaging building: sodium hydroxide (caustic soda), bleach, wastewater.", "source": "case_l_chlorine-repack.md"}]},
+    {"id": "TK-WASTEWATER", "type": "tank", "location_id": "LOC-L-BULK-TANKS", "contents": ["WASTEWATER"],
+     "notes": [{"text": "Bulk tanks east of the repackaging building: sodium hydroxide (caustic soda), bleach, wastewater.", "source": "case_l_chlorine-repack.md"}]}
+  ],
+  "instruments": [
+    {"id": "MOISTURE-ANALYZER-AC-1", "kind": "analyser", "measures": "composition", "on_id": "AC-1-DRYER",
+     "notes": [{"text": "The moisture analyzer has shown identical readings for several months.", "source": "case_l_chlorine-repack.md"}]},
+    {"id": "CL2-DETECTOR-STATION-3", "kind": "analyser", "measures": "composition",
+     "notes": [{"text": "Area chlorine detectors, including one at station 3: at 5 ppm flashing lights and audible alarm; at 10 ppm automatic ESD activation and a second, louder alarm.", "source": "case_l_chlorine-repack.md"}]}
+  ],
+  "valves": [
+    {"id": "A", "kind": "manual", "normal_position": "open",
+     "notes": [
+       {"text": "Valves A and C are liquid valves (with eduction pipes to the bottom of the car); valves B and D are vapour valves. Valve openings 1 in ID.", "source": "case_l_chlorine-repack.md"},
+       {"text": "Car liquid valve A → hose → ESD-1 → plant liquid header → ESD-4/5 → fill stations; normally open during production and standby.", "source": "case_l_chlorine-repack.md"}
+     ]},
+    {"id": "B", "kind": "manual",
+     "notes": [
+       {"text": "Valves A and C are liquid valves (with eduction pipes to the bottom of the car); valves B and D are vapour valves. Valve openings 1 in ID.", "source": "case_l_chlorine-repack.md"},
+       {"text": "Valve D is used for pad air; valve B is not used.", "source": "case_l_chlorine-repack.md"}
+     ]},
+    {"id": "C", "kind": "manual", "normal_position": "open",
+     "notes": [
+       {"text": "Valves A and C are liquid valves (with eduction pipes to the bottom of the car); valves B and D are vapour valves. Valve openings 1 in ID.", "source": "case_l_chlorine-repack.md"},
+       {"text": "Car liquid valve C → hose → ESD-3 → same plant liquid header; normally open during production and standby.", "source": "case_l_chlorine-repack.md"}
+     ]},
+    {"id": "D", "kind": "manual", "normal_position": "open",
+     "notes": [
+       {"text": "Valves A and C are liquid valves (with eduction pipes to the bottom of the car); valves B and D are vapour valves. Valve openings 1 in ID.", "source": "case_l_chlorine-repack.md"},
+       {"text": "Valve D is used for pad air; valve B is not used.", "source": "case_l_chlorine-repack.md"},
+       {"text": "Pad air from AC-1 → hose → ESD-2 → car valve D into the car vapour space; normally open during production and standby.", "source": "case_l_chlorine-repack.md"}
+     ]},
+    {"id": "EFV-A", "kind": "block",
+     "notes": [{"text": "An excess flow valve sits under each liquid valve and closes above 15,000 lb/hr.", "source": "case_l_chlorine-repack.md"}]},
+    {"id": "EFV-C", "kind": "block",
+     "notes": [{"text": "An excess flow valve sits under each liquid valve and closes above 15,000 lb/hr.", "source": "case_l_chlorine-repack.md"}]},
+    {"id": "ESD-1", "kind": "block", "normal_position": "open", "fail_position": "closed",
+     "notes": [
+       {"text": "ESD valves, five per station: on the tank-car side, ESD-1 on liquid hose from valve A, ESD-2 on the pad-air hose, ESD-3 on the liquid hose from valve C; on the plant side, ESD-4 and ESD-5. Air-operated ball valves with Monel balls, spring-return pneumatic piston actuators (about 5 ft-lb torque), solenoid vents air so the spring closes the valve; position indicators on top. All run from one central system.", "source": "case_l_chlorine-repack.md"}
+     ]},
+    {"id": "ESD-2", "kind": "block", "normal_position": "open", "fail_position": "closed",
+     "notes": [
+       {"text": "ESD valves, five per station: on the tank-car side, ESD-1 on liquid hose from valve A, ESD-2 on the pad-air hose, ESD-3 on the liquid hose from valve C; on the plant side, ESD-4 and ESD-5. Air-operated ball valves with Monel balls, spring-return pneumatic piston actuators (about 5 ft-lb torque), solenoid vents air so the spring closes the valve; position indicators on top. All run from one central system.", "source": "case_l_chlorine-repack.md"}
+     ]},
+    {"id": "ESD-3", "kind": "block", "normal_position": "open", "fail_position": "closed",
+     "notes": [
+       {"text": "ESD valves, five per station: on the tank-car side, ESD-1 on liquid hose from valve A, ESD-2 on the pad-air hose, ESD-3 on the liquid hose from valve C; on the plant side, ESD-4 and ESD-5. Air-operated ball valves with Monel balls, spring-return pneumatic piston actuators (about 5 ft-lb torque), solenoid vents air so the spring closes the valve; position indicators on top. All run from one central system.", "source": "case_l_chlorine-repack.md"}
+     ]},
+    {"id": "ESD-4", "kind": "block", "on_line_id": "L-HEADER-FILL", "normal_position": "open", "fail_position": "closed",
+     "notes": [
+       {"text": "ESD valves, five per station: on the tank-car side, ESD-1 on liquid hose from valve A, ESD-2 on the pad-air hose, ESD-3 on the liquid hose from valve C; on the plant side, ESD-4 and ESD-5. Air-operated ball valves with Monel balls, spring-return pneumatic piston actuators (about 5 ft-lb torque), solenoid vents air so the spring closes the valve; position indicators on top. All run from one central system.", "source": "case_l_chlorine-repack.md"}
+     ]},
+    {"id": "ESD-5", "kind": "block", "on_line_id": "L-HEADER-FILL", "normal_position": "open", "fail_position": "closed",
+     "notes": [
+       {"text": "ESD valves, five per station: on the tank-car side, ESD-1 on liquid hose from valve A, ESD-2 on the pad-air hose, ESD-3 on the liquid hose from valve C; on the plant side, ESD-4 and ESD-5. Air-operated ball valves with Monel balls, spring-return pneumatic piston actuators (about 5 ft-lb torque), solenoid vents air so the spring closes the valve; position indicators on top. All run from one central system.", "source": "case_l_chlorine-repack.md"}
+     ]}
+  ],
+  "lines": [
+    {"id": "H-3A", "from_id": "LOC-L-STATION-3", "to_id": "LOC-L-UNSTATED", "is_hose": true, "components": [], "no_flow": [],
+     "size_mm": 25.4, "length_m": 3.35,
+     "notes": [{"text": "H-3A, H-3B, H-3C transfer hoses at station 3; H-1A, H-1B, H-1C at station 1 (and three at station 2). Each hose about 11 ft long, 1 in diameter. Purchase specification: PTFE (Teflon) inner liner, Hastelloy C-276 structural braid for pressure containment, HDPE spiral guard for abrasion protection. Specified service life 24 months from fabrication. Maximum operating pressure about 175 psig during unloading; hoses are bent at each connection and disconnection.", "source": "case_l_chlorine-repack.md"}]},
+    {"id": "H-3B", "from_id": "LOC-L-STATION-3", "to_id": "LOC-L-UNSTATED", "is_hose": true, "components": [], "no_flow": [],
+     "size_mm": 25.4, "length_m": 3.35,
+     "notes": [{"text": "H-3A, H-3B, H-3C transfer hoses at station 3; H-1A, H-1B, H-1C at station 1 (and three at station 2). Each hose about 11 ft long, 1 in diameter. Purchase specification: PTFE (Teflon) inner liner, Hastelloy C-276 structural braid for pressure containment, HDPE spiral guard for abrasion protection. Specified service life 24 months from fabrication. Maximum operating pressure about 175 psig during unloading; hoses are bent at each connection and disconnection.", "source": "case_l_chlorine-repack.md"}]},
+    {"id": "H-3C", "from_id": "LOC-L-STATION-3", "to_id": "LOC-L-UNSTATED", "is_hose": true, "components": [], "no_flow": [],
+     "size_mm": 25.4, "length_m": 3.35,
+     "notes": [{"text": "H-3A, H-3B, H-3C transfer hoses at station 3; H-1A, H-1B, H-1C at station 1 (and three at station 2). Each hose about 11 ft long, 1 in diameter. Purchase specification: PTFE (Teflon) inner liner, Hastelloy C-276 structural braid for pressure containment, HDPE spiral guard for abrasion protection. Specified service life 24 months from fabrication. Maximum operating pressure about 175 psig during unloading; hoses are bent at each connection and disconnection.", "source": "case_l_chlorine-repack.md"}]},
+    {"id": "H-1A", "from_id": "LOC-L-STATION-1", "to_id": "LOC-L-UNSTATED", "is_hose": true, "components": [], "no_flow": [],
+     "size_mm": 25.4, "length_m": 3.35,
+     "notes": [{"text": "H-3A, H-3B, H-3C transfer hoses at station 3; H-1A, H-1B, H-1C at station 1 (and three at station 2). Each hose about 11 ft long, 1 in diameter. Purchase specification: PTFE (Teflon) inner liner, Hastelloy C-276 structural braid for pressure containment, HDPE spiral guard for abrasion protection. Specified service life 24 months from fabrication. Maximum operating pressure about 175 psig during unloading; hoses are bent at each connection and disconnection.", "source": "case_l_chlorine-repack.md"}]},
+    {"id": "H-1B", "from_id": "LOC-L-STATION-1", "to_id": "LOC-L-UNSTATED", "is_hose": true, "components": [], "no_flow": [],
+     "size_mm": 25.4, "length_m": 3.35,
+     "notes": [{"text": "H-3A, H-3B, H-3C transfer hoses at station 3; H-1A, H-1B, H-1C at station 1 (and three at station 2). Each hose about 11 ft long, 1 in diameter. Purchase specification: PTFE (Teflon) inner liner, Hastelloy C-276 structural braid for pressure containment, HDPE spiral guard for abrasion protection. Specified service life 24 months from fabrication. Maximum operating pressure about 175 psig during unloading; hoses are bent at each connection and disconnection.", "source": "case_l_chlorine-repack.md"}]},
+    {"id": "H-1C", "from_id": "LOC-L-STATION-1", "to_id": "LOC-L-UNSTATED", "is_hose": true, "components": [], "no_flow": [],
+     "size_mm": 25.4, "length_m": 3.35,
+     "notes": [{"text": "H-3A, H-3B, H-3C transfer hoses at station 3; H-1A, H-1B, H-1C at station 1 (and three at station 2). Each hose about 11 ft long, 1 in diameter. Purchase specification: PTFE (Teflon) inner liner, Hastelloy C-276 structural braid for pressure containment, HDPE spiral guard for abrasion protection. Specified service life 24 months from fabrication. Maximum operating pressure about 175 psig during unloading; hoses are bent at each connection and disconnection.", "source": "case_l_chlorine-repack.md"}]},
+    {"id": "L-HEADER-FILL", "from_id": "PLANT-LIQUID-HEADER", "to_id": "FILL-STATIONS", "components": ["ESD-4", "ESD-5"], "no_flow": [],
+     "contents": ["CHLORINE"],
+     "notes": [{"text": "Car liquid valve A → hose → ESD-1 → plant liquid header → ESD-4/5 → fill stations; normally open during production and standby.", "source": "case_l_chlorine-repack.md"}]},
+    {"id": "L-RESIDUAL-CL2", "from_id": "PLANT-LIQUID-HEADER", "to_id": "BLEACH-UNIT", "components": [], "no_flow": [],
+     "contents": ["CHLORINE"],
+     "notes": [{"text": "Residual chlorine line from process piping to the bleach unit, used at shutdown.", "source": "case_l_chlorine-repack.md"}]},
+    {"id": "L-VACUUM", "from_id": "PLANT-LIQUID-HEADER", "to_id": "LOC-L-UNSTATED", "components": [], "no_flow": [],
+     "notes": [{"text": "Vacuum connection used at shutdown to leave the piping under negative pressure.", "source": "case_l_chlorine-repack.md"}]},
+    {"id": "L-PLANT-AIR-SANDBLAST", "from_id": "AC-1", "to_id": "CLEANING-AREA", "components": [], "no_flow": [],
+     "contents": ["AIR"],
+     "notes": [{"text": "Cylinder and container cleaning and preparation area (uses sandblasting equipment on plant air).", "source": "case_l_chlorine-repack.md"}]}
+  ],
+  "operating": [
+    {"target_id": "AC-1", "parameter": "pressure", "normal": 1206.6}
+  ],
+  "safeguards": [
+    {"id": "SG-L-CL2-DETECTION", "description": "Area chlorine detectors, including one at station 3: at 5 ppm flashing lights and audible alarm; at 10 ppm automatic ESD activation and a second, louder alarm.", "protects_id": "LOC-L-STATION-3", "component_ids": ["CL2-DETECTOR-STATION-3"]},
+    {"id": "SG-L-MANUAL-ESD", "description": "Manual ESD buttons throughout the plant.", "component_ids": []},
+    {"id": "SG-L-EFV", "description": "Tank-car excess flow valves (close above 15,000 lb/hr).", "protects_id": "TC-1", "component_ids": ["EFV-A", "EFV-C"]},
+    {"id": "SG-L-SCBA", "description": "Four SCBA units and other emergency gear stored inside the repackaging building.", "protects_id": "LOC-L-REPACK-BLDG", "component_ids": []}
+  ],
+  "relief_devices": [
+    {"id": "PRD-TC-1", "protects_id": "TC-1", "kind": "prv", "inlet_valve_ids": [],
+     "notes": [
+       {"text": "Inside its protective dome: four manually operated angle valves and a spring-loaded pressure relief device.", "source": "case_l_chlorine-repack.md"},
+       {"text": "Tank-car spring-loaded pressure relief device.", "source": "case_l_chlorine-repack.md"}
+     ]}
+  ],
+  "chemicals": [
+    {"id": "CHLORINE", "name": "liquid chlorine (dry)", "epa_groups": [104], "cameo_groups": [44], "physical_form": "liquid",
+     "notes": [{"text": "Liquid chlorine (dry; under 50 ppm water), in the tank car, process piping, cylinders and 1-ton containers.", "source": "case_l_chlorine-repack.md"}]},
+    {"id": "SODIUM-HYDROXIDE", "name": "sodium hydroxide solution (caustic soda)", "epa_groups": [10, 106], "cameo_groups": [10, 100], "physical_form": "liquid",
+     "notes": [{"text": "Sodium hydroxide solution, bulk tank.", "source": "case_l_chlorine-repack.md"}]},
+    {"id": "SODIUM-HYPOCHLORITE", "name": "sodium hypochlorite (bleach)", "epa_groups": [104, 106], "physical_form": "liquid", "cameo_groups": [44, 100],
+     "notes": [{"text": "Sodium hypochlorite (bleach), bulk tank.", "source": "case_l_chlorine-repack.md"}]},
+    {"id": "WASTEWATER", "name": "wastewater", "epa_groups": [106], "cameo_groups": [100], "physical_form": "liquid",
+     "notes": [{"text": "Wastewater, bulk tank.", "source": "case_l_chlorine-repack.md"}]},
+    {"id": "AIR", "name": "pad air / instrument and plant air", "cameo_groups": [49], "physical_form": "gas",
+     "notes": [{"text": "Supplies pad air to the tank car at about 175 psig and instrument/plant air (ESD actuators, sandblasting).", "source": "case_l_chlorine-repack.md"}]},
+    {"id": "AMMONIA-SOLUTION", "name": "ammonia solution (leak-test spray)", "epa_groups": [10, 106], "physical_form": "liquid", "cameo_groups": [61, 100],
+     "notes": [{"text": "leak-test possible leak points by spraying ammonia solution from a spray bottle", "source": "case_l_chlorine-repack.md"}]}
+  ],
+  "procedures": [
+    {"id": "PROC-L-STARTUP", "kind": "start_up",
+     "steps": [
+       {"id": "PROC-L-STARTUP-1", "text": "leak-test possible leak points by spraying ammonia solution from a spray bottle", "equipment_ids": []},
+       {"id": "PROC-L-STARTUP-2", "text": "visually check the outside of each hose per the daily start-up checklist.", "equipment_ids": []}
+     ]},
+    {"id": "PROC-L-PRODUCTION", "kind": "other",
+     "steps": [
+       {"id": "PROC-L-PRODUCTION-1", "text": "Production: fill cylinders and containers at the fill stations.", "equipment_ids": ["FILL-STATIONS", "CYLINDERS-150LB", "TON-CONTAINERS"]}
+     ]},
+    {"id": "PROC-L-STANDBY", "kind": "other",
+     "steps": [
+       {"id": "PROC-L-STANDBY-1", "text": "Standby (breaks, lunch, cylinder changeouts): ESD valves open, tank-car manual valves open, piping holds chlorine, fill-station valves closed.", "equipment_ids": ["TC-1", "PLANT-LIQUID-HEADER", "FILL-STATIONS"], "valve_ids": ["ESD-1", "ESD-2", "ESD-3", "ESD-4", "ESD-5", "A", "B", "C", "D"]}
+     ]},
+    {"id": "PROC-L-SHUTDOWN", "kind": "shutdown",
+     "steps": [
+       {"id": "PROC-L-SHUTDOWN-1", "text": "a packager climbs the car and closes the car valves by hand", "equipment_ids": ["TC-1"], "valve_ids": ["A", "B", "C", "D"]},
+       {"id": "PROC-L-SHUTDOWN-2", "text": "residual chlorine is sent to the bleach process", "equipment_ids": ["PLANT-LIQUID-HEADER", "BLEACH-UNIT"]},
+       {"id": "PROC-L-SHUTDOWN-3", "text": "a vacuum is pulled", "equipment_ids": ["PLANT-LIQUID-HEADER"]},
+       {"id": "PROC-L-SHUTDOWN-4", "text": "the ESD button is pressed.", "valve_ids": ["ESD-1", "ESD-2", "ESD-3", "ESD-4", "ESD-5"]},
+       {"id": "PROC-L-SHUTDOWN-5", "text": "Hoses stay connected to the car overnight.", "equipment_ids": ["TC-1"]}
+     ]},
+    {"id": "PROC-L-ESD-TEST", "kind": "other",
+     "steps": [
+       {"id": "PROC-L-ESD-TEST-1", "text": "ESD \"daily test\": the ESD button is pressed at the end of each day. The procedure does not require checking the valve position indicators; valves are not visually inspected or tested for ease of closure.", "valve_ids": ["ESD-1", "ESD-2", "ESD-3", "ESD-4", "ESD-5"]}
+     ]},
+    {"id": "PROC-L-HOSE-RECEIPT", "kind": "maintenance",
+     "steps": [
+       {"id": "PROC-L-HOSE-RECEIPT-1", "text": "Received hoses are installed on the basis of the supplier documents; there is no site procedure to verify hose material before installation."}
+     ]},
+    {"id": "PROC-L-EMERGENCY", "kind": "emergency",
+     "steps": [
+       {"id": "PROC-L-EMERGENCY-1", "text": "Emergency response plan lists neighbour contacts but names no one to call them; no notification mechanism, no drills."}
+     ]}
+  ],
+  "planned_work": [
+    {"id": "W-L-1", "type": "other", "location_id": "LOC-L-STATION-3", "equipment_ids": ["TC-1"],
+     "notes": [{"text": "Today: normal one-shift repackaging from the tank car at station 3, with standby periods for breaks.", "source": "case_l_chlorine-repack.md"}]}
+  ],
+  "provenance": {
+    "LOC-L-STATION-1": "case_l_chlorine-repack.md",
+    "LOC-L-STATION-2": "case_l_chlorine-repack.md",
+    "LOC-L-STATION-3": "case_l_chlorine-repack.md",
+    "LOC-L-REPACK-BLDG": "case_l_chlorine-repack.md",
+    "LOC-L-COMPRESSOR-ROOM": "case_l_chlorine-repack.md",
+    "LOC-L-BULK-TANKS": "case_l_chlorine-repack.md",
+    "LOC-L-HIGHWAY": "case_l_chlorine-repack.md",
+    "LOC-L-MOBILE-HOME-PARK": "case_l_chlorine-repack.md",
+    "LOC-L-BUSINESSES": "case_l_chlorine-repack.md",
+    "LOC-L-FARM": "case_l_chlorine-repack.md",
+    "LOC-L-INTERSTATE": "case_l_chlorine-repack.md",
+    "LOC-L-CREEK": "case_l_chlorine-repack.md",
+    "LOC-L-HOSPITAL": "case_l_chlorine-repack.md",
+    "LOC-L-HIGH-SCHOOL": "case_l_chlorine-repack.md",
+    "LOC-L-AIRPORT": "case_l_chlorine-repack.md",
+    "UT-L-INSTRUMENT-AIR": "case_l_chlorine-repack.md",
+    "TC-1": "case_l_chlorine-repack.md",
+    "PLANT-LIQUID-HEADER": "case_l_chlorine-repack.md",
+    "SPARE-PIPING-ASSEMBLIES": "case_l_chlorine-repack.md",
+    "FILL-STATIONS": "case_l_chlorine-repack.md",
+    "CYLINDERS-150LB": "case_l_chlorine-repack.md",
+    "TON-CONTAINERS": "case_l_chlorine-repack.md",
+    "CLEANING-AREA": "case_l_chlorine-repack.md",
+    "TRUCK-LOADING": "case_l_chlorine-repack.md",
+    "BLEACH-UNIT": "case_l_chlorine-repack.md",
+    "AC-1": "case_l_chlorine-repack.md",
+    "AC-1-DRYER": "case_l_chlorine-repack.md",
+    "TK-CAUSTIC": "case_l_chlorine-repack.md",
+    "TK-BLEACH": "case_l_chlorine-repack.md",
+    "TK-WASTEWATER": "case_l_chlorine-repack.md",
+    "MOISTURE-ANALYZER-AC-1": "case_l_chlorine-repack.md",
+    "CL2-DETECTOR-STATION-3": "case_l_chlorine-repack.md",
+    "A": "case_l_chlorine-repack.md",
+    "B": "case_l_chlorine-repack.md",
+    "C": "case_l_chlorine-repack.md",
+    "D": "case_l_chlorine-repack.md",
+    "EFV-A": "case_l_chlorine-repack.md",
+    "EFV-C": "case_l_chlorine-repack.md",
+    "ESD-1": "case_l_chlorine-repack.md",
+    "ESD-2": "case_l_chlorine-repack.md",
+    "ESD-3": "case_l_chlorine-repack.md",
+    "ESD-4": "case_l_chlorine-repack.md",
+    "ESD-5": "case_l_chlorine-repack.md",
+    "H-3A": "case_l_chlorine-repack.md",
+    "H-3B": "case_l_chlorine-repack.md",
+    "H-3C": "case_l_chlorine-repack.md",
+    "H-1A": "case_l_chlorine-repack.md",
+    "H-1B": "case_l_chlorine-repack.md",
+    "H-1C": "case_l_chlorine-repack.md",
+    "L-HEADER-FILL": "case_l_chlorine-repack.md",
+    "L-RESIDUAL-CL2": "case_l_chlorine-repack.md",
+    "L-VACUUM": "case_l_chlorine-repack.md",
+    "L-PLANT-AIR-SANDBLAST": "case_l_chlorine-repack.md",
+    "SG-L-CL2-DETECTION": "case_l_chlorine-repack.md",
+    "SG-L-MANUAL-ESD": "case_l_chlorine-repack.md",
+    "SG-L-EFV": "case_l_chlorine-repack.md",
+    "SG-L-SCBA": "case_l_chlorine-repack.md",
+    "PRD-TC-1": "case_l_chlorine-repack.md",
+    "CHLORINE": "case_l_chlorine-repack.md",
+    "SODIUM-HYDROXIDE": "case_l_chlorine-repack.md",
+    "SODIUM-HYPOCHLORITE": "case_l_chlorine-repack.md",
+    "WASTEWATER": "case_l_chlorine-repack.md",
+    "AIR": "case_l_chlorine-repack.md",
+    "AMMONIA-SOLUTION": "case_l_chlorine-repack.md",
+    "CHLORINE.epa_groups": "assumed",
+    "SODIUM-HYDROXIDE.epa_groups": "assumed",
+    "SODIUM-HYDROXIDE.cameo_groups": "assumed",
+    "SODIUM-HYDROXIDE.physical_form": "assumed",
+    "SODIUM-HYPOCHLORITE.epa_groups": "assumed",
+    "SODIUM-HYPOCHLORITE.physical_form": "assumed",
+    "WASTEWATER.epa_groups": "assumed",
+    "WASTEWATER.cameo_groups": "assumed",
+    "WASTEWATER.physical_form": "assumed",
+    "AIR.cameo_groups": "assumed",
+    "AIR.physical_form": "assumed",
+    "AMMONIA-SOLUTION.epa_groups": "assumed",
+    "AMMONIA-SOLUTION.physical_form": "assumed",
+    "CHLORINE.cameo_groups": "assumed",
+    "SODIUM-HYPOCHLORITE.cameo_groups": "assumed",
+    "AMMONIA-SOLUTION.cameo_groups": "assumed",
+    "PROC-L-STARTUP": "case_l_chlorine-repack.md",
+    "PROC-L-PRODUCTION": "case_l_chlorine-repack.md",
+    "PROC-L-STANDBY": "case_l_chlorine-repack.md",
+    "PROC-L-SHUTDOWN": "case_l_chlorine-repack.md",
+    "PROC-L-ESD-TEST": "case_l_chlorine-repack.md",
+    "PROC-L-HOSE-RECEIPT": "case_l_chlorine-repack.md",
+    "PROC-L-EMERGENCY": "case_l_chlorine-repack.md",
+    "W-L-1": "case_l_chlorine-repack.md"
+  }
+}

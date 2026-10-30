@@ -1,0 +1,17 @@
+{
+  "case_id": "case_p",
+  "root_cause": "The idle column holding about 1,200 gal of MNT was 'isolated' from 300 psig steam only by closed single valves (manual block valves and non-tight control valves, no double block and bleed or blinds); corroded/eroded valves leaked steam into the reboilers when the boilers restarted, heating the bottoms to 415-454 F for about 8 days with nobody monitoring and no high-temperature alarm or heat-cutoff interlock, until the MNT underwent runaway thermal decomposition and the column ruptured. MNT thermal-stability hazards known from the batch still project were not applied to the continuous column.",
+  "component_ids": ["C-1", "SS-A", "SS-B", "E-1A", "E-1B", "FV-A", "FV-B"],
+  "cause_ids": [],
+  "match_phrases": ["steam leaking through closed valves", "inadequate isolation of reboiler steam", "thermal decomposition of MNT"],
+  "match_phrase_groups": [
+    ["steam leak", "leaking valve", "valve leak", "passing valve", "leak through", "leak-through", "leaks by", "inadequate isolation", "incomplete isolation", "positive isolation", "double block", "blind", "steam not isolated", "reboiler heating while idle"],
+    ["decomposition", "runaway", "thermal instability", "self-heating", "overheat", "exotherm"]
+  ],
+  "what_happened": "When steam returned, bottoms temperature rose to about 415 F the same day and over 450 F during the next 8 days, unnoticed; a chimney-tray high-level alarm the day before was silenced; in the early morning an operator heard rumbling and venting, and at about 05:25 the column ruptured, throwing its top 35 ft off-site; the relief valve did not open.",
+  "consequence": "Column explosion; a 6-ton piece landed about 1,100 ft away next to a neighbouring refinery crude tank; para-MNT tank punctured and burned about 3 hours; 3 operators injured by glass in the control room; community shelter-in-place.",
+  "missed_by_original_review": "No hazard evaluation of MNT thermal decomposition in the continuous column; no temperature alarm or heat-cutoff interlock; no positive isolation practice or monitoring for idle equipment containing MNT; steam valves not maintained tight; control room siting not evaluated.",
+  "multi_failure": true,
+  "source": {"kind": "public investigation report", "reference": "US Chemical Safety Board, Investigation Report: Chemical Reaction and Explosion/Fire, First Chemical Corporation, Pascagoula, Mississippi, October 13, 2002; Report No. 2003-01-I-MS, October 2003. https://www.csb.gov/assets/1/20/First_Report.pdf", "pages": "whole report (read via extraction)"},
+  "memorisation_markers": ["First Chemical Corporation", "ChemFirst", "DuPont", "Pascagoula", "Moss Point", "Bayou Cassotte", "Chevron Pascagoula", "October 13, 2002", "C-501", "#1 MNT Still", "AS-310", "PSV-502", "6-ton piece 1,100 ft", "2003-01-I-MS"]
+}

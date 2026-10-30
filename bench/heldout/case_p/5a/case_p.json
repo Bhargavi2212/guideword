@@ -1,0 +1,139 @@
+{
+ "case": "case_p",
+ "package": "case_p_nitro-distillation.md",
+ "model_id": "nvidia/Nemotron-3-Ultra-550b-a55b",
+ "prompt_version": "test5a/v1",
+ "outcome": "ok",
+ "error": null,
+ "cost_usd": 0.01914,
+ "cache_hit": false,
+ "seconds": 17.417334400000982,
+ "model_call_ids": [
+  "mc:7da2b4c06adfcdbf"
+ ],
+ "hazards": [
+  {
+   "rank": 1,
+   "hazard": "Steam leaks through non-tight-shutoff valves FV-A/FV-B into reboilers E-1A/E-1B while C-1 holds ~1,200 gal MNT at atmospheric pressure, heating MNT above 374 °F decomposition temperature → explosive decomposition, vessel rupture, blast to control room 50 ft away",
+   "equipment": [
+    "C-1",
+    "E-1A",
+    "E-1B",
+    "FV-A",
+    "FV-B",
+    "SS-A",
+    "SS-B",
+    "PSV-1"
+   ],
+   "reason": "Steam plant just restored (300 psig at inlets); FV-A/FV-B are control valves, not isolation valves; outlet manual blocks closed but LOTO not applied; DCS had power and hard-drive losses past week; 7 TIs on DCS but NO alarms configured; NO high-temperature interlock; PSV-1 has no design-basis records"
+  },
+  {
+   "rank": 2,
+   "hazard": "No temperature alarms or automatic heat-cutoff interlock on C-1 while steam supply is live → runaway heating from steam leak or erroneous restart proceeds undetected until PSV-1 lifts or explosion occurs",
+   "equipment": [
+    "C-1",
+    "TI-B",
+    "TI-R",
+    "DCS",
+    "FV-A",
+    "FV-B"
+   ],
+   "reason": "Eight TIs (seven working) display on DCS but zero alarms configured; no high-temperature interlock exists; emergency shutdown only addresses loss of steam to eductors or cooling water, not over-temperature; operators must notice trend manually"
+  },
+  {
+   "rank": 3,
+   "hazard": "Restart initiated without written procedure, without vacuum established (eductors need steam), without confirmed level/temperature monitoring, with steam available at SS-A/SS-B → premature steam admission causes thermal shock, overpressure, or runaway reaction",
+   "equipment": [
+    "C-1",
+    "E-1A",
+    "E-1B",
+    "SS-A",
+    "SS-B",
+    "FV-A",
+    "FV-B",
+    "steam eductors"
+   ],
+   "reason": "No restart procedure exists; no de-inventory procedure; vacuum broken 9 days ago (N2 injected, gauge unreliable); reflux cooler E-2 drained; steam plant back online; restart date unset but steam present; emergency shutdown only reactive"
+  },
+  {
+   "rank": 4,
+   "hazard": "PSV-1 (3-inch, 15 psig) on C-1 overhead has no design-basis records and unknown discharge destination → if it relieves (overpressure from steam leak, fire, runaway), MNT vapor discharges uncontrolled, potentially to atmosphere near control room or personnel",
+   "equipment": [
+    "PSV-1",
+    "C-1 overhead vapour line"
+   ],
+   "reason": "Package explicitly states 'no design-basis records'; discharge location not described; PSV-1 is sole pressure protection for a column with no high-temp interlock and questionable steam isolation"
+  },
+  {
+   "rank": 5,
+   "hazard": "Air ingress via drained reflux cooler E-2 or PSV-1 leak into nitrogen-blanketed C-1 at atmospheric pressure → flammable MNT vapour/air mixture in headspace; ignition source (static, hot work, leak) causes internal explosion",
+   "equipment": [
+    "C-1",
+    "E-2",
+    "PSV-1",
+    "nitrogen tubing connection"
+   ],
+   "reason": "E-2 'drained for tube work' — may be open to atmosphere; N2 injection 9 days ago but 0–200 mmHg gauge 'cannot confirm the result'; column holds 1,200 gal MNT (NFPA flammability 1, flash point >100 °F); no inert-gas monitoring"
+  },
+  {
+   "rank": 6,
+   "hazard": "Reboiler E-1A/E-1B tube failure from thermal shock (steam admitted to cold tubes) or condensate-return blockage with steam flowing → tube rupture, steam/MNT cross-contamination, pressure excursion",
+   "equipment": [
+    "E-1A",
+    "E-1B",
+    "condensate return",
+    "FV-A",
+    "FV-B"
+   ],
+   "reason": "C-1 cooled to near ambient during steam-plant turnaround; emergency procedure blocks condensate return but assumes steam control valves closed; if steam leaks past FV-A/FV-B, condensate blocked → water hammer/thermal stress; no tube-leak detection"
+  },
+  {
+   "rank": 7,
+   "hazard": "DCS power loss and hard-drive loss in past week compromise FV-A/FV-B closure integrity and temperature indication reliability → valves may drift open, TIs may show stale values, operators unaware",
+   "equipment": [
+    "DCS",
+    "FV-A",
+    "FV-B",
+    "TI-B",
+    "TI-R"
+   ],
+   "reason": "Two distinct DCS failures restored but root cause unverified; FV-A/FV-B are DCS-operated; all C-1 temperatures displayed only on DCS; no independent local indication or alarm"
+  },
+  {
+   "rank": 8,
+   "hazard": "Aniline/MNT control room 50 ft from C-1 (masonry block, sheet-metal roof/sides, glass windows/door) never evaluated for building siting → personnel exposed to blast, fragments, or PSV-1 discharge from C-1 explosion",
+   "equipment": [
+    "Aniline/MNT control room",
+    "C-1",
+    "PSV-1"
+   ],
+   "reason": "Package states control room 'never evaluated for building siting'; glass windows and door offer minimal blast resistance; 50 ft is within credible overpressure zone for 1,200 gal MNT decomposition"
+  },
+  {
+   "rank": 9,
+   "hazard": "No de-inventory procedure for C-1 → 1,200 gal MNT held indefinitely in idle column with only manual-valve steam isolation (no LOTO, no blinds) → prolonged exposure to steam-leak risk, seal degradation, unknown MNT stability at ambient",
+   "equipment": [
+    "C-1",
+    "SS-A",
+    "SS-B",
+    "FV-A",
+    "FV-B"
+   ],
+   "reason": "Feed stopped 4 weeks ago; restart date unset; site LOTO programme 'not applied to steam isolation of an idle column that still contains material'; double block and bleed or blinds not required; MNT decomposition literature notes explosions when 'held moderately hot for long periods'"
+  },
+  {
+   "rank": 10,
+   "hazard": "Emergency shutdown procedure for C-1 requires operator action to close FV-A/FV-B and block condensate returns — no automatic trip on high temperature or high pressure → delayed response if steam to eductors fails but reboiler steam persists",
+   "equipment": [
+    "C-1",
+    "steam eductors",
+    "FV-A",
+    "FV-B",
+    "condensate return",
+    "E-1A",
+    "E-1B"
+   ],
+   "reason": "Procedure only covers loss of steam to eductors or cooling water; assumes operators detect and act; no interlock cuts reboiler steam on C-1 high temperature or pressure; chimney-tray high-level alarm unrelated"
+  }
+ ]
+}
