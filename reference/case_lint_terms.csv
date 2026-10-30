@@ -1,0 +1,64 @@
+term,kind,source
+explosion,outcome,docs/case-template.md section 2 (before the accident: never describe what happened)
+explosions,outcome,docs/case-template.md section 2 (before the accident: never describe what happened)
+exploded,outcome,docs/case-template.md section 2 (before the accident: never describe what happened)
+fireball,outcome,docs/case-template.md section 2 (before the accident: never describe what happened)
+caught fire,outcome,docs/case-template.md section 2 (before the accident: never describe what happened)
+fire broke out,outcome,docs/case-template.md section 2 (before the accident: never describe what happened)
+fire and explosion,outcome,docs/case-template.md section 2 (before the accident: never describe what happened)
+BLEVE,outcome,docs/case-template.md section 2 (before the accident: never describe what happened)
+vapour cloud,outcome,docs/case-template.md section 2 (before the accident: never describe what happened)
+vapor cloud,outcome,docs/case-template.md section 2 (before the accident: never describe what happened)
+killed,outcome,docs/case-template.md section 2 (before the accident: never describe what happened)
+died,outcome,docs/case-template.md section 2 (before the accident: never describe what happened)
+deaths,outcome,docs/case-template.md section 2 (before the accident: never describe what happened)
+fatality,outcome,docs/case-template.md section 2 (before the accident: never describe what happened)
+fatalities,outcome,docs/case-template.md section 2 (before the accident: never describe what happened)
+injured,outcome,docs/case-template.md section 2 (before the accident: never describe what happened)
+injuries,outcome,docs/case-template.md section 2 (before the accident: never describe what happened)
+hospitalised,outcome,docs/case-template.md section 2 (before the accident: never describe what happened)
+hospitalized,outcome,docs/case-template.md section 2 (before the accident: never describe what happened)
+evacuated,outcome,docs/case-template.md section 2 (before the accident: never describe what happened)
+evacuation,outcome,docs/case-template.md section 2 (before the accident: never describe what happened)
+destroyed,outcome,docs/case-template.md section 2 (before the accident: never describe what happened)
+incident,outcome,docs/case-template.md section 2 (before the accident: never describe what happened)
+accident,outcome,docs/case-template.md section 2 (before the accident: never describe what happened)
+catastrophic,outcome,docs/case-template.md section 2 (before the accident: never describe what happened)
+unfortunately,hint,docs/case-template.md section 2 (no hints: words that give the answer away)
+critical,hint,docs/case-template.md section 2 (no hints: words that give the answer away)
+crucial,hint,docs/case-template.md section 2 (no hints: words that give the answer away)
+should have,hint,docs/case-template.md section 2 (no hints: words that give the answer away)
+failed to,hint,docs/case-template.md section 2 (no hints: words that give the answer away)
+failure to,hint,docs/case-template.md section 2 (no hints: words that give the answer away)
+inadequate,hint,docs/case-template.md section 2 (no hints: words that give the answer away)
+deficient,hint,docs/case-template.md section 2 (no hints: words that give the answer away)
+mistakenly,hint,docs/case-template.md section 2 (no hints: words that give the answer away)
+erroneously,hint,docs/case-template.md section 2 (no hints: words that give the answer away)
+overlooked,hint,docs/case-template.md section 2 (no hints: words that give the answer away)
+ignored,hint,docs/case-template.md section 2 (no hints: words that give the answer away)
+never tested,hint,docs/case-template.md section 2 (no hints: words that give the answer away)
+root cause,hint,docs/case-template.md section 2 (no hints: words that give the answer away)
+contributing cause,hint,docs/case-template.md section 2 (no hints: words that give the answer away)
+contributing factor,hint,docs/case-template.md section 2 (no hints: words that give the answer away)
+latent,hint,docs/case-template.md section 2 (no hints: words that give the answer away)
+unbeknown,hint,docs/case-template.md section 2 (no hints: words that give the answer away)
+would later,hint,docs/case-template.md section 2 (no hints: words that give the answer away)
+later found,hint,docs/case-template.md section 2 (no hints: words that give the answer away)
+CSB,investigator,"Research note 2026-10-30, benchmark protocol (strip the investigators' language and names)"
+Chemical Safety Board,investigator,"Research note 2026-10-30, benchmark protocol (strip the investigators' language and names)"
+ARIA,investigator,"Research note 2026-10-30, benchmark protocol (strip the investigators' language and names)"
+BARPI,investigator,"Research note 2026-10-30, benchmark protocol (strip the investigators' language and names)"
+eMARS,investigator,"Research note 2026-10-30, benchmark protocol (strip the investigators' language and names)"
+HSE,investigator,"Research note 2026-10-30, benchmark protocol (strip the investigators' language and names)"
+Health and Safety Executive,investigator,"Research note 2026-10-30, benchmark protocol (strip the investigators' language and names)"
+Safety Board,investigator,"Research note 2026-10-30, benchmark protocol (strip the investigators' language and names)"
+investigation,investigator,"Research note 2026-10-30, benchmark protocol (strip the investigators' language and names)"
+investigators,investigator,"Research note 2026-10-30, benchmark protocol (strip the investigators' language and names)"
+investigated,investigator,"Research note 2026-10-30, benchmark protocol (strip the investigators' language and names)"
+the Board,investigator,"Research note 2026-10-30, benchmark protocol (strip the investigators' language and names)"
+findings,investigator,"Research note 2026-10-30, benchmark protocol (strip the investigators' language and names)"
+recommendation,investigator,"Research note 2026-10-30, benchmark protocol (strip the investigators' language and names)"
+recommendations,investigator,"Research note 2026-10-30, benchmark protocol (strip the investigators' language and names)"
+concluded that,investigator,"Research note 2026-10-30, benchmark protocol (strip the investigators' language and names)"
+lessons learned,investigator,"Research note 2026-10-30, benchmark protocol (strip the investigators' language and names)"
+case study,investigator,"Research note 2026-10-30, benchmark protocol (strip the investigators' language and names)"
