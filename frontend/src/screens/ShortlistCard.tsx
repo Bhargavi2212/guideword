@@ -17,6 +17,7 @@ import {
 import { keyName } from "../model/names";
 import {
   chainHandleFlag,
+  confirmedBy,
   leadText,
   severityOf,
   shownEvidence,
@@ -99,6 +100,12 @@ export function ShortlistCard({
       <p className="card-lead">
         <NamedText text={leadText(item)} traceId={item.target_id} />
       </p>
+      {confirmedBy(item) !== null ? (
+        <p className="card-confirmed-by">
+          Confirmed by:{" "}
+          <NamedText text={confirmedBy(item) ?? ""} traceId={item.target_id} />
+        </p>
+      ) : null}
       <TechnicalLayer item={item} severityClasses={severityClasses} />
       {item.chain ? (
         <ChainFlow

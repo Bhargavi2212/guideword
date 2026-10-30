@@ -101,7 +101,8 @@ describe("one plain title per line kind, written in code (review plan R3)", () =
   });
 
   it("an unknown question kind still gets a plain title, never a key", () => {
-    const odd = { ...must(items[0]), target_kind: "finding" } as ShortlistItem;
+    const first = must(items.find((i) => i.target_kind === "finding"));
+    const odd = { ...first, target_kind: "finding" } as ShortlistItem;
     const finding = { ...must(odd.finding), question_id: "zz:X:y" };
     expect(lineTitle({ ...odd, finding })).toBe("X y");
   });

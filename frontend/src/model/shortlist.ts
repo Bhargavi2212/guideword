@@ -29,14 +29,33 @@ export function groupByTier(items: readonly ShortlistItem[]): TierGroup[] {
   }));
 }
 
-/** The card's lead: a finding's consequence, a chain's description, or a hypothesis's mechanism. */
+/** A confirmed finding line stands for a hypothesis (Phase 8): the card leads with the
+ * hypothesis's own mechanism, and the finding that confirmed it is shown beneath. */
+function standsForHypothesis(item: ShortlistItem): boolean {
+  return (
+    item.tier === "confirmed" &&
+    item.target_kind === "finding" &&
+    item.hypothesis !== null &&
+    item.hypothesis !== undefined
+  );
+}
+
+/** The card's lead: a confirmed line's hypothesis mechanism, else a finding's consequence,
+ * a chain's description, or a hypothesis's mechanism. */
 export function leadText(item: ShortlistItem): string {
+  if (standsForHypothesis(item)) return item.hypothesis?.mechanism ?? "";
   return (
     item.finding?.consequence ??
     item.chain?.description ??
     item.hypothesis?.mechanism ??
     ""
   );
+}
+
+/** The finding that confirmed a hypothesis line, in the finding's words; null elsewhere. */
+export function confirmedBy(item: ShortlistItem): string | null {
+  if (!standsForHypothesis(item)) return null;
+  return item.finding?.consequence ?? null;
 }
 
 /** The line's severity class, from its chain or its finding; a hypothesis has none. */

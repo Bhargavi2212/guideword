@@ -5,6 +5,7 @@ import type { Shortlist, ShortlistItem } from "../api/schema";
 import { fixture } from "../test/fixtures";
 import {
   EVIDENCE_SHOWN,
+  confirmedBy,
   groupByTier,
   leadText,
   severityOf,
@@ -50,14 +51,29 @@ describe("a card's words", () => {
   const byKind = (kind: ShortlistItem["target_kind"]) =>
     items.find((i) => i.target_kind === kind) as ShortlistItem;
 
+  const alsoFound = items.find(
+    (i) => i.target_kind === "finding" && i.tier === "also_found",
+  ) as ShortlistItem;
+  const confirmed = items.find(
+    (i) =>
+      i.target_kind === "finding" && i.tier === "confirmed" && i.hypothesis,
+  ) as ShortlistItem;
+
   it("leads with the finding's consequence, the chain's description or the mechanism", () => {
-    expect(leadText(byKind("finding"))).toBe(
-      byKind("finding").finding?.consequence,
-    );
+    expect(leadText(alsoFound)).toBe(alsoFound.finding?.consequence);
     expect(leadText(byKind("chain"))).toBe(byKind("chain").chain?.description);
     expect(leadText(byKind("hypothesis"))).toBe(
       byKind("hypothesis").hypothesis?.mechanism,
     );
+  });
+
+  it("a confirmed line leads with its hypothesis's mechanism and says what confirmed it", () => {
+    // Phase 8: the card shows Ultra's own words, not the lead finding's generic cause
+    expect(leadText(confirmed)).toBe(confirmed.hypothesis?.mechanism);
+    expect(confirmedBy(confirmed)).toBe(confirmed.finding?.consequence);
+    expect(confirmedBy(alsoFound)).toBeNull();
+    expect(confirmedBy(byKind("chain"))).toBeNull();
+    expect(confirmedBy(byKind("hypothesis"))).toBeNull();
   });
 
   it("takes the severity from the chain or the finding", () => {
