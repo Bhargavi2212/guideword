@@ -51,8 +51,8 @@ Q 20 → 20 (not Q's mechanism). The 0-of-3 table stands as measured; this is th
 - Showing hypothesis text on also-found lines (they stand for no hypothesis).
 
 ## Done when
-- [ ] 8.1 with tests: a lower-ranked confirmed hypothesis with a larger gap stays below a
+- [x] 8.1 with tests: a lower-ranked confirmed hypothesis with a larger gap stays below a
       higher-ranked one; also-found still by gap; existing order tests updated to say so.
-- [ ] 8.2 with tests: a confirmed finding line leads with the mechanism and shows "Confirmed by";
+- [x] 8.2 with tests: a confirmed finding line leads with the mechanism and shows "Confirmed by";
       the scorer's line for it carries the mechanism and both component sets.
-- [ ] Fixtures, decisions row, spec ticks.
+- [x] Fixtures (unchanged after the chain tie-break), decisions row, spec ticks.
